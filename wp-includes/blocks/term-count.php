@@ -17,8 +17,10 @@
  * @return string Returns the count of the current taxonomy term wrapped inside a heading tag.
  */
 function render_block_core_term_count( $attributes, $content, $block ) {
-	// Get term from context or from the current query.
-	if ( isset( $block->context['termId'] ) && isset( $block->context['taxonomy'] ) ) {
+	// Reuse the filtered term from Term Template to avoid a separate query for each count.
+	if ( isset( $block->context['termData'] ) && $block->context['termData'] instanceof WP_Term ) {
+		$term = $block->context['termData'];
+	} elseif ( isset( $block->context['termId'] ) && isset( $block->context['taxonomy'] ) ) {
 		$term = get_term( $block->context['termId'], $block->context['taxonomy'] );
 	} else {
 		$term = get_queried_object();

@@ -158,6 +158,22 @@
   overflow-wrap: break-word;
 }
 
+.wp-block-icon__inserter-modal .wp-block-icon__inserter-grid-group-title {
+  position: sticky;
+  top: -4px;
+  z-index: 1;
+  padding: 12px 4px;
+  margin: 0;
+  color: var(--wpds-color-foreground-content-neutral-weak, #707070);
+  text-transform: uppercase;
+  font-size: var(--wpds-typography-font-size-sm, 12px);
+  background-color: #fff;
+}
+
+.wp-block-icon__inserter-modal .wp-block-icon__inserter-grid > :first-child > .wp-block-icon__inserter-grid-group-title {
+  margin-top: -4px;
+}
+
 .wp-block-icon__toolbar-content {
   width: 250px;
 }

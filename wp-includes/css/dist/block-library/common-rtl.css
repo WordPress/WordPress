@@ -204,6 +204,12 @@ body.admin-color-fresh {
   text-align: right;
 }
 
+:root .has-text-color,
+:root .has-inline-color,
+:root .has-link-color a {
+  -webkit-text-fill-color: currentColor;
+}
+
 .has-fit-text {
   white-space: nowrap !important;
 }

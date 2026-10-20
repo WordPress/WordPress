@@ -39,6 +39,23 @@ function render_block_core_icon( $attributes ) {
 	$custom_background_color    = $attributes['style']['color']['background'] ?? null;
 	$color_styles['background'] = $preset_background_color ? $preset_background_color : $custom_background_color;
 
+	// Background image, size and gradient.
+	$background_styles = array();
+	if ( isset( $attributes['style']['background'] ) && is_array( $attributes['style']['background'] ) ) {
+		$background_styles = array_intersect_key(
+			$attributes['style']['background'],
+			array_flip( array( 'backgroundImage', 'backgroundSize', 'backgroundPosition', 'backgroundRepeat', 'backgroundAttachment', 'gradient' ) )
+		);
+
+		// Mirror of the defaults in the background block support.
+		if ( ! empty( $background_styles['backgroundImage'] ) ) {
+			$background_styles['backgroundSize'] = $background_styles['backgroundSize'] ?? 'cover';
+			if ( 'contain' === $background_styles['backgroundSize'] && empty( $background_styles['backgroundPosition'] ) ) {
+				$background_styles['backgroundPosition'] = '50% 50%';
+			}
+		}
+	}
+
 	// Border.
 	$border_styles = array();
 	$sides         = array( 'top', 'right', 'bottom', 'left' );
@@ -66,23 +83,30 @@ function render_block_core_icon( $attributes ) {
 		);
 	}
 
+	// Shadow.
+	$shadow_styles = $attributes['style']['shadow'] ?? null;
+
 	// Spacing (Padding).
 	$spacing_styles = array();
 	if ( isset( $attributes['style']['spacing']['padding'] ) ) {
 		$spacing_styles['padding'] = $attributes['style']['spacing']['padding'];
 	}
 
-	// Dimensions (Width).
+	// Dimensions (Width, Min width, Min height).
 	$dimensions_styles = array();
-	if ( isset( $attributes['style']['dimensions']['width'] ) ) {
-		$dimensions_styles['width'] = $attributes['style']['dimensions']['width'];
+	foreach ( array( 'width', 'minWidth', 'minHeight' ) as $dimension ) {
+		if ( isset( $attributes['style']['dimensions'][ $dimension ] ) ) {
+			$dimensions_styles[ $dimension ] = $attributes['style']['dimensions'][ $dimension ];
+		}
 	}
 
 	// Generate styles and classes.
 	$styles = wp_style_engine_get_styles(
 		array(
 			'color'      => $color_styles,
+			'background' => $background_styles,
 			'border'     => $border_styles,
+			'shadow'     => $shadow_styles,
 			'spacing'    => $spacing_styles,
 			'dimensions' => $dimensions_styles,
 		),
@@ -116,6 +140,11 @@ function render_block_core_icon( $attributes ) {
 				? $trimmed_style . '; ' . $styles['css']
 				: $styles['css'];
 			$processor->set_attribute( 'style', $merged_style );
+		}
+
+		// The style engine only adds `has-background` for a gradient.
+		if ( ! empty( $background_styles['backgroundImage'] ) ) {
+			$processor->add_class( 'has-background' );
 		}
 
 		// Apply flip classes to the SVG.

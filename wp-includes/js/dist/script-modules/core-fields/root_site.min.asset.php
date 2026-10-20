@@ -1,0 +1,1 @@
+<?php return array('dependencies' => array('wp-html-entities', 'wp-media-utils', 'wp-private-apis'), 'version' => 'e94092be498b0e24d377');

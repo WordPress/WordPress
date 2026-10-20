@@ -60,7 +60,7 @@ function render_block_core_button( $attributes, $content ) {
 		return '';
 	}
 
-	// Background skips serialization, so apply it to the link like color.
+	// Background skips serialization, so apply it to the link element, like the color support does.
 	$background = $attributes['style']['background'] ?? null;
 
 	if ( is_array( $background ) ) {

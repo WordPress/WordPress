@@ -298,6 +298,17 @@ var wp;
   function applyFormat(value, format, startIndex = value.start, endIndex = value.end) {
     const { formats, activeFormats } = value;
     const newFormats = formats.slice();
+    const newActiveFormats = [
+      ...activeFormats?.filter(({ type }) => type !== format.type) || [],
+      format
+    ];
+    if (startIndex === void 0 || endIndex === void 0) {
+      return normaliseFormats({
+        ...value,
+        formats: newFormats,
+        activeFormats: newActiveFormats
+      });
+    }
     if (startIndex === endIndex) {
       const startFormat = newFormats[startIndex]?.find(
         ({ type }) => type === format.type
@@ -345,15 +356,7 @@ var wp;
     return normaliseFormats({
       ...value,
       formats: newFormats,
-      // Always revise active formats. This serves as a placeholder for new
-      // inputs with the format so new input appears with the format applied,
-      // and ensures a format of the same type uses the latest values.
-      activeFormats: [
-        ...activeFormats?.filter(
-          ({ type }) => type !== format.type
-        ) || [],
-        format
-      ]
+      activeFormats: newActiveFormats
     });
   }
 
@@ -361,12 +364,13 @@ var wp;
   var import_data5 = __toESM(require_data(), 1);
 
   // packages/rich-text/build-module/create-element.mjs
+  var body;
   function createElement({ implementation }, html) {
-    if (!createElement.body) {
-      createElement.body = implementation.createHTMLDocument("").body;
+    if (!body) {
+      body = implementation.createHTMLDocument("").body;
     }
-    createElement.body.innerHTML = html;
-    return createElement.body;
+    body.innerHTML = html;
+    return body;
   }
 
   // packages/rich-text/build-module/special-characters.mjs
@@ -379,7 +383,7 @@ var wp;
   // packages/rich-text/build-module/get-active-formats.mjs
   function getActiveFormats(value, EMPTY_ACTIVE_FORMATS3 = []) {
     const { formats, start, end, activeFormats } = value;
-    if (start === void 0) {
+    if (start === void 0 || end === void 0) {
       return EMPTY_ACTIVE_FORMATS3;
     }
     if (start === end) {
@@ -685,7 +689,10 @@ var wp;
   }
 
   // packages/rich-text/build-module/to-html-string.mjs
-  function toHTMLString({ value, preserveWhiteSpace }) {
+  function toHTMLString({
+    value,
+    preserveWhiteSpace
+  }) {
     const tree = toTree({
       value,
       preserveWhiteSpace,
@@ -734,7 +741,12 @@ var wp;
     }
     return object;
   }
-  function createElementHTML({ type, attributes, object, children }) {
+  function createElementHTML({
+    type,
+    attributes,
+    object,
+    children
+  }) {
     if (type === "#comment") {
       return `<!--${attributes["data-rich-text-comment"]}-->`;
     }
@@ -765,7 +777,7 @@ var wp;
 
   // packages/rich-text/build-module/get-text-content.mjs
   function getTextContent({ text }) {
-    return text.replace(OBJECT_REPLACEMENT_CHARACTER, "");
+    return text.replaceAll(OBJECT_REPLACEMENT_CHARACTER, "");
   }
 
   // packages/rich-text/build-module/create.mjs
@@ -776,7 +788,10 @@ var wp;
       text: ""
     };
   }
-  function toFormat({ tagName, attributes }) {
+  function toFormat({
+    tagName,
+    attributes
+  }) {
     let formatType;
     if (attributes && attributes.class) {
       formatType = (0, import_data5.select)(store).getFormatTypeForClassName(
@@ -845,9 +860,10 @@ var wp;
     /**
      * Create a RichTextData instance from an HTML element.
      *
-     * @param {HTMLElement}                    htmlElement The HTML element to create the instance from.
-     * @param {{preserveWhiteSpace?: boolean}} options     Options.
-     * @return {RichTextData} The RichTextData instance.
+     * @param htmlElement                The HTML element to create the instance from.
+     * @param options                    Options.
+     * @param options.preserveWhiteSpace Whether to preserve white space.
+     * @return The RichTextData instance.
      */
     static fromHTMLElement(htmlElement, options = {}) {
       const { preserveWhiteSpace = false } = options;
@@ -869,11 +885,17 @@ var wp;
     /**
      * Convert the rich text value to an HTML string.
      *
-     * @param {{preserveWhiteSpace?: boolean}} options Options.
-     * @return {string} The HTML string.
+     * @param options                    Options.
+     * @param options.preserveWhiteSpace Whether to preserve white space.
+     * @return The HTML string.
      */
-    toHTMLString({ preserveWhiteSpace } = {}) {
-      return this.originalHTML || toHTMLString({ value: this.#value, preserveWhiteSpace });
+    toHTMLString({
+      preserveWhiteSpace
+    } = {}) {
+      return this.originalHTML || toHTMLString({
+        value: this.#value,
+        preserveWhiteSpace
+      });
     }
     valueOf() {
       return this.toHTMLString();
@@ -1029,7 +1051,11 @@ var wp;
       ""
     );
   }
-  function createFromElement({ element, range, isEditableTree }) {
+  function createFromElement({
+    element,
+    range,
+    isEditableTree
+  }) {
     const accumulator = createEmptyValue();
     if (!element) {
       return accumulator;
@@ -1053,7 +1079,7 @@ var wp;
       }
       if (node.nodeType === node.COMMENT_NODE || node.nodeType === node.ELEMENT_NODE && node.tagName === "SPAN" && node.hasAttribute("data-rich-text-comment")) {
         const value2 = {
-          formats: [,],
+          formats: Array(1),
           replacements: [
             {
               type: "#comment",
@@ -1080,12 +1106,16 @@ var wp;
       }
       if (tagName === "script") {
         const value2 = {
-          formats: [,],
+          formats: Array(1),
           replacements: [
             {
               type: tagName,
               attributes: {
-                "data-rich-text-script": node.getAttribute("data-rich-text-script") || encodeURIComponent(node.innerHTML)
+                "data-rich-text-script": node.getAttribute(
+                  "data-rich-text-script"
+                ) || encodeURIComponent(
+                  node.innerHTML
+                )
               }
             }
           ],
@@ -1108,7 +1138,7 @@ var wp;
         delete format.formatType;
         accumulateSelection(accumulator, node, range, createEmptyValue());
         mergePair(accumulator, {
-          formats: [,],
+          formats: Array(1),
           replacements: [
             {
               ...format,
@@ -1133,7 +1163,7 @@ var wp;
       } else if (value.text.length === 0) {
         if (format.attributes) {
           mergePair(accumulator, {
-            formats: [,],
+            formats: Array(1),
             replacements: [format],
             text: OBJECT_REPLACEMENT_CHARACTER
           });
@@ -1184,7 +1214,9 @@ var wp;
     return a;
   }
   function concat(...values) {
-    return normaliseFormats(values.reduce(mergePair, create()));
+    return normaliseFormats(
+      values.reduce(mergePair, create())
+    );
   }
 
   // packages/rich-text/build-module/get-active-format.mjs
@@ -1195,8 +1227,13 @@ var wp;
   }
 
   // packages/rich-text/build-module/get-active-object.mjs
-  function getActiveObject({ start, end, replacements, text }) {
-    if (start + 1 !== end || text[start] !== OBJECT_REPLACEMENT_CHARACTER) {
+  function getActiveObject({
+    start,
+    end,
+    replacements,
+    text
+  }) {
+    if (start === void 0 || start + 1 !== end || text[start] !== OBJECT_REPLACEMENT_CHARACTER) {
       return;
     }
     return replacements[start];
@@ -1238,87 +1275,95 @@ var wp;
   // packages/rich-text/build-module/register-format-type.mjs
   var import_data6 = __toESM(require_data(), 1);
   function registerFormatType(name, settings) {
-    settings = {
+    const formatType = {
       name,
       ...settings
     };
-    if (typeof settings.name !== "string") {
+    if (typeof formatType.name !== "string") {
       window.console.error("Format names must be strings.");
       return;
     }
-    if (!/^[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*$/.test(settings.name)) {
+    if (!/^[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*$/.test(formatType.name)) {
       window.console.error(
         "Format names must contain a namespace prefix, include only lowercase alphanumeric characters or dashes, and start with a letter. Example: my-plugin/my-custom-format"
       );
       return;
     }
-    if ((0, import_data6.select)(store).getFormatType(settings.name)) {
+    if ((0, import_data6.select)(store).getFormatType(formatType.name)) {
       window.console.error(
-        'Format "' + settings.name + '" is already registered.'
+        'Format "' + formatType.name + '" is already registered.'
       );
       return;
     }
-    if (typeof settings.tagName !== "string" || settings.tagName === "") {
+    if (typeof formatType.tagName !== "string" || formatType.tagName === "") {
       window.console.error("Format tag names must be a string.");
       return;
     }
-    if ((typeof settings.className !== "string" || settings.className === "") && settings.className !== null) {
+    if ((typeof formatType.className !== "string" || formatType.className === "") && formatType.className !== null) {
       window.console.error(
         "Format class names must be a string, or null to handle bare elements."
       );
       return;
     }
-    if (!/^[_a-zA-Z]+[a-zA-Z0-9_-]*$/.test(settings.className)) {
+    if (formatType.className !== null && !/^[_a-zA-Z]+[a-zA-Z0-9_-]*$/.test(formatType.className)) {
       window.console.error(
         "A class name must begin with a letter, followed by any number of hyphens, underscores, letters, or numbers."
       );
       return;
     }
-    if (settings.className === null) {
+    if (formatType.className === null) {
       const formatTypeForBareElement = (0, import_data6.select)(
         store
-      ).getFormatTypeForBareElement(settings.tagName);
+      ).getFormatTypeForBareElement(formatType.tagName);
       if (formatTypeForBareElement && formatTypeForBareElement.name !== "core/unknown") {
         window.console.error(
-          `Format "${formatTypeForBareElement.name}" is already registered to handle bare tag name "${settings.tagName}".`
+          `Format "${formatTypeForBareElement.name}" is already registered to handle bare tag name "${formatType.tagName}".`
         );
         return;
       }
     } else {
       const formatTypeForClassName = (0, import_data6.select)(
         store
-      ).getFormatTypeForClassName(settings.className);
+      ).getFormatTypeForClassName(formatType.className);
       if (formatTypeForClassName) {
         window.console.error(
-          `Format "${formatTypeForClassName.name}" is already registered to handle class name "${settings.className}".`
+          `Format "${formatTypeForClassName.name}" is already registered to handle class name "${formatType.className}".`
         );
         return;
       }
     }
-    if (!("title" in settings) || settings.title === "") {
+    if (!("title" in formatType) || formatType.title === "") {
       window.console.error(
-        'The format "' + settings.name + '" must have a title.'
+        'The format "' + formatType.name + '" must have a title.'
       );
       return;
     }
-    if ("keywords" in settings && settings.keywords.length > 3) {
+    if ((formatType.keywords?.length ?? 0) > 3) {
       window.console.error(
-        'The format "' + settings.name + '" can have a maximum of 3 keywords.'
+        'The format "' + formatType.name + '" can have a maximum of 3 keywords.'
       );
       return;
     }
-    if (typeof settings.title !== "string") {
+    if (typeof formatType.title !== "string") {
       window.console.error("Format titles must be strings.");
       return;
     }
-    (0, import_data6.dispatch)(store).addFormatTypes(settings);
-    return settings;
+    (0, import_data6.dispatch)(store).addFormatTypes(formatType);
+    return formatType;
   }
 
   // packages/rich-text/build-module/remove-format.mjs
   function removeFormat(value, formatType, startIndex = value.start, endIndex = value.end) {
     const { formats, activeFormats } = value;
     const newFormats = formats.slice();
+    const newActiveFormats = activeFormats?.filter(({ type }) => type !== formatType) || [];
+    if (startIndex === void 0 || endIndex === void 0) {
+      return normaliseFormats({
+        ...value,
+        formats: newFormats,
+        activeFormats: newActiveFormats
+      });
+    }
     if (startIndex === endIndex) {
       const format = newFormats[startIndex]?.find(
         ({ type }) => type === formatType
@@ -1348,7 +1393,7 @@ var wp;
     return normaliseFormats({
       ...value,
       formats: newFormats,
-      activeFormats: activeFormats?.filter(({ type }) => type !== formatType) || []
+      activeFormats: newActiveFormats
     });
   }
   function filterFormats(formats, index, formatType) {
@@ -1363,7 +1408,7 @@ var wp;
   }
 
   // packages/rich-text/build-module/insert.mjs
-  function insert(value, valueToInsert, startIndex = value.start, endIndex = value.end) {
+  function insert(value, valueToInsert, startIndex = value.start ?? value.text.length, endIndex = value.end ?? startIndex) {
     const { formats, replacements, text } = value;
     if (typeof valueToInsert === "string") {
       valueToInsert = create({ text: valueToInsert });
@@ -1389,12 +1434,13 @@ var wp;
   // packages/rich-text/build-module/replace.mjs
   function replace2({ formats, replacements, text, start, end }, pattern, replacement) {
     text = text.replace(pattern, (match, ...rest) => {
-      const offset = rest[rest.length - 2];
+      const hasGroups = typeof rest[rest.length - 1] === "object";
+      const offset = rest[rest.length - (hasGroups ? 3 : 2)];
       let newText = replacement;
       let newFormats;
       let newReplacements;
       if (typeof newText === "function") {
-        newText = replacement(match, ...rest);
+        newText = newText(match, ...rest);
       }
       if (typeof newText === "object") {
         newFormats = newText.formats;
@@ -1412,7 +1458,7 @@ var wp;
         newReplacements,
         replacements.slice(offset + match.length)
       );
-      if (start) {
+      if (start !== void 0) {
         start = end = offset + newText.length;
       }
       return newText;
@@ -1423,7 +1469,7 @@ var wp;
   // packages/rich-text/build-module/insert-object.mjs
   function insertObject(value, formatToInsert, startIndex, endIndex) {
     const valueToInsert = {
-      formats: [,],
+      formats: Array(1),
       replacements: [formatToInsert],
       text: OBJECT_REPLACEMENT_CHARACTER
     };
@@ -1444,10 +1490,11 @@ var wp;
   }
 
   // packages/rich-text/build-module/split.mjs
-  function split({ formats, replacements, text, start, end }, string) {
+  function split(richTextValue, string, endIndex) {
     if (typeof string !== "string") {
-      return splitAtSelection(...arguments);
+      return splitAtSelection(richTextValue, string, endIndex);
     }
+    const { formats, replacements, text, start, end } = richTextValue;
     let nextStart = 0;
     return text.split(string).map((substring) => {
       const startIndex = nextStart;
@@ -1476,7 +1523,7 @@ var wp;
     });
   }
   function splitAtSelection({ formats, replacements, text, start, end }, startIndex = start, endIndex = end) {
-    if (start === void 0 || end === void 0) {
+    if (startIndex === void 0 || endIndex === void 0) {
       return;
     }
     const before = {
@@ -1556,7 +1603,10 @@ var wp;
           child = element.ownerDocument.createElement(type);
         }
         for (const key in attributes) {
-          child.setAttribute(key, attributes[key]);
+          child.setAttribute(
+            key,
+            attributes[key]
+          );
         }
       }
     }
@@ -1599,6 +1649,7 @@ var wp;
     const tree = toTree({
       value,
       createEmpty: createEmpty2,
+      // `toTree` only appends to elements, and appends text to text nodes.
       append: append2,
       getLastChild: getLastChild2,
       getParent: getParent2,
@@ -1606,13 +1657,13 @@ var wp;
       getText: getText2,
       remove: remove3,
       appendText: appendText2,
-      onStartIndex(body, pointer) {
-        startPath = createPathToNode(pointer, body, [
+      onStartIndex(body2, pointer) {
+        startPath = createPathToNode(pointer, body2, [
           pointer.nodeValue.length
         ]);
       },
-      onEndIndex(body, pointer) {
-        endPath = createPathToNode(pointer, body, [
+      onEndIndex(body2, pointer) {
+        endPath = createPathToNode(pointer, body2, [
           pointer.nodeValue.length
         ]);
       },
@@ -1624,6 +1675,21 @@ var wp;
       selection: { startPath, endPath }
     };
   }
+  function getDomPosition({
+    value,
+    offset,
+    element,
+    prepareEditableTree,
+    placeholder
+  }) {
+    const { selection } = toDom({
+      value: { ...value, start: offset, end: offset },
+      prepareEditableTree,
+      placeholder,
+      doc: element.ownerDocument
+    });
+    return getNodeByPath(element, selection.startPath);
+  }
   function apply({
     value,
     current,
@@ -1631,13 +1697,13 @@ var wp;
     __unstableDomOnly,
     placeholder
   }) {
-    const { body, selection } = toDom({
+    const { body: body2, selection } = toDom({
       value,
       prepareEditableTree,
       placeholder,
       doc: current.ownerDocument
     });
-    applyValue(body, current);
+    applyValue(body2, current);
     if (value.start !== void 0 && !__unstableDomOnly) {
       applySelection(selection, current);
     }
@@ -1668,7 +1734,10 @@ var wp;
             for (let ii = 0; ii < futureAttributes.length; ii++) {
               const { name, value } = futureAttributes[ii];
               if (currentChild.getAttribute(name) !== value) {
-                currentChild.setAttribute(name, value);
+                currentChild.setAttribute(
+                  name,
+                  value
+                );
               }
             }
           }
@@ -1940,10 +2009,12 @@ var wp;
 
   // packages/rich-text/build-module/hook/use-boundary-style.mjs
   var import_element2 = __toESM(require_element(), 1);
-  function useBoundaryStyle({ record }) {
-    const ref = (0, import_element2.useRef)();
+  function useBoundaryStyle({
+    record
+  }) {
+    const ref = (0, import_element2.useRef)(void 0);
     const { activeFormats = [], replacements, start } = record.current;
-    const activeReplacement = replacements[start];
+    const activeReplacement = start === void 0 ? void 0 : replacements[start];
     (0, import_element2.useEffect)(() => {
       if ((!activeFormats || !activeFormats.length) && !activeReplacement) {
         return;
@@ -1991,14 +2062,17 @@ var wp;
     if (!activeElement || activeElement.contentEditable !== "true" || element.contentEditable !== "true" || !activeElement.contains(element)) {
       return false;
     }
-    const selection = ownerDocument.defaultView.getSelection();
+    const selection = ownerDocument.defaultView?.getSelection();
+    if (!selection) {
+      return false;
+    }
     const { anchorNode, focusNode } = selection;
     return !!anchorNode && !!focusNode && element.contains(anchorNode) && element.contains(focusNode);
   }
 
   // packages/rich-text/build-module/hook/event-listeners/copy-handler.mjs
   var { subscribeDelegatedListener } = unlock(import_compose.privateApis);
-  var copy_handler_default = (props) => (element) => {
+  var copyHandler = (props) => (element) => {
     function onCopy(event) {
       const { record, handleChange } = props.current;
       const { ownerDocument } = element;
@@ -2037,13 +2111,14 @@ var wp;
       unsubscribeCut();
     };
   };
+  var copy_handler_default = copyHandler;
 
   // packages/rich-text/build-module/hook/event-listeners/select-object.mjs
   var import_compose2 = __toESM(require_compose(), 1);
   var { subscribeDelegatedListener: subscribeDelegatedListener2 } = unlock(import_compose2.privateApis);
-  var select_object_default = () => (element) => {
+  var selectObject = () => (element) => {
     function onClick(event) {
-      const { target } = event;
+      const target = event.target;
       if (target === element || target.textContent && target.isContentEditable) {
         return;
       }
@@ -2080,6 +2155,7 @@ var wp;
       unsubscribeFocusIn();
     };
   };
+  var select_object_default = selectObject;
 
   // packages/rich-text/build-module/hook/event-listeners/format-boundaries.mjs
   var import_keycodes = __toESM(require_keycodes(), 1);
@@ -2096,9 +2172,8 @@ var wp;
       registries.set(ownerDocument, byEvent);
     }
     const key = capture ? `${eventType}:capture` : eventType;
-    let elements = byEvent.get(key);
-    if (!elements) {
-      elements = /* @__PURE__ */ new WeakMap();
+    const elements = byEvent.get(key) ?? /* @__PURE__ */ new WeakMap();
+    if (!byEvent.has(key)) {
       byEvent.set(key, elements);
       subscribeDelegatedListener3(
         ownerDocument,
@@ -2131,7 +2206,7 @@ var wp;
 
   // packages/rich-text/build-module/hook/event-listeners/format-boundaries.mjs
   var EMPTY_ACTIVE_FORMATS = [];
-  var format_boundaries_default = (props) => (element) => {
+  var formatBoundaries = (props) => (element) => {
     function onKeyDown(event) {
       const { keyCode, shiftKey, altKey, metaKey, ctrlKey } = event;
       if (
@@ -2161,7 +2236,7 @@ var wp;
           return;
         }
       }
-      if (!collapsed) {
+      if (!collapsed || start === void 0) {
         return;
       }
       const formatsBefore = formats[start - 1] || EMPTY_ACTIVE_FORMATS;
@@ -2192,12 +2267,18 @@ var wp;
       applyRecord(newValue);
       forceRender();
     }
-    return subscribeOwnedListener(element, "keydown", onKeyDown, true);
+    return subscribeOwnedListener(
+      element,
+      "keydown",
+      onKeyDown,
+      true
+    );
   };
+  var format_boundaries_default = formatBoundaries;
 
   // packages/rich-text/build-module/hook/event-listeners/delete.mjs
   var import_keycodes2 = __toESM(require_keycodes(), 1);
-  var delete_default = (props) => (element) => {
+  var deleteHandler = (props) => (element) => {
     function onKeyDown(event) {
       const { keyCode } = event;
       if (event.defaultPrevented) {
@@ -2214,14 +2295,24 @@ var wp;
         event.preventDefault();
       }
     }
-    return subscribeOwnedListener(element, "keydown", onKeyDown);
+    return subscribeOwnedListener(
+      element,
+      "keydown",
+      onKeyDown
+    );
   };
+  var delete_default = deleteHandler;
 
   // packages/rich-text/build-module/hook/event-listeners/input-and-selection.mjs
   var import_compose4 = __toESM(require_compose(), 1);
 
   // packages/rich-text/build-module/update-formats.mjs
-  function updateFormats({ value, start, end, formats }) {
+  function updateFormats({
+    value,
+    start,
+    end,
+    formats
+  }) {
     const min = Math.min(start, end);
     const max = Math.max(start, end);
     const formatsBefore = value.formats[min - 1] || [];
@@ -2259,7 +2350,7 @@ var wp;
   ]);
   var EMPTY_ACTIVE_FORMATS2 = [];
   var PLACEHOLDER_ATTR_NAME = "data-rich-text-placeholder";
-  var input_and_selection_default = (props) => (element) => {
+  var inputAndSelection = (props) => (element) => {
     const { ownerDocument } = element;
     const { defaultView } = ownerDocument;
     let isComposing = false;
@@ -2275,7 +2366,7 @@ var wp;
         return;
       }
       let inputType;
-      if (event) {
+      if (event && "inputType" in event) {
         inputType = event.inputType;
       }
       const { record, applyRecord, createRecord, handleChange } = props.current;
@@ -2284,8 +2375,16 @@ var wp;
         return;
       }
       const currentValue = createRecord();
-      const { start, activeFormats: oldActiveFormats = [] } = record.current;
+      const { start } = record.current;
+      if (start === void 0 || currentValue.start === void 0) {
+        handleChange(currentValue);
+        return;
+      }
       const clearFormats = !isCollapsed(record.current) && currentValue.start <= start;
+      const oldActiveFormats = getActiveFormats(
+        record.current,
+        EMPTY_ACTIVE_FORMATS2
+      );
       const change = updateFormats({
         value: currentValue,
         start,
@@ -2461,11 +2560,12 @@ var wp;
       );
     };
   };
+  var input_and_selection_default = inputAndSelection;
 
   // packages/rich-text/build-module/hook/event-listeners/selection-change-compat.mjs
   var import_compose5 = __toESM(require_compose(), 1);
   var { subscribeDelegatedListener: subscribeDelegatedListener5 } = unlock(import_compose5.privateApis);
-  var selection_change_compat_default = () => (element) => {
+  var selectionChangeCompat = () => (element) => {
     const { ownerDocument } = element;
     const { defaultView } = ownerDocument;
     const selection = defaultView?.getSelection();
@@ -2507,6 +2607,7 @@ var wp;
       unsubscribeKeyDown();
     };
   };
+  var selection_change_compat_default = selectionChangeCompat;
 
   // packages/rich-text/build-module/hook/event-listeners/prevent-focus-capture.mjs
   var import_compose6 = __toESM(require_compose(), 1);
@@ -2517,16 +2618,17 @@ var wp;
       const { defaultView } = ownerDocument;
       let value = null;
       function onPointerDown(event) {
+        const target = event.target;
         if (event.defaultPrevented) {
           return;
         }
-        if (event.target === element) {
+        if (target === element) {
           return;
         }
-        if (!event.target.contains(element)) {
+        if (!target.contains(element)) {
           return;
         }
-        if (!event.target.closest("[data-block]")) {
+        if (!target.closest("[data-block]")) {
           return;
         }
         value = element.getAttribute("contenteditable");
@@ -2616,7 +2718,7 @@ var wp;
     "video"
   ]);
   function prefixSelectKeys(selected, prefix) {
-    if (typeof selected !== "object") {
+    if (typeof selected !== "object" || selected === null) {
       return { [prefix]: selected };
     }
     return Object.fromEntries(
@@ -2653,21 +2755,24 @@ var wp;
       });
     }, [allFormatTypes, allowedFormats, withoutInteractiveFormatting]);
     const keyedSelected = (0, import_data8.useSelect)(
-      (select5) => formatTypes2.reduce((accumulator, type) => {
-        if (!type.__experimentalGetPropsForEditableTreePreparation || !__unstableFormatTypeHandlerContext) {
-          return accumulator;
-        }
-        return {
-          ...accumulator,
-          ...prefixSelectKeys(
-            type.__experimentalGetPropsForEditableTreePreparation(
-              select5,
-              __unstableFormatTypeHandlerContext
-            ),
-            type.name
-          )
-        };
-      }, {}),
+      (select5) => formatTypes2.reduce(
+        (accumulator, type) => {
+          if (!type.__experimentalGetPropsForEditableTreePreparation || !__unstableFormatTypeHandlerContext) {
+            return accumulator;
+          }
+          return {
+            ...accumulator,
+            ...prefixSelectKeys(
+              type.__experimentalGetPropsForEditableTreePreparation(
+                select5,
+                __unstableFormatTypeHandlerContext
+              ),
+              type.name
+            )
+          };
+        },
+        {}
+      ),
       [formatTypes2, __unstableFormatTypeHandlerContext]
     );
     const dispatch3 = (0, import_data8.useDispatch)();
@@ -2720,6 +2825,7 @@ var wp;
   }
 
   // packages/rich-text/build-module/hook/index.mjs
+  var getDomPositionKey = /* @__PURE__ */ Symbol("getDomPosition");
   function hasFocus(element) {
     const { activeElement } = element.ownerDocument;
     return activeElement === element || activeElement?.contentEditable === "true" && activeElement.contains(element);
@@ -2740,8 +2846,8 @@ var wp;
     __unstableAddInvisibleFormats
   }) {
     const registry = (0, import_data9.useRegistry)();
-    const [, forceRender] = (0, import_element5.useReducer)(() => ({}));
-    const ref = (0, import_element5.useRef)();
+    const [, forceRender] = (0, import_element5.useReducer)(() => ({}), void 0);
+    const ref = (0, import_element5.useRef)(void 0);
     function createRecord() {
       const {
         ownerDocument: { defaultView }
@@ -2764,18 +2870,18 @@ var wp;
       });
     }
     const _valueRef = (0, import_element5.useRef)(value);
-    const recordRef = (0, import_element5.useRef)();
+    const recordRef = (0, import_element5.useRef)(void 0);
     function setRecordFromProps() {
       const activeFormats = recordRef.current?.activeFormats;
       _valueRef.current = value;
-      recordRef.current = value;
-      if (!(value instanceof RichTextData)) {
-        recordRef.current = value ? RichTextData.fromHTMLString(value, { preserveWhiteSpace }) : RichTextData.empty();
+      let parsed = value;
+      if (!(parsed instanceof RichTextData)) {
+        parsed = parsed ? RichTextData.fromHTMLString(parsed) : RichTextData.empty();
       }
       recordRef.current = {
-        text: recordRef.current.text,
-        formats: recordRef.current.formats,
-        replacements: recordRef.current.replacements,
+        text: parsed.text,
+        formats: parsed.formats,
+        replacements: parsed.replacements,
         activeFormats
       };
       if (disableFormats) {
@@ -2852,7 +2958,9 @@ var wp;
     const mergedRefs = (0, import_compose8.useMergeRefs)([
       ref,
       useDefaultStyle(),
-      useBoundaryStyle({ record: recordRef }),
+      useBoundaryStyle({
+        record: recordRef
+      }),
       useEventListeners({
         record: recordRef,
         handleChange,
@@ -2881,7 +2989,19 @@ var wp;
       // may re-render asynchronously.
       getValue: () => recordRef.current,
       onChange: handleChange,
-      ref: mergedRefs
+      ref: mergedRefs,
+      // The DOM position of an offset in the value, for a selection set
+      // from outside the element.
+      [getDomPositionKey]: (0, import_element5.useCallback)(
+        (offset) => getDomPosition({
+          value: recordRef.current,
+          offset: Math.min(offset, recordRef.current.text.length),
+          element: ref.current,
+          prepareEditableTree: __unstableAddInvisibleFormats,
+          placeholder
+        }),
+        [__unstableAddInvisibleFormats, placeholder]
+      )
     };
   }
   function useRichText({
@@ -2931,7 +3051,10 @@ var wp;
     const result = useRichTextBase({
       ...props,
       onChange(value, { __unstableFormats, __unstableText }) {
-        onChange(value, { __unstableFormats, __unstableText });
+        onChange(value, {
+          __unstableFormats,
+          __unstableText
+        });
         Object.values(changeHandlers).forEach((changeHandler) => {
           changeHandler(__unstableFormats, __unstableText);
         });
@@ -2952,29 +3075,32 @@ var wp;
 
   // packages/rich-text/build-module/contexts.mjs
   var import_element6 = __toESM(require_element(), 1);
-  var KeyboardShortcutContext = (0, import_element6.createContext)();
+  var KeyboardShortcutContext = (0, import_element6.createContext)(/* @__PURE__ */ new Set());
   KeyboardShortcutContext.displayName = "KeyboardShortcutContext";
-  var InputEventContext = (0, import_element6.createContext)();
+  var InputEventContext = (0, import_element6.createContext)(/* @__PURE__ */ new Set());
   InputEventContext.displayName = "InputEventContext";
 
   // packages/rich-text/build-module/keyboard-shortcut.mjs
   var import_keycodes3 = __toESM(require_keycodes(), 1);
   var import_element7 = __toESM(require_element(), 1);
   var import_compose9 = __toESM(require_compose(), 1);
-  function RichTextShortcut({ character, type, onUse }) {
+  function RichTextShortcut({
+    character,
+    type,
+    onUse
+  }) {
     const keyboardShortcuts = (0, import_element7.useContext)(KeyboardShortcutContext);
     const stableOnUse = (0, import_compose9.useEvent)(onUse);
     (0, import_element7.useEffect)(() => {
-      const shortcuts = keyboardShortcuts.current;
       function callback(event) {
         if (import_keycodes3.isKeyboardEvent[type](event, character)) {
           stableOnUse();
           event.preventDefault();
         }
       }
-      shortcuts.add(callback);
+      keyboardShortcuts.add(callback);
       return () => {
-        shortcuts.delete(callback);
+        keyboardShortcuts.delete(callback);
       };
     }, [character, type, keyboardShortcuts, stableOnUse]);
     return null;
@@ -2983,30 +3109,31 @@ var wp;
   // packages/rich-text/build-module/input-event.mjs
   var import_element8 = __toESM(require_element(), 1);
   var import_compose10 = __toESM(require_compose(), 1);
-  function RichTextInputEvent({ inputType, onInput }) {
+  function RichTextInputEvent({
+    inputType,
+    onInput
+  }) {
     const callbacks = (0, import_element8.useContext)(InputEventContext);
     const stableOnInput = (0, import_compose10.useEvent)(onInput);
     (0, import_element8.useEffect)(() => {
-      const inputCallbacks = callbacks.current;
       function callback(event) {
         if (event.inputType === inputType) {
           stableOnInput();
           event.preventDefault();
         }
       }
-      inputCallbacks.add(callback);
+      callbacks.add(callback);
       return () => {
-        inputCallbacks.delete(callback);
+        callbacks.delete(callback);
       };
     }, [inputType, callbacks, stableOnInput]);
     return null;
   }
 
   // packages/rich-text/build-module/event-listeners.mjs
-  var shortcutsListener = (props) => (element) => {
-    const { keyboardShortcuts } = props.current;
+  var shortcutsListener = (keyboardShortcuts) => (element) => {
     function onKeyDown(event) {
-      for (const keyboardShortcut of keyboardShortcuts.current) {
+      for (const keyboardShortcut of keyboardShortcuts) {
         keyboardShortcut(event);
       }
     }
@@ -3015,10 +3142,9 @@ var wp;
       element.removeEventListener("keydown", onKeyDown);
     };
   };
-  var inputEventsListener = (props) => (element) => {
-    const { inputEvents } = props.current;
+  var inputEventsListener = (inputEvents) => (element) => {
     function onInput(event) {
-      for (const inputEventHandler of inputEvents.current) {
+      for (const inputEventHandler of inputEvents) {
         inputEventHandler(event);
       }
     }
@@ -3032,6 +3158,8 @@ var wp;
   var privateApis = {};
   lock(privateApis, {
     useRichText,
+    getDomPositionKey,
+    useFormatTypes,
     KeyboardShortcutContext,
     InputEventContext,
     RichTextShortcut,
@@ -3045,7 +3173,11 @@ var wp;
   // packages/rich-text/build-module/hook/use-anchor-ref.mjs
   var import_element9 = __toESM(require_element(), 1);
   var import_deprecated2 = __toESM(require_deprecated(), 1);
-  function useAnchorRef({ ref, value, settings = {} }) {
+  function useAnchorRef({
+    ref,
+    value,
+    settings = {}
+  }) {
     (0, import_deprecated2.default)("`useAnchorRef` hook", {
       since: "6.1",
       alternative: "`useAnchor` hook"

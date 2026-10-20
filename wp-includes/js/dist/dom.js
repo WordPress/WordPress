@@ -124,14 +124,13 @@ var wp;
     return !!img && !img.closest("[inert]") && isVisible(img);
   }
   function find(context, { sequential = false } = {}) {
-    const elements = context.querySelectorAll(buildSelector(sequential));
+    const elements = context.querySelectorAll(
+      buildSelector(sequential)
+    );
     return Array.from(elements).filter((element) => {
       const { nodeName } = element;
       if ("AREA" === nodeName) {
-        return isValidFocusableArea(
-          /** @type {HTMLAreaElement} */
-          element
-        );
+        return isValidFocusableArea(element);
       }
       if (element.closest("[inert]")) {
         return false;
@@ -283,11 +282,7 @@ var wp;
       let beforeRange;
       if (before && before.nodeType === before.TEXT_NODE) {
         beforeRange = ownerDocument.createRange();
-        beforeRange.setStart(
-          before,
-          /** @type {Text} */
-          before.length
-        );
+        beforeRange.setStart(before, before.length);
         beforeRange.collapse(true);
       }
       let afterRange;
@@ -315,8 +310,7 @@ var wp;
     if (rects.length > 1) {
       return null;
     }
-    if (rects.length === 1 && startContainer.nodeType === startContainer.TEXT_NODE && range.startOffset > 0 && range.startOffset < /** @type {Text} */
-    startContainer.length) {
+    if (rects.length === 1 && startContainer.nodeType === startContainer.TEXT_NODE && range.startOffset > 0 && range.startOffset < startContainer.length) {
       assertIsDefined(ownerDocument, "ownerDocument");
       const measure = (start, end) => {
         const charRange = ownerDocument.createRange();
@@ -374,8 +368,7 @@ var wp;
       "email",
       "time"
     ];
-    return isHTMLInputElement(node) && node.type && !nonTextInputs.includes(node.type) || node.nodeName === "TEXTAREA" || /** @type {HTMLElement} */
-    node.contentEditable === "true";
+    return isHTMLInputElement(node) && node.type && !nonTextInputs.includes(node.type) || node.nodeName === "TEXTAREA" || node.contentEditable === "true";
   }
 
   // packages/dom/build-module/dom/input-field-has-uncollapsed-selection.mjs
@@ -384,10 +377,7 @@ var wp;
       return false;
     }
     try {
-      const { selectionStart, selectionEnd } = (
-        /** @type {HTMLInputElement | HTMLTextAreaElement} */
-        element
-      );
+      const { selectionStart, selectionEnd } = element;
       return (
         // `null` means the input type doesn't implement selection, thus we
         // cannot determine whether the selection is collapsed, so we
@@ -443,35 +433,27 @@ var wp;
     if (node.ownerDocument === node.parentNode) {
       return node;
     }
-    return getScrollContainer(
-      /** @type {Element} */
-      node.parentNode,
-      direction
-    );
+    return getScrollContainer(node.parentNode, direction);
+  }
+
+  // packages/dom/build-module/dom/is-element.mjs
+  function isElement(node) {
+    return !!node && node.nodeType === node.ELEMENT_NODE;
   }
 
   // packages/dom/build-module/dom/get-offset-parent.mjs
   function getOffsetParent(node) {
-    let closestElement;
-    while (closestElement = /** @type {Node} */
-    node.parentNode) {
-      if (closestElement.nodeType === closestElement.ELEMENT_NODE) {
-        break;
-      }
+    let closestElement = node.parentNode;
+    while (closestElement && !isElement(closestElement)) {
+      closestElement = closestElement.parentNode;
     }
     if (!closestElement) {
       return null;
     }
-    if (getComputedStyle(
-      /** @type {Element} */
-      closestElement
-    ).position !== "static") {
+    if (getComputedStyle(closestElement).position !== "static") {
       return closestElement;
     }
-    return (
-      /** @type {Node & { offsetParent: Node }} */
-      closestElement.offsetParent
-    );
+    return closestElement.offsetParent;
   }
 
   // packages/dom/build-module/dom/is-input-or-text-area.mjs
@@ -507,10 +489,7 @@ var wp;
     }
     const lastChild = element.lastChild;
     assertIsDefined(lastChild, "lastChild");
-    const endContainerContentLength = endContainer.nodeType === endContainer.TEXT_NODE ? (
-      /** @type {Text} */
-      endContainer.data.length
-    ) : endContainer.childNodes.length;
+    const endContainerContentLength = endContainer.nodeType === endContainer.TEXT_NODE ? endContainer.data.length : endContainer.childNodes.length;
     return isDeepChild(startContainer, element, "firstChild") && isDeepChild(endContainer, element, "lastChild") && startOffset === 0 && endOffset === endContainerContentLength;
   }
   function isDeepChild(query, container, propName) {
@@ -859,10 +838,7 @@ var wp;
         } else if (!element.hasChildNodes()) {
           return true;
         }
-        return (
-          /** @type {Element[]} */
-          Array.from(element.childNodes).every(isEmpty)
-        );
+        return Array.from(element.childNodes).every(isEmpty);
       default:
         return true;
     }
@@ -1006,11 +982,6 @@ var wp;
   function isTextContent(node) {
     const tag = node.nodeName.toLowerCase();
     return textContentSchema.hasOwnProperty(tag) || tag === "span";
-  }
-
-  // packages/dom/build-module/dom/is-element.mjs
-  function isElement(node) {
-    return !!node && node.nodeType === node.ELEMENT_NODE;
   }
 
   // packages/dom/build-module/dom/clean-node-list.mjs

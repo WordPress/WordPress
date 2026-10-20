@@ -5,8 +5,14 @@ import {
   getElement,
   getConfig,
   withSyncEvent,
-  withScope
+  withScope,
+  splitTask
 } from "@wordpress/interactivity";
+
+// packages/block-library/build-module/utils/reduced-motion.mjs
+function prefersReducedMotion() {
+  return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
+}
 
 // packages/block-library/build-module/image/constants.mjs
 var IMAGE_PRELOAD_DELAY = 200;
@@ -20,6 +26,65 @@ var touchStartEvent = {
   startTime: 0
 };
 var inertElements = [];
+var touchDrag = {
+  isDragging: false,
+  direction: null,
+  // The elements the gesture moves. The drag offset is written on these
+  // rather than on the overlay, whose `style` attribute is bound to
+  // `state.overlayStyles`: the framework rewrites that attribute whole
+  // whenever the bound value changes, so a resize part way through a gesture
+  // used to wipe the drag out from under the finger. Nothing is bound to the
+  // containers, so what is written here stays written.
+  slideEls: [],
+  // Animations currently running on `slideEls`, so an interrupted gesture can
+  // stop them.
+  animations: [],
+  // Finishes a committed swipe once its slide is over. Held so that a new
+  // gesture can settle a swipe still in flight rather than stranding it.
+  settle: null
+};
+var SLIDE_DURATION_MS = 220;
+var FADE_DURATION_MS = 300;
+var SLIDE_EASING = "cubic-bezier(0.2, 0.7, 0.2, 1)";
+var DIRECTION_LATCH_THRESHOLD_PX = 10;
+var HORIZONTAL_DOMINANCE_RATIO = 1.5;
+var COMMIT_DISTANCE_RATIO = 0.2;
+var FLICK_DISTANCE_PX = 50;
+var FLICK_MAX_DURATION_MS = 300;
+function getSlidePitch() {
+  return window.innerWidth;
+}
+function slideTransform(offset) {
+  return `translate(calc(-50% + ${offset}px), -50%)`;
+}
+function setDragOffset(els, offset) {
+  els.forEach((el) => {
+    if (offset) {
+      el.style.setProperty(
+        "--wp--lightbox-drag-offset",
+        `${offset}px`
+      );
+    } else {
+      el.style.removeProperty("--wp--lightbox-drag-offset");
+    }
+  });
+}
+function stopDragAnimations() {
+  touchDrag.animations.forEach((animation) => animation.cancel());
+  touchDrag.animations = [];
+}
+function resetTouchDrag() {
+  touchDrag.isDragging = false;
+  touchDrag.direction = null;
+  touchDrag.slideEls = [];
+}
+async function waitForImage(img) {
+  await splitTask();
+  try {
+    await img?.decode();
+  } catch {
+  }
+}
 var focusableSelectors = [
   ".wp-lightbox-close-button",
   ".wp-lightbox-navigation-button"
@@ -190,45 +255,151 @@ var { state, actions, callbacks } = store(
         }
       }),
       handleTouchMove: withSyncEvent((event) => {
-        if (state.overlayEnabled) {
-          event.preventDefault();
+        if (!state.overlayEnabled) {
+          return;
+        }
+        event.preventDefault();
+        const t = event.touches && event.touches[0];
+        if (!t || !state.hasNavigation) {
+          return;
+        }
+        const deltaX = t.clientX - touchStartEvent.startX;
+        const deltaY = t.clientY - touchStartEvent.startY;
+        const absDeltaX = Math.abs(deltaX);
+        const absDeltaY = Math.abs(deltaY);
+        if (!touchDrag.direction && (absDeltaX > DIRECTION_LATCH_THRESHOLD_PX || absDeltaY > DIRECTION_LATCH_THRESHOLD_PX)) {
+          touchDrag.direction = absDeltaX > absDeltaY ? "horizontal" : "vertical";
+          touchDrag.slideEls = Array.from(
+            event.currentTarget.querySelectorAll(
+              ".lightbox-image-container"
+            )
+          );
+        }
+        if (touchDrag.direction === "horizontal" && touchDrag.slideEls.length) {
+          touchDrag.isDragging = true;
+          setDragOffset(touchDrag.slideEls, deltaX);
         }
       }),
       handleTouchStart(event) {
         isTouching = true;
+        if (event.touches?.length > 1) {
+          return;
+        }
         const t = event.touches && event.touches[0];
         if (t) {
           touchStartEvent.startX = t.clientX;
           touchStartEvent.startY = t.clientY;
           touchStartEvent.startTime = Date.now();
         }
+        touchDrag.settle?.();
+        stopDragAnimations();
+        resetTouchDrag();
+      },
+      handleTouchCancel() {
+        stopDragAnimations();
+        setDragOffset(touchDrag.slideEls, 0);
+        resetTouchDrag();
+        lastTouchTime = Date.now();
+        isTouching = false;
       },
       handleTouchEnd: withSyncEvent((event) => {
+        if (event.touches?.length) {
+          return;
+        }
         const touchEndEvent = event.changedTouches && event.changedTouches[0] || event.touches && event.touches[0];
         const now = Date.now();
-        if (touchEndEvent && state.overlayEnabled) {
+        if (touchEndEvent && state.overlayEnabled && touchDrag.isDragging) {
+          event.preventDefault();
           const deltaX = touchEndEvent.clientX - touchStartEvent.startX;
           const deltaY = touchEndEvent.clientY - touchStartEvent.startY;
           const absDeltaX = Math.abs(deltaX);
           const absDeltaY = Math.abs(deltaY);
           const elapsedMs = now - touchStartEvent.startTime;
-          const isHorizontalSwipe = (
-            // Swipe distance is greater than 50px
-            absDeltaX > 50 && // Horizontal movement is much larger than the vertical movement
-            absDeltaX > absDeltaY * 1.5 && // Fast action of less than 800ms
-            elapsedMs < 800
-          );
-          if (isHorizontalSwipe) {
-            event.preventDefault();
-            if (deltaX < 0) {
+          const slidePitch = getSlidePitch();
+          const isHorizontalDominant = absDeltaX > absDeltaY * HORIZONTAL_DOMINANCE_RATIO;
+          const pastDistanceThreshold = absDeltaX > slidePitch * COMMIT_DISTANCE_RATIO;
+          const isFastFlick = absDeltaX > FLICK_DISTANCE_PX && elapsedMs < FLICK_MAX_DURATION_MS;
+          const shouldCommit = isHorizontalDominant && (pastDistanceThreshold || isFastFlick);
+          const showsNextImage = deltaX < 0;
+          const slideEls = touchDrag.slideEls;
+          const reducedMotion = prefersReducedMotion();
+          const committedOffset = showsNextImage ? -slidePitch : slidePitch;
+          const endOffset = shouldCommit ? committedOffset : 0;
+          const settle = () => {
+            if (touchDrag.settle !== settle) {
+              return;
+            }
+            touchDrag.settle = null;
+            stopDragAnimations();
+            setDragOffset(slideEls, 0);
+            if (!shouldCommit) {
+              return;
+            }
+            if (showsNextImage) {
               actions.showNextImage(event);
             } else {
               actions.showPreviousImage(event);
             }
+            if (reducedMotion) {
+              return;
+            }
+            const hold = slideEls.map(
+              (el) => el.animate([{ opacity: 0 }, { opacity: 0 }], {
+                fill: "forwards"
+              })
+            );
+            touchDrag.animations = hold;
+            const enlargedEl = slideEls[slideEls.length - 1];
+            waitForImage(enlargedEl.querySelector("img")).then(
+              () => {
+                if (touchDrag.animations !== hold) {
+                  return;
+                }
+                stopDragAnimations();
+                touchDrag.animations = slideEls.map(
+                  (el) => el.animate(
+                    [
+                      { opacity: 0 },
+                      {
+                        opacity: el === enlargedEl ? 1 : 0
+                      }
+                    ],
+                    {
+                      duration: FADE_DURATION_MS,
+                      easing: "ease-out"
+                    }
+                  )
+                );
+              }
+            );
+          };
+          touchDrag.settle = settle;
+          if (reducedMotion) {
+            settle();
+          } else {
+            touchDrag.animations = slideEls.map(
+              (el) => el.animate(
+                [
+                  { transform: slideTransform(deltaX) },
+                  {
+                    transform: slideTransform(endOffset)
+                  }
+                ],
+                {
+                  duration: SLIDE_DURATION_MS,
+                  easing: SLIDE_EASING,
+                  // Holds the end position until `settle()` has
+                  // moved the slides there itself.
+                  fill: "forwards"
+                }
+              )
+            );
+            touchDrag.animations[0].onfinish = withScope(settle);
           }
         }
         lastTouchTime = now;
         isTouching = false;
+        resetTouchDrag();
       }),
       handleScroll() {
         if (state.overlayOpened) {

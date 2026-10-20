@@ -23,6 +23,7 @@ var wp;
   // packages/style-engine/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
+    VALID_BACKGROUND_CLIP_VALUES: () => VALID_BACKGROUND_CLIP_VALUES,
     compileCSS: () => compileCSS,
     getCSSRules: () => getCSSRules,
     getCSSValueFromRawStyle: () => getCSSValueFromRawStyle

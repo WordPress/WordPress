@@ -31,6 +31,12 @@
 		"splitting": true,
 		"anchor": true,
 		"className": false,
+		"background": {
+			"backgroundClip": true,
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true
+		},
 		"__experimentalBorder": {
 			"color": true,
 			"radius": true,
@@ -45,6 +51,10 @@
 				"background": true,
 				"text": true
 			}
+		},
+		"dimensions": {
+			"minHeight": true,
+			"minWidth": true
 		},
 		"spacing": {
 			"margin": true,

@@ -2440,6 +2440,19 @@ var wp;
     "textShadow",
     "letterSpacing"
   ];
+  var ELEMENT_BLOCK_SUPPORTS = [
+    ...ROOT_BLOCK_SUPPORTS,
+    "backgroundGradient",
+    "backgroundImage",
+    "backgroundSize",
+    "borderColor",
+    "borderRadius",
+    "borderStyle",
+    "borderWidth",
+    "margin",
+    "shadow",
+    "writingMode"
+  ];
   function filterElementBlockSupports(blockSupports, name, element) {
     return blockSupports.filter((support) => {
       if (support === "fontSize" && element === "heading") {
@@ -2464,14 +2477,19 @@ var wp;
       if (support === "textColumns" && !name) {
         return false;
       }
+      const isElement = !name && !!element && element in __EXPERIMENTAL_ELEMENTS;
+      if (["blockGap", "contentSize", "wideSize"].includes(support) && isElement) {
+        return false;
+      }
       return true;
     });
   }
   var getSupportedStyles = (0, import_data3.createSelector)(
     (state, name, element) => {
       if (!name) {
+        const isElement = !!element && element in __EXPERIMENTAL_ELEMENTS;
         return filterElementBlockSupports(
-          ROOT_BLOCK_SUPPORTS,
+          isElement ? ELEMENT_BLOCK_SUPPORTS : ROOT_BLOCK_SUPPORTS,
           name,
           element
         );
@@ -3391,19 +3409,9 @@ var wp;
     return [...blockTypesByNameAndVariation.values()];
   }
   function findTransform(transforms, predicate) {
-    const hooks = (0, import_hooks2.createHooks)();
-    for (let i = 0; i < transforms.length; i++) {
-      const candidate = transforms[i];
-      if (predicate(candidate)) {
-        hooks.addFilter(
-          "transform",
-          "transform/" + i.toString(),
-          (result) => result ? result : candidate,
-          candidate.priority
-        );
-      }
-    }
-    return hooks.applyFilters("transform", null);
+    const priority = (t2) => t2.priority ?? 10;
+    const candidates = transforms.filter((t2) => predicate(t2)).toSorted((t1, t2) => priority(t1) - priority(t2));
+    return candidates.length > 0 ? candidates[0] : null;
   }
   function getBlockTransforms(direction, blockTypeOrName) {
     if (blockTypeOrName === void 0) {
@@ -4888,32 +4896,6 @@ var wp;
   }
 
   // packages/blocks/build-module/api/parser/convert-legacy-block.mjs
-  function normalizeStyleStateAliases(style) {
-    if (true) {
-      return style;
-    }
-    if (!style || typeof style !== "object" || Array.isArray(style)) {
-      return style;
-    }
-    let normalizedStyle = style;
-    const viewportAliases = {
-      "@mobile": "mobile",
-      "@tablet": "tablet"
-    };
-    Object.entries(viewportAliases).forEach(([state, legacyState]) => {
-      if (!Object.hasOwn(normalizedStyle, legacyState)) {
-        return;
-      }
-      if (normalizedStyle === style) {
-        normalizedStyle = { ...normalizedStyle };
-      }
-      if (!Object.hasOwn(normalizedStyle, state)) {
-        normalizedStyle[state] = normalizedStyle[legacyState];
-      }
-      delete normalizedStyle[legacyState];
-    });
-    return normalizedStyle;
-  }
   function convertLegacyBlockNameAndAttributes(name, attributes) {
     const newAttributes = { ...attributes };
     if ("core/cover-image" === name) {
@@ -4989,10 +4971,6 @@ var wp;
           rowSpan: isNaN(rowSpanNumber) ? void 0 : rowSpanNumber
         }
       };
-    }
-    const normalizedStyle = normalizeStyleStateAliases(newAttributes.style);
-    if (normalizedStyle !== newAttributes.style) {
-      newAttributes.style = normalizedStyle;
     }
     return [name, newAttributes];
   }

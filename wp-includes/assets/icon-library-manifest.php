@@ -54,13 +54,13 @@ return array(
 	'audio'               => array(
 		'label'       => _x( 'Audio', 'icon label' ),
 		'filePath'    => 'audio.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 		'keywords'    => array( _x( 'music', 'icon keyword' ), _x( 'note', 'icon keyword' ) ),
 	),
 	'bell'                => array(
 		'label'       => _x( 'Bell', 'icon label' ),
 		'filePath'    => 'bell.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'block-default'       => array(
 		'label'       => _x( 'Block Default', 'icon label' ),
@@ -85,7 +85,7 @@ return array(
 	'calendar'            => array(
 		'label'       => _x( 'Calendar', 'icon label' ),
 		'filePath'    => 'calendar.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'capture-photo'       => array(
 		'label'       => _x( 'Capture Photo', 'icon label' ),
@@ -100,7 +100,7 @@ return array(
 	'cart'                => array(
 		'label'       => _x( 'Cart', 'icon label' ),
 		'filePath'    => 'cart.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'category'            => array(
 		'label'       => _x( 'Category', 'icon label' ),
@@ -116,7 +116,7 @@ return array(
 	'chart-bar'           => array(
 		'label'       => _x( 'Chart Bar', 'icon label' ),
 		'filePath'    => 'chart-bar.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'check'               => array(
 		'label'       => _x( 'Check', 'icon label' ),
@@ -212,7 +212,7 @@ return array(
 	'envelope'            => array(
 		'label'       => _x( 'Envelope', 'icon label' ),
 		'filePath'    => 'envelope.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 		'keywords'    => array( _x( 'email', 'icon keyword' ), _x( 'letter', 'icon keyword' ), _x( 'post', 'icon keyword' ) ),
 	),
 	'error'               => array(
@@ -235,7 +235,7 @@ return array(
 	'gallery'             => array(
 		'label'       => _x( 'Gallery', 'icon label' ),
 		'filePath'    => 'gallery.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'group'               => array(
 		'label'       => _x( 'Group', 'icon label' ),
@@ -250,7 +250,7 @@ return array(
 	'help'                => array(
 		'label'       => _x( 'Help', 'icon label' ),
 		'filePath'    => 'help.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'home'                => array(
 		'label'       => _x( 'Home', 'icon label' ),
@@ -260,7 +260,7 @@ return array(
 	'image'               => array(
 		'label'       => _x( 'Image', 'icon label' ),
 		'filePath'    => 'image.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'info'                => array(
 		'label'       => _x( 'Info', 'icon label' ),
@@ -285,7 +285,7 @@ return array(
 	'map-marker'          => array(
 		'label'       => _x( 'Map Marker', 'icon label' ),
 		'filePath'    => 'map-marker.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'media'               => array(
 		'label'       => _x( 'Media', 'icon label' ),
@@ -330,7 +330,7 @@ return array(
 	'payment'             => array(
 		'label'       => _x( 'Payment', 'icon label' ),
 		'filePath'    => 'payment.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'pencil'              => array(
 		'label'       => _x( 'Pencil', 'icon label' ),
@@ -376,17 +376,17 @@ return array(
 	'quote'               => array(
 		'label'       => _x( 'Quote', 'icon label' ),
 		'filePath'    => 'quote.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'receipt'             => array(
 		'label'       => _x( 'Receipt', 'icon label' ),
 		'filePath'    => 'receipt.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'rss'                 => array(
 		'label'       => _x( 'RSS', 'icon label' ),
 		'filePath'    => 'rss.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'scheduled'           => array(
 		'label'       => _x( 'Scheduled', 'icon label' ),
@@ -411,12 +411,12 @@ return array(
 	'share'               => array(
 		'label'       => _x( 'Share', 'icon label' ),
 		'filePath'    => 'share.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'shield'              => array(
 		'label'       => _x( 'Shield', 'icon label' ),
 		'filePath'    => 'shield.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'shuffle'             => array(
 		'label'       => _x( 'Shuffle', 'icon label' ),
@@ -447,7 +447,7 @@ return array(
 	'store'               => array(
 		'label'       => _x( 'Store', 'icon label' ),
 		'filePath'    => 'store.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'styles'              => array(
 		'label'       => _x( 'Styles', 'icon label' ),
@@ -477,7 +477,7 @@ return array(
 	'tag'                 => array(
 		'label'       => _x( 'Tag', 'icon label' ),
 		'filePath'    => 'tag.svg',
-		'collections' => array( 'core' ),
+		'collections' => array( 'core', 'core-admin' ),
 	),
 	'tip'                 => array(
 		'label'       => _x( 'Tip', 'icon label' ),

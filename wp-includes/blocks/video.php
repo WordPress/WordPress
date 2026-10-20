@@ -22,6 +22,31 @@ function render_block_core_video( array $attributes, string $content ): string {
 		return $content;
 	}
 
+	/*
+	 * Inspect the video to determine whether autoplay is enabled and, when it
+	 * is, set the interactivity directives that stop playback for visitors who
+	 * prefer reduced motion.
+	 *
+	 * The directives are added here rather than in the saved markup so existing
+	 * content does not need a deprecation.
+	 *
+	 * `autoplay` is read from the markup rather than from `$attributes`, because
+	 * it is sourced from the `video` element and so is never stored in the block
+	 * comment delimiter the server parses.
+	 */
+	$autoplay_processor = new WP_HTML_Tag_Processor( $content );
+	if (
+		$autoplay_processor->next_tag( array( 'tag_name' => 'VIDEO' ) ) &&
+		null !== $autoplay_processor->get_attribute( 'autoplay' )
+	) {
+		wp_enqueue_script_module( '@wordpress/block-library/video/view' );
+
+		$autoplay_processor->set_attribute( 'data-wp-interactive', 'core/video' );
+		$autoplay_processor->set_attribute( 'data-wp-init', 'callbacks.stopAutoplay' );
+
+		$content = $autoplay_processor->get_updated_html();
+	}
+
 	// If the 'id' attribute is not populated for a video attachment, abort.
 	if (
 		! isset( $attributes['id'] ) ||

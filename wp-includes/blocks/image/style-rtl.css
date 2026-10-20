@@ -333,7 +333,7 @@
   top: 50%;
   right: 50%;
   transform-origin: top right;
-  transform: translate(50%, -50%);
+  transform: translate(calc(-1*(-50% + var(--wp--lightbox-drag-offset, 0px))), -50%);
   width: var(--wp--lightbox-container-width);
   height: var(--wp--lightbox-container-height);
   z-index: 2000001;

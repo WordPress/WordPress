@@ -159,9 +159,18 @@
 	"supports": {
 		"anchor": true,
 		"align": true,
-		"color": {
+		"background": {
 			"__experimentalSkipSerialization": true,
+			"gradient": true
+		},
+		"color": {
+			"__experimentalSkipSerialization": [
+				"text",
+				"background",
+				"gradients"
+			],
 			"gradients": true,
+			"link": true,
 			"__experimentalDefaultControls": {
 				"background": true,
 				"text": true
@@ -176,6 +185,7 @@
 			}
 		},
 		"typography": {
+			"__experimentalSkipSerialization": [ "textAlign" ],
 			"fontSize": true,
 			"lineHeight": true,
 			"__experimentalFontFamily": true,
@@ -184,6 +194,7 @@
 			"__experimentalLetterSpacing": true,
 			"__experimentalTextTransform": true,
 			"__experimentalTextDecoration": true,
+			"textAlign": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}

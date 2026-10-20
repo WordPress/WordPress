@@ -671,6 +671,14 @@
   justify-content: center;
 }
 
+.wp-block-comments-pagination-previous {
+  box-sizing: border-box;
+}
+
+.wp-block-comments-pagination-next {
+  box-sizing: border-box;
+}
+
 .wp-block-comment-template {
   box-sizing: border-box;
   margin-bottom: 0;
@@ -1286,9 +1294,6 @@ body:not(.editor-styles-wrapper) .wp-block-cover:not(.wp-block-cover:has(.wp-blo
 .wp-block-file {
   box-sizing: border-box;
 }
-.wp-block-file:not(.wp-element-button) {
-  font-size: 0.8em;
-}
 .wp-block-file.aligncenter {
   text-align: center;
 }
@@ -1297,6 +1302,10 @@ body:not(.editor-styles-wrapper) .wp-block-cover:not(.wp-block-cover:has(.wp-blo
 }
 .wp-block-file * + .wp-block-file__button {
   margin-right: 0.75em;
+}
+
+:root :where(.wp-block-file:not(.wp-element-button)) {
+  font-size: 0.8em;
 }
 
 :where(.wp-block-file) {
@@ -2001,7 +2010,7 @@ h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]) {
   top: 50%;
   right: 50%;
   transform-origin: top right;
-  transform: translate(50%, -50%);
+  transform: translate(calc(-1*(-50% + var(--wp--lightbox-drag-offset, 0px))), -50%);
   width: var(--wp--lightbox-container-width);
   height: var(--wp--lightbox-container-height);
   z-index: 2000001;
@@ -2372,7 +2381,9 @@ ul {
   direction: rtl;
   grid-column: 2;
   grid-row: 1;
-  word-break: break-word;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 :where(.wp-block-media-text > .wp-block-media-text__content) {
@@ -4403,6 +4414,12 @@ ul.wp-block-rss.is-grid li {
   margin: 0;
   flex-basis: 0;
 }
+.wp-block-search.wp-block-search__button-only.wp-block-search__searchfield-hidden:focus-within {
+  overflow: visible;
+}
+.wp-block-search.wp-block-search__button-only.wp-block-search__searchfield-hidden:focus-within .wp-block-search__inside-wrapper {
+  overflow: visible;
+}
 
 :where(.wp-block-search__input) {
   font-family: inherit;
@@ -5396,6 +5413,12 @@ body.admin-color-fresh {
 
 :root .has-text-align-right {
   text-align: right;
+}
+
+:root .has-text-color,
+:root .has-inline-color,
+:root .has-link-color a {
+  -webkit-text-fill-color: currentColor;
 }
 
 .has-fit-text {

@@ -1,5 +1,25 @@
-.notices-inline-notices-wrapper {
+.notices-inline-notices-wrapper,
+.notices-inline-notices__list {
   display: flex;
   flex-direction: column;
   gap: var(--wpds-dimension-gap-md, 12px);
+}
+
+.notices-inline-notices__list {
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.notices-inline-notices__details {
+  margin-block-start: var(--wpds-dimension-gap-sm, 8px);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.notices-inline-notices__details[hidden] {
+  margin-block-start: 0;
+  padding-block: 0;
+}
+
+.notices-inline-notices__copy-status {
+  align-self: center;
 }

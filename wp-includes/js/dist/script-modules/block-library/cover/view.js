@@ -1,6 +1,12 @@
 // packages/block-library/build-module/cover/view.mjs
-import { getContext, store } from "@wordpress/interactivity";
-import { prefersReducedMotion } from "@wordpress/a11y";
+import { getContext, getElement, store } from "@wordpress/interactivity";
+
+// packages/block-library/build-module/utils/reduced-motion.mjs
+function prefersReducedMotion() {
+  return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
+}
+
+// packages/block-library/build-module/cover/view.mjs
 store(
   "core/cover",
   {
@@ -11,6 +17,16 @@ store(
           return reducedMotionSrc;
         }
         return src;
+      }
+    },
+    callbacks: {
+      stopBackgroundVideo() {
+        if (!prefersReducedMotion()) {
+          return;
+        }
+        const { ref } = getElement();
+        ref.autoplay = false;
+        ref.pause();
       }
     }
   },

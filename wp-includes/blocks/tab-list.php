@@ -9,8 +9,8 @@
  * Render callback for core/tab-list.
  *
  * Injects IAPI directives into the saved button HTML. The buttons already
- * carry color/border/padding styles from save.jsx; this callback adds
- * tab-specific attributes (id, aria-controls, context) and interactivity
+ * carry background/color/border/padding styles from save.jsx; this callback
+ * adds tab-specific attributes (id, aria-controls, context) and interactivity
  * directives using data from the tabs-list context.
  *
  * @since 7.1.0

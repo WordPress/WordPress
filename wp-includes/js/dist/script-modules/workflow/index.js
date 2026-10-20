@@ -56,16 +56,23 @@ var require_react_dom = __commonJS({
   }
 });
 
-// node_modules/.store/use-sync-external-store@1.6.0-I0W9gfWaba5M6uWU9Ouj4A/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.development.js
+// package-external:@wordpress/primitives
+var require_primitives = __commonJS({
+  "package-external:@wordpress/primitives"(exports, module) {
+    module.exports = window.wp.primitives;
+  }
+});
+
+// node_modules/.store/use-sync-external-store@1.7.0-jHNF5n8408rkWhZ5NHKclA/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.development.js
 var require_use_sync_external_store_shim_development = __commonJS({
-  "node_modules/.store/use-sync-external-store@1.6.0-I0W9gfWaba5M6uWU9Ouj4A/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.development.js"(exports) {
+  "node_modules/.store/use-sync-external-store@1.7.0-jHNF5n8408rkWhZ5NHKclA/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.development.js"(exports) {
     "use strict";
     (function() {
       function is(x, y) {
         return x === y && (0 !== x || 1 / x === 1 / y) || x !== x && y !== y;
       }
       function useSyncExternalStore$2(subscribe, getSnapshot) {
-        didWarnOld18Alpha || void 0 === React117.startTransition || (didWarnOld18Alpha = true, console.error(
+        didWarnOld18Alpha || void 0 === React118.startTransition || (didWarnOld18Alpha = true, console.error(
           "You are using an outdated, pre-release alpha of React 18 that does not support useSyncExternalStore. The use-sync-external-store shim will not work correctly. Upgrade to a newer pre-release."
         ));
         var value = getSnapshot();
@@ -113,16 +120,16 @@ var require_use_sync_external_store_shim_development = __commonJS({
         return getSnapshot();
       }
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var React117 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState25 = React117.useState, useEffect20 = React117.useEffect, useLayoutEffect3 = React117.useLayoutEffect, useDebugValue2 = React117.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
-      exports.useSyncExternalStore = void 0 !== React117.useSyncExternalStore ? React117.useSyncExternalStore : shim;
+      var React118 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState25 = React118.useState, useEffect20 = React118.useEffect, useLayoutEffect3 = React118.useLayoutEffect, useDebugValue2 = React118.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+      exports.useSyncExternalStore = void 0 !== React118.useSyncExternalStore ? React118.useSyncExternalStore : shim;
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
     })();
   }
 });
 
-// node_modules/.store/use-sync-external-store@1.6.0-I0W9gfWaba5M6uWU9Ouj4A/node_modules/use-sync-external-store/shim/index.js
+// node_modules/.store/use-sync-external-store@1.7.0-jHNF5n8408rkWhZ5NHKclA/node_modules/use-sync-external-store/shim/index.js
 var require_shim = __commonJS({
-  "node_modules/.store/use-sync-external-store@1.6.0-I0W9gfWaba5M6uWU9Ouj4A/node_modules/use-sync-external-store/shim/index.js"(exports, module) {
+  "node_modules/.store/use-sync-external-store@1.7.0-jHNF5n8408rkWhZ5NHKclA/node_modules/use-sync-external-store/shim/index.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -132,18 +139,18 @@ var require_shim = __commonJS({
   }
 });
 
-// node_modules/.store/use-sync-external-store@1.6.0-I0W9gfWaba5M6uWU9Ouj4A/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.development.js
+// node_modules/.store/use-sync-external-store@1.7.0-jHNF5n8408rkWhZ5NHKclA/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.development.js
 var require_with_selector_development = __commonJS({
-  "node_modules/.store/use-sync-external-store@1.6.0-I0W9gfWaba5M6uWU9Ouj4A/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.development.js"(exports) {
+  "node_modules/.store/use-sync-external-store@1.7.0-jHNF5n8408rkWhZ5NHKclA/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.development.js"(exports) {
     "use strict";
     (function() {
       function is(x, y) {
         return x === y && (0 !== x || 1 / x === 1 / y) || x !== x && y !== y;
       }
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var React117 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore3 = shim.useSyncExternalStore, useRef42 = React117.useRef, useEffect20 = React117.useEffect, useMemo34 = React117.useMemo, useDebugValue2 = React117.useDebugValue;
+      var React118 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore3 = shim.useSyncExternalStore, useRef43 = React118.useRef, useEffect20 = React118.useEffect, useMemo34 = React118.useMemo, useDebugValue2 = React118.useDebugValue;
       exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual) {
-        var instRef = useRef42(null);
+        var instRef = useRef43(null);
         if (null === instRef.current) {
           var inst = { hasValue: false, value: null };
           instRef.current = inst;
@@ -199,15 +206,22 @@ var require_with_selector_development = __commonJS({
   }
 });
 
-// node_modules/.store/use-sync-external-store@1.6.0-I0W9gfWaba5M6uWU9Ouj4A/node_modules/use-sync-external-store/shim/with-selector.js
+// node_modules/.store/use-sync-external-store@1.7.0-jHNF5n8408rkWhZ5NHKclA/node_modules/use-sync-external-store/shim/with-selector.js
 var require_with_selector = __commonJS({
-  "node_modules/.store/use-sync-external-store@1.6.0-I0W9gfWaba5M6uWU9Ouj4A/node_modules/use-sync-external-store/shim/with-selector.js"(exports, module) {
+  "node_modules/.store/use-sync-external-store@1.7.0-jHNF5n8408rkWhZ5NHKclA/node_modules/use-sync-external-store/shim/with-selector.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
     } else {
       module.exports = require_with_selector_development();
     }
+  }
+});
+
+// package-external:@wordpress/i18n
+var require_i18n = __commonJS({
+  "package-external:@wordpress/i18n"(exports, module) {
+    module.exports = window.wp.i18n;
   }
 });
 
@@ -222,20 +236,6 @@ var require_theme = __commonJS({
 var require_private_apis = __commonJS({
   "package-external:@wordpress/private-apis"(exports, module) {
     module.exports = window.wp.privateApis;
-  }
-});
-
-// package-external:@wordpress/i18n
-var require_i18n = __commonJS({
-  "package-external:@wordpress/i18n"(exports, module) {
-    module.exports = window.wp.i18n;
-  }
-});
-
-// package-external:@wordpress/primitives
-var require_primitives = __commonJS({
-  "package-external:@wordpress/primitives"(exports, module) {
-    module.exports = window.wp.primitives;
   }
 });
 
@@ -267,29 +267,157 @@ var require_keycodes = __commonJS({
   }
 });
 
+// package-external:@wordpress/html-entities
+var require_html_entities = __commonJS({
+  "package-external:@wordpress/html-entities"(exports, module) {
+    module.exports = window.wp.htmlEntities;
+  }
+});
+
 // packages/workflow/build-module/index.mjs
-var import_element51 = __toESM(require_element(), 1);
+var import_element53 = __toESM(require_element(), 1);
 
-// node_modules/.store/clsx@2.1.1-XOLP1vUL9vEGfpiXm37fAw/node_modules/clsx/dist/clsx.mjs
-function r(e) {
-  var t, f, n = "";
-  if ("string" == typeof e || "number" == typeof e) n += e;
-  else if ("object" == typeof e) if (Array.isArray(e)) {
-    var o = e.length;
-    for (t = 0; t < o; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
-  } else for (f in e) e[f] && (n && (n += " "), n += f);
-  return n;
-}
-function clsx() {
-  for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
-  return n;
-}
-var clsx_default = clsx;
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useRenderElement.mjs
+var React4 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useControlled.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useRefWithInit.mjs
 var React = __toESM(require_react(), 1);
+var UNINITIALIZED = {};
+function useRefWithInit(init, initArg) {
+  const ref = React.useRef(UNINITIALIZED);
+  if (ref.current === UNINITIALIZED) {
+    ref.current = init(initArg);
+  }
+  return ref;
+}
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/createLogOnce.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useMergedRefs.mjs
+function useMergedRefs(a, b, c, d) {
+  const forkRef = useRefWithInit(createForkRef).current;
+  if (didChange(forkRef, a, b, c, d)) {
+    update(forkRef, [a, b, c, d]);
+  }
+  return forkRef.callback;
+}
+function useMergedRefsN(refs) {
+  const forkRef = useRefWithInit(createForkRef).current;
+  if (didChangeN(forkRef, refs)) {
+    update(forkRef, refs);
+  }
+  return forkRef.callback;
+}
+function createForkRef() {
+  return {
+    callback: null,
+    cleanup: null,
+    refs: []
+  };
+}
+function didChange(forkRef, a, b, c, d) {
+  return forkRef.refs[0] !== a || forkRef.refs[1] !== b || forkRef.refs[2] !== c || forkRef.refs[3] !== d;
+}
+function didChangeN(forkRef, newRefs) {
+  return forkRef.refs.length !== newRefs.length || forkRef.refs.some((ref, index2) => ref !== newRefs[index2]);
+}
+function update(forkRef, refs) {
+  forkRef.refs = refs;
+  if (refs.every((ref) => ref == null)) {
+    forkRef.callback = null;
+    return;
+  }
+  forkRef.callback = (instance) => {
+    if (forkRef.cleanup) {
+      forkRef.cleanup();
+      forkRef.cleanup = null;
+    }
+    if (instance != null) {
+      const cleanupCallbacks = Array(refs.length).fill(null);
+      for (let i = 0; i < refs.length; i += 1) {
+        const ref = refs[i];
+        if (ref == null) {
+          continue;
+        }
+        switch (typeof ref) {
+          case "function": {
+            const refCleanup = ref(instance);
+            if (typeof refCleanup === "function") {
+              cleanupCallbacks[i] = refCleanup;
+            }
+            break;
+          }
+          case "object": {
+            ref.current = instance;
+            break;
+          }
+          default:
+        }
+      }
+      forkRef.cleanup = () => {
+        for (let i = 0; i < refs.length; i += 1) {
+          const ref = refs[i];
+          if (ref == null) {
+            continue;
+          }
+          switch (typeof ref) {
+            case "function": {
+              const cleanupCallback = cleanupCallbacks[i];
+              if (typeof cleanupCallback === "function") {
+                cleanupCallback();
+              } else {
+                void ref(null);
+              }
+              break;
+            }
+            case "object": {
+              ref.current = null;
+              break;
+            }
+            default:
+          }
+        }
+      };
+    }
+  };
+}
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/getReactElementRef.mjs
+var React3 = __toESM(require_react(), 1);
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/reactVersion.mjs
+var React2 = __toESM(require_react(), 1);
+var majorVersion = parseInt(React2.version, 10);
+function isReactVersionAtLeast(reactVersionToCheck) {
+  return majorVersion >= reactVersionToCheck;
+}
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/getReactElementRef.mjs
+function getReactElementRef(element) {
+  if (!/* @__PURE__ */ React3.isValidElement(element)) {
+    return null;
+  }
+  const reactElement = element;
+  const propsWithRef = reactElement.props;
+  return (isReactVersionAtLeast(19) ? propsWithRef?.ref : reactElement.ref) ?? null;
+}
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/mergeObjects.mjs
+function mergeObjects(a, b) {
+  if (a && !b) {
+    return a;
+  }
+  if (!a && b) {
+    return b;
+  }
+  if (a || b) {
+    return {
+      ...a,
+      ...b
+    };
+  }
+  return void 0;
+}
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/createLogOnce.mjs
 var loggedMessages;
 if (true) {
   loggedMessages = /* @__PURE__ */ new Set();
@@ -312,10 +440,743 @@ function createLogOnce(severity, prefix) {
   };
 }
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/error.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/warn.mjs
+var warn = createLogOnce("warn", "Base UI");
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/empty.mjs
+function NOOP() {
+}
+var EMPTY_ARRAY = Object.freeze([]);
+var EMPTY_OBJECT = Object.freeze({});
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/getStateAttributesProps.mjs
+function getStateAttributesProps(state, customMapping) {
+  const props = {};
+  for (const key in state) {
+    const value = state[key];
+    if (customMapping?.hasOwnProperty(key)) {
+      const customProps = customMapping[key](value);
+      if (customProps != null) {
+        Object.assign(props, customProps);
+      }
+      continue;
+    }
+    if (value === true) {
+      props[`data-${key.toLowerCase()}`] = "";
+    } else if (value) {
+      props[`data-${key.toLowerCase()}`] = value.toString();
+    }
+  }
+  return props;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/resolveClassName.mjs
+function resolveClassName(className, state) {
+  return typeof className === "function" ? className(state) : className;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/resolveStyle.mjs
+function resolveStyle(style, state) {
+  return typeof style === "function" ? style(state) : style;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/merge-props/mergeProps.mjs
+var EMPTY_PROPS = {};
+function mergeProps(a, b, c, d, e) {
+  if (!c && !d && !e && !a) {
+    return createInitialMergedProps(b);
+  }
+  let merged = createInitialMergedProps(a);
+  if (b) {
+    merged = mergeInto(merged, b);
+  }
+  if (c) {
+    merged = mergeInto(merged, c);
+  }
+  if (d) {
+    merged = mergeInto(merged, d);
+  }
+  if (e) {
+    merged = mergeInto(merged, e);
+  }
+  return merged;
+}
+function mergePropsN(props) {
+  if (props.length === 0) {
+    return EMPTY_PROPS;
+  }
+  if (props.length === 1) {
+    return createInitialMergedProps(props[0]);
+  }
+  let merged = createInitialMergedProps(props[0]);
+  for (let i = 1; i < props.length; i += 1) {
+    merged = mergeInto(merged, props[i]);
+  }
+  return merged;
+}
+function createInitialMergedProps(inputProps) {
+  if (isPropsGetter(inputProps)) {
+    return {
+      ...inputProps(EMPTY_PROPS)
+    };
+  }
+  return copyInitialProps(inputProps);
+}
+function mergeInto(merged, inputProps) {
+  if (isPropsGetter(inputProps)) {
+    return inputProps(merged);
+  }
+  return mutablyMergeInto(merged, inputProps);
+}
+function copyInitialProps(inputProps) {
+  const copiedProps = {
+    ...inputProps
+  };
+  for (const propName in copiedProps) {
+    const propValue = copiedProps[propName];
+    if (isEventHandler(propName, propValue)) {
+      copiedProps[propName] = wrapEventHandler(propValue);
+    }
+  }
+  return copiedProps;
+}
+function mutablyMergeInto(mergedProps, externalProps) {
+  if (!externalProps) {
+    return mergedProps;
+  }
+  for (const propName in externalProps) {
+    const externalPropValue = externalProps[propName];
+    switch (propName) {
+      case "style": {
+        mergedProps[propName] = mergeObjects(mergedProps.style, externalPropValue);
+        break;
+      }
+      case "className": {
+        mergedProps[propName] = mergeClassNames(mergedProps.className, externalPropValue);
+        break;
+      }
+      default: {
+        if (isEventHandler(propName, externalPropValue)) {
+          mergedProps[propName] = mergeEventHandlers(mergedProps[propName], externalPropValue);
+        } else {
+          mergedProps[propName] = externalPropValue;
+        }
+      }
+    }
+  }
+  return mergedProps;
+}
+function isEventHandler(key, value) {
+  const code0 = key.charCodeAt(0);
+  const code1 = key.charCodeAt(1);
+  const code2 = key.charCodeAt(2);
+  return code0 === 111 && code1 === 110 && code2 >= 65 && code2 <= 90 && (typeof value === "function" || typeof value === "undefined");
+}
+function isPropsGetter(inputProps) {
+  return typeof inputProps === "function";
+}
+function mergeEventHandlers(ourHandler, theirHandler) {
+  if (!theirHandler) {
+    return ourHandler;
+  }
+  if (!ourHandler) {
+    return wrapEventHandler(theirHandler);
+  }
+  return (...args) => {
+    const event = args[0];
+    if (isSyntheticEvent(event)) {
+      const baseUIEvent = event;
+      makeEventPreventable(baseUIEvent);
+      const result2 = theirHandler(...args);
+      if (!baseUIEvent.baseUIHandlerPrevented) {
+        ourHandler?.(...args);
+      }
+      return result2;
+    }
+    const result = theirHandler(...args);
+    ourHandler?.(...args);
+    return result;
+  };
+}
+function wrapEventHandler(handler) {
+  if (!handler) {
+    return handler;
+  }
+  return (...args) => {
+    const event = args[0];
+    if (isSyntheticEvent(event)) {
+      makeEventPreventable(event);
+    }
+    return handler(...args);
+  };
+}
+function makeEventPreventable(event) {
+  event.preventBaseUIHandler = () => {
+    event.baseUIHandlerPrevented = true;
+  };
+  return event;
+}
+function mergeClassNames(ourClassName, theirClassName) {
+  if (theirClassName) {
+    if (ourClassName) {
+      return theirClassName + " " + ourClassName;
+    }
+    return theirClassName;
+  }
+  return ourClassName;
+}
+function isSyntheticEvent(event) {
+  return event != null && typeof event === "object" && "nativeEvent" in event;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useRenderElement.mjs
+var import_react = __toESM(require_react(), 1);
+function useRenderElement(element, componentProps, params = {}) {
+  let renderProp = componentProps.render;
+  if (params.enabled !== false) {
+    renderProp = unwrapLazyRenderProp(renderProp);
+  }
+  const outProps = useRenderElementProps(componentProps, params, renderProp);
+  if (params.enabled === false) {
+    return null;
+  }
+  const state = params.state ?? EMPTY_OBJECT;
+  return evaluateRenderProp(element, renderProp, outProps, state);
+}
+function useRenderElementProps(componentProps, params, renderProp) {
+  const {
+    className: classNameProp,
+    style: styleProp
+  } = componentProps;
+  const {
+    state = EMPTY_OBJECT,
+    ref,
+    props,
+    stateAttributesMapping: stateAttributesMapping5,
+    enabled = true
+  } = params;
+  const className = enabled ? resolveClassName(classNameProp, state) : void 0;
+  const style = enabled ? resolveStyle(styleProp, state) : void 0;
+  const stateProps = enabled ? getStateAttributesProps(state, stateAttributesMapping5) : EMPTY_OBJECT;
+  const resolvedProps = enabled && props ? resolveRenderFunctionProps(props) : void 0;
+  const outProps = enabled ? mergeObjects(stateProps, resolvedProps) ?? {} : EMPTY_OBJECT;
+  if (typeof document !== "undefined") {
+    if (!enabled) {
+      void useMergedRefs(null, null);
+    } else if (Array.isArray(ref)) {
+      outProps.ref = useMergedRefsN([outProps.ref, getReactElementRef(renderProp), ...ref]);
+    } else {
+      outProps.ref = useMergedRefs(outProps.ref, getReactElementRef(renderProp), ref);
+    }
+  }
+  if (!enabled) {
+    return EMPTY_OBJECT;
+  }
+  if (className !== void 0) {
+    outProps.className = mergeClassNames(outProps.className, className);
+  }
+  if (style !== void 0) {
+    outProps.style = mergeObjects(outProps.style, style);
+  }
+  return outProps;
+}
+function resolveRenderFunctionProps(props) {
+  if (Array.isArray(props)) {
+    return mergePropsN(props);
+  }
+  return mergeProps(void 0, props);
+}
+var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+var COMPONENT_IDENTIFIER_PATTERN = /^[A-Z][A-Za-z0-9$]*$/;
+var LOWERCASE_CHARACTER_PATTERN = /[a-z]/;
+function unwrapLazyRenderProp(render) {
+  if (render?.$$typeof !== REACT_LAZY_TYPE) {
+    return render;
+  }
+  const unwrapped = React4.Children.toArray(render)[0];
+  return /* @__PURE__ */ React4.isValidElement(unwrapped) ? unwrapped : render;
+}
+function evaluateRenderProp(element, render, props, state) {
+  if (render) {
+    if (typeof render === "function") {
+      if (true) {
+        warnIfRenderPropLooksLikeComponent(render);
+      }
+      return render(props, state);
+    }
+    const mergedProps = mergeProps(props, render.props);
+    mergedProps.ref = props.ref;
+    if (true) {
+      if (!/* @__PURE__ */ React4.isValidElement(render)) {
+        throw new Error(["Base UI: The `render` prop was provided an invalid React element as `React.isValidElement(render)` is `false`.", "A valid React element must be provided to the `render` prop because it is cloned with props to replace the default element.", "https://base-ui.com/r/invalid-render-prop"].join("\n"));
+      }
+    }
+    return /* @__PURE__ */ React4.cloneElement(render, mergedProps);
+  }
+  return renderTag(element, props);
+}
+function warnIfRenderPropLooksLikeComponent(renderFn) {
+  const functionName = renderFn.name;
+  if (functionName.length === 0) {
+    return;
+  }
+  if (!COMPONENT_IDENTIFIER_PATTERN.test(functionName)) {
+    return;
+  }
+  if (!LOWERCASE_CHARACTER_PATTERN.test(functionName)) {
+    return;
+  }
+  warn(`The \`render\` prop received a function named \`${functionName}\` that starts with an uppercase letter.`, "This usually means a React component was passed directly as `render={Component}`.", "Base UI calls `render` as a plain function, which can break the Rules of Hooks during reconciliation.", "If this is an intentional render callback, rename it to start with a lowercase letter.", "Use `render={<Component />}` or `render={(props) => <Component {...props} />}` instead.", "https://base-ui.com/r/invalid-render-prop");
+}
+function renderTag(Tag, props) {
+  if (Tag === "button") {
+    return /* @__PURE__ */ (0, import_react.createElement)("button", {
+      type: "button",
+      ...props,
+      key: props.key
+    });
+  }
+  if (Tag === "img") {
+    return /* @__PURE__ */ (0, import_react.createElement)("img", {
+      alt: "",
+      ...props,
+      key: props.key
+    });
+  }
+  return /* @__PURE__ */ React4.createElement(Tag, props);
+}
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/safeReact.mjs
+var React5 = __toESM(require_react(), 1);
+var SafeReact = {
+  ...React5
+};
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useStableCallback.mjs
+var useInsertionEffect = SafeReact.useInsertionEffect;
+var useSafeInsertionEffect = (
+  // React 17 doesn't have useInsertionEffect.
+  useInsertionEffect && // Preact replaces useInsertionEffect with useLayoutEffect and fires too late.
+  useInsertionEffect !== SafeReact.useLayoutEffect ? useInsertionEffect : (fn) => fn()
+);
+function useStableCallback(callback) {
+  const stable = useRefWithInit(createStableCallback).current;
+  stable.next = callback;
+  useSafeInsertionEffect(stable.effect);
+  return stable.trampoline;
+}
+function createStableCallback() {
+  const stable = {
+    next: void 0,
+    callback: assertNotCalled,
+    trampoline: (...args) => stable.callback?.(...args),
+    effect: () => {
+      stable.callback = stable.next;
+    }
+  };
+  return stable;
+}
+function assertNotCalled() {
+  if (true) {
+    throw (
+      /* minify-error-disabled */
+      new Error("Base UI: Cannot call an event handler while rendering.")
+    );
+  }
+}
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useIsoLayoutEffect.mjs
+var React6 = __toESM(require_react(), 1);
+var noop = () => {
+};
+var useIsoLayoutEffect = typeof document !== "undefined" ? React6.useLayoutEffect : noop;
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useOpenChangeComplete.mjs
+var React8 = __toESM(require_react(), 1);
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useAnimationsFinished.mjs
+var ReactDOM = __toESM(require_react_dom(), 1);
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useOnMount.mjs
+var React7 = __toESM(require_react(), 1);
+function useOnMount(fn) {
+  React7.useEffect(fn, EMPTY_ARRAY);
+}
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useAnimationFrame.mjs
+var EMPTY = null;
+var LAST_RAF = globalThis.requestAnimationFrame;
+var Scheduler = class {
+  /* This implementation uses an array as a backing data-structure for frame callbacks.
+   * It allows `O(1)` callback cancelling by inserting a `null` in the array, though it
+   * never calls the native `cancelAnimationFrame` if there are no frames left. This can
+   * be much more efficient if there is a call pattern that alterns as
+   * "request-cancel-request-cancel-…".
+   * But in the case of "request-request-…-cancel-cancel-…", it leaves the final animation
+   * frame to run anyway. We turn that frame into a `O(1)` no-op via `callbacksCount`. */
+  callbacks = [];
+  callbacksCount = 0;
+  nextId = 1;
+  startId = 1;
+  isScheduled = false;
+  tick = (timestamp) => {
+    this.isScheduled = false;
+    const currentCallbacks = this.callbacks;
+    const currentCallbacksCount = this.callbacksCount;
+    this.callbacks = [];
+    this.callbacksCount = 0;
+    this.startId = this.nextId;
+    if (currentCallbacksCount > 0) {
+      for (let i = 0; i < currentCallbacks.length; i += 1) {
+        currentCallbacks[i]?.(timestamp);
+      }
+    }
+  };
+  request(fn) {
+    const id = this.nextId;
+    this.nextId += 1;
+    this.callbacks.push(fn);
+    this.callbacksCount += 1;
+    const didRAFChange = LAST_RAF !== requestAnimationFrame && (LAST_RAF = requestAnimationFrame, true);
+    if (!this.isScheduled || didRAFChange) {
+      requestAnimationFrame(this.tick);
+      this.isScheduled = true;
+    }
+    return id;
+  }
+  cancel(id) {
+    const index2 = id - this.startId;
+    if (index2 < 0 || index2 >= this.callbacks.length) {
+      return;
+    }
+    if (this.callbacks[index2] === null) {
+      return;
+    }
+    this.callbacks[index2] = null;
+    this.callbacksCount -= 1;
+  }
+};
+var scheduler = new Scheduler();
+var AnimationFrame = class _AnimationFrame {
+  static create() {
+    return new _AnimationFrame();
+  }
+  static request(fn) {
+    return scheduler.request(fn);
+  }
+  static cancel(id) {
+    return scheduler.cancel(id);
+  }
+  currentId = EMPTY;
+  /**
+   * Executes `fn` after `delay`, clearing any previously scheduled call.
+   */
+  request(fn) {
+    this.cancel();
+    this.currentId = scheduler.request(() => {
+      this.currentId = EMPTY;
+      fn();
+    });
+  }
+  cancel = () => {
+    if (this.currentId !== EMPTY) {
+      scheduler.cancel(this.currentId);
+      this.currentId = EMPTY;
+    }
+  };
+  disposeEffect = () => {
+    return this.cancel;
+  };
+};
+function useAnimationFrame() {
+  const timeout = useRefWithInit(AnimationFrame.create).current;
+  useOnMount(timeout.disposeEffect);
+  return timeout;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/resolveRef.mjs
+function resolveRef(maybeRef) {
+  if (maybeRef == null) {
+    return maybeRef;
+  }
+  return "current" in maybeRef ? maybeRef.current : maybeRef;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/getFiniteAnimations.mjs
+function getFiniteAnimations(element, options) {
+  return element.getAnimations(options).filter((animation) => {
+    const timing = animation.effect?.getTiming();
+    return timing?.duration !== Infinity && timing?.iterations !== Infinity;
+  });
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/TransitionStatusDataAttributes.mjs
+var startingStyle = "data-starting-style";
+var endingStyle = "data-ending-style";
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useAnimationsFinished.mjs
+var pendingCallbacks = null;
+function flushBeforePaint(fn) {
+  if (!pendingCallbacks) {
+    const callbacks = [];
+    pendingCallbacks = callbacks;
+    queueMicrotask(() => {
+      pendingCallbacks = null;
+      ReactDOM.flushSync(() => {
+        for (const callback of callbacks) {
+          callback();
+        }
+      });
+    });
+  }
+  pendingCallbacks.push(fn);
+}
+function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false, batch = false) {
+  const frame = useAnimationFrame();
+  return useStableCallback((fnToExecute, signal = null) => {
+    frame.cancel();
+    const element = resolveRef(elementOrRef);
+    if (element == null) {
+      return;
+    }
+    const resolvedElement = element;
+    const done = () => {
+      if (!batch) {
+        ReactDOM.flushSync(fnToExecute);
+        return;
+      }
+      flushBeforePaint(() => {
+        if (!signal?.aborted) {
+          fnToExecute();
+        }
+      });
+    };
+    if (typeof resolvedElement.getAnimations !== "function" || globalThis.BASE_UI_ANIMATIONS_DISABLED) {
+      fnToExecute();
+      return;
+    }
+    function exec() {
+      Promise.all(getFiniteAnimations(resolvedElement).map((animation) => animation.finished.then(NOOP))).then(() => {
+        if (!signal?.aborted) {
+          done();
+        }
+      }, () => {
+        if (signal?.aborted) {
+          return;
+        }
+        const currentAnimations = getFiniteAnimations(resolvedElement);
+        if (currentAnimations.some((animation) => animation.pending || animation.playState !== "finished")) {
+          exec();
+          return;
+        }
+        done();
+      });
+    }
+    if (waitForStartingStyleRemoved) {
+      const startingStyleAttribute = startingStyle;
+      if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
+        frame.request(exec);
+        return;
+      }
+      const attributeObserver = new MutationObserver(() => {
+        if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
+          attributeObserver.disconnect();
+          exec();
+        }
+      });
+      attributeObserver.observe(resolvedElement, {
+        attributes: true,
+        attributeFilter: [startingStyleAttribute]
+      });
+      signal?.addEventListener("abort", () => attributeObserver.disconnect(), {
+        once: true
+      });
+      return;
+    }
+    frame.request(exec);
+  });
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useOpenChangeComplete.mjs
+function useOpenChangeComplete(parameters) {
+  const {
+    enabled = true,
+    open: open2,
+    ref,
+    batch = false,
+    onComplete: onCompleteParam
+  } = parameters;
+  const onComplete = useStableCallback(onCompleteParam);
+  const runOnceAnimationsFinish = useAnimationsFinished(ref, open2, batch);
+  React8.useEffect(() => {
+    if (!enabled) {
+      return void 0;
+    }
+    const abortController = new AbortController();
+    runOnceAnimationsFinish(onComplete, abortController.signal);
+    return () => {
+      abortController.abort();
+    };
+  }, [enabled, open2, onComplete, runOnceAnimationsFinish]);
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/stateAttributesMapping.mjs
+var STARTING_HOOK = {
+  [startingStyle]: ""
+};
+var ENDING_HOOK = {
+  [endingStyle]: ""
+};
+var transitionStatusMapping = {
+  transitionStatus(value) {
+    if (value === "starting") {
+      return STARTING_HOOK;
+    }
+    if (value === "ending") {
+      return ENDING_HOOK;
+    }
+    return null;
+  }
+};
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useTransitionStatus.mjs
+var React9 = __toESM(require_react(), 1);
+function useTransitionStatus(open2, enableIdleState = false, deferEndingState = false, animateInitialOpen = false) {
+  const [transitionStatus, setTransitionStatus] = React9.useState(open2 && enableIdleState ? "idle" : void 0);
+  const [mounted, setMounted] = React9.useState(open2 && !animateInitialOpen);
+  if (open2 && !mounted) {
+    setMounted(true);
+    setTransitionStatus("starting");
+  }
+  if (!open2 && mounted && transitionStatus !== "ending" && !deferEndingState) {
+    setTransitionStatus("ending");
+  }
+  if (!open2 && !mounted && transitionStatus === "ending") {
+    setTransitionStatus(void 0);
+  }
+  useIsoLayoutEffect(() => {
+    if (!open2 && mounted && transitionStatus !== "ending" && deferEndingState) {
+      const frame = AnimationFrame.request(() => {
+        setTransitionStatus("ending");
+      });
+      return () => {
+        AnimationFrame.cancel(frame);
+      };
+    }
+    return void 0;
+  }, [open2, mounted, transitionStatus, deferEndingState]);
+  useIsoLayoutEffect(() => {
+    if (!open2 || enableIdleState || transitionStatus === void 0) {
+      return void 0;
+    }
+    const frame = AnimationFrame.request(() => {
+      setTransitionStatus(void 0);
+    });
+    return () => {
+      AnimationFrame.cancel(frame);
+    };
+  }, [enableIdleState, open2, transitionStatus]);
+  useIsoLayoutEffect(() => {
+    if (!open2 || !enableIdleState) {
+      return void 0;
+    }
+    if (open2 && mounted && transitionStatus !== "idle") {
+      setTransitionStatus("starting");
+    }
+    const frame = AnimationFrame.request(() => {
+      setTransitionStatus("idle");
+    });
+    return () => {
+      AnimationFrame.cancel(frame);
+    };
+  }, [enableIdleState, open2, mounted, transitionStatus]);
+  return {
+    mounted,
+    setMounted,
+    transitionStatus
+  };
+}
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useTimeout.mjs
+var EMPTY2 = 0;
+var Timeout = class _Timeout {
+  static create() {
+    return new _Timeout();
+  }
+  currentId = EMPTY2;
+  /**
+   * Executes `fn` after `delay`, clearing any previously scheduled call.
+   */
+  start(delay, fn) {
+    this.clear();
+    this.currentId = setTimeout(() => {
+      this.currentId = EMPTY2;
+      fn();
+    }, delay);
+  }
+  isStarted() {
+    return this.currentId !== EMPTY2;
+  }
+  clear = () => {
+    if (this.currentId !== EMPTY2) {
+      clearTimeout(this.currentId);
+      this.currentId = EMPTY2;
+    }
+  };
+  disposeEffect = () => {
+    return this.clear;
+  };
+};
+function useTimeout() {
+  const timeout = useRefWithInit(Timeout.create).current;
+  useOnMount(timeout.disposeEffect);
+  return timeout;
+}
+
+// node_modules/.store/clsx@2.1.1-XOLP1vUL9vEGfpiXm37fAw/node_modules/clsx/dist/clsx.mjs
+function r(e) {
+  var t, f, n = "";
+  if ("string" == typeof e || "number" == typeof e) n += e;
+  else if ("object" == typeof e) if (Array.isArray(e)) {
+    var o = e.length;
+    for (t = 0; t < o; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
+  } else for (f in e) e[f] && (n && (n += " "), n += f);
+  return n;
+}
+function clsx() {
+  for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
+  return n;
+}
+var clsx_default = clsx;
+
+// packages/ui/build-module/icon/icon.mjs
+var import_element = __toESM(require_element(), 1);
+var import_primitives = __toESM(require_primitives(), 1);
+var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
+var Icon = (0, import_element.forwardRef)(
+  function UnforwardedIcon({ icon, size: size4 = 24, style, ...restProps }, ref) {
+    const mergedStyle = icon.props.style || style ? { ...icon.props.style, ...style } : void 0;
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+      import_primitives.SVG,
+      {
+        ref,
+        ...icon.props,
+        ...restProps,
+        ...mergedStyle ? { style: mergedStyle } : {},
+        width: size4,
+        height: size4
+      }
+    );
+  }
+);
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useControlled.mjs
+var React10 = __toESM(require_react(), 1);
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/error.mjs
 var error = createLogOnce("error", "Base UI");
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useControlled.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useControlled.mjs
 function useControlled({
   controlled,
   default: defaultProp,
@@ -324,25 +1185,25 @@ function useControlled({
 }) {
   const {
     current: isControlled
-  } = React.useRef(controlled !== void 0);
-  const [valueState, setValue] = React.useState(defaultProp);
+  } = React10.useRef(controlled !== void 0);
+  const [valueState, setValue] = React10.useState(() => defaultProp);
   const value = isControlled && controlled !== void 0 ? controlled : valueState;
   if (true) {
-    React.useEffect(() => {
+    React10.useEffect(() => {
       if (isControlled !== (controlled !== void 0)) {
         error([`A component is changing the ${isControlled ? "" : "un"}controlled ${state} state of ${name} to be ${isControlled ? "un" : ""}controlled.`, "Elements should not switch from uncontrolled to controlled (or vice versa).", `Decide between using a controlled or uncontrolled ${name} element for the lifetime of the component.`, "The nature of the state is determined during the first render. It's considered controlled if the value is not `undefined`.", "More info: https://fb.me/react-controlled-components"].join("\n"));
       }
     }, [state, name, controlled]);
     const {
       current: defaultValue
-    } = React.useRef(defaultProp);
-    React.useEffect(() => {
+    } = React10.useRef(defaultProp);
+    React10.useEffect(() => {
       if (!isControlled && serializeToDevModeString(defaultValue) !== serializeToDevModeString(defaultProp)) {
         error([`A component is changing the default ${state} state of an uncontrolled ${name} after being initialized. To suppress this warning opt to use a controlled ${name}.`].join("\n"));
       }
     }, [defaultProp]);
   }
-  const setValueIfUncontrolled = React.useCallback((newValue) => {
+  const setValueIfUncontrolled = React10.useCallback((newValue) => {
     if (!isControlled) {
       setValue(newValue);
     }
@@ -376,77 +1237,12 @@ function serializeToDevModeString(input) {
   }
 }
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/safeReact.mjs
-var React2 = __toESM(require_react(), 1);
-var SafeReact = {
-  ...React2
-};
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/composite/list/CompositeList.mjs
+var React12 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useRefWithInit.mjs
-var React3 = __toESM(require_react(), 1);
-var UNINITIALIZED = {};
-function useRefWithInit(init, initArg) {
-  const ref = React3.useRef(UNINITIALIZED);
-  if (ref.current === UNINITIALIZED) {
-    ref.current = init(initArg);
-  }
-  return ref;
-}
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useStableCallback.mjs
-var useInsertionEffect = SafeReact.useInsertionEffect;
-var useSafeInsertionEffect = (
-  // React 17 doesn't have useInsertionEffect.
-  useInsertionEffect && // Preact replaces useInsertionEffect with useLayoutEffect and fires too late.
-  useInsertionEffect !== SafeReact.useLayoutEffect ? useInsertionEffect : (fn) => fn()
-);
-function useStableCallback(callback) {
-  const stable = useRefWithInit(createStableCallback).current;
-  stable.next = callback;
-  useSafeInsertionEffect(stable.effect);
-  return stable.trampoline;
-}
-function createStableCallback() {
-  const stable = {
-    next: void 0,
-    callback: assertNotCalled,
-    trampoline: (...args) => stable.callback?.(...args),
-    effect: () => {
-      stable.callback = stable.next;
-    }
-  };
-  return stable;
-}
-function assertNotCalled() {
-  if (true) {
-    throw (
-      /* minify-error-disabled */
-      new Error("Base UI: Cannot call an event handler while rendering.")
-    );
-  }
-}
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/warn.mjs
-var warn = createLogOnce("warn", "Base UI");
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/empty.mjs
-function NOOP() {
-}
-var EMPTY_ARRAY = Object.freeze([]);
-var EMPTY_OBJECT = Object.freeze({});
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/composite/list/CompositeList.mjs
-var React6 = __toESM(require_react(), 1);
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useIsoLayoutEffect.mjs
-var React4 = __toESM(require_react(), 1);
-var noop = () => {
-};
-var useIsoLayoutEffect = typeof document !== "undefined" ? React4.useLayoutEffect : noop;
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/composite/list/CompositeListContext.mjs
-var React5 = __toESM(require_react(), 1);
-var CompositeListContext = /* @__PURE__ */ React5.createContext({
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/composite/list/CompositeListContext.mjs
+var React11 = __toESM(require_react(), 1);
+var CompositeListContext = /* @__PURE__ */ React11.createContext({
   register: () => {
   },
   unregister: () => {
@@ -459,11 +1255,11 @@ var CompositeListContext = /* @__PURE__ */ React5.createContext({
 });
 if (true) CompositeListContext.displayName = "CompositeListContext";
 function useCompositeListContext() {
-  return React5.useContext(CompositeListContext);
+  return React11.useContext(CompositeListContext);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/composite/list/CompositeList.mjs
-var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/composite/list/CompositeList.mjs
+var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
 function CompositeList(props) {
   const {
     children,
@@ -472,19 +1268,19 @@ function CompositeList(props) {
     onMapChange: onMapChangeProp
   } = props;
   const onMapChange = useStableCallback(onMapChangeProp);
-  const [, setMapTick] = React6.useState(false);
+  const [, setMapTick] = React12.useState(0);
   const listeners = useRefWithInit(createListeners).current;
   const map = useRefWithInit(createMap).current;
-  const nextIndexRef = React6.useRef(0);
-  const isDirtyRef = React6.useRef(true);
-  const itemsRef = React6.useRef(null);
-  const mutationObserverRef = React6.useRef(null);
+  const nextIndexRef = React12.useRef(0);
+  const isDirtyRef = React12.useRef(true);
+  const itemsRef = React12.useRef(null);
+  const mutationObserverRef = React12.useRef(null);
   const scheduleMapUpdate = useStableCallback(() => {
     if (isDirtyRef.current) {
       return;
     }
     isDirtyRef.current = true;
-    setMapTick((tick) => !tick);
+    setMapTick((tick) => tick + 1);
   });
   const register2 = useStableCallback((node, registration) => {
     map.set(node, registration);
@@ -593,13 +1389,13 @@ function CompositeList(props) {
       listeners.delete(fn);
     };
   });
-  const contextValue = React6.useMemo(() => ({
+  const contextValue = React12.useMemo(() => ({
     register: register2,
     unregister,
     subscribeMapChange,
     nextIndexRef
   }), [register2, unregister, subscribeMapChange, nextIndexRef]);
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CompositeListContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(CompositeListContext.Provider, {
     value: contextValue,
     children
   });
@@ -664,458 +1460,42 @@ function hasMovedNode(entries) {
   return false;
 }
 function sortByDocumentPosition(a, b) {
+  if (a.nextElementSibling === b) {
+    return -1;
+  }
+  if (b.nextElementSibling === a) {
+    return 1;
+  }
   return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useRenderElement.mjs
-var React9 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useId.mjs
+var React14 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useMergedRefs.mjs
-function useMergedRefs(a, b, c, d) {
-  const forkRef = useRefWithInit(createForkRef).current;
-  if (didChange(forkRef, a, b, c, d)) {
-    update(forkRef, [a, b, c, d]);
-  }
-  return forkRef.callback;
-}
-function useMergedRefsN(refs) {
-  const forkRef = useRefWithInit(createForkRef).current;
-  if (didChangeN(forkRef, refs)) {
-    update(forkRef, refs);
-  }
-  return forkRef.callback;
-}
-function createForkRef() {
-  return {
-    callback: null,
-    cleanup: null,
-    refs: []
-  };
-}
-function didChange(forkRef, a, b, c, d) {
-  return forkRef.refs[0] !== a || forkRef.refs[1] !== b || forkRef.refs[2] !== c || forkRef.refs[3] !== d;
-}
-function didChangeN(forkRef, newRefs) {
-  return forkRef.refs.length !== newRefs.length || forkRef.refs.some((ref, index2) => ref !== newRefs[index2]);
-}
-function update(forkRef, refs) {
-  forkRef.refs = refs;
-  if (refs.every((ref) => ref == null)) {
-    forkRef.callback = null;
-    return;
-  }
-  forkRef.callback = (instance) => {
-    if (forkRef.cleanup) {
-      forkRef.cleanup();
-      forkRef.cleanup = null;
-    }
-    if (instance != null) {
-      const cleanupCallbacks = Array(refs.length).fill(null);
-      for (let i = 0; i < refs.length; i += 1) {
-        const ref = refs[i];
-        if (ref == null) {
-          continue;
-        }
-        switch (typeof ref) {
-          case "function": {
-            const refCleanup = ref(instance);
-            if (typeof refCleanup === "function") {
-              cleanupCallbacks[i] = refCleanup;
-            }
-            break;
-          }
-          case "object": {
-            ref.current = instance;
-            break;
-          }
-          default:
-        }
-      }
-      forkRef.cleanup = () => {
-        for (let i = 0; i < refs.length; i += 1) {
-          const ref = refs[i];
-          if (ref == null) {
-            continue;
-          }
-          switch (typeof ref) {
-            case "function": {
-              const cleanupCallback = cleanupCallbacks[i];
-              if (typeof cleanupCallback === "function") {
-                cleanupCallback();
-              } else {
-                void ref(null);
-              }
-              break;
-            }
-            case "object": {
-              ref.current = null;
-              break;
-            }
-            default:
-          }
-        }
-      };
-    }
-  };
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useForcedRerendering.mjs
+var React13 = __toESM(require_react(), 1);
+function useForcedRerendering() {
+  const [, setState] = React13.useState({});
+  return React13.useCallback(() => {
+    setState({});
+  }, []);
 }
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/getReactElementRef.mjs
-var React8 = __toESM(require_react(), 1);
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/reactVersion.mjs
-var React7 = __toESM(require_react(), 1);
-var majorVersion = parseInt(React7.version, 10);
-function isReactVersionAtLeast(reactVersionToCheck) {
-  return majorVersion >= reactVersionToCheck;
-}
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/getReactElementRef.mjs
-function getReactElementRef(element) {
-  if (!/* @__PURE__ */ React8.isValidElement(element)) {
-    return null;
-  }
-  const reactElement = element;
-  const propsWithRef = reactElement.props;
-  return (isReactVersionAtLeast(19) ? propsWithRef?.ref : reactElement.ref) ?? null;
-}
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/mergeObjects.mjs
-function mergeObjects(a, b) {
-  if (a && !b) {
-    return a;
-  }
-  if (!a && b) {
-    return b;
-  }
-  if (a || b) {
-    return {
-      ...a,
-      ...b
-    };
-  }
-  return void 0;
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/getStateAttributesProps.mjs
-function getStateAttributesProps(state, customMapping) {
-  const props = {};
-  for (const key in state) {
-    const value = state[key];
-    if (customMapping?.hasOwnProperty(key)) {
-      const customProps = customMapping[key](value);
-      if (customProps != null) {
-        Object.assign(props, customProps);
-      }
-      continue;
-    }
-    if (value === true) {
-      props[`data-${key.toLowerCase()}`] = "";
-    } else if (value) {
-      props[`data-${key.toLowerCase()}`] = value.toString();
-    }
-  }
-  return props;
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/resolveClassName.mjs
-function resolveClassName(className, state) {
-  return typeof className === "function" ? className(state) : className;
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/resolveStyle.mjs
-function resolveStyle(style, state) {
-  return typeof style === "function" ? style(state) : style;
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/merge-props/mergeProps.mjs
-var EMPTY_PROPS = {};
-function mergeProps(a, b, c, d, e) {
-  if (!c && !d && !e && !a) {
-    return createInitialMergedProps(b);
-  }
-  let merged = createInitialMergedProps(a);
-  if (b) {
-    merged = mergeInto(merged, b);
-  }
-  if (c) {
-    merged = mergeInto(merged, c);
-  }
-  if (d) {
-    merged = mergeInto(merged, d);
-  }
-  if (e) {
-    merged = mergeInto(merged, e);
-  }
-  return merged;
-}
-function mergePropsN(props) {
-  if (props.length === 0) {
-    return EMPTY_PROPS;
-  }
-  if (props.length === 1) {
-    return createInitialMergedProps(props[0]);
-  }
-  let merged = createInitialMergedProps(props[0]);
-  for (let i = 1; i < props.length; i += 1) {
-    merged = mergeInto(merged, props[i]);
-  }
-  return merged;
-}
-function createInitialMergedProps(inputProps) {
-  if (isPropsGetter(inputProps)) {
-    return {
-      ...resolvePropsGetter(inputProps, EMPTY_PROPS)
-    };
-  }
-  return copyInitialProps(inputProps);
-}
-function mergeInto(merged, inputProps) {
-  if (isPropsGetter(inputProps)) {
-    return resolvePropsGetter(inputProps, merged);
-  }
-  return mutablyMergeInto(merged, inputProps);
-}
-function copyInitialProps(inputProps) {
-  const copiedProps = {
-    ...inputProps
-  };
-  for (const propName in copiedProps) {
-    const propValue = copiedProps[propName];
-    if (isEventHandler(propName, propValue)) {
-      copiedProps[propName] = wrapEventHandler(propValue);
-    }
-  }
-  return copiedProps;
-}
-function mutablyMergeInto(mergedProps, externalProps) {
-  if (!externalProps) {
-    return mergedProps;
-  }
-  for (const propName in externalProps) {
-    const externalPropValue = externalProps[propName];
-    switch (propName) {
-      case "style": {
-        mergedProps[propName] = mergeObjects(mergedProps.style, externalPropValue);
-        break;
-      }
-      case "className": {
-        mergedProps[propName] = mergeClassNames(mergedProps.className, externalPropValue);
-        break;
-      }
-      default: {
-        if (isEventHandler(propName, externalPropValue)) {
-          mergedProps[propName] = mergeEventHandlers(mergedProps[propName], externalPropValue);
-        } else {
-          mergedProps[propName] = externalPropValue;
-        }
-      }
-    }
-  }
-  return mergedProps;
-}
-function isEventHandler(key, value) {
-  const code0 = key.charCodeAt(0);
-  const code1 = key.charCodeAt(1);
-  const code2 = key.charCodeAt(2);
-  return code0 === 111 && code1 === 110 && code2 >= 65 && code2 <= 90 && (typeof value === "function" || typeof value === "undefined");
-}
-function isPropsGetter(inputProps) {
-  return typeof inputProps === "function";
-}
-function resolvePropsGetter(inputProps, previousProps) {
-  if (isPropsGetter(inputProps)) {
-    return inputProps(previousProps);
-  }
-  return inputProps ?? EMPTY_PROPS;
-}
-function mergeEventHandlers(ourHandler, theirHandler) {
-  if (!theirHandler) {
-    return ourHandler;
-  }
-  if (!ourHandler) {
-    return wrapEventHandler(theirHandler);
-  }
-  return (...args) => {
-    const event = args[0];
-    if (isSyntheticEvent(event)) {
-      const baseUIEvent = event;
-      makeEventPreventable(baseUIEvent);
-      const result2 = theirHandler(...args);
-      if (!baseUIEvent.baseUIHandlerPrevented) {
-        ourHandler?.(...args);
-      }
-      return result2;
-    }
-    const result = theirHandler(...args);
-    ourHandler?.(...args);
-    return result;
-  };
-}
-function wrapEventHandler(handler) {
-  if (!handler) {
-    return handler;
-  }
-  return (...args) => {
-    const event = args[0];
-    if (isSyntheticEvent(event)) {
-      makeEventPreventable(event);
-    }
-    return handler(...args);
-  };
-}
-function makeEventPreventable(event) {
-  event.preventBaseUIHandler = () => {
-    event.baseUIHandlerPrevented = true;
-  };
-  return event;
-}
-function mergeClassNames(ourClassName, theirClassName) {
-  if (theirClassName) {
-    if (ourClassName) {
-      return theirClassName + " " + ourClassName;
-    }
-    return theirClassName;
-  }
-  return ourClassName;
-}
-function isSyntheticEvent(event) {
-  return event != null && typeof event === "object" && "nativeEvent" in event;
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useRenderElement.mjs
-var import_react = __toESM(require_react(), 1);
-function useRenderElement(element, componentProps, params = {}) {
-  let renderProp = componentProps.render;
-  if (params.enabled !== false) {
-    renderProp = unwrapLazyRenderProp(renderProp);
-  }
-  const outProps = useRenderElementProps(componentProps, params, renderProp);
-  if (params.enabled === false) {
-    return null;
-  }
-  const state = params.state ?? EMPTY_OBJECT;
-  return evaluateRenderProp(element, renderProp, outProps, state);
-}
-function useRenderElementProps(componentProps, params, renderProp) {
-  const {
-    className: classNameProp,
-    style: styleProp
-  } = componentProps;
-  const {
-    state = EMPTY_OBJECT,
-    ref,
-    props,
-    stateAttributesMapping: stateAttributesMapping5,
-    enabled = true
-  } = params;
-  const className = enabled ? resolveClassName(classNameProp, state) : void 0;
-  const style = enabled ? resolveStyle(styleProp, state) : void 0;
-  const stateProps = enabled ? getStateAttributesProps(state, stateAttributesMapping5) : EMPTY_OBJECT;
-  const resolvedProps = enabled && props ? resolveRenderFunctionProps(props) : void 0;
-  const outProps = enabled ? mergeObjects(stateProps, resolvedProps) ?? {} : EMPTY_OBJECT;
-  if (typeof document !== "undefined") {
-    if (!enabled) {
-      void useMergedRefs(null, null);
-    } else if (Array.isArray(ref)) {
-      outProps.ref = useMergedRefsN([outProps.ref, getReactElementRef(renderProp), ...ref]);
-    } else {
-      outProps.ref = useMergedRefs(outProps.ref, getReactElementRef(renderProp), ref);
-    }
-  }
-  if (!enabled) {
-    return EMPTY_OBJECT;
-  }
-  if (className !== void 0) {
-    outProps.className = mergeClassNames(outProps.className, className);
-  }
-  if (style !== void 0) {
-    outProps.style = mergeObjects(outProps.style, style);
-  }
-  return outProps;
-}
-function resolveRenderFunctionProps(props) {
-  if (Array.isArray(props)) {
-    return mergePropsN(props);
-  }
-  return mergeProps(void 0, props);
-}
-var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
-var COMPONENT_IDENTIFIER_PATTERN = /^[A-Z][A-Za-z0-9$]*$/;
-var LOWERCASE_CHARACTER_PATTERN = /[a-z]/;
-function unwrapLazyRenderProp(render) {
-  if (render?.$$typeof !== REACT_LAZY_TYPE) {
-    return render;
-  }
-  const unwrapped = React9.Children.toArray(render)[0];
-  return /* @__PURE__ */ React9.isValidElement(unwrapped) ? unwrapped : render;
-}
-function evaluateRenderProp(element, render, props, state) {
-  if (render) {
-    if (typeof render === "function") {
-      if (true) {
-        warnIfRenderPropLooksLikeComponent(render);
-      }
-      return render(props, state);
-    }
-    const mergedProps = mergeProps(props, render.props);
-    mergedProps.ref = props.ref;
-    if (true) {
-      if (!/* @__PURE__ */ React9.isValidElement(render)) {
-        throw new Error(["Base UI: The `render` prop was provided an invalid React element as `React.isValidElement(render)` is `false`.", "A valid React element must be provided to the `render` prop because it is cloned with props to replace the default element.", "https://base-ui.com/r/invalid-render-prop"].join("\n"));
-      }
-    }
-    return /* @__PURE__ */ React9.cloneElement(render, mergedProps);
-  }
-  if (element) {
-    if (typeof element === "string") {
-      return renderTag(element, props);
-    }
-  }
-  throw new Error(true ? "Base UI: Render element or function are not defined." : formatErrorMessage_default(8));
-}
-function warnIfRenderPropLooksLikeComponent(renderFn) {
-  const functionName = renderFn.name;
-  if (functionName.length === 0) {
-    return;
-  }
-  if (!COMPONENT_IDENTIFIER_PATTERN.test(functionName)) {
-    return;
-  }
-  if (!LOWERCASE_CHARACTER_PATTERN.test(functionName)) {
-    return;
-  }
-  warn(`The \`render\` prop received a function named \`${functionName}\` that starts with an uppercase letter.`, "This usually means a React component was passed directly as `render={Component}`.", "Base UI calls `render` as a plain function, which can break the Rules of Hooks during reconciliation.", "If this is an intentional render callback, rename it to start with a lowercase letter.", "Use `render={<Component />}` or `render={(props) => <Component {...props} />}` instead.", "https://base-ui.com/r/invalid-render-prop");
-}
-function renderTag(Tag, props) {
-  if (Tag === "button") {
-    return /* @__PURE__ */ (0, import_react.createElement)("button", {
-      type: "button",
-      ...props,
-      key: props.key
-    });
-  }
-  if (Tag === "img") {
-    return /* @__PURE__ */ (0, import_react.createElement)("img", {
-      alt: "",
-      ...props,
-      key: props.key
-    });
-  }
-  return /* @__PURE__ */ React9.createElement(Tag, props);
-}
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useId.mjs
-var React10 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useId.mjs
 var globalId = 0;
 function useGlobalId(idOverride, prefix = "mui") {
-  const [defaultId, setDefaultId] = React10.useState(idOverride);
-  const id = idOverride || defaultId;
-  React10.useEffect(() => {
-    if (defaultId == null) {
+  const defaultId = React14.useRef(void 0);
+  const forceRerender = useForcedRerendering();
+  const id = idOverride ?? defaultId.current;
+  React14.useEffect(() => {
+    if (defaultId.current == null) {
       globalId += 1;
-      setDefaultId(`${prefix}-${globalId}`);
+      defaultId.current = `${prefix}-${globalId}`;
+      if (idOverride == null) {
+        forceRerender();
+      }
     }
-  }, [defaultId, prefix]);
+  }, [idOverride, prefix, forceRerender]);
   return id;
 }
 var maybeReactUseId = SafeReact.useId;
@@ -1127,12 +1507,47 @@ function useId(idOverride, prefix) {
   return useGlobalId(idOverride, prefix);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useBaseUiId.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useBaseUiId.mjs
 function useBaseUiId(idOverride) {
   return useId(idOverride, "base-ui");
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/reason-parts.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/createBaseUIEventDetails.mjs
+function createChangeEventDetails(reason, event, trigger, customProperties) {
+  let canceled = false;
+  let allowPropagation = false;
+  const custom = customProperties ?? EMPTY_OBJECT;
+  const details = {
+    reason,
+    event: event ?? new Event("base-ui"),
+    cancel() {
+      canceled = true;
+    },
+    allowPropagation() {
+      allowPropagation = true;
+    },
+    get isCanceled() {
+      return canceled;
+    },
+    get isPropagationAllowed() {
+      return allowPropagation;
+    },
+    trigger,
+    ...custom
+  };
+  return details;
+}
+function createGenericEventDetails(reason, event, customProperties) {
+  const custom = customProperties ?? EMPTY_OBJECT;
+  const details = {
+    reason,
+    event: event ?? new Event("base-ui"),
+    ...custom
+  };
+  return details;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/reason-parts.mjs
 var reason_parts_exports = {};
 __export(reason_parts_exports, {
   cancelOpen: () => cancelOpen,
@@ -1161,6 +1576,7 @@ __export(reason_parts_exports, {
   none: () => none,
   outsidePress: () => outsidePress,
   pointer: () => pointer,
+  popupClose: () => popupClose,
   scrub: () => scrub,
   siblingOpen: () => siblingOpen,
   swipe: () => swipe,
@@ -1198,6 +1614,7 @@ var pointer = "pointer";
 var drag = "drag";
 var wheel = "wheel";
 var scrub = "scrub";
+var popupClose = "popup-close";
 var cancelOpen = "cancel-open";
 var siblingOpen = "sibling-open";
 var disabled = "disabled";
@@ -1207,200 +1624,8 @@ var imperativeAction = "imperative-action";
 var swipe = "swipe";
 var windowResize = "window-resize";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/createBaseUIEventDetails.mjs
-function createChangeEventDetails(reason, event, trigger, customProperties) {
-  let canceled = false;
-  let allowPropagation = false;
-  const custom = customProperties ?? EMPTY_OBJECT;
-  const details = {
-    reason,
-    event: event ?? new Event("base-ui"),
-    cancel() {
-      canceled = true;
-    },
-    allowPropagation() {
-      allowPropagation = true;
-    },
-    get isCanceled() {
-      return canceled;
-    },
-    get isPropagationAllowed() {
-      return allowPropagation;
-    },
-    trigger,
-    ...custom
-  };
-  return details;
-}
-function createGenericEventDetails(reason, event, customProperties) {
-  const custom = customProperties ?? EMPTY_OBJECT;
-  const details = {
-    reason,
-    event: event ?? new Event("base-ui"),
-    ...custom
-  };
-  return details;
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useTransitionStatus.mjs
-var React12 = __toESM(require_react(), 1);
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useOnMount.mjs
-var React11 = __toESM(require_react(), 1);
-function useOnMount(fn) {
-  React11.useEffect(fn, EMPTY_ARRAY);
-}
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useAnimationFrame.mjs
-var EMPTY = null;
-var LAST_RAF = globalThis.requestAnimationFrame;
-var Scheduler = class {
-  /* This implementation uses an array as a backing data-structure for frame callbacks.
-   * It allows `O(1)` callback cancelling by inserting a `null` in the array, though it
-   * never calls the native `cancelAnimationFrame` if there are no frames left. This can
-   * be much more efficient if there is a call pattern that alterns as
-   * "request-cancel-request-cancel-…".
-   * But in the case of "request-request-…-cancel-cancel-…", it leaves the final animation
-   * frame to run anyway. We turn that frame into a `O(1)` no-op via `callbacksCount`. */
-  callbacks = [];
-  callbacksCount = 0;
-  nextId = 1;
-  startId = 1;
-  isScheduled = false;
-  tick = (timestamp) => {
-    this.isScheduled = false;
-    const currentCallbacks = this.callbacks;
-    const currentCallbacksCount = this.callbacksCount;
-    this.callbacks = [];
-    this.callbacksCount = 0;
-    this.startId = this.nextId;
-    if (currentCallbacksCount > 0) {
-      for (let i = 0; i < currentCallbacks.length; i += 1) {
-        currentCallbacks[i]?.(timestamp);
-      }
-    }
-  };
-  request(fn) {
-    const id = this.nextId;
-    this.nextId += 1;
-    this.callbacks.push(fn);
-    this.callbacksCount += 1;
-    const didRAFChange = LAST_RAF !== requestAnimationFrame && (LAST_RAF = requestAnimationFrame, true);
-    if (!this.isScheduled || didRAFChange) {
-      requestAnimationFrame(this.tick);
-      this.isScheduled = true;
-    }
-    return id;
-  }
-  cancel(id) {
-    const index2 = id - this.startId;
-    if (index2 < 0 || index2 >= this.callbacks.length) {
-      return;
-    }
-    if (this.callbacks[index2] === null) {
-      return;
-    }
-    this.callbacks[index2] = null;
-    this.callbacksCount -= 1;
-  }
-};
-var scheduler = new Scheduler();
-var AnimationFrame = class _AnimationFrame {
-  static create() {
-    return new _AnimationFrame();
-  }
-  static request(fn) {
-    return scheduler.request(fn);
-  }
-  static cancel(id) {
-    return scheduler.cancel(id);
-  }
-  currentId = EMPTY;
-  /**
-   * Executes `fn` after `delay`, clearing any previously scheduled call.
-   */
-  request(fn) {
-    this.cancel();
-    this.currentId = scheduler.request(() => {
-      this.currentId = EMPTY;
-      fn();
-    });
-  }
-  cancel = () => {
-    if (this.currentId !== EMPTY) {
-      scheduler.cancel(this.currentId);
-      this.currentId = EMPTY;
-    }
-  };
-  disposeEffect = () => {
-    return this.cancel;
-  };
-};
-function useAnimationFrame() {
-  const timeout = useRefWithInit(AnimationFrame.create).current;
-  useOnMount(timeout.disposeEffect);
-  return timeout;
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useTransitionStatus.mjs
-function useTransitionStatus(open2, enableIdleState = false, deferEndingState = false, animateInitialOpen = false) {
-  const [transitionStatus, setTransitionStatus] = React12.useState(open2 && enableIdleState ? "idle" : void 0);
-  const [mounted, setMounted] = React12.useState(open2 && !animateInitialOpen);
-  if (open2 && !mounted) {
-    setMounted(true);
-    setTransitionStatus("starting");
-  }
-  if (!open2 && mounted && transitionStatus !== "ending" && !deferEndingState) {
-    setTransitionStatus("ending");
-  }
-  if (!open2 && !mounted && transitionStatus === "ending") {
-    setTransitionStatus(void 0);
-  }
-  useIsoLayoutEffect(() => {
-    if (!open2 && mounted && transitionStatus !== "ending" && deferEndingState) {
-      const frame = AnimationFrame.request(() => {
-        setTransitionStatus("ending");
-      });
-      return () => {
-        AnimationFrame.cancel(frame);
-      };
-    }
-    return void 0;
-  }, [open2, mounted, transitionStatus, deferEndingState]);
-  useIsoLayoutEffect(() => {
-    if (!open2 || enableIdleState) {
-      return void 0;
-    }
-    const frame = AnimationFrame.request(() => {
-      setTransitionStatus(void 0);
-    });
-    return () => {
-      AnimationFrame.cancel(frame);
-    };
-  }, [enableIdleState, open2]);
-  useIsoLayoutEffect(() => {
-    if (!open2 || !enableIdleState) {
-      return void 0;
-    }
-    if (open2 && mounted && transitionStatus !== "idle") {
-      setTransitionStatus("starting");
-    }
-    const frame = AnimationFrame.request(() => {
-      setTransitionStatus("idle");
-    });
-    return () => {
-      AnimationFrame.cancel(frame);
-    };
-  }, [enableIdleState, open2, mounted, transitionStatus]);
-  return {
-    mounted,
-    setMounted,
-    transitionStatus
-  };
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/composite/list/useCompositeListItem.mjs
-var React13 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/composite/list/useCompositeListItem.mjs
+var React15 = __toESM(require_react(), 1);
 function useCompositeListItem(params = {}) {
   const {
     guess,
@@ -1415,8 +1640,8 @@ function useCompositeListItem(params = {}) {
     subscribeMapChange,
     nextIndexRef
   } = useCompositeListContext();
-  const indexRef = React13.useRef(-1);
-  const [internalIndex, setInternalIndex] = React13.useState(externalIndex == null && guess ? () => {
+  const indexRef = React15.useRef(-1);
+  const [internalIndex, setInternalIndex] = React15.useState(externalIndex == null && guess ? () => {
     if (indexRef.current === -1) {
       const newIndex = nextIndexRef.current;
       nextIndexRef.current += 1;
@@ -1425,8 +1650,8 @@ function useCompositeListItem(params = {}) {
     return indexRef.current;
   } : -1);
   const index2 = externalIndex ?? internalIndex;
-  const componentRef = React13.useRef(null);
-  const ref = React13.useCallback((node) => {
+  const componentRef = React15.useRef(null);
+  const ref = React15.useCallback((node) => {
     const previousNode = componentRef.current;
     if (previousNode) {
       unregister(previousNode);
@@ -1458,31 +1683,8 @@ function useCompositeListItem(params = {}) {
   };
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/TransitionStatusDataAttributes.mjs
-var startingStyle = "data-starting-style";
-var endingStyle = "data-ending-style";
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/stateAttributesMapping.mjs
-var STARTING_HOOK = {
-  [startingStyle]: ""
-};
-var ENDING_HOOK = {
-  [endingStyle]: ""
-};
-var transitionStatusMapping = {
-  transitionStatus(value) {
-    if (value === "starting") {
-      return STARTING_HOOK;
-    }
-    if (value === "ending") {
-      return ENDING_HOOK;
-    }
-    return null;
-  }
-};
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/use-button/useButton.mjs
-var React16 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/use-button/useButton.mjs
+var React18 = __toESM(require_react(), 1);
 
 // node_modules/.store/@floating-ui/utils@0.2.12-gOxTzMf36nCrbeHpEew-rw/node_modules/@floating-ui/utils/dist/floating-ui.utils.dom.mjs
 function hasWindow() {
@@ -1640,20 +1842,20 @@ function getFrameElement(win) {
   return win.parent && Object.getPrototypeOf(win.parent) ? win.frameElement : null;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/composite/root/CompositeRootContext.mjs
-var React14 = __toESM(require_react(), 1);
-var CompositeRootContext = /* @__PURE__ */ React14.createContext(void 0);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/composite/root/CompositeRootContext.mjs
+var React16 = __toESM(require_react(), 1);
+var CompositeRootContext = /* @__PURE__ */ React16.createContext(void 0);
 if (true) CompositeRootContext.displayName = "CompositeRootContext";
 function useCompositeRootContext(optional = false) {
-  const context = React14.useContext(CompositeRootContext);
+  const context = React16.useContext(CompositeRootContext);
   if (context === void 0 && !optional) {
     throw new Error(true ? "Base UI: CompositeRootContext is missing. Composite parts must be placed within <Composite.Root>." : formatErrorMessage_default(16));
   }
   return context;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/useFocusableWhenDisabled.mjs
-var React15 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/useFocusableWhenDisabled.mjs
+var React17 = __toESM(require_react(), 1);
 function useFocusableWhenDisabled(parameters) {
   const {
     focusableWhenDisabled,
@@ -1664,7 +1866,7 @@ function useFocusableWhenDisabled(parameters) {
   } = parameters;
   const isFocusableComposite = composite && focusableWhenDisabled !== false;
   const isNonFocusableComposite = composite && focusableWhenDisabled === false;
-  const props = React15.useMemo(() => {
+  const props = React17.useMemo(() => {
     const additionalProps = {
       // allow Tabbing away from focusableWhenDisabled elements
       onKeyDown(event) {
@@ -1692,20 +1894,22 @@ function useFocusableWhenDisabled(parameters) {
   };
 }
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/owner.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/owner.mjs
 function ownerDocument(node) {
   return node?.ownerDocument || document;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/dispatchClickWithModifiers.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/dispatchClickWithModifiers.mjs
 function dispatchClickWithModifiers(target, sourceEvent, {
-  detail = 0
+  detail = 0,
+  pointerType = ""
 } = {}) {
   target.dispatchEvent(new (getWindow(target)).PointerEvent("click", {
     bubbles: true,
     cancelable: true,
     composed: true,
     detail,
+    pointerType,
     shiftKey: sourceEvent.shiftKey,
     ctrlKey: sourceEvent.ctrlKey,
     altKey: sourceEvent.altKey,
@@ -1713,7 +1917,7 @@ function dispatchClickWithModifiers(target, sourceEvent, {
   }));
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/use-button/useButton.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/use-button/useButton.mjs
 function useButton(parameters = {}) {
   const {
     disabled: disabled2 = false,
@@ -1722,7 +1926,7 @@ function useButton(parameters = {}) {
     native: isNativeButton = true,
     composite: compositeProp
   } = parameters;
-  const elementRef = React16.useRef(null);
+  const elementRef = React18.useRef(null);
   const compositeRootContext = useCompositeRootContext(true);
   const isCompositeItem = compositeProp ?? compositeRootContext !== void 0;
   const {
@@ -1735,7 +1939,7 @@ function useButton(parameters = {}) {
     isNativeButton
   });
   if (true) {
-    React16.useEffect(() => {
+    React18.useEffect(() => {
       if (!elementRef.current) {
         return;
       }
@@ -1753,7 +1957,7 @@ function useButton(parameters = {}) {
       }
     }, [isNativeButton]);
   }
-  const updateDisabled = React16.useCallback(() => {
+  const updateDisabled = React18.useCallback(() => {
     const element = elementRef.current;
     if (!isButtonElement(element)) {
       return;
@@ -1763,7 +1967,7 @@ function useButton(parameters = {}) {
     }
   }, [disabled2, focusableWhenDisabledProps.disabled, isCompositeItem]);
   useIsoLayoutEffect(updateDisabled, [updateDisabled]);
-  const getButtonProps = React16.useCallback((externalProps = {}) => {
+  const getButtonProps = React18.useCallback((externalProps = {}) => {
     const {
       onClick: externalOnClick,
       onMouseDown: externalOnMouseDown,
@@ -1876,7 +2080,7 @@ function isValidLinkElement(elem) {
   return isHTMLElement(elem) && elem.tagName === "A" && Boolean(elem.href);
 }
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/addEventListener.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/addEventListener.mjs
 function addEventListener(target, type, listener, options) {
   target.addEventListener(type, listener, options);
   return () => {
@@ -1884,7 +2088,7 @@ function addEventListener(target, type, listener, options) {
   };
 }
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useValueAsRef.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useValueAsRef.mjs
 function useValueAsRef(value) {
   const latest = useRefWithInit(createLatestRef, value).current;
   latest.next = value;
@@ -1902,127 +2106,7 @@ function createLatestRef(value) {
   return latest;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useOpenChangeComplete.mjs
-var React17 = __toESM(require_react(), 1);
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useAnimationsFinished.mjs
-var ReactDOM = __toESM(require_react_dom(), 1);
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/resolveRef.mjs
-function resolveRef(maybeRef) {
-  if (maybeRef == null) {
-    return maybeRef;
-  }
-  return "current" in maybeRef ? maybeRef.current : maybeRef;
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useAnimationsFinished.mjs
-var pendingCallbacks = null;
-function flushBeforePaint(fn) {
-  if (!pendingCallbacks) {
-    const callbacks = [];
-    pendingCallbacks = callbacks;
-    queueMicrotask(() => {
-      pendingCallbacks = null;
-      ReactDOM.flushSync(() => {
-        for (const callback of callbacks) {
-          callback();
-        }
-      });
-    });
-  }
-  pendingCallbacks.push(fn);
-}
-function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false, batch = false) {
-  const frame = useAnimationFrame();
-  return useStableCallback((fnToExecute, signal = null) => {
-    frame.cancel();
-    const element = resolveRef(elementOrRef);
-    if (element == null) {
-      return;
-    }
-    const resolvedElement = element;
-    const done = () => {
-      if (!batch) {
-        ReactDOM.flushSync(fnToExecute);
-        return;
-      }
-      flushBeforePaint(() => {
-        if (!signal?.aborted) {
-          fnToExecute();
-        }
-      });
-    };
-    if (typeof resolvedElement.getAnimations !== "function" || globalThis.BASE_UI_ANIMATIONS_DISABLED) {
-      fnToExecute();
-      return;
-    }
-    function exec() {
-      Promise.all(resolvedElement.getAnimations().map((animation) => animation.finished)).then(() => {
-        if (!signal?.aborted) {
-          done();
-        }
-      }, () => {
-        if (signal?.aborted) {
-          return;
-        }
-        const currentAnimations = resolvedElement.getAnimations();
-        if (currentAnimations.some((animation) => animation.pending || animation.playState !== "finished")) {
-          exec();
-          return;
-        }
-        done();
-      });
-    }
-    if (waitForStartingStyleRemoved) {
-      const startingStyleAttribute = startingStyle;
-      if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
-        frame.request(exec);
-        return;
-      }
-      const attributeObserver = new MutationObserver(() => {
-        if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
-          attributeObserver.disconnect();
-          exec();
-        }
-      });
-      attributeObserver.observe(resolvedElement, {
-        attributes: true,
-        attributeFilter: [startingStyleAttribute]
-      });
-      signal?.addEventListener("abort", () => attributeObserver.disconnect(), {
-        once: true
-      });
-      return;
-    }
-    frame.request(exec);
-  });
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useOpenChangeComplete.mjs
-function useOpenChangeComplete(parameters) {
-  const {
-    enabled = true,
-    open: open2,
-    ref,
-    batch = false,
-    onComplete: onCompleteParam
-  } = parameters;
-  const onComplete = useStableCallback(onCompleteParam);
-  const runOnceAnimationsFinish = useAnimationsFinished(ref, open2, batch);
-  React17.useEffect(() => {
-    if (!enabled) {
-      return void 0;
-    }
-    const abortController = new AbortController();
-    runOnceAnimationsFinish(onComplete, abortController.signal);
-    return () => {
-      abortController.abort();
-    };
-  }, [enabled, open2, onComplete, runOnceAnimationsFinish]);
-}
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/platform/parts.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/platform/parts.mjs
 var parts_exports = {};
 __export(parts_exports, {
   engine: () => engine_exports,
@@ -2032,7 +2116,7 @@ __export(parts_exports, {
   screenReader: () => screen_reader_exports
 });
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/platform/os.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/platform/os.mjs
 var os_exports = {};
 __export(os_exports, {
   android: () => android,
@@ -2043,7 +2127,7 @@ __export(os_exports, {
   windows: () => windows
 });
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/platform/shared.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/platform/shared.mjs
 function readRawData() {
   if (typeof navigator === "undefined") {
     return {
@@ -2079,7 +2163,7 @@ var {
 var lowerUserAgent = userAgent.toLowerCase();
 var lowerPlatform = platform.toLowerCase();
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/platform/os.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/platform/os.mjs
 var ios = /^i(os$|p)/.test(lowerPlatform) || lowerPlatform === "macintel" && maxTouchPoints > 1;
 var ANDROID_STRING = "android";
 var android = lowerPlatform === ANDROID_STRING || lowerUserAgent.includes(ANDROID_STRING);
@@ -2088,7 +2172,7 @@ var windows = lowerPlatform.startsWith("win");
 var linux = !android && /^(linux|chrome os)/.test(lowerPlatform);
 var apple = mac || ios;
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/platform/engine.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/platform/engine.mjs
 var engine_exports = {};
 __export(engine_exports, {
   blink: () => blink,
@@ -2099,64 +2183,28 @@ var webkit = typeof CSS !== "undefined" && !!CSS.supports?.("-webkit-backdrop-fi
 var gecko = !webkit && lowerUserAgent.includes("firefox");
 var blink = !webkit && lowerUserAgent.includes("chrom");
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/platform/screen-reader.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/platform/screen-reader.mjs
 var screen_reader_exports = {};
 __export(screen_reader_exports, {
   voiceOver: () => voiceOver
 });
 var voiceOver = apple;
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/platform/env.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/platform/env.mjs
 var env_exports = {};
 __export(env_exports, {
   jsdom: () => jsdom
 });
 var jsdom = /jsdom|happydom/.test(lowerUserAgent);
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/platform/media-query.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/platform/media-query.mjs
 var media_query_exports = {};
 __export(media_query_exports, {
   iOS: () => iOS
 });
 var iOS = "@supports (-webkit-touch-callout: none)";
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useTimeout.mjs
-var EMPTY2 = 0;
-var Timeout = class _Timeout {
-  static create() {
-    return new _Timeout();
-  }
-  currentId = EMPTY2;
-  /**
-   * Executes `fn` after `delay`, clearing any previously scheduled call.
-   */
-  start(delay, fn) {
-    this.clear();
-    this.currentId = setTimeout(() => {
-      this.currentId = EMPTY2;
-      fn();
-    }, delay);
-  }
-  isStarted() {
-    return this.currentId !== EMPTY2;
-  }
-  clear = () => {
-    if (this.currentId !== EMPTY2) {
-      clearTimeout(this.currentId);
-      this.currentId = EMPTY2;
-    }
-  };
-  disposeEffect = () => {
-    return this.clear;
-  };
-};
-function useTimeout() {
-  const timeout = useRefWithInit(Timeout.create).current;
-  useOnMount(timeout.disposeEffect);
-  return timeout;
-}
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useScrollLock.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useScrollLock.mjs
 var originalHtmlStyles = {};
 var originalBodyStyles = {};
 var originalHtmlScrollBehavior = "";
@@ -2376,10 +2424,10 @@ function useScrollLock(enabled = true, referenceElement = null) {
   }, [enabled, referenceElement]);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/components/FloatingDelayGroup.mjs
-var React18 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingDelayGroup.mjs
+var React19 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/utils/event.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/utils/event.mjs
 function stopEvent(event) {
   event.preventDefault();
   event.stopPropagation();
@@ -2400,7 +2448,10 @@ function isVirtualPointerEvent(event) {
   if (parts_exports.env.jsdom) {
     return false;
   }
-  return !parts_exports.os.android && event.width === 0 && event.height === 0 || parts_exports.os.android && event.width === 1 && event.height === 1 && event.pressure === 0 && event.detail === 0 && event.pointerType === "mouse" || // iOS VoiceOver returns 0.333• for width/height.
+  return !parts_exports.os.android && event.width === 0 && event.height === 0 || // Chrome synthesizes a screen reader press (TalkBack, VoiceOver, NVDA) as a 1x1 mouse
+  // `pointerdown` with no pressure. TalkBack can report a pressed button, while desktop
+  // mouse presses can report no pressure, so only require no pressed button off Android.
+  event.type === "pointerdown" && event.width === 1 && event.height === 1 && event.pressure === 0 && event.detail === 0 && event.pointerType === "mouse" && (parts_exports.os.android || event.buttons === 0) || // iOS VoiceOver returns 0.333• for width/height.
   event.width < 1 && event.height < 1 && event.pressure === 0 && event.detail === 0 && event.pointerType === "touch";
 }
 function isMouseLikePointerType(pointerType, strict) {
@@ -2415,7 +2466,7 @@ function isClickLikeEvent(event) {
   return type === "click" || type === "mousedown" || type === "keydown" || type === "keyup";
 }
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/shadowDom.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/shadowDom.mjs
 function activeElement(doc) {
   let element = doc.activeElement;
   while (element?.shadowRoot?.activeElement != null) {
@@ -2442,6 +2493,16 @@ function contains(parent, child) {
   }
   return false;
 }
+function closest(node, selector) {
+  let current = node;
+  while (current) {
+    if (isElement(current) && current.matches(selector)) {
+      return current;
+    }
+    current = current.assignedSlot ?? current.parentNode ?? (isShadowRoot(current) ? current.host : null);
+  }
+  return null;
+}
 function getTarget(event) {
   if ("composedPath" in event) {
     return event.composedPath()[0] ?? event.target;
@@ -2449,7 +2510,7 @@ function getTarget(event) {
   return event.target;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/utils/constants.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/utils/constants.mjs
 var FOCUSABLE_ATTRIBUTE = "data-base-ui-focusable";
 var TYPEABLE_SELECTOR = "input:not([type='hidden']):not([disabled]),[contenteditable]:not([contenteditable='false']),textarea:not([disabled])";
 var ARROW_LEFT = "ArrowLeft";
@@ -2457,12 +2518,12 @@ var ARROW_RIGHT = "ArrowRight";
 var ARROW_UP = "ArrowUp";
 var ARROW_DOWN = "ArrowDown";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/CommonPopupDataAttributes.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/CommonPopupDataAttributes.mjs
 var open = "data-open";
 var closed = "data-closed";
 var anchorHidden = "data-anchor-hidden";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/CommonTriggerDataAttributes.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/CommonTriggerDataAttributes.mjs
 var CommonTriggerDataAttributes_exports = {};
 __export(CommonTriggerDataAttributes_exports, {
   popupOpen: () => popupOpen,
@@ -2471,7 +2532,7 @@ __export(CommonTriggerDataAttributes_exports, {
 var popupOpen = "data-popup-open";
 var pressed = "data-pressed";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/popupStateMapping.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/popupStateMapping.mjs
 var TRIGGER_HOOK = {
   [popupOpen]: ""
 };
@@ -2523,11 +2584,11 @@ var popupTransitionStateMapping = {
   ...transitionStatusMapping
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/trigger/TooltipTriggerDataAttributes.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/trigger/TooltipTriggerDataAttributes.mjs
 var popupOpen2 = CommonTriggerDataAttributes_exports.popupOpen;
 var triggerDisabled = "data-trigger-disabled";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/utils/element.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/utils/element.mjs
 function isTargetInsideEnabledTrigger(target, triggerElements) {
   if (!isElement(target)) {
     return false;
@@ -2560,7 +2621,7 @@ function isTypeableElement(element) {
   return isHTMLElement(element) && element.matches(TYPEABLE_SELECTOR);
 }
 function isInteractiveElement(element) {
-  return element?.closest(`button,a[href],[role="button"],select,[tabindex]:not([tabindex="-1"]),${TYPEABLE_SELECTOR}`) != null;
+  return closest(element, `button,a[href],[role="button"],select,[tabindex]:not([tabindex="-1"]),${TYPEABLE_SELECTOR}`) != null;
 }
 function isTypeableCombobox(element) {
   if (!element) {
@@ -2585,7 +2646,7 @@ function getFloatingFocusElement(floatingElement) {
   return floatingElement.hasAttribute(FOCUSABLE_ATTRIBUTE) ? floatingElement : floatingElement.querySelector(`[${FOCUSABLE_ATTRIBUTE}]`) || floatingElement;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverShared.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverShared.mjs
 function resolveValue(value, pointerType) {
   if (pointerType != null && !isMouseLikePointerType(pointerType)) {
     return 0;
@@ -2615,9 +2676,9 @@ function isHoverOpenEvent(openEventType) {
   return openEventType?.includes("mouse") && openEventType !== "mousedown";
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/components/FloatingDelayGroup.mjs
-var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-var FloatingDelayGroupContext = /* @__PURE__ */ React18.createContext({
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingDelayGroup.mjs
+var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+var FloatingDelayGroupContext = /* @__PURE__ */ React19.createContext({
   hasProvider: false,
   timeoutMs: 0,
   delayRef: {
@@ -2644,10 +2705,10 @@ function FloatingDelayGroup(props) {
     delay,
     timeoutMs = 0
   } = props;
-  const delayRef = React18.useRef(delay);
-  const initialDelayRef = React18.useRef(delay);
-  const currentIdRef = React18.useRef(null);
-  const currentContextRef = React18.useRef(null);
+  const delayRef = React19.useRef(delay);
+  const initialDelayRef = React19.useRef(delay);
+  const currentIdRef = React19.useRef(null);
+  const currentContextRef = React19.useRef(null);
   const timeout = useTimeout();
   useIsoLayoutEffect(() => {
     initialDelayRef.current = delay;
@@ -2660,8 +2721,8 @@ function FloatingDelayGroup(props) {
       close: getDelay(delay, "close")
     };
   }, [delay, currentIdRef, delayRef, initialDelayRef]);
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(FloatingDelayGroupContext.Provider, {
-    value: React18.useMemo(() => ({
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(FloatingDelayGroupContext.Provider, {
+    value: React19.useMemo(() => ({
       hasProvider: true,
       delayRef,
       initialDelayRef,
@@ -2673,15 +2734,14 @@ function FloatingDelayGroup(props) {
     children
   });
 }
-function useDelayGroup(context, options = {
+function useDelayGroup(store, options = {
   open: false
 }) {
   const {
     open: open2
   } = options;
-  const store = "rootStore" in context ? context.rootStore : context;
   const floatingId = store.useState("floatingId");
-  const groupContext = React18.useContext(FloatingDelayGroupContext);
+  const groupContext = React19.useContext(FloatingDelayGroupContext);
   const {
     currentIdRef,
     delayRef,
@@ -2691,8 +2751,8 @@ function useDelayGroup(context, options = {
     hasProvider,
     timeout
   } = groupContext;
-  const [isInstantPhase, setIsInstantPhase] = React18.useState(false);
-  const openRef = React18.useRef(open2);
+  const [isInstantPhase, setIsInstantPhase] = React19.useState(false);
+  const openRef = React19.useRef(open2);
   useIsoLayoutEffect(() => {
     openRef.current = open2;
   }, [open2]);
@@ -2765,7 +2825,7 @@ function useDelayGroup(context, options = {
       }
     };
   }, [currentContextRef, currentIdRef, delayRef, floatingId, initialDelayRef, timeout]);
-  return React18.useMemo(() => ({
+  return React19.useMemo(() => ({
     activeIdRef: currentIdRef,
     hasProvider,
     delayRef,
@@ -2773,10 +2833,10 @@ function useDelayGroup(context, options = {
   }), [currentIdRef, hasProvider, delayRef, isInstantPhase]);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/components/FloatingFocusManager.mjs
-var React22 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingFocusManager.mjs
+var React23 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/mergeCleanups.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/mergeCleanups.mjs
 function mergeCleanups(...cleanups) {
   return () => {
     for (let i = 0; i < cleanups.length; i += 1) {
@@ -2788,10 +2848,10 @@ function mergeCleanups(...cleanups) {
   };
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/FocusGuard.mjs
-var React19 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/FocusGuard.mjs
+var React20 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/visuallyHidden.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/visuallyHidden.mjs
 var visuallyHiddenBase = {
   clipPath: "inset(50%)",
   overflow: "hidden",
@@ -2805,6 +2865,7 @@ var visuallyHiddenBase = {
 var visuallyHidden = {
   ...visuallyHiddenBase,
   position: "fixed",
+  margin: 0,
   top: 0,
   left: 0
 };
@@ -2813,10 +2874,10 @@ var visuallyHiddenInput = {
   position: "absolute"
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/FocusGuard.mjs
-var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-var FocusGuard = /* @__PURE__ */ React19.forwardRef(function FocusGuard2(props, ref) {
-  const [role, setRole] = React19.useState();
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/FocusGuard.mjs
+var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+var FocusGuard = /* @__PURE__ */ React20.forwardRef(function FocusGuard2(props, ref) {
+  const [role, setRole] = React20.useState();
   useIsoLayoutEffect(() => {
     if (parts_exports.screenReader.voiceOver && parts_exports.engine.webkit) {
       setRole("button");
@@ -2827,7 +2888,7 @@ var FocusGuard = /* @__PURE__ */ React19.forwardRef(function FocusGuard2(props, 
     // Role is only for VoiceOver
     role
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", {
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", {
     ...props,
     ref,
     style: visuallyHidden,
@@ -2966,7 +3027,7 @@ function rectToClientRect(rect) {
   };
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/utils/composite.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/utils/composite.mjs
 function isDifferentGridRow(index2, cols, prevRow) {
   return Math.floor(index2 / cols) !== prevRow;
 }
@@ -2984,6 +3045,40 @@ function getMaxListIndex(listRef, disabledIndices) {
     startingIndex: listRef.current.length,
     disabledIndices
   });
+}
+function getNextListIndex(list, currentIndex, options) {
+  const {
+    decrement,
+    loopFocus,
+    allowEscape,
+    disabledIndices,
+    minIndex,
+    maxIndex
+  } = options;
+  const step = () => findNonDisabledListIndex(list, {
+    startingIndex: currentIndex,
+    decrement,
+    disabledIndices
+  });
+  let index2;
+  let wrapped = false;
+  if (!loopFocus) {
+    index2 = decrement ? Math.max(minIndex, step()) : Math.min(maxIndex, step());
+  } else if (decrement ? currentIndex <= minIndex : currentIndex >= maxIndex) {
+    const outside = decrement ? -1 : list.length;
+    if (allowEscape && currentIndex !== outside) {
+      index2 = -1;
+    } else {
+      index2 = decrement ? maxIndex : minIndex;
+      wrapped = true;
+    }
+  } else {
+    index2 = step();
+  }
+  return {
+    index: isIndexOutOfListBounds(list, index2) ? -1 : index2,
+    wrapped
+  };
 }
 function findNonDisabledListIndex(list, {
   startingIndex = -1,
@@ -3030,7 +3125,7 @@ function getGridNavigatedIndex(list, {
           return;
         }
         visibleItemCount += 1;
-        const rowEl = el.closest('[role="row"]');
+        const rowEl = closest(el, '[role="row"]');
         if (rowEl) {
           hasRoleRow = true;
         }
@@ -3274,7 +3369,7 @@ function isElementVisible(element, styles = element ? getComputedStyle2(element)
   return styles.display !== "none" && styles.display !== "contents";
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/utils/tabbable.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/utils/tabbable.mjs
 var CANDIDATE_SELECTOR = 'a[href],button,input,select,textarea,summary,details,iframe,object,embed,[tabindex],[contenteditable]:not([contenteditable="false"]),audio[controls],video[controls]';
 function getParentElement(element) {
   const assignedSlot = element.assignedSlot;
@@ -3445,7 +3540,7 @@ function enableFocusInside(container) {
   });
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/utils/nodes.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/utils/nodes.mjs
 function getNodeChildren(nodes, id, onlyOpenChildren = true) {
   const directChildren = nodes.filter((node) => node.parentId === id);
   return directChildren.flatMap((child) => [...!onlyOpenChildren || child.context?.open ? [child] : [], ...getNodeChildren(nodes, child.id, onlyOpenChildren)]);
@@ -3463,12 +3558,12 @@ function getNodeAncestors(nodes, id) {
   return allAncestors;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/utils/createAttribute.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/utils/createAttribute.mjs
 function createAttribute(name) {
   return `data-base-ui-${name}`;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/utils/enqueueFocus.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/utils/enqueueFocus.mjs
 var rafId = 0;
 function enqueueFocus(el, options = {}) {
   const {
@@ -3499,21 +3594,12 @@ function enqueueFocus(el, options = {}) {
   };
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/utils/markOthers.mjs
-var counters = {
-  inert: /* @__PURE__ */ new WeakMap(),
-  "aria-hidden": /* @__PURE__ */ new WeakMap()
-};
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/utils/markOthers.mjs
 var markerName = "data-base-ui-inert";
-var uncontrolledElementsSets = {
-  inert: /* @__PURE__ */ new WeakSet(),
-  "aria-hidden": /* @__PURE__ */ new WeakSet()
-};
+var ariaHiddenCounterMap = /* @__PURE__ */ new WeakMap();
+var uncontrolledElementsSet = /* @__PURE__ */ new WeakSet();
 var markerCounterMap = /* @__PURE__ */ new WeakMap();
 var lockCount = 0;
-function getUncontrolledElementsSet(controlAttribute) {
-  return uncontrolledElementsSets[controlAttribute];
-}
 function unwrapHost(node) {
   if (!node) {
     return null;
@@ -3561,40 +3647,28 @@ var collectOutsideElements = (root2, keepElements, stopElements) => {
   walk(root2);
   return outside;
 };
-function applyAttributeToOthers(uncorrectedAvoidElements, body, ariaHidden, inert, {
+function applyAttributeToOthers(uncorrectedAvoidElements, body, ariaHidden, {
   mark = true
 }) {
-  let controlAttribute = null;
-  if (inert) {
-    controlAttribute = "inert";
-  } else if (ariaHidden) {
-    controlAttribute = "aria-hidden";
-  }
-  let counterMap = null;
-  let uncontrolledElementsSet = null;
   const avoidElements = correctElements(body, uncorrectedAvoidElements);
   const markerTargets = mark ? collectOutsideElements(body, buildKeepSet(avoidElements), new Set(avoidElements)) : [];
   const hiddenElements = [];
   const markedElements = [];
-  if (controlAttribute) {
-    const map = counters[controlAttribute];
-    const currentUncontrolledElementsSet = getUncontrolledElementsSet(controlAttribute);
-    uncontrolledElementsSet = currentUncontrolledElementsSet;
-    counterMap = map;
+  if (ariaHidden) {
     const ariaLiveElements = correctElements(body, Array.from(body.querySelectorAll("[aria-live]")));
     const controlElements = avoidElements.concat(ariaLiveElements);
     const controlTargets = collectOutsideElements(body, buildKeepSet(controlElements), new Set(controlElements));
     controlTargets.forEach((node) => {
-      const attr2 = node.getAttribute(controlAttribute);
+      const attr2 = node.getAttribute("aria-hidden");
       const alreadyHidden = attr2 !== null && attr2 !== "false";
-      const counterValue = (map.get(node) || 0) + 1;
-      map.set(node, counterValue);
+      const counterValue = (ariaHiddenCounterMap.get(node) || 0) + 1;
+      ariaHiddenCounterMap.set(node, counterValue);
       hiddenElements.push(node);
       if (counterValue === 1 && alreadyHidden) {
-        currentUncontrolledElementsSet.add(node);
+        uncontrolledElementsSet.add(node);
       }
       if (!alreadyHidden) {
-        node.setAttribute(controlAttribute, controlAttribute === "inert" ? "" : "true");
+        node.setAttribute("aria-hidden", "true");
       }
     });
   }
@@ -3610,19 +3684,16 @@ function applyAttributeToOthers(uncorrectedAvoidElements, body, ariaHidden, iner
   }
   lockCount += 1;
   return () => {
-    if (counterMap) {
-      hiddenElements.forEach((element) => {
-        const currentCounterValue = counterMap.get(element) || 0;
-        const counterValue = currentCounterValue - 1;
-        counterMap.set(element, counterValue);
-        if (!counterValue) {
-          if (!uncontrolledElementsSet?.has(element) && controlAttribute) {
-            element.removeAttribute(controlAttribute);
-          }
-          uncontrolledElementsSet?.delete(element);
+    hiddenElements.forEach((element) => {
+      const counterValue = (ariaHiddenCounterMap.get(element) || 0) - 1;
+      ariaHiddenCounterMap.set(element, counterValue);
+      if (!counterValue) {
+        if (!uncontrolledElementsSet.has(element)) {
+          element.removeAttribute("aria-hidden");
         }
-      });
-    }
+        uncontrolledElementsSet.delete(element);
+      }
+    });
     if (mark) {
       markedElements.forEach((element) => {
         const markerValue = (markerCounterMap.get(element) || 0) - 1;
@@ -3634,10 +3705,8 @@ function applyAttributeToOthers(uncorrectedAvoidElements, body, ariaHidden, iner
     }
     lockCount -= 1;
     if (!lockCount) {
-      counters.inert = /* @__PURE__ */ new WeakMap();
-      counters["aria-hidden"] = /* @__PURE__ */ new WeakMap();
-      uncontrolledElementsSets.inert = /* @__PURE__ */ new WeakSet();
-      uncontrolledElementsSets["aria-hidden"] = /* @__PURE__ */ new WeakSet();
+      ariaHiddenCounterMap = /* @__PURE__ */ new WeakMap();
+      uncontrolledElementsSet = /* @__PURE__ */ new WeakSet();
       markerCounterMap = /* @__PURE__ */ new WeakMap();
     }
   };
@@ -3645,20 +3714,19 @@ function applyAttributeToOthers(uncorrectedAvoidElements, body, ariaHidden, iner
 function markOthers(avoidElements, options = {}) {
   const {
     ariaHidden = false,
-    inert = false,
     mark = true
   } = options;
   const body = ownerDocument(avoidElements[0]).body;
-  return applyAttributeToOthers(avoidElements, body, ariaHidden, inert, {
+  return applyAttributeToOthers(avoidElements, body, ariaHidden, {
     mark
   });
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/components/FloatingPortal.mjs
-var React20 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingPortal.mjs
+var React21 = __toESM(require_react(), 1);
 var ReactDOM2 = __toESM(require_react_dom(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/constants.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/constants.mjs
 var DISABLED_TRANSITIONS_STYLE = {
   style: {
     transition: "none"
@@ -3682,11 +3750,11 @@ var ownerVisuallyHidden = {
   left: 0
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/components/FloatingPortal.mjs
-var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
-var PortalContext = /* @__PURE__ */ React20.createContext(null);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingPortal.mjs
+var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+var PortalContext = /* @__PURE__ */ React21.createContext(null);
 if (true) PortalContext.displayName = "PortalContext";
-var usePortalContext = () => React20.useContext(PortalContext);
+var usePortalContext = () => React21.useContext(PortalContext);
 var attr = createAttribute("portal");
 function useFloatingPortalNode(props = {}) {
   const {
@@ -3698,14 +3766,14 @@ function useFloatingPortalNode(props = {}) {
   const uniqueId = useId();
   const portalContext = usePortalContext();
   const parentPortalNode = portalContext?.portalNode;
-  const [containerElement, setContainerElement] = React20.useState(null);
-  const [portalNode, setPortalNode] = React20.useState(null);
+  const [containerElement, setContainerElement] = React21.useState(null);
+  const [portalNode, setPortalNode] = React21.useState(null);
   const setPortalNodeRef = useStableCallback((node) => {
     if (node !== null) {
       setPortalNode(node);
     }
   });
-  const containerRef = React20.useRef(null);
+  const containerRef = React21.useRef(null);
   useIsoLayoutEffect(() => {
     if (containerProp === null) {
       if (containerRef.current) {
@@ -3742,11 +3810,11 @@ function useFloatingPortalNode(props = {}) {
     node: portalNode,
     // `id` and `render` props can override or remove the generated ID. Use the exact
     // rendered value so `aria-owns` never points at an ID absent from the DOM.
-    nodeId: /* @__PURE__ */ React20.isValidElement(portalElement) ? portalElement.props.id : void 0,
+    nodeId: /* @__PURE__ */ React21.isValidElement(portalElement) ? portalElement.props.id : void 0,
     subtree: portalSubtree
   };
 }
-var FloatingPortal = /* @__PURE__ */ React20.forwardRef(function FloatingPortal2(componentProps, forwardedRef) {
+var FloatingPortal = /* @__PURE__ */ React21.forwardRef(function FloatingPortal2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -3766,16 +3834,16 @@ var FloatingPortal = /* @__PURE__ */ React20.forwardRef(function FloatingPortal2
     componentProps,
     elementProps
   });
-  const beforeOutsideRef = React20.useRef(null);
-  const afterOutsideRef = React20.useRef(null);
-  const beforeInsideRef = React20.useRef(null);
-  const afterInsideRef = React20.useRef(null);
-  const [focusManagerState, setFocusManagerState] = React20.useState(null);
-  const focusInsideDisabledRef = React20.useRef(false);
+  const beforeOutsideRef = React21.useRef(null);
+  const afterOutsideRef = React21.useRef(null);
+  const beforeInsideRef = React21.useRef(null);
+  const afterInsideRef = React21.useRef(null);
+  const [focusManagerState, setFocusManagerState] = React21.useState(null);
+  const focusInsideDisabledRef = React21.useRef(false);
   const modal = focusManagerState?.modal;
   const open2 = focusManagerState?.open;
   const shouldRenderGuards = !!focusManagerState && !focusManagerState.modal && focusManagerState.open && !!portalNode;
-  React20.useEffect(() => {
+  React21.useEffect(() => {
     if (!portalNode || modal) {
       return void 0;
     }
@@ -3801,7 +3869,7 @@ var FloatingPortal = /* @__PURE__ */ React20.forwardRef(function FloatingPortal2
     enableFocusInside(portalNode);
     focusInsideDisabledRef.current = false;
   }, [open2, portalNode]);
-  const portalContextValue = React20.useMemo(() => ({
+  const portalContextValue = React21.useMemo(() => ({
     beforeOutsideRef,
     afterOutsideRef,
     beforeInsideRef,
@@ -3809,10 +3877,10 @@ var FloatingPortal = /* @__PURE__ */ React20.forwardRef(function FloatingPortal2
     portalNode,
     setFocusManagerState
   }), [portalNode]);
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(React20.Fragment, {
-    children: [portalSubtree, /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(PortalContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(React21.Fragment, {
+    children: [portalSubtree, /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(PortalContext.Provider, {
       value: portalContextValue,
-      children: [shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(FocusGuard, {
+      children: [shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(FocusGuard, {
         "data-type": "outside",
         ref: beforeOutsideRef,
         onFocus: (event) => {
@@ -3824,11 +3892,11 @@ var FloatingPortal = /* @__PURE__ */ React20.forwardRef(function FloatingPortal2
             prevTabbable?.focus();
           }
         }
-      }), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", {
+      }), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", {
         role: portalOwnerRole,
         "aria-owns": portalNodeId,
         style: ownerVisuallyHidden
-      }), portalNode && /* @__PURE__ */ ReactDOM2.createPortal(children, portalNode), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(FocusGuard, {
+      }), portalNode && /* @__PURE__ */ ReactDOM2.createPortal(children, portalNode), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(FocusGuard, {
         "data-type": "outside",
         ref: afterOutsideRef,
         onFocus: (event) => {
@@ -3849,10 +3917,10 @@ var FloatingPortal = /* @__PURE__ */ React20.forwardRef(function FloatingPortal2
 });
 if (true) FloatingPortal.displayName = "FloatingPortal";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/components/FloatingTree.mjs
-var React21 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingTree.mjs
+var React22 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/utils/createEventEmitter.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/utils/createEventEmitter.mjs
 function createEventEmitter() {
   const map = /* @__PURE__ */ new Map();
   return {
@@ -3871,20 +3939,20 @@ function createEventEmitter() {
   };
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/components/FloatingTree.mjs
-var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
-var FloatingNodeContext = /* @__PURE__ */ React21.createContext(null);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingTree.mjs
+var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+var FloatingNodeContext = /* @__PURE__ */ React22.createContext(null);
 if (true) FloatingNodeContext.displayName = "FloatingNodeContext";
-var FloatingTreeContext = /* @__PURE__ */ React21.createContext(null);
+var FloatingTreeContext = /* @__PURE__ */ React22.createContext(null);
 if (true) FloatingTreeContext.displayName = "FloatingTreeContext";
-var useFloatingParentNodeId = () => React21.useContext(FloatingNodeContext)?.id || null;
+var useFloatingParentNodeId = () => React22.useContext(FloatingNodeContext)?.id || null;
 var useFloatingTree = (externalTree) => {
-  const contextTree = React21.useContext(FloatingTreeContext);
+  const contextTree = React22.useContext(FloatingTreeContext);
   return externalTree ?? contextTree;
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/components/FloatingFocusManager.mjs
-var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingFocusManager.mjs
+var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
 function getEventType(event, lastInteractionType) {
   const win = getWindow(getTarget(event));
   if (event instanceof win.KeyboardEvent) {
@@ -3894,7 +3962,7 @@ function getEventType(event, lastInteractionType) {
     return lastInteractionType || "keyboard";
   }
   if ("pointerType" in event) {
-    return event.pointerType || "keyboard";
+    return event.pointerType || (isVirtualClick(event) ? "keyboard" : lastInteractionType || "mouse");
   }
   if ("touches" in event) {
     return "touch";
@@ -3958,11 +4026,12 @@ function handleTabIndex(floatingFocusElement) {
 }
 function FloatingFocusManager(props) {
   const {
-    context,
+    context: store,
     children,
     disabled: disabled2 = false,
     initialFocus = true,
     returnFocus = true,
+    explicitReturnFocus,
     restoreFocus = false,
     modal = true,
     closeOnFocusOut = true,
@@ -3973,7 +4042,6 @@ function FloatingFocusManager(props) {
     externalTree,
     getInsideElements
   } = props;
-  const store = "rootStore" in context ? context.rootStore : context;
   const open2 = store.useState("open");
   const domReference = store.useState("domReferenceElement");
   const floating = store.useState("floatingElement");
@@ -3986,18 +4054,19 @@ function FloatingFocusManager(props) {
   const isUntrappedTypeableCombobox = isTypeableCombobox(domReference) && ignoreInitialFocus;
   const initialFocusRef = useValueAsRef(initialFocus);
   const returnFocusRef = useValueAsRef(returnFocus);
+  const explicitReturnFocusRef = useValueAsRef(explicitReturnFocus);
   const openInteractionTypeRef = useValueAsRef(openInteractionType);
   const openRef = useValueAsRef(open2);
   const tree = useFloatingTree(externalTree);
   const portalContext = usePortalContext();
-  const preventReturnFocusRef = React22.useRef(false);
-  const isPointerDownRef = React22.useRef(false);
-  const pointerDownOutsideRef = React22.useRef(false);
-  const lastFocusedTabbableRef = React22.useRef(null);
-  const closeTypeRef = React22.useRef("");
-  const lastInteractionTypeRef = React22.useRef("");
-  const beforeGuardRef = React22.useRef(null);
-  const afterGuardRef = React22.useRef(null);
+  const preventReturnFocusRef = React23.useRef(false);
+  const isPointerDownRef = React23.useRef(false);
+  const pointerDownOutsideRef = React23.useRef(false);
+  const lastFocusedTabbableRef = React23.useRef(null);
+  const closeTypeRef = React23.useRef("");
+  const lastInteractionTypeRef = React23.useRef("");
+  const beforeGuardRef = React23.useRef(null);
+  const afterGuardRef = React23.useRef(null);
   const mergedBeforeGuardRef = useMergedRefs(beforeGuardRef, beforeContentFocusGuardRef, portalContext?.beforeInsideRef);
   const mergedAfterGuardRef = useMergedRefs(afterGuardRef, portalContext?.afterInsideRef);
   const blurTimeout = useTimeout();
@@ -4009,7 +4078,7 @@ function FloatingFocusManager(props) {
     return container ? tabbable(container) : [];
   });
   const getResolvedInsideElements = useStableCallback(() => getInsideElements?.().filter((element) => element != null) ?? []);
-  React22.useEffect(() => {
+  React23.useEffect(() => {
     if (disabled2 || !modal) {
       return void 0;
     }
@@ -4023,7 +4092,7 @@ function FloatingFocusManager(props) {
     const doc = ownerDocument(floatingFocusElement);
     return addEventListener(doc, "keydown", onKeyDown);
   }, [disabled2, floatingFocusElement, modal, isUntrappedTypeableCombobox, getTabbableContent]);
-  React22.useEffect(() => {
+  React23.useEffect(() => {
     if (disabled2 || !open2) {
       return void 0;
     }
@@ -4037,7 +4106,7 @@ function FloatingFocusManager(props) {
       const pointerTargetInside = contains(floating, target) || contains(domReference, target) || contains(portalContext?.portalNode, target) || insideElements.some((element) => element === target || contains(element, target));
       pointerDownOutsideRef.current = !pointerTargetInside;
       lastInteractionTypeRef.current = event.pointerType || "keyboard";
-      if (target?.closest(`[${CLICK_TRIGGER_IDENTIFIER}]`)) {
+      if (closest(target, `[${CLICK_TRIGGER_IDENTIFIER}]`)) {
         isPointerDownRef.current = true;
         pointerDownTimeout.start(0, () => {
           isPointerDownRef.current = false;
@@ -4057,7 +4126,7 @@ function FloatingFocusManager(props) {
       clearPointerDownOutside
     );
   }, [disabled2, floating, domReference, floatingFocusElement, open2, portalContext, pointerDownTimeout, getResolvedInsideElements]);
-  React22.useEffect(() => {
+  React23.useEffect(() => {
     if (disabled2 || !closeOnFocusOut) {
       return void 0;
     }
@@ -4139,7 +4208,7 @@ function FloatingFocusManager(props) {
     }
     return mergeCleanups(domReferenceElement && addEventListener(domReferenceElement, "focusout", handleFocusOutside), domReferenceElement && addEventListener(domReferenceElement, "pointerdown", handlePointerDown), floating && addEventListener(floating, "focusin", handleFocusIn), floating && addEventListener(floating, "focusout", handleFocusOutside), floating && portalContext && addEventListener(floating, "focusout", markInsideReactTree, true));
   }, [disabled2, domReference, floating, floatingFocusElement, modal, tree, portalContext, store, closeOnFocusOut, restoreFocus, getTabbableContent, isUntrappedTypeableCombobox, getNodeId, dataRef, blurTimeout, pointerDownTimeout, restoreFocusFrame, nextFocusableElement, previousFocusableElement, getResolvedInsideElements]);
-  React22.useEffect(() => {
+  React23.useEffect(() => {
     if (disabled2 || !floating || !open2) {
       return void 0;
     }
@@ -4192,7 +4261,10 @@ function FloatingFocusManager(props) {
       }
       elToFocus = elToFocus || getDefaultFocusElement();
       const hadFocusInside = contains(floatingFocusElement, activeElement(doc));
+      const openEvent = dataRef.current.openEvent;
+      const openedByVirtualPress = openEvent?.type === "mousedown" && isVirtualClick(openEvent);
       void enqueueFocus(elToFocus, {
+        sync: openedByVirtualPress,
         preventScroll: elToFocus === floatingFocusElement,
         shouldFocus() {
           if (!openRef.current) {
@@ -4207,10 +4279,16 @@ function FloatingFocusManager(props) {
         }
       });
     });
-  }, [disabled2, open2, floatingFocusElement, getTabbableContent, initialFocusRef, openInteractionTypeRef, openRef]);
+  }, [disabled2, open2, floatingFocusElement, getTabbableContent, initialFocusRef, openInteractionTypeRef, openRef, dataRef]);
+  const pendingReturnFocusRef = React23.useRef(null);
   useIsoLayoutEffect(() => {
     if (disabled2 || !floatingFocusElement) {
+      pendingReturnFocusRef.current = null;
       return void 0;
+    }
+    if (pendingReturnFocusRef.current) {
+      pendingReturnFocusRef.current.cancelled = true;
+      pendingReturnFocusRef.current = null;
     }
     const doc = ownerDocument(floatingFocusElement);
     const elementFocusedBeforeOpen = activeElement(doc);
@@ -4220,7 +4298,7 @@ function FloatingFocusManager(props) {
       if (!details.open) {
         closeTypeRef.current = getEventType(details.nativeEvent, lastInteractionTypeRef.current);
       }
-      if (details.reason === reason_parts_exports.triggerHover && details.nativeEvent.type === "mouseleave") {
+      if (details.reason === reason_parts_exports.focusOut && details.triggerElement?.hasAttribute(createAttribute("focus-guard")) || details.reason === reason_parts_exports.triggerHover && details.nativeEvent.type === "mouseleave") {
         preventReturnFocusRef.current = true;
       }
       if (details.reason !== reason_parts_exports.outsidePress) {
@@ -4274,10 +4352,20 @@ function FloatingFocusManager(props) {
       const returnFocusValueOrFn = returnFocusRef.current;
       const closeType = closeTypeRef.current;
       const returnElement = getReturnElement(closeType);
+      const job = {
+        cancelled: false
+      };
+      pendingReturnFocusRef.current = job;
       queueMicrotask(() => {
+        if (pendingReturnFocusRef.current === job) {
+          pendingReturnFocusRef.current = null;
+        }
         const tabbableReturnElement = getFirstTabbableElement(returnElement);
-        const hasExplicitReturnFocus = typeof returnFocusValueOrFn !== "boolean";
-        if (returnFocusValueOrFn && !preventReturnFocusRef.current && isHTMLElement(tabbableReturnElement) && // If the focus moved somewhere else after mount, avoid returning focus
+        const hasExplicitReturnFocus = (
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+          explicitReturnFocusRef.current ?? typeof returnFocusValueOrFn !== "boolean"
+        );
+        if (!job.cancelled && returnFocusValueOrFn && !preventReturnFocusRef.current && isHTMLElement(tabbableReturnElement) && // If the focus moved somewhere else after mount, avoid returning focus
         // since it likely entered a different element which should be
         // respected: https://github.com/floating-ui/floating-ui/issues/2607
         (!hasExplicitReturnFocus && tabbableReturnElement !== activeEl && activeEl !== doc.body ? isFocusInsideFloatingTree : true)) {
@@ -4292,7 +4380,7 @@ function FloatingFocusManager(props) {
         preventReturnFocusRef.current = false;
       });
     };
-  }, [disabled2, floating, floatingFocusElement, returnFocusRef, openInteractionTypeRef, events, tree, domReference, getNodeId, getResolvedInsideElements]);
+  }, [disabled2, floating, floatingFocusElement, returnFocusRef, explicitReturnFocusRef, openInteractionTypeRef, events, tree, domReference, getNodeId, getResolvedInsideElements]);
   useIsoLayoutEffect(() => {
     if (!parts_exports.engine.webkit || open2 || !floating) {
       return;
@@ -4330,8 +4418,8 @@ function FloatingFocusManager(props) {
     };
   }, [disabled2, floatingFocusElement]);
   const shouldRenderGuards = !disabled2 && (modal ? !isUntrappedTypeableCombobox : true) && (isInsidePortal || modal);
-  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(React22.Fragment, {
-    children: [shouldRenderGuards && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(FocusGuard, {
+  return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(React23.Fragment, {
+    children: [shouldRenderGuards && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(FocusGuard, {
       "data-type": "inside",
       ref: mergedBeforeGuardRef,
       onFocus: (event) => {
@@ -4348,7 +4436,7 @@ function FloatingFocusManager(props) {
           }
         }
       }
-    }), children, shouldRenderGuards && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(FocusGuard, {
+    }), children, shouldRenderGuards && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(FocusGuard, {
       "data-type": "inside",
       ref: mergedAfterGuardRef,
       onFocus: (event) => {
@@ -4370,9 +4458,9 @@ function FloatingFocusManager(props) {
   });
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useClick.mjs
-var React23 = __toESM(require_react(), 1);
-function useClick(context, props = {}) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useClick.mjs
+var React24 = __toESM(require_react(), 1);
+function useClick(store, props = {}) {
   const {
     enabled = true,
     event: eventOption = "click",
@@ -4382,12 +4470,11 @@ function useClick(context, props = {}) {
     touchOpenDelay = 0,
     reason = reason_parts_exports.triggerPress
   } = props;
-  const store = "rootStore" in context ? context.rootStore : context;
   const dataRef = store.context.dataRef;
-  const pointerTypeRef = React23.useRef(void 0);
+  const pointerTypeRef = React24.useRef(void 0);
   const frame = useAnimationFrame();
   const touchOpenTimeout = useTimeout();
-  const reference = React23.useMemo(() => {
+  const reference = React24.useMemo(() => {
     function setOpenWithTouchDelay(nextOpen, nativeEvent, target, pointerType) {
       const details = createChangeEventDetails(reason, nativeEvent, target);
       if (nextOpen && pointerType === "touch" && touchOpenDelay > 0) {
@@ -4410,7 +4497,7 @@ function useClick(context, props = {}) {
       if (!toggle) {
         return true;
       }
-      if (openEvent && stickIfOpen) {
+      if (openEvent && (typeof stickIfOpen === "function" ? stickIfOpen() : stickIfOpen)) {
         return !isClickLikeOpenEvent2(openEvent.type);
       }
       return false;
@@ -4428,8 +4515,9 @@ function useClick(context, props = {}) {
         }
         const nextOpen = getNextOpen(open2, event.currentTarget, (openEventType) => openEventType === "click" || openEventType === "mousedown");
         const target = getTarget(nativeEvent);
-        if (isTypeableElement(target)) {
-          setOpenWithTouchDelay(nextOpen, nativeEvent, target, pointerType);
+        const isTypeable = isTypeableElement(target);
+        if (isTypeable || pointerType === "virtual") {
+          setOpenWithTouchDelay(nextOpen, nativeEvent, isTypeable ? target : event.currentTarget, pointerType);
           return;
         }
         const eventCurrentTarget = event.currentTarget;
@@ -4458,13 +4546,13 @@ function useClick(context, props = {}) {
       }
     };
   }, [dataRef, eventOption, ignoreMouse, reason, store, stickIfOpen, toggle, frame, touchOpenTimeout, touchOpenDelay]);
-  return React23.useMemo(() => enabled ? {
+  return React24.useMemo(() => enabled ? {
     reference
   } : EMPTY_OBJECT, [enabled, reference]);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useClientPoint.mjs
-var React24 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useClientPoint.mjs
+var React25 = __toESM(require_react(), 1);
 function createVirtualElement(domElement, data) {
   let offsetX = null;
   let offsetY = null;
@@ -4481,8 +4569,8 @@ function createVirtualElement(domElement, data) {
       const isXAxis = data.axis === "x" || data.axis === "both";
       const isYAxis = data.axis === "y" || data.axis === "both";
       const canTrackCursorOnAutoUpdate = ["mouseenter", "mousemove"].includes(data.dataRef.current.openEvent?.type || "") && data.pointerType !== "touch";
-      let width = domRect.width;
-      let height = domRect.height;
+      const width = data.axis === "y" ? domRect.width : 0;
+      const height = data.axis === "x" ? domRect.height : 0;
       let x = domRect.x;
       let y = domRect.y;
       if (offsetX == null && data.x && isXAxis) {
@@ -4493,16 +4581,9 @@ function createVirtualElement(domElement, data) {
       }
       x -= offsetX || 0;
       y -= offsetY || 0;
-      width = 0;
-      height = 0;
       if (!isAutoUpdateEvent || canTrackCursorOnAutoUpdate) {
-        width = data.axis === "y" ? domRect.width : 0;
-        height = data.axis === "x" ? domRect.height : 0;
         x = isXAxis && data.x != null ? data.x : x;
         y = isYAxis && data.y != null ? data.y : y;
-      } else if (isAutoUpdateEvent && !canTrackCursorOnAutoUpdate) {
-        height = data.axis === "x" ? domRect.height : height;
-        width = data.axis === "y" ? domRect.width : width;
       }
       isAutoUpdateEvent = true;
       return {
@@ -4521,20 +4602,19 @@ function createVirtualElement(domElement, data) {
 function isMouseBasedEvent(event) {
   return event != null && event.clientX != null;
 }
-function useClientPoint(context, props = {}) {
+function useClientPoint(store, props = {}) {
   const {
     enabled = true,
     axis = "both"
   } = props;
-  const store = "rootStore" in context ? context.rootStore : context;
   const open2 = store.useState("open");
   const floating = store.useState("floatingElement");
   const domReference = store.useState("domReferenceElement");
   const dataRef = store.context.dataRef;
-  const initialRef = React24.useRef(false);
-  const cleanupListenerRef = React24.useRef(null);
-  const [pointerType, setPointerType] = React24.useState();
-  const [reactive, setReactive] = React24.useState([]);
+  const initialRef = React25.useRef(false);
+  const cleanupListenerRef = React25.useRef(null);
+  const [pointerType, setPointerType] = React25.useState();
+  const [reactive, setReactive] = React25.useState([]);
   const resetReference = useStableCallback((reference2) => {
     store.set("positionReference", reference2);
   });
@@ -4562,7 +4642,7 @@ function useClientPoint(context, props = {}) {
     }
   });
   const openCheck = isMouseLikePointerType(pointerType) ? floating : open2;
-  React24.useEffect(() => {
+  React25.useEffect(() => {
     if (!enabled) {
       resetReference(domReference);
       return void 0;
@@ -4590,20 +4670,20 @@ function useClientPoint(context, props = {}) {
     }
     return cleanupListener;
   }, [openCheck, enabled, floating, dataRef, domReference, store, setReference, resetReference, reactive]);
-  React24.useEffect(() => () => {
+  React25.useEffect(() => () => {
     store.set("positionReference", null);
   }, [store]);
-  React24.useEffect(() => {
+  React25.useEffect(() => {
     if (enabled && !floating) {
       initialRef.current = false;
     }
   }, [enabled, floating]);
-  React24.useEffect(() => {
+  React25.useEffect(() => {
     if (!enabled && open2) {
       initialRef.current = true;
     }
   }, [enabled, open2]);
-  const reference = React24.useMemo(() => {
+  const reference = React25.useMemo(() => {
     function setPointerTypeRef(event) {
       setPointerType(event.pointerType);
     }
@@ -4614,14 +4694,14 @@ function useClientPoint(context, props = {}) {
       onMouseEnter: handleReferenceEnterOrMove
     };
   }, [handleReferenceEnterOrMove]);
-  return React24.useMemo(() => enabled ? {
+  return React25.useMemo(() => enabled ? {
     reference,
     trigger: reference
   } : {}, [enabled, reference]);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useDismiss.mjs
-var React25 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useDismiss.mjs
+var React26 = __toESM(require_react(), 1);
 function alwaysFalse() {
   return false;
 }
@@ -4631,7 +4711,7 @@ function normalizeProp(normalizable) {
     outsidePress: typeof normalizable === "boolean" ? normalizable : normalizable?.outsidePress ?? true
   };
 }
-function useDismiss(context, props = {}) {
+function useDismiss(store, props = {}) {
   const {
     enabled = true,
     escapeKey: escapeKey2 = true,
@@ -4641,7 +4721,6 @@ function useDismiss(context, props = {}) {
     bubbles,
     externalTree
   } = props;
-  const store = "rootStore" in context ? context.rootStore : context;
   const open2 = store.useState("open");
   const floatingElement = store.useState("floatingElement");
   const {
@@ -4657,15 +4736,16 @@ function useDismiss(context, props = {}) {
     escapeKey: escapeKeyBubbles,
     outsidePress: outsidePressBubbles
   } = normalizeProp(bubbles);
-  const pressStartedInsideRef = React25.useRef(false);
-  const pressStartPreventedRef = React25.useRef(false);
-  const suppressNextOutsideClickRef = React25.useRef(false);
-  const sawPressWhileOpenRef = React25.useRef(false);
-  const isComposingRef = React25.useRef(false);
-  const currentPointerTypeRef = React25.useRef("");
-  const touchStateRef = React25.useRef(null);
+  const pressStartedInsideRef = React26.useRef(false);
+  const pressStartPreventedRef = React26.useRef(false);
+  const suppressNextOutsideClickRef = React26.useRef(false);
+  const sawPressWhileOpenRef = React26.useRef(false);
+  const isComposingRef = React26.useRef(false);
+  const currentPointerTypeRef = React26.useRef("");
+  const touchStateRef = React26.useRef(null);
   const cancelDismissOnEndTimeout = useTimeout();
   const clearInsideReactTreeTimeout = useTimeout();
+  const compositionTimeout = useTimeout();
   const clearInsideReactTree = useStableCallback(() => {
     clearInsideReactTreeTimeout.clear();
     dataRef.current.insideReactTree = false;
@@ -4688,13 +4768,13 @@ function useDismiss(context, props = {}) {
     if (!open2 || !enabled || !escapeKey2 || event.key !== "Escape") {
       return;
     }
-    if (isComposingRef.current) {
+    const native = isReactEvent(event) ? event.nativeEvent : event;
+    if (isComposingRef.current || native.isComposing) {
       return;
     }
     if (!escapeKeyBubbles && hasBlockingChild("__escapeKeyBubbles")) {
       return;
     }
-    const native = isReactEvent(event) ? event.nativeEvent : event;
     const eventDetails = createChangeEventDetails(reason_parts_exports.escapeKey, native);
     store.setOpen(false, eventDetails);
     if (!eventDetails.isCanceled) {
@@ -4732,7 +4812,7 @@ function useDismiss(context, props = {}) {
       pressStartPreventedRef.current = true;
     }
   });
-  React25.useEffect(() => {
+  React26.useEffect(() => {
     function handleOpenChange(details) {
       if (!details.open) {
         sawPressWhileOpenRef.current = false;
@@ -4743,16 +4823,19 @@ function useDismiss(context, props = {}) {
       events.off("openchange", handleOpenChange);
     };
   }, [events]);
-  React25.useEffect(() => {
+  React26.useEffect(() => clearInsideReactTree, [clearInsideReactTree]);
+  React26.useEffect(() => {
     if (!open2 || !enabled) {
       if (!open2) {
         sawPressWhileOpenRef.current = false;
+        isComposingRef.current = false;
+        currentPointerTypeRef.current = "";
+        touchStateRef.current = null;
       }
       return clearInsideReactTree;
     }
     dataRef.current.__escapeKeyBubbles = escapeKeyBubbles;
     dataRef.current.__outsidePressBubbles = outsidePressBubbles;
-    const compositionTimeout = new Timeout();
     const preventedPressSuppressionTimeout = new Timeout();
     const doc = ownerDocument(floatingElement);
     function handleCompositionStart() {
@@ -4760,6 +4843,7 @@ function useDismiss(context, props = {}) {
       isComposingRef.current = true;
     }
     function handleCompositionEnd() {
+      isComposingRef.current = true;
       compositionTimeout.start(
         // 0ms or 1ms don't work in Safari. 5ms appears to consistently work.
         // Only apply to WebKit for the test to remain 0ms.
@@ -5010,19 +5094,17 @@ function useDismiss(context, props = {}) {
     })));
     return () => {
       unsubscribe();
-      compositionTimeout.clear();
       preventedPressSuppressionTimeout.clear();
       resetPressStartState();
       suppressNextOutsideClickRef.current = false;
-      clearInsideReactTree();
     };
-  }, [dataRef, floatingElement, escapeKey2, outsidePressEnabled, outsidePress2, open2, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, clearInsideReactTree, getOutsidePressEventProp, hasBlockingChild, isEventWithinOwnElements, tree, store, cancelDismissOnEndTimeout]);
-  const reference = React25.useMemo(() => ({
+  }, [dataRef, floatingElement, escapeKey2, outsidePressEnabled, outsidePress2, open2, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, clearInsideReactTree, getOutsidePressEventProp, hasBlockingChild, isEventWithinOwnElements, tree, store, cancelDismissOnEndTimeout, compositionTimeout]);
+  const reference = React26.useMemo(() => ({
     onKeyDown: closeOnEscapeKeyDown,
     onPointerDown: closeOnReferencePress,
     onClick: closeOnReferencePress
   }), [closeOnEscapeKeyDown, closeOnReferencePress]);
-  const floating = React25.useMemo(() => ({
+  const floating = React26.useMemo(() => ({
     onKeyDown: closeOnEscapeKeyDown,
     // `onMouseDown` may be blocked if `event.preventDefault()` is called in
     // `onPointerDown`, such as with <NumberField.ScrubArea>.
@@ -5042,15 +5124,2785 @@ function useDismiss(context, props = {}) {
     onTouchEndCapture: markInsideReactTree,
     onTouchMoveCapture: markInsideReactTree
   }), [closeOnEscapeKeyDown, markInsideReactTree, markPressStartedInsideReactTree, markInsidePressStartPrevented]);
-  return React25.useMemo(() => enabled ? {
+  return React26.useMemo(() => enabled ? {
     reference,
     floating,
     trigger: reference
   } : {}, [enabled, reference, floating]);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useFloating.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/popups/popupHandle.mjs
+var BasePopupHandle = class {
+  /**
+   * Stores of every root currently using this handle, in attach order. A handle is meant to be used
+   * by a single mounted root, but roots can transiently overlap (e.g. during an animated route
+   * transition), so this stack lets `attachStore`'s cleanup restore the previous root instead of
+   * leaving a still-mounted root uncontrollable when a newer overlapping root detaches first.
+   */
+  attachedStores = [];
+  /**
+   * Store of the root that currently controls the handle: the most recently attached one still
+   * mounted, or `null` when no root is attached. Imperative methods are no-ops while this is `null`.
+   */
+  attachedStoreValue = null;
+  /**
+   * Listeners notified when `attachedStore` changes, so detached triggers can follow the store pointer.
+   */
+  storeListeners = /* @__PURE__ */ new Set();
+  /**
+   * Creates a handle backed by the store used while no root is attached.
+   *
+   * @param fallbackStore Inert, closed store handed to detached triggers while no root is attached,
+   * so they can render and register without a mounted root. Triggers register into whichever store
+   * `store` currently resolves to, so while detached they live in this store's trigger map and
+   * migrate themselves to the root's store (and back) as it attaches/detaches.
+   * @param componentName Component name used to prefix dev warnings, e.g. `'Menu'` produces
+   * `MenuHandle.open()` in warning text.
+   * @param throwOnMissingTrigger Whether `open(triggerId)` throws when no trigger with that id is
+   * registered. Anchored popups (Menu, Popover, Tooltip, PreviewCard) need a trigger to anchor to,
+   * so they throw; Dialog is not anchored and instead opens unassociated with a dev warning.
+   */
+  constructor(fallbackStore, componentName, throwOnMissingTrigger = true) {
+    this.fallbackStore = fallbackStore;
+    this.componentName = componentName;
+    this.throwOnMissingTrigger = throwOnMissingTrigger;
+  }
+  get attachedStore() {
+    return this.attachedStoreValue;
+  }
+  /**
+   * Store that detached triggers read from: the attached root's store, or an inert fallback store
+   * used while no root is attached.
+   * @internal
+   */
+  get store() {
+    return this.attachedStoreValue ?? this.fallbackStore;
+  }
+  /**
+   * Stable fallback store used for server rendering and hydration. Root stores cannot be recorded on
+   * the handle during render because a handle can be shared by concurrent server-rendered requests.
+   * @internal
+   */
+  get serverStore() {
+    return this.fallbackStore;
+  }
+  /**
+   * Subscribes to changes of the attached store pointer so detached triggers re-render and re-bind
+   * when a root attaches or detaches. Returns a function that removes the listener.
+   * @internal
+   */
+  subscribeStore(listener) {
+    this.storeListeners.add(listener);
+    return () => {
+      this.storeListeners.delete(listener);
+    };
+  }
+  /**
+   * Points the handle at a root's store and notifies subscribers so detached triggers re-render and
+   * re-register into it (their registration effect migrates them when the store pointer changes).
+   * Returns a cleanup function that detaches the store again.
+   * @internal
+   */
+  attachStore(newStore) {
+    this.attachedStores.push(newStore);
+    this.setActiveStore(newStore);
+    if (true) {
+      if (this.attachedStores.length > 1) {
+        const dev = this;
+        (dev.overlapWarningFrame ??= AnimationFrame.create()).request(() => {
+          if (this.attachedStores.length > 1) {
+            console.warn("Base UI: A handle is attached to more than one mounted root at the same time. The most recently mounted root takes over and the previous one stops being controlled by the handle. A handle should be used by a single root that stays mounted for the lifetime of the handle.");
+          }
+        });
+      }
+    }
+    return () => {
+      const index2 = this.attachedStores.lastIndexOf(newStore);
+      if (index2 !== -1) {
+        this.attachedStores.splice(index2, 1);
+      }
+      this.setActiveStore(this.attachedStores[this.attachedStores.length - 1] ?? null);
+    };
+  }
+  /**
+   * Sets the store that currently controls the handle and notifies subscribers when it changes, so
+   * detached triggers re-render and migrate their registration to the new store.
+   */
+  setActiveStore(store) {
+    if (this.attachedStoreValue !== store) {
+      this.attachedStoreValue = store;
+      this.storeListeners.forEach((listener) => {
+        listener();
+      });
+    }
+  }
+  /**
+   * Opens the attached root's store and associates it with the trigger with the given id, or a
+   * no-op (with a dev warning) while no root is attached. Shared by every concrete handle's public
+   * `open()` method, which only narrows the parameter type.
+   *
+   * When a trigger id is given but no matching trigger is registered, anchored popups throw (see
+   * `throwOnMissingTrigger`); Dialog opens unassociated with a dev warning instead.
+   *
+   * This method should only be called in an event handler or an effect (not during rendering).
+   *
+   * @param triggerId ID of the trigger to associate with the popup, or `null`/`undefined` to open
+   * without associating any trigger.
+   */
+  openByTrigger(triggerId) {
+    const attachedStore = this.attachedStore;
+    if (attachedStore === null) {
+      if (true) {
+        console.warn(`Base UI: ${this.componentName}Handle.open() was called while no root using this handle is mounted. The call was ignored; mount a root with this handle before opening it imperatively.`);
+      }
+      return;
+    }
+    let triggerElement;
+    if (triggerId) {
+      for (let i = this.attachedStores.length - 1; i >= 0 && !triggerElement; i -= 1) {
+        triggerElement = this.attachedStores[i].context.triggerElements.getById(triggerId);
+      }
+      triggerElement ??= this.fallbackStore.context.triggerElements.getById(triggerId);
+    }
+    if (triggerId && !triggerElement) {
+      if (this.throwOnMissingTrigger) {
+        throw new Error(true ? `Base UI: ${this.componentName}Handle.open() was called with the trigger id "${triggerId}", but no matching trigger is registered with this handle. An anchored popup cannot open without a trigger to anchor to. Pass the id of a mounted ${this.componentName}.Trigger that has this handle set on its "handle" prop.` : formatErrorMessage_default(99, this.componentName, triggerId, this.componentName));
+      }
+      if (true) {
+        console.warn(`Base UI: ${this.componentName}Handle.open: No trigger found with id "${triggerId}". The popup will open, but the trigger will not be associated with it.`);
+      }
+    }
+    attachedStore.setOpen(true, createChangeEventDetails(reason_parts_exports.imperativeAction, void 0, triggerElement));
+  }
+  /**
+   * Closes the popup by setting the attached root's store to closed, or a no-op (with a dev warning)
+   * while no root is attached. Shared by every concrete handle's public `close()` method.
+   *
+   * This method should only be called in an event handler or an effect (not during rendering).
+   */
+  closePopup() {
+    const attachedStore = this.attachedStore;
+    if (attachedStore === null) {
+      if (true) {
+        console.warn(`Base UI: ${this.componentName}Handle.close() was called while no root using this handle is mounted. The call was ignored.`);
+      }
+      return;
+    }
+    attachedStore.setOpen(false, createChangeEventDetails(reason_parts_exports.imperativeAction));
+  }
+};
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/popups/popupStoreUtils.mjs
+var React28 = __toESM(require_react(), 1);
+var ReactDOM3 = __toESM(require_react_dom(), 1);
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useSyncedFloatingRootContext.mjs
+function useSyncedFloatingRootContext(options) {
+  const {
+    popupStore,
+    treatPopupAsFloatingElement = false,
+    floatingRootContext: store,
+    floatingId,
+    nested,
+    onOpenChange
+  } = options;
+  const open2 = popupStore.useState("open");
+  const referenceElement = popupStore.useState("activeTriggerElement");
+  const floatingElement = popupStore.useState(treatPopupAsFloatingElement ? "popupElement" : "positionerElement");
+  const handleOpenChange = onOpenChange;
+  popupStore.useSyncedValue("floatingId", floatingId);
+  useIsoLayoutEffect(() => {
+    const valuesToSync = {
+      open: open2,
+      floatingId,
+      referenceElement,
+      floatingElement
+    };
+    if (isElement(referenceElement)) {
+      valuesToSync.domReferenceElement = referenceElement;
+    }
+    if (store.state.positionReference === store.state.referenceElement) {
+      valuesToSync.positionReference = referenceElement;
+    }
+    store.update(valuesToSync);
+  }, [open2, floatingId, referenceElement, floatingElement, store]);
+  store.context.onOpenChange = handleOpenChange;
+  store.context.nested = nested;
+  return store;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useUnmountAfterClose.mjs
+var React27 = __toESM(require_react(), 1);
+function useUnmountAfterClose(parameters) {
+  const {
+    open: open2,
+    ref,
+    preventUnmountOnClose,
+    setPreventUnmountOnClose: setPreventUnmountOnCloseParam,
+    onUnmount,
+    animateInitialOpen
+  } = parameters;
+  const setPreventUnmountOnClose = useStableCallback(setPreventUnmountOnCloseParam);
+  const {
+    mounted,
+    setMounted,
+    transitionStatus
+  } = useTransitionStatus(open2, false, false, animateInitialOpen);
+  const preventUnmountingOnClose = open2 ? false : preventUnmountOnClose;
+  useIsoLayoutEffect(() => {
+    if (open2) {
+      setPreventUnmountOnClose(false);
+    }
+  }, [open2, setPreventUnmountOnClose]);
+  const mountedRef = React27.useRef(mounted);
+  const pendingUnmountRef = React27.useRef(false);
+  const rerender = useForcedRerendering();
+  const unmount = () => {
+    mountedRef.current = false;
+    setMounted(false);
+    onUnmount();
+  };
+  useIsoLayoutEffect(() => {
+    mountedRef.current = mounted;
+    if (pendingUnmountRef.current) {
+      pendingUnmountRef.current = false;
+      if (!open2 && mounted) {
+        unmount();
+      }
+    }
+  });
+  const forceUnmount = useStableCallback(() => {
+    if (!mountedRef.current) {
+      return;
+    }
+    if (open2) {
+      pendingUnmountRef.current = true;
+      rerender();
+      return;
+    }
+    unmount();
+  });
+  useOpenChangeComplete({
+    enabled: mounted && !open2 && !preventUnmountingOnClose,
+    open: open2,
+    ref,
+    onComplete() {
+      if (!open2) {
+        forceUnmount();
+      }
+    }
+  });
+  return {
+    mounted,
+    transitionStatus,
+    preventUnmountingOnClose,
+    forceUnmount
+  };
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/popups/popupStoreUtils.mjs
+var FOCUSABLE_POPUP_PROPS = {
+  tabIndex: -1,
+  [FOCUSABLE_ATTRIBUTE]: ""
+};
+function usePopupRootStore(createStore, treatPopupAsFloatingElement = false) {
+  const floatingId = useId();
+  const nested = useFloatingParentNodeId() != null;
+  const store = useRefWithInit(() => createStore(floatingId, nested)).current;
+  useSyncedFloatingRootContext({
+    popupStore: store,
+    treatPopupAsFloatingElement,
+    floatingRootContext: store.state.floatingRootContext,
+    floatingId,
+    nested,
+    onOpenChange: store.setOpen
+  });
+  return store;
+}
+function PopupHandleAttachment({
+  handle,
+  store
+}) {
+  useIsoLayoutEffect(() => {
+    return handle.attachStore(store);
+  }, [handle, store]);
+  return null;
+}
+function syncTriggerCount(store) {
+  const triggerCount = store.context.triggerElements.size;
+  if (store.select("open") && store.state.triggerCount !== triggerCount) {
+    store.set("triggerCount", triggerCount);
+  }
+}
+function useTriggerRegistration(id, store) {
+  const registrationRef = React28.useRef(null);
+  return useStableCallback((element) => {
+    const registration = registrationRef.current;
+    if (registration !== null) {
+      if (registration.element === element && registration.store === store && registration.id === id) {
+        return;
+      }
+      registrationRef.current = null;
+      const registeredStore = registration.store;
+      if (registeredStore.context.triggerElements.getById(registration.id) === registration.element) {
+        registeredStore.context.triggerElements.delete(registration.id);
+        syncTriggerCount(registeredStore);
+      }
+    }
+    if (element !== null && id !== void 0) {
+      registrationRef.current = {
+        store,
+        id,
+        element
+      };
+      store.context.triggerElements.add(id, element);
+      syncTriggerCount(store);
+    }
+  });
+}
+function createPopupOpenState(state, open2, trigger, preventUnmountOnClose = false) {
+  let preventUnmountingOnClose = state.preventUnmountingOnClose;
+  if (open2) {
+    preventUnmountingOnClose = false;
+  } else if (preventUnmountOnClose) {
+    preventUnmountingOnClose = true;
+  }
+  const triggerId = trigger?.id ?? null;
+  let activeTriggerId = state.activeTriggerId;
+  let activeTriggerElement = state.activeTriggerElement;
+  if (triggerId || open2) {
+    activeTriggerId = triggerId;
+    activeTriggerElement = trigger ?? null;
+  }
+  return {
+    open: open2,
+    preventUnmountingOnClose,
+    activeTriggerId,
+    activeTriggerElement,
+    // An open request without a trigger (a handle's `open(null)` or `openWithPayload()`) must not
+    // be reassociated with a lone registered trigger later on. Controlled and default opens never
+    // pass through here, so they keep claiming a lone trigger. A close request keeps the flag: a
+    // controlled root may decline it and stay open, so the Root clears the flag only once the
+    // popup is effectively closed.
+    openedWithoutTrigger: open2 ? trigger == null : state.openedWithoutTrigger
+  };
+}
+function attachPreventUnmountOnClose(eventDetails) {
+  let preventUnmountOnClose = false;
+  eventDetails.preventUnmountOnClose = () => {
+    preventUnmountOnClose = true;
+  };
+  return () => preventUnmountOnClose;
+}
+function applyPopupOpenChange(store, nextOpen, eventDetails, options = {}) {
+  const reason = eventDetails.reason;
+  const isHover = reason === reason_parts_exports.triggerHover;
+  const isFocusOpen = nextOpen && reason === reason_parts_exports.triggerFocus;
+  const isDismissClose = !nextOpen && (reason === reason_parts_exports.triggerPress || reason === reason_parts_exports.escapeKey);
+  const shouldPreventUnmountOnClose = attachPreventUnmountOnClose(eventDetails);
+  store.context.onOpenChange?.(nextOpen, eventDetails);
+  if (eventDetails.isCanceled) {
+    return;
+  }
+  options.onBeforeDispatch?.();
+  store.state.floatingRootContext.dispatchOpenChange(nextOpen, eventDetails);
+  const changeState = () => {
+    const popupOpenState = createPopupOpenState(store.state, nextOpen, eventDetails.trigger, shouldPreventUnmountOnClose());
+    const updatedState = {
+      ...options.extraState,
+      ...popupOpenState
+    };
+    if (isFocusOpen) {
+      updatedState.instantType = "focus";
+    } else if (isDismissClose) {
+      updatedState.instantType = "dismiss";
+    } else if (isHover) {
+      updatedState.instantType = void 0;
+    }
+    store.update(updatedState);
+  };
+  if (isHover) {
+    ReactDOM3.flushSync(changeState);
+  } else {
+    changeState();
+  }
+}
+function useTriggerDataForwarding(triggerId, triggerElementRef, store, stateUpdates) {
+  const isMountedByThisTrigger = store.useState("isMountedByTrigger", triggerId);
+  const baseRegisterTrigger = useTriggerRegistration(triggerId, store);
+  const applyTriggerData = useStableCallback((element) => {
+    const open2 = store.select("open");
+    const activeTriggerId = store.select("activeTriggerId");
+    if (activeTriggerId === triggerId) {
+      const changes = {
+        activeTriggerElement: element,
+        ...open2 ? stateUpdates : null
+      };
+      store.update(changes);
+      return;
+    }
+    if (activeTriggerId == null && open2 && !store.state.openedWithoutTrigger) {
+      const changes = {
+        activeTriggerId: triggerId ?? null,
+        activeTriggerElement: element,
+        ...stateUpdates
+      };
+      store.update(changes);
+    }
+  });
+  const registerTrigger = useStableCallback((element) => {
+    baseRegisterTrigger(element);
+    if (element) {
+      applyTriggerData(element);
+    }
+  });
+  useIsoLayoutEffect(() => {
+    registerTrigger(triggerElementRef.current);
+    return () => registerTrigger(null);
+  }, [registerTrigger, triggerElementRef, store, triggerId]);
+  useIsoLayoutEffect(() => {
+    if (isMountedByThisTrigger) {
+      const changes = {
+        activeTriggerElement: triggerElementRef.current,
+        ...stateUpdates
+      };
+      store.update(changes);
+    }
+  }, [isMountedByThisTrigger, store, triggerElementRef, ...Object.values(stateUpdates)]);
+  return {
+    registerTrigger,
+    isMountedByThisTrigger
+  };
+}
+function useImplicitActiveTrigger(store, options = {}) {
+  const {
+    closeOnActiveTriggerUnmount = false
+  } = options;
+  const resolvedActiveTriggerIdRef = React28.useRef(null);
+  const open2 = store.useState("open");
+  const reactiveTriggerCount = store.useState("triggerCount");
+  const activeTriggerId = store.useState("activeTriggerId");
+  const reactiveActiveTriggerElement = store.useState("activeTriggerElement");
+  useIsoLayoutEffect(() => {
+    if (!open2) {
+      resolvedActiveTriggerIdRef.current = null;
+      if (store.state.triggerCount !== 0) {
+        store.set("triggerCount", 0);
+      }
+      if (store.state.openedWithoutTrigger) {
+        store.set("openedWithoutTrigger", false);
+      }
+      return;
+    }
+    const triggerCount = store.context.triggerElements.size;
+    const stateUpdates = {};
+    if (store.state.triggerCount !== triggerCount) {
+      stateUpdates.triggerCount = triggerCount;
+    }
+    const currentActiveTriggerId = store.select("activeTriggerId");
+    let lostActiveTriggerId = null;
+    if (currentActiveTriggerId) {
+      const activeTriggerElement = store.context.triggerElements.getById(currentActiveTriggerId);
+      if (!activeTriggerElement) {
+        for (const [triggerId, triggerElement] of store.context.triggerElements.entries()) {
+          if (triggerElement === store.state.activeTriggerElement) {
+            stateUpdates.activeTriggerId = triggerId;
+            stateUpdates.activeTriggerElement = triggerElement;
+            resolvedActiveTriggerIdRef.current = triggerId;
+            break;
+          }
+        }
+        if (stateUpdates.activeTriggerId === void 0) {
+          if (resolvedActiveTriggerIdRef.current === currentActiveTriggerId) {
+            lostActiveTriggerId = currentActiveTriggerId;
+          } else {
+            resolvedActiveTriggerIdRef.current = null;
+          }
+        }
+      } else {
+        resolvedActiveTriggerIdRef.current = currentActiveTriggerId;
+        if (activeTriggerElement !== store.state.activeTriggerElement) {
+          stateUpdates.activeTriggerElement = activeTriggerElement;
+        }
+      }
+    } else {
+      resolvedActiveTriggerIdRef.current = null;
+    }
+    if (!lostActiveTriggerId && !currentActiveTriggerId && !store.state.openedWithoutTrigger && triggerCount === 1) {
+      const iteratorResult = store.context.triggerElements.entries().next();
+      if (!iteratorResult.done) {
+        const [implicitTriggerId, implicitTriggerElement] = iteratorResult.value;
+        stateUpdates.activeTriggerId = implicitTriggerId;
+        stateUpdates.activeTriggerElement = implicitTriggerElement;
+        resolvedActiveTriggerIdRef.current = implicitTriggerId;
+      }
+    }
+    if (stateUpdates.triggerCount !== void 0 || stateUpdates.activeTriggerId !== void 0 || stateUpdates.activeTriggerElement !== void 0) {
+      store.update(stateUpdates);
+    }
+    if (lostActiveTriggerId) {
+      if (closeOnActiveTriggerUnmount) {
+        queueMicrotask(() => {
+          if (store.select("open") && store.select("activeTriggerId") === lostActiveTriggerId && !store.context.triggerElements.getById(lostActiveTriggerId)) {
+            const eventDetails = createChangeEventDetails(reason_parts_exports.none);
+            store.setOpen(false, eventDetails);
+            if (!eventDetails.isCanceled) {
+              store.update({
+                activeTriggerId: null,
+                activeTriggerElement: null
+              });
+            }
+          }
+        });
+      }
+    }
+  }, [open2, store, reactiveTriggerCount, activeTriggerId, reactiveActiveTriggerElement, closeOnActiveTriggerUnmount]);
+}
+function useOpenStateTransitions(open2, store, onUnmount, animateInitialOpen) {
+  const {
+    mounted,
+    transitionStatus,
+    forceUnmount
+  } = useUnmountAfterClose({
+    open: open2,
+    ref: store.context.popupRef,
+    preventUnmountOnClose: store.useState("preventUnmountingOnClose"),
+    setPreventUnmountOnClose: (preventUnmountOnClose) => store.set("preventUnmountingOnClose", preventUnmountOnClose),
+    animateInitialOpen,
+    onUnmount() {
+      store.update({
+        activeTriggerId: null,
+        activeTriggerElement: null,
+        mounted: false,
+        preventUnmountingOnClose: false
+      });
+      onUnmount?.();
+      store.context.onOpenChangeComplete?.(false);
+    }
+  });
+  useRefWithInit(() => {
+    store.set("mounted", mounted);
+    return null;
+  });
+  store.useSyncedValues({
+    mounted,
+    transitionStatus
+  });
+  return {
+    forceUnmount,
+    transitionStatus
+  };
+}
+function usePopupInteractionProps(store, statePart) {
+  store.useSyncedValues(statePart);
+  useIsoLayoutEffect(() => () => {
+    store.update({
+      activeTriggerProps: EMPTY_OBJECT,
+      inactiveTriggerProps: EMPTY_OBJECT,
+      popupProps: EMPTY_OBJECT
+    });
+  }, [store]);
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/popups/popupTriggerMap.mjs
+var devElementIdsByMap;
+function getDevElementIds(map) {
+  devElementIdsByMap ??= /* @__PURE__ */ new WeakMap();
+  let elementIds = devElementIdsByMap.get(map);
+  if (!elementIds) {
+    elementIds = /* @__PURE__ */ new WeakMap();
+    devElementIdsByMap.set(map, elementIds);
+  }
+  return elementIds;
+}
+var PopupTriggerMap = class {
+  idMap = /* @__PURE__ */ new Map();
+  /**
+   * Adds a trigger element with the given ID.
+   *
+   * Note: The provided element is assumed to not be registered under multiple IDs.
+   */
+  add(id, element) {
+    if (true) {
+      const elementIds = getDevElementIds(this);
+      const existingId = elementIds.get(element);
+      if (existingId !== void 0 && existingId !== id) {
+        throw new Error("Base UI: A trigger element cannot be registered under multiple IDs in PopupTriggerMap.");
+      }
+      const previousElement = this.idMap.get(id);
+      if (previousElement !== void 0 && previousElement !== element) {
+        elementIds.delete(previousElement);
+      }
+      elementIds.set(element, id);
+    }
+    this.idMap.set(id, element);
+  }
+  /**
+   * Removes the trigger element with the given ID.
+   */
+  delete(id) {
+    if (true) {
+      const element = this.idMap.get(id);
+      if (element !== void 0) {
+        devElementIdsByMap?.get(this)?.delete(element);
+      }
+    }
+    this.idMap.delete(id);
+  }
+  /**
+   * Whether the given element is registered as a trigger.
+   */
+  hasElement(element) {
+    for (const registered of this.idMap.values()) {
+      if (registered === element) {
+        return true;
+      }
+    }
+    return false;
+  }
+  /**
+   * Whether there is a registered trigger element matching the given predicate.
+   */
+  hasMatchingElement(predicate) {
+    for (const element of this.idMap.values()) {
+      if (predicate(element)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  /**
+   * Returns the trigger element associated with the given ID, or undefined if no such element exists.
+   */
+  getById(id) {
+    return this.idMap.get(id);
+  }
+  /**
+   * Returns an iterable of all registered trigger entries, where each entry is a tuple of [id, element].
+   */
+  entries() {
+    return this.idMap.entries();
+  }
+  /**
+   * Returns an iterable of all registered trigger elements.
+   */
+  elements() {
+    return this.idMap.values();
+  }
+  /**
+   * Returns the number of registered trigger elements.
+   */
+  get size() {
+    return this.idMap.size;
+  }
+};
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/store/useStore.mjs
+var React30 = __toESM(require_react(), 1);
+var import_shim = __toESM(require_shim(), 1);
+var import_with_selector = __toESM(require_with_selector(), 1);
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/fastHooks.mjs
+var React29 = __toESM(require_react(), 1);
+var hooks = [];
+var currentInstance = void 0;
+function getInstance() {
+  return currentInstance;
+}
+function register(hook) {
+  hooks.push(hook);
+}
+function fastComponent(fn) {
+  const FastComponent = (props, forwardedRef) => {
+    const instance = useRefWithInit(createInstance).current;
+    let result;
+    try {
+      currentInstance = instance;
+      for (const hook of hooks) {
+        hook.before(instance);
+      }
+      result = fn(props, forwardedRef);
+      for (const hook of hooks) {
+        hook.after(instance);
+      }
+      instance.didInitialize = true;
+    } finally {
+      currentInstance = void 0;
+    }
+    return result;
+  };
+  FastComponent.displayName = fn.displayName || fn.name;
+  return FastComponent;
+}
+function fastComponentRef(fn) {
+  return /* @__PURE__ */ React29.forwardRef(fastComponent(fn));
+}
+function createInstance() {
+  return {
+    didInitialize: false
+  };
+}
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/store/useStore.mjs
+var canUseRawUseSyncExternalStore = isReactVersionAtLeast(19);
+var useStoreImplementation = canUseRawUseSyncExternalStore ? useStoreFast : useStoreLegacy;
+function useStore(store, selector, a1, a2, a3) {
+  return useStoreImplementation(store, selector, a1, a2, a3);
+}
+function useStoreR19(store, selector, a1, a2, a3) {
+  const getSelection = React30.useCallback(() => selector(store.getSnapshot(), a1, a2, a3), [store, selector, a1, a2, a3]);
+  return (0, import_shim.useSyncExternalStore)(store.subscribe, getSelection, getSelection);
+}
+register({
+  before(instance) {
+    instance.syncIndex = 0;
+    if (!instance.didInitialize) {
+      instance.syncTick = 1;
+      instance.syncHooks = [];
+      instance.didChangeStore = true;
+      instance.getSnapshot = () => {
+        let didChange2 = false;
+        for (let i = 0; i < instance.syncHooks.length; i += 1) {
+          const hook = instance.syncHooks[i];
+          const value = hook.selector(hook.store.state, hook.a1, hook.a2, hook.a3);
+          if (!Object.is(hook.value, value)) {
+            didChange2 = true;
+            hook.value = value;
+          }
+        }
+        if (didChange2) {
+          instance.syncTick += 1;
+        }
+        return instance.syncTick;
+      };
+    }
+  },
+  after(instance) {
+    if (instance.syncHooks.length > 0) {
+      if (instance.didChangeStore) {
+        instance.didChangeStore = false;
+        instance.subscribe = (onStoreChange) => {
+          const stores = /* @__PURE__ */ new Set();
+          for (const hook of instance.syncHooks) {
+            stores.add(hook.store);
+          }
+          const unsubscribes = [];
+          for (const store of stores) {
+            unsubscribes.push(store.subscribe(onStoreChange));
+          }
+          return () => {
+            for (const unsubscribe of unsubscribes) {
+              unsubscribe();
+            }
+          };
+        };
+      }
+      (0, import_shim.useSyncExternalStore)(instance.subscribe, instance.getSnapshot, instance.getSnapshot);
+    }
+  }
+});
+function useStoreFast(store, selector, a1, a2, a3) {
+  const instance = getInstance();
+  if (!instance) {
+    return useStoreR19(store, selector, a1, a2, a3);
+  }
+  const index2 = instance.syncIndex;
+  instance.syncIndex += 1;
+  let hook;
+  if (!instance.didInitialize) {
+    hook = {
+      store,
+      selector,
+      a1,
+      a2,
+      a3,
+      value: selector(store.getSnapshot(), a1, a2, a3)
+    };
+    instance.syncHooks.push(hook);
+  } else {
+    hook = instance.syncHooks[index2];
+    if (hook.store !== store || hook.selector !== selector || !Object.is(hook.a1, a1) || !Object.is(hook.a2, a2) || !Object.is(hook.a3, a3)) {
+      if (hook.store !== store) {
+        instance.didChangeStore = true;
+      }
+      hook.store = store;
+      hook.selector = selector;
+      hook.a1 = a1;
+      hook.a2 = a2;
+      hook.a3 = a3;
+      hook.value = selector(store.getSnapshot(), a1, a2, a3);
+    }
+  }
+  return hook.value;
+}
+function useStoreLegacy(store, selector, a1, a2, a3) {
+  return (0, import_with_selector.useSyncExternalStoreWithSelector)(store.subscribe, store.getSnapshot, store.getSnapshot, (state) => selector(state, a1, a2, a3));
+}
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/store/Store.mjs
+var Store = class {
+  /**
+   * Creates a store with the given initial state, constructing the class it is called on.
+   * Calling it on a generic base class (e.g. `ReactStore.create(...)`) constructs that
+   * class but degrades the inferred instance type to `Store`; use `new` there instead.
+   */
+  static create(state) {
+    return new this(state);
+  }
+  /**
+   * The current state of the store.
+   * This property is updated immediately when the state changes as a result of calling {@link setState}, {@link update}, or {@link set}.
+   * To subscribe to state changes, use the {@link useState} method. The value returned by {@link useState} is updated after the component renders (similarly to React's useState).
+   * The values can be used directly (to avoid subscribing to the store) in effects or event handlers.
+   *
+   * Do not modify properties in state directly. Instead, use the provided methods to ensure proper state management and listener notification.
+   */
+  // Internal state to handle recursive `setState()` calls
+  constructor(state) {
+    this.state = state;
+    this.listeners = /* @__PURE__ */ new Set();
+    this.updateTick = 0;
+  }
+  /**
+   * Registers a listener that will be called whenever the store's state changes.
+   *
+   * @param fn The listener function to be called on state changes.
+   * @returns A function to unsubscribe the listener.
+   */
+  subscribe = (fn) => {
+    this.listeners.add(fn);
+    return () => {
+      this.listeners.delete(fn);
+    };
+  };
+  /**
+   * Returns the current state of the store.
+   */
+  getSnapshot = () => {
+    return this.state;
+  };
+  /**
+   * Updates the entire store's state and notifies all registered listeners.
+   *
+   * @param newState The new state to set for the store.
+   */
+  setState(newState) {
+    if (this.state === newState) {
+      return;
+    }
+    this.state = newState;
+    this.updateTick += 1;
+    const currentTick = this.updateTick;
+    for (const listener of this.listeners) {
+      if (currentTick !== this.updateTick) {
+        return;
+      }
+      listener(newState);
+    }
+  }
+  /**
+   * Merges the provided changes into the current state and notifies listeners if there are changes.
+   * Each value must match its state key. Pass an exact known subset rather than a broad
+   * `Partial<State>`, which may contain `undefined` for required state fields.
+   *
+   * @param changes An object containing the changes to apply to the current state.
+   */
+  update(changes) {
+    for (const key in changes) {
+      if (!Object.is(this.state[key], changes[key])) {
+        this.setState({
+          ...this.state,
+          ...changes
+        });
+        return;
+      }
+    }
+  }
+  /**
+   * Sets a specific key in the store's state to a new value and notifies listeners if the value has changed.
+   *
+   * @param key The key in the store's state to update.
+   * @param value The new value to set for the specified key.
+   */
+  set(key, value) {
+    if (!Object.is(this.state[key], value)) {
+      this.setState({
+        ...this.state,
+        [key]: value
+      });
+    }
+  }
+  /**
+   * Gives the state a new reference and updates all registered listeners.
+   */
+  notifyAll() {
+    const newState = {
+      ...this.state
+    };
+    this.setState(newState);
+  }
+  use(selector, a1, a2, a3) {
+    return useStore(this, selector, a1, a2, a3);
+  }
+};
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/store/ReactStore.mjs
+var React31 = __toESM(require_react(), 1);
+var ReactStore = class extends Store {
+  /**
+   * Creates a new ReactStore instance.
+   *
+   * @param state Initial state of the store.
+   * @param context Non-reactive context values.
+   * @param selectors Optional selectors for use with `useState`.
+   */
+  constructor(state, context = {}, selectors4) {
+    super(state);
+    this.context = context;
+    this.selectors = selectors4;
+  }
+  /**
+   * Non-reactive values such as refs, callbacks, etc.
+   */
+  /**
+   * Synchronizes a single external value into the store.
+   *
+   * Note that the while the value in `state` is updated immediately, the value returned
+   * by `useState` is updated before the next render (similarly to React's `useState`).
+   */
+  useSyncedValue(key, value) {
+    React31.useDebugValue(key);
+    const store = this;
+    useIsoLayoutEffect(() => {
+      if (store.state[key] !== value) {
+        store.set(key, value);
+      }
+    }, [store, key, value]);
+  }
+  /**
+   * Synchronizes a single external value into the store and
+   * cleans it up (sets to `undefined`) on unmount.
+   *
+   * Note that the while the value in `state` is updated immediately, the value returned
+   * by `useState` is updated before the next render (similarly to React's `useState`).
+   */
+  useSyncedValueWithCleanup(key, value) {
+    const store = this;
+    useIsoLayoutEffect(() => {
+      if (store.state[key] !== value) {
+        store.set(key, value);
+      }
+      return () => {
+        store.set(key, void 0);
+      };
+    }, [store, key, value]);
+  }
+  /**
+   * Synchronizes multiple external values into the store.
+   * Each value must match its state key. Pass an exact known subset rather than a broad
+   * `Partial<State>`, which may contain `undefined` for required state fields.
+   *
+   * Note that the while the values in `state` are updated immediately, the values returned
+   * by `useState` are updated before the next render (similarly to React's `useState`).
+   *
+   * @param statePart An exact subset of state fields to synchronize. Unknown keys are not accepted.
+   */
+  useSyncedValues(statePart) {
+    const store = this;
+    if (true) {
+      React31.useDebugValue(statePart, (p) => Object.keys(p));
+      const keys = React31.useRef(Object.keys(statePart)).current;
+      const nextKeys = Object.keys(statePart);
+      if (keys.length !== nextKeys.length || keys.some((key, index2) => key !== nextKeys[index2])) {
+        console.error("ReactStore.useSyncedValues expects the same prop keys on every render. Keys should be stable.");
+      }
+    }
+    const dependencies = Object.values(statePart);
+    useIsoLayoutEffect(() => {
+      store.update(statePart);
+    }, [store, ...dependencies]);
+  }
+  /**
+   * Registers a controllable prop pair (`controlled`, `defaultValue`) for a specific key. If `controlled`
+   * is non-undefined, the store's state at `key` is updated to match `controlled`.
+   */
+  useControlledProp(key, controlled) {
+    React31.useDebugValue(key);
+    const store = this;
+    const isControlled = controlled !== void 0;
+    useIsoLayoutEffect(() => {
+      if (isControlled && !Object.is(store.state[key], controlled)) {
+        store.setState({
+          ...store.state,
+          [key]: controlled
+        });
+      }
+    }, [store, key, controlled, isControlled]);
+    if (true) {
+      const cache = this.controlledValues ??= /* @__PURE__ */ new Map();
+      if (!cache.has(key)) {
+        cache.set(key, isControlled);
+      }
+      const previouslyControlled = cache.get(key);
+      if (previouslyControlled !== void 0 && previouslyControlled !== isControlled) {
+        console.error(`A component is changing the ${previouslyControlled ? "" : "un"}controlled state of ${key.toString()} to be ${previouslyControlled ? "un" : ""}controlled. Elements should not switch from uncontrolled to controlled (or vice versa).`);
+      }
+    }
+  }
+  /** Gets the current value from the store using a selector with the provided key.
+   *
+   * @param key Key of the selector to use.
+   */
+  select(key, a1, a2, a3) {
+    const selector = this.selectors[key];
+    return selector(this.state, a1, a2, a3);
+  }
+  /**
+   * Returns a value from the store's state using a selector function.
+   * Used to subscribe to specific parts of the state.
+   * This methods causes a rerender whenever the selected state changes.
+   *
+   * @param key Key of the selector to use.
+   */
+  useState(key, a1, a2, a3) {
+    React31.useDebugValue(key);
+    return useStore(this, this.selectors[key], a1, a2, a3);
+  }
+  /**
+   * Wraps a function with `useStableCallback` to ensure it has a stable reference
+   * and assigns it to the context.
+   *
+   * @param key Key of the event callback. Must be a function in the context.
+   * @param fn Function to assign.
+   */
+  useContextCallback(key, fn) {
+    React31.useDebugValue(key);
+    const stableFunction = useStableCallback(fn ?? NOOP);
+    this.context[key] = stableFunction;
+  }
+  /**
+   * Returns a stable setter function for a specific key in the store's state.
+   * It's commonly used to pass as a ref callback to React elements.
+   *
+   * @param key Key of the state to set.
+   */
+  useStateSetter(key) {
+    const ref = React31.useRef(void 0);
+    if (ref.current === void 0) {
+      ref.current = (value) => {
+        this.set(key, value);
+      };
+    }
+    return ref.current;
+  }
+  /**
+   * Observes changes derived from the store's selectors and calls the listener when the selected value changes.
+   *
+   * @param key Key of the selector to observe.
+   * @param listener Listener function called when the selector result changes.
+   */
+  observe(selector, listener) {
+    let selectFn;
+    if (typeof selector === "function") {
+      selectFn = selector;
+    } else {
+      selectFn = this.selectors[selector];
+    }
+    let prevValue = selectFn(this.state);
+    listener(prevValue, prevValue, this);
+    return this.subscribe((nextState) => {
+      const nextValue = selectFn(nextState);
+      if (!Object.is(prevValue, nextValue)) {
+        const oldValue = prevValue;
+        prevValue = nextValue;
+        listener(nextValue, oldValue, this);
+      }
+    });
+  }
+};
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingRootStore.mjs
+var selectors = {
+  open: (state) => state.open,
+  transitionStatus: (state) => state.transitionStatus,
+  domReferenceElement: (state) => state.domReferenceElement,
+  referenceElement: (state) => state.positionReference ?? state.referenceElement,
+  floatingElement: (state) => state.floatingElement,
+  floatingId: (state) => state.floatingId
+};
+var FloatingRootStore = class extends ReactStore {
+  constructor(options) {
+    const {
+      syncOnly,
+      nested,
+      onOpenChange,
+      triggerElements,
+      ...initialState
+    } = options;
+    super({
+      ...initialState,
+      positionReference: initialState.referenceElement,
+      domReferenceElement: initialState.referenceElement
+    }, {
+      onOpenChange,
+      dataRef: {
+        current: {}
+      },
+      events: createEventEmitter(),
+      nested,
+      triggerElements
+    }, selectors);
+    this.syncOnly = syncOnly;
+  }
+  /**
+   * Syncs the event used by hover logic to distinguish hover-open from click-like interaction.
+   */
+  syncOpenEvent = (newOpen, event) => {
+    if (!newOpen || !this.state.open || // Prevent a pending hover-open from overwriting a click-open event, while allowing
+    // click events to upgrade a hover-open.
+    event != null && isClickLikeEvent(event)) {
+      this.context.dataRef.current.openEvent = newOpen ? event : void 0;
+    }
+  };
+  /**
+   * Runs the root-owned side effects for an open state change.
+   */
+  dispatchOpenChange = (newOpen, eventDetails) => {
+    this.syncOpenEvent(newOpen, eventDetails.event);
+    const details = {
+      open: newOpen,
+      reason: eventDetails.reason,
+      nativeEvent: eventDetails.event,
+      nested: this.context.nested,
+      triggerElement: eventDetails.trigger
+    };
+    this.context.events.emit("openchange", details);
+  };
+  /**
+   * Emits the `openchange` event through the internal event emitter and calls the `onOpenChange` handler with the provided arguments.
+   *
+   * @param newOpen The new open state.
+   * @param eventDetails Details about the event that triggered the open state change.
+   */
+  setOpen = (newOpen, eventDetails) => {
+    if (this.syncOnly) {
+      this.context.onOpenChange?.(newOpen, eventDetails);
+      return;
+    }
+    this.dispatchOpenChange(newOpen, eventDetails);
+    this.context.onOpenChange?.(newOpen, eventDetails);
+  };
+};
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/popups/store.mjs
+function createInitialPopupStoreState(triggerElements, floatingId, nested = false) {
+  return {
+    open: false,
+    openProp: void 0,
+    mounted: false,
+    transitionStatus: void 0,
+    floatingRootContext: new FloatingRootStore({
+      open: false,
+      transitionStatus: void 0,
+      floatingElement: null,
+      referenceElement: null,
+      triggerElements,
+      floatingId,
+      syncOnly: true,
+      nested,
+      onOpenChange: void 0
+    }),
+    floatingId,
+    triggerCount: 0,
+    preventUnmountingOnClose: false,
+    payload: void 0,
+    activeTriggerId: null,
+    activeTriggerElement: null,
+    openedWithoutTrigger: false,
+    triggerIdProp: void 0,
+    popupElement: null,
+    positionerElement: null,
+    activeTriggerProps: EMPTY_OBJECT,
+    inactiveTriggerProps: EMPTY_OBJECT,
+    popupProps: EMPTY_OBJECT
+  };
+}
+var activeTriggerIdSelector = (state) => state.triggerIdProp ?? state.activeTriggerId;
+var openSelector = (state) => state.openProp ?? state.open;
+var popupIdSelector = (state) => {
+  const popupId = state.popupElement?.id ?? state.floatingId;
+  return popupId || void 0;
+};
+function triggerOwnsOpenPopup(state, triggerId) {
+  return triggerId !== void 0 && openSelector(state) && activeTriggerIdSelector(state) === triggerId;
+}
+function triggerOwnsOpenPopupOrIsOnlyTrigger(state, triggerId) {
+  if (triggerOwnsOpenPopup(state, triggerId)) {
+    return true;
+  }
+  return triggerId !== void 0 && openSelector(state) && activeTriggerIdSelector(state) == null && !state.openedWithoutTrigger && state.triggerCount === 1;
+}
+var popupStoreSelectors = {
+  open: openSelector,
+  mounted: (state) => state.mounted,
+  // `open` is written synchronously on an open change; `mounted`/`transitionStatus` sync in a
+  // layout effect. Match useTransitionStatus so a retained popup does not miss its starting phase.
+  transitionStatus: (state) => openSelector(state) && !state.mounted ? "starting" : state.transitionStatus,
+  floatingRootContext: (state) => state.floatingRootContext,
+  triggerCount: (state) => state.triggerCount,
+  preventUnmountingOnClose: (state) => state.preventUnmountingOnClose,
+  payload: (state) => state.payload,
+  activeTriggerId: activeTriggerIdSelector,
+  activeTriggerElement: (state) => state.mounted ? state.activeTriggerElement : null,
+  popupId: popupIdSelector,
+  /**
+   * Whether the trigger with the given ID was used to open the popup.
+   */
+  isTriggerActive: (state, triggerId) => triggerId !== void 0 && activeTriggerIdSelector(state) === triggerId,
+  /**
+   * Whether the popup is open and was activated by a trigger with the given ID.
+   */
+  isOpenedByTrigger: (state, triggerId) => triggerOwnsOpenPopup(state, triggerId),
+  /**
+   * Whether the popup is mounted and was activated by a trigger with the given ID.
+   */
+  isMountedByTrigger: (state, triggerId) => triggerId !== void 0 && activeTriggerIdSelector(state) === triggerId && state.mounted,
+  triggerProps: (state, isActive) => isActive ? state.activeTriggerProps : state.inactiveTriggerProps,
+  /**
+   * Popup id for the trigger that currently owns the open popup.
+   */
+  triggerPopupId: (state, triggerId) => triggerOwnsOpenPopupOrIsOnlyTrigger(state, triggerId) ? popupIdSelector(state) : void 0,
+  popupProps: (state) => state.popupProps,
+  popupElement: (state) => state.popupElement,
+  positionerElement: (state) => state.positionerElement
+};
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/popups/usePopupHandleStore.mjs
+var React32 = __toESM(require_react(), 1);
+var import_shim2 = __toESM(require_shim(), 1);
+function usePopupHandleStore(handle) {
+  const subscribe = React32.useCallback((listener) => {
+    if (handle === void 0) {
+      return NOOP;
+    }
+    return handle.subscribeStore(listener);
+  }, [handle]);
+  const getSnapshot = React32.useCallback(() => {
+    return handle === void 0 ? void 0 : handle.store;
+  }, [handle]);
+  return (0, import_shim2.useSyncExternalStore)(subscribe, getSnapshot, () => handle?.serverStore);
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useFloatingRootContext.mjs
+function useFloatingRootContext(options) {
+  const {
+    open: open2 = false,
+    onOpenChange,
+    elements = {}
+  } = options;
+  const floatingId = useId();
+  const nested = useFloatingParentNodeId() != null;
+  if (true) {
+    const optionDomReference = elements.reference;
+    if (optionDomReference && !isElement(optionDomReference)) {
+      console.error("Cannot pass a virtual element to the `elements.reference` option,", "as it must be a real DOM element. Use `context.setPositionReference()`", "instead.");
+    }
+  }
+  const store = useRefWithInit(() => new FloatingRootStore({
+    open: open2,
+    transitionStatus: void 0,
+    onOpenChange,
+    referenceElement: elements.reference ?? null,
+    floatingElement: elements.floating ?? null,
+    triggerElements: new PopupTriggerMap(),
+    floatingId,
+    syncOnly: false,
+    nested
+  })).current;
+  useIsoLayoutEffect(() => {
+    const valuesToSync = {
+      open: open2,
+      floatingId
+    };
+    if (elements.reference !== void 0) {
+      valuesToSync.referenceElement = elements.reference;
+      valuesToSync.domReferenceElement = isElement(elements.reference) ? elements.reference : null;
+    }
+    if (elements.floating !== void 0) {
+      valuesToSync.floatingElement = elements.floating;
+    }
+    store.update(valuesToSync);
+  }, [open2, floatingId, elements.reference, elements.floating, store]);
+  store.context.onOpenChange = onOpenChange;
+  store.context.nested = nested;
+  return store;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useFocus.mjs
 var React33 = __toESM(require_react(), 1);
+var isMacSafari = parts_exports.os.mac && parts_exports.engine.webkit;
+function useFocus(store, props = {}) {
+  const {
+    enabled = true,
+    delay
+  } = props;
+  const {
+    events,
+    dataRef
+  } = store.context;
+  const blockFocusRef = React33.useRef(false);
+  const blockedReferenceRef = React33.useRef(null);
+  const keyboardModalityRef = React33.useRef(true);
+  const timeout = useTimeout();
+  React33.useEffect(() => {
+    const domReference = store.select("domReferenceElement");
+    if (!enabled) {
+      return void 0;
+    }
+    const win = getWindow(domReference);
+    function onBlur() {
+      const currentDomReference = store.select("domReferenceElement");
+      if (!store.select("open") && isHTMLElement(currentDomReference) && currentDomReference === activeElement(ownerDocument(currentDomReference))) {
+        blockFocusRef.current = true;
+        blockedReferenceRef.current = currentDomReference;
+      }
+    }
+    function onKeyDown() {
+      keyboardModalityRef.current = true;
+    }
+    function onPointerDown() {
+      keyboardModalityRef.current = false;
+    }
+    return mergeCleanups(addEventListener(win, "blur", onBlur), isMacSafari && addEventListener(win, "keydown", onKeyDown, true), isMacSafari && addEventListener(win, "pointerdown", onPointerDown, true));
+  }, [store, enabled]);
+  React33.useEffect(() => {
+    if (!enabled) {
+      return void 0;
+    }
+    function onOpenChangeLocal(details) {
+      if (details.reason === reason_parts_exports.triggerPress || details.reason === reason_parts_exports.escapeKey) {
+        const referenceElement = store.select("domReferenceElement");
+        if (isElement(referenceElement)) {
+          blockedReferenceRef.current = referenceElement;
+          blockFocusRef.current = true;
+        }
+      }
+    }
+    events.on("openchange", onOpenChangeLocal);
+    return () => {
+      events.off("openchange", onOpenChangeLocal);
+    };
+  }, [events, enabled, store]);
+  const reference = React33.useMemo(() => {
+    function resetBlockedFocus() {
+      blockFocusRef.current = false;
+      blockedReferenceRef.current = null;
+    }
+    return {
+      onMouseLeave() {
+        resetBlockedFocus();
+      },
+      onFocus(event) {
+        const focusTarget = event.currentTarget;
+        if (blockFocusRef.current) {
+          if (blockedReferenceRef.current === focusTarget) {
+            return;
+          }
+          resetBlockedFocus();
+        }
+        const target = getTarget(event.nativeEvent);
+        if (isElement(target)) {
+          if (isMacSafari && !event.relatedTarget) {
+            if (!keyboardModalityRef.current && !isTypeableElement(target)) {
+              return;
+            }
+          } else if (!matchesFocusVisible(target)) {
+            return;
+          }
+        }
+        const movedFromOtherEnabledTrigger = isTargetInsideEnabledTrigger(event.relatedTarget, store.context.triggerElements);
+        const {
+          nativeEvent,
+          currentTarget
+        } = event;
+        if (store.select("open") && movedFromOtherEnabledTrigger || !delay) {
+          store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerFocus, nativeEvent, currentTarget));
+          return;
+        }
+        timeout.start(delay, () => {
+          if (blockFocusRef.current) {
+            return;
+          }
+          store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerFocus, nativeEvent, currentTarget));
+        });
+      },
+      onBlur(event) {
+        resetBlockedFocus();
+        const relatedTarget = event.relatedTarget;
+        const nativeEvent = event.nativeEvent;
+        const movedToFocusGuard = isElement(relatedTarget) && relatedTarget.hasAttribute(createAttribute("focus-guard")) && relatedTarget.getAttribute("data-type") === "outside";
+        timeout.start(0, () => {
+          const domReference = store.select("domReferenceElement");
+          const activeEl = activeElement(ownerDocument(domReference));
+          if (!relatedTarget && activeEl === domReference) {
+            return;
+          }
+          if (contains(dataRef.current.floatingContext?.refs.floating.current, activeEl) || contains(domReference, activeEl) || movedToFocusGuard) {
+            return;
+          }
+          const nextFocusedElement = relatedTarget ?? activeEl;
+          if (isTargetInsideEnabledTrigger(nextFocusedElement, store.context.triggerElements)) {
+            return;
+          }
+          store.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerFocus, nativeEvent));
+        });
+      }
+    };
+  }, [dataRef, delay, store, timeout]);
+  return React33.useMemo(() => enabled ? {
+    reference,
+    trigger: reference
+  } : {}, [enabled, reference]);
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverFloatingInteraction.mjs
+var React34 = __toESM(require_react(), 1);
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverInteractionSharedState.mjs
+var HoverInteraction = class _HoverInteraction {
+  pointerType = void 0;
+  interactedInside = false;
+  handler = void 0;
+  blockMouseMove = true;
+  performedPointerEventsMutation = false;
+  pointerEventsScopeElement = null;
+  pointerEventsReferenceElement = null;
+  pointerEventsFloatingElement = null;
+  restTimeoutPending = false;
+  openChangeTimeout = new Timeout();
+  restTimeout = new Timeout();
+  handleCloseOptions = void 0;
+  static create() {
+    return new _HoverInteraction();
+  }
+  dispose = () => {
+    this.openChangeTimeout.clear();
+    this.restTimeout.clear();
+  };
+  disposeEffect = () => {
+    return this.dispose;
+  };
+};
+var pointerEventsMutationOwnerByScopeElement = /* @__PURE__ */ new WeakMap();
+function clearSafePolygonPointerEventsMutation(instance) {
+  if (!instance.performedPointerEventsMutation) {
+    return;
+  }
+  const scopeElement = instance.pointerEventsScopeElement;
+  if (scopeElement && pointerEventsMutationOwnerByScopeElement.get(scopeElement) === instance) {
+    instance.pointerEventsScopeElement?.style.removeProperty("pointer-events");
+    instance.pointerEventsReferenceElement?.style.removeProperty("pointer-events");
+    instance.pointerEventsFloatingElement?.style.removeProperty("pointer-events");
+    pointerEventsMutationOwnerByScopeElement.delete(scopeElement);
+  }
+  instance.performedPointerEventsMutation = false;
+  instance.pointerEventsScopeElement = null;
+  instance.pointerEventsReferenceElement = null;
+  instance.pointerEventsFloatingElement = null;
+}
+function applySafePolygonPointerEventsMutation(instance, options) {
+  const {
+    scopeElement,
+    referenceElement,
+    floatingElement
+  } = options;
+  const existingOwner = pointerEventsMutationOwnerByScopeElement.get(scopeElement);
+  if (existingOwner && existingOwner !== instance) {
+    clearSafePolygonPointerEventsMutation(existingOwner);
+  }
+  clearSafePolygonPointerEventsMutation(instance);
+  instance.performedPointerEventsMutation = true;
+  instance.pointerEventsScopeElement = scopeElement;
+  instance.pointerEventsReferenceElement = referenceElement;
+  instance.pointerEventsFloatingElement = floatingElement;
+  pointerEventsMutationOwnerByScopeElement.set(scopeElement, instance);
+  scopeElement.style.pointerEvents = "none";
+  referenceElement.style.pointerEvents = "auto";
+  floatingElement.style.pointerEvents = "auto";
+}
+function useHoverInteractionSharedState(store) {
+  const data = store.context.dataRef.current;
+  const instance = useRefWithInit(() => data.hoverInteractionState ?? HoverInteraction.create()).current;
+  if (!data.hoverInteractionState) {
+    data.hoverInteractionState = instance;
+  }
+  useOnMount(data.hoverInteractionState.disposeEffect);
+  return data.hoverInteractionState;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverFloatingInteraction.mjs
+function useHoverFloatingInteraction(store, parameters = {}) {
+  const {
+    enabled = true,
+    closeDelay: closeDelayProp = 0,
+    nodeId: nodeIdProp
+  } = parameters;
+  const open2 = store.useState("open");
+  const floatingElement = store.useState("floatingElement");
+  const domReferenceElement = store.useState("domReferenceElement");
+  const {
+    dataRef
+  } = store.context;
+  const tree = useFloatingTree();
+  const parentId = useFloatingParentNodeId();
+  const instance = useHoverInteractionSharedState(store);
+  const childClosedTimeout = useTimeout();
+  const isClickLikeOpenEvent2 = useStableCallback(() => {
+    return isClickLikeOpenEvent(dataRef.current.openEvent?.type, instance.interactedInside);
+  });
+  const isHoverOpen = useStableCallback(() => {
+    return isHoverOpenEvent(dataRef.current.openEvent?.type);
+  });
+  const clearPointerEvents = useStableCallback(() => {
+    clearSafePolygonPointerEventsMutation(instance);
+  });
+  useIsoLayoutEffect(() => {
+    if (!open2) {
+      instance.pointerType = void 0;
+      instance.restTimeoutPending = false;
+      instance.interactedInside = false;
+      clearPointerEvents();
+    }
+  }, [open2, instance, clearPointerEvents]);
+  React34.useEffect(() => {
+    return clearPointerEvents;
+  }, [clearPointerEvents]);
+  useIsoLayoutEffect(() => {
+    if (!enabled) {
+      return void 0;
+    }
+    if (open2 && instance.handleCloseOptions?.blockPointerEvents && isHoverOpen() && isElement(domReferenceElement) && floatingElement) {
+      const ref = domReferenceElement;
+      const floatingEl = floatingElement;
+      const doc = ownerDocument(floatingElement);
+      const parentFloating = tree?.nodesRef.current.find((node) => node.id === parentId)?.context?.elements.floating;
+      if (parentFloating) {
+        parentFloating.style.pointerEvents = "";
+      }
+      const cachedScopeElement = instance.pointerEventsScopeElement !== floatingEl ? instance.pointerEventsScopeElement : null;
+      const parentScopeElement = parentFloating !== floatingEl ? parentFloating : null;
+      const scopeElement = instance.handleCloseOptions?.getScope?.() ?? cachedScopeElement ?? parentScopeElement ?? closest(ref, "[data-rootownerid]") ?? doc.body;
+      applySafePolygonPointerEventsMutation(instance, {
+        scopeElement,
+        referenceElement: ref,
+        floatingElement: floatingEl
+      });
+      return () => {
+        clearPointerEvents();
+      };
+    }
+    return void 0;
+  }, [enabled, open2, domReferenceElement, floatingElement, instance, isHoverOpen, tree, parentId, clearPointerEvents]);
+  React34.useEffect(() => {
+    if (!enabled) {
+      return void 0;
+    }
+    function hasParentChildren() {
+      return !!(tree && parentId && getNodeChildren(tree.nodesRef.current, parentId).length > 0);
+    }
+    function closeWithDelay(event) {
+      const closeDelay = getDelay(closeDelayProp, "close", instance.pointerType);
+      const close = () => {
+        store.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
+        tree?.events.emit("floating.closed", event);
+      };
+      if (closeDelay) {
+        instance.openChangeTimeout.start(closeDelay, close);
+      } else {
+        instance.openChangeTimeout.clear();
+        close();
+      }
+    }
+    function handleInteractInside(event) {
+      const target = getTarget(event);
+      if (!isInteractiveElement(target)) {
+        instance.interactedInside = false;
+        return;
+      }
+      instance.interactedInside = closest(target, "[aria-haspopup]") != null;
+    }
+    function onFloatingMouseEnter() {
+      instance.openChangeTimeout.clear();
+      childClosedTimeout.clear();
+      tree?.events.off("floating.closed", onNodeClosed);
+      clearPointerEvents();
+    }
+    function onFloatingMouseLeave(event) {
+      if (hasParentChildren() && tree) {
+        tree.events.on("floating.closed", onNodeClosed);
+        return;
+      }
+      if (isTargetInsideEnabledTrigger(event.relatedTarget, store.context.triggerElements)) {
+        return;
+      }
+      const currentNodeId = dataRef.current.floatingContext?.nodeId ?? nodeIdProp;
+      const relatedTarget = event.relatedTarget;
+      const isMovingIntoDescendantFloating = tree && currentNodeId && isElement(relatedTarget) && getNodeChildren(tree.nodesRef.current, currentNodeId, false).some((node) => contains(node.context?.elements.floating, relatedTarget));
+      if (isMovingIntoDescendantFloating) {
+        return;
+      }
+      if (instance.handler) {
+        instance.handler(event);
+        return;
+      }
+      clearPointerEvents();
+      if (isHoverOpen() && !isClickLikeOpenEvent2()) {
+        closeWithDelay(event);
+      }
+    }
+    function onNodeClosed(event) {
+      if (!tree || !parentId || hasParentChildren()) {
+        return;
+      }
+      childClosedTimeout.start(0, () => {
+        tree.events.off("floating.closed", onNodeClosed);
+        store.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
+        tree.events.emit("floating.closed", event);
+      });
+    }
+    const floating = floatingElement;
+    return mergeCleanups(floating && addEventListener(floating, "mouseenter", onFloatingMouseEnter), floating && addEventListener(floating, "mouseleave", onFloatingMouseLeave), floating && addEventListener(floating, "pointerdown", handleInteractInside, true), () => {
+      tree?.events.off("floating.closed", onNodeClosed);
+    });
+  }, [enabled, floatingElement, store, dataRef, closeDelayProp, nodeIdProp, isHoverOpen, isClickLikeOpenEvent2, clearPointerEvents, instance, tree, parentId, childClosedTimeout]);
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverReferenceInteraction.mjs
+var React35 = __toESM(require_react(), 1);
+var ReactDOM4 = __toESM(require_react_dom(), 1);
+var EMPTY_REF = {
+  current: null
+};
+function useHoverReferenceInteraction(store, props = {}) {
+  const {
+    enabled = true,
+    delay = 0,
+    handleClose = null,
+    mouseOnly = false,
+    restMs = 0,
+    move = true,
+    triggerElementRef = EMPTY_REF,
+    externalTree,
+    isActiveTrigger = true,
+    getHandleCloseContext,
+    isClosing,
+    shouldOpen: shouldOpenProp,
+    guardStaleOpen = false
+  } = props;
+  const {
+    dataRef,
+    events
+  } = store.context;
+  const tree = useFloatingTree(externalTree);
+  const instance = useHoverInteractionSharedState(store);
+  const isHoverCloseActiveRef = React35.useRef(false);
+  const handleCloseRef = useValueAsRef(handleClose);
+  const delayRef = useValueAsRef(delay);
+  const restMsRef = useValueAsRef(restMs);
+  const enabledRef = useValueAsRef(enabled);
+  const shouldOpenRef = useValueAsRef(shouldOpenProp);
+  const isClosingRef = useValueAsRef(isClosing);
+  const isClickLikeOpenEvent2 = useStableCallback(() => {
+    return isClickLikeOpenEvent(dataRef.current.openEvent?.type, instance.interactedInside);
+  });
+  const checkShouldOpen = useStableCallback(() => {
+    return shouldOpenRef.current?.() !== false;
+  });
+  const isOverInactiveTrigger = useStableCallback((currentDomReference, currentTarget, target) => {
+    const allTriggers = store.context.triggerElements;
+    if (allTriggers.hasElement(currentTarget)) {
+      return !currentDomReference || !contains(currentDomReference, currentTarget);
+    }
+    if (!isElement(target)) {
+      return false;
+    }
+    const targetElement = target;
+    return allTriggers.hasMatchingElement((trigger) => contains(trigger, targetElement)) && (!currentDomReference || !contains(currentDomReference, targetElement));
+  });
+  const cleanupMouseMoveHandler = useStableCallback(() => {
+    if (!instance.handler) {
+      return;
+    }
+    const doc = ownerDocument(store.select("domReferenceElement"));
+    doc.removeEventListener("mousemove", instance.handler);
+    instance.handler = void 0;
+  });
+  const clearPointerEvents = useStableCallback(() => {
+    clearSafePolygonPointerEventsMutation(instance);
+  });
+  if (isActiveTrigger) {
+    instance.handleCloseOptions = handleClose?.__options;
+  }
+  React35.useEffect(() => cleanupMouseMoveHandler, [cleanupMouseMoveHandler]);
+  React35.useEffect(() => {
+    if (!enabled) {
+      return void 0;
+    }
+    function onOpenChangeLocal(details) {
+      if (!details.open) {
+        isHoverCloseActiveRef.current = details.reason === reason_parts_exports.triggerHover;
+        cleanupMouseMoveHandler();
+        instance.openChangeTimeout.clear();
+        instance.restTimeout.clear();
+        instance.blockMouseMove = true;
+        instance.restTimeoutPending = false;
+      } else {
+        isHoverCloseActiveRef.current = false;
+      }
+    }
+    events.on("openchange", onOpenChangeLocal);
+    return () => {
+      events.off("openchange", onOpenChangeLocal);
+    };
+  }, [enabled, events, instance, cleanupMouseMoveHandler]);
+  React35.useEffect(() => {
+    if (!enabled) {
+      return void 0;
+    }
+    function closeWithDelay(event, runElseBranch = true) {
+      const closeDelay = getDelay(delayRef.current, "close", instance.pointerType);
+      if (closeDelay) {
+        instance.openChangeTimeout.start(closeDelay, () => {
+          store.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
+          tree?.events.emit("floating.closed", event);
+        });
+      } else if (runElseBranch) {
+        instance.openChangeTimeout.clear();
+        store.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
+        tree?.events.emit("floating.closed", event);
+      }
+    }
+    const trigger = triggerElementRef.current ?? (isActiveTrigger ? store.select("domReferenceElement") : null);
+    if (!isElement(trigger)) {
+      return void 0;
+    }
+    function onMouseEnter(event) {
+      instance.openChangeTimeout.clear();
+      instance.blockMouseMove = false;
+      if (mouseOnly && !isMouseLikePointerType(instance.pointerType)) {
+        return;
+      }
+      const restMsValue = getRestMs(restMsRef.current);
+      const openDelay = getDelay(delayRef.current, "open", instance.pointerType);
+      const eventTarget = getTarget(event);
+      const currentTarget = event.currentTarget ?? null;
+      const currentDomReference = store.select("domReferenceElement");
+      let triggerNode = currentTarget;
+      if (isElement(eventTarget) && !store.context.triggerElements.hasElement(eventTarget)) {
+        for (const triggerElement of store.context.triggerElements.elements()) {
+          if (contains(triggerElement, eventTarget)) {
+            triggerNode = triggerElement;
+            break;
+          }
+        }
+      }
+      if (isElement(currentTarget) && isElement(currentDomReference) && !store.context.triggerElements.hasElement(currentTarget) && contains(currentTarget, currentDomReference)) {
+        triggerNode = currentDomReference;
+      }
+      const isOverInactive = triggerNode == null ? false : isOverInactiveTrigger(currentDomReference, triggerNode, eventTarget);
+      const isOpen = store.select("open");
+      const isInClosingTransition = isClosingRef.current?.() ?? store.select("transitionStatus") === "ending";
+      const isHoverCloseTransition = !isOpen && isInClosingTransition && isHoverCloseActiveRef.current;
+      const isReenteringSameTriggerDuringCloseTransition = !isOverInactive && isElement(triggerNode) && isElement(currentDomReference) && contains(currentDomReference, triggerNode) && isHoverCloseTransition;
+      const isRestOnlyDelay = restMsValue > 0 && !openDelay;
+      const shouldOpenImmediately = isOverInactive && (isOpen || isHoverCloseTransition) || isReenteringSameTriggerDuringCloseTransition;
+      const shouldOpen = !isOpen || isOverInactive;
+      if (shouldOpenImmediately) {
+        if (checkShouldOpen()) {
+          store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerNode));
+        }
+        return;
+      }
+      if (isRestOnlyDelay) {
+        return;
+      }
+      if (openDelay) {
+        instance.openChangeTimeout.start(openDelay, () => {
+          if (shouldOpen && checkShouldOpen()) {
+            store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerNode));
+          }
+        });
+      } else if (shouldOpen) {
+        if (checkShouldOpen()) {
+          store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerNode));
+        }
+      }
+    }
+    function onMouseLeave(event) {
+      if (isClickLikeOpenEvent2()) {
+        clearPointerEvents();
+        return;
+      }
+      cleanupMouseMoveHandler();
+      const domReferenceElement = store.select("domReferenceElement");
+      const doc = ownerDocument(domReferenceElement);
+      instance.restTimeout.clear();
+      instance.restTimeoutPending = false;
+      const handleCloseContextBase = dataRef.current.floatingContext ?? getHandleCloseContext?.();
+      if (isTargetInsideEnabledTrigger(event.relatedTarget, store.context.triggerElements)) {
+        return;
+      }
+      if (handleCloseRef.current && handleCloseContextBase) {
+        if (!store.select("open")) {
+          instance.openChangeTimeout.clear();
+        }
+        const currentTrigger = triggerElementRef.current;
+        instance.handler = handleCloseRef.current({
+          ...handleCloseContextBase,
+          tree,
+          x: event.clientX,
+          y: event.clientY,
+          onClose() {
+            clearPointerEvents();
+            cleanupMouseMoveHandler();
+            if (enabledRef.current && !isClickLikeOpenEvent2() && currentTrigger === store.select("domReferenceElement")) {
+              closeWithDelay(event, true);
+            }
+          }
+        });
+        doc.addEventListener("mousemove", instance.handler);
+        instance.handler(event);
+        return;
+      }
+      const shouldClose = instance.pointerType === "touch" ? !contains(store.select("floatingElement"), event.relatedTarget) : true;
+      if (shouldClose) {
+        closeWithDelay(event);
+      }
+    }
+    function onMouseOut(event) {
+      if (contains(trigger, event.relatedTarget)) {
+        return;
+      }
+      instance.openChangeTimeout.clear();
+      instance.restTimeout.clear();
+      instance.restTimeoutPending = false;
+    }
+    const staleOpenGuard = guardStaleOpen ? addEventListener(trigger, "mouseout", onMouseOut) : void 0;
+    if (move) {
+      return mergeCleanups(addEventListener(trigger, "mousemove", onMouseEnter, {
+        once: true
+      }), addEventListener(trigger, "mouseenter", onMouseEnter), addEventListener(trigger, "mouseleave", onMouseLeave), staleOpenGuard);
+    }
+    return mergeCleanups(addEventListener(trigger, "mouseenter", onMouseEnter), addEventListener(trigger, "mouseleave", onMouseLeave), staleOpenGuard);
+  }, [cleanupMouseMoveHandler, clearPointerEvents, dataRef, delayRef, store, enabled, handleCloseRef, instance, isActiveTrigger, isOverInactiveTrigger, isClickLikeOpenEvent2, mouseOnly, move, restMsRef, triggerElementRef, tree, enabledRef, getHandleCloseContext, isClosingRef, checkShouldOpen, guardStaleOpen]);
+  return React35.useMemo(() => {
+    if (!enabled) {
+      return void 0;
+    }
+    function setPointerRef(event) {
+      instance.pointerType = event.pointerType;
+    }
+    return {
+      onPointerDown: setPointerRef,
+      onPointerEnter: setPointerRef,
+      onMouseMove(event) {
+        const {
+          nativeEvent
+        } = event;
+        const trigger = event.currentTarget;
+        const currentDomReference = store.select("domReferenceElement");
+        const currentOpen = store.select("open");
+        const isOverInactive = isOverInactiveTrigger(currentDomReference, trigger, event.target);
+        if (mouseOnly && !isMouseLikePointerType(instance.pointerType)) {
+          return;
+        }
+        if (currentOpen && isOverInactive && instance.handleCloseOptions?.blockPointerEvents) {
+          const floatingElement = store.select("floatingElement");
+          if (floatingElement) {
+            const scopeElement = instance.handleCloseOptions?.getScope?.() ?? trigger.ownerDocument.body;
+            applySafePolygonPointerEventsMutation(instance, {
+              scopeElement,
+              referenceElement: trigger,
+              floatingElement
+            });
+          }
+        }
+        const restMsValue = getRestMs(restMsRef.current);
+        if (currentOpen && !isOverInactive || restMsValue === 0) {
+          return;
+        }
+        if (!isOverInactive && instance.restTimeoutPending && event.movementX ** 2 + event.movementY ** 2 < 2) {
+          return;
+        }
+        instance.restTimeout.clear();
+        function handleMouseMove() {
+          instance.restTimeoutPending = false;
+          if (isClickLikeOpenEvent2()) {
+            return;
+          }
+          const latestOpen = store.select("open");
+          if (!instance.blockMouseMove && (!latestOpen || isOverInactive) && checkShouldOpen()) {
+            store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, nativeEvent, trigger));
+          }
+        }
+        if (instance.pointerType === "touch") {
+          ReactDOM4.flushSync(() => {
+            handleMouseMove();
+          });
+        } else if (isOverInactive && currentOpen) {
+          handleMouseMove();
+        } else {
+          instance.restTimeoutPending = true;
+          instance.restTimeout.start(restMsValue, handleMouseMove);
+        }
+      }
+    };
+  }, [enabled, instance, isClickLikeOpenEvent2, isOverInactiveTrigger, mouseOnly, store, restMsRef, checkShouldOpen]);
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useListNavigation.mjs
+var React36 = __toESM(require_react(), 1);
+function isStationaryWebKitPointer(event) {
+  return parts_exports.engine.webkit && event.movementX === 0 && event.movementY === 0;
+}
+function doSwitch(orientation, vertical, horizontal) {
+  switch (orientation) {
+    case "vertical":
+      return vertical;
+    case "horizontal":
+      return horizontal;
+    default:
+      return vertical || horizontal;
+  }
+}
+function isMainOrientationKey(key, orientation) {
+  const vertical = key === ARROW_UP || key === ARROW_DOWN;
+  const horizontal = key === ARROW_LEFT || key === ARROW_RIGHT;
+  return doSwitch(orientation, vertical, horizontal);
+}
+function isMainOrientationToEndKey(key, orientation, rtl) {
+  const vertical = key === ARROW_DOWN;
+  const horizontal = rtl ? key === ARROW_LEFT : key === ARROW_RIGHT;
+  return doSwitch(orientation, vertical, horizontal) || key === "Enter" || key === " " || key === "";
+}
+function isCrossOrientationOpenKey(key, orientation, rtl) {
+  const vertical = rtl ? key === ARROW_LEFT : key === ARROW_RIGHT;
+  const horizontal = key === ARROW_DOWN;
+  return doSwitch(orientation, vertical, horizontal);
+}
+function isCrossOrientationCloseKey(key, orientation, rtl, grid) {
+  const vertical = rtl ? key === ARROW_RIGHT : key === ARROW_LEFT;
+  const horizontal = key === ARROW_UP;
+  if (orientation === "both" || orientation === "horizontal" && grid) {
+    return key === "Escape";
+  }
+  return doSwitch(orientation, vertical, horizontal);
+}
+function useListNavigation(store, props) {
+  const {
+    listRef,
+    activeIndex,
+    onNavigate: onNavigateProp = () => {
+    },
+    enabled = true,
+    selectedIndex = null,
+    allowEscape = false,
+    loopFocus = false,
+    nested = false,
+    rtl = false,
+    virtual = false,
+    focusItemOnOpen = "auto",
+    focusItemOnHover = true,
+    openOnArrowKeyDown = true,
+    disabledIndices = void 0,
+    orientation = "vertical",
+    triggerOrientation = orientation,
+    parentOrientation,
+    id,
+    resetOnPointerLeave = true,
+    externalTree,
+    nestedReturnFocusRef,
+    grid: navigateGrid
+  } = props;
+  const isGrid = navigateGrid != null;
+  if (true) {
+    if (allowEscape) {
+      if (!loopFocus) {
+        console.warn("`useListNavigation` looping must be enabled to allow escaping.");
+      }
+      if (!virtual) {
+        console.warn("`useListNavigation` must be virtual to allow escaping.");
+      }
+    }
+    if (orientation === "vertical" && isGrid) {
+      console.warn("In grid list navigation mode, the `orientation` should", 'be either "horizontal" or "both".');
+    }
+  }
+  const open2 = store.useState("open");
+  const floatingElement = store.useState("floatingElement");
+  const domReferenceElement = store.useState("domReferenceElement");
+  const dataRef = store.context.dataRef;
+  const floatingFocusElement = getFloatingFocusElement(floatingElement);
+  const typeableComboboxReference = isTypeableCombobox(domReferenceElement);
+  const floatingFocusElementRef = useValueAsRef(floatingFocusElement);
+  const parentId = useFloatingParentNodeId();
+  const tree = useFloatingTree(externalTree);
+  const focusItemOnOpenRef = React36.useRef(focusItemOnOpen);
+  const indexRef = React36.useRef(selectedIndex ?? -1);
+  const keyRef = React36.useRef(null);
+  const isPointerModalityRef = React36.useRef(true);
+  const onNavigate = useStableCallback((event) => {
+    onNavigateProp(indexRef.current === -1 ? null : indexRef.current, event);
+  });
+  const previousMountedRef = React36.useRef(!!floatingElement);
+  const previousOpenRef = React36.useRef(open2);
+  const forceSyncFocusRef = React36.useRef(false);
+  const forceScrollIntoViewRef = React36.useRef(false);
+  const cancelQueuedFocusRef = React36.useRef(null);
+  const disabledIndicesRef = useValueAsRef(disabledIndices);
+  const latestOpenRef = useValueAsRef(open2);
+  const selectedIndexRef = useValueAsRef(selectedIndex);
+  const resetOnPointerLeaveRef = useValueAsRef(resetOnPointerLeave);
+  const focusFrame = useAnimationFrame();
+  const waitForListPopulatedFrame = useAnimationFrame();
+  const focusItem = useStableCallback(() => {
+    focusFrame.cancel();
+    function runFocus(item2) {
+      if (!virtual) {
+        cancelQueuedFocusRef.current = enqueueFocus(item2, {
+          sync: forceSyncFocusRef.current,
+          preventScroll: true
+        });
+      }
+    }
+    const initialItem = listRef.current[indexRef.current];
+    const forceScrollIntoView = forceScrollIntoViewRef.current;
+    if (initialItem) {
+      runFocus(initialItem);
+    }
+    const scheduler2 = forceSyncFocusRef.current ? (callback) => callback() : (callback) => focusFrame.request(callback);
+    scheduler2(() => {
+      const waitedItem = listRef.current[indexRef.current] || initialItem;
+      if (!waitedItem) {
+        return;
+      }
+      if (!initialItem) {
+        runFocus(waitedItem);
+      }
+      const shouldScrollIntoView = (
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        item && (forceScrollIntoView || !isPointerModalityRef.current)
+      );
+      if (shouldScrollIntoView) {
+        waitedItem.scrollIntoView?.({
+          block: "nearest",
+          inline: "nearest"
+        });
+      }
+    });
+  });
+  useIsoLayoutEffect(() => {
+    dataRef.current.orientation = orientation;
+  }, [dataRef, orientation]);
+  useIsoLayoutEffect(() => {
+    if (!open2) {
+      keyRef.current = null;
+    }
+    if (!open2 || focusItemOnOpen !== "auto") {
+      focusItemOnOpenRef.current = focusItemOnOpen;
+    }
+  }, [open2, focusItemOnOpen]);
+  useIsoLayoutEffect(() => {
+    if (!enabled) {
+      return;
+    }
+    if (open2 && floatingElement) {
+      indexRef.current = selectedIndex ?? -1;
+      if (focusItemOnOpenRef.current && selectedIndex != null) {
+        forceScrollIntoViewRef.current = true;
+        onNavigate();
+      }
+    } else if (previousMountedRef.current) {
+      indexRef.current = -1;
+      onNavigate();
+    }
+  }, [enabled, open2, floatingElement, selectedIndex, onNavigate]);
+  useIsoLayoutEffect(() => {
+    if (!enabled) {
+      return;
+    }
+    if (!open2) {
+      forceSyncFocusRef.current = false;
+      return;
+    }
+    if (!floatingElement) {
+      return;
+    }
+    if (activeIndex == null) {
+      forceSyncFocusRef.current = false;
+      if (selectedIndexRef.current != null) {
+        return;
+      }
+      if (previousMountedRef.current) {
+        indexRef.current = -1;
+        focusItem();
+      }
+      if ((!previousOpenRef.current || !previousMountedRef.current) && focusItemOnOpenRef.current && (keyRef.current != null || focusItemOnOpenRef.current === true && keyRef.current == null)) {
+        let runs = 0;
+        const waitForListPopulated = () => {
+          if (listRef.current[0] == null) {
+            if (runs < 2) {
+              const scheduler2 = runs ? (callback) => waitForListPopulatedFrame.request(callback) : queueMicrotask;
+              scheduler2(waitForListPopulated);
+            }
+            runs += 1;
+          } else {
+            indexRef.current = keyRef.current == null || isMainOrientationToEndKey(keyRef.current, triggerOrientation, rtl) || nested ? getMinListIndex(listRef) : getMaxListIndex(listRef);
+            keyRef.current = null;
+            onNavigate();
+          }
+        };
+        waitForListPopulated();
+      }
+    } else if (!isIndexOutOfListBounds(listRef.current, activeIndex)) {
+      indexRef.current = activeIndex;
+      focusItem();
+      forceScrollIntoViewRef.current = false;
+    }
+  }, [enabled, open2, floatingElement, activeIndex, selectedIndexRef, nested, listRef, triggerOrientation, rtl, onNavigate, focusItem, waitForListPopulatedFrame]);
+  useIsoLayoutEffect(() => {
+    if (!enabled || floatingElement || !tree || virtual || !previousMountedRef.current) {
+      return;
+    }
+    const nodes = tree.nodesRef.current;
+    const parent = nodes.find((node) => node.id === parentId)?.context?.elements.floating;
+    const activeEl = activeElement(ownerDocument(domReferenceElement ?? parent ?? null));
+    const treeContainsActiveEl = nodes.some((node) => node.context && contains(node.context.elements.floating, activeEl));
+    if (parent && !treeContainsActiveEl && isPointerModalityRef.current) {
+      parent.focus({
+        preventScroll: true
+      });
+    }
+  }, [enabled, floatingElement, domReferenceElement, tree, parentId, virtual]);
+  useIsoLayoutEffect(() => {
+    previousOpenRef.current = open2;
+    previousMountedRef.current = !!floatingElement;
+  });
+  const hasActiveIndex = activeIndex != null;
+  const syncCurrentTarget = useStableCallback((event) => {
+    if (!latestOpenRef.current) {
+      return;
+    }
+    const index2 = listRef.current.indexOf(event.currentTarget);
+    if (index2 !== -1 && (indexRef.current !== index2 || activeIndex !== index2)) {
+      indexRef.current = index2;
+      onNavigate(event);
+    }
+  });
+  const getParentOrientation = useStableCallback(() => {
+    return parentOrientation ?? tree?.nodesRef.current.find((node) => node.id === parentId)?.context?.dataRef?.current.orientation;
+  });
+  const getMinEnabledIndex = useStableCallback(() => {
+    return getMinListIndex(listRef, disabledIndicesRef.current);
+  });
+  const commonOnKeyDown = useStableCallback((event) => {
+    isPointerModalityRef.current = false;
+    forceSyncFocusRef.current = true;
+    if (event.which === 229) {
+      return;
+    }
+    if (!latestOpenRef.current && event.currentTarget === floatingFocusElementRef.current) {
+      return;
+    }
+    if (nested && isCrossOrientationCloseKey(event.key, orientation, rtl, isGrid)) {
+      if (!isMainOrientationKey(event.key, getParentOrientation())) {
+        stopEvent(event);
+      }
+      store.setOpen(false, createChangeEventDetails(reason_parts_exports.listNavigation, event.nativeEvent));
+      const returnElement = nestedReturnFocusRef?.current ?? domReferenceElement;
+      if (isHTMLElement(returnElement)) {
+        returnElement.focus();
+      }
+      return;
+    }
+    if (activeIndex != null && activeIndex !== indexRef.current && !isIndexOutOfListBounds(listRef.current, activeIndex)) {
+      indexRef.current = activeIndex;
+    }
+    const currentIndex = indexRef.current;
+    const minIndex = getMinListIndex(listRef, disabledIndices);
+    const maxIndex = getMaxListIndex(listRef, disabledIndices);
+    if (!typeableComboboxReference) {
+      if (event.key === "Home") {
+        stopEvent(event);
+        indexRef.current = minIndex;
+        onNavigate(event);
+      }
+      if (event.key === "End") {
+        stopEvent(event);
+        indexRef.current = maxIndex;
+        onNavigate(event);
+      }
+    }
+    if (navigateGrid != null) {
+      const index2 = navigateGrid(event, indexRef.current, listRef, orientation, loopFocus, rtl, disabledIndices, minIndex, maxIndex);
+      if (index2 != null && index2 !== indexRef.current) {
+        indexRef.current = index2;
+        onNavigate(event);
+      }
+      if (orientation === "both") {
+        return;
+      }
+    }
+    if (isMainOrientationKey(event.key, orientation)) {
+      stopEvent(event);
+      const focusedElement = activeElement(event.currentTarget.ownerDocument);
+      if (open2 && !virtual && contains(event.currentTarget, focusedElement) && !listRef.current.some((item2) => item2 != null && contains(item2, focusedElement))) {
+        indexRef.current = isMainOrientationToEndKey(event.key, orientation, rtl) ? minIndex : maxIndex;
+        onNavigate(event);
+        if (activeIndex === indexRef.current) {
+          focusItem();
+        }
+        return;
+      }
+      const {
+        index: index2,
+        wrapped
+      } = getNextListIndex(listRef.current, currentIndex, {
+        decrement: !isMainOrientationToEndKey(event.key, orientation, rtl),
+        loopFocus,
+        allowEscape,
+        disabledIndices,
+        minIndex,
+        maxIndex
+      });
+      if (wrapped) {
+        forceSyncFocusRef.current = false;
+      }
+      indexRef.current = index2;
+      onNavigate(event);
+    }
+  });
+  const item = React36.useMemo(() => {
+    const itemProps = {
+      onFocus(event) {
+        forceSyncFocusRef.current = true;
+        syncCurrentTarget(event);
+      },
+      onClick({
+        currentTarget
+      }) {
+        if (!virtual) {
+          currentTarget.focus({
+            preventScroll: true
+          });
+        }
+      },
+      onMouseMove(event) {
+        if (isStationaryWebKitPointer(event)) {
+          return;
+        }
+        forceSyncFocusRef.current = true;
+        forceScrollIntoViewRef.current = false;
+        if (focusItemOnHover) {
+          syncCurrentTarget(event);
+        }
+      },
+      onPointerLeave(event) {
+        if (!latestOpenRef.current || !isPointerModalityRef.current || event.pointerType === "touch") {
+          return;
+        }
+        forceSyncFocusRef.current = true;
+        const relatedTarget = event.relatedTarget;
+        if (!focusItemOnHover || listRef.current.includes(relatedTarget)) {
+          return;
+        }
+        if (!resetOnPointerLeaveRef.current) {
+          return;
+        }
+        cancelQueuedFocusRef.current?.();
+        cancelQueuedFocusRef.current = null;
+        indexRef.current = -1;
+        onNavigate(event);
+        if (!virtual) {
+          const floatingFocusEl = floatingFocusElementRef.current;
+          const activeEl = activeElement(ownerDocument(floatingFocusEl));
+          if (floatingFocusEl && contains(floatingFocusEl, activeEl)) {
+            floatingFocusEl.focus({
+              preventScroll: true
+            });
+          }
+        }
+      }
+    };
+    return itemProps;
+  }, [syncCurrentTarget, latestOpenRef, floatingFocusElementRef, focusItemOnHover, listRef, onNavigate, resetOnPointerLeaveRef, virtual]);
+  const ariaActiveDescendantProp = React36.useMemo(() => {
+    return virtual && open2 && hasActiveIndex && {
+      "aria-activedescendant": `${id}-${activeIndex}`
+    };
+  }, [virtual, open2, hasActiveIndex, id, activeIndex]);
+  const floating = React36.useMemo(() => {
+    return {
+      ...!typeableComboboxReference ? ariaActiveDescendantProp : {},
+      onKeyDown(event) {
+        if (event.key === "Tab" && event.shiftKey && open2 && !virtual) {
+          const target = getTarget(event.nativeEvent);
+          if (target && !contains(floatingFocusElementRef.current, target)) {
+            return;
+          }
+          stopEvent(event);
+          const details = createChangeEventDetails(reason_parts_exports.focusOut, event.nativeEvent);
+          store.setOpen(false, details);
+          const returnElement = nestedReturnFocusRef?.current ?? domReferenceElement;
+          if (!details.isCanceled && isHTMLElement(returnElement)) {
+            returnElement.focus();
+          }
+          return;
+        }
+        commonOnKeyDown(event);
+      },
+      onPointerMove(event) {
+        if (isStationaryWebKitPointer(event)) {
+          return;
+        }
+        isPointerModalityRef.current = true;
+      }
+    };
+  }, [ariaActiveDescendantProp, commonOnKeyDown, floatingFocusElementRef, typeableComboboxReference, store, open2, virtual, domReferenceElement, nestedReturnFocusRef]);
+  const trigger = React36.useMemo(() => {
+    function openOnNavigationKeyDown(event) {
+      store.setOpen(true, createChangeEventDetails(reason_parts_exports.listNavigation, event.nativeEvent, event.currentTarget));
+    }
+    function checkVirtualMouse(event) {
+      if (focusItemOnOpen === "auto" && isVirtualClick(event.nativeEvent)) {
+        focusItemOnOpenRef.current = !virtual;
+      }
+    }
+    function checkVirtualPointer(event) {
+      focusItemOnOpenRef.current = focusItemOnOpen;
+      if (focusItemOnOpen === "auto" && isVirtualPointerEvent(event.nativeEvent)) {
+        focusItemOnOpenRef.current = true;
+      }
+    }
+    return {
+      onKeyDown(event) {
+        const currentOpen = store.select("open");
+        isPointerModalityRef.current = false;
+        const isArrowKey = event.key.startsWith("Arrow");
+        const isParentCrossOpenKey = isCrossOrientationOpenKey(event.key, getParentOrientation(), rtl);
+        const isMainKey = isMainOrientationKey(event.key, currentOpen ? orientation : triggerOrientation);
+        const isNavigationKey = (nested ? isParentCrossOpenKey : isMainKey) || event.key === "Enter" || event.key.trim() === "";
+        if (virtual && currentOpen && (!nested || isTypeableElement(event.currentTarget))) {
+          return commonOnKeyDown(event);
+        }
+        if (!currentOpen && !openOnArrowKeyDown && isArrowKey) {
+          return void 0;
+        }
+        if (isNavigationKey) {
+          const isParentMainKey = isMainOrientationKey(event.key, getParentOrientation());
+          keyRef.current = nested && isParentMainKey ? null : event.key;
+        }
+        if (nested) {
+          if (isParentCrossOpenKey) {
+            stopEvent(event);
+            if (currentOpen) {
+              indexRef.current = getMinEnabledIndex();
+              onNavigate(event);
+              if (virtual) {
+                floatingFocusElementRef.current?.focus();
+              }
+            } else {
+              openOnNavigationKeyDown(event);
+            }
+          }
+          return void 0;
+        }
+        if (isMainKey) {
+          if (selectedIndexRef.current != null) {
+            indexRef.current = selectedIndexRef.current;
+          }
+          stopEvent(event);
+          if (!currentOpen && openOnArrowKeyDown) {
+            openOnNavigationKeyDown(event);
+          } else {
+            commonOnKeyDown(event);
+          }
+          if (currentOpen) {
+            onNavigate(event);
+          }
+        }
+        return void 0;
+      },
+      onFocus(event) {
+        if (event.target !== event.currentTarget) {
+          return;
+        }
+        if (store.select("open") && !virtual) {
+          indexRef.current = -1;
+          onNavigate(event);
+        }
+      },
+      onPointerDown: checkVirtualPointer,
+      onPointerEnter: checkVirtualPointer,
+      onMouseDown: checkVirtualMouse,
+      onClick: checkVirtualMouse
+    };
+  }, [commonOnKeyDown, focusItemOnOpen, getMinEnabledIndex, nested, onNavigate, store, openOnArrowKeyDown, orientation, triggerOrientation, getParentOrientation, rtl, selectedIndexRef, virtual, floatingFocusElementRef]);
+  const reference = React36.useMemo(() => {
+    return {
+      ...ariaActiveDescendantProp,
+      ...trigger
+    };
+  }, [ariaActiveDescendantProp, trigger]);
+  return React36.useMemo(() => enabled ? {
+    reference,
+    floating,
+    item,
+    trigger
+  } : {}, [enabled, reference, floating, trigger, item]);
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useTypeahead.mjs
+var React37 = __toESM(require_react(), 1);
+function useTypeahead(store, props) {
+  const {
+    listRef,
+    elementsRef,
+    activeIndex,
+    onMatch: onMatchProp,
+    disabledIndices,
+    onTyping: onTypingProp,
+    enabled = true,
+    resetMs = 750,
+    selectedIndex = null
+  } = props;
+  const onTyping = useStableCallback(onTypingProp);
+  const open2 = store.useState("open");
+  const timeout = useTimeout();
+  const stringRef = React37.useRef("");
+  const prevIndexRef = React37.useRef(selectedIndex ?? activeIndex ?? -1);
+  const matchIndexRef = React37.useRef(null);
+  const onKeyDown = useStableCallback((event) => {
+    function getElement(index3) {
+      return elementsRef?.current[index3];
+    }
+    function isItemAvailable(index3) {
+      const element = getElement(index3);
+      if (element && !isElementVisible(element) || element?.matches(":disabled")) {
+        return false;
+      }
+      return disabledIndices == null || !isListIndexDisabled(EMPTY_ARRAY, index3, disabledIndices);
+    }
+    function getMatchingIndex(list, string, startIndex2 = 0) {
+      if (list.length === 0) {
+        return -1;
+      }
+      const normalizedStartIndex = (startIndex2 % list.length + list.length) % list.length;
+      const lowerString = string.toLowerCase();
+      for (let offset4 = 0; offset4 < list.length; offset4 += 1) {
+        const index3 = (normalizedStartIndex + offset4) % list.length;
+        const text = list[index3];
+        if (!text?.toLowerCase().startsWith(lowerString) || !isItemAvailable(index3)) {
+          continue;
+        }
+        return index3;
+      }
+      return -1;
+    }
+    const listContent = listRef.current;
+    if (stringRef.current.length > 0 && event.key === " ") {
+      stopEvent(event);
+      onTyping?.(true);
+    }
+    if (stringRef.current.length > 0 && stringRef.current[0] !== " ") {
+      if (getMatchingIndex(listContent, stringRef.current) === -1 && event.key !== " ") {
+        onTyping?.(false);
+      }
+    }
+    if (listContent == null || // Character key.
+    event.key.length !== 1 || // Modifier key.
+    event.ctrlKey || event.metaKey || event.altKey) {
+      return;
+    }
+    if (open2 && event.key !== " ") {
+      stopEvent(event);
+      onTyping?.(true);
+    }
+    const isNewSession = stringRef.current === "";
+    if (isNewSession) {
+      prevIndexRef.current = selectedIndex ?? activeIndex ?? -1;
+    }
+    const allowRapidSuccessionOfFirstLetter = listContent.every((text, index3) => text && isItemAvailable(index3) ? text[0]?.toLowerCase() !== text[1]?.toLowerCase() : true);
+    if (allowRapidSuccessionOfFirstLetter && stringRef.current === event.key) {
+      stringRef.current = "";
+      prevIndexRef.current = matchIndexRef.current;
+    }
+    stringRef.current += event.key;
+    timeout.start(resetMs, () => {
+      stringRef.current = "";
+      prevIndexRef.current = matchIndexRef.current;
+      onTyping?.(false);
+    });
+    const prevIndex = isNewSession ? selectedIndex ?? activeIndex ?? -1 : prevIndexRef.current;
+    const startIndex = (prevIndex ?? 0) + 1;
+    const index2 = getMatchingIndex(listContent, stringRef.current, startIndex);
+    if (index2 !== -1) {
+      onMatchProp?.(index2, event);
+      matchIndexRef.current = index2;
+    } else if (event.key !== " ") {
+      stringRef.current = "";
+      onTyping?.(false);
+    }
+  });
+  const onBlur = useStableCallback((event) => {
+    const next = event.relatedTarget;
+    const currentDomReferenceElement = store.select("domReferenceElement");
+    const currentFloatingElement = store.select("floatingElement");
+    const withinComposite = contains(currentDomReferenceElement, next) || contains(currentFloatingElement, next);
+    if (withinComposite) {
+      return;
+    }
+    timeout.clear();
+    stringRef.current = "";
+    prevIndexRef.current = matchIndexRef.current;
+    onTyping?.(false);
+  });
+  useIsoLayoutEffect(() => {
+    if (!open2 && selectedIndex !== null) {
+      return;
+    }
+    timeout.clear();
+    matchIndexRef.current = null;
+    if (stringRef.current !== "") {
+      stringRef.current = "";
+      onTyping?.(false);
+    }
+  }, [open2, selectedIndex, timeout, onTyping]);
+  const sharedProps = React37.useMemo(() => ({
+    onKeyDown,
+    onBlur
+  }), [onKeyDown, onBlur]);
+  return React37.useMemo(() => enabled ? {
+    reference: sharedProps,
+    floating: sharedProps
+  } : {}, [enabled, sharedProps]);
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/safePolygon.mjs
+var CURSOR_SPEED_THRESHOLD = 0.1;
+var CURSOR_SPEED_THRESHOLD_SQUARED = CURSOR_SPEED_THRESHOLD * CURSOR_SPEED_THRESHOLD;
+var POLYGON_BUFFER = 0.5;
+function hasIntersectingEdge(pointX, pointY, xi, yi, xj, yj) {
+  return yi >= pointY !== yj >= pointY && pointX <= (xj - xi) * (pointY - yi) / (yj - yi) + xi;
+}
+function isPointInQuadrilateral(pointX, pointY, x1, y1, x2, y2, x3, y3, x4, y4) {
+  let isInsideValue = false;
+  if (hasIntersectingEdge(pointX, pointY, x1, y1, x2, y2)) {
+    isInsideValue = !isInsideValue;
+  }
+  if (hasIntersectingEdge(pointX, pointY, x2, y2, x3, y3)) {
+    isInsideValue = !isInsideValue;
+  }
+  if (hasIntersectingEdge(pointX, pointY, x3, y3, x4, y4)) {
+    isInsideValue = !isInsideValue;
+  }
+  if (hasIntersectingEdge(pointX, pointY, x4, y4, x1, y1)) {
+    isInsideValue = !isInsideValue;
+  }
+  return isInsideValue;
+}
+function isInsideRect(pointX, pointY, rect) {
+  return pointX >= rect.x && pointX <= rect.x + rect.width && pointY >= rect.y && pointY <= rect.y + rect.height;
+}
+function isInsideAxisAlignedRect(pointX, pointY, x1, y1, x2, y2) {
+  const minX = Math.min(x1, x2);
+  const maxX = Math.max(x1, x2);
+  const minY = Math.min(y1, y2);
+  const maxY = Math.max(y1, y2);
+  return pointX >= minX && pointX <= maxX && pointY >= minY && pointY <= maxY;
+}
+function safePolygon(options = {}) {
+  const {
+    blockPointerEvents = false
+  } = options;
+  const timeout = new Timeout();
+  const fn = ({
+    x,
+    y,
+    placement,
+    elements,
+    onClose,
+    nodeId,
+    tree
+  }) => {
+    const side = placement?.split("-")[0];
+    let hasLanded = false;
+    let lastX = null;
+    let lastY = null;
+    let lastCursorTime = typeof performance !== "undefined" ? performance.now() : 0;
+    function isCursorMovingSlowly(nextX, nextY) {
+      const currentTime = performance.now();
+      const elapsedTime = currentTime - lastCursorTime;
+      if (lastX === null || lastY === null || elapsedTime === 0) {
+        lastX = nextX;
+        lastY = nextY;
+        lastCursorTime = currentTime;
+        return false;
+      }
+      const deltaX = nextX - lastX;
+      const deltaY = nextY - lastY;
+      const distanceSquared = deltaX * deltaX + deltaY * deltaY;
+      const thresholdSquared = elapsedTime * elapsedTime * CURSOR_SPEED_THRESHOLD_SQUARED;
+      lastX = nextX;
+      lastY = nextY;
+      lastCursorTime = currentTime;
+      return distanceSquared < thresholdSquared;
+    }
+    function close() {
+      timeout.clear();
+      onClose();
+    }
+    return function onMouseMove(event) {
+      timeout.clear();
+      const domReference = elements.domReference;
+      const floating = elements.floating;
+      if (!domReference || !floating || side == null || x == null || y == null) {
+        return void 0;
+      }
+      const {
+        clientX,
+        clientY
+      } = event;
+      const target = getTarget(event);
+      const isLeave = event.type === "mouseleave";
+      const isOverFloatingEl = contains(floating, target);
+      const isOverReferenceEl = contains(domReference, target);
+      if (isOverFloatingEl) {
+        hasLanded = true;
+        if (!isLeave) {
+          return void 0;
+        }
+      }
+      if (isOverReferenceEl) {
+        hasLanded = false;
+        if (!isLeave) {
+          hasLanded = true;
+          return void 0;
+        }
+      }
+      if (isLeave && isElement(event.relatedTarget) && contains(floating, event.relatedTarget)) {
+        return void 0;
+      }
+      function hasOpenChildNode() {
+        return Boolean(tree && getNodeChildren(tree.nodesRef.current, nodeId).length > 0);
+      }
+      function closeIfNoOpenChild() {
+        if (!hasOpenChildNode()) {
+          close();
+        }
+      }
+      if (hasOpenChildNode()) {
+        return void 0;
+      }
+      const refRect = domReference.getBoundingClientRect();
+      const rect = floating.getBoundingClientRect();
+      const cursorLeaveFromRight = x > rect.right - rect.width / 2;
+      const cursorLeaveFromBottom = y > rect.bottom - rect.height / 2;
+      const isFloatingWider = rect.width > refRect.width;
+      const isFloatingTaller = rect.height > refRect.height;
+      const left = (isFloatingWider ? refRect : rect).left;
+      const right = (isFloatingWider ? refRect : rect).right;
+      const top = (isFloatingTaller ? refRect : rect).top;
+      const bottom = (isFloatingTaller ? refRect : rect).bottom;
+      if (side === "top" && y >= refRect.bottom - 1 || side === "bottom" && y <= refRect.top + 1 || side === "left" && x >= refRect.right - 1 || side === "right" && x <= refRect.left + 1) {
+        closeIfNoOpenChild();
+        return void 0;
+      }
+      let isInsideTroughRect = false;
+      switch (side) {
+        case "top":
+          isInsideTroughRect = isInsideAxisAlignedRect(clientX, clientY, left, refRect.top + 1, right, rect.bottom - 1);
+          break;
+        case "bottom":
+          isInsideTroughRect = isInsideAxisAlignedRect(clientX, clientY, left, rect.top + 1, right, refRect.bottom - 1);
+          break;
+        case "left":
+          isInsideTroughRect = isInsideAxisAlignedRect(clientX, clientY, rect.right - 1, bottom, refRect.left + 1, top);
+          break;
+        case "right":
+          isInsideTroughRect = isInsideAxisAlignedRect(clientX, clientY, refRect.right - 1, bottom, rect.left + 1, top);
+          break;
+        default:
+      }
+      if (isInsideTroughRect) {
+        return void 0;
+      }
+      if (hasLanded && !isInsideRect(clientX, clientY, refRect)) {
+        closeIfNoOpenChild();
+        return void 0;
+      }
+      if (!isLeave && isCursorMovingSlowly(clientX, clientY)) {
+        closeIfNoOpenChild();
+        return void 0;
+      }
+      let isInsidePolygon = false;
+      switch (side) {
+        case "top": {
+          const cursorXOffset = isFloatingWider ? POLYGON_BUFFER / 2 : POLYGON_BUFFER * 4;
+          const cursorPointOneX = isFloatingWider ? x + cursorXOffset : cursorLeaveFromRight ? x + cursorXOffset : x - cursorXOffset;
+          const cursorPointTwoX = isFloatingWider ? x - cursorXOffset : cursorLeaveFromRight ? x + cursorXOffset : x - cursorXOffset;
+          const cursorPointY = y + POLYGON_BUFFER + 1;
+          const commonYLeft = cursorLeaveFromRight ? rect.bottom - POLYGON_BUFFER : isFloatingWider ? rect.bottom - POLYGON_BUFFER : rect.top;
+          const commonYRight = cursorLeaveFromRight ? isFloatingWider ? rect.bottom - POLYGON_BUFFER : rect.top : rect.bottom - POLYGON_BUFFER;
+          isInsidePolygon = isPointInQuadrilateral(clientX, clientY, cursorPointOneX, cursorPointY, cursorPointTwoX, cursorPointY, rect.left, commonYLeft, rect.right, commonYRight);
+          break;
+        }
+        case "bottom": {
+          const cursorXOffset = isFloatingWider ? POLYGON_BUFFER / 2 : POLYGON_BUFFER * 4;
+          const cursorPointOneX = isFloatingWider ? x + cursorXOffset : cursorLeaveFromRight ? x + cursorXOffset : x - cursorXOffset;
+          const cursorPointTwoX = isFloatingWider ? x - cursorXOffset : cursorLeaveFromRight ? x + cursorXOffset : x - cursorXOffset;
+          const cursorPointY = y - POLYGON_BUFFER;
+          const commonYLeft = cursorLeaveFromRight ? rect.top + POLYGON_BUFFER : isFloatingWider ? rect.top + POLYGON_BUFFER : rect.bottom;
+          const commonYRight = cursorLeaveFromRight ? isFloatingWider ? rect.top + POLYGON_BUFFER : rect.bottom : rect.top + POLYGON_BUFFER;
+          isInsidePolygon = isPointInQuadrilateral(clientX, clientY, cursorPointOneX, cursorPointY, cursorPointTwoX, cursorPointY, rect.left, commonYLeft, rect.right, commonYRight);
+          break;
+        }
+        case "left": {
+          const cursorYOffset = isFloatingTaller ? POLYGON_BUFFER / 2 : POLYGON_BUFFER * 4;
+          const cursorPointOneY = isFloatingTaller ? y + cursorYOffset : cursorLeaveFromBottom ? y + cursorYOffset : y - cursorYOffset;
+          const cursorPointTwoY = isFloatingTaller ? y - cursorYOffset : cursorLeaveFromBottom ? y + cursorYOffset : y - cursorYOffset;
+          const cursorPointX = x + POLYGON_BUFFER + 1;
+          const commonXTop = cursorLeaveFromBottom ? rect.right - POLYGON_BUFFER : isFloatingTaller ? rect.right - POLYGON_BUFFER : rect.left;
+          const commonXBottom = cursorLeaveFromBottom ? isFloatingTaller ? rect.right - POLYGON_BUFFER : rect.left : rect.right - POLYGON_BUFFER;
+          isInsidePolygon = isPointInQuadrilateral(clientX, clientY, commonXTop, rect.top, commonXBottom, rect.bottom, cursorPointX, cursorPointOneY, cursorPointX, cursorPointTwoY);
+          break;
+        }
+        case "right": {
+          const cursorYOffset = isFloatingTaller ? POLYGON_BUFFER / 2 : POLYGON_BUFFER * 4;
+          const cursorPointOneY = isFloatingTaller ? y + cursorYOffset : cursorLeaveFromBottom ? y + cursorYOffset : y - cursorYOffset;
+          const cursorPointTwoY = isFloatingTaller ? y - cursorYOffset : cursorLeaveFromBottom ? y + cursorYOffset : y - cursorYOffset;
+          const cursorPointX = x - POLYGON_BUFFER;
+          const commonXTop = cursorLeaveFromBottom ? rect.left + POLYGON_BUFFER : isFloatingTaller ? rect.left + POLYGON_BUFFER : rect.right;
+          const commonXBottom = cursorLeaveFromBottom ? isFloatingTaller ? rect.left + POLYGON_BUFFER : rect.right : rect.left + POLYGON_BUFFER;
+          isInsidePolygon = isPointInQuadrilateral(clientX, clientY, cursorPointX, cursorPointOneY, cursorPointX, cursorPointTwoY, commonXTop, rect.top, commonXBottom, rect.bottom);
+          break;
+        }
+        default:
+      }
+      if (!isInsidePolygon) {
+        closeIfNoOpenChild();
+      } else if (!hasLanded) {
+        timeout.start(40, closeIfNoOpenChild);
+      }
+      return void 0;
+    };
+  };
+  fn.__options = {
+    ...options,
+    blockPointerEvents
+  };
+  return fn;
+}
 
 // node_modules/.store/@floating-ui/core@1.8.0-3V8aS7jJHHGcsCINjP9-5A/node_modules/@floating-ui/core/dist/floating-ui.core.mjs
 function computeCoordsFromPlacement(_ref, placement, rtl) {
@@ -6236,9 +9088,9 @@ var computePosition2 = (reference, floating, options) => {
 };
 
 // node_modules/.store/@floating-ui/react-dom@2.1.9-AxWcAwqlMfOrAFOinFKSVg/node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.mjs
-var React26 = __toESM(require_react(), 1);
+var React38 = __toESM(require_react(), 1);
 var import_react2 = __toESM(require_react(), 1);
-var ReactDOM3 = __toESM(require_react_dom(), 1);
+var ReactDOM5 = __toESM(require_react_dom(), 1);
 var isClient = typeof document !== "undefined";
 var noop2 = function noop3() {
 };
@@ -6302,7 +9154,7 @@ function roundByDPR(element, value) {
   return Math.round(value * dpr) / dpr;
 }
 function useLatestRef(value) {
-  const ref = React26.useRef(value);
+  const ref = React38.useRef(value);
   index(() => {
     ref.current = value;
   });
@@ -6325,7 +9177,7 @@ function useFloating(options) {
     whileElementsMounted,
     open: open2
   } = options;
-  const [data, setData] = React26.useState({
+  const [data, setData] = React38.useState({
     x: 0,
     y: 0,
     strategy,
@@ -6333,19 +9185,19 @@ function useFloating(options) {
     middlewareData: {},
     isPositioned: false
   });
-  const [latestMiddleware, setLatestMiddleware] = React26.useState(middleware);
+  const [latestMiddleware, setLatestMiddleware] = React38.useState(middleware);
   if (!deepEqual(latestMiddleware, middleware)) {
     setLatestMiddleware(middleware);
   }
-  const [_reference, _setReference] = React26.useState(null);
-  const [_floating, _setFloating] = React26.useState(null);
-  const setReference = React26.useCallback((node) => {
+  const [_reference, _setReference] = React38.useState(null);
+  const [_floating, _setFloating] = React38.useState(null);
+  const setReference = React38.useCallback((node) => {
     if (node !== referenceRef.current) {
       referenceRef.current = node;
       _setReference(node);
     }
   }, []);
-  const setFloating = React26.useCallback((node) => {
+  const setFloating = React38.useCallback((node) => {
     if (node !== floatingRef.current) {
       floatingRef.current = node;
       _setFloating(node);
@@ -6353,14 +9205,14 @@ function useFloating(options) {
   }, []);
   const referenceEl = externalReference || _reference;
   const floatingEl = externalFloating || _floating;
-  const referenceRef = React26.useRef(null);
-  const floatingRef = React26.useRef(null);
-  const dataRef = React26.useRef(data);
+  const referenceRef = React38.useRef(null);
+  const floatingRef = React38.useRef(null);
+  const dataRef = React38.useRef(data);
   const hasWhileElementsMounted = whileElementsMounted != null;
   const whileElementsMountedRef = useLatestRef(whileElementsMounted);
   const platformRef = useLatestRef(platform3);
   const openRef = useLatestRef(open2);
-  const update2 = React26.useCallback(() => {
+  const update2 = React38.useCallback(() => {
     if (!referenceRef.current || !floatingRef.current) {
       return;
     }
@@ -6383,7 +9235,7 @@ function useFloating(options) {
       };
       if (isMountedRef.current && !deepEqual(dataRef.current, fullData)) {
         dataRef.current = fullData;
-        ReactDOM3.flushSync(() => {
+        ReactDOM5.flushSync(() => {
           setData(fullData);
         });
       }
@@ -6398,7 +9250,7 @@ function useFloating(options) {
       }));
     }
   }, [open2]);
-  const isMountedRef = React26.useRef(false);
+  const isMountedRef = React38.useRef(false);
   index(() => {
     isMountedRef.current = true;
     return () => {
@@ -6415,17 +9267,17 @@ function useFloating(options) {
       update2();
     }
   }, [referenceEl, floatingEl, update2, whileElementsMountedRef, hasWhileElementsMounted]);
-  const refs = React26.useMemo(() => ({
+  const refs = React38.useMemo(() => ({
     reference: referenceRef,
     floating: floatingRef,
     setReference,
     setFloating
   }), [setReference, setFloating]);
-  const elements = React26.useMemo(() => ({
+  const elements = React38.useMemo(() => ({
     reference: referenceEl,
     floating: floatingEl
   }), [referenceEl, floatingEl]);
-  const floatingStyles = React26.useMemo(() => {
+  const floatingStyles = React38.useMemo(() => {
     const initialStyles = {
       position: strategy,
       left: 0,
@@ -6451,7 +9303,7 @@ function useFloating(options) {
       top: y
     };
   }, [strategy, transform, elements.floating, data.x, data.y]);
-  return React26.useMemo(() => ({
+  return React38.useMemo(() => ({
     ...data,
     update: update2,
     refs,
@@ -6499,2851 +9351,7 @@ var size3 = (options, deps) => {
   };
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/popups/popupHandle.mjs
-var BasePopupHandle = class {
-  /**
-   * Stores of every root currently using this handle, in attach order. A handle is meant to be used
-   * by a single mounted root, but roots can transiently overlap (e.g. during an animated route
-   * transition), so this stack lets `attachStore`'s cleanup restore the previous root instead of
-   * leaving a still-mounted root uncontrollable when a newer overlapping root detaches first.
-   */
-  attachedStores = [];
-  /**
-   * Store of the root that currently controls the handle: the most recently attached one still
-   * mounted, or `null` when no root is attached. Imperative methods are no-ops while this is `null`.
-   */
-  attachedStoreValue = null;
-  /**
-   * Listeners notified when `attachedStore` changes, so detached triggers can follow the store pointer.
-   */
-  storeListeners = /* @__PURE__ */ new Set();
-  /**
-   * Creates a handle backed by the store used while no root is attached.
-   *
-   * @param fallbackStore Inert, closed store handed to detached triggers while no root is attached,
-   * so they can render and register without a mounted root. Triggers register into whichever store
-   * `store` currently resolves to, so while detached they live in this store's trigger map and
-   * migrate themselves to the root's store (and back) as it attaches/detaches.
-   * @param componentName Component name used to prefix dev warnings, e.g. `'Menu'` produces
-   * `MenuHandle.open()` in warning text.
-   * @param throwOnMissingTrigger Whether `open(triggerId)` throws when no trigger with that id is
-   * registered. Anchored popups (Menu, Popover, Tooltip, PreviewCard) need a trigger to anchor to,
-   * so they throw; Dialog is not anchored and instead opens unassociated with a dev warning.
-   */
-  constructor(fallbackStore, componentName, throwOnMissingTrigger = true) {
-    this.fallbackStore = fallbackStore;
-    this.componentName = componentName;
-    this.throwOnMissingTrigger = throwOnMissingTrigger;
-  }
-  get attachedStore() {
-    return this.attachedStoreValue;
-  }
-  /**
-   * Store that detached triggers read from: the attached root's store, or an inert fallback store
-   * used while no root is attached.
-   * @internal
-   */
-  get store() {
-    return this.attachedStoreValue ?? this.fallbackStore;
-  }
-  /**
-   * Stable fallback store used for server rendering and hydration. Root stores cannot be recorded on
-   * the handle during render because a handle can be shared by concurrent server-rendered requests.
-   * @internal
-   */
-  get serverStore() {
-    return this.fallbackStore;
-  }
-  /**
-   * Subscribes to changes of the attached store pointer so detached triggers re-render and re-bind
-   * when a root attaches or detaches. Returns a function that removes the listener.
-   * @internal
-   */
-  subscribeStore(listener) {
-    this.storeListeners.add(listener);
-    return () => {
-      this.storeListeners.delete(listener);
-    };
-  }
-  /**
-   * Points the handle at a root's store and notifies subscribers so detached triggers re-render and
-   * re-register into it (their registration effect migrates them when the store pointer changes).
-   * Returns a cleanup function that detaches the store again.
-   * @internal
-   */
-  attachStore(newStore) {
-    this.attachedStores.push(newStore);
-    this.setActiveStore(newStore);
-    if (true) {
-      if (this.attachedStores.length > 1) {
-        const dev = this;
-        (dev.overlapWarningFrame ??= AnimationFrame.create()).request(() => {
-          if (this.attachedStores.length > 1) {
-            console.warn("Base UI: A handle is attached to more than one mounted root at the same time. The most recently mounted root takes over and the previous one stops being controlled by the handle. A handle should be used by a single root that stays mounted for the lifetime of the handle.");
-          }
-        });
-      }
-    }
-    return () => {
-      const index2 = this.attachedStores.lastIndexOf(newStore);
-      if (index2 !== -1) {
-        this.attachedStores.splice(index2, 1);
-      }
-      this.setActiveStore(this.attachedStores[this.attachedStores.length - 1] ?? null);
-    };
-  }
-  /**
-   * Sets the store that currently controls the handle and notifies subscribers when it changes, so
-   * detached triggers re-render and migrate their registration to the new store.
-   */
-  setActiveStore(store) {
-    if (this.attachedStoreValue !== store) {
-      this.attachedStoreValue = store;
-      this.storeListeners.forEach((listener) => {
-        listener();
-      });
-    }
-  }
-  /**
-   * Opens the attached root's store and associates it with the trigger with the given id, or a
-   * no-op (with a dev warning) while no root is attached. Shared by every concrete handle's public
-   * `open()` method, which only narrows the parameter type.
-   *
-   * When a trigger id is given but no matching trigger is registered, anchored popups throw (see
-   * `throwOnMissingTrigger`); Dialog opens unassociated with a dev warning instead.
-   *
-   * This method should only be called in an event handler or an effect (not during rendering).
-   *
-   * @param triggerId ID of the trigger to associate with the popup, or `null`/`undefined` to open
-   * without associating any trigger.
-   */
-  openByTrigger(triggerId) {
-    const attachedStore = this.attachedStore;
-    if (attachedStore === null) {
-      if (true) {
-        console.warn(`Base UI: ${this.componentName}Handle.open() was called while no root using this handle is mounted. The call was ignored; mount a root with this handle before opening it imperatively.`);
-      }
-      return;
-    }
-    let triggerElement;
-    if (triggerId) {
-      for (let i = this.attachedStores.length - 1; i >= 0 && !triggerElement; i -= 1) {
-        triggerElement = this.attachedStores[i].context.triggerElements.getById(triggerId);
-      }
-      triggerElement ??= this.fallbackStore.context.triggerElements.getById(triggerId);
-    }
-    if (triggerId && !triggerElement) {
-      if (this.throwOnMissingTrigger) {
-        throw new Error(true ? `Base UI: ${this.componentName}Handle.open() was called with the trigger id "${triggerId}", but no matching trigger is registered with this handle. An anchored popup cannot open without a trigger to anchor to. Pass the id of a mounted ${this.componentName}.Trigger that has this handle set on its "handle" prop.` : formatErrorMessage_default(99, this.componentName, triggerId, this.componentName));
-      }
-      if (true) {
-        console.warn(`Base UI: ${this.componentName}Handle.open: No trigger found with id "${triggerId}". The popup will open, but the trigger will not be associated with it.`);
-      }
-    }
-    attachedStore.setOpen(true, createChangeEventDetails(reason_parts_exports.imperativeAction, void 0, triggerElement));
-  }
-  /**
-   * Closes the popup by setting the attached root's store to closed, or a no-op (with a dev warning)
-   * while no root is attached. Shared by every concrete handle's public `close()` method.
-   *
-   * This method should only be called in an event handler or an effect (not during rendering).
-   */
-  closePopup() {
-    const attachedStore = this.attachedStore;
-    if (attachedStore === null) {
-      if (true) {
-        console.warn(`Base UI: ${this.componentName}Handle.close() was called while no root using this handle is mounted. The call was ignored.`);
-      }
-      return;
-    }
-    attachedStore.setOpen(false, createChangeEventDetails(reason_parts_exports.imperativeAction));
-  }
-};
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/popups/popupStoreUtils.mjs
-var React31 = __toESM(require_react(), 1);
-var ReactDOM4 = __toESM(require_react_dom(), 1);
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useSyncedFloatingRootContext.mjs
-var React30 = __toESM(require_react(), 1);
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/store/useStore.mjs
-var React28 = __toESM(require_react(), 1);
-var import_shim = __toESM(require_shim(), 1);
-var import_with_selector = __toESM(require_with_selector(), 1);
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/fastHooks.mjs
-var React27 = __toESM(require_react(), 1);
-var hooks = [];
-var currentInstance = void 0;
-function getInstance() {
-  return currentInstance;
-}
-function register(hook) {
-  hooks.push(hook);
-}
-function fastComponent(fn) {
-  const FastComponent = (props, forwardedRef) => {
-    const instance = useRefWithInit(createInstance).current;
-    let result;
-    try {
-      currentInstance = instance;
-      for (const hook of hooks) {
-        hook.before(instance);
-      }
-      result = fn(props, forwardedRef);
-      for (const hook of hooks) {
-        hook.after(instance);
-      }
-      instance.didInitialize = true;
-    } finally {
-      currentInstance = void 0;
-    }
-    return result;
-  };
-  FastComponent.displayName = fn.displayName || fn.name;
-  return FastComponent;
-}
-function fastComponentRef(fn) {
-  return /* @__PURE__ */ React27.forwardRef(fastComponent(fn));
-}
-function createInstance() {
-  return {
-    didInitialize: false
-  };
-}
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/store/useStore.mjs
-var canUseRawUseSyncExternalStore = isReactVersionAtLeast(19);
-var useStoreImplementation = canUseRawUseSyncExternalStore ? useStoreFast : useStoreLegacy;
-function useStore(store, selector, a1, a2, a3) {
-  return useStoreImplementation(store, selector, a1, a2, a3);
-}
-function useStoreR19(store, selector, a1, a2, a3) {
-  const getSelection = React28.useCallback(() => selector(store.getSnapshot(), a1, a2, a3), [store, selector, a1, a2, a3]);
-  return (0, import_shim.useSyncExternalStore)(store.subscribe, getSelection, getSelection);
-}
-register({
-  before(instance) {
-    instance.syncIndex = 0;
-    if (!instance.didInitialize) {
-      instance.syncTick = 1;
-      instance.syncHooks = [];
-      instance.didChangeStore = true;
-      instance.getSnapshot = () => {
-        let didChange2 = false;
-        for (let i = 0; i < instance.syncHooks.length; i += 1) {
-          const hook = instance.syncHooks[i];
-          const value = hook.selector(hook.store.state, hook.a1, hook.a2, hook.a3);
-          if (!Object.is(hook.value, value)) {
-            didChange2 = true;
-            hook.value = value;
-          }
-        }
-        if (didChange2) {
-          instance.syncTick += 1;
-        }
-        return instance.syncTick;
-      };
-    }
-  },
-  after(instance) {
-    if (instance.syncHooks.length > 0) {
-      if (instance.didChangeStore) {
-        instance.didChangeStore = false;
-        instance.subscribe = (onStoreChange) => {
-          const stores = /* @__PURE__ */ new Set();
-          for (const hook of instance.syncHooks) {
-            stores.add(hook.store);
-          }
-          const unsubscribes = [];
-          for (const store of stores) {
-            unsubscribes.push(store.subscribe(onStoreChange));
-          }
-          return () => {
-            for (const unsubscribe of unsubscribes) {
-              unsubscribe();
-            }
-          };
-        };
-      }
-      (0, import_shim.useSyncExternalStore)(instance.subscribe, instance.getSnapshot, instance.getSnapshot);
-    }
-  }
-});
-function useStoreFast(store, selector, a1, a2, a3) {
-  const instance = getInstance();
-  if (!instance) {
-    return useStoreR19(store, selector, a1, a2, a3);
-  }
-  const index2 = instance.syncIndex;
-  instance.syncIndex += 1;
-  let hook;
-  if (!instance.didInitialize) {
-    hook = {
-      store,
-      selector,
-      a1,
-      a2,
-      a3,
-      value: selector(store.getSnapshot(), a1, a2, a3)
-    };
-    instance.syncHooks.push(hook);
-  } else {
-    hook = instance.syncHooks[index2];
-    if (hook.store !== store || hook.selector !== selector || !Object.is(hook.a1, a1) || !Object.is(hook.a2, a2) || !Object.is(hook.a3, a3)) {
-      if (hook.store !== store) {
-        instance.didChangeStore = true;
-      }
-      hook.store = store;
-      hook.selector = selector;
-      hook.a1 = a1;
-      hook.a2 = a2;
-      hook.a3 = a3;
-      hook.value = selector(store.getSnapshot(), a1, a2, a3);
-    }
-  }
-  return hook.value;
-}
-function useStoreLegacy(store, selector, a1, a2, a3) {
-  return (0, import_with_selector.useSyncExternalStoreWithSelector)(store.subscribe, store.getSnapshot, store.getSnapshot, (state) => selector(state, a1, a2, a3));
-}
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/store/Store.mjs
-var Store = class {
-  /**
-   * Creates a store with the given initial state, constructing the class it is called on.
-   * Calling it on a generic base class (e.g. `ReactStore.create(...)`) constructs that
-   * class but degrades the inferred instance type to `Store`; use `new` there instead.
-   */
-  static create(state) {
-    return new this(state);
-  }
-  /**
-   * The current state of the store.
-   * This property is updated immediately when the state changes as a result of calling {@link setState}, {@link update}, or {@link set}.
-   * To subscribe to state changes, use the {@link useState} method. The value returned by {@link useState} is updated after the component renders (similarly to React's useState).
-   * The values can be used directly (to avoid subscribing to the store) in effects or event handlers.
-   *
-   * Do not modify properties in state directly. Instead, use the provided methods to ensure proper state management and listener notification.
-   */
-  // Internal state to handle recursive `setState()` calls
-  constructor(state) {
-    this.state = state;
-    this.listeners = /* @__PURE__ */ new Set();
-    this.updateTick = 0;
-  }
-  /**
-   * Registers a listener that will be called whenever the store's state changes.
-   *
-   * @param fn The listener function to be called on state changes.
-   * @returns A function to unsubscribe the listener.
-   */
-  subscribe = (fn) => {
-    this.listeners.add(fn);
-    return () => {
-      this.listeners.delete(fn);
-    };
-  };
-  /**
-   * Returns the current state of the store.
-   */
-  getSnapshot = () => {
-    return this.state;
-  };
-  /**
-   * Updates the entire store's state and notifies all registered listeners.
-   *
-   * @param newState The new state to set for the store.
-   */
-  setState(newState) {
-    if (this.state === newState) {
-      return;
-    }
-    this.state = newState;
-    this.updateTick += 1;
-    const currentTick = this.updateTick;
-    for (const listener of this.listeners) {
-      if (currentTick !== this.updateTick) {
-        return;
-      }
-      listener(newState);
-    }
-  }
-  /**
-   * Merges the provided changes into the current state and notifies listeners if there are changes.
-   * Each value must match its state key. Pass an exact known subset rather than a broad
-   * `Partial<State>`, which may contain `undefined` for required state fields.
-   *
-   * @param changes An object containing the changes to apply to the current state.
-   */
-  update(changes) {
-    for (const key in changes) {
-      if (!Object.is(this.state[key], changes[key])) {
-        this.setState({
-          ...this.state,
-          ...changes
-        });
-        return;
-      }
-    }
-  }
-  /**
-   * Sets a specific key in the store's state to a new value and notifies listeners if the value has changed.
-   *
-   * @param key The key in the store's state to update.
-   * @param value The new value to set for the specified key.
-   */
-  set(key, value) {
-    if (!Object.is(this.state[key], value)) {
-      this.setState({
-        ...this.state,
-        [key]: value
-      });
-    }
-  }
-  /**
-   * Gives the state a new reference and updates all registered listeners.
-   */
-  notifyAll() {
-    const newState = {
-      ...this.state
-    };
-    this.setState(newState);
-  }
-  use(selector, a1, a2, a3) {
-    return useStore(this, selector, a1, a2, a3);
-  }
-};
-
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/store/ReactStore.mjs
-var React29 = __toESM(require_react(), 1);
-var ReactStore = class extends Store {
-  /**
-   * Creates a new ReactStore instance.
-   *
-   * @param state Initial state of the store.
-   * @param context Non-reactive context values.
-   * @param selectors Optional selectors for use with `useState`.
-   */
-  constructor(state, context = {}, selectors4) {
-    super(state);
-    this.context = context;
-    this.selectors = selectors4;
-  }
-  /**
-   * Non-reactive values such as refs, callbacks, etc.
-   */
-  /**
-   * Synchronizes a single external value into the store.
-   *
-   * Note that the while the value in `state` is updated immediately, the value returned
-   * by `useState` is updated before the next render (similarly to React's `useState`).
-   */
-  useSyncedValue(key, value) {
-    React29.useDebugValue(key);
-    const store = this;
-    useIsoLayoutEffect(() => {
-      if (store.state[key] !== value) {
-        store.set(key, value);
-      }
-    }, [store, key, value]);
-  }
-  /**
-   * Synchronizes a single external value into the store and
-   * cleans it up (sets to `undefined`) on unmount.
-   *
-   * Note that the while the value in `state` is updated immediately, the value returned
-   * by `useState` is updated before the next render (similarly to React's `useState`).
-   */
-  useSyncedValueWithCleanup(key, value) {
-    const store = this;
-    useIsoLayoutEffect(() => {
-      if (store.state[key] !== value) {
-        store.set(key, value);
-      }
-      return () => {
-        store.set(key, void 0);
-      };
-    }, [store, key, value]);
-  }
-  /**
-   * Synchronizes multiple external values into the store.
-   * Each value must match its state key. Pass an exact known subset rather than a broad
-   * `Partial<State>`, which may contain `undefined` for required state fields.
-   *
-   * Note that the while the values in `state` are updated immediately, the values returned
-   * by `useState` are updated before the next render (similarly to React's `useState`).
-   *
-   * @param statePart An exact subset of state fields to synchronize. Unknown keys are not accepted.
-   */
-  useSyncedValues(statePart) {
-    const store = this;
-    if (true) {
-      React29.useDebugValue(statePart, (p) => Object.keys(p));
-      const keys = React29.useRef(Object.keys(statePart)).current;
-      const nextKeys = Object.keys(statePart);
-      if (keys.length !== nextKeys.length || keys.some((key, index2) => key !== nextKeys[index2])) {
-        console.error("ReactStore.useSyncedValues expects the same prop keys on every render. Keys should be stable.");
-      }
-    }
-    const dependencies = Object.values(statePart);
-    useIsoLayoutEffect(() => {
-      store.update(statePart);
-    }, [store, ...dependencies]);
-  }
-  /**
-   * Registers a controllable prop pair (`controlled`, `defaultValue`) for a specific key. If `controlled`
-   * is non-undefined, the store's state at `key` is updated to match `controlled`.
-   */
-  useControlledProp(key, controlled) {
-    React29.useDebugValue(key);
-    const store = this;
-    const isControlled = controlled !== void 0;
-    useIsoLayoutEffect(() => {
-      if (isControlled && !Object.is(store.state[key], controlled)) {
-        store.setState({
-          ...store.state,
-          [key]: controlled
-        });
-      }
-    }, [store, key, controlled, isControlled]);
-    if (true) {
-      const cache = this.controlledValues ??= /* @__PURE__ */ new Map();
-      if (!cache.has(key)) {
-        cache.set(key, isControlled);
-      }
-      const previouslyControlled = cache.get(key);
-      if (previouslyControlled !== void 0 && previouslyControlled !== isControlled) {
-        console.error(`A component is changing the ${isControlled ? "" : "un"}controlled state of ${key.toString()} to be ${isControlled ? "un" : ""}controlled. Elements should not switch from uncontrolled to controlled (or vice versa).`);
-      }
-    }
-  }
-  /** Gets the current value from the store using a selector with the provided key.
-   *
-   * @param key Key of the selector to use.
-   */
-  select(key, a1, a2, a3) {
-    const selector = this.selectors[key];
-    return selector(this.state, a1, a2, a3);
-  }
-  /**
-   * Returns a value from the store's state using a selector function.
-   * Used to subscribe to specific parts of the state.
-   * This methods causes a rerender whenever the selected state changes.
-   *
-   * @param key Key of the selector to use.
-   */
-  useState(key, a1, a2, a3) {
-    React29.useDebugValue(key);
-    return useStore(this, this.selectors[key], a1, a2, a3);
-  }
-  /**
-   * Wraps a function with `useStableCallback` to ensure it has a stable reference
-   * and assigns it to the context.
-   *
-   * @param key Key of the event callback. Must be a function in the context.
-   * @param fn Function to assign.
-   */
-  useContextCallback(key, fn) {
-    React29.useDebugValue(key);
-    const stableFunction = useStableCallback(fn ?? NOOP);
-    this.context[key] = stableFunction;
-  }
-  /**
-   * Returns a stable setter function for a specific key in the store's state.
-   * It's commonly used to pass as a ref callback to React elements.
-   *
-   * @param key Key of the state to set.
-   */
-  useStateSetter(key) {
-    const ref = React29.useRef(void 0);
-    if (ref.current === void 0) {
-      ref.current = (value) => {
-        this.set(key, value);
-      };
-    }
-    return ref.current;
-  }
-  /**
-   * Observes changes derived from the store's selectors and calls the listener when the selected value changes.
-   *
-   * @param key Key of the selector to observe.
-   * @param listener Listener function called when the selector result changes.
-   */
-  observe(selector, listener) {
-    let selectFn;
-    if (typeof selector === "function") {
-      selectFn = selector;
-    } else {
-      selectFn = this.selectors[selector];
-    }
-    let prevValue = selectFn(this.state);
-    listener(prevValue, prevValue, this);
-    return this.subscribe((nextState) => {
-      const nextValue = selectFn(nextState);
-      if (!Object.is(prevValue, nextValue)) {
-        const oldValue = prevValue;
-        prevValue = nextValue;
-        listener(nextValue, oldValue, this);
-      }
-    });
-  }
-};
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/components/FloatingRootStore.mjs
-var selectors = {
-  open: (state) => state.open,
-  transitionStatus: (state) => state.transitionStatus,
-  domReferenceElement: (state) => state.domReferenceElement,
-  referenceElement: (state) => state.positionReference ?? state.referenceElement,
-  floatingElement: (state) => state.floatingElement,
-  floatingId: (state) => state.floatingId
-};
-var FloatingRootStore = class extends ReactStore {
-  constructor(options) {
-    const {
-      syncOnly,
-      nested,
-      onOpenChange,
-      triggerElements,
-      ...initialState
-    } = options;
-    super({
-      ...initialState,
-      positionReference: initialState.referenceElement,
-      domReferenceElement: initialState.referenceElement
-    }, {
-      onOpenChange,
-      dataRef: {
-        current: {}
-      },
-      events: createEventEmitter(),
-      nested,
-      triggerElements
-    }, selectors);
-    this.syncOnly = syncOnly;
-  }
-  /**
-   * Syncs the event used by hover logic to distinguish hover-open from click-like interaction.
-   */
-  syncOpenEvent = (newOpen, event) => {
-    if (!newOpen || !this.state.open || // Prevent a pending hover-open from overwriting a click-open event, while allowing
-    // click events to upgrade a hover-open.
-    event != null && isClickLikeEvent(event)) {
-      this.context.dataRef.current.openEvent = newOpen ? event : void 0;
-    }
-  };
-  /**
-   * Runs the root-owned side effects for an open state change.
-   */
-  dispatchOpenChange = (newOpen, eventDetails) => {
-    this.syncOpenEvent(newOpen, eventDetails.event);
-    const details = {
-      open: newOpen,
-      reason: eventDetails.reason,
-      nativeEvent: eventDetails.event,
-      nested: this.context.nested,
-      triggerElement: eventDetails.trigger
-    };
-    this.context.events.emit("openchange", details);
-  };
-  /**
-   * Emits the `openchange` event through the internal event emitter and calls the `onOpenChange` handler with the provided arguments.
-   *
-   * @param newOpen The new open state.
-   * @param eventDetails Details about the event that triggered the open state change.
-   */
-  setOpen = (newOpen, eventDetails) => {
-    if (this.syncOnly) {
-      this.context.onOpenChange?.(newOpen, eventDetails);
-      return;
-    }
-    this.dispatchOpenChange(newOpen, eventDetails);
-    this.context.onOpenChange?.(newOpen, eventDetails);
-  };
-};
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useSyncedFloatingRootContext.mjs
-function useSyncedFloatingRootContext(options) {
-  const {
-    popupStore,
-    treatPopupAsFloatingElement = false,
-    floatingRootContext: floatingRootContextProp,
-    floatingId,
-    nested,
-    onOpenChange
-  } = options;
-  const open2 = popupStore.useState("open");
-  const referenceElement = popupStore.useState("activeTriggerElement");
-  const floatingElement = popupStore.useState(treatPopupAsFloatingElement ? "popupElement" : "positionerElement");
-  const triggerElements = popupStore.context.triggerElements;
-  const handleOpenChange = onOpenChange;
-  const internalStoreRef = React30.useRef(null);
-  if (floatingRootContextProp === void 0 && internalStoreRef.current === null) {
-    internalStoreRef.current = new FloatingRootStore({
-      open: open2,
-      transitionStatus: void 0,
-      referenceElement,
-      floatingElement,
-      triggerElements,
-      onOpenChange: handleOpenChange,
-      floatingId,
-      syncOnly: true,
-      nested
-    });
-  }
-  const store = floatingRootContextProp ?? internalStoreRef.current;
-  popupStore.useSyncedValue("floatingId", floatingId);
-  useIsoLayoutEffect(() => {
-    const valuesToSync = {
-      open: open2,
-      floatingId,
-      referenceElement,
-      floatingElement
-    };
-    if (isElement(referenceElement)) {
-      valuesToSync.domReferenceElement = referenceElement;
-    }
-    if (store.state.positionReference === store.state.referenceElement) {
-      valuesToSync.positionReference = referenceElement;
-    }
-    store.update(valuesToSync);
-  }, [open2, floatingId, referenceElement, floatingElement, store]);
-  store.context.onOpenChange = handleOpenChange;
-  store.context.nested = nested;
-  return store;
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/popups/popupStoreUtils.mjs
-var FOCUSABLE_POPUP_PROPS = {
-  tabIndex: -1,
-  [FOCUSABLE_ATTRIBUTE]: ""
-};
-function usePopupRootStore(createStore, treatPopupAsFloatingElement = false) {
-  const floatingId = useId();
-  const nested = useFloatingParentNodeId() != null;
-  const store = useRefWithInit(() => createStore(floatingId, nested)).current;
-  useSyncedFloatingRootContext({
-    popupStore: store,
-    treatPopupAsFloatingElement,
-    floatingRootContext: store.state.floatingRootContext,
-    floatingId,
-    nested,
-    onOpenChange: store.setOpen
-  });
-  return store;
-}
-function PopupHandleAttachment({
-  handle,
-  store
-}) {
-  useIsoLayoutEffect(() => {
-    return handle.attachStore(store);
-  }, [handle, store]);
-  return null;
-}
-function syncTriggerCount(store) {
-  const triggerCount = store.context.triggerElements.size;
-  if (store.select("open") && store.state.triggerCount !== triggerCount) {
-    store.set("triggerCount", triggerCount);
-  }
-}
-function useTriggerRegistration(id, store) {
-  const registrationRef = React31.useRef(null);
-  return useStableCallback((element) => {
-    const registration = registrationRef.current;
-    if (registration !== null) {
-      if (registration.element === element && registration.store === store && registration.id === id) {
-        return;
-      }
-      registrationRef.current = null;
-      const registeredStore = registration.store;
-      if (registeredStore.context.triggerElements.getById(registration.id) === registration.element) {
-        registeredStore.context.triggerElements.delete(registration.id);
-        syncTriggerCount(registeredStore);
-      }
-    }
-    if (element !== null && id !== void 0) {
-      registrationRef.current = {
-        store,
-        id,
-        element
-      };
-      store.context.triggerElements.add(id, element);
-      syncTriggerCount(store);
-    }
-  });
-}
-function createPopupOpenState(state, open2, trigger, preventUnmountOnClose = false) {
-  let preventUnmountingOnClose = state.preventUnmountingOnClose;
-  if (open2) {
-    preventUnmountingOnClose = false;
-  } else if (preventUnmountOnClose) {
-    preventUnmountingOnClose = true;
-  }
-  const triggerId = trigger?.id ?? null;
-  let activeTriggerId = state.activeTriggerId;
-  let activeTriggerElement = state.activeTriggerElement;
-  if (triggerId || open2) {
-    activeTriggerId = triggerId;
-    activeTriggerElement = trigger ?? null;
-  }
-  return {
-    open: open2,
-    preventUnmountingOnClose,
-    activeTriggerId,
-    activeTriggerElement
-  };
-}
-function attachPreventUnmountOnClose(eventDetails) {
-  let preventUnmountOnClose = false;
-  eventDetails.preventUnmountOnClose = () => {
-    preventUnmountOnClose = true;
-  };
-  return () => preventUnmountOnClose;
-}
-function applyPopupOpenChange(store, nextOpen, eventDetails, options = {}) {
-  const reason = eventDetails.reason;
-  const isHover = reason === reason_parts_exports.triggerHover;
-  const isFocusOpen = nextOpen && reason === reason_parts_exports.triggerFocus;
-  const isDismissClose = !nextOpen && (reason === reason_parts_exports.triggerPress || reason === reason_parts_exports.escapeKey);
-  const shouldPreventUnmountOnClose = attachPreventUnmountOnClose(eventDetails);
-  store.context.onOpenChange?.(nextOpen, eventDetails);
-  if (eventDetails.isCanceled) {
-    return;
-  }
-  options.onBeforeDispatch?.();
-  store.state.floatingRootContext.dispatchOpenChange(nextOpen, eventDetails);
-  const changeState = () => {
-    const popupOpenState = createPopupOpenState(store.state, nextOpen, eventDetails.trigger, shouldPreventUnmountOnClose());
-    const updatedState = {
-      ...options.extraState,
-      ...popupOpenState
-    };
-    if (isFocusOpen) {
-      updatedState.instantType = "focus";
-    } else if (isDismissClose) {
-      updatedState.instantType = "dismiss";
-    } else if (isHover) {
-      updatedState.instantType = void 0;
-    }
-    store.update(updatedState);
-  };
-  if (isHover) {
-    ReactDOM4.flushSync(changeState);
-  } else {
-    changeState();
-  }
-}
-function useTriggerDataForwarding(triggerId, triggerElementRef, store, stateUpdates) {
-  const isMountedByThisTrigger = store.useState("isMountedByTrigger", triggerId);
-  const baseRegisterTrigger = useTriggerRegistration(triggerId, store);
-  const applyTriggerData = useStableCallback((element) => {
-    const open2 = store.select("open");
-    const activeTriggerId = store.select("activeTriggerId");
-    if (activeTriggerId === triggerId) {
-      const changes = {
-        activeTriggerElement: element,
-        ...open2 ? stateUpdates : null
-      };
-      store.update(changes);
-      return;
-    }
-    if (activeTriggerId == null && open2) {
-      const changes = {
-        activeTriggerId: triggerId ?? null,
-        activeTriggerElement: element,
-        ...stateUpdates
-      };
-      store.update(changes);
-    }
-  });
-  const registerTrigger = useStableCallback((element) => {
-    baseRegisterTrigger(element);
-    if (element) {
-      applyTriggerData(element);
-    }
-  });
-  useIsoLayoutEffect(() => {
-    registerTrigger(triggerElementRef.current);
-    return () => registerTrigger(null);
-  }, [registerTrigger, triggerElementRef, store, triggerId]);
-  useIsoLayoutEffect(() => {
-    if (isMountedByThisTrigger) {
-      const changes = {
-        activeTriggerElement: triggerElementRef.current,
-        ...stateUpdates
-      };
-      store.update(changes);
-    }
-  }, [isMountedByThisTrigger, store, triggerElementRef, ...Object.values(stateUpdates)]);
-  return {
-    registerTrigger,
-    isMountedByThisTrigger
-  };
-}
-function useImplicitActiveTrigger(store, options = {}) {
-  const {
-    closeOnActiveTriggerUnmount = false
-  } = options;
-  const resolvedActiveTriggerIdRef = React31.useRef(null);
-  const open2 = store.useState("open");
-  const reactiveTriggerCount = store.useState("triggerCount");
-  const activeTriggerId = store.useState("activeTriggerId");
-  const reactiveActiveTriggerElement = store.useState("activeTriggerElement");
-  useIsoLayoutEffect(() => {
-    if (!open2) {
-      resolvedActiveTriggerIdRef.current = null;
-      if (store.state.triggerCount !== 0) {
-        store.set("triggerCount", 0);
-      }
-      return;
-    }
-    const triggerCount = store.context.triggerElements.size;
-    const stateUpdates = {};
-    if (store.state.triggerCount !== triggerCount) {
-      stateUpdates.triggerCount = triggerCount;
-    }
-    const currentActiveTriggerId = store.select("activeTriggerId");
-    let lostActiveTriggerId = null;
-    if (currentActiveTriggerId) {
-      const activeTriggerElement = store.context.triggerElements.getById(currentActiveTriggerId);
-      if (!activeTriggerElement) {
-        for (const [triggerId, triggerElement] of store.context.triggerElements.entries()) {
-          if (triggerElement === store.state.activeTriggerElement) {
-            stateUpdates.activeTriggerId = triggerId;
-            stateUpdates.activeTriggerElement = triggerElement;
-            resolvedActiveTriggerIdRef.current = triggerId;
-            break;
-          }
-        }
-        if (stateUpdates.activeTriggerId === void 0) {
-          if (resolvedActiveTriggerIdRef.current === currentActiveTriggerId) {
-            lostActiveTriggerId = currentActiveTriggerId;
-          } else {
-            resolvedActiveTriggerIdRef.current = null;
-          }
-        }
-      } else {
-        resolvedActiveTriggerIdRef.current = currentActiveTriggerId;
-        if (activeTriggerElement !== store.state.activeTriggerElement) {
-          stateUpdates.activeTriggerElement = activeTriggerElement;
-        }
-      }
-    } else {
-      resolvedActiveTriggerIdRef.current = null;
-    }
-    if (!lostActiveTriggerId && !currentActiveTriggerId && triggerCount === 1) {
-      const iteratorResult = store.context.triggerElements.entries().next();
-      if (!iteratorResult.done) {
-        const [implicitTriggerId, implicitTriggerElement] = iteratorResult.value;
-        stateUpdates.activeTriggerId = implicitTriggerId;
-        stateUpdates.activeTriggerElement = implicitTriggerElement;
-        resolvedActiveTriggerIdRef.current = implicitTriggerId;
-      }
-    }
-    if (stateUpdates.triggerCount !== void 0 || stateUpdates.activeTriggerId !== void 0 || stateUpdates.activeTriggerElement !== void 0) {
-      store.update(stateUpdates);
-    }
-    if (lostActiveTriggerId) {
-      if (closeOnActiveTriggerUnmount) {
-        queueMicrotask(() => {
-          if (store.select("open") && store.select("activeTriggerId") === lostActiveTriggerId && !store.context.triggerElements.getById(lostActiveTriggerId)) {
-            const eventDetails = createChangeEventDetails(reason_parts_exports.none);
-            store.setOpen(false, eventDetails);
-            if (!eventDetails.isCanceled) {
-              store.update({
-                activeTriggerId: null,
-                activeTriggerElement: null
-              });
-            }
-          }
-        });
-      }
-    }
-  }, [open2, store, reactiveTriggerCount, activeTriggerId, reactiveActiveTriggerElement, closeOnActiveTriggerUnmount]);
-}
-function useOpenStateTransitions(open2, store, onUnmount, animateInitialOpen) {
-  const {
-    mounted,
-    setMounted,
-    transitionStatus
-  } = useTransitionStatus(open2, false, false, animateInitialOpen);
-  const preventUnmountingOnClose = store.useState("preventUnmountingOnClose");
-  const syncedPreventUnmountingOnClose = open2 ? false : preventUnmountingOnClose;
-  store.useSyncedValues({
-    mounted,
-    transitionStatus,
-    preventUnmountingOnClose: syncedPreventUnmountingOnClose
-  });
-  const forceUnmount = useStableCallback(() => {
-    setMounted(false);
-    store.update({
-      activeTriggerId: null,
-      activeTriggerElement: null,
-      mounted: false,
-      preventUnmountingOnClose: false
-    });
-    onUnmount?.();
-    store.context.onOpenChangeComplete?.(false);
-  });
-  useOpenChangeComplete({
-    enabled: mounted && !open2 && !syncedPreventUnmountingOnClose,
-    open: open2,
-    ref: store.context.popupRef,
-    onComplete() {
-      if (!open2) {
-        forceUnmount();
-      }
-    }
-  });
-  return {
-    forceUnmount,
-    transitionStatus
-  };
-}
-function usePopupInteractionProps(store, statePart) {
-  store.useSyncedValues(statePart);
-  useIsoLayoutEffect(() => () => {
-    store.update({
-      activeTriggerProps: EMPTY_OBJECT,
-      inactiveTriggerProps: EMPTY_OBJECT,
-      popupProps: EMPTY_OBJECT
-    });
-  }, [store]);
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/popups/popupTriggerMap.mjs
-var devElementIdsByMap;
-function getDevElementIds(map) {
-  devElementIdsByMap ??= /* @__PURE__ */ new WeakMap();
-  let elementIds = devElementIdsByMap.get(map);
-  if (!elementIds) {
-    elementIds = /* @__PURE__ */ new WeakMap();
-    devElementIdsByMap.set(map, elementIds);
-  }
-  return elementIds;
-}
-var PopupTriggerMap = class {
-  constructor() {
-    this.idMap = /* @__PURE__ */ new Map();
-  }
-  /**
-   * Adds a trigger element with the given ID.
-   *
-   * Note: The provided element is assumed to not be registered under multiple IDs.
-   */
-  add(id, element) {
-    if (true) {
-      const elementIds = getDevElementIds(this);
-      const existingId = elementIds.get(element);
-      if (existingId !== void 0 && existingId !== id) {
-        throw new Error("Base UI: A trigger element cannot be registered under multiple IDs in PopupTriggerMap.");
-      }
-      const previousElement = this.idMap.get(id);
-      if (previousElement !== void 0 && previousElement !== element) {
-        elementIds.delete(previousElement);
-      }
-      elementIds.set(element, id);
-    }
-    this.idMap.set(id, element);
-  }
-  /**
-   * Removes the trigger element with the given ID.
-   */
-  delete(id) {
-    if (true) {
-      const element = this.idMap.get(id);
-      if (element !== void 0) {
-        devElementIdsByMap?.get(this)?.delete(element);
-      }
-    }
-    this.idMap.delete(id);
-  }
-  /**
-   * Whether the given element is registered as a trigger.
-   */
-  hasElement(element) {
-    for (const registered of this.idMap.values()) {
-      if (registered === element) {
-        return true;
-      }
-    }
-    return false;
-  }
-  /**
-   * Whether there is a registered trigger element matching the given predicate.
-   */
-  hasMatchingElement(predicate) {
-    for (const element of this.idMap.values()) {
-      if (predicate(element)) {
-        return true;
-      }
-    }
-    return false;
-  }
-  /**
-   * Returns the trigger element associated with the given ID, or undefined if no such element exists.
-   */
-  getById(id) {
-    return this.idMap.get(id);
-  }
-  /**
-   * Returns an iterable of all registered trigger entries, where each entry is a tuple of [id, element].
-   */
-  entries() {
-    return this.idMap.entries();
-  }
-  /**
-   * Returns an iterable of all registered trigger elements.
-   */
-  elements() {
-    return this.idMap.values();
-  }
-  /**
-   * Returns the number of registered trigger elements.
-   */
-  get size() {
-    return this.idMap.size;
-  }
-};
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/popups/store.mjs
-function createInitialPopupStoreState(triggerElements, floatingId, nested = false) {
-  return {
-    open: false,
-    openProp: void 0,
-    mounted: false,
-    transitionStatus: void 0,
-    floatingRootContext: new FloatingRootStore({
-      open: false,
-      transitionStatus: void 0,
-      floatingElement: null,
-      referenceElement: null,
-      triggerElements,
-      floatingId,
-      syncOnly: true,
-      nested,
-      onOpenChange: void 0
-    }),
-    floatingId,
-    triggerCount: 0,
-    preventUnmountingOnClose: false,
-    payload: void 0,
-    activeTriggerId: null,
-    activeTriggerElement: null,
-    triggerIdProp: void 0,
-    popupElement: null,
-    positionerElement: null,
-    activeTriggerProps: EMPTY_OBJECT,
-    inactiveTriggerProps: EMPTY_OBJECT,
-    popupProps: EMPTY_OBJECT
-  };
-}
-var activeTriggerIdSelector = (state) => state.triggerIdProp ?? state.activeTriggerId;
-var openSelector = (state) => state.openProp ?? state.open;
-var popupIdSelector = (state) => {
-  const popupId = state.popupElement?.id ?? state.floatingId;
-  return popupId || void 0;
-};
-function triggerOwnsOpenPopup(state, triggerId) {
-  return triggerId !== void 0 && openSelector(state) && activeTriggerIdSelector(state) === triggerId;
-}
-function triggerOwnsOpenPopupOrIsOnlyTrigger(state, triggerId) {
-  if (triggerOwnsOpenPopup(state, triggerId)) {
-    return true;
-  }
-  return triggerId !== void 0 && openSelector(state) && activeTriggerIdSelector(state) == null && state.triggerCount === 1;
-}
-var popupStoreSelectors = {
-  open: openSelector,
-  mounted: (state) => state.mounted,
-  transitionStatus: (state) => state.transitionStatus,
-  floatingRootContext: (state) => state.floatingRootContext,
-  triggerCount: (state) => state.triggerCount,
-  preventUnmountingOnClose: (state) => state.preventUnmountingOnClose,
-  payload: (state) => state.payload,
-  activeTriggerId: activeTriggerIdSelector,
-  activeTriggerElement: (state) => state.mounted ? state.activeTriggerElement : null,
-  popupId: popupIdSelector,
-  /**
-   * Whether the trigger with the given ID was used to open the popup.
-   */
-  isTriggerActive: (state, triggerId) => triggerId !== void 0 && activeTriggerIdSelector(state) === triggerId,
-  /**
-   * Whether the popup is open and was activated by a trigger with the given ID.
-   */
-  isOpenedByTrigger: (state, triggerId) => triggerOwnsOpenPopup(state, triggerId),
-  /**
-   * Whether the popup is mounted and was activated by a trigger with the given ID.
-   */
-  isMountedByTrigger: (state, triggerId) => triggerId !== void 0 && activeTriggerIdSelector(state) === triggerId && state.mounted,
-  triggerProps: (state, isActive) => isActive ? state.activeTriggerProps : state.inactiveTriggerProps,
-  /**
-   * Popup id for the trigger that currently owns the open popup.
-   */
-  triggerPopupId: (state, triggerId) => triggerOwnsOpenPopupOrIsOnlyTrigger(state, triggerId) ? popupIdSelector(state) : void 0,
-  popupProps: (state) => state.popupProps,
-  popupElement: (state) => state.popupElement,
-  positionerElement: (state) => state.positionerElement
-};
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/popups/usePopupHandleStore.mjs
-var React32 = __toESM(require_react(), 1);
-var import_shim2 = __toESM(require_shim(), 1);
-function usePopupHandleStore(handle) {
-  const subscribe = React32.useCallback((listener) => {
-    if (handle === void 0) {
-      return NOOP;
-    }
-    return handle.subscribeStore(listener);
-  }, [handle]);
-  const getSnapshot = React32.useCallback(() => {
-    return handle === void 0 ? void 0 : handle.store;
-  }, [handle]);
-  return (0, import_shim2.useSyncExternalStore)(subscribe, getSnapshot, () => handle?.serverStore);
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useFloatingRootContext.mjs
-function useFloatingRootContext(options) {
-  const {
-    open: open2 = false,
-    onOpenChange,
-    elements = {}
-  } = options;
-  const floatingId = useId();
-  const nested = useFloatingParentNodeId() != null;
-  if (true) {
-    const optionDomReference = elements.reference;
-    if (optionDomReference && !isElement(optionDomReference)) {
-      console.error("Cannot pass a virtual element to the `elements.reference` option,", "as it must be a real DOM element. Use `context.setPositionReference()`", "instead.");
-    }
-  }
-  const store = useRefWithInit(() => new FloatingRootStore({
-    open: open2,
-    transitionStatus: void 0,
-    onOpenChange,
-    referenceElement: elements.reference ?? null,
-    floatingElement: elements.floating ?? null,
-    triggerElements: new PopupTriggerMap(),
-    floatingId,
-    syncOnly: false,
-    nested
-  })).current;
-  useIsoLayoutEffect(() => {
-    const valuesToSync = {
-      open: open2,
-      floatingId
-    };
-    if (elements.reference !== void 0) {
-      valuesToSync.referenceElement = elements.reference;
-      valuesToSync.domReferenceElement = isElement(elements.reference) ? elements.reference : null;
-    }
-    if (elements.floating !== void 0) {
-      valuesToSync.floatingElement = elements.floating;
-    }
-    store.update(valuesToSync);
-  }, [open2, floatingId, elements.reference, elements.floating, store]);
-  store.context.onOpenChange = onOpenChange;
-  store.context.nested = nested;
-  return store;
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useFloating.mjs
-function useBaseUIFloating(options) {
-  return useFloatingWithStore(options, options.rootContext);
-}
-function useFloatingWithStore(options, store) {
-  const {
-    nodeId,
-    externalTree
-  } = options;
-  const referenceElement = store.useState("referenceElement");
-  const floatingElement = store.useState("floatingElement");
-  const domReferenceElement = store.useState("domReferenceElement");
-  const open2 = store.useState("open");
-  const floatingId = store.useState("floatingId");
-  const [positionReference, setPositionReferenceRaw] = React33.useState(null);
-  const [localDomReference, setLocalDomReference] = React33.useState(void 0);
-  const [localFloatingElement, setLocalFloatingElement] = React33.useState(void 0);
-  const domReferenceRef = React33.useRef(null);
-  const tree = useFloatingTree(externalTree);
-  const storeElements = React33.useMemo(() => ({
-    reference: referenceElement,
-    floating: floatingElement,
-    domReference: domReferenceElement
-  }), [referenceElement, floatingElement, domReferenceElement]);
-  const position = useFloating({
-    ...options,
-    elements: {
-      ...storeElements,
-      ...positionReference && {
-        reference: positionReference
-      }
-    }
-  });
-  const localDomReferenceElement = isElement(localDomReference) ? localDomReference : null;
-  const syncedFloatingElement = localFloatingElement === void 0 ? store.state.floatingElement : localFloatingElement;
-  store.useSyncedValue("referenceElement", localDomReference ?? null);
-  store.useSyncedValue("domReferenceElement", localDomReference === void 0 ? domReferenceElement : localDomReferenceElement);
-  store.useSyncedValue("floatingElement", syncedFloatingElement);
-  const setPositionReference = React33.useCallback((node) => {
-    const computedPositionReference = isElement(node) ? {
-      getBoundingClientRect: () => node.getBoundingClientRect(),
-      getClientRects: () => node.getClientRects(),
-      contextElement: node
-    } : node;
-    setPositionReferenceRaw(computedPositionReference);
-    position.refs.setReference(computedPositionReference);
-  }, [position.refs]);
-  const setReference = React33.useCallback((node) => {
-    if (isElement(node) || node === null) {
-      domReferenceRef.current = node;
-      setLocalDomReference(node);
-    }
-    if (isElement(position.refs.reference.current) || position.refs.reference.current === null || // Don't allow setting virtual elements using the old technique back to
-    // `null` to support `positionReference` + an unstable `reference`
-    // callback ref.
-    node !== null && !isElement(node)) {
-      position.refs.setReference(node);
-    }
-  }, [position.refs, setLocalDomReference]);
-  const setFloating = React33.useCallback((node) => {
-    setLocalFloatingElement(node);
-    position.refs.setFloating(node);
-  }, [position.refs]);
-  const refs = React33.useMemo(() => ({
-    ...position.refs,
-    setReference,
-    setFloating,
-    setPositionReference,
-    domReference: domReferenceRef
-  }), [position.refs, setReference, setFloating, setPositionReference]);
-  const elements = React33.useMemo(() => ({
-    ...position.elements,
-    domReference: domReferenceElement
-  }), [position.elements, domReferenceElement]);
-  const context = React33.useMemo(() => ({
-    ...position,
-    dataRef: store.context.dataRef,
-    open: open2,
-    onOpenChange: store.setOpen,
-    events: store.context.events,
-    floatingId,
-    refs,
-    elements,
-    nodeId,
-    rootStore: store
-  }), [position, refs, elements, nodeId, store, open2, floatingId]);
-  useIsoLayoutEffect(() => {
-    if (domReferenceElement) {
-      domReferenceRef.current = domReferenceElement;
-    }
-  }, [domReferenceElement]);
-  useIsoLayoutEffect(() => {
-    store.context.dataRef.current.floatingContext = context;
-    const node = tree?.nodesRef.current.find((n) => n.id === nodeId);
-    if (node) {
-      node.context = context;
-    }
-  });
-  return React33.useMemo(() => ({
-    ...position,
-    context,
-    refs,
-    elements,
-    rootStore: store
-  }), [position, refs, elements, context, store]);
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useFocus.mjs
-var React34 = __toESM(require_react(), 1);
-var isMacSafari = parts_exports.os.mac && parts_exports.engine.webkit;
-function useFocus(context, props = {}) {
-  const {
-    enabled = true,
-    delay
-  } = props;
-  const store = "rootStore" in context ? context.rootStore : context;
-  const {
-    events,
-    dataRef
-  } = store.context;
-  const blockFocusRef = React34.useRef(false);
-  const blockedReferenceRef = React34.useRef(null);
-  const keyboardModalityRef = React34.useRef(true);
-  const timeout = useTimeout();
-  React34.useEffect(() => {
-    const domReference = store.select("domReferenceElement");
-    if (!enabled) {
-      return void 0;
-    }
-    const win = getWindow(domReference);
-    function onBlur() {
-      const currentDomReference = store.select("domReferenceElement");
-      if (!store.select("open") && isHTMLElement(currentDomReference) && currentDomReference === activeElement(ownerDocument(currentDomReference))) {
-        blockFocusRef.current = true;
-        blockedReferenceRef.current = currentDomReference;
-      }
-    }
-    function onKeyDown() {
-      keyboardModalityRef.current = true;
-    }
-    function onPointerDown() {
-      keyboardModalityRef.current = false;
-    }
-    return mergeCleanups(addEventListener(win, "blur", onBlur), isMacSafari && addEventListener(win, "keydown", onKeyDown, true), isMacSafari && addEventListener(win, "pointerdown", onPointerDown, true));
-  }, [store, enabled]);
-  React34.useEffect(() => {
-    if (!enabled) {
-      return void 0;
-    }
-    function onOpenChangeLocal(details) {
-      if (details.reason === reason_parts_exports.triggerPress || details.reason === reason_parts_exports.escapeKey) {
-        const referenceElement = store.select("domReferenceElement");
-        if (isElement(referenceElement)) {
-          blockedReferenceRef.current = referenceElement;
-          blockFocusRef.current = true;
-        }
-      }
-    }
-    events.on("openchange", onOpenChangeLocal);
-    return () => {
-      events.off("openchange", onOpenChangeLocal);
-    };
-  }, [events, enabled, store]);
-  const reference = React34.useMemo(() => {
-    function resetBlockedFocus() {
-      blockFocusRef.current = false;
-      blockedReferenceRef.current = null;
-    }
-    return {
-      onMouseLeave() {
-        resetBlockedFocus();
-      },
-      onFocus(event) {
-        const focusTarget = event.currentTarget;
-        if (blockFocusRef.current) {
-          if (blockedReferenceRef.current === focusTarget) {
-            return;
-          }
-          resetBlockedFocus();
-        }
-        const target = getTarget(event.nativeEvent);
-        if (isElement(target)) {
-          if (isMacSafari && !event.relatedTarget) {
-            if (!keyboardModalityRef.current && !isTypeableElement(target)) {
-              return;
-            }
-          } else if (!matchesFocusVisible(target)) {
-            return;
-          }
-        }
-        const movedFromOtherEnabledTrigger = isTargetInsideEnabledTrigger(event.relatedTarget, store.context.triggerElements);
-        const {
-          nativeEvent,
-          currentTarget
-        } = event;
-        const delayValue = typeof delay === "function" ? delay() : delay;
-        if (store.select("open") && movedFromOtherEnabledTrigger || delayValue === 0 || delayValue === void 0) {
-          store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerFocus, nativeEvent, currentTarget));
-          return;
-        }
-        timeout.start(delayValue, () => {
-          if (blockFocusRef.current) {
-            return;
-          }
-          store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerFocus, nativeEvent, currentTarget));
-        });
-      },
-      onBlur(event) {
-        resetBlockedFocus();
-        const relatedTarget = event.relatedTarget;
-        const nativeEvent = event.nativeEvent;
-        const movedToFocusGuard = isElement(relatedTarget) && relatedTarget.hasAttribute(createAttribute("focus-guard")) && relatedTarget.getAttribute("data-type") === "outside";
-        timeout.start(0, () => {
-          const domReference = store.select("domReferenceElement");
-          const activeEl = activeElement(ownerDocument(domReference));
-          if (!relatedTarget && activeEl === domReference) {
-            return;
-          }
-          if (contains(dataRef.current.floatingContext?.refs.floating.current, activeEl) || contains(domReference, activeEl) || movedToFocusGuard) {
-            return;
-          }
-          const nextFocusedElement = relatedTarget ?? activeEl;
-          if (isTargetInsideEnabledTrigger(nextFocusedElement, store.context.triggerElements)) {
-            return;
-          }
-          store.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerFocus, nativeEvent));
-        });
-      }
-    };
-  }, [dataRef, delay, store, timeout]);
-  return React34.useMemo(() => enabled ? {
-    reference,
-    trigger: reference
-  } : {}, [enabled, reference]);
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverFloatingInteraction.mjs
-var React35 = __toESM(require_react(), 1);
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverInteractionSharedState.mjs
-var HoverInteraction = class _HoverInteraction {
-  constructor() {
-    this.pointerType = void 0;
-    this.interactedInside = false;
-    this.handler = void 0;
-    this.blockMouseMove = true;
-    this.performedPointerEventsMutation = false;
-    this.pointerEventsScopeElement = null;
-    this.pointerEventsReferenceElement = null;
-    this.pointerEventsFloatingElement = null;
-    this.restTimeoutPending = false;
-    this.openChangeTimeout = new Timeout();
-    this.restTimeout = new Timeout();
-    this.handleCloseOptions = void 0;
-  }
-  static create() {
-    return new _HoverInteraction();
-  }
-  dispose = () => {
-    this.openChangeTimeout.clear();
-    this.restTimeout.clear();
-  };
-  disposeEffect = () => {
-    return this.dispose;
-  };
-};
-var pointerEventsMutationOwnerByScopeElement = /* @__PURE__ */ new WeakMap();
-function clearSafePolygonPointerEventsMutation(instance) {
-  if (!instance.performedPointerEventsMutation) {
-    return;
-  }
-  const scopeElement = instance.pointerEventsScopeElement;
-  if (scopeElement && pointerEventsMutationOwnerByScopeElement.get(scopeElement) === instance) {
-    instance.pointerEventsScopeElement?.style.removeProperty("pointer-events");
-    instance.pointerEventsReferenceElement?.style.removeProperty("pointer-events");
-    instance.pointerEventsFloatingElement?.style.removeProperty("pointer-events");
-    pointerEventsMutationOwnerByScopeElement.delete(scopeElement);
-  }
-  instance.performedPointerEventsMutation = false;
-  instance.pointerEventsScopeElement = null;
-  instance.pointerEventsReferenceElement = null;
-  instance.pointerEventsFloatingElement = null;
-}
-function applySafePolygonPointerEventsMutation(instance, options) {
-  const {
-    scopeElement,
-    referenceElement,
-    floatingElement
-  } = options;
-  const existingOwner = pointerEventsMutationOwnerByScopeElement.get(scopeElement);
-  if (existingOwner && existingOwner !== instance) {
-    clearSafePolygonPointerEventsMutation(existingOwner);
-  }
-  clearSafePolygonPointerEventsMutation(instance);
-  instance.performedPointerEventsMutation = true;
-  instance.pointerEventsScopeElement = scopeElement;
-  instance.pointerEventsReferenceElement = referenceElement;
-  instance.pointerEventsFloatingElement = floatingElement;
-  pointerEventsMutationOwnerByScopeElement.set(scopeElement, instance);
-  scopeElement.style.pointerEvents = "none";
-  referenceElement.style.pointerEvents = "auto";
-  floatingElement.style.pointerEvents = "auto";
-}
-function useHoverInteractionSharedState(store) {
-  const data = store.context.dataRef.current;
-  const instance = useRefWithInit(() => data.hoverInteractionState ?? HoverInteraction.create()).current;
-  if (!data.hoverInteractionState) {
-    data.hoverInteractionState = instance;
-  }
-  useOnMount(data.hoverInteractionState.disposeEffect);
-  return data.hoverInteractionState;
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverFloatingInteraction.mjs
-function useHoverFloatingInteraction(context, parameters = {}) {
-  const {
-    enabled = true,
-    closeDelay: closeDelayProp = 0,
-    nodeId: nodeIdProp
-  } = parameters;
-  const store = "rootStore" in context ? context.rootStore : context;
-  const open2 = store.useState("open");
-  const floatingElement = store.useState("floatingElement");
-  const domReferenceElement = store.useState("domReferenceElement");
-  const {
-    dataRef
-  } = store.context;
-  const tree = useFloatingTree();
-  const parentId = useFloatingParentNodeId();
-  const instance = useHoverInteractionSharedState(store);
-  const childClosedTimeout = useTimeout();
-  const isClickLikeOpenEvent2 = useStableCallback(() => {
-    return isClickLikeOpenEvent(dataRef.current.openEvent?.type, instance.interactedInside);
-  });
-  const isHoverOpen = useStableCallback(() => {
-    return isHoverOpenEvent(dataRef.current.openEvent?.type);
-  });
-  const clearPointerEvents = useStableCallback(() => {
-    clearSafePolygonPointerEventsMutation(instance);
-  });
-  useIsoLayoutEffect(() => {
-    if (!open2) {
-      instance.pointerType = void 0;
-      instance.restTimeoutPending = false;
-      instance.interactedInside = false;
-      clearPointerEvents();
-    }
-  }, [open2, instance, clearPointerEvents]);
-  React35.useEffect(() => {
-    return clearPointerEvents;
-  }, [clearPointerEvents]);
-  useIsoLayoutEffect(() => {
-    if (!enabled) {
-      return void 0;
-    }
-    if (open2 && instance.handleCloseOptions?.blockPointerEvents && isHoverOpen() && isElement(domReferenceElement) && floatingElement) {
-      const ref = domReferenceElement;
-      const floatingEl = floatingElement;
-      const doc = ownerDocument(floatingElement);
-      const parentFloating = tree?.nodesRef.current.find((node) => node.id === parentId)?.context?.elements.floating;
-      if (parentFloating) {
-        parentFloating.style.pointerEvents = "";
-      }
-      const cachedScopeElement = instance.pointerEventsScopeElement !== floatingEl ? instance.pointerEventsScopeElement : null;
-      const parentScopeElement = parentFloating !== floatingEl ? parentFloating : null;
-      const scopeElement = instance.handleCloseOptions?.getScope?.() ?? cachedScopeElement ?? parentScopeElement ?? ref.closest("[data-rootownerid]") ?? doc.body;
-      applySafePolygonPointerEventsMutation(instance, {
-        scopeElement,
-        referenceElement: ref,
-        floatingElement: floatingEl
-      });
-      return () => {
-        clearPointerEvents();
-      };
-    }
-    return void 0;
-  }, [enabled, open2, domReferenceElement, floatingElement, instance, isHoverOpen, tree, parentId, clearPointerEvents]);
-  React35.useEffect(() => {
-    if (!enabled) {
-      return void 0;
-    }
-    function hasParentChildren() {
-      return !!(tree && parentId && getNodeChildren(tree.nodesRef.current, parentId).length > 0);
-    }
-    function closeWithDelay(event) {
-      const closeDelay = getDelay(closeDelayProp, "close", instance.pointerType);
-      const close = () => {
-        store.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
-        tree?.events.emit("floating.closed", event);
-      };
-      if (closeDelay) {
-        instance.openChangeTimeout.start(closeDelay, close);
-      } else {
-        instance.openChangeTimeout.clear();
-        close();
-      }
-    }
-    function handleInteractInside(event) {
-      const target = getTarget(event);
-      if (!isInteractiveElement(target)) {
-        instance.interactedInside = false;
-        return;
-      }
-      instance.interactedInside = target?.closest("[aria-haspopup]") != null;
-    }
-    function onFloatingMouseEnter() {
-      instance.openChangeTimeout.clear();
-      childClosedTimeout.clear();
-      tree?.events.off("floating.closed", onNodeClosed);
-      clearPointerEvents();
-    }
-    function onFloatingMouseLeave(event) {
-      if (hasParentChildren() && tree) {
-        tree.events.on("floating.closed", onNodeClosed);
-        return;
-      }
-      if (isTargetInsideEnabledTrigger(event.relatedTarget, store.context.triggerElements)) {
-        return;
-      }
-      const currentNodeId = dataRef.current.floatingContext?.nodeId ?? nodeIdProp;
-      const relatedTarget = event.relatedTarget;
-      const isMovingIntoDescendantFloating = tree && currentNodeId && isElement(relatedTarget) && getNodeChildren(tree.nodesRef.current, currentNodeId, false).some((node) => contains(node.context?.elements.floating, relatedTarget));
-      if (isMovingIntoDescendantFloating) {
-        return;
-      }
-      if (instance.handler) {
-        instance.handler(event);
-        return;
-      }
-      clearPointerEvents();
-      if (isHoverOpen() && !isClickLikeOpenEvent2()) {
-        closeWithDelay(event);
-      }
-    }
-    function onNodeClosed(event) {
-      if (!tree || !parentId || hasParentChildren()) {
-        return;
-      }
-      childClosedTimeout.start(0, () => {
-        tree.events.off("floating.closed", onNodeClosed);
-        store.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
-        tree.events.emit("floating.closed", event);
-      });
-    }
-    const floating = floatingElement;
-    return mergeCleanups(floating && addEventListener(floating, "mouseenter", onFloatingMouseEnter), floating && addEventListener(floating, "mouseleave", onFloatingMouseLeave), floating && addEventListener(floating, "pointerdown", handleInteractInside, true), () => {
-      tree?.events.off("floating.closed", onNodeClosed);
-    });
-  }, [enabled, floatingElement, store, dataRef, closeDelayProp, nodeIdProp, isHoverOpen, isClickLikeOpenEvent2, clearPointerEvents, instance, tree, parentId, childClosedTimeout]);
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverReferenceInteraction.mjs
-var React36 = __toESM(require_react(), 1);
-var ReactDOM5 = __toESM(require_react_dom(), 1);
-var EMPTY_REF = {
-  current: null
-};
-function useHoverReferenceInteraction(context, props = {}) {
-  const {
-    enabled = true,
-    delay = 0,
-    handleClose = null,
-    mouseOnly = false,
-    restMs = 0,
-    move = true,
-    triggerElementRef = EMPTY_REF,
-    externalTree,
-    isActiveTrigger = true,
-    getHandleCloseContext,
-    isClosing,
-    shouldOpen: shouldOpenProp,
-    guardStaleOpen = false
-  } = props;
-  const store = "rootStore" in context ? context.rootStore : context;
-  const {
-    dataRef,
-    events
-  } = store.context;
-  const tree = useFloatingTree(externalTree);
-  const instance = useHoverInteractionSharedState(store);
-  const isHoverCloseActiveRef = React36.useRef(false);
-  const handleCloseRef = useValueAsRef(handleClose);
-  const delayRef = useValueAsRef(delay);
-  const restMsRef = useValueAsRef(restMs);
-  const enabledRef = useValueAsRef(enabled);
-  const shouldOpenRef = useValueAsRef(shouldOpenProp);
-  const isClosingRef = useValueAsRef(isClosing);
-  const isClickLikeOpenEvent2 = useStableCallback(() => {
-    return isClickLikeOpenEvent(dataRef.current.openEvent?.type, instance.interactedInside);
-  });
-  const checkShouldOpen = useStableCallback(() => {
-    return shouldOpenRef.current?.() !== false;
-  });
-  const isOverInactiveTrigger = useStableCallback((currentDomReference, currentTarget, target) => {
-    const allTriggers = store.context.triggerElements;
-    if (allTriggers.hasElement(currentTarget)) {
-      return !currentDomReference || !contains(currentDomReference, currentTarget);
-    }
-    if (!isElement(target)) {
-      return false;
-    }
-    const targetElement = target;
-    return allTriggers.hasMatchingElement((trigger) => contains(trigger, targetElement)) && (!currentDomReference || !contains(currentDomReference, targetElement));
-  });
-  const cleanupMouseMoveHandler = useStableCallback(() => {
-    if (!instance.handler) {
-      return;
-    }
-    const doc = ownerDocument(store.select("domReferenceElement"));
-    doc.removeEventListener("mousemove", instance.handler);
-    instance.handler = void 0;
-  });
-  const clearPointerEvents = useStableCallback(() => {
-    clearSafePolygonPointerEventsMutation(instance);
-  });
-  if (isActiveTrigger) {
-    instance.handleCloseOptions = handleClose?.__options;
-  }
-  React36.useEffect(() => cleanupMouseMoveHandler, [cleanupMouseMoveHandler]);
-  React36.useEffect(() => {
-    if (!enabled) {
-      return void 0;
-    }
-    function onOpenChangeLocal(details) {
-      if (!details.open) {
-        isHoverCloseActiveRef.current = details.reason === reason_parts_exports.triggerHover;
-        cleanupMouseMoveHandler();
-        instance.openChangeTimeout.clear();
-        instance.restTimeout.clear();
-        instance.blockMouseMove = true;
-        instance.restTimeoutPending = false;
-      } else {
-        isHoverCloseActiveRef.current = false;
-      }
-    }
-    events.on("openchange", onOpenChangeLocal);
-    return () => {
-      events.off("openchange", onOpenChangeLocal);
-    };
-  }, [enabled, events, instance, cleanupMouseMoveHandler]);
-  React36.useEffect(() => {
-    if (!enabled) {
-      return void 0;
-    }
-    function closeWithDelay(event, runElseBranch = true) {
-      const closeDelay = getDelay(delayRef.current, "close", instance.pointerType);
-      if (closeDelay) {
-        instance.openChangeTimeout.start(closeDelay, () => {
-          store.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
-          tree?.events.emit("floating.closed", event);
-        });
-      } else if (runElseBranch) {
-        instance.openChangeTimeout.clear();
-        store.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
-        tree?.events.emit("floating.closed", event);
-      }
-    }
-    const trigger = triggerElementRef.current ?? (isActiveTrigger ? store.select("domReferenceElement") : null);
-    if (!isElement(trigger)) {
-      return void 0;
-    }
-    function onMouseEnter(event) {
-      instance.openChangeTimeout.clear();
-      instance.blockMouseMove = false;
-      if (mouseOnly && !isMouseLikePointerType(instance.pointerType)) {
-        return;
-      }
-      const restMsValue = getRestMs(restMsRef.current);
-      const openDelay = getDelay(delayRef.current, "open", instance.pointerType);
-      const eventTarget = getTarget(event);
-      const currentTarget = event.currentTarget ?? null;
-      const currentDomReference = store.select("domReferenceElement");
-      let triggerNode = currentTarget;
-      if (isElement(eventTarget) && !store.context.triggerElements.hasElement(eventTarget)) {
-        for (const triggerElement of store.context.triggerElements.elements()) {
-          if (contains(triggerElement, eventTarget)) {
-            triggerNode = triggerElement;
-            break;
-          }
-        }
-      }
-      if (isElement(currentTarget) && isElement(currentDomReference) && !store.context.triggerElements.hasElement(currentTarget) && contains(currentTarget, currentDomReference)) {
-        triggerNode = currentDomReference;
-      }
-      const isOverInactive = triggerNode == null ? false : isOverInactiveTrigger(currentDomReference, triggerNode, eventTarget);
-      const isOpen = store.select("open");
-      const isInClosingTransition = isClosingRef.current?.() ?? store.select("transitionStatus") === "ending";
-      const isHoverCloseTransition = !isOpen && isInClosingTransition && isHoverCloseActiveRef.current;
-      const isReenteringSameTriggerDuringCloseTransition = !isOverInactive && isElement(triggerNode) && isElement(currentDomReference) && contains(currentDomReference, triggerNode) && isHoverCloseTransition;
-      const isRestOnlyDelay = restMsValue > 0 && !openDelay;
-      const shouldOpenImmediately = isOverInactive && (isOpen || isHoverCloseTransition) || isReenteringSameTriggerDuringCloseTransition;
-      const shouldOpen = !isOpen || isOverInactive;
-      if (shouldOpenImmediately) {
-        if (checkShouldOpen()) {
-          store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerNode));
-        }
-        return;
-      }
-      if (isRestOnlyDelay) {
-        return;
-      }
-      if (openDelay) {
-        instance.openChangeTimeout.start(openDelay, () => {
-          if (shouldOpen && checkShouldOpen()) {
-            store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerNode));
-          }
-        });
-      } else if (shouldOpen) {
-        if (checkShouldOpen()) {
-          store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerNode));
-        }
-      }
-    }
-    function onMouseLeave(event) {
-      if (isClickLikeOpenEvent2()) {
-        clearPointerEvents();
-        return;
-      }
-      cleanupMouseMoveHandler();
-      const domReferenceElement = store.select("domReferenceElement");
-      const doc = ownerDocument(domReferenceElement);
-      instance.restTimeout.clear();
-      instance.restTimeoutPending = false;
-      const handleCloseContextBase = dataRef.current.floatingContext ?? getHandleCloseContext?.();
-      if (isTargetInsideEnabledTrigger(event.relatedTarget, store.context.triggerElements)) {
-        return;
-      }
-      if (handleCloseRef.current && handleCloseContextBase) {
-        if (!store.select("open")) {
-          instance.openChangeTimeout.clear();
-        }
-        const currentTrigger = triggerElementRef.current;
-        instance.handler = handleCloseRef.current({
-          ...handleCloseContextBase,
-          tree,
-          x: event.clientX,
-          y: event.clientY,
-          onClose() {
-            clearPointerEvents();
-            cleanupMouseMoveHandler();
-            if (enabledRef.current && !isClickLikeOpenEvent2() && currentTrigger === store.select("domReferenceElement")) {
-              closeWithDelay(event, true);
-            }
-          }
-        });
-        doc.addEventListener("mousemove", instance.handler);
-        instance.handler(event);
-        return;
-      }
-      const shouldClose = instance.pointerType === "touch" ? !contains(store.select("floatingElement"), event.relatedTarget) : true;
-      if (shouldClose) {
-        closeWithDelay(event);
-      }
-    }
-    function onMouseOut(event) {
-      if (contains(trigger, event.relatedTarget)) {
-        return;
-      }
-      instance.openChangeTimeout.clear();
-      instance.restTimeout.clear();
-      instance.restTimeoutPending = false;
-    }
-    const staleOpenGuard = guardStaleOpen ? addEventListener(trigger, "mouseout", onMouseOut) : void 0;
-    if (move) {
-      return mergeCleanups(addEventListener(trigger, "mousemove", onMouseEnter, {
-        once: true
-      }), addEventListener(trigger, "mouseenter", onMouseEnter), addEventListener(trigger, "mouseleave", onMouseLeave), staleOpenGuard);
-    }
-    return mergeCleanups(addEventListener(trigger, "mouseenter", onMouseEnter), addEventListener(trigger, "mouseleave", onMouseLeave), staleOpenGuard);
-  }, [cleanupMouseMoveHandler, clearPointerEvents, dataRef, delayRef, store, enabled, handleCloseRef, instance, isActiveTrigger, isOverInactiveTrigger, isClickLikeOpenEvent2, mouseOnly, move, restMsRef, triggerElementRef, tree, enabledRef, getHandleCloseContext, isClosingRef, checkShouldOpen, guardStaleOpen]);
-  return React36.useMemo(() => {
-    if (!enabled) {
-      return void 0;
-    }
-    function setPointerRef(event) {
-      instance.pointerType = event.pointerType;
-    }
-    return {
-      onPointerDown: setPointerRef,
-      onPointerEnter: setPointerRef,
-      onMouseMove(event) {
-        const {
-          nativeEvent
-        } = event;
-        const trigger = event.currentTarget;
-        const currentDomReference = store.select("domReferenceElement");
-        const currentOpen = store.select("open");
-        const isOverInactive = isOverInactiveTrigger(currentDomReference, trigger, event.target);
-        if (mouseOnly && !isMouseLikePointerType(instance.pointerType)) {
-          return;
-        }
-        if (currentOpen && isOverInactive && instance.handleCloseOptions?.blockPointerEvents) {
-          const floatingElement = store.select("floatingElement");
-          if (floatingElement) {
-            const scopeElement = instance.handleCloseOptions?.getScope?.() ?? trigger.ownerDocument.body;
-            applySafePolygonPointerEventsMutation(instance, {
-              scopeElement,
-              referenceElement: trigger,
-              floatingElement
-            });
-          }
-        }
-        const restMsValue = getRestMs(restMsRef.current);
-        if (currentOpen && !isOverInactive || restMsValue === 0) {
-          return;
-        }
-        if (!isOverInactive && instance.restTimeoutPending && event.movementX ** 2 + event.movementY ** 2 < 2) {
-          return;
-        }
-        instance.restTimeout.clear();
-        function handleMouseMove() {
-          instance.restTimeoutPending = false;
-          if (isClickLikeOpenEvent2()) {
-            return;
-          }
-          const latestOpen = store.select("open");
-          if (!instance.blockMouseMove && (!latestOpen || isOverInactive) && checkShouldOpen()) {
-            store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, nativeEvent, trigger));
-          }
-        }
-        if (instance.pointerType === "touch") {
-          ReactDOM5.flushSync(() => {
-            handleMouseMove();
-          });
-        } else if (isOverInactive && currentOpen) {
-          handleMouseMove();
-        } else {
-          instance.restTimeoutPending = true;
-          instance.restTimeout.start(restMsValue, handleMouseMove);
-        }
-      }
-    };
-  }, [enabled, instance, isClickLikeOpenEvent2, isOverInactiveTrigger, mouseOnly, store, restMsRef, checkShouldOpen]);
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useListNavigation.mjs
-var React37 = __toESM(require_react(), 1);
-var ESCAPE = "Escape";
-function isStationaryWebKitPointer(event) {
-  return parts_exports.engine.webkit && event.movementX === 0 && event.movementY === 0;
-}
-function doSwitch(orientation, vertical, horizontal) {
-  switch (orientation) {
-    case "vertical":
-      return vertical;
-    case "horizontal":
-      return horizontal;
-    default:
-      return vertical || horizontal;
-  }
-}
-function isMainOrientationKey(key, orientation) {
-  const vertical = key === ARROW_UP || key === ARROW_DOWN;
-  const horizontal = key === ARROW_LEFT || key === ARROW_RIGHT;
-  return doSwitch(orientation, vertical, horizontal);
-}
-function isMainOrientationToEndKey(key, orientation, rtl) {
-  const vertical = key === ARROW_DOWN;
-  const horizontal = rtl ? key === ARROW_LEFT : key === ARROW_RIGHT;
-  return doSwitch(orientation, vertical, horizontal) || key === "Enter" || key === " " || key === "";
-}
-function isCrossOrientationOpenKey(key, orientation, rtl) {
-  const vertical = rtl ? key === ARROW_LEFT : key === ARROW_RIGHT;
-  const horizontal = key === ARROW_DOWN;
-  return doSwitch(orientation, vertical, horizontal);
-}
-function isCrossOrientationCloseKey(key, orientation, rtl, grid) {
-  const vertical = rtl ? key === ARROW_RIGHT : key === ARROW_LEFT;
-  const horizontal = key === ARROW_UP;
-  if (orientation === "both" || orientation === "horizontal" && grid) {
-    return key === ESCAPE;
-  }
-  return doSwitch(orientation, vertical, horizontal);
-}
-function useListNavigation(context, props) {
-  const {
-    listRef,
-    activeIndex,
-    onNavigate: onNavigateProp = () => {
-    },
-    enabled = true,
-    selectedIndex = null,
-    allowEscape = false,
-    loopFocus = false,
-    nested = false,
-    rtl = false,
-    virtual = false,
-    focusItemOnOpen = "auto",
-    focusItemOnHover = true,
-    openOnArrowKeyDown = true,
-    disabledIndices = void 0,
-    orientation = "vertical",
-    parentOrientation,
-    id,
-    resetOnPointerLeave = true,
-    externalTree,
-    grid: navigateGrid
-  } = props;
-  const isGrid = navigateGrid != null;
-  if (true) {
-    if (allowEscape) {
-      if (!loopFocus) {
-        console.warn("`useListNavigation` looping must be enabled to allow escaping.");
-      }
-      if (!virtual) {
-        console.warn("`useListNavigation` must be virtual to allow escaping.");
-      }
-    }
-    if (orientation === "vertical" && isGrid) {
-      console.warn("In grid list navigation mode, the `orientation` should", 'be either "horizontal" or "both".');
-    }
-  }
-  const store = "rootStore" in context ? context.rootStore : context;
-  const open2 = store.useState("open");
-  const floatingElement = store.useState("floatingElement");
-  const domReferenceElement = store.useState("domReferenceElement");
-  const dataRef = store.context.dataRef;
-  const floatingFocusElement = getFloatingFocusElement(floatingElement);
-  const typeableComboboxReference = isTypeableCombobox(domReferenceElement);
-  const floatingFocusElementRef = useValueAsRef(floatingFocusElement);
-  const parentId = useFloatingParentNodeId();
-  const tree = useFloatingTree(externalTree);
-  const focusItemOnOpenRef = React37.useRef(focusItemOnOpen);
-  const indexRef = React37.useRef(selectedIndex ?? -1);
-  const keyRef = React37.useRef(null);
-  const isPointerModalityRef = React37.useRef(true);
-  const onNavigate = useStableCallback((event) => {
-    onNavigateProp(indexRef.current === -1 ? null : indexRef.current, event);
-  });
-  const previousMountedRef = React37.useRef(!!floatingElement);
-  const previousOpenRef = React37.useRef(open2);
-  const forceSyncFocusRef = React37.useRef(false);
-  const forceScrollIntoViewRef = React37.useRef(false);
-  const cancelQueuedFocusRef = React37.useRef(null);
-  const disabledIndicesRef = useValueAsRef(disabledIndices);
-  const latestOpenRef = useValueAsRef(open2);
-  const selectedIndexRef = useValueAsRef(selectedIndex);
-  const resetOnPointerLeaveRef = useValueAsRef(resetOnPointerLeave);
-  const focusFrame = useAnimationFrame();
-  const waitForListPopulatedFrame = useAnimationFrame();
-  const focusItem = useStableCallback(() => {
-    function runFocus(item2) {
-      if (virtual) {
-        tree?.events.emit("virtualfocus", item2);
-      } else {
-        cancelQueuedFocusRef.current = enqueueFocus(item2, {
-          sync: forceSyncFocusRef.current,
-          preventScroll: true
-        });
-      }
-    }
-    const initialItem = listRef.current[indexRef.current];
-    const forceScrollIntoView = forceScrollIntoViewRef.current;
-    if (initialItem) {
-      runFocus(initialItem);
-    }
-    const scheduler2 = forceSyncFocusRef.current ? (callback) => callback() : (callback) => focusFrame.request(callback);
-    scheduler2(() => {
-      const waitedItem = listRef.current[indexRef.current] || initialItem;
-      if (!waitedItem) {
-        return;
-      }
-      if (!initialItem) {
-        runFocus(waitedItem);
-      }
-      const shouldScrollIntoView = (
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        item && (forceScrollIntoView || !isPointerModalityRef.current)
-      );
-      if (shouldScrollIntoView) {
-        waitedItem.scrollIntoView?.({
-          block: "nearest",
-          inline: "nearest"
-        });
-      }
-    });
-  });
-  useIsoLayoutEffect(() => {
-    dataRef.current.orientation = orientation;
-  }, [dataRef, orientation]);
-  useIsoLayoutEffect(() => {
-    if (!enabled) {
-      return;
-    }
-    if (open2 && floatingElement) {
-      indexRef.current = selectedIndex ?? -1;
-      if (focusItemOnOpenRef.current && selectedIndex != null) {
-        forceScrollIntoViewRef.current = true;
-        onNavigate();
-      }
-    } else if (previousMountedRef.current) {
-      indexRef.current = -1;
-      onNavigate();
-    }
-  }, [enabled, open2, floatingElement, selectedIndex, onNavigate]);
-  useIsoLayoutEffect(() => {
-    if (!enabled) {
-      return;
-    }
-    if (!open2) {
-      forceSyncFocusRef.current = false;
-      return;
-    }
-    if (!floatingElement) {
-      return;
-    }
-    if (activeIndex == null) {
-      forceSyncFocusRef.current = false;
-      if (selectedIndexRef.current != null) {
-        return;
-      }
-      if (previousMountedRef.current) {
-        indexRef.current = -1;
-        focusItem();
-      }
-      if ((!previousOpenRef.current || !previousMountedRef.current) && focusItemOnOpenRef.current && (keyRef.current != null || focusItemOnOpenRef.current === true && keyRef.current == null)) {
-        let runs = 0;
-        const waitForListPopulated = () => {
-          if (listRef.current[0] == null) {
-            if (runs < 2) {
-              const scheduler2 = runs ? (callback) => waitForListPopulatedFrame.request(callback) : queueMicrotask;
-              scheduler2(waitForListPopulated);
-            }
-            runs += 1;
-          } else {
-            indexRef.current = keyRef.current == null || isMainOrientationToEndKey(keyRef.current, orientation, rtl) || nested ? getMinListIndex(listRef) : getMaxListIndex(listRef);
-            keyRef.current = null;
-            onNavigate();
-          }
-        };
-        waitForListPopulated();
-      }
-    } else if (!isIndexOutOfListBounds(listRef.current, activeIndex)) {
-      indexRef.current = activeIndex;
-      focusItem();
-      forceScrollIntoViewRef.current = false;
-    }
-  }, [enabled, open2, floatingElement, activeIndex, selectedIndexRef, nested, listRef, orientation, rtl, onNavigate, focusItem, waitForListPopulatedFrame]);
-  useIsoLayoutEffect(() => {
-    if (!enabled || floatingElement || !tree || virtual || !previousMountedRef.current) {
-      return;
-    }
-    const nodes = tree.nodesRef.current;
-    const parent = nodes.find((node) => node.id === parentId)?.context?.elements.floating;
-    const activeEl = activeElement(ownerDocument(domReferenceElement ?? parent ?? null));
-    const treeContainsActiveEl = nodes.some((node) => node.context && contains(node.context.elements.floating, activeEl));
-    if (parent && !treeContainsActiveEl && isPointerModalityRef.current) {
-      parent.focus({
-        preventScroll: true
-      });
-    }
-  }, [enabled, floatingElement, domReferenceElement, tree, parentId, virtual]);
-  useIsoLayoutEffect(() => {
-    previousOpenRef.current = open2;
-    previousMountedRef.current = !!floatingElement;
-  });
-  useIsoLayoutEffect(() => {
-    if (!open2) {
-      keyRef.current = null;
-      focusItemOnOpenRef.current = focusItemOnOpen;
-    }
-  }, [open2, focusItemOnOpen]);
-  const hasActiveIndex = activeIndex != null;
-  const syncCurrentTarget = useStableCallback((event) => {
-    if (!latestOpenRef.current) {
-      return;
-    }
-    const index2 = listRef.current.indexOf(event.currentTarget);
-    if (index2 !== -1 && (indexRef.current !== index2 || activeIndex !== index2)) {
-      indexRef.current = index2;
-      onNavigate(event);
-    }
-  });
-  const getParentOrientation = useStableCallback(() => {
-    return parentOrientation ?? tree?.nodesRef.current.find((node) => node.id === parentId)?.context?.dataRef?.current.orientation;
-  });
-  const getMinEnabledIndex = useStableCallback(() => {
-    return getMinListIndex(listRef, disabledIndicesRef.current);
-  });
-  const commonOnKeyDown = useStableCallback((event) => {
-    isPointerModalityRef.current = false;
-    forceSyncFocusRef.current = true;
-    if (event.which === 229) {
-      return;
-    }
-    if (!latestOpenRef.current && event.currentTarget === floatingFocusElementRef.current) {
-      return;
-    }
-    if (nested && isCrossOrientationCloseKey(event.key, orientation, rtl, isGrid)) {
-      if (!isMainOrientationKey(event.key, getParentOrientation())) {
-        stopEvent(event);
-      }
-      store.setOpen(false, createChangeEventDetails(reason_parts_exports.listNavigation, event.nativeEvent));
-      if (isHTMLElement(domReferenceElement)) {
-        if (virtual) {
-          tree?.events.emit("virtualfocus", domReferenceElement);
-        } else {
-          domReferenceElement.focus();
-        }
-      }
-      return;
-    }
-    const currentIndex = indexRef.current;
-    const minIndex = getMinListIndex(listRef, disabledIndices);
-    const maxIndex = getMaxListIndex(listRef, disabledIndices);
-    if (!typeableComboboxReference) {
-      if (event.key === "Home") {
-        stopEvent(event);
-        indexRef.current = minIndex;
-        onNavigate(event);
-      }
-      if (event.key === "End") {
-        stopEvent(event);
-        indexRef.current = maxIndex;
-        onNavigate(event);
-      }
-    }
-    if (navigateGrid != null) {
-      const index2 = navigateGrid(event, indexRef.current, listRef, orientation, loopFocus, rtl, disabledIndices, minIndex, maxIndex);
-      if (index2 != null) {
-        indexRef.current = index2;
-        onNavigate(event);
-      }
-      if (orientation === "both") {
-        return;
-      }
-    }
-    if (isMainOrientationKey(event.key, orientation)) {
-      stopEvent(event);
-      if (open2 && !virtual && activeElement(event.currentTarget.ownerDocument) === event.currentTarget) {
-        indexRef.current = isMainOrientationToEndKey(event.key, orientation, rtl) ? minIndex : maxIndex;
-        onNavigate(event);
-        return;
-      }
-      if (isMainOrientationToEndKey(event.key, orientation, rtl)) {
-        if (loopFocus) {
-          if (currentIndex >= maxIndex) {
-            if (allowEscape && currentIndex !== listRef.current.length) {
-              indexRef.current = -1;
-            } else {
-              forceSyncFocusRef.current = false;
-              indexRef.current = minIndex;
-            }
-          } else {
-            indexRef.current = findNonDisabledListIndex(listRef.current, {
-              startingIndex: currentIndex,
-              disabledIndices
-            });
-          }
-        } else {
-          indexRef.current = Math.min(maxIndex, findNonDisabledListIndex(listRef.current, {
-            startingIndex: currentIndex,
-            disabledIndices
-          }));
-        }
-      } else if (loopFocus) {
-        if (currentIndex <= minIndex) {
-          if (allowEscape && currentIndex !== -1) {
-            indexRef.current = listRef.current.length;
-          } else {
-            forceSyncFocusRef.current = false;
-            indexRef.current = maxIndex;
-          }
-        } else {
-          indexRef.current = findNonDisabledListIndex(listRef.current, {
-            startingIndex: currentIndex,
-            decrement: true,
-            disabledIndices
-          });
-        }
-      } else {
-        indexRef.current = Math.max(minIndex, findNonDisabledListIndex(listRef.current, {
-          startingIndex: currentIndex,
-          decrement: true,
-          disabledIndices
-        }));
-      }
-      if (isIndexOutOfListBounds(listRef.current, indexRef.current)) {
-        indexRef.current = -1;
-      }
-      onNavigate(event);
-    }
-  });
-  const item = React37.useMemo(() => {
-    const itemProps = {
-      onFocus(event) {
-        forceSyncFocusRef.current = true;
-        syncCurrentTarget(event);
-      },
-      onClick: ({
-        currentTarget
-      }) => currentTarget.focus({
-        preventScroll: true
-      }),
-      // Safari
-      onMouseMove(event) {
-        if (isStationaryWebKitPointer(event)) {
-          return;
-        }
-        forceSyncFocusRef.current = true;
-        forceScrollIntoViewRef.current = false;
-        if (focusItemOnHover) {
-          syncCurrentTarget(event);
-        }
-      },
-      onPointerLeave(event) {
-        if (!latestOpenRef.current || !isPointerModalityRef.current || event.pointerType === "touch") {
-          return;
-        }
-        forceSyncFocusRef.current = true;
-        const relatedTarget = event.relatedTarget;
-        if (!focusItemOnHover || listRef.current.includes(relatedTarget)) {
-          return;
-        }
-        if (!resetOnPointerLeaveRef.current) {
-          return;
-        }
-        cancelQueuedFocusRef.current?.();
-        cancelQueuedFocusRef.current = null;
-        indexRef.current = -1;
-        onNavigate(event);
-        if (!virtual) {
-          const floatingFocusEl = floatingFocusElementRef.current;
-          const activeEl = activeElement(ownerDocument(floatingFocusEl));
-          if (floatingFocusEl && contains(floatingFocusEl, activeEl)) {
-            floatingFocusEl.focus({
-              preventScroll: true
-            });
-          }
-        }
-      }
-    };
-    return itemProps;
-  }, [syncCurrentTarget, latestOpenRef, floatingFocusElementRef, focusItemOnHover, listRef, onNavigate, resetOnPointerLeaveRef, virtual]);
-  const ariaActiveDescendantProp = React37.useMemo(() => {
-    return virtual && open2 && hasActiveIndex && {
-      "aria-activedescendant": `${id}-${activeIndex}`
-    };
-  }, [virtual, open2, hasActiveIndex, id, activeIndex]);
-  const floating = React37.useMemo(() => {
-    return {
-      ...!typeableComboboxReference ? ariaActiveDescendantProp : {},
-      onKeyDown(event) {
-        if (event.key === "Tab" && event.shiftKey && open2 && !virtual) {
-          const target = getTarget(event.nativeEvent);
-          if (target && !contains(floatingFocusElementRef.current, target)) {
-            return;
-          }
-          stopEvent(event);
-          store.setOpen(false, createChangeEventDetails(reason_parts_exports.focusOut, event.nativeEvent));
-          if (isHTMLElement(domReferenceElement)) {
-            domReferenceElement.focus();
-          }
-          return;
-        }
-        commonOnKeyDown(event);
-      },
-      onPointerMove(event) {
-        if (isStationaryWebKitPointer(event)) {
-          return;
-        }
-        isPointerModalityRef.current = true;
-      }
-    };
-  }, [ariaActiveDescendantProp, commonOnKeyDown, floatingFocusElementRef, typeableComboboxReference, store, open2, virtual, domReferenceElement]);
-  const trigger = React37.useMemo(() => {
-    function openOnNavigationKeyDown(event) {
-      store.setOpen(true, createChangeEventDetails(reason_parts_exports.listNavigation, event.nativeEvent, event.currentTarget));
-    }
-    function checkVirtualMouse(event) {
-      if (focusItemOnOpen === "auto" && isVirtualClick(event.nativeEvent)) {
-        focusItemOnOpenRef.current = !virtual;
-      }
-    }
-    function checkVirtualPointer(event) {
-      focusItemOnOpenRef.current = focusItemOnOpen;
-      if (focusItemOnOpen === "auto" && isVirtualPointerEvent(event.nativeEvent)) {
-        focusItemOnOpenRef.current = true;
-      }
-    }
-    return {
-      onKeyDown(event) {
-        const currentOpen = store.select("open");
-        isPointerModalityRef.current = false;
-        const isArrowKey = event.key.startsWith("Arrow");
-        const isParentCrossOpenKey = isCrossOrientationOpenKey(event.key, getParentOrientation(), rtl);
-        const isMainKey = isMainOrientationKey(event.key, orientation);
-        const isNavigationKey = (nested ? isParentCrossOpenKey : isMainKey) || event.key === "Enter" || event.key.trim() === "";
-        if (virtual && currentOpen) {
-          return commonOnKeyDown(event);
-        }
-        if (!currentOpen && !openOnArrowKeyDown && isArrowKey) {
-          return void 0;
-        }
-        if (isNavigationKey) {
-          const isParentMainKey = isMainOrientationKey(event.key, getParentOrientation());
-          keyRef.current = nested && isParentMainKey ? null : event.key;
-        }
-        if (nested) {
-          if (isParentCrossOpenKey) {
-            stopEvent(event);
-            if (currentOpen) {
-              indexRef.current = getMinEnabledIndex();
-              onNavigate(event);
-            } else {
-              openOnNavigationKeyDown(event);
-            }
-          }
-          return void 0;
-        }
-        if (isMainKey) {
-          if (selectedIndexRef.current != null) {
-            indexRef.current = selectedIndexRef.current;
-          }
-          stopEvent(event);
-          if (!currentOpen && openOnArrowKeyDown) {
-            openOnNavigationKeyDown(event);
-          } else {
-            commonOnKeyDown(event);
-          }
-          if (currentOpen) {
-            onNavigate(event);
-          }
-        }
-        return void 0;
-      },
-      onFocus(event) {
-        if (store.select("open") && !virtual) {
-          indexRef.current = -1;
-          onNavigate(event);
-        }
-      },
-      onPointerDown: checkVirtualPointer,
-      onPointerEnter: checkVirtualPointer,
-      onMouseDown: checkVirtualMouse,
-      onClick: checkVirtualMouse
-    };
-  }, [commonOnKeyDown, focusItemOnOpen, getMinEnabledIndex, nested, onNavigate, store, openOnArrowKeyDown, orientation, getParentOrientation, rtl, selectedIndexRef, virtual]);
-  const reference = React37.useMemo(() => {
-    return {
-      ...ariaActiveDescendantProp,
-      ...trigger
-    };
-  }, [ariaActiveDescendantProp, trigger]);
-  return React37.useMemo(() => enabled ? {
-    reference,
-    floating,
-    item,
-    trigger
-  } : {}, [enabled, reference, floating, trigger, item]);
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/useTypeahead.mjs
-var React38 = __toESM(require_react(), 1);
-function useTypeahead(context, props) {
-  const {
-    listRef,
-    elementsRef,
-    activeIndex,
-    onMatch: onMatchProp,
-    disabledIndices,
-    onTyping,
-    enabled = true,
-    resetMs = 750,
-    selectedIndex = null
-  } = props;
-  const store = "rootStore" in context ? context.rootStore : context;
-  const open2 = store.useState("open");
-  const timeout = useTimeout();
-  const stringRef = React38.useRef("");
-  const prevIndexRef = React38.useRef(selectedIndex ?? activeIndex ?? -1);
-  const matchIndexRef = React38.useRef(null);
-  const onKeyDown = useStableCallback((event) => {
-    function getElement(index3) {
-      return elementsRef?.current[index3];
-    }
-    function isItemAvailable(index3) {
-      const element = getElement(index3);
-      if (element && !isElementVisible(element) || element?.matches(":disabled")) {
-        return false;
-      }
-      return disabledIndices == null || !isListIndexDisabled(EMPTY_ARRAY, index3, disabledIndices);
-    }
-    function getMatchingIndex(list, string, startIndex2 = 0) {
-      if (list.length === 0) {
-        return -1;
-      }
-      const normalizedStartIndex = (startIndex2 % list.length + list.length) % list.length;
-      const lowerString = string.toLowerCase();
-      for (let offset4 = 0; offset4 < list.length; offset4 += 1) {
-        const index3 = (normalizedStartIndex + offset4) % list.length;
-        const text = list[index3];
-        if (!text?.toLowerCase().startsWith(lowerString) || !isItemAvailable(index3)) {
-          continue;
-        }
-        return index3;
-      }
-      return -1;
-    }
-    const listContent = listRef.current;
-    if (stringRef.current.length > 0 && event.key === " ") {
-      stopEvent(event);
-      onTyping?.(true);
-    }
-    if (stringRef.current.length > 0 && stringRef.current[0] !== " ") {
-      if (getMatchingIndex(listContent, stringRef.current) === -1 && event.key !== " ") {
-        onTyping?.(false);
-      }
-    }
-    if (listContent == null || // Character key.
-    event.key.length !== 1 || // Modifier key.
-    event.ctrlKey || event.metaKey || event.altKey) {
-      return;
-    }
-    if (open2 && event.key !== " ") {
-      stopEvent(event);
-      onTyping?.(true);
-    }
-    const isNewSession = stringRef.current === "";
-    if (isNewSession) {
-      prevIndexRef.current = selectedIndex ?? activeIndex ?? -1;
-    }
-    const allowRapidSuccessionOfFirstLetter = listContent.every((text, index3) => text && isItemAvailable(index3) ? text[0]?.toLowerCase() !== text[1]?.toLowerCase() : true);
-    if (allowRapidSuccessionOfFirstLetter && stringRef.current === event.key) {
-      stringRef.current = "";
-      prevIndexRef.current = matchIndexRef.current;
-    }
-    stringRef.current += event.key;
-    timeout.start(resetMs, () => {
-      stringRef.current = "";
-      prevIndexRef.current = matchIndexRef.current;
-      onTyping?.(false);
-    });
-    const prevIndex = isNewSession ? selectedIndex ?? activeIndex ?? -1 : prevIndexRef.current;
-    const startIndex = (prevIndex ?? 0) + 1;
-    const index2 = getMatchingIndex(listContent, stringRef.current, startIndex);
-    if (index2 !== -1) {
-      onMatchProp?.(index2);
-      matchIndexRef.current = index2;
-    } else if (event.key !== " ") {
-      stringRef.current = "";
-      onTyping?.(false);
-    }
-  });
-  const onBlur = useStableCallback((event) => {
-    const next = event.relatedTarget;
-    const currentDomReferenceElement = store.select("domReferenceElement");
-    const currentFloatingElement = store.select("floatingElement");
-    const withinComposite = contains(currentDomReferenceElement, next) || contains(currentFloatingElement, next);
-    if (withinComposite) {
-      return;
-    }
-    timeout.clear();
-    stringRef.current = "";
-    prevIndexRef.current = matchIndexRef.current;
-    onTyping?.(false);
-  });
-  useIsoLayoutEffect(() => {
-    if (!open2 && selectedIndex !== null) {
-      return;
-    }
-    timeout.clear();
-    matchIndexRef.current = null;
-    if (stringRef.current !== "") {
-      stringRef.current = "";
-    }
-  }, [open2, selectedIndex, timeout]);
-  const sharedProps = React38.useMemo(() => ({
-    onKeyDown,
-    onBlur
-  }), [onKeyDown, onBlur]);
-  return React38.useMemo(() => enabled ? {
-    reference: sharedProps,
-    floating: sharedProps
-  } : {}, [enabled, sharedProps]);
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/safePolygon.mjs
-var CURSOR_SPEED_THRESHOLD = 0.1;
-var CURSOR_SPEED_THRESHOLD_SQUARED = CURSOR_SPEED_THRESHOLD * CURSOR_SPEED_THRESHOLD;
-var POLYGON_BUFFER = 0.5;
-function hasIntersectingEdge(pointX, pointY, xi, yi, xj, yj) {
-  return yi >= pointY !== yj >= pointY && pointX <= (xj - xi) * (pointY - yi) / (yj - yi) + xi;
-}
-function isPointInQuadrilateral(pointX, pointY, x1, y1, x2, y2, x3, y3, x4, y4) {
-  let isInsideValue = false;
-  if (hasIntersectingEdge(pointX, pointY, x1, y1, x2, y2)) {
-    isInsideValue = !isInsideValue;
-  }
-  if (hasIntersectingEdge(pointX, pointY, x2, y2, x3, y3)) {
-    isInsideValue = !isInsideValue;
-  }
-  if (hasIntersectingEdge(pointX, pointY, x3, y3, x4, y4)) {
-    isInsideValue = !isInsideValue;
-  }
-  if (hasIntersectingEdge(pointX, pointY, x4, y4, x1, y1)) {
-    isInsideValue = !isInsideValue;
-  }
-  return isInsideValue;
-}
-function isInsideRect(pointX, pointY, rect) {
-  return pointX >= rect.x && pointX <= rect.x + rect.width && pointY >= rect.y && pointY <= rect.y + rect.height;
-}
-function isInsideAxisAlignedRect(pointX, pointY, x1, y1, x2, y2) {
-  const minX = Math.min(x1, x2);
-  const maxX = Math.max(x1, x2);
-  const minY = Math.min(y1, y2);
-  const maxY = Math.max(y1, y2);
-  return pointX >= minX && pointX <= maxX && pointY >= minY && pointY <= maxY;
-}
-function safePolygon(options = {}) {
-  const {
-    blockPointerEvents = false
-  } = options;
-  const timeout = new Timeout();
-  const fn = ({
-    x,
-    y,
-    placement,
-    elements,
-    onClose,
-    nodeId,
-    tree
-  }) => {
-    const side = placement?.split("-")[0];
-    let hasLanded = false;
-    let lastX = null;
-    let lastY = null;
-    let lastCursorTime = typeof performance !== "undefined" ? performance.now() : 0;
-    function isCursorMovingSlowly(nextX, nextY) {
-      const currentTime = performance.now();
-      const elapsedTime = currentTime - lastCursorTime;
-      if (lastX === null || lastY === null || elapsedTime === 0) {
-        lastX = nextX;
-        lastY = nextY;
-        lastCursorTime = currentTime;
-        return false;
-      }
-      const deltaX = nextX - lastX;
-      const deltaY = nextY - lastY;
-      const distanceSquared = deltaX * deltaX + deltaY * deltaY;
-      const thresholdSquared = elapsedTime * elapsedTime * CURSOR_SPEED_THRESHOLD_SQUARED;
-      lastX = nextX;
-      lastY = nextY;
-      lastCursorTime = currentTime;
-      return distanceSquared < thresholdSquared;
-    }
-    function close() {
-      timeout.clear();
-      onClose();
-    }
-    return function onMouseMove(event) {
-      timeout.clear();
-      const domReference = elements.domReference;
-      const floating = elements.floating;
-      if (!domReference || !floating || side == null || x == null || y == null) {
-        return void 0;
-      }
-      const {
-        clientX,
-        clientY
-      } = event;
-      const target = getTarget(event);
-      const isLeave = event.type === "mouseleave";
-      const isOverFloatingEl = contains(floating, target);
-      const isOverReferenceEl = contains(domReference, target);
-      if (isOverFloatingEl) {
-        hasLanded = true;
-        if (!isLeave) {
-          return void 0;
-        }
-      }
-      if (isOverReferenceEl) {
-        hasLanded = false;
-        if (!isLeave) {
-          hasLanded = true;
-          return void 0;
-        }
-      }
-      if (isLeave && isElement(event.relatedTarget) && contains(floating, event.relatedTarget)) {
-        return void 0;
-      }
-      function hasOpenChildNode() {
-        return Boolean(tree && getNodeChildren(tree.nodesRef.current, nodeId).length > 0);
-      }
-      function closeIfNoOpenChild() {
-        if (!hasOpenChildNode()) {
-          close();
-        }
-      }
-      if (hasOpenChildNode()) {
-        return void 0;
-      }
-      const refRect = domReference.getBoundingClientRect();
-      const rect = floating.getBoundingClientRect();
-      const cursorLeaveFromRight = x > rect.right - rect.width / 2;
-      const cursorLeaveFromBottom = y > rect.bottom - rect.height / 2;
-      const isFloatingWider = rect.width > refRect.width;
-      const isFloatingTaller = rect.height > refRect.height;
-      const left = (isFloatingWider ? refRect : rect).left;
-      const right = (isFloatingWider ? refRect : rect).right;
-      const top = (isFloatingTaller ? refRect : rect).top;
-      const bottom = (isFloatingTaller ? refRect : rect).bottom;
-      if (side === "top" && y >= refRect.bottom - 1 || side === "bottom" && y <= refRect.top + 1 || side === "left" && x >= refRect.right - 1 || side === "right" && x <= refRect.left + 1) {
-        closeIfNoOpenChild();
-        return void 0;
-      }
-      let isInsideTroughRect = false;
-      switch (side) {
-        case "top":
-          isInsideTroughRect = isInsideAxisAlignedRect(clientX, clientY, left, refRect.top + 1, right, rect.bottom - 1);
-          break;
-        case "bottom":
-          isInsideTroughRect = isInsideAxisAlignedRect(clientX, clientY, left, rect.top + 1, right, refRect.bottom - 1);
-          break;
-        case "left":
-          isInsideTroughRect = isInsideAxisAlignedRect(clientX, clientY, rect.right - 1, bottom, refRect.left + 1, top);
-          break;
-        case "right":
-          isInsideTroughRect = isInsideAxisAlignedRect(clientX, clientY, refRect.right - 1, bottom, rect.left + 1, top);
-          break;
-        default:
-      }
-      if (isInsideTroughRect) {
-        return void 0;
-      }
-      if (hasLanded && !isInsideRect(clientX, clientY, refRect)) {
-        closeIfNoOpenChild();
-        return void 0;
-      }
-      if (!isLeave && isCursorMovingSlowly(clientX, clientY)) {
-        closeIfNoOpenChild();
-        return void 0;
-      }
-      let isInsidePolygon = false;
-      switch (side) {
-        case "top": {
-          const cursorXOffset = isFloatingWider ? POLYGON_BUFFER / 2 : POLYGON_BUFFER * 4;
-          const cursorPointOneX = isFloatingWider ? x + cursorXOffset : cursorLeaveFromRight ? x + cursorXOffset : x - cursorXOffset;
-          const cursorPointTwoX = isFloatingWider ? x - cursorXOffset : cursorLeaveFromRight ? x + cursorXOffset : x - cursorXOffset;
-          const cursorPointY = y + POLYGON_BUFFER + 1;
-          const commonYLeft = cursorLeaveFromRight ? rect.bottom - POLYGON_BUFFER : isFloatingWider ? rect.bottom - POLYGON_BUFFER : rect.top;
-          const commonYRight = cursorLeaveFromRight ? isFloatingWider ? rect.bottom - POLYGON_BUFFER : rect.top : rect.bottom - POLYGON_BUFFER;
-          isInsidePolygon = isPointInQuadrilateral(clientX, clientY, cursorPointOneX, cursorPointY, cursorPointTwoX, cursorPointY, rect.left, commonYLeft, rect.right, commonYRight);
-          break;
-        }
-        case "bottom": {
-          const cursorXOffset = isFloatingWider ? POLYGON_BUFFER / 2 : POLYGON_BUFFER * 4;
-          const cursorPointOneX = isFloatingWider ? x + cursorXOffset : cursorLeaveFromRight ? x + cursorXOffset : x - cursorXOffset;
-          const cursorPointTwoX = isFloatingWider ? x - cursorXOffset : cursorLeaveFromRight ? x + cursorXOffset : x - cursorXOffset;
-          const cursorPointY = y - POLYGON_BUFFER;
-          const commonYLeft = cursorLeaveFromRight ? rect.top + POLYGON_BUFFER : isFloatingWider ? rect.top + POLYGON_BUFFER : rect.bottom;
-          const commonYRight = cursorLeaveFromRight ? isFloatingWider ? rect.top + POLYGON_BUFFER : rect.bottom : rect.top + POLYGON_BUFFER;
-          isInsidePolygon = isPointInQuadrilateral(clientX, clientY, cursorPointOneX, cursorPointY, cursorPointTwoX, cursorPointY, rect.left, commonYLeft, rect.right, commonYRight);
-          break;
-        }
-        case "left": {
-          const cursorYOffset = isFloatingTaller ? POLYGON_BUFFER / 2 : POLYGON_BUFFER * 4;
-          const cursorPointOneY = isFloatingTaller ? y + cursorYOffset : cursorLeaveFromBottom ? y + cursorYOffset : y - cursorYOffset;
-          const cursorPointTwoY = isFloatingTaller ? y - cursorYOffset : cursorLeaveFromBottom ? y + cursorYOffset : y - cursorYOffset;
-          const cursorPointX = x + POLYGON_BUFFER + 1;
-          const commonXTop = cursorLeaveFromBottom ? rect.right - POLYGON_BUFFER : isFloatingTaller ? rect.right - POLYGON_BUFFER : rect.left;
-          const commonXBottom = cursorLeaveFromBottom ? isFloatingTaller ? rect.right - POLYGON_BUFFER : rect.left : rect.right - POLYGON_BUFFER;
-          isInsidePolygon = isPointInQuadrilateral(clientX, clientY, commonXTop, rect.top, commonXBottom, rect.bottom, cursorPointX, cursorPointOneY, cursorPointX, cursorPointTwoY);
-          break;
-        }
-        case "right": {
-          const cursorYOffset = isFloatingTaller ? POLYGON_BUFFER / 2 : POLYGON_BUFFER * 4;
-          const cursorPointOneY = isFloatingTaller ? y + cursorYOffset : cursorLeaveFromBottom ? y + cursorYOffset : y - cursorYOffset;
-          const cursorPointTwoY = isFloatingTaller ? y - cursorYOffset : cursorLeaveFromBottom ? y + cursorYOffset : y - cursorYOffset;
-          const cursorPointX = x - POLYGON_BUFFER;
-          const commonXTop = cursorLeaveFromBottom ? rect.left + POLYGON_BUFFER : isFloatingTaller ? rect.left + POLYGON_BUFFER : rect.right;
-          const commonXBottom = cursorLeaveFromBottom ? isFloatingTaller ? rect.left + POLYGON_BUFFER : rect.right : rect.left + POLYGON_BUFFER;
-          isInsidePolygon = isPointInQuadrilateral(clientX, clientY, cursorPointX, cursorPointOneY, cursorPointX, cursorPointTwoY, commonXTop, rect.top, commonXBottom, rect.bottom);
-          break;
-        }
-        default:
-      }
-      if (!isInsidePolygon) {
-        closeIfNoOpenChild();
-      } else if (!hasLanded) {
-        timeout.start(40, closeIfNoOpenChild);
-      }
-      return void 0;
-    };
-  };
-  fn.__options = {
-    ...options,
-    blockPointerEvents
-  };
-  return fn;
-}
-
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/NullStore.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/NullStore.mjs
 var NullStore = class extends ReactStore {
   // `update`/`set`/`notifyAll` funnel through `setState` in the base `Store`, so overriding
   // `setState` alone would neutralize them today. They are overridden explicitly so the store stays
@@ -9358,7 +9366,7 @@ var NullStore = class extends ReactStore {
   }
 };
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/inertValue.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/inertValue.mjs
 function inertValue(value) {
   if (isReactVersionAtLeast(19)) {
     return value;
@@ -9366,9 +9374,9 @@ function inertValue(value) {
   return value ? "true" : void 0;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/InternalBackdrop.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/InternalBackdrop.mjs
 var React39 = __toESM(require_react(), 1);
-var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
 var InternalBackdrop = /* @__PURE__ */ React39.forwardRef(function InternalBackdrop2(props, ref) {
   const {
     cutout,
@@ -9379,7 +9387,7 @@ var InternalBackdrop = /* @__PURE__ */ React39.forwardRef(function InternalBackd
     const rect = cutout.getBoundingClientRect();
     clipPath = `polygon(0% 0%,100% 0%,100% 100%,0% 100%,0% 0%,${rect.left}px ${rect.top}px,${rect.left}px ${rect.bottom}px,${rect.right}px ${rect.bottom}px,${rect.right}px ${rect.top}px,${rect.left}px ${rect.top}px)`;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
+  return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
     ref,
     role: "presentation",
     "data-base-ui-inert": "",
@@ -9395,10 +9403,10 @@ var InternalBackdrop = /* @__PURE__ */ React39.forwardRef(function InternalBackd
 });
 if (true) InternalBackdrop.displayName = "InternalBackdrop";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/useOpenInteractionType.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/useOpenInteractionType.mjs
 var React42 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useEnhancedClickHandler.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useEnhancedClickHandler.mjs
 var React40 = __toESM(require_react(), 1);
 function useEnhancedClickHandler(handler) {
   const lastClickInteractionTypeRef = React40.useRef("");
@@ -9427,7 +9435,7 @@ function useEnhancedClickHandler(handler) {
   };
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useValueChanged.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useValueChanged.mjs
 var React41 = __toESM(require_react(), 1);
 function useValueChanged(value, onChange) {
   const valueRef = React41.useRef(value);
@@ -9440,7 +9448,7 @@ function useValueChanged(value, onChange) {
   }, [value, onChangeCallback]);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/useOpenInteractionType.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/useOpenInteractionType.mjs
 function useOpenMethodTriggerProps(open2, setOpenMethod) {
   const handleTriggerClick = useStableCallback((_, interactionType) => {
     const isOpen = typeof open2 === "function" ? open2() : open2;
@@ -9474,7 +9482,7 @@ function useOpenInteractionType(open2) {
   }), [openMethod, triggerProps]);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/autocomplete/index.parts.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/autocomplete/index.parts.mjs
 var index_parts_exports = {};
 __export(index_parts_exports, {
   Arrow: () => ComboboxArrow,
@@ -9502,13 +9510,13 @@ __export(index_parts_exports, {
   useFilteredItems: () => useFilteredItems
 });
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/autocomplete/root/AutocompleteRoot.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/autocomplete/root/AutocompleteRoot.mjs
 var React53 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/root/AriaCombobox.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/root/AriaCombobox.mjs
 var React52 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useOnFirstRender.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useOnFirstRender.mjs
 var React43 = __toESM(require_react(), 1);
 function useOnFirstRender(fn) {
   const ref = React43.useRef(true);
@@ -9518,7 +9526,7 @@ function useOnFirstRender(fn) {
   }
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/hooks/gridNavigation.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/gridNavigation.mjs
 function gridNavigation(event, prevIndex, listRef, orientation, loopFocus, rtl, disabledIndices, minIndex, maxIndex, cols = 2) {
   const nextIndex = getGridNavigatedIndex(listRef.current, {
     event,
@@ -9536,7 +9544,21 @@ function gridNavigation(event, prevIndex, listRef, orientation, loopFocus, rtl, 
   return isIndexOutOfListBounds(listRef.current, nextIndex) ? void 0 : nextIndex;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/root/ComboboxRootContext.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/getHighlightReason.mjs
+function getHighlightReason(event) {
+  if (event == null) {
+    return reason_parts_exports.none;
+  }
+  if (event.type.startsWith("key")) {
+    return reason_parts_exports.keyboard;
+  }
+  if (event.type.startsWith("mouse") || event.type.startsWith("pointer")) {
+    return reason_parts_exports.pointer;
+  }
+  return reason_parts_exports.none;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/root/ComboboxRootContext.mjs
 var React44 = __toESM(require_react(), 1);
 var ComboboxRootContext = /* @__PURE__ */ React44.createContext(void 0);
 if (true) ComboboxRootContext.displayName = "ComboboxRootContext";
@@ -9576,7 +9598,7 @@ function useComboboxHasItemsContext() {
   return React44.useContext(ComboboxHasItemsContext);
 }
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/areArraysEqual.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/areArraysEqual.mjs
 function areArraysEqual(array1, array2, itemComparer = Object.is) {
   const {
     length
@@ -9592,7 +9614,7 @@ function areArraysEqual(array1, array2, itemComparer = Object.is) {
   return true;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/itemEquality.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/itemEquality.mjs
 var defaultItemEquality = (itemValue, selectedValue) => Object.is(itemValue, selectedValue);
 function compareItemEquality(itemValue, selectedValue, comparer) {
   if (itemValue == null || selectedValue == null) {
@@ -9654,10 +9676,10 @@ function removeItem(selectedValues, itemValue, comparer) {
   return selectedValues.filter((selectedValue) => !compareItemEquality(itemValue, selectedValue, comparer));
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/resolveValueLabel.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/resolveValueLabel.mjs
 var React45 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/serializeValue.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/serializeValue.mjs
 function serializeValue(value) {
   if (value == null) {
     return "";
@@ -9672,8 +9694,8 @@ function serializeValue(value) {
   }
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/resolveValueLabel.mjs
-var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/resolveValueLabel.mjs
+var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
 function isGroup(item) {
   return typeof item === "object" && item != null && Array.isArray(item.items);
 }
@@ -9729,7 +9751,7 @@ function stringifyAsValue(item, itemToStringValue) {
   return serializeValue(item);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/store.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/store.mjs
 var selectors2 = {
   id: (state) => state.id,
   labelId: (state) => state.labelId,
@@ -9775,7 +9797,7 @@ var selectors2 = {
   listProps: (state) => state.listProps,
   inputProps: (state) => state.inputProps,
   triggerProps: (state) => state.triggerProps,
-  itemProps: (state) => state.itemProps,
+  itemRoot: (state) => state.itemRoot,
   positionerElement: (state) => state.positionerElement,
   listElement: (state) => state.listElement,
   popupId: (state) => state.popupId,
@@ -9800,14 +9822,14 @@ var selectors2 = {
   autoHighlight: (state) => state.autoHighlight
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/field-root-context/FieldRootContext.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/field-root-context/FieldRootContext.mjs
 var React46 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/control/FieldControlDataAttributes.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/control/FieldControlDataAttributes.mjs
 var valid = "data-valid";
 var invalid = "data-invalid";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/field-constants/constants.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/field-constants/constants.mjs
 var DEFAULT_VALIDITY_STATE = {
   badInput: false,
   customError: false,
@@ -9848,7 +9870,7 @@ var fieldValidityMapping = {
   }
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/field-root-context/FieldRootContext.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/field-root-context/FieldRootContext.mjs
 var DEFAULT_FIELD_ROOT_CONTEXT = {
   invalid: void 0,
   name: void 0,
@@ -9865,6 +9887,9 @@ var DEFAULT_FIELD_ROOT_CONTEXT = {
   setDirty: NOOP,
   setFilled: NOOP,
   setFocused: NOOP,
+  focusOwnerRef: {
+    current: void 0
+  },
   validationMode: "onSubmit",
   shouldValidateOnChange: () => false,
   state: DEFAULT_FIELD_ROOT_STATE,
@@ -9892,7 +9917,7 @@ function useFieldRootContext(optional = true) {
   return context;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/field-register-control/useRegisterFieldControl.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/field-register-control/useRegisterFieldControl.mjs
 function useRegisterFieldControl(controlRef, id, value, getFormValueOverride, enabled = true, name) {
   const {
     registerFieldControl
@@ -9921,7 +9946,7 @@ function useRegisterFieldControl(controlRef, id, value, getFormValueOverride, en
   }, [registerFieldControl, sourceRef]);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/form-context/FormContext.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/form-context/FormContext.mjs
 var React47 = __toESM(require_react(), 1);
 var FormContext = /* @__PURE__ */ React47.createContext({
   elementRef: {
@@ -9944,10 +9969,10 @@ function useFormContext() {
   return React47.useContext(FormContext);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/labelable-provider/useLabelableId.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/labelable-provider/useLabelableId.mjs
 var React49 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/labelable-provider/LabelableContext.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/labelable-provider/LabelableContext.mjs
 var React48 = __toESM(require_react(), 1);
 var LabelableContext = /* @__PURE__ */ React48.createContext({
   controlId: void 0,
@@ -9964,7 +9989,7 @@ function useLabelableContext() {
   return React48.useContext(LabelableContext);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/labelable-provider/useLabelableId.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/labelable-provider/useLabelableId.mjs
 function useLabelableId(params = {}) {
   const {
     id,
@@ -10015,7 +10040,7 @@ function useLabelableId(params = {}) {
   return (enabled ? controlId : void 0) ?? id ?? defaultId;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/root/utils/index.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/root/utils/index.mjs
 function getComboboxPopupId(rootId) {
   return rootId == null ? void 0 : `${rootId}-popup`;
 }
@@ -10028,10 +10053,10 @@ function createCollatorItemFilter(collatorFilter, itemToStringLabel) {
   };
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/root/utils/useFilter.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/root/utils/useFilter.mjs
 var React50 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/stringifyLocale.mjs
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/stringifyLocale.mjs
 function stringifyLocale(locale) {
   if (Array.isArray(locale)) {
     return locale.map((value) => stringifyLocale(value)).join(",");
@@ -10042,21 +10067,25 @@ function stringifyLocale(locale) {
   return String(locale);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/filter.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/filter.mjs
 var filterCache = /* @__PURE__ */ new Map();
 function getFilter(options = {}) {
-  const mergedOptions = {
+  const {
+    locale,
+    ...restOptions
+  } = options;
+  const collatorOptions = {
     usage: "search",
     sensitivity: "base",
     ignorePunctuation: true,
-    ...options
+    ...restOptions
   };
-  const cacheKey = `${stringifyLocale(options.locale)}|${JSON.stringify(mergedOptions)}`;
+  const cacheKey = `${stringifyLocale(locale)}|${JSON.stringify(collatorOptions)}`;
   const cachedFilter = filterCache.get(cacheKey);
   if (cachedFilter) {
     return cachedFilter;
   }
-  const collator = new Intl.Collator(options.locale, mergedOptions);
+  const collator = new Intl.Collator(locale, collatorOptions);
   const filter = {
     contains(item, query, itemToString) {
       if (!query) {
@@ -10090,10 +10119,10 @@ function getFilter(options = {}) {
   return filter;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/root/utils/useFilter.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/root/utils/useFilter.mjs
 var useCoreFilter = getFilter;
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/scrollable.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/scrollable.mjs
 function isScrollableY(element, allowOverflowIntent = false) {
   const {
     overflowY
@@ -10104,14 +10133,14 @@ function isScrollableY(element, allowOverflowIntent = false) {
   return allowOverflowIntent ? element.clientHeight > 0 : element.scrollHeight > element.clientHeight;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/root/utils/constants.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/root/utils/constants.mjs
 var NO_ACTIVE_VALUE = /* @__PURE__ */ Symbol("none");
 var INITIAL_LAST_HIGHLIGHT = {
   value: NO_ACTIVE_VALUE,
   index: -1
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/direction-context/DirectionContext.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/direction-context/DirectionContext.mjs
 var React51 = __toESM(require_react(), 1);
 var DirectionContext = /* @__PURE__ */ React51.createContext(void 0);
 if (true) DirectionContext.displayName = "DirectionContext";
@@ -10120,7 +10149,7 @@ function useDirection() {
   return context?.direction ?? "ltr";
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/items/itemCollection.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/items/itemCollection.mjs
 function findCollectionItem(valueToItem, itemValue, isEqual) {
   const exactItem = valueToItem.get(itemValue);
   if (exactItem !== void 0 || isEqual === defaultItemEquality) {
@@ -10134,8 +10163,8 @@ function findCollectionItem(valueToItem, itemValue, isEqual) {
   return void 0;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/root/AriaCombobox.mjs
-var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/root/AriaCombobox.mjs
+var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
 function AriaCombobox(props) {
   const {
     id: idProp,
@@ -10263,7 +10292,6 @@ function AriaCombobox(props) {
   const startDismissRef = React52.useRef(null);
   const endDismissRef = React52.useRef(null);
   const emptyRef = React52.useRef(null);
-  const keyboardActiveRef = React52.useRef(true);
   const hadInputClearRef = React52.useRef(false);
   const chipsContainerRef = React52.useRef(null);
   const clearRef = React52.useRef(null);
@@ -10431,7 +10459,14 @@ function AriaCombobox(props) {
       listProps: {},
       inputProps: {},
       triggerProps: {},
-      itemProps: EMPTY_OBJECT,
+      itemRoot: {
+        props: EMPTY_OBJECT,
+        id,
+        selectionMode,
+        disabled: disabled2,
+        readOnly,
+        isItemEqualToValue
+      },
       positionerElement: null,
       listElement: null,
       popupId: void 0,
@@ -10461,7 +10496,6 @@ function AriaCombobox(props) {
       inputRef,
       startDismissRef,
       endDismissRef,
-      keyboardActiveRef,
       chipsContainerRef,
       clearRef,
       valuesRef,
@@ -10494,11 +10528,6 @@ function AriaCombobox(props) {
   const inputMatchesSelectedValue = single && !inputInsidePopup && inputValue === selectedLabelString;
   const triggerRef = useValueAsRef(triggerElement);
   const {
-    mounted,
-    setMounted,
-    transitionStatus
-  } = useTransitionStatus(open2);
-  const {
     openMethod,
     triggerProps
   } = useOpenInteractionType(open2);
@@ -10511,7 +10540,7 @@ function AriaCombobox(props) {
       store.set("forceMounted", true);
     }
   });
-  const emitHighlight = useStableCallback((value, index2, type) => {
+  const emitHighlight = useStableCallback((value, index2, type, event) => {
     if (index2 === -1) {
       if (lastHighlightRef.current === INITIAL_LAST_HIGHLIGHT) {
         return;
@@ -10523,7 +10552,7 @@ function AriaCombobox(props) {
         index: index2
       };
     }
-    onItemHighlighted(value, createGenericEventDetails(type, void 0, {
+    onItemHighlighted(value, createGenericEventDetails(type, event, {
       index: index2
     }));
   });
@@ -10542,9 +10571,9 @@ function AriaCombobox(props) {
     }
     const type = options.type || reason_parts_exports.none;
     if (activeIndexOption === null) {
-      emitHighlight(void 0, -1, type);
+      emitHighlight(void 0, -1, type, options.event);
     } else {
-      emitHighlight(valuesRef.current[activeIndexOption], activeIndexOption, type);
+      emitHighlight(valuesRef.current[activeIndexOption], activeIndexOption, type, options.event);
     }
   });
   const setInputValue = useStableCallback((next, eventDetails) => {
@@ -10603,6 +10632,7 @@ function AriaCombobox(props) {
       setInputValue("", createChangeEventDetails(reason_parts_exports.inputClear));
     }
   });
+  const [preventUnmountOnClose, setPreventUnmountOnClose] = React52.useState(false);
   const setOpen = useStableCallback((nextOpen, eventDetails) => {
     if (open2 === nextOpen) {
       return;
@@ -10610,7 +10640,12 @@ function AriaCombobox(props) {
     if (eventDetails.reason === reason_parts_exports.escapeKey && hasItems && flatFilteredValues.length === 0 && !emptyRef.current) {
       eventDetails.allowPropagation();
     }
-    props.onOpenChange?.(nextOpen, eventDetails);
+    const openEventDetails = eventDetails;
+    const shouldPreventUnmountOnClose = attachPreventUnmountOnClose(openEventDetails);
+    props.onOpenChange?.(nextOpen, openEventDetails);
+    if (pendingQueryHighlightRef.current?.hasQuery && eventDetails.reason === reason_parts_exports.inputChange === eventDetails.isCanceled) {
+      pendingQueryHighlightRef.current = null;
+    }
     if (eventDetails.isCanceled) {
       return;
     }
@@ -10641,6 +10676,9 @@ function AriaCombobox(props) {
         }
       }
     }
+    if (!nextOpen) {
+      setPreventUnmountOnClose(shouldPreventUnmountOnClose());
+    }
     setOpenUnwrapped(nextOpen);
     if (!nextOpen && inputInsidePopup && (eventDetails.reason === reason_parts_exports.focusOut || eventDetails.reason === reason_parts_exports.outsidePress)) {
       setTouched(true);
@@ -10667,7 +10705,7 @@ function AriaCombobox(props) {
     const overrideEvent = selectionEventRef.current ?? event;
     selectionEventRef.current = null;
     const eventDetails = createChangeEventDetails(reason_parts_exports.itemPress, overrideEvent);
-    const href = targetEl?.closest("a")?.getAttribute("href");
+    const href = closest(targetEl, "a")?.getAttribute("href");
     if (href) {
       if (href.startsWith("#")) {
         setOpen(false, eventDetails);
@@ -10711,8 +10749,7 @@ function AriaCombobox(props) {
       formElement.requestSubmit();
     }
   });
-  const handleUnmount = useStableCallback(() => {
-    setMounted(false);
+  const handleUnmountCleanup = useStableCallback(() => {
     onOpenChangeComplete?.(false);
     setQueryChangedAfterOpen(false);
     setCloseQuery(null);
@@ -10746,24 +10783,26 @@ function AriaCombobox(props) {
   const resolvedPopupRef = React52.useMemo(() => {
     if (inline4 && positionerElement) {
       return {
-        current: positionerElement.closest('[role="dialog"]')
+        current: closest(positionerElement, '[role="dialog"]')
       };
     }
     return popupRef;
   }, [inline4, positionerElement]);
-  useOpenChangeComplete({
-    enabled: !props.actionsRef,
+  const {
+    mounted,
+    transitionStatus,
+    forceUnmount: handleUnmount
+  } = useUnmountAfterClose({
     open: open2,
     ref: resolvedPopupRef,
-    onComplete() {
-      if (!open2) {
-        handleUnmount();
-      }
-    }
+    preventUnmountOnClose,
+    setPreventUnmountOnClose,
+    onUnmount: handleUnmountCleanup
   });
   React52.useImperativeHandle(props.actionsRef, () => ({
-    unmount: handleUnmount
-  }), [handleUnmount]);
+    unmount: handleUnmount,
+    close: () => setOpen(false, createChangeEventDetails(reason_parts_exports.imperativeAction))
+  }), [handleUnmount, setOpen]);
   useIsoLayoutEffect(function syncSelectedIndex() {
     const closeQueryReleased = previousCloseQueryRef.current !== null && closeQuery === null;
     previousCloseQueryRef.current = closeQuery;
@@ -10788,14 +10827,29 @@ function AriaCombobox(props) {
     }
   }, [items, flatFilteredValues]);
   useIsoLayoutEffect(() => {
+    if (!open2 && pendingQueryHighlightRef.current?.hasQuery) {
+      pendingQueryHighlightRef.current = null;
+    }
+  }, [open2]);
+  useIsoLayoutEffect(() => {
+    if (!open2 && inline4 && resolvedPopupRef.current) {
+      pendingQueryHighlightRef.current = null;
+      return;
+    }
+    const candidateItems = hasItems || hasFilteredItemsProp ? flatFilteredValues : valuesRef.current;
     const pendingHighlight = pendingQueryHighlightRef.current;
     if (pendingHighlight) {
       const listIsNavigable = open2 || inline4 || store.state.positionerElement?.hidden === false;
       if (pendingHighlight.hasQuery) {
-        if (autoHighlightMode && listIsNavigable) {
+        const input = inputRef.current;
+        if (!autoHighlightMode || String(inputValue).trim() === "" || inline4 && autoHighlightMode !== "always" && (!input || activeElement(input.ownerDocument) !== input)) {
+          pendingQueryHighlightRef.current = null;
+        } else if (listIsNavigable && // Individually rendered items register without re-running this effect, and their
+        // registry has holes mid-reindex, so resolve their request immediately.
+        (candidateItems[0] !== void 0 || !hasItems && !hasFilteredItemsProp)) {
           store.set("activeIndex", 0);
+          pendingQueryHighlightRef.current = null;
         }
-        pendingQueryHighlightRef.current = null;
       } else if (String(inputValue).trim() === "") {
         pendingQueryHighlightRef.current = null;
         if (listIsNavigable) {
@@ -10804,7 +10858,7 @@ function AriaCombobox(props) {
             store.set("activeIndex", 0);
           }
           queueMicrotask(() => {
-            if (!store.state.open && !store.state.inline || inputRef.current && inputRef.current.value.trim() !== "") {
+            if (!store.state.open && (!store.state.inline || resolvedPopupRef.current) || inputRef.current && inputRef.current.value.trim() !== "") {
               return;
             }
             const currentSelectedValue = store.state.selectedValue;
@@ -10826,8 +10880,6 @@ function AriaCombobox(props) {
     if (!open2 && !inline4) {
       return;
     }
-    const shouldUseFlatFilteredValues = hasItems || hasFilteredItemsProp;
-    const candidateItems = shouldUseFlatFilteredValues ? flatFilteredValues : valuesRef.current;
     const storeActiveIndex = store.state.activeIndex;
     if (storeActiveIndex == null) {
       if (autoHighlightMode === "always" && candidateItems.length > 0) {
@@ -10857,6 +10909,7 @@ function AriaCombobox(props) {
     flatFilteredValues,
     inline4,
     open2,
+    resolvedPopupRef,
     store,
     // Reruns the effect when the query changes without affecting the deps above, such as
     // clearing the input when no items are filtered out (individually rendered items).
@@ -11000,19 +11053,14 @@ function AriaCombobox(props) {
     disabledIndices: EMPTY_ARRAY,
     grid: grid ? gridNavigation : void 0,
     onNavigate(nextActiveIndex, event) {
-      if (!event && !open2 || transitionStatus === "ending") {
+      if (!event && !open2 && !(inline4 && nextActiveIndex === null) || transitionStatus === "ending") {
         return;
       }
-      if (!event) {
-        setIndices({
-          activeIndex: nextActiveIndex
-        });
-      } else {
-        setIndices({
-          activeIndex: nextActiveIndex,
-          type: keyboardActiveRef.current ? reason_parts_exports.keyboard : reason_parts_exports.pointer
-        });
-      }
+      setIndices({
+        activeIndex: nextActiveIndex,
+        type: getHighlightReason(event),
+        event: event?.nativeEvent
+      });
     }
   });
   const inputProps = React52.useMemo(() => mergeProps(listNavigation2.reference, {
@@ -11024,16 +11072,22 @@ function AriaCombobox(props) {
   }, dismiss.reference, click.reference, role.reference), [listNavigation2.reference, dismiss.reference, click.reference, role.reference, grid, store]);
   const popupProps = React52.useMemo(() => mergeProps(FOCUSABLE_POPUP_PROPS, dismiss.floating), [dismiss.floating]);
   const listProps = React52.useMemo(() => mergeProps(listNavigation2.floating, role.floating), [listNavigation2.floating, role.floating]);
-  const itemProps = React52.useMemo(() => {
+  const itemRoot = React52.useMemo(() => {
     const listNavigationItemProps = listNavigation2.item;
-    if (!listNavigationItemProps) {
-      return EMPTY_OBJECT;
-    }
     return {
-      ...listNavigationItemProps,
-      onFocus: void 0
+      // Combobox keeps focus on the input; item focus would incorrectly sync
+      // list navigation state from DOM focus.
+      props: listNavigationItemProps ? {
+        ...listNavigationItemProps,
+        onFocus: void 0
+      } : EMPTY_OBJECT,
+      id,
+      selectionMode,
+      disabled: disabled2,
+      readOnly,
+      isItemEqualToValue
     };
-  }, [listNavigation2.item]);
+  }, [listNavigation2.item, id, selectionMode, disabled2, readOnly, isItemEqualToValue]);
   store.useContextCallback("setOpen", setOpen);
   store.useContextCallback("setInputValue", setInputValue);
   store.useContextCallback("setSelectedValue", setSelectedValue);
@@ -11049,7 +11103,7 @@ function AriaCombobox(props) {
       listProps,
       inputProps,
       triggerProps,
-      itemProps
+      itemRoot
     });
   });
   const syncedValues = {
@@ -11064,7 +11118,7 @@ function AriaCombobox(props) {
     listProps,
     inputProps,
     triggerProps,
-    itemProps,
+    itemRoot,
     openMethod,
     selectionMode,
     name,
@@ -11109,7 +11163,7 @@ function AriaCombobox(props) {
     }
     return selectedValue.map((value) => {
       const currentSerializedValue = stringifyAsValue(value, itemToStringValue);
-      return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", {
+      return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("input", {
         type: "hidden",
         form,
         name,
@@ -11118,8 +11172,8 @@ function AriaCombobox(props) {
       }, currentSerializedValue);
     });
   }, [multiple, selectedValue, form, name, itemToStringValue, disabled2]);
-  const children = /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(React52.Fragment, {
-    children: [props.children, /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", {
+  const children = /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(React52.Fragment, {
+    children: [props.children, /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("input", {
       ...validation.getValidationProps(disabled2, {
         // Move focus when the hidden input is focused.
         onFocus() {
@@ -11182,15 +11236,15 @@ function AriaCombobox(props) {
       suppressHydrationWarning: true
     }), hiddenInputs]
   });
-  return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(ComboboxRootContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ComboboxRootContext.Provider, {
     value: store,
-    children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(ComboboxFloatingContext.Provider, {
+    children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ComboboxFloatingContext.Provider, {
       value: floatingRootContext,
-      children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(ComboboxHasItemsContext.Provider, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ComboboxHasItemsContext.Provider, {
         value: hasItems,
-        children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(ComboboxDerivedItemsContext.Provider, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ComboboxDerivedItemsContext.Provider, {
           value: itemsContextValue,
-          children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(ComboboxInputValueContext.Provider, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ComboboxInputValueContext.Provider, {
             value: inputValue,
             children
           })
@@ -11200,8 +11254,8 @@ function AriaCombobox(props) {
   });
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/autocomplete/root/AutocompleteRoot.mjs
-var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/autocomplete/root/AutocompleteRoot.mjs
+var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
 function AutocompleteRoot(props) {
   const {
     openOnInputClick = false,
@@ -11249,7 +11303,7 @@ function AutocompleteRoot(props) {
     }
     setInlineInputValue(enableInline && highlightedValue != null ? stringifyAsLabel(highlightedValue, itemToStringValue) : "");
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(AriaCombobox, {
+  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(AriaCombobox, {
     ...other,
     itemToStringLabel: itemToStringValue,
     openOnInputClick,
@@ -11268,9 +11322,9 @@ function AutocompleteRoot(props) {
   });
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/autocomplete/value/AutocompleteValue.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/autocomplete/value/AutocompleteValue.mjs
 var React54 = __toESM(require_react(), 1);
-var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
 function AutocompleteValue(props) {
   const {
     children
@@ -11284,21 +11338,21 @@ function AutocompleteValue(props) {
   } else {
     returnValue = inputValue;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(React54.Fragment, {
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(React54.Fragment, {
     children: returnValue
   });
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/trigger/ComboboxTrigger.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/trigger/ComboboxTrigger.mjs
 var React55 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/input/ComboboxInputDataAttributes.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/input/ComboboxInputDataAttributes.mjs
 var popupOpen3 = CommonTriggerDataAttributes_exports.popupOpen;
 var pressed2 = CommonTriggerDataAttributes_exports.pressed;
 var popupSide = "data-popup-side";
 var listEmpty = "data-list-empty";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/utils/stateAttributesMapping.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/utils/stateAttributesMapping.mjs
 var triggerStateAttributesMapping = {
   ...pressableTriggerOpenStateMapping,
   ...fieldValidityMapping,
@@ -11310,7 +11364,31 @@ var triggerStateAttributesMapping = {
   } : null
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/getPseudoElementBounds.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/field-root-context/useSetFieldFocused.mjs
+function useSetFieldFocused(disabled2, focusTargetRef, onFocusedChange) {
+  const {
+    setFocused,
+    focusOwnerRef
+  } = useFieldRootContext();
+  const setFieldFocused = useStableCallback((focused) => {
+    if (focused ? !disabled2 : focusOwnerRef.current === setFieldFocused) {
+      focusOwnerRef.current = focused && setFieldFocused;
+      onFocusedChange?.(focused);
+      setFocused(focused);
+    }
+  });
+  useIsoLayoutEffect(() => {
+    const el = focusTargetRef.current;
+    const root2 = el?.getRootNode();
+    if (root2?.activeElement === el) {
+      setFieldFocused(true);
+    }
+    return () => setFieldFocused(false);
+  }, [disabled2, focusTargetRef, setFieldFocused]);
+  return setFieldFocused;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/getPseudoElementBounds.mjs
 var BOUNDARY_OFFSET = 5;
 function isMouseWithinBounds(event, element) {
   const bounds = getPseudoElementBounds(element);
@@ -11344,12 +11422,12 @@ function getPseudoElementBounds(element) {
   };
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/resolveAriaLabelledBy.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/resolveAriaLabelledBy.mjs
 function resolveAriaLabelledBy(fieldLabelId, localLabelId) {
   return fieldLabelId ?? localLabelId;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/utils/parts.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/utils/parts.mjs
 function usePopupSide(store) {
   const mounted = store.useState("mounted");
   const popupSide2 = store.useState("popupSide");
@@ -11362,10 +11440,6 @@ function useListEmpty() {
 function getChipNavigationKeys(direction) {
   return direction === "rtl" ? ["ArrowRight", "ArrowLeft"] : ["ArrowLeft", "ArrowRight"];
 }
-function getIndexAfterChipRemoval(index2, chipCount) {
-  const nextIndex = index2 >= chipCount - 1 ? chipCount - 2 : index2;
-  return nextIndex >= 0 ? nextIndex : void 0;
-}
 function clickHighlightedItem(store, activeIndex, nativeEvent) {
   const listItem = store.context.listRef.current[activeIndex];
   if (listItem) {
@@ -11375,7 +11449,7 @@ function clickHighlightedItem(store, activeIndex, nativeEvent) {
   }
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/trigger/ComboboxTrigger.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/trigger/ComboboxTrigger.mjs
 var ComboboxTrigger = /* @__PURE__ */ React55.forwardRef(function ComboboxTrigger2(componentProps, forwardedRef) {
   const {
     render,
@@ -11390,7 +11464,6 @@ var ComboboxTrigger = /* @__PURE__ */ React55.forwardRef(function ComboboxTrigge
     state: fieldState,
     disabled: fieldDisabled,
     setTouched,
-    setFocused,
     validationMode,
     validation
   } = useFieldRootContext();
@@ -11420,6 +11493,8 @@ var ComboboxTrigger = /* @__PURE__ */ React55.forwardRef(function ComboboxTrigge
   const disabled2 = fieldDisabled || comboboxDisabled || disabledProp;
   const listEmpty2 = useListEmpty();
   const popupSide2 = usePopupSide(store);
+  const triggerRef = React55.useRef(null);
+  const setFocused = useSetFieldFocused(disabled2, triggerRef);
   useLabelableId({
     id: inputInsidePopup ? idProp : void 0
   });
@@ -11477,7 +11552,7 @@ var ComboboxTrigger = /* @__PURE__ */ React55.forwardRef(function ComboboxTrigge
     store.set("triggerElement", element2);
   });
   const element = useRenderElement("button", componentProps, {
-    ref: [forwardedRef, buttonRef, setTriggerElement],
+    ref: [forwardedRef, buttonRef, triggerRef, setTriggerElement],
     state,
     props: [triggerProps, triggerClickProps, triggerTypeaheadProps, {
       id,
@@ -11565,13 +11640,13 @@ var ComboboxTrigger = /* @__PURE__ */ React55.forwardRef(function ComboboxTrigge
 });
 if (true) ComboboxTrigger.displayName = "ComboboxTrigger";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/autocomplete/trigger/AutocompleteTrigger.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/autocomplete/trigger/AutocompleteTrigger.mjs
 var AutocompleteTrigger = ComboboxTrigger;
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/input/ComboboxInput.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/input/ComboboxInput.mjs
 var React59 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/chips/ComboboxChipsContext.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/chips/ComboboxChipsContext.mjs
 var React56 = __toESM(require_react(), 1);
 var ComboboxChipsContext = /* @__PURE__ */ React56.createContext(void 0);
 if (true) ComboboxChipsContext.displayName = "ComboboxChipsContext";
@@ -11579,7 +11654,7 @@ function useComboboxChipsContext() {
   return React56.useContext(ComboboxChipsContext);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/positioner/ComboboxPositionerContext.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/positioner/ComboboxPositionerContext.mjs
 var React57 = __toESM(require_react(), 1);
 var ComboboxPositionerContext = /* @__PURE__ */ React57.createContext(void 0);
 if (true) ComboboxPositionerContext.displayName = "ComboboxPositionerContext";
@@ -11591,9 +11666,9 @@ function useComboboxPositionerContext(optional) {
   return context;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/utils/ComboboxInternalDismissButton.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/utils/ComboboxInternalDismissButton.mjs
 var React58 = __toESM(require_react(), 1);
-var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
 var ComboboxInternalDismissButton = /* @__PURE__ */ React58.forwardRef(function ComboboxInternalDismissButton2(_, forwardedRef) {
   const store = useComboboxRootContext();
   const {
@@ -11609,7 +11684,7 @@ var ComboboxInternalDismissButton = /* @__PURE__ */ React58.forwardRef(function 
   const dismissProps = getButtonProps({
     onClick: handleDismiss
   });
-  return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", {
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", {
     ref: mergedRef,
     ...dismissProps,
     "aria-label": "Dismiss",
@@ -11619,8 +11694,8 @@ var ComboboxInternalDismissButton = /* @__PURE__ */ React58.forwardRef(function 
 });
 if (true) ComboboxInternalDismissButton.displayName = "ComboboxInternalDismissButton";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/input/ComboboxInput.mjs
-var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/input/ComboboxInput.mjs
+var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
 var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(componentProps, forwardedRef) {
   const {
     render,
@@ -11634,7 +11709,6 @@ var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(c
     state: fieldState,
     disabled: fieldDisabled,
     setTouched,
-    setFocused,
     validationMode,
     validation
   } = useFieldRootContext();
@@ -11666,6 +11740,7 @@ var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(c
   const popupSide2 = usePopupSide(store);
   const disabled2 = fieldDisabled || comboboxDisabled || disabledProp;
   const listEmpty2 = useListEmpty();
+  const setFocused = useSetFieldFocused(disabled2, store.context.inputRef);
   const isInsidePopup = hasPositionerParent || inline4;
   const focusManagerModal = !isInsidePopup || modal;
   const id = useBaseUiId(idProp ?? (!isInsidePopup ? rootId : void 0));
@@ -11673,7 +11748,11 @@ var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(c
   const [composingValue, setComposingValue] = React59.useState(null);
   const isComposingRef = React59.useRef(false);
   const lastActiveIndexRef = React59.useRef(null);
-  const shouldRestoreActiveIndexRef = React59.useRef(false);
+  useIsoLayoutEffect(() => {
+    if (!open2) {
+      lastActiveIndexRef.current = null;
+    }
+  }, [open2]);
   const inputOwnsFormValue = selectionMode === "none" && !hasPositionerParent;
   const setInputElement = useStableCallback((element2) => {
     const nextIsInsidePopup = hasPositionerParent || store.state.inline;
@@ -11687,15 +11766,13 @@ var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(c
     });
   });
   const validationProps = hasPositionerParent ? elementProps : validation.getValidationProps(disabled2, elementProps);
-  function clearHighlight() {
+  function clearHighlight(event) {
     store.context.setIndices({
       activeIndex: null,
       selectedIndex: null,
-      type: store.context.keyboardActiveRef.current ? reason_parts_exports.keyboard : reason_parts_exports.pointer
+      type: getHighlightReason(event),
+      event
     });
-  }
-  function markPointerActive() {
-    store.context.keyboardActiveRef.current = false;
   }
   const state = {
     ...fieldStateForInput,
@@ -11710,33 +11787,8 @@ var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(c
       return void 0;
     }
     let nextIndex;
-    const {
-      highlightedChipIndex
-    } = comboboxChipsContext;
     const renderedChipsCount = comboboxChipsContext.chipsRef.current.length;
-    const [previousChipKey, nextChipKey] = getChipNavigationKeys(direction);
-    if (highlightedChipIndex !== void 0) {
-      if (event.key === previousChipKey) {
-        event.preventDefault();
-        if (highlightedChipIndex > 0) {
-          nextIndex = highlightedChipIndex - 1;
-        } else {
-          nextIndex = void 0;
-        }
-      } else if (event.key === nextChipKey) {
-        event.preventDefault();
-        if (highlightedChipIndex < renderedChipsCount - 1) {
-          nextIndex = highlightedChipIndex + 1;
-        } else {
-          nextIndex = void 0;
-        }
-      } else if (event.key === "Backspace" || event.key === "Delete") {
-        event.preventDefault();
-        nextIndex = getIndexAfterChipRemoval(highlightedChipIndex, selectedValue.length);
-        clearHighlight();
-      }
-      return nextIndex;
-    }
+    const [previousChipKey] = getChipNavigationKeys(direction);
     if (event.key === previousChipKey && (event.currentTarget.selectionStart ?? 0) === 0 && selectedValue.length > 0) {
       event.preventDefault();
       nextIndex = renderedChipsCount > 0 ? renderedChipsCount - 1 : void 0;
@@ -11761,11 +11813,11 @@ var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(c
       id,
       onFocus() {
         setFocused(true);
-        if (!inline4 || !shouldRestoreActiveIndexRef.current) {
+        if (!inline4) {
           return;
         }
-        shouldRestoreActiveIndexRef.current = false;
         const nextActiveIndex = lastActiveIndexRef.current;
+        lastActiveIndexRef.current = null;
         if (nextActiveIndex == null || // `valuesRef` can be sparse, so guard against restoring a removed slot.
         !Object.hasOwn(store.context.valuesRef.current, nextActiveIndex)) {
           return;
@@ -11780,7 +11832,6 @@ var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(c
         const activeIndex = store.state.activeIndex;
         if (inline4 && activeIndex !== null && autoHighlightMode !== "always") {
           lastActiveIndexRef.current = activeIndex;
-          shouldRestoreActiveIndexRef.current = true;
           store.context.setIndices({
             activeIndex: null
           });
@@ -11814,7 +11865,7 @@ var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(c
           }
           store.context.setOpen(true, createChangeEventDetails(reason_parts_exports.inputChange, nativeEvent));
           if (!autoHighlightEnabled) {
-            clearHighlight();
+            clearHighlight(nativeEvent);
           }
         }
         if (isComposingRef.current) {
@@ -11827,7 +11878,7 @@ var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(c
           const shouldMaintainHighlight = autoHighlightEnabled && trimmed !== "";
           maybeOpenOnInput(trimmed);
           if (open2 && store.state.activeIndex !== null && !shouldMaintainHighlight) {
-            clearHighlight();
+            clearHighlight(nativeEvent);
           }
           return;
         }
@@ -11848,14 +11899,13 @@ var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(c
         }
         maybeOpenOnInput(event.currentTarget.value.trim());
         if (open2 && store.state.activeIndex !== null && !autoHighlightEnabled) {
-          clearHighlight();
+          clearHighlight(nativeEvent);
         }
       },
       onKeyDown(event) {
         if (event.ctrlKey || event.shiftKey || event.altKey || event.metaKey) {
           return;
         }
-        store.context.keyboardActiveRef.current = true;
         if (disabled2 || readOnly) {
           if (readOnly && event.key === "Enter" && open2 && store.state.activeIndex !== null) {
             stopEvent(event);
@@ -11890,21 +11940,17 @@ var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(c
           }
           return;
         }
-        if (comboboxChipsContext && event.key === "Backspace" && input.value === "" && comboboxChipsContext.highlightedChipIndex === void 0 && Array.isArray(selectedValue) && selectedValue.length > 0) {
+        if (comboboxChipsContext && event.key === "Backspace" && input.value === "" && Array.isArray(selectedValue) && selectedValue.length > 0) {
           const renderedChipsCount = comboboxChipsContext.chipsRef.current.length;
           const removalIndex = renderedChipsCount > 0 ? renderedChipsCount - 1 : selectedValue.length - 1;
           const newValue = selectedValue.filter((_, index2) => index2 !== removalIndex);
-          clearHighlight();
+          clearHighlight(event.nativeEvent);
           store.context.setSelectedValue(newValue, createChangeEventDetails(reason_parts_exports.none, event.nativeEvent));
           return;
         }
-        const hadHighlightedChip = comboboxChipsContext?.highlightedChipIndex !== void 0;
         const nextIndex = handleKeyDown(event);
-        comboboxChipsContext?.setHighlightedChipIndex(nextIndex);
         if (nextIndex !== void 0) {
           comboboxChipsContext?.chipsRef.current[nextIndex]?.focus();
-        } else if (hadHighlightedChip) {
-          store.context.inputRef.current?.focus();
         }
         if (event.which === 229) {
           return;
@@ -11922,28 +11968,26 @@ var ComboboxInput = /* @__PURE__ */ React59.forwardRef(function ComboboxInput2(c
           stopEvent(event);
           clickHighlightedItem(store, activeIndex, nativeEvent);
         }
-      },
-      onPointerMove: markPointerActive,
-      onPointerDown: markPointerActive
+      }
     }, validationProps],
     stateAttributesMapping: triggerStateAttributesMapping
   });
-  const renderedInput = hasPositionerParent ? /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(FieldRootContext.Provider, {
+  const renderedInput = hasPositionerParent ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(FieldRootContext.Provider, {
     value: DEFAULT_FIELD_ROOT_CONTEXT,
     children: element
   }) : element;
-  return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(React59.Fragment, {
-    children: [open2 && focusManagerModal && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(ComboboxInternalDismissButton, {
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(React59.Fragment, {
+    children: [open2 && focusManagerModal && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(ComboboxInternalDismissButton, {
       ref: store.context.startDismissRef
     }), renderedInput]
   });
 });
 if (true) ComboboxInput.displayName = "ComboboxInput";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/input-group/ComboboxInputGroup.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/input-group/ComboboxInputGroup.mjs
 var React60 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/utils/handleInputPress.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/utils/handleInputPress.mjs
 function handleInputPress(event, store, disabled2, shouldIgnoreTarget) {
   if (event.baseUIHandlerPrevented) {
     return;
@@ -11963,7 +12007,7 @@ function handleInputPress(event, store, disabled2, shouldIgnoreTarget) {
   }
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/input-group/ComboboxInputGroup.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/input-group/ComboboxInputGroup.mjs
 var ComboboxInputGroup = /* @__PURE__ */ React60.forwardRef(function ComboboxInputGroup2(componentProps, forwardedRef) {
   const {
     render,
@@ -12012,10 +12056,10 @@ var ComboboxInputGroup = /* @__PURE__ */ React60.forwardRef(function ComboboxInp
 });
 if (true) ComboboxInputGroup.displayName = "ComboboxInputGroup";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/autocomplete/input-group/AutocompleteInputGroup.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/autocomplete/input-group/AutocompleteInputGroup.mjs
 var AutocompleteInputGroup = ComboboxInputGroup;
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/icon/ComboboxIcon.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/icon/ComboboxIcon.mjs
 var React61 = __toESM(require_react(), 1);
 var ComboboxIcon = /* @__PURE__ */ React61.forwardRef(function ComboboxIcon2(componentProps, forwardedRef) {
   const {
@@ -12035,7 +12079,7 @@ var ComboboxIcon = /* @__PURE__ */ React61.forwardRef(function ComboboxIcon2(com
 });
 if (true) ComboboxIcon.displayName = "ComboboxIcon";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/clear/ComboboxClear.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/clear/ComboboxClear.mjs
 var React62 = __toESM(require_react(), 1);
 var stateAttributesMapping = {
   ...transitionStatusMapping,
@@ -12112,19 +12156,21 @@ var ComboboxClear = /* @__PURE__ */ React62.forwardRef(function ComboboxClear2(c
         if (disabled2 || readOnly) {
           return;
         }
-        const type = store.context.keyboardActiveRef.current ? reason_parts_exports.keyboard : reason_parts_exports.pointer;
+        const type = getHighlightReason(event);
         store.context.setInputValue("", createChangeEventDetails(reason_parts_exports.clearPress, event.nativeEvent));
         if (selectionMode !== "none") {
           store.context.setSelectedValue(Array.isArray(selectedValue) ? [] : null, createChangeEventDetails(reason_parts_exports.clearPress, event.nativeEvent));
           store.context.setIndices({
             activeIndex: null,
             selectedIndex: null,
-            type
+            type,
+            event: event.nativeEvent
           });
         } else {
           store.context.setIndices({
             activeIndex: null,
-            type
+            type,
+            event: event.nativeEvent
           });
         }
         store.context.inputRef.current?.focus();
@@ -12140,15 +12186,15 @@ var ComboboxClear = /* @__PURE__ */ React62.forwardRef(function ComboboxClear2(c
 });
 if (true) ComboboxClear.displayName = "ComboboxClear";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/list/ComboboxList.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/list/ComboboxList.mjs
 var React65 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/collection/ComboboxCollection.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/collection/ComboboxCollection.mjs
 var React64 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/collection/GroupCollectionContext.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/collection/GroupCollectionContext.mjs
 var React63 = __toESM(require_react(), 1);
-var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
 var GroupCollectionContext = /* @__PURE__ */ React63.createContext(null);
 if (true) GroupCollectionContext.displayName = "GroupCollectionContext";
 function useGroupCollectionContext() {
@@ -12162,14 +12208,14 @@ function GroupCollectionProvider(props) {
   const contextValue = React63.useMemo(() => ({
     items
   }), [items]);
-  return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(GroupCollectionContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(GroupCollectionContext.Provider, {
     value: contextValue,
     children
   });
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/collection/ComboboxCollection.mjs
-var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/collection/ComboboxCollection.mjs
+var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
 function ComboboxCollection(props) {
   const {
     children
@@ -12179,13 +12225,13 @@ function ComboboxCollection(props) {
   } = useComboboxDerivedItemsContext();
   const groupContext = useGroupCollectionContext();
   const itemsToRender = groupContext ? groupContext.items : filteredItems;
-  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(React64.Fragment, {
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(React64.Fragment, {
     children: itemsToRender.map(children)
   });
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/list/ComboboxList.mjs
-var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/list/ComboboxList.mjs
+var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
 var ComboboxList = /* @__PURE__ */ React65.forwardRef(function ComboboxList2(componentProps, forwardedRef) {
   var _ComboboxCollection;
   const {
@@ -12218,7 +12264,7 @@ var ComboboxList = /* @__PURE__ */ React65.forwardRef(function ComboboxList2(com
   });
   const resolvedChildren = React65.useMemo(() => {
     if (typeof children === "function") {
-      return _ComboboxCollection || (_ComboboxCollection = /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(ComboboxCollection, {
+      return _ComboboxCollection || (_ComboboxCollection = /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(ComboboxCollection, {
         children
       }));
     }
@@ -12252,12 +12298,6 @@ var ComboboxList = /* @__PURE__ */ React65.forwardRef(function ComboboxList2(com
           stopEvent(event);
           clickHighlightedItem(store, activeIndex, event.nativeEvent);
         }
-      },
-      onKeyDownCapture() {
-        store.context.keyboardActiveRef.current = true;
-      },
-      onPointerMoveCapture() {
-        store.context.keyboardActiveRef.current = false;
       }
     }, elementProps]
   });
@@ -12265,7 +12305,7 @@ var ComboboxList = /* @__PURE__ */ React65.forwardRef(function ComboboxList2(com
     return element;
   }
   const labelsRef = hasItems && !forceMounted ? void 0 : store.context.labelsRef;
-  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(CompositeList, {
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(CompositeList, {
     elementsRef: store.context.listRef,
     labelsRef,
     children: element
@@ -12273,10 +12313,10 @@ var ComboboxList = /* @__PURE__ */ React65.forwardRef(function ComboboxList2(com
 });
 if (true) ComboboxList.displayName = "ComboboxList";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/status/ComboboxStatus.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/status/ComboboxStatus.mjs
 var React67 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/utils/useInitialLiveRegionTextMutation.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useInitialLiveRegionTextMutation.mjs
 var React66 = __toESM(require_react(), 1);
 var LIVE_REGION_MARKER = "⁠";
 var INITIAL_LIVE_REGION_TEXT_MUTATION_RESET_DELAY = 200;
@@ -12291,11 +12331,11 @@ function findLastTextNode(root2) {
   }
   return lastTextNode;
 }
-function useInitialLiveRegionTextMutation() {
+function useInitialLiveRegionTextMutation(present = true) {
   const timeout = useTimeout();
   const rootRef = React66.useRef(null);
   React66.useEffect(() => {
-    if (parts_exports.os.ios) {
+    if (!present || parts_exports.os.ios) {
       return void 0;
     }
     const root2 = rootRef.current;
@@ -12320,11 +12360,11 @@ function useInitialLiveRegionTextMutation() {
         textNode.nodeValue = originalValue;
       }
     };
-  }, [rootRef, timeout]);
+  }, [present, rootRef, timeout]);
   return rootRef;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/status/ComboboxStatus.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/status/ComboboxStatus.mjs
 var ComboboxStatus = /* @__PURE__ */ React67.forwardRef(function ComboboxStatus2(componentProps, forwardedRef) {
   const {
     render,
@@ -12346,10 +12386,10 @@ var ComboboxStatus = /* @__PURE__ */ React67.forwardRef(function ComboboxStatus2
 });
 if (true) ComboboxStatus.displayName = "ComboboxStatus";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/portal/ComboboxPortal.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/portal/ComboboxPortal.mjs
 var React69 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/portal/ComboboxPortalContext.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/portal/ComboboxPortalContext.mjs
 var React68 = __toESM(require_react(), 1);
 var ComboboxPortalContext = /* @__PURE__ */ React68.createContext(void 0);
 if (true) ComboboxPortalContext.displayName = "ComboboxPortalContext";
@@ -12361,8 +12401,8 @@ function useComboboxPortalContext() {
   return context;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/portal/ComboboxPortal.mjs
-var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/portal/ComboboxPortal.mjs
+var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
 var ComboboxPortal = /* @__PURE__ */ React69.forwardRef(function ComboboxPortal2(props, forwardedRef) {
   const {
     keepMounted = false,
@@ -12375,9 +12415,9 @@ var ComboboxPortal = /* @__PURE__ */ React69.forwardRef(function ComboboxPortal2
   if (!shouldRender) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(ComboboxPortalContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(ComboboxPortalContext.Provider, {
     value: keepMounted,
-    children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(FloatingPortal, {
+    children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(FloatingPortal, {
       ref: forwardedRef,
       ...portalProps
     })
@@ -12385,7 +12425,7 @@ var ComboboxPortal = /* @__PURE__ */ React69.forwardRef(function ComboboxPortal2
 });
 if (true) ComboboxPortal.displayName = "ComboboxPortal";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/backdrop/ComboboxBackdrop.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/backdrop/ComboboxBackdrop.mjs
 var React70 = __toESM(require_react(), 1);
 var stateAttributesMapping2 = {
   ...popupStateMapping,
@@ -12422,13 +12462,94 @@ var ComboboxBackdrop = /* @__PURE__ */ React70.forwardRef(function ComboboxBackd
 });
 if (true) ComboboxBackdrop.displayName = "ComboboxBackdrop";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/positioner/ComboboxPositioner.mjs
-var React73 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/positioner/ComboboxPositioner.mjs
+var React74 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useAnchorPositioning.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useAnchorPositioning.mjs
+var React72 = __toESM(require_react(), 1);
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useFloating.mjs
 var React71 = __toESM(require_react(), 1);
+function useBaseUIFloating(options) {
+  const {
+    nodeId,
+    externalTree,
+    rootContext: store
+  } = options;
+  const referenceElement = store.useState("referenceElement");
+  const floatingElement = store.useState("floatingElement");
+  const domReferenceElement = store.useState("domReferenceElement");
+  const open2 = store.useState("open");
+  const floatingId = store.useState("floatingId");
+  const [positionReference, setPositionReferenceRaw] = React71.useState(null);
+  const domReferenceRef = React71.useRef(null);
+  const tree = useFloatingTree(externalTree);
+  const storeElements = React71.useMemo(() => ({
+    reference: referenceElement,
+    floating: floatingElement,
+    domReference: domReferenceElement
+  }), [referenceElement, floatingElement, domReferenceElement]);
+  const position = useFloating({
+    ...options,
+    elements: {
+      ...storeElements,
+      ...positionReference && {
+        reference: positionReference
+      }
+    }
+  });
+  const setPositionReference = React71.useCallback((node) => {
+    const computedPositionReference = isElement(node) ? {
+      getBoundingClientRect: () => node.getBoundingClientRect(),
+      getClientRects: () => node.getClientRects(),
+      contextElement: node
+    } : node;
+    setPositionReferenceRaw(computedPositionReference);
+    position.refs.setReference(computedPositionReference);
+  }, [position.refs]);
+  const refs = React71.useMemo(() => ({
+    ...position.refs,
+    setPositionReference,
+    domReference: domReferenceRef
+  }), [position.refs, setPositionReference]);
+  const elements = React71.useMemo(() => ({
+    ...position.elements,
+    domReference: domReferenceElement
+  }), [position.elements, domReferenceElement]);
+  const context = React71.useMemo(() => ({
+    ...position,
+    dataRef: store.context.dataRef,
+    open: open2,
+    onOpenChange: store.setOpen,
+    events: store.context.events,
+    floatingId,
+    refs,
+    elements,
+    nodeId,
+    rootStore: store
+  }), [position, refs, elements, nodeId, store, open2, floatingId]);
+  useIsoLayoutEffect(() => {
+    if (domReferenceElement) {
+      domReferenceRef.current = domReferenceElement;
+    }
+  }, [domReferenceElement]);
+  useIsoLayoutEffect(() => {
+    store.context.dataRef.current.floatingContext = context;
+    const node = tree?.nodesRef.current.find((n) => n.id === nodeId);
+    if (node) {
+      node.context = context;
+    }
+  });
+  return React71.useMemo(() => ({
+    ...position,
+    context,
+    refs,
+    elements,
+    rootStore: store
+  }), [position, refs, elements, context, store]);
+}
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/floating-ui-react/middleware/arrow.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/middleware/arrow.mjs
 var baseArrow = (options) => ({
   name: "arrow",
   options,
@@ -12444,8 +12565,7 @@ var baseArrow = (options) => ({
     } = state;
     const {
       element,
-      padding = 0,
-      offsetParent = "real"
+      padding = 0
     } = evaluate(options, state) || {};
     if (element == null) {
       return {};
@@ -12464,11 +12584,7 @@ var baseArrow = (options) => ({
     const clientProp = isYAxis ? "clientHeight" : "clientWidth";
     const endDiff = rects.reference[length] + rects.reference[axis] - coords[axis] - rects.floating[length];
     const startDiff = coords[axis] - rects.reference[axis];
-    const arrowOffsetParent = offsetParent === "real" ? await platform3.getOffsetParent?.(element) : elements.floating;
-    let clientSize = elements.floating[clientProp] || rects.floating[length];
-    if (!clientSize || !await platform3.isElement?.(arrowOffsetParent)) {
-      clientSize = elements.floating[clientProp] || rects.floating[length];
-    }
+    const clientSize = elements.floating[clientProp] || rects.floating[length];
     const centerToReference = endDiff / 2 - startDiff / 2;
     const largestPossiblePadding = clientSize / 2 - arrowDimensions[length] / 2 - 1;
     const minPadding = Math.min(paddingObject[minProp], largestPossiblePadding);
@@ -12504,7 +12620,7 @@ var arrow4 = (options, deps) => {
   };
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/hideMiddleware.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/hideMiddleware.mjs
 var hide4 = {
   name: "hide",
   async fn(state) {
@@ -12527,13 +12643,13 @@ var hide4 = {
   }
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/adaptiveOriginConstants.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/adaptiveOriginConstants.mjs
 var DEFAULT_SIDES = {
   sideX: "left",
   sideY: "top"
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/CommonPositionerCssVars.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/CommonPositionerCssVars.mjs
 var availableWidth = "--available-width";
 var availableHeight = "--available-height";
 var anchorWidth = "--anchor-width";
@@ -12542,7 +12658,7 @@ var transformOrigin = "--transform-origin";
 var positionerWidth = "--positioner-width";
 var positionerHeight = "--positioner-height";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useAnchorPositioning.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useAnchorPositioning.mjs
 var AVAILABLE_WIDTH_VAR = availableWidth;
 var AVAILABLE_HEIGHT_VAR = availableHeight;
 function getLogicalSide(sideParam, renderedSide, isRtl) {
@@ -12604,10 +12720,6 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     lazyFlip = false,
     externalTree
   } = params;
-  const [mountSide, setMountSide] = React71.useState(null);
-  if (!mounted && mountSide !== null) {
-    setMountSide(null);
-  }
   const collisionAvoidanceSide = collisionAvoidance.side || "flip";
   const collisionAvoidanceAlign = collisionAvoidance.align || "flip";
   const collisionAvoidanceFallbackAxisSide = collisionAvoidance.fallbackAxisSide || "end";
@@ -12620,6 +12732,13 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
   const mountedRef = useValueAsRef(mounted);
   const direction = useDirection();
   const isRtl = direction === "rtl";
+  const [mountPlacement, setMountPlacement] = React72.useState(null);
+  if (!mounted && mountPlacement !== null) {
+    setMountPlacement(null);
+  }
+  const lockAlign = lazyFlip === "placement";
+  const mountSide = mountPlacement ? getSide(mountPlacement) : null;
+  const mountAlign = mountPlacement && lockAlign ? getAlignment(mountPlacement) || "center" : null;
   const side = mountSide || {
     top: "top",
     right: "right",
@@ -12628,7 +12747,8 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     "inline-end": isRtl ? "left" : "right",
     "inline-start": isRtl ? "right" : "left"
   }[sideParam];
-  const placement = align === "center" ? side : `${side}-${align}`;
+  const placementAlign = mountAlign || align;
+  const placement = placementAlign === "center" ? side : `${side}-${placementAlign}`;
   let collisionPadding = collisionPaddingParam;
   if (typeof collisionPadding === "number") {
     collisionPadding = {
@@ -12654,7 +12774,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     boundary: collisionBoundary === "clipping-ancestors" ? "clippingAncestors" : collisionBoundary,
     padding: collisionPadding
   };
-  const arrowRef = React71.useRef(null);
+  const arrowRef = React72.useRef(null);
   const sideOffsetRef = useValueAsRef(sideOffset);
   const alignOffsetRef = useValueAsRef(alignOffset);
   const sideOffsetDep = typeof sideOffset !== "function" ? sideOffset : 0;
@@ -12711,7 +12831,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
       };
     })
   }, [commonCollisionProps, sticky, shiftCrossAxis, shiftRootBoundary, collisionPadding, collisionAvoidanceAlign]);
-  if (collisionAvoidanceSide === "shift" || collisionAvoidanceAlign === "shift" || align === "center") {
+  if (collisionAvoidanceSide === "shift" || collisionAvoidanceAlign === "shift" || placementAlign === "center") {
     middleware.push(shiftMiddleware, flipMiddleware);
   } else {
     middleware.push(flipMiddleware, shiftMiddleware);
@@ -12749,8 +12869,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     // we'll create a fake element.
     element: arrowRef.current || ownerDocument(state.elements.floating).createElement("div"),
     // No padding for the fake arrow: it would displace aligned popups on narrow anchors.
-    padding: arrowRef.current ? arrowPadding : 0,
-    offsetParent: "floating"
+    padding: arrowRef.current ? arrowPadding : 0
   }), [arrowPadding]), {
     name: "transformOrigin",
     fn(state) {
@@ -12795,7 +12914,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
       });
     }
   }, [mounted, floatingRootContext]);
-  const autoUpdateOptions = React71.useMemo(() => ({
+  const autoUpdateOptions = React72.useMemo(() => ({
     ancestorScroll: !disableAnchorTracking,
     elementResize: !disableAnchorTracking && typeof ResizeObserver !== "undefined",
     layoutShift: !disableAnchorTracking && typeof IntersectionObserver !== "undefined"
@@ -12826,7 +12945,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     sideY
   } = middlewareData.adaptiveOrigin || DEFAULT_SIDES;
   const resolvedPosition = isPositioned ? positionMethod : "fixed";
-  const floatingStyles = React71.useMemo(() => {
+  const floatingStyles = React72.useMemo(() => {
     let base;
     if (!isPositioned) {
       base = {
@@ -12853,7 +12972,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     }
     return base;
   }, [adaptiveOrigin2, resolvedPosition, sideX, x, sideY, y, originalFloatingStyles, isPositioned]);
-  const registeredPositionReferenceRef = React71.useRef(null);
+  const registeredPositionReferenceRef = React72.useRef(null);
   useIsoLayoutEffect(() => {
     if (!mounted) {
       return;
@@ -12867,7 +12986,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
       registeredPositionReferenceRef.current = finalAnchor;
     }
   }, [mounted, refs, anchorDep, anchorValueRef]);
-  React71.useEffect(() => {
+  React72.useEffect(() => {
     if (!mounted) {
       return;
     }
@@ -12880,7 +12999,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
       registeredPositionReferenceRef.current = anchorValue.current;
     }
   }, [mounted, refs, anchorDep, anchorValueRef]);
-  React71.useEffect(() => {
+  React72.useEffect(() => {
     if (keepMounted && mounted && elements.reference && elements.floating) {
       return autoUpdate(elements.reference, elements.floating, update2, autoUpdateOptions);
     }
@@ -12891,17 +13010,17 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
   const renderedAlign = getAlignment(renderedPlacement) || "center";
   const anchorHidden2 = Boolean(middlewareData.hide?.referenceHidden);
   useIsoLayoutEffect(() => {
-    if (lazyFlip && mounted && isPositioned && renderedSide !== side) {
-      setMountSide(renderedSide);
+    if (lazyFlip && mounted && isPositioned && (renderedSide !== side || lockAlign && renderedAlign !== placementAlign)) {
+      setMountPlacement(renderedPlacement);
     }
-  }, [lazyFlip, mounted, isPositioned, renderedSide, side]);
-  const arrowStyles = React71.useMemo(() => ({
+  }, [lazyFlip, lockAlign, mounted, isPositioned, renderedPlacement, renderedSide, renderedAlign, side, placementAlign]);
+  const arrowStyles = React72.useMemo(() => ({
     position: "absolute",
     top: middlewareData.arrow?.y,
     left: middlewareData.arrow?.x
   }), [middlewareData.arrow]);
   const arrowUncentered = middlewareData.arrow?.centerOffset !== 0;
-  return React71.useMemo(() => ({
+  return React72.useMemo(() => ({
     positionerStyles: floatingStyles,
     arrowStyles,
     arrowRef,
@@ -12920,12 +13039,12 @@ function isRef(param) {
   return param != null && "current" in param;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/getDisabledMountTransitionStyles.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/getDisabledMountTransitionStyles.mjs
 function getDisabledMountTransitionStyles(transitionStatus) {
   return transitionStatus === "starting" ? DISABLED_TRANSITIONS_STYLE : EMPTY_OBJECT;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/usePositioner.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/usePositioner.mjs
 function usePositioner(componentProps, state, {
   styles,
   transitionStatus,
@@ -12952,11 +13071,11 @@ function usePositioner(componentProps, state, {
   });
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/useAnchoredPopupScrollLock.mjs
-var React72 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/useAnchoredPopupScrollLock.mjs
+var React73 = __toESM(require_react(), 1);
 var VIEWPORT_WIDTH_TOLERANCE_PX = 20;
 function useAnchoredPopupScrollLock(enabled, touchOpen, positionerElement, referenceElement) {
-  const [touchOpenShouldLockScroll, setTouchOpenShouldLockScroll] = React72.useState(false);
+  const [touchOpenShouldLockScroll, setTouchOpenShouldLockScroll] = React73.useState(false);
   useIsoLayoutEffect(() => {
     if (!enabled || !touchOpen || positionerElement == null) {
       setTouchOpenShouldLockScroll(false);
@@ -12969,9 +13088,9 @@ function useAnchoredPopupScrollLock(enabled, touchOpen, positionerElement, refer
   useScrollLock(enabled && (!touchOpen || touchOpenShouldLockScroll), referenceElement);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/positioner/ComboboxPositioner.mjs
-var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
-var ComboboxPositioner = /* @__PURE__ */ React73.forwardRef(function ComboboxPositioner2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/positioner/ComboboxPositioner.mjs
+var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
+var ComboboxPositioner = /* @__PURE__ */ React74.forwardRef(function ComboboxPositioner2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -13047,9 +13166,9 @@ var ComboboxPositioner = /* @__PURE__ */ React73.forwardRef(function ComboboxPos
     hidden: !mounted,
     inert: !open2
   });
-  return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(ComboboxPositionerContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)(ComboboxPositionerContext.Provider, {
     value: positioning,
-    children: [mounted && modal && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(InternalBackdrop, {
+    children: [mounted && modal && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(InternalBackdrop, {
       inert: inertValue(!open2),
       cutout: inputGroupElement ?? inputElement ?? triggerElement
     }), element]
@@ -13057,14 +13176,14 @@ var ComboboxPositioner = /* @__PURE__ */ React73.forwardRef(function ComboboxPos
 });
 if (true) ComboboxPositioner.displayName = "ComboboxPositioner";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/popup/ComboboxPopup.mjs
-var React74 = __toESM(require_react(), 1);
-var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/popup/ComboboxPopup.mjs
+var React75 = __toESM(require_react(), 1);
+var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
 var stateAttributesMapping3 = {
   ...popupStateMapping,
   ...transitionStatusMapping
 };
-var ComboboxPopup = /* @__PURE__ */ React74.forwardRef(function ComboboxPopup2(componentProps, forwardedRef) {
+var ComboboxPopup = /* @__PURE__ */ React75.forwardRef(function ComboboxPopup2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -13134,7 +13253,7 @@ var ComboboxPopup = /* @__PURE__ */ React74.forwardRef(function ComboboxPopup2(c
     resolvedFinalFocus = inputInsidePopup ? void 0 : false;
   }
   const focusManagerModal = !inputInsidePopup || modal;
-  return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(FloatingFocusManager, {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(FloatingFocusManager, {
     context: floatingRootContext,
     disabled: !mounted,
     modal: focusManagerModal,
@@ -13142,8 +13261,8 @@ var ComboboxPopup = /* @__PURE__ */ React74.forwardRef(function ComboboxPopup2(c
     initialFocus: resolvedInitialFocus,
     returnFocus: resolvedFinalFocus,
     getInsideElements: () => [store.context.startDismissRef.current, store.context.endDismissRef.current],
-    children: /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)(React74.Fragment, {
-      children: [element, focusManagerModal && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(ComboboxInternalDismissButton, {
+    children: /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(React75.Fragment, {
+      children: [element, focusManagerModal && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(ComboboxInternalDismissButton, {
         ref: store.context.endDismissRef
       })]
     })
@@ -13151,9 +13270,9 @@ var ComboboxPopup = /* @__PURE__ */ React74.forwardRef(function ComboboxPopup2(c
 });
 if (true) ComboboxPopup.displayName = "ComboboxPopup";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/arrow/ComboboxArrow.mjs
-var React75 = __toESM(require_react(), 1);
-var ComboboxArrow = /* @__PURE__ */ React75.forwardRef(function ComboboxArrow2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/arrow/ComboboxArrow.mjs
+var React76 = __toESM(require_react(), 1);
+var ComboboxArrow = /* @__PURE__ */ React76.forwardRef(function ComboboxArrow2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -13188,24 +13307,24 @@ var ComboboxArrow = /* @__PURE__ */ React75.forwardRef(function ComboboxArrow2(c
 });
 if (true) ComboboxArrow.displayName = "ComboboxArrow";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/group/ComboboxGroup.mjs
-var React77 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/group/ComboboxGroup.mjs
+var React78 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/group/ComboboxGroupContext.mjs
-var React76 = __toESM(require_react(), 1);
-var ComboboxGroupContext = /* @__PURE__ */ React76.createContext(void 0);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/group/ComboboxGroupContext.mjs
+var React77 = __toESM(require_react(), 1);
+var ComboboxGroupContext = /* @__PURE__ */ React77.createContext(void 0);
 if (true) ComboboxGroupContext.displayName = "ComboboxGroupContext";
 function useComboboxGroupContext() {
-  const context = React76.useContext(ComboboxGroupContext);
+  const context = React77.useContext(ComboboxGroupContext);
   if (context === void 0) {
     throw new Error(true ? "Base UI: ComboboxGroupContext is missing. ComboboxGroup parts must be placed within <Combobox.Group>." : formatErrorMessage_default(18));
   }
   return context;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/group/ComboboxGroup.mjs
-var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
-var ComboboxGroup = /* @__PURE__ */ React77.forwardRef(function ComboboxGroup2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/group/ComboboxGroup.mjs
+var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
+var ComboboxGroup = /* @__PURE__ */ React78.forwardRef(function ComboboxGroup2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -13215,8 +13334,8 @@ var ComboboxGroup = /* @__PURE__ */ React77.forwardRef(function ComboboxGroup2(c
   } = componentProps;
   const store = useComboboxRootContext();
   const grid = store.useState("grid");
-  const [labelId, setLabelId] = React77.useState();
-  const contextValue = React77.useMemo(() => ({
+  const [labelId, setLabelId] = React78.useState();
+  const contextValue = React78.useMemo(() => ({
     labelId,
     setLabelId,
     items
@@ -13230,12 +13349,12 @@ var ComboboxGroup = /* @__PURE__ */ React77.forwardRef(function ComboboxGroup2(c
       "aria-labelledby": labelId
     }, elementProps]
   });
-  const wrappedElement = /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(ComboboxGroupContext.Provider, {
+  const wrappedElement = /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(ComboboxGroupContext.Provider, {
     value: contextValue,
     children: element
   });
   if (items) {
-    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(GroupCollectionProvider, {
+    return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(GroupCollectionProvider, {
       items,
       children: wrappedElement
     });
@@ -13244,9 +13363,9 @@ var ComboboxGroup = /* @__PURE__ */ React77.forwardRef(function ComboboxGroup2(c
 });
 if (true) ComboboxGroup.displayName = "ComboboxGroup";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/group-label/ComboboxGroupLabel.mjs
-var React78 = __toESM(require_react(), 1);
-var ComboboxGroupLabel = /* @__PURE__ */ React78.forwardRef(function ComboboxGroupLabel2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/group-label/ComboboxGroupLabel.mjs
+var React79 = __toESM(require_react(), 1);
+var ComboboxGroupLabel = /* @__PURE__ */ React79.forwardRef(function ComboboxGroupLabel2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -13275,25 +13394,25 @@ var ComboboxGroupLabel = /* @__PURE__ */ React78.forwardRef(function ComboboxGro
 });
 if (true) ComboboxGroupLabel.displayName = "ComboboxGroupLabel";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/item/ComboboxItem.mjs
-var React81 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/item/ComboboxItem.mjs
+var React82 = __toESM(require_react(), 1);
 var ReactDOM6 = __toESM(require_react_dom(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/item/ComboboxItemContext.mjs
-var React79 = __toESM(require_react(), 1);
-var ComboboxItemContext = /* @__PURE__ */ React79.createContext(void 0);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/item/ComboboxItemContext.mjs
+var React80 = __toESM(require_react(), 1);
+var ComboboxItemContext = /* @__PURE__ */ React80.createContext(void 0);
 if (true) ComboboxItemContext.displayName = "ComboboxItemContext";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/row/ComboboxRowContext.mjs
-var React80 = __toESM(require_react(), 1);
-var ComboboxRowContext = /* @__PURE__ */ React80.createContext(false);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/row/ComboboxRowContext.mjs
+var React81 = __toESM(require_react(), 1);
+var ComboboxRowContext = /* @__PURE__ */ React81.createContext(false);
 if (true) ComboboxRowContext.displayName = "ComboboxRowContext";
 function useComboboxRowContext() {
-  return React80.useContext(ComboboxRowContext);
+  return React81.useContext(ComboboxRowContext);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/item/ComboboxItem.mjs
-var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/item/ComboboxItem.mjs
+var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
 function ComboboxItemInner(props) {
   const {
     componentProps,
@@ -13311,7 +13430,7 @@ function ComboboxItemInner(props) {
     nativeButton = false,
     ...elementProps
   } = componentProps;
-  const textRef = React81.useRef(null);
+  const textRef = React82.useRef(null);
   const listItem = useCompositeListItem({
     guess: true,
     index: indexProp,
@@ -13320,19 +13439,21 @@ function ComboboxItemInner(props) {
   const store = useComboboxRootContext();
   const isRow = useComboboxRowContext();
   const hasItems = useComboboxHasItemsContext();
-  const selectionMode = store.useState("selectionMode");
-  const rootDisabled = store.useState("disabled");
-  const readOnly = store.useState("readOnly");
-  const isItemEqualToValue = store.useState("isItemEqualToValue");
+  const {
+    props: itemProps,
+    id: rootId,
+    selectionMode,
+    disabled: rootDisabled,
+    readOnly,
+    isItemEqualToValue
+  } = store.useState("itemRoot");
   const disabled2 = rootDisabled || disabledProp;
   const selectable = selectionMode !== "none";
   const index2 = indexProp ?? indexFromFilter ?? listItem.index;
   const hasRegistered = index2 !== -1;
-  const rootId = store.useState("id");
   const highlighted = store.useState("isActive", index2);
   const matchesSelectedValue = store.useState("isSelected", itemValue);
-  const itemProps = store.useState("itemProps");
-  const itemRef = React81.useRef(null);
+  const itemRef = React82.useRef(null);
   const id = rootId != null && hasRegistered ? `${rootId}-${index2}` : void 0;
   const selected = matchesSelectedValue && selectable;
   useIsoLayoutEffect(() => {
@@ -13431,11 +13552,11 @@ function ComboboxItemInner(props) {
     state,
     props: [itemProps, defaultProps, elementProps, getButtonProps]
   });
-  const contextValue = React81.useMemo(() => ({
+  const contextValue = React82.useMemo(() => ({
     selected,
     textRef
   }), [selected, textRef]);
-  return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(ComboboxItemContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(ComboboxItemContext.Provider, {
     value: contextValue,
     children: element
   });
@@ -13452,23 +13573,23 @@ function ComboboxItemVirtualizedIndex(props) {
   } = useComboboxDerivedItemsContext();
   const lookupValue = componentProps.value ?? null;
   const indexFromFilter = findItemIndex(flatFilteredValues, lookupValue, isItemEqualToValue);
-  return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(ComboboxItemInner, {
+  return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(ComboboxItemInner, {
     componentProps,
     forwardedRef,
     virtualized: true,
     indexFromFilter
   });
 }
-var ComboboxItem = /* @__PURE__ */ React81.memo(/* @__PURE__ */ React81.forwardRef(function ComboboxItem2(componentProps, forwardedRef) {
+var ComboboxItem = /* @__PURE__ */ React82.memo(/* @__PURE__ */ React82.forwardRef(function ComboboxItem2(componentProps, forwardedRef) {
   const store = useComboboxRootContext();
   const virtualized = store.useState("virtualized");
   if (virtualized && componentProps.index == null) {
-    return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(ComboboxItemVirtualizedIndex, {
+    return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(ComboboxItemVirtualizedIndex, {
       componentProps,
       forwardedRef
     });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(ComboboxItemInner, {
+  return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(ComboboxItemInner, {
     componentProps,
     forwardedRef,
     virtualized,
@@ -13477,13 +13598,13 @@ var ComboboxItem = /* @__PURE__ */ React81.memo(/* @__PURE__ */ React81.forwardR
 }));
 if (true) ComboboxItem.displayName = "ComboboxItem";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/autocomplete/item/AutocompleteItem.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/autocomplete/item/AutocompleteItem.mjs
 var AutocompleteItem = ComboboxItem;
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/row/ComboboxRow.mjs
-var React82 = __toESM(require_react(), 1);
-var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
-var ComboboxRow = /* @__PURE__ */ React82.forwardRef(function ComboboxRow2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/row/ComboboxRow.mjs
+var React83 = __toESM(require_react(), 1);
+var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
+var ComboboxRow = /* @__PURE__ */ React83.forwardRef(function ComboboxRow2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -13496,16 +13617,16 @@ var ComboboxRow = /* @__PURE__ */ React82.forwardRef(function ComboboxRow2(compo
       role: "row"
     }, elementProps]
   });
-  return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(ComboboxRowContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(ComboboxRowContext.Provider, {
     value: true,
     children: element
   });
 });
 if (true) ComboboxRow.displayName = "ComboboxRow";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/empty/ComboboxEmpty.mjs
-var React83 = __toESM(require_react(), 1);
-var ComboboxEmpty = /* @__PURE__ */ React83.forwardRef(function ComboboxEmpty2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/empty/ComboboxEmpty.mjs
+var React84 = __toESM(require_react(), 1);
+var ComboboxEmpty = /* @__PURE__ */ React84.forwardRef(function ComboboxEmpty2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -13531,9 +13652,9 @@ var ComboboxEmpty = /* @__PURE__ */ React83.forwardRef(function ComboboxEmpty2(c
 });
 if (true) ComboboxEmpty.displayName = "ComboboxEmpty";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/listbox-separator/ListboxSeparator.mjs
-var React84 = __toESM(require_react(), 1);
-var ListboxSeparator = /* @__PURE__ */ React84.forwardRef(function ListboxSeparator2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/listbox-separator/ListboxSeparator.mjs
+var React85 = __toESM(require_react(), 1);
+var ListboxSeparator = /* @__PURE__ */ React85.forwardRef(function ListboxSeparator2(componentProps, forwardedRef) {
   const {
     className,
     render,
@@ -13554,18 +13675,18 @@ var ListboxSeparator = /* @__PURE__ */ React84.forwardRef(function ListboxSepara
 });
 if (true) ListboxSeparator.displayName = "ListboxSeparator";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/autocomplete/separator/AutocompleteSeparator.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/autocomplete/separator/AutocompleteSeparator.mjs
 var AutocompleteSeparator = ListboxSeparator;
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/combobox/root/utils/useFilteredItems.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/combobox/root/utils/useFilteredItems.mjs
 function useFilteredItems() {
   const items = useComboboxDerivedItemsContext();
   return items.filteredItems;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/button/Button.mjs
-var React85 = __toESM(require_react(), 1);
-var Button = /* @__PURE__ */ React85.forwardRef(function Button2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/button/Button.mjs
+var React86 = __toESM(require_react(), 1);
+var Button = /* @__PURE__ */ React86.forwardRef(function Button2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -13594,21 +13715,21 @@ var Button = /* @__PURE__ */ React85.forwardRef(function Button2(componentProps,
 });
 if (true) Button.displayName = "Button";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/item/FieldItemContext.mjs
-var React86 = __toESM(require_react(), 1);
-var FieldItemContext = /* @__PURE__ */ React86.createContext({
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/item/FieldItemContext.mjs
+var React87 = __toESM(require_react(), 1);
+var FieldItemContext = /* @__PURE__ */ React87.createContext({
   disabled: false
 });
 if (true) FieldItemContext.displayName = "FieldItemContext";
 function useFieldItemContext() {
-  const context = React86.useContext(FieldItemContext);
+  const context = React87.useContext(FieldItemContext);
   return context;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/root/useFieldValidation.mjs
-var React87 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/root/useFieldValidation.mjs
+var React88 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/utils/getCombinedFieldValidityData.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/utils/getCombinedFieldValidityData.mjs
 function getCombinedFieldValidityData(validityData, invalid2) {
   return {
     ...validityData,
@@ -13619,7 +13740,7 @@ function getCombinedFieldValidityData(validityData, invalid2) {
   };
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/root/useFieldValidation.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/root/useFieldValidation.mjs
 var validityKeys = Object.keys(DEFAULT_VALIDITY_STATE);
 function isEligibleInput(input, formElement) {
   if (input.matches(":disabled")) {
@@ -13675,11 +13796,11 @@ function useFieldValidation(params) {
     getDescriptionProps
   } = useLabelableContext();
   const timeout = useTimeout();
-  const inputRef = React87.useRef(null);
+  const inputRef = React88.useRef(null);
   const registeredInputs = useRefWithInit(() => /* @__PURE__ */ new Map()).current;
-  const validationCommitIdRef = React87.useRef(0);
-  const customValidityRef = React87.useRef(null);
-  const registerInput = React87.useCallback((element, registration) => {
+  const validationCommitIdRef = React88.useRef(0);
+  const customValidityRef = React88.useRef(null);
+  const registerInput = React88.useCallback((element, registration) => {
     registeredInputs.set(element, registration);
     return () => {
       registeredInputs.delete(element);
@@ -13839,10 +13960,10 @@ function useFieldValidation(params) {
       commit(value, !validateOnChange);
     }
   });
-  const getValidationProps = React87.useCallback((disabled2, externalProps = {}) => mergeProps(getDescriptionProps(externalProps), state.valid === false && !state.disabled && !disabled2 ? {
+  const getValidationProps = React88.useCallback((disabled2, externalProps = {}) => mergeProps(getDescriptionProps(externalProps), state.valid === false && !state.disabled && !disabled2 ? {
     "aria-invalid": true
   } : EMPTY_OBJECT), [getDescriptionProps, state.disabled, state.valid]);
-  return React87.useMemo(() => ({
+  return React88.useMemo(() => ({
     getValidationProps,
     inputRef,
     registeredInputs,
@@ -13853,7 +13974,7 @@ function useFieldValidation(params) {
   }), [getValidationProps, registeredInputs, registerInput, getInputControl, commit, change]);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/useRegisteredLabelId.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/useRegisteredLabelId.mjs
 function useRegisteredLabelId(idProp, setLabelId) {
   const id = useBaseUiId(idProp);
   useIsoLayoutEffect(() => {
@@ -13865,7 +13986,7 @@ function useRegisteredLabelId(idProp, setLabelId) {
   return id;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/labelable-provider/useLabel.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/labelable-provider/useLabel.mjs
 function useLabel(params = {}) {
   const {
     id: idProp,
@@ -13892,14 +14013,14 @@ function useLabel(params = {}) {
     if (!resolvedControlId) {
       return;
     }
-    const controlElement = ownerDocument(event.currentTarget).getElementById(resolvedControlId);
+    const controlElement = getControlById(event.currentTarget, resolvedControlId);
     if (isHTMLElement(controlElement)) {
       focusElementWithVisible(controlElement);
     }
   }
   function handleInteraction(event) {
     const target = getTarget(event.nativeEvent);
-    if (target?.closest("button,input,select,textarea")) {
+    if (closest(target, "button,input,select,textarea")) {
       return;
     }
     if (!event.defaultPrevented && event.detail > 1) {
@@ -13922,6 +14043,17 @@ function useLabel(params = {}) {
     }
   };
 }
+function getControlById(label, id) {
+  let root2 = label.getRootNode();
+  while (isShadowRoot(root2)) {
+    const element = root2.getElementById(id);
+    if (element) {
+      return element;
+    }
+    root2 = root2.host.getRootNode();
+  }
+  return ownerDocument(label).getElementById(id);
+}
 function focusElementWithVisible(element) {
   element.focus({
     // Available from Chrome 144+ (January 2026).
@@ -13930,14 +14062,14 @@ function focusElementWithVisible(element) {
   });
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/usePopupViewport.mjs
-var React91 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/usePopupViewport.mjs
+var React92 = __toESM(require_react(), 1);
 var ReactDOM7 = __toESM(require_react_dom(), 1);
 
-// node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/usePreviousValue.mjs
-var React88 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/usePreviousValue.mjs
+var React89 = __toESM(require_react(), 1);
 function usePreviousValue(value) {
-  const [state, setState] = React88.useState({
+  const [state, setState] = React89.useState({
     current: value,
     previous: null
   });
@@ -13950,10 +14082,10 @@ function usePreviousValue(value) {
   return state.previous;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/usePopupAutoResize.mjs
-var React89 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/usePopupAutoResize.mjs
+var React90 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/getCssDimensions.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/getCssDimensions.mjs
 function getCssDimensions2(element) {
   const css = getComputedStyle2(element);
   let width = parseFloat(css.width) || 0;
@@ -13972,11 +14104,11 @@ function getCssDimensions2(element) {
   };
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/CommonPopupCssVars.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/CommonPopupCssVars.mjs
 var popupWidth = "--popup-width";
 var popupHeight = "--popup-height";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/usePopupAutoResize.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/usePopupAutoResize.mjs
 function usePopupAutoResize(parameters) {
   const {
     popupElement,
@@ -13990,23 +14122,19 @@ function usePopupAutoResize(parameters) {
   } = parameters;
   const runOnceAnimationsFinish = useAnimationsFinished(popupElement, true);
   const animationFrame = useAnimationFrame();
-  const committedDimensionsRef = React89.useRef(null);
-  const isInitialRenderRef = React89.useRef(true);
-  const restoreAnchoringStylesRef = React89.useRef(NOOP);
+  const committedDimensionsRef = React90.useRef(null);
   const onMeasureLayout = useStableCallback(onMeasureLayoutParam);
   const onMeasureLayoutComplete = useStableCallback(onMeasureLayoutCompleteParam);
-  const anchoringStyles = React89.useMemo(() => getPopupAnchoringStyles(side, direction), [side, direction]);
+  const anchoringStyles = React90.useMemo(() => getPopupAnchoringStyles(side, direction), [side, direction]);
   useIsoLayoutEffect(() => {
     if (!mounted) {
-      restoreAnchoringStylesRef.current = NOOP;
-      isInitialRenderRef.current = true;
       committedDimensionsRef.current = null;
       return void 0;
     }
     if (!popupElement || !positionerElement) {
       return void 0;
     }
-    restoreAnchoringStylesRef.current = applyElementStyles(popupElement, anchoringStyles);
+    const restoreAnchoringStyles = applyElementStyles(popupElement, anchoringStyles);
     setPopupCssSize(popupElement, "auto");
     const restorePopupPosition = overrideElementStyle(popupElement, "position", "static");
     const restorePopupTransform = overrideElementStyle(popupElement, "transform", "none");
@@ -14019,31 +14147,24 @@ function usePopupAutoResize(parameters) {
       restorePopupPosition();
       restorePopupTransform();
       restorePositionerAvailableSize();
-    }
-    function restoreMeasurementOverridesIncludingScale() {
-      restoreMeasurementOverrides();
       restorePopupScale();
     }
     onMeasureLayout?.();
-    if (isInitialRenderRef.current || committedDimensionsRef.current === null) {
+    if (committedDimensionsRef.current === null) {
       setPositionerCssSize(positionerElement, "max-content");
       const dimensions = getCssDimensions2(popupElement);
       committedDimensionsRef.current = dimensions;
       setPositionerCssSize(positionerElement, dimensions);
-      restoreMeasurementOverridesIncludingScale();
+      restoreMeasurementOverrides();
       onMeasureLayoutComplete?.(null, dimensions);
-      isInitialRenderRef.current = false;
-      return () => {
-        restoreAnchoringStylesRef.current();
-        restoreAnchoringStylesRef.current = NOOP;
-      };
+      return restoreAnchoringStyles;
     }
     setPositionerCssSize(positionerElement, "max-content");
     const previousDimensions = committedDimensionsRef.current;
     const newDimensions = getCssDimensions2(popupElement);
     committedDimensionsRef.current = newDimensions;
     setPopupCssSize(popupElement, previousDimensions);
-    restoreMeasurementOverridesIncludingScale();
+    restoreMeasurementOverrides();
     onMeasureLayoutComplete?.(previousDimensions, newDimensions);
     setPositionerCssSize(positionerElement, newDimensions);
     const abortController = new AbortController();
@@ -14057,8 +14178,7 @@ function usePopupAutoResize(parameters) {
     return () => {
       abortController.abort();
       animationFrame.cancel();
-      restoreAnchoringStylesRef.current();
-      restoreAnchoringStylesRef.current = NOOP;
+      restoreAnchoringStyles();
     };
   }, [content, popupElement, positionerElement, runOnceAnimationsFinish, animationFrame, mounted, onMeasureLayout, onMeasureLayoutComplete, anchoringStyles]);
 }
@@ -14103,24 +14223,24 @@ function setPositionerCssSize(positionerElement, size4) {
   positionerElement.style.setProperty(positionerHeight, height);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/direction-provider/DirectionProvider.mjs
-var React90 = __toESM(require_react(), 1);
-var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/direction-provider/DirectionProvider.mjs
+var React91 = __toESM(require_react(), 1);
+var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
 var DirectionProvider = function DirectionProvider2(props) {
   const {
     direction = "ltr"
   } = props;
-  const contextValue = React90.useMemo(() => ({
+  const contextValue = React91.useMemo(() => ({
     direction
   }), [direction]);
-  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(DirectionContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(DirectionContext.Provider, {
     value: contextValue,
     children: props.children
   });
 };
 if (true) DirectionProvider.displayName = "DirectionProvider";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/adaptiveOriginMiddleware.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/adaptiveOriginMiddleware.mjs
 var adaptiveOrigin = {
   name: "adaptiveOrigin",
   async fn(state) {
@@ -14188,11 +14308,11 @@ var adaptiveOrigin = {
   }
 };
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/CommonViewportDataAttributes.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/CommonViewportDataAttributes.mjs
 var activationDirection = "data-activation-direction";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/usePopupViewport.mjs
-var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/usePopupViewport.mjs
+var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
 var popupViewportStateMapping = {
   activationDirection: (value) => value ? {
     [activationDirection]: value
@@ -14214,16 +14334,16 @@ function usePopupViewport(parameters) {
   const positionerElement = store.useState("positionerElement");
   const previousActiveTrigger = usePreviousValue(open2 ? activeTrigger : null);
   const currentContentKey = usePopupContentKey(activeTriggerId, payload);
-  const capturedNodeRef = React91.useRef(null);
-  const [previousContentNode, setPreviousContentNode] = React91.useState(null);
-  const [newTriggerOffset, setNewTriggerOffset] = React91.useState(null);
-  const currentContainerRef = React91.useRef(null);
-  const previousContainerRef = React91.useRef(null);
+  const capturedNodeRef = React92.useRef(null);
+  const [previousContentNode, setPreviousContentNode] = React92.useState(null);
+  const [newTriggerOffset, setNewTriggerOffset] = React92.useState(null);
+  const currentContainerRef = React92.useRef(null);
+  const previousContainerRef = React92.useRef(null);
   const onAnimationsFinished = useAnimationsFinished(currentContainerRef, true);
   const cleanupFrame = useAnimationFrame();
-  const cleanupControllerRef = React91.useRef(null);
-  const [previousContentDimensions, setPreviousContentDimensions] = React91.useState(null);
-  const [showStartingStyleAttribute, setShowStartingStyleAttribute] = React91.useState(false);
+  const cleanupControllerRef = React92.useRef(null);
+  const [previousContentDimensions, setPreviousContentDimensions] = React92.useState(null);
+  const [showStartingStyleAttribute, setShowStartingStyleAttribute] = React92.useState(false);
   useIsoLayoutEffect(() => {
     store.set("adaptiveOrigin", adaptiveOrigin);
     return () => {
@@ -14253,21 +14373,21 @@ function usePopupViewport(parameters) {
       capturedNodeRef.current = null;
     }, controller.signal);
   });
-  const lastHandledTriggerRef = React91.useRef(null);
+  const lastHandledTriggerRef = React92.useRef(null);
   useIsoLayoutEffect(() => {
     if (!open2 || !mounted) {
       lastHandledTriggerRef.current = null;
     }
   }, [open2, mounted]);
   useIsoLayoutEffect(() => {
-    if (activeTrigger && previousActiveTrigger && activeTrigger !== previousActiveTrigger && lastHandledTriggerRef.current !== activeTrigger && capturedNodeRef.current) {
+    if (open2 && activeTrigger && previousActiveTrigger && activeTrigger !== previousActiveTrigger && lastHandledTriggerRef.current !== activeTrigger && capturedNodeRef.current) {
       setPreviousContentNode(capturedNodeRef.current);
       setShowStartingStyleAttribute(true);
       const offset4 = calculateRelativePosition(previousActiveTrigger, activeTrigger);
       setNewTriggerOffset(offset4);
       lastHandledTriggerRef.current = activeTrigger;
     }
-  }, [activeTrigger, previousActiveTrigger]);
+  }, [open2, activeTrigger, previousActiveTrigger]);
   useIsoLayoutEffect(() => {
     if (previousContentNode == null) {
       return;
@@ -14295,14 +14415,14 @@ function usePopupViewport(parameters) {
   const isTransitioning = previousContentNode != null;
   let childrenToRender;
   if (!isTransitioning) {
-    childrenToRender = /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", {
+    childrenToRender = /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", {
       "data-current": true,
       ref: currentContainerRef,
       children
     }, currentContentKey);
   } else {
-    childrenToRender = /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(React91.Fragment, {
-      children: [/* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", {
+    childrenToRender = /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(React92.Fragment, {
+      children: [/* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", {
         "data-previous": true,
         inert: inertValue(true),
         ref: previousContainerRef,
@@ -14314,7 +14434,7 @@ function usePopupViewport(parameters) {
           position: "absolute"
         },
         "data-ending-style": showStartingStyleAttribute ? void 0 : ""
-      }, "previous"), /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", {
+      }, "previous"), /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", {
         "data-current": true,
         ref: currentContainerRef,
         "data-starting-style": showStartingStyleAttribute ? "" : void 0,
@@ -14380,10 +14500,10 @@ function calculateRelativePosition(from, to) {
   };
 }
 function usePopupContentKey(activeTriggerId, payload) {
-  const [contentKey, setContentKey] = React91.useState(0);
-  const previousActiveTriggerIdRef = React91.useRef(activeTriggerId);
-  const previousPayloadRef = React91.useRef(payload);
-  const pendingPayloadUpdateRef = React91.useRef(false);
+  const [contentKey, setContentKey] = React92.useState(0);
+  const previousActiveTriggerIdRef = React92.useRef(activeTriggerId);
+  const previousPayloadRef = React92.useRef(payload);
+  const pendingPayloadUpdateRef = React92.useRef(false);
   useIsoLayoutEffect(() => {
     const previousActiveTriggerId = previousActiveTriggerIdRef.current;
     const previousPayload = previousPayloadRef.current;
@@ -14402,7 +14522,7 @@ function usePopupContentKey(activeTriggerId, payload) {
   return `${activeTriggerId ?? "current"}-${contentKey}`;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/index.parts.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/index.parts.mjs
 var index_parts_exports2 = {};
 __export(index_parts_exports2, {
   Control: () => FieldControl,
@@ -14414,29 +14534,29 @@ __export(index_parts_exports2, {
   Validity: () => FieldValidity
 });
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/root/FieldRoot.mjs
-var React95 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/root/FieldRoot.mjs
+var React96 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/fieldset/root/FieldsetRootContext.mjs
-var React92 = __toESM(require_react(), 1);
-var FieldsetRootContext = /* @__PURE__ */ React92.createContext(void 0);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/fieldset/root/FieldsetRootContext.mjs
+var React93 = __toESM(require_react(), 1);
+var FieldsetRootContext = /* @__PURE__ */ React93.createContext(void 0);
 if (true) FieldsetRootContext.displayName = "FieldsetRootContext";
 function useFieldsetRootContext(optional = false) {
-  const context = React92.useContext(FieldsetRootContext);
+  const context = React93.useContext(FieldsetRootContext);
   if (!context && !optional) {
     throw new Error(true ? "Base UI: FieldsetRootContext is missing. Fieldset parts must be placed within <Fieldset.Root>." : formatErrorMessage_default(86));
   }
   return context;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/labelable-provider/LabelableProvider.mjs
-var React93 = __toESM(require_react(), 1);
-var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/labelable-provider/LabelableProvider.mjs
+var React94 = __toESM(require_react(), 1);
+var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
 var LabelableProvider = function LabelableProvider2(props) {
   const defaultId = useBaseUiId();
-  const [controlIdState, setControlIdState] = React93.useState(defaultId);
-  const [labelId, setLabelId] = React93.useState();
-  const [messageIds, setMessageIds] = React93.useState([]);
+  const [controlIdState, setControlIdState] = React94.useState(defaultId);
+  const [labelId, setLabelId] = React94.useState();
+  const [messageIds, setMessageIds] = React94.useState([]);
   const controlId = controlIdState === void 0 ? defaultId : controlIdState;
   const registrationsRef = useRefWithInit(() => /* @__PURE__ */ new Map());
   const {
@@ -14470,7 +14590,7 @@ var LabelableProvider = function LabelableProvider2(props) {
       setControlIdState(defaultId);
     }
   });
-  const getDescriptionProps = React93.useCallback((externalProps) => {
+  const getDescriptionProps = React94.useCallback((externalProps) => {
     const ids = externalProps["aria-describedby"] ? externalProps["aria-describedby"].split(" ") : [];
     ids.push(...parentMessageIds, ...messageIds);
     return {
@@ -14478,7 +14598,7 @@ var LabelableProvider = function LabelableProvider2(props) {
       "aria-describedby": Array.from(new Set(ids)).join(" ") || void 0
     };
   }, [parentMessageIds, messageIds]);
-  const contextValue = React93.useMemo(() => ({
+  const contextValue = React94.useMemo(() => ({
     controlId,
     registerControlId,
     resetControlId,
@@ -14488,15 +14608,15 @@ var LabelableProvider = function LabelableProvider2(props) {
     setMessageIds,
     getDescriptionProps
   }), [controlId, registerControlId, resetControlId, labelId, setLabelId, messageIds, setMessageIds, getDescriptionProps]);
-  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(LabelableContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(LabelableContext.Provider, {
     value: contextValue,
     children: props.children
   });
 };
 if (true) LabelableProvider.displayName = "LabelableProvider";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/field-register-control/useFieldControlRegistration.mjs
-var React94 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/field-register-control/useFieldControlRegistration.mjs
+var React95 = __toESM(require_react(), 1);
 function useFieldControlRegistration(params) {
   const {
     change,
@@ -14512,9 +14632,9 @@ function useFieldControlRegistration(params) {
   const {
     formRef
   } = useFormContext();
-  const activeFieldControlSourceRef = React94.useRef(null);
-  const registrationRef = React94.useRef(null);
-  const initialValueCapturedRef = React94.useRef(false);
+  const activeFieldControlSourceRef = React95.useRef(null);
+  const registrationRef = React95.useRef(null);
+  const initialValueCapturedRef = React95.useRef(false);
   const getValueForForm = useStableCallback(() => {
     const registration = registrationRef.current;
     if (!registration) {
@@ -14621,9 +14741,9 @@ function useFieldControlRegistration(params) {
   return [validate, register2];
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/root/FieldRoot.mjs
-var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
-var FieldRootInner = /* @__PURE__ */ React95.forwardRef(function FieldRootInner2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/root/FieldRoot.mjs
+var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
+var FieldRootInner = /* @__PURE__ */ React96.forwardRef(function FieldRootInner2(componentProps, forwardedRef) {
   const {
     errors,
     validationMode: formValidationMode,
@@ -14647,15 +14767,16 @@ var FieldRootInner = /* @__PURE__ */ React95.forwardRef(function FieldRootInner2
   const disabledFieldset = useFieldsetRootContext(true)?.disabled;
   const validate = useStableCallback(validateProp || (() => null));
   const disabled2 = disabledFieldset || disabledProp;
-  const [touchedState, setTouchedUnwrapped] = React95.useState(false);
-  const [dirtyState, setDirtyUnwrapped] = React95.useState(false);
-  const [filled, setFilled] = React95.useState(false);
-  const [focused, setFocused] = React95.useState(false);
+  const [touchedState, setTouchedUnwrapped] = React96.useState(false);
+  const [dirtyState, setDirtyUnwrapped] = React96.useState(false);
+  const [filled, setFilled] = React96.useState(false);
+  const [focused, setFocused] = React96.useState(false);
+  const focusOwnerRef = React96.useRef(void 0);
   const dirty = dirtyProp ?? dirtyState;
   const touched = touchedProp ?? touchedState;
-  const markedDirtyRef = React95.useRef(dirty);
-  const registeredFieldIdRef = React95.useRef(void 0);
-  const [registeredFieldName, setRegisteredFieldName] = React95.useState();
+  const markedDirtyRef = React96.useRef(dirty);
+  const registeredFieldIdRef = React96.useRef(void 0);
+  const [registeredFieldName, setRegisteredFieldName] = React96.useState();
   const effectiveName = name ?? registeredFieldName;
   useIsoLayoutEffect(() => {
     if (dirtyProp !== void 0) {
@@ -14681,7 +14802,7 @@ var FieldRootInner = /* @__PURE__ */ React95.forwardRef(function FieldRootInner2
   const formError = effectiveName && Object.hasOwn(errors, effectiveName) ? errors[effectiveName] : null;
   const hasFormError = !!(Array.isArray(formError) ? formError.length : formError);
   const invalid2 = invalidProp === true || hasFormError;
-  const [validityData, setValidityData] = React95.useState({
+  const [validityData, setValidityData] = React96.useState({
     state: DEFAULT_VALIDITY_STATE,
     error: "",
     errors: [],
@@ -14689,7 +14810,7 @@ var FieldRootInner = /* @__PURE__ */ React95.forwardRef(function FieldRootInner2
     initialValue: null
   });
   const valid2 = !invalid2 && (disabled2 ? null : validityData.state.valid);
-  const state = React95.useMemo(() => ({
+  const state = React96.useMemo(() => ({
     disabled: disabled2,
     touched,
     dirty,
@@ -14720,10 +14841,10 @@ var FieldRootInner = /* @__PURE__ */ React95.forwardRef(function FieldRootInner2
     setValidityData,
     validityData
   });
-  React95.useImperativeHandle(actionsRef, () => ({
+  React96.useImperativeHandle(actionsRef, () => ({
     validate: validateFieldControl
   }), [validateFieldControl]);
-  const contextValue = React95.useMemo(() => ({
+  const contextValue = React96.useMemo(() => ({
     invalid: invalid2,
     name: effectiveName,
     validityData,
@@ -14733,6 +14854,7 @@ var FieldRootInner = /* @__PURE__ */ React95.forwardRef(function FieldRootInner2
     setDirty,
     setFilled,
     setFocused,
+    focusOwnerRef,
     validationMode,
     shouldValidateOnChange,
     state,
@@ -14745,15 +14867,15 @@ var FieldRootInner = /* @__PURE__ */ React95.forwardRef(function FieldRootInner2
     props: elementProps,
     stateAttributesMapping: fieldValidityMapping
   });
-  return /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(FieldRootContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(FieldRootContext.Provider, {
     value: contextValue,
     children: element
   });
 });
 if (true) FieldRootInner.displayName = "FieldRootInner";
-var FieldRoot = /* @__PURE__ */ React95.forwardRef(function FieldRoot2(componentProps, forwardedRef) {
-  return /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(LabelableProvider, {
-    children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(FieldRootInner, {
+var FieldRoot = /* @__PURE__ */ React96.forwardRef(function FieldRoot2(componentProps, forwardedRef) {
+  return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(LabelableProvider, {
+    children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(FieldRootInner, {
       ...componentProps,
       ref: forwardedRef
     })
@@ -14761,9 +14883,9 @@ var FieldRoot = /* @__PURE__ */ React95.forwardRef(function FieldRoot2(component
 });
 if (true) FieldRoot.displayName = "FieldRoot";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/label/FieldLabel.mjs
-var React96 = __toESM(require_react(), 1);
-var FieldLabel = /* @__PURE__ */ React96.forwardRef(function FieldLabel2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/label/FieldLabel.mjs
+var React97 = __toESM(require_react(), 1);
+var FieldLabel = /* @__PURE__ */ React97.forwardRef(function FieldLabel2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -14781,13 +14903,13 @@ var FieldLabel = /* @__PURE__ */ React96.forwardRef(function FieldLabel2(compone
     ...fieldRootContext.state,
     disabled: fieldRootContext.disabled || fieldItemContext.disabled
   };
-  const labelRef = React96.useRef(null);
+  const labelRef = React97.useRef(null);
   const labelProps = useLabel({
     id: labelId ?? idProp,
     native: nativeLabel
   });
   if (true) {
-    React96.useEffect(() => {
+    React97.useEffect(() => {
       if (!labelRef.current) {
         return;
       }
@@ -14815,14 +14937,14 @@ var FieldLabel = /* @__PURE__ */ React96.forwardRef(function FieldLabel2(compone
 });
 if (true) FieldLabel.displayName = "FieldLabel";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/error/FieldError.mjs
-var React97 = __toESM(require_react(), 1);
-var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/error/FieldError.mjs
+var React98 = __toESM(require_react(), 1);
+var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
 var stateAttributesMapping4 = {
   ...fieldValidityMapping,
   ...transitionStatusMapping
 };
-var FieldError = /* @__PURE__ */ React97.forwardRef(function FieldError2(componentProps, forwardedRef) {
+var FieldError = /* @__PURE__ */ React98.forwardRef(function FieldError2(componentProps, forwardedRef) {
   const {
     render,
     id: idProp,
@@ -14870,9 +14992,9 @@ var FieldError = /* @__PURE__ */ React97.forwardRef(function FieldError2(compone
       setMessageIds((v) => v.filter((item) => item !== id));
     };
   }, [rendered, id, setMessageIds]);
-  const errorRef = React97.useRef(null);
-  const [lastRenderedMessage, setLastRenderedMessage] = React97.useState(null);
-  const [lastRenderedMessageKey, setLastRenderedMessageKey] = React97.useState(null);
+  const errorRef = React98.useRef(null);
+  const [lastRenderedMessage, setLastRenderedMessage] = React98.useState(null);
+  const [lastRenderedMessageKey, setLastRenderedMessageKey] = React98.useState(null);
   let error2 = validityData.error;
   if (!hasSpecificMatch && hasFormError) {
     error2 = formError;
@@ -14881,8 +15003,8 @@ var FieldError = /* @__PURE__ */ React97.forwardRef(function FieldError2(compone
   }
   let errorMessage = error2;
   if (Array.isArray(error2)) {
-    errorMessage = error2.length > 1 ? /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("ul", {
-      children: error2.map((message) => /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("li", {
+    errorMessage = error2.length > 1 ? /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("ul", {
+      children: error2.map((message) => /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("li", {
         children: message
       }, message))
     }) : error2[0];
@@ -14922,9 +15044,9 @@ var FieldError = /* @__PURE__ */ React97.forwardRef(function FieldError2(compone
 });
 if (true) FieldError.displayName = "FieldError";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/description/FieldDescription.mjs
-var React98 = __toESM(require_react(), 1);
-var FieldDescription = /* @__PURE__ */ React98.forwardRef(function FieldDescription2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/description/FieldDescription.mjs
+var React99 = __toESM(require_react(), 1);
+var FieldDescription = /* @__PURE__ */ React99.forwardRef(function FieldDescription2(componentProps, forwardedRef) {
   const {
     render,
     id: idProp,
@@ -14963,15 +15085,15 @@ var FieldDescription = /* @__PURE__ */ React98.forwardRef(function FieldDescript
 });
 if (true) FieldDescription.displayName = "FieldDescription";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/control/FieldControl.mjs
-var React99 = __toESM(require_react(), 1);
-var FieldControl = /* @__PURE__ */ React99.forwardRef(function FieldControl2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/control/FieldControl.mjs
+var React100 = __toESM(require_react(), 1);
+var FieldControl = /* @__PURE__ */ React100.forwardRef(function FieldControl2(componentProps, forwardedRef) {
   const {
     render,
     className,
     id: idProp,
     name: nameProp,
-    value: valueProp,
+    value,
     disabled: disabledProp = false,
     onValueChange,
     defaultValue,
@@ -14986,7 +15108,6 @@ var FieldControl = /* @__PURE__ */ React99.forwardRef(function FieldControl2(com
     setTouched,
     setDirty,
     validityData,
-    setFocused,
     setFilled,
     validationMode,
     validation
@@ -15008,14 +15129,7 @@ var FieldControl = /* @__PURE__ */ React99.forwardRef(function FieldControl2(com
   const id = useLabelableId({
     id: idProp
   });
-  const [valueUnwrapped] = useControlled({
-    controlled: valueProp,
-    default: defaultValue,
-    name: "FieldControl",
-    state: "value"
-  });
-  const isControlled = valueProp !== void 0;
-  const value = isControlled ? valueUnwrapped : void 0;
+  const isControlled = value !== void 0;
   const serializedValue = value == null ? void 0 : String(value);
   const getValueFromInput = useStableCallback(() => validation.inputRef.current?.value);
   useRegisterFieldControl(validation.inputRef, id, serializedValue, getValueFromInput, !disabled2, nameProp);
@@ -15024,7 +15138,7 @@ var FieldControl = /* @__PURE__ */ React99.forwardRef(function FieldControl2(com
     if (currentValue !== void 0) {
       setFilled(currentValue !== "");
     }
-  }, [serializedValue, validation.inputRef, setFilled]);
+  }, [serializedValue, defaultValue, validation.inputRef, setFilled]);
   useValueChanged(serializedValue, () => {
     if (serializedValue === void 0) {
       return;
@@ -15033,13 +15147,9 @@ var FieldControl = /* @__PURE__ */ React99.forwardRef(function FieldControl2(com
     setDirty(serializedValue !== (validityData.initialValue ?? ""));
     validation.change(serializedValue);
   });
-  const inputRef = React99.useRef(null);
+  const inputRef = React100.useRef(null);
+  const setFocused = useSetFieldFocused(disabled2, inputRef);
   const enterValidationTimeout = useTimeout();
-  useIsoLayoutEffect(() => {
-    if (autoFocus && inputRef.current === activeElement(ownerDocument(inputRef.current))) {
-      setFocused(true);
-    }
-  }, [autoFocus, setFocused]);
   const element = useRenderElement("input", componentProps, {
     ref: [forwardedRef, inputRef],
     state,
@@ -15113,9 +15223,9 @@ var FieldControl = /* @__PURE__ */ React99.forwardRef(function FieldControl2(com
 });
 if (true) FieldControl.displayName = "FieldControl";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/validity/FieldValidity.mjs
-var React100 = __toESM(require_react(), 1);
-var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/validity/FieldValidity.mjs
+var React101 = __toESM(require_react(), 1);
+var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
 var FieldValidity = function FieldValidity2(props) {
   const {
     children
@@ -15124,28 +15234,28 @@ var FieldValidity = function FieldValidity2(props) {
     validityData,
     invalid: invalid2
   } = useFieldRootContext(false);
-  const combinedFieldValidityData = React100.useMemo(() => getCombinedFieldValidityData(validityData, invalid2), [validityData, invalid2]);
+  const combinedFieldValidityData = React101.useMemo(() => getCombinedFieldValidityData(validityData, invalid2), [validityData, invalid2]);
   const isInvalid = combinedFieldValidityData.state.valid === false;
   const {
     transitionStatus
   } = useTransitionStatus(isInvalid);
-  const fieldValidityState = React100.useMemo(() => {
+  const fieldValidityState = React101.useMemo(() => {
     return {
       ...combinedFieldValidityData,
       validity: combinedFieldValidityData.state,
       transitionStatus
     };
   }, [combinedFieldValidityData, transitionStatus]);
-  return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(React100.Fragment, {
+  return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(React101.Fragment, {
     children: children(fieldValidityState)
   });
 };
 if (true) FieldValidity.displayName = "FieldValidity";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/field/item/FieldItem.mjs
-var React101 = __toESM(require_react(), 1);
-var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
-var FieldItem = /* @__PURE__ */ React101.forwardRef(function FieldItem2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/field/item/FieldItem.mjs
+var React102 = __toESM(require_react(), 1);
+var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
+var FieldItem = /* @__PURE__ */ React102.forwardRef(function FieldItem2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -15162,7 +15272,7 @@ var FieldItem = /* @__PURE__ */ React101.forwardRef(function FieldItem2(componen
     ...fieldState,
     disabled: disabled2
   };
-  const fieldItemContext = React101.useMemo(() => ({
+  const fieldItemContext = React102.useMemo(() => ({
     disabled: disabled2
   }), [disabled2]);
   const element = useRenderElement("div", componentProps, {
@@ -15171,8 +15281,8 @@ var FieldItem = /* @__PURE__ */ React101.forwardRef(function FieldItem2(componen
     props: elementProps,
     stateAttributesMapping: fieldValidityMapping
   });
-  return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(LabelableProvider, {
-    children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(FieldItemContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(LabelableProvider, {
+    children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(FieldItemContext.Provider, {
       value: fieldItemContext,
       children: element
     })
@@ -15180,22 +15290,22 @@ var FieldItem = /* @__PURE__ */ React101.forwardRef(function FieldItem2(componen
 });
 if (true) FieldItem.displayName = "FieldItem";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/input/Input.mjs
-var React102 = __toESM(require_react(), 1);
-var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
-var Input = /* @__PURE__ */ React102.forwardRef(function Input2(props, forwardedRef) {
-  return /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(index_parts_exports2.Control, {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/input/Input.mjs
+var React103 = __toESM(require_react(), 1);
+var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
+var Input = /* @__PURE__ */ React103.forwardRef(function Input2(props, forwardedRef) {
+  return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(index_parts_exports2.Control, {
     ref: forwardedRef,
     ...props
   });
 });
 if (true) Input.displayName = "Input";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/FloatingPortalLite.mjs
-var React103 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/FloatingPortalLite.mjs
+var React104 = __toESM(require_react(), 1);
 var ReactDOM8 = __toESM(require_react_dom(), 1);
-var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
-var FloatingPortalLite = /* @__PURE__ */ React103.forwardRef(function FloatingPortalLite2(componentProps, forwardedRef) {
+var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
+var FloatingPortalLite = /* @__PURE__ */ React104.forwardRef(function FloatingPortalLite2(componentProps, forwardedRef) {
   const {
     children,
     container,
@@ -15216,13 +15326,13 @@ var FloatingPortalLite = /* @__PURE__ */ React103.forwardRef(function FloatingPo
   if (!portalSubtree && !portalNode) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(React103.Fragment, {
+  return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(React104.Fragment, {
     children: [portalSubtree, portalNode && /* @__PURE__ */ ReactDOM8.createPortal(children, portalNode)]
   });
 });
 if (true) FloatingPortalLite.displayName = "FloatingPortalLite";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/index.parts.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/index.parts.mjs
 var index_parts_exports3 = {};
 __export(index_parts_exports3, {
   Arrow: () => TooltipArrow,
@@ -15237,23 +15347,23 @@ __export(index_parts_exports3, {
   createHandle: () => createTooltipHandle
 });
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/root/TooltipRoot.mjs
-var React106 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/root/TooltipRoot.mjs
+var React107 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/root/TooltipRootContext.mjs
-var React104 = __toESM(require_react(), 1);
-var TooltipRootContext = /* @__PURE__ */ React104.createContext(void 0);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/root/TooltipRootContext.mjs
+var React105 = __toESM(require_react(), 1);
+var TooltipRootContext = /* @__PURE__ */ React105.createContext(void 0);
 if (true) TooltipRootContext.displayName = "TooltipRootContext";
 function useTooltipRootContext(optional) {
-  const context = React104.useContext(TooltipRootContext);
+  const context = React105.useContext(TooltipRootContext);
   if (context === void 0 && !optional) {
     throw new Error(true ? "Base UI: TooltipRootContext is missing. Tooltip parts must be placed within <Tooltip.Root>." : formatErrorMessage_default(72));
   }
   return context;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/store/TooltipStore.mjs
-var React105 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/store/TooltipStore.mjs
+var React106 = __toESM(require_react(), 1);
 var selectors3 = {
   ...popupStoreSelectors,
   disabled: (state) => state.disabled,
@@ -15263,6 +15373,9 @@ var selectors3 = {
   disableHoverablePopup: (state) => state.disableHoverablePopup,
   lastOpenChangeReason: (state) => state.openChangeReason,
   closeOnClick: (state) => state.closeOnClick,
+  // Active and inactive trigger props are the same object, so a constant for triggers that discard
+  // them keeps those triggers from re-rendering when the props change.
+  appliedTriggerProps: (state, apply) => apply ? state.activeTriggerProps : void 0,
   closeDelay: (state) => state.closeDelay,
   adaptiveOrigin: (state) => state.adaptiveOrigin
 };
@@ -15309,15 +15422,15 @@ function createInitialState(initialState, triggerElements, floatingId, nested = 
 }
 function createInitialContext(triggerElements) {
   return {
-    popupRef: /* @__PURE__ */ React105.createRef(),
+    popupRef: /* @__PURE__ */ React106.createRef(),
     onOpenChange: void 0,
     onOpenChangeComplete: void 0,
     triggerElements
   };
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/root/TooltipRoot.mjs
-var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/root/TooltipRoot.mjs
+var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
 var TooltipRoot = fastComponent(function TooltipRoot2(props) {
   const {
     disabled: disabled2 = false,
@@ -15363,7 +15476,7 @@ var TooltipRoot = fastComponent(function TooltipRoot2(props) {
   const isInstantPhase = store.useState("isInstantPhase");
   const instantType = store.useState("instantType");
   const lastOpenChangeReason = store.useState("lastOpenChangeReason");
-  const previousInstantTypeRef = React106.useRef(null);
+  const previousInstantTypeRef = React107.useRef(null);
   useIsoLayoutEffect(() => {
     if (openState && disabled2) {
       store.setOpen(false, createChangeEventDetails(reason_parts_exports.disabled));
@@ -15387,17 +15500,17 @@ var TooltipRoot = fastComponent(function TooltipRoot2(props) {
       }
     }
   }, [store, activeTriggerId, open2]);
-  React106.useImperativeHandle(actionsRef, () => ({
+  React107.useImperativeHandle(actionsRef, () => ({
     unmount: forceUnmount,
     close: () => store.setOpen(false, createChangeEventDetails(reason_parts_exports.imperativeAction))
   }), [forceUnmount, store]);
   const shouldRenderInteractions = open2 || mounted || !disabled2 && trackCursorAxis !== "none";
-  return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(TooltipRootContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(TooltipRootContext.Provider, {
     value: store,
-    children: [handle && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(PopupHandleAttachment, {
+    children: [handle && /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(PopupHandleAttachment, {
       handle,
       store
-    }), shouldRenderInteractions && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(TooltipInteractions, {
+    }), shouldRenderInteractions && /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(TooltipInteractions, {
       store,
       disabled: disabled2,
       trackCursorAxis
@@ -15421,7 +15534,7 @@ function TooltipInteractions({
     enabled: !disabled2 && trackCursorAxis !== "none",
     axis: trackCursorAxis === "none" ? void 0 : trackCursorAxis
   });
-  const triggerProps = React106.useMemo(() => mergeProps(clientPoint.reference, dismiss.reference), [clientPoint.reference, dismiss.reference]);
+  const triggerProps = React107.useMemo(() => mergeProps(clientPoint.reference, dismiss.reference), [clientPoint.reference, dismiss.reference]);
   usePopupInteractionProps(store, {
     activeTriggerProps: triggerProps,
     inactiveTriggerProps: triggerProps,
@@ -15430,49 +15543,25 @@ function TooltipInteractions({
   return null;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/trigger/TooltipTrigger.mjs
-var React108 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/trigger/TooltipTrigger.mjs
+var React109 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/provider/TooltipProviderContext.mjs
-var React107 = __toESM(require_react(), 1);
-var TooltipProviderContext = /* @__PURE__ */ React107.createContext(void 0);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/provider/TooltipProviderContext.mjs
+var React108 = __toESM(require_react(), 1);
+var TooltipProviderContext = /* @__PURE__ */ React108.createContext(void 0);
 if (true) TooltipProviderContext.displayName = "TooltipProviderContext";
 function useTooltipProviderContext() {
-  return React107.useContext(TooltipProviderContext);
+  return React108.useContext(TooltipProviderContext);
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/utils/constants.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/utils/constants.mjs
 var OPEN_DELAY = 600;
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/trigger/TooltipTrigger.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/trigger/TooltipTrigger.mjs
 var TOOLTIP_TRIGGER_IDENTIFIER = "data-base-ui-tooltip-trigger";
 function getTargetElement(event) {
-  if ("composedPath" in event) {
-    const path = event.composedPath();
-    for (let i = 0; i < path.length; i += 1) {
-      const element = path[i];
-      if (isElement(element)) {
-        return element;
-      }
-    }
-  }
-  const target = event.target;
-  if (isElement(target)) {
-    return target;
-  }
-  return null;
-}
-function closestEnabledTooltipTrigger(element) {
-  let current = element;
-  while (current) {
-    const trigger = current.closest(`[${TOOLTIP_TRIGGER_IDENTIFIER}]`);
-    if (trigger) {
-      return trigger;
-    }
-    const root2 = current.getRootNode();
-    current = "host" in root2 && isElement(root2.host) ? root2.host : null;
-  }
-  return null;
+  const target = getTarget(event);
+  return isElement(target) ? target : null;
 }
 var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, forwardedRef) {
   const {
@@ -15498,7 +15587,7 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
   const isTriggerActive = store.useState("isTriggerActive", thisTriggerId);
   const isOpenedByThisTrigger = store.useState("isOpenedByTrigger", thisTriggerId);
   const floatingRootContext = store.useState("floatingRootContext");
-  const triggerElementRef = React108.useRef(null);
+  const triggerElementRef = React109.useRef(null);
   const closeDelayWithDefault = closeDelay ?? 0;
   const {
     registerTrigger,
@@ -15524,9 +15613,9 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
   const disabledRef = useValueAsRef(disabled2);
   const trackCursorAxis = store.useState("trackCursorAxis");
   const disableHoverablePopup = store.useState("disableHoverablePopup");
-  const isNestedTriggerHoveredRef = React108.useRef(false);
+  const isNestedTriggerHoveredRef = React109.useRef(false);
   const nestedTriggerOpenTimeout = useTimeout();
-  const pointerTypeRef = React108.useRef(void 0);
+  const pointerTypeRef = React109.useRef(void 0);
   function getOpenDelay() {
     if (hasProvider && activeIdRef.current != null) {
       return 0;
@@ -15538,7 +15627,7 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
     if (!triggerEl || !target) {
       return false;
     }
-    const nearestTrigger = closestEnabledTooltipTrigger(target);
+    const nearestTrigger = closest(target, `[${TOOLTIP_TRIGGER_IDENTIFIER}]`);
     return nearestTrigger !== null && nearestTrigger !== triggerEl && contains(triggerEl, nearestTrigger);
   }
   function detectNestedTriggerHover(target) {
@@ -15604,15 +15693,14 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
       }
     }
   };
-  const rootTriggerProps = store.useState("triggerProps", isMountedByThisTrigger);
-  const shouldApplyRootTriggerProps = isMountedByThisTrigger || trackCursorAxis !== "none";
+  const rootTriggerProps = store.useState("appliedTriggerProps", isMountedByThisTrigger || trackCursorAxis !== "none");
   const state = {
     open: isOpenedByThisTrigger
   };
   const element = useRenderElement("button", componentProps, {
     state,
     ref: [forwardedRef, registerTrigger, triggerElementRef],
-    props: [hoverProps, focusProps, shouldApplyRootTriggerProps ? rootTriggerProps : void 0, {
+    props: [hoverProps, focusProps, rootTriggerProps, {
       onMouseOver(event) {
         handleNestedTriggerHover(event.nativeEvent);
       },
@@ -15651,24 +15739,24 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
 });
 if (true) TooltipTrigger.displayName = "TooltipTrigger";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/portal/TooltipPortal.mjs
-var React110 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/portal/TooltipPortal.mjs
+var React111 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/portal/TooltipPortalContext.mjs
-var React109 = __toESM(require_react(), 1);
-var TooltipPortalContext = /* @__PURE__ */ React109.createContext(void 0);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/portal/TooltipPortalContext.mjs
+var React110 = __toESM(require_react(), 1);
+var TooltipPortalContext = /* @__PURE__ */ React110.createContext(void 0);
 if (true) TooltipPortalContext.displayName = "TooltipPortalContext";
 function useTooltipPortalContext() {
-  const value = React109.useContext(TooltipPortalContext);
+  const value = React110.useContext(TooltipPortalContext);
   if (value === void 0) {
     throw new Error(true ? "Base UI: <Tooltip.Portal> is missing." : formatErrorMessage_default(70));
   }
   return value;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/portal/TooltipPortal.mjs
-var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
-var TooltipPortal = /* @__PURE__ */ React110.forwardRef(function TooltipPortal2(props, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/portal/TooltipPortal.mjs
+var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
+var TooltipPortal = /* @__PURE__ */ React111.forwardRef(function TooltipPortal2(props, forwardedRef) {
   const {
     keepMounted = false,
     ...portalProps
@@ -15679,9 +15767,9 @@ var TooltipPortal = /* @__PURE__ */ React110.forwardRef(function TooltipPortal2(
   if (!shouldRender) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(TooltipPortalContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(TooltipPortalContext.Provider, {
     value: keepMounted,
-    children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(FloatingPortalLite, {
+    children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(FloatingPortalLite, {
       ref: forwardedRef,
       ...portalProps
     })
@@ -15689,24 +15777,24 @@ var TooltipPortal = /* @__PURE__ */ React110.forwardRef(function TooltipPortal2(
 });
 if (true) TooltipPortal.displayName = "TooltipPortal";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/positioner/TooltipPositioner.mjs
-var React112 = __toESM(require_react(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/positioner/TooltipPositioner.mjs
+var React113 = __toESM(require_react(), 1);
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/positioner/TooltipPositionerContext.mjs
-var React111 = __toESM(require_react(), 1);
-var TooltipPositionerContext = /* @__PURE__ */ React111.createContext(void 0);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/positioner/TooltipPositionerContext.mjs
+var React112 = __toESM(require_react(), 1);
+var TooltipPositionerContext = /* @__PURE__ */ React112.createContext(void 0);
 if (true) TooltipPositionerContext.displayName = "TooltipPositionerContext";
 function useTooltipPositionerContext() {
-  const context = React111.useContext(TooltipPositionerContext);
+  const context = React112.useContext(TooltipPositionerContext);
   if (context === void 0) {
     throw new Error(true ? "Base UI: TooltipPositionerContext is missing. TooltipPositioner parts must be placed within <Tooltip.Positioner>." : formatErrorMessage_default(71));
   }
   return context;
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/positioner/TooltipPositioner.mjs
-var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
-var TooltipPositioner = /* @__PURE__ */ React112.forwardRef(function TooltipPositioner2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/positioner/TooltipPositioner.mjs
+var import_jsx_runtime35 = __toESM(require_jsx_runtime(), 1);
+var TooltipPositioner = /* @__PURE__ */ React113.forwardRef(function TooltipPositioner2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -15753,7 +15841,7 @@ var TooltipPositioner = /* @__PURE__ */ React112.forwardRef(function TooltipPosi
     collisionAvoidance,
     adaptiveOrigin: adaptiveOrigin2
   });
-  const state = React112.useMemo(() => ({
+  const state = React113.useMemo(() => ({
     open: open2,
     side: positioning.side,
     align: positioning.align,
@@ -15768,16 +15856,16 @@ var TooltipPositioner = /* @__PURE__ */ React112.forwardRef(function TooltipPosi
     hidden: !mounted,
     inert: !open2 || trackCursorAxis === "both" || disableHoverablePopup
   });
-  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(TooltipPositionerContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(TooltipPositionerContext.Provider, {
     value: positioning,
     children: element
   });
 });
 if (true) TooltipPositioner.displayName = "TooltipPositioner";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/popup/TooltipPopup.mjs
-var React113 = __toESM(require_react(), 1);
-var TooltipPopup = /* @__PURE__ */ React113.forwardRef(function TooltipPopup2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/popup/TooltipPopup.mjs
+var React114 = __toESM(require_react(), 1);
+var TooltipPopup = /* @__PURE__ */ React114.forwardRef(function TooltipPopup2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -15827,9 +15915,9 @@ var TooltipPopup = /* @__PURE__ */ React113.forwardRef(function TooltipPopup2(co
 });
 if (true) TooltipPopup.displayName = "TooltipPopup";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/arrow/TooltipArrow.mjs
-var React114 = __toESM(require_react(), 1);
-var TooltipArrow = /* @__PURE__ */ React114.forwardRef(function TooltipArrow2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/arrow/TooltipArrow.mjs
+var React115 = __toESM(require_react(), 1);
+var TooltipArrow = /* @__PURE__ */ React115.forwardRef(function TooltipArrow2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -15866,22 +15954,22 @@ var TooltipArrow = /* @__PURE__ */ React114.forwardRef(function TooltipArrow2(co
 });
 if (true) TooltipArrow.displayName = "TooltipArrow";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/provider/TooltipProvider.mjs
-var React115 = __toESM(require_react(), 1);
-var import_jsx_runtime35 = __toESM(require_jsx_runtime(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/provider/TooltipProvider.mjs
+var React116 = __toESM(require_react(), 1);
+var import_jsx_runtime36 = __toESM(require_jsx_runtime(), 1);
 var TooltipProvider = function TooltipProvider2(props) {
   const {
     delay,
     closeDelay,
     timeout = 400
   } = props;
-  const delayValue = React115.useMemo(() => ({
+  const delayValue = React116.useMemo(() => ({
     open: delay,
     close: closeDelay
   }), [delay, closeDelay]);
-  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(TooltipProviderContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(TooltipProviderContext.Provider, {
     value: delay,
-    children: /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(FloatingDelayGroup, {
+    children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(FloatingDelayGroup, {
       delay: delayValue,
       timeoutMs: timeout,
       children: props.children
@@ -15890,9 +15978,9 @@ var TooltipProvider = function TooltipProvider2(props) {
 };
 if (true) TooltipProvider.displayName = "TooltipProvider";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/viewport/TooltipViewport.mjs
-var React116 = __toESM(require_react(), 1);
-var TooltipViewport = /* @__PURE__ */ React116.forwardRef(function TooltipViewport2(componentProps, forwardedRef) {
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/viewport/TooltipViewport.mjs
+var React117 = __toESM(require_react(), 1);
+var TooltipViewport = /* @__PURE__ */ React117.forwardRef(function TooltipViewport2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -15927,7 +16015,7 @@ var TooltipViewport = /* @__PURE__ */ React116.forwardRef(function TooltipViewpo
 });
 if (true) TooltipViewport.displayName = "TooltipViewport";
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/tooltip/store/TooltipHandle.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/store/TooltipHandle.mjs
 var TooltipHandle = class extends BasePopupHandle {
   constructor() {
     super(createNullTooltipStore(), "Tooltip");
@@ -15962,13 +16050,13 @@ function createTooltipHandle() {
   return new TooltipHandle();
 }
 
-// node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/use-render/useRender.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/use-render/useRender.mjs
 function useRender(params) {
   return useRenderElement(params.defaultTagName ?? "div", params, params);
 }
 
 // packages/ui/build-module/text/text.mjs
-var import_element16 = __toESM(require_element(), 1);
+var import_element18 = __toESM(require_element(), 1);
 var STYLE_HASH_ATTRIBUTE = "data-wp-hash";
 function getRuntime() {
   const globalScope = globalThis;
@@ -16054,10 +16142,10 @@ if (typeof process === "undefined" || true) {
 }
 var style_default = { "text": "_83ed8a8da5dd50ea__text", "heading-2xl": "_14437cfb77831647__heading-2xl", "heading-xl": "_3c78b7fa9b4072dd__heading-xl", "heading-lg": "aa58f227716bcde2__heading-lg", "heading-md": "fc4da56d8dfe52c4__heading-md", "heading-sm": "a9b78c7c82e8dff7__heading-sm", "body-xl": "_305ff559e52180d5__body-xl", "body-lg": "ca1aa3fc2029e958__body-lg", "body-md": "_131101940be12424__body-md", "body-sm": "_0e8d87a42c1f75fa__body-sm" };
 if (typeof process === "undefined" || true) {
-  registerStyle("e8e31009f5", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}.c59a0ebebd71fa4a__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._46b5cb0c8e24e8c9__li{margin:var(--_gcd-li-margin,0)}");
+  registerStyle("abb19c3171", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}.c59a0ebebd71fa4a__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._46b5cb0c8e24e8c9__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._400bf7ee0c6061a9__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
 }
-var global_css_defense_default = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li" };
-var Text = (0, import_element16.forwardRef)(
+var global_css_defense_default = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li", "span": "_400bf7ee0c6061a9__span" };
+var Text = (0, import_element18.forwardRef)(
   function UnforwardedText({ variant = "body-md", render, className, ...props }, ref) {
     const element = useRender({
       render,
@@ -16077,13 +16165,14 @@ var Text = (0, import_element16.forwardRef)(
   }
 );
 
-// packages/ui/build-module/tooltip/popup.mjs
+// packages/ui/build-module/button/button.mjs
 var import_element20 = __toESM(require_element(), 1);
+var import_i18n = __toESM(require_i18n(), 1);
+import { speak } from "@wordpress/a11y";
 
-// packages/ui/build-module/tooltip/portal.mjs
-var import_element17 = __toESM(require_element(), 1);
-
-// packages/ui/build-module/utils/wp-compat-overlay-slot.mjs
+// packages/ui/build-module/spinner/spinner.mjs
+var import_element19 = __toESM(require_element(), 1);
+var import_jsx_runtime37 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE2 = "data-wp-hash";
 function getRuntime2() {
   const globalScope = globalThis;
@@ -16165,82 +16254,37 @@ function registerStyle2(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle2("be37f31c1e", "._11fc52b637ff8a7e__slot{inset:0;isolation:isolate;pointer-events:none;position:fixed;z-index:1000000003}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._11fc52b637ff8a7e__slot>*{pointer-events:auto}}}");
+  registerStyle2("bc09fb824f", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.ab4d64c07c0ba587__spinner{background-color:transparent;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:inline-block;height:var(--wpds-dimension-size-2xs,16px);opacity:1;overflow:visible;position:relative;width:var(--wpds-dimension-size-2xs,16px)}.a7654e10245bb7d2__indicator{fill:transparent;stroke:currentColor;stroke-width:var(--wpds-border-width-sm,2px);stroke-linecap:round;transform-origin:50% 50%;@media (forced-colors:active){stroke:CanvasText}animation:_02322d973909703c__spinner-spin 1.4s linear infinite both}@keyframes _02322d973909703c__spinner-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}}}");
 }
-var wp_compat_overlay_slot_default = { "slot": "_11fc52b637ff8a7e__slot" };
-var WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE = "data-wp-compat-overlay-slot";
-function resolveOwnerDocument() {
-  return typeof document === "undefined" ? null : document;
-}
-function isInWordPressEnvironment() {
-  let topWp;
-  try {
-    topWp = window.top?.wp;
-  } catch {
-  }
-  const wp = topWp ?? window.wp;
-  return typeof wp?.components === "object" && wp.components !== null;
-}
-var cachedSlot = null;
-function ensureSlotIsAccessible(element) {
-  element.setAttribute("aria-hidden", "false");
-  return element;
-}
-function createSlot(ownerDocument2) {
-  const element = ownerDocument2.createElement("div");
-  element.setAttribute(WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE, "");
-  if (wp_compat_overlay_slot_default.slot) {
-    element.classList.add(wp_compat_overlay_slot_default.slot);
-  }
-  ownerDocument2.body.appendChild(element);
-  return element;
-}
-function getWpCompatOverlaySlot() {
-  if (typeof window === "undefined") {
-    return void 0;
-  }
-  if (!isInWordPressEnvironment() && window.__wpUiCompatOverlaySlotEnabled !== true) {
-    return void 0;
-  }
-  const ownerDocument2 = resolveOwnerDocument();
-  if (!ownerDocument2 || !ownerDocument2.body) {
-    return void 0;
-  }
-  if (cachedSlot && cachedSlot.ownerDocument === ownerDocument2 && cachedSlot.isConnected) {
-    return ensureSlotIsAccessible(cachedSlot);
-  }
-  const existing = ownerDocument2.querySelector(
-    `[${WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE}]`
-  );
-  if (existing instanceof HTMLDivElement) {
-    cachedSlot = ensureSlotIsAccessible(existing);
-    return cachedSlot;
-  }
-  if (cachedSlot?.isConnected) {
-    cachedSlot.remove();
-  }
-  cachedSlot = ensureSlotIsAccessible(createSlot(ownerDocument2));
-  return cachedSlot;
-}
-
-// packages/ui/build-module/tooltip/portal.mjs
-var import_jsx_runtime36 = __toESM(require_jsx_runtime(), 1);
-var Portal = (0, import_element17.forwardRef)(
-  function TooltipPortal3({ container, ...restProps }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-      index_parts_exports3.Portal,
+var style_default2 = { "spinner": "ab4d64c07c0ba587__spinner", "indicator": "a7654e10245bb7d2__indicator", "spinner-spin": "_02322d973909703c__spinner-spin" };
+var Spinner = (0, import_element19.forwardRef)(
+  function UnforwardedSpinner({ className, color, style, ...props }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+      "svg",
       {
-        container: container ?? getWpCompatOverlaySlot(),
-        ...restProps,
-        ref
+        className: clsx_default(style_default2.spinner, className),
+        style: color === void 0 ? style : { ...style, color },
+        viewBox: "0 0 100 100",
+        xmlns: "http://www.w3.org/2000/svg",
+        role: "presentation",
+        focusable: "false",
+        ...props,
+        ref,
+        children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+          "path",
+          {
+            className: style_default2.indicator,
+            d: "m 50 0 a 50 50 0 0 1 0 100",
+            vectorEffect: "non-scaling-stroke"
+          }
+        )
       }
     );
   }
 );
 
-// packages/ui/build-module/tooltip/positioner.mjs
-var import_element18 = __toESM(require_element(), 1);
-var import_jsx_runtime37 = __toESM(require_jsx_runtime(), 1);
+// packages/ui/build-module/button/button.mjs
+var import_jsx_runtime38 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE3 = "data-wp-hash";
 function getRuntime3() {
   const globalScope = globalThis;
@@ -16322,71 +16366,70 @@ function registerStyle3(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
+  registerStyle3("7d9151d891", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._97b0fc33c028be1a__button,.abbb272e2ce49bd6__is-unstyled{appearance:none;padding:0}._97b0fc33c028be1a__button{--wp-ui-button-font-weight:var(--wpds-typography-font-weight-emphasis,600);--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-strong,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand-strong,#fff);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-strong-disabled,#8d8d8d);--wp-ui-button-padding-block:var(--wpds-dimension-padding-xs,4px);--wp-ui-button-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-button-height:var(--wpds-dimension-size-lg,40px);--wp-ui-button-aspect-ratio:auto;--wp-ui-button-font-size:var(--wpds-typography-font-size-md,13px);--wp-ui-button-min-width:calc(4ch + var(--wp-ui-button-padding-inline)*2);--wp-ui-button-icon-margin:calc((var(--wpds-dimension-size-2xs, 16px) - var(--wpds-dimension-size-sm, 24px))/2);--wp-ui-button-border-color:var(--wp-ui-button-background-color);--wp-ui-button-border-color-active:var(--wp-ui-button-background-color-active);--wp-ui-button-border-color-disabled:var(--wp-ui-button-background-color-disabled);--_gcd-button-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-button-font-size:var(--wp-ui-button-font-size);--_gcd-button-font-weight:var(--wp-ui-button-font-weight);align-items:center;aspect-ratio:var(--wp-ui-button-aspect-ratio);background-clip:border-box;background-color:var(--wp-ui-button-background-color);border-color:var(--wp-ui-button-border-color);border-radius:var(--wpds-border-radius-sm,2px);border-style:solid;border-width:1px;color:var(--wp-ui-button-foreground-color);display:inline-flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wp-ui-button-font-size);font-weight:var(--wp-ui-button-font-weight);gap:var(--wpds-dimension-gap-sm,8px);justify-content:center;line-height:var(--wpds-typography-line-height-sm,20px);max-width:100%;min-height:var(--wp-ui-button-height);min-width:var(--wp-ui-button-min-width);overflow-wrap:anywhere;padding-block:var(--wp-ui-button-padding-block);padding-inline:var(--wp-ui-button-padding-inline);position:relative;text-align:center;text-decoration:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}@media not (prefers-reduced-motion){transition:color .1s ease-out;*{transition:opacity .1s ease-out}}&[href]{cursor:pointer}[href]{color:inherit;text-decoration:inherit}&:not([data-disabled]):is(:hover,:active,:focus){background-color:var(--wp-ui-button-background-color-active);border-color:var(--wp-ui-button-border-color-active);color:var(--wp-ui-button-foreground-color-active)}&[data-disabled]:not(._914b42f315c0e580__is-loading){background-color:var(--wp-ui-button-background-color-disabled);border-color:var(--wp-ui-button-border-color-disabled);color:var(--wp-ui-button-foreground-color-disabled);@media (forced-colors:active){border-bottom-color:GrayText;border-left-color:GrayText;border-right-color:GrayText;border-top-color:GrayText;color:GrayText}}}._908205475f9f2a92__is-small{--wp-ui-button-padding-block:0px;--wp-ui-button-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-button-height:var(--wpds-dimension-size-sm,24px)}._9f6fc6553aeb36fe__icon{margin:var(--wp-ui-button-icon-margin)}.dd460c965226cc77__is-brand{&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 85%,#000));--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-brand-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000)}}.e722a8f96726aa99__is-neutral{&.ad0619a3217c6a5b__is-minimal[aria-pressed=true],&.b50b3358c5fb4d0b__is-solid{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-strong,#2d2d2d);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-strong-active,#1e1e1e);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral-strong,#f0f0f0);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-strong-active,#f0f0f0);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-strong-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d);--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-neutral-active,#6e6e6e);--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-neutral-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000)}}.abbb272e2ce49bd6__is-unstyled{background:none;border:none;min-width:unset}.cf59cf1b69629838__is-compact{--wp-ui-button-height:var(--wpds-dimension-size-md,32px)}._914b42f315c0e580__is-loading:not(.abbb272e2ce49bd6__is-unstyled){color:transparent;&:not([data-disabled]):is(:hover,:active,:focus){color:transparent}@media (forced-colors:active){color:ButtonFace}>:not(._1322fe375ff021a3__spinner){opacity:0}}}@layer compositions{._1322fe375ff021a3__spinner{color:var(--wp-ui-button-foreground-color);height:var(--wp-ui-button-font-size);inset:0;margin:auto;pointer-events:none;position:absolute;width:var(--wp-ui-button-font-size);@media (prefers-reduced-motion){>*{animation:none}}@media (forced-colors:active){>*{stroke:ButtonText}}}}}');
+}
+var style_default3 = { "button": "_97b0fc33c028be1a__button", "is-unstyled": "abbb272e2ce49bd6__is-unstyled", "is-loading": "_914b42f315c0e580__is-loading", "is-small": "_908205475f9f2a92__is-small", "icon": "_9f6fc6553aeb36fe__icon", "is-brand": "dd460c965226cc77__is-brand", "is-outline": "_62d5a778b7b258ee__is-outline", "is-minimal": "ad0619a3217c6a5b__is-minimal", "is-neutral": "e722a8f96726aa99__is-neutral", "is-solid": "b50b3358c5fb4d0b__is-solid", "is-compact": "cf59cf1b69629838__is-compact", "spinner": "_1322fe375ff021a3__spinner" };
+if (typeof process === "undefined" || true) {
   registerStyle3("10f3806643", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._336cd3e4e743482f__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
 }
 var resets_default = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
 if (typeof process === "undefined" || true) {
-  registerStyle3("19fcc06039", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{--_wp-ui-elevation-sm:0 1px 2px rgba(0,0,0,.05),0 2px 3px rgba(0,0,0,.04),0 6px 6px rgba(0,0,0,.03),0 8px 8px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-sm);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
+  registerStyle3("7c3267f794", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{.af79fb116edb0dd7__outset-ring--focus:focus,.dfcfdc28396e5d98__outset-ring--focus-visible:focus-visible,.e5cd9ee879f6403a__outset-ring--focus-within:focus-within{--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}._3c9f5ee9fc9c136d__outset-ring--focus-within-except-active:focus-within,.abc777e9713fa711__outset-ring--focus-except-active:focus{outline:none}._3c9f5ee9fc9c136d__outset-ring--focus-within-except-active:focus-within:not(:has(:active)),.abc777e9713fa711__outset-ring--focus-except-active:focus:not(:active){--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}}}");
 }
-var style_default2 = { "positioner": "_480b748dd3510e64__positioner", "popup": "_50096b232db7709d__popup" };
-var Positioner = (0, import_element18.forwardRef)(
-  function TooltipPositioner3({ align = "center", className, side = "top", sideOffset = 4, ...props }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-      index_parts_exports3.Positioner,
+var focus_module_default = { "outset-ring--focus": "af79fb116edb0dd7__outset-ring--focus", "outset-ring--focus-visible": "dfcfdc28396e5d98__outset-ring--focus-visible", "outset-ring--focus-within": "e5cd9ee879f6403a__outset-ring--focus-within", "outset-ring--focus-except-active": "abc777e9713fa711__outset-ring--focus-except-active", "outset-ring--focus-within-except-active": "_3c9f5ee9fc9c136d__outset-ring--focus-within-except-active" };
+if (typeof process === "undefined" || true) {
+  registerStyle3("abb19c3171", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}.c59a0ebebd71fa4a__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._46b5cb0c8e24e8c9__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._400bf7ee0c6061a9__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
+}
+var global_css_defense_default2 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li", "span": "_400bf7ee0c6061a9__span" };
+var Button3 = (0, import_element20.forwardRef)(
+  function UnforwardedButton({
+    tone = "brand",
+    variant = "solid",
+    size: size4 = "default",
+    className,
+    focusableWhenDisabled = true,
+    disabled: disabled2,
+    loading,
+    loadingAnnouncement = (0, import_i18n.__)("Loading"),
+    children,
+    ...props
+  }, ref) {
+    const mergedClassName = clsx_default(
+      global_css_defense_default2.button,
+      resets_default["box-sizing"],
+      focus_module_default["outset-ring--focus-except-active"],
+      variant !== "unstyled" && style_default3.button,
+      style_default3[`is-${tone}`],
+      style_default3[`is-${variant}`],
+      style_default3[`is-${size4}`],
+      loading && style_default3["is-loading"],
+      className
+    );
+    (0, import_element20.useEffect)(() => {
+      if (loading && loadingAnnouncement) {
+        speak(loadingAnnouncement);
+      }
+    }, [loading, loadingAnnouncement]);
+    return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
+      Button,
       {
         ref,
-        align,
-        side,
-        sideOffset,
+        className: mergedClassName,
+        focusableWhenDisabled,
+        disabled: disabled2 ?? loading,
         ...props,
-        className: clsx_default(
-          resets_default["box-sizing"],
-          style_default2.positioner,
-          className
-        )
+        children: [
+          children,
+          loading && variant !== "unstyled" && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(Spinner, { className: style_default3.spinner })
+        ]
       }
     );
   }
 );
 
-// packages/ui/build-module/utils/render-slot-with-children.mjs
-var import_element19 = __toESM(require_element(), 1);
-function renderSlotWithChildren(slot, defaultSlot, children) {
-  return (0, import_element19.cloneElement)(
-    slot ?? defaultSlot,
-    { children }
-  );
-}
-
-// packages/ui/build-module/utils/theme-provider.mjs
-var theme = __toESM(require_theme(), 1);
-
-// packages/ui/build-module/lock-unlock.mjs
-var import_private_apis = __toESM(require_private_apis(), 1);
-var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
-  "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
-  "@wordpress/ui"
-);
-
-// packages/ui/build-module/utils/theme-provider.mjs
-function getThemeProvider() {
-  const themePackage = theme;
-  if (themePackage.ThemeProvider) {
-    return themePackage.ThemeProvider;
-  }
-  if (!themePackage.privateApis) {
-    throw new Error(
-      "@wordpress/ui: @wordpress/theme must expose `ThemeProvider` or `privateApis.ThemeProvider`."
-    );
-  }
-  return unlock(
-    themePackage.privateApis
-  ).ThemeProvider;
-}
-var ThemeProvider = getThemeProvider();
-
-// packages/ui/build-module/tooltip/popup.mjs
-var import_jsx_runtime38 = __toESM(require_jsx_runtime(), 1);
+// packages/ui/build-module/button/icon.mjs
+var import_element21 = __toESM(require_element(), 1);
+var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE4 = "data-wp-hash";
 function getRuntime4() {
   const globalScope = globalThis;
@@ -16468,87 +16511,50 @@ function registerStyle4(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle4("19fcc06039", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{--_wp-ui-elevation-sm:0 1px 2px rgba(0,0,0,.05),0 2px 3px rgba(0,0,0,.04),0 6px 6px rgba(0,0,0,.03),0 8px 8px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-sm);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
+  registerStyle4("7d9151d891", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._97b0fc33c028be1a__button,.abbb272e2ce49bd6__is-unstyled{appearance:none;padding:0}._97b0fc33c028be1a__button{--wp-ui-button-font-weight:var(--wpds-typography-font-weight-emphasis,600);--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-strong,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand-strong,#fff);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-strong-disabled,#8d8d8d);--wp-ui-button-padding-block:var(--wpds-dimension-padding-xs,4px);--wp-ui-button-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-button-height:var(--wpds-dimension-size-lg,40px);--wp-ui-button-aspect-ratio:auto;--wp-ui-button-font-size:var(--wpds-typography-font-size-md,13px);--wp-ui-button-min-width:calc(4ch + var(--wp-ui-button-padding-inline)*2);--wp-ui-button-icon-margin:calc((var(--wpds-dimension-size-2xs, 16px) - var(--wpds-dimension-size-sm, 24px))/2);--wp-ui-button-border-color:var(--wp-ui-button-background-color);--wp-ui-button-border-color-active:var(--wp-ui-button-background-color-active);--wp-ui-button-border-color-disabled:var(--wp-ui-button-background-color-disabled);--_gcd-button-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-button-font-size:var(--wp-ui-button-font-size);--_gcd-button-font-weight:var(--wp-ui-button-font-weight);align-items:center;aspect-ratio:var(--wp-ui-button-aspect-ratio);background-clip:border-box;background-color:var(--wp-ui-button-background-color);border-color:var(--wp-ui-button-border-color);border-radius:var(--wpds-border-radius-sm,2px);border-style:solid;border-width:1px;color:var(--wp-ui-button-foreground-color);display:inline-flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wp-ui-button-font-size);font-weight:var(--wp-ui-button-font-weight);gap:var(--wpds-dimension-gap-sm,8px);justify-content:center;line-height:var(--wpds-typography-line-height-sm,20px);max-width:100%;min-height:var(--wp-ui-button-height);min-width:var(--wp-ui-button-min-width);overflow-wrap:anywhere;padding-block:var(--wp-ui-button-padding-block);padding-inline:var(--wp-ui-button-padding-inline);position:relative;text-align:center;text-decoration:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}@media not (prefers-reduced-motion){transition:color .1s ease-out;*{transition:opacity .1s ease-out}}&[href]{cursor:pointer}[href]{color:inherit;text-decoration:inherit}&:not([data-disabled]):is(:hover,:active,:focus){background-color:var(--wp-ui-button-background-color-active);border-color:var(--wp-ui-button-border-color-active);color:var(--wp-ui-button-foreground-color-active)}&[data-disabled]:not(._914b42f315c0e580__is-loading){background-color:var(--wp-ui-button-background-color-disabled);border-color:var(--wp-ui-button-border-color-disabled);color:var(--wp-ui-button-foreground-color-disabled);@media (forced-colors:active){border-bottom-color:GrayText;border-left-color:GrayText;border-right-color:GrayText;border-top-color:GrayText;color:GrayText}}}._908205475f9f2a92__is-small{--wp-ui-button-padding-block:0px;--wp-ui-button-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-button-height:var(--wpds-dimension-size-sm,24px)}._9f6fc6553aeb36fe__icon{margin:var(--wp-ui-button-icon-margin)}.dd460c965226cc77__is-brand{&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 85%,#000));--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-brand-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000)}}.e722a8f96726aa99__is-neutral{&.ad0619a3217c6a5b__is-minimal[aria-pressed=true],&.b50b3358c5fb4d0b__is-solid{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-strong,#2d2d2d);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-strong-active,#1e1e1e);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral-strong,#f0f0f0);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-strong-active,#f0f0f0);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-strong-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d);--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-neutral-active,#6e6e6e);--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-neutral-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000)}}.abbb272e2ce49bd6__is-unstyled{background:none;border:none;min-width:unset}.cf59cf1b69629838__is-compact{--wp-ui-button-height:var(--wpds-dimension-size-md,32px)}._914b42f315c0e580__is-loading:not(.abbb272e2ce49bd6__is-unstyled){color:transparent;&:not([data-disabled]):is(:hover,:active,:focus){color:transparent}@media (forced-colors:active){color:ButtonFace}>:not(._1322fe375ff021a3__spinner){opacity:0}}}@layer compositions{._1322fe375ff021a3__spinner{color:var(--wp-ui-button-foreground-color);height:var(--wp-ui-button-font-size);inset:0;margin:auto;pointer-events:none;position:absolute;width:var(--wp-ui-button-font-size);@media (prefers-reduced-motion){>*{animation:none}}@media (forced-colors:active){>*{stroke:ButtonText}}}}}');
 }
-var style_default3 = { "positioner": "_480b748dd3510e64__positioner", "popup": "_50096b232db7709d__popup" };
-var POPUP_COLOR = { background: "#1e1e1e" };
-var Popup = (0, import_element20.forwardRef)(function TooltipPopup3({ portal, positioner, children, className, ...props }, ref) {
-  const popupContent = /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(ThemeProvider, { color: POPUP_COLOR, children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
-    index_parts_exports3.Popup,
-    {
-      ref,
-      className: clsx_default(style_default3.popup, className),
-      ...props,
-      children
-    }
-  ) });
-  const positionedPopup = renderSlotWithChildren(
-    positioner,
-    /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(Positioner, {}),
-    popupContent
-  );
-  return renderSlotWithChildren(portal, /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(Portal, {}), positionedPopup);
-});
-
-// packages/ui/build-module/tooltip/trigger.mjs
-var import_element21 = __toESM(require_element(), 1);
-var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
-var Trigger = (0, import_element21.forwardRef)(
-  function TooltipTrigger3(props, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(index_parts_exports3.Trigger, { ref, ...props });
-  }
-);
-
-// packages/ui/build-module/utils/direction-provider.mjs
-var import_i18n = __toESM(require_i18n(), 1);
-var import_jsx_runtime40 = __toESM(require_jsx_runtime(), 1);
-function DirectionProvider3({ children }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(DirectionProvider, { direction: (0, import_i18n.isRTL)() ? "rtl" : "ltr", children });
-}
-
-// packages/ui/build-module/tooltip/root.mjs
-var import_jsx_runtime41 = __toESM(require_jsx_runtime(), 1);
-function Root(props) {
-  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(DirectionProvider3, { children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(index_parts_exports3.Root, { ...props }) });
-}
-
-// packages/icons/build-module/library/close-small.mjs
-var import_primitives = __toESM(require_primitives(), 1);
-var import_jsx_runtime42 = __toESM(require_jsx_runtime(), 1);
-var close_small_default = /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_primitives.Path, { d: "M7.75 16.25L16.25 7.75M16.25 16.25L7.75 7.75" }) });
-
-// packages/icons/build-module/library/search.mjs
-var import_primitives2 = __toESM(require_primitives(), 1);
-var import_jsx_runtime43 = __toESM(require_jsx_runtime(), 1);
-var search_default = /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_primitives2.Path, { d: "M5 19L9.28769 14.7123M18.25 11C18.25 13.8995 15.8995 16.25 13 16.25C10.1005 16.25 7.75 13.8995 7.75 11C7.75 8.10051 10.1005 5.75 13 5.75C15.8995 5.75 18.25 8.10051 18.25 11Z" }) });
-
-// packages/ui/build-module/icon/icon.mjs
-var import_element22 = __toESM(require_element(), 1);
-var import_primitives3 = __toESM(require_primitives(), 1);
-var import_jsx_runtime44 = __toESM(require_jsx_runtime(), 1);
-var Icon = (0, import_element22.forwardRef)(
-  function UnforwardedIcon({ icon, size: size4 = 24, style, ...restProps }, ref) {
-    const mergedStyle = icon.props.style || style ? { ...icon.props.style, ...style } : void 0;
-    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
-      import_primitives3.SVG,
+var style_default4 = { "button": "_97b0fc33c028be1a__button", "is-unstyled": "abbb272e2ce49bd6__is-unstyled", "is-loading": "_914b42f315c0e580__is-loading", "is-small": "_908205475f9f2a92__is-small", "icon": "_9f6fc6553aeb36fe__icon", "is-brand": "dd460c965226cc77__is-brand", "is-outline": "_62d5a778b7b258ee__is-outline", "is-minimal": "ad0619a3217c6a5b__is-minimal", "is-neutral": "e722a8f96726aa99__is-neutral", "is-solid": "b50b3358c5fb4d0b__is-solid", "is-compact": "cf59cf1b69629838__is-compact", "spinner": "_1322fe375ff021a3__spinner" };
+var ButtonIcon = (0, import_element21.forwardRef)(
+  function UnforwardedButtonIcon({ className, icon, ...props }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+      Icon,
       {
         ref,
-        ...icon.props,
-        ...restProps,
-        ...mergedStyle ? { style: mergedStyle } : {},
-        width: size4,
-        height: size4
+        icon,
+        className: clsx_default(style_default4.icon, className),
+        size: 24,
+        ...props
       }
     );
   }
 );
 
+// packages/ui/build-module/button/index.mjs
+ButtonIcon.displayName = "Button.Icon";
+var Button4 = Object.assign(Button3, {
+  /**
+   * An icon component specifically designed to work well when rendered inside
+   * a `Button` component.
+   */
+  Icon: ButtonIcon
+});
+
+// packages/icons/build-module/library/close-small.mjs
+var import_primitives2 = __toESM(require_primitives(), 1);
+var import_jsx_runtime40 = __toESM(require_jsx_runtime(), 1);
+var close_small_default = /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_primitives2.Path, { d: "M7.75 16.25L16.25 7.75M16.25 16.25L7.75 7.75" }) });
+
+// packages/icons/build-module/library/search.mjs
+var import_primitives3 = __toESM(require_primitives(), 1);
+var import_jsx_runtime41 = __toESM(require_jsx_runtime(), 1);
+var search_default = /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(import_primitives3.Path, { d: "M5 19L9.28769 14.7123M18.25 11C18.25 13.8995 15.8995 16.25 13 16.25C10.1005 16.25 7.75 13.8995 7.75 11C7.75 8.10051 10.1005 5.75 13 5.75C15.8995 5.75 18.25 8.10051 18.25 11Z" }) });
+
 // packages/ui/build-module/utils/keyboard-shortcut.mjs
-var import_element24 = __toESM(require_element(), 1);
+var import_element23 = __toESM(require_element(), 1);
 var import_i18n2 = __toESM(require_i18n(), 1);
 
 // packages/ui/build-module/visually-hidden/visually-hidden.mjs
-var import_element23 = __toESM(require_element(), 1);
+var import_element22 = __toESM(require_element(), 1);
 var STYLE_HASH_ATTRIBUTE5 = "data-wp-hash";
 function getRuntime5() {
   const globalScope = globalThis;
@@ -16632,14 +16638,14 @@ function registerStyle5(hash, css) {
 if (typeof process === "undefined" || true) {
   registerStyle5("15abcab4d0", ".f37b9e2e191ebd66__visually-hidden{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;overflow-wrap:normal;padding:0;position:absolute;width:1px;word-break:normal}");
 }
-var style_default4 = { "visually-hidden": "f37b9e2e191ebd66__visually-hidden" };
-var VisuallyHidden = (0, import_element23.forwardRef)(
+var style_default5 = { "visually-hidden": "f37b9e2e191ebd66__visually-hidden" };
+var VisuallyHidden = (0, import_element22.forwardRef)(
   function UnforwardedVisuallyHidden({ render, ...restProps }, ref) {
     const element = useRender({
       render,
       ref,
       props: mergeProps(
-        { className: style_default4["visually-hidden"] },
+        { className: style_default5["visually-hidden"] },
         restProps,
         {
           // @ts-expect-error Arbitrary data-* attributes aren't indexable on the typed div props. Kept hardcoded so consumers can't change or remove it.
@@ -16652,13 +16658,13 @@ var VisuallyHidden = (0, import_element23.forwardRef)(
 );
 
 // packages/ui/build-module/utils/keyboard-shortcut.mjs
-var import_jsx_runtime45 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime42 = __toESM(require_jsx_runtime(), 1);
 function useKeyboardShortcutProps({
   "aria-describedby": ariaDescribedBy,
   "aria-keyshortcuts": ariaKeyShortcuts,
   shortcut
 }) {
-  const generatedDescriptionId = (0, import_element24.useId)();
+  const generatedDescriptionId = (0, import_element23.useId)();
   const descriptionId = shortcut ? generatedDescriptionId : void 0;
   const describedBy = [ariaDescribedBy, descriptionId].filter(Boolean).join(" ");
   return {
@@ -16669,13 +16675,13 @@ function useKeyboardShortcutProps({
     }
   };
 }
-var KeyboardShortcutDescription = (0, import_element24.forwardRef)(function UnforwardedKeyboardShortcutDescription({ descriptionId, shortcut }, ref) {
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+var KeyboardShortcutDescription = (0, import_element23.forwardRef)(function UnforwardedKeyboardShortcutDescription({ descriptionId, shortcut }, ref) {
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
     VisuallyHidden,
     {
       id: descriptionId,
       "aria-hidden": "true",
-      render: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("span", { ref }),
+      render: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("span", { ref }),
       children: (0, import_i18n2.sprintf)(
         /* translators: %s: keyboard shortcut. */
         (0, import_i18n2.__)("Keyboard shortcut: %s"),
@@ -16684,19 +16690,19 @@ var KeyboardShortcutDescription = (0, import_element24.forwardRef)(function Unfo
     }
   );
 });
-var KeyboardShortcutDisplay = (0, import_element24.forwardRef)(function UnforwardedKeyboardShortcutDisplay({ className, shortcut }, ref) {
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("span", { ref, "aria-hidden": "true", className, dir: "ltr", children: shortcut.displayShortcut });
+var KeyboardShortcutDisplay = (0, import_element23.forwardRef)(function UnforwardedKeyboardShortcutDisplay({ className, shortcut }, ref) {
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("span", { ref, "aria-hidden": "true", className, dir: "ltr", children: shortcut.displayShortcut });
 });
 
 // packages/ui/build-module/utils/item-popup/item-content.mjs
-var import_element25 = __toESM(require_element(), 1);
+var import_element24 = __toESM(require_element(), 1);
 var VALIDATION_ENABLED = true;
 function parseItemContent(children, { Label, Description, validationMessage }) {
-  const childArray = import_element25.Children.toArray(children);
+  const childArray = import_element24.Children.toArray(children);
   const [label, ...descriptions] = childArray;
-  const hasLabel = (0, import_element25.isValidElement)(label) && label.type === Label;
+  const hasLabel = (0, import_element24.isValidElement)(label) && label.type === Label;
   const descriptionElements = descriptions.filter(
-    (description) => (0, import_element25.isValidElement)(description) && description.type === Description
+    (description) => (0, import_element24.isValidElement)(description) && description.type === Description
   );
   if (VALIDATION_ENABLED && (!hasLabel || descriptionElements.length !== descriptions.length)) {
     throw new Error(validationMessage);
@@ -16714,8 +16720,8 @@ function useItemContent(children, components, {
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy
 } = {}) {
-  const generatedLabelId = (0, import_element25.useId)();
-  const generatedDescriptionId = (0, import_element25.useId)();
+  const generatedLabelId = (0, import_element24.useId)();
+  const generatedDescriptionId = (0, import_element24.useId)();
   const { descriptionIds, hasLabel, labelId } = parseItemContent(
     children,
     components
@@ -16732,12 +16738,12 @@ function useItemContent(children, components, {
   ).join(" ");
   let descriptionIndex = 0;
   const { Label, Description, descriptionValidationToken } = components;
-  const contentChildren = import_element25.Children.map(children, (child) => {
-    if (!(0, import_element25.isValidElement)(child)) {
+  const contentChildren = import_element24.Children.map(children, (child) => {
+    if (!(0, import_element24.isValidElement)(child)) {
       return child;
     }
     if (child.type === Label) {
-      return child.props.id === resolvedLabelId ? child : (0, import_element25.cloneElement)(child, { id: resolvedLabelId });
+      return child.props.id === resolvedLabelId ? child : (0, import_element24.cloneElement)(child, { id: resolvedLabelId });
     }
     if (child.type !== Description) {
       return child;
@@ -16746,7 +16752,7 @@ function useItemContent(children, components, {
     if (!descriptionValidationToken && child.props.id === descriptionId) {
       return child;
     }
-    return (0, import_element25.cloneElement)(child, {
+    return (0, import_element24.cloneElement)(child, {
       id: descriptionId,
       ...descriptionValidationToken && {
         validationToken: descriptionValidationToken
@@ -16765,18 +16771,16 @@ function useItemContent(children, components, {
   };
 }
 
-// packages/ui/build-module/form/primitives/constants.mjs
-var ITEM_POPUP_POSITIONER_PROPS = {
-  align: "start",
-  sideOffset: 8,
-  collisionPadding: 12
-};
+// packages/ui/build-module/utils/render-slot-with-children.mjs
+var import_element25 = __toESM(require_element(), 1);
+function renderSlotWithChildren(slot, defaultSlot, children) {
+  return (0, import_element25.cloneElement)(
+    slot ?? defaultSlot,
+    { children }
+  );
+}
 
-// packages/ui/build-module/button/button.mjs
-var import_element26 = __toESM(require_element(), 1);
-var import_i18n3 = __toESM(require_i18n(), 1);
-var import_jsx_runtime46 = __toESM(require_jsx_runtime(), 1);
-import { speak } from "@wordpress/a11y";
+// packages/ui/build-module/utils/wp-compat-overlay-slot.mjs
 var STYLE_HASH_ATTRIBUTE6 = "data-wp-hash";
 function getRuntime6() {
   const globalScope = globalThis;
@@ -16858,67 +16862,100 @@ function registerStyle6(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle6("effc4e3032", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._97b0fc33c028be1a__button,.abbb272e2ce49bd6__is-unstyled{appearance:none;padding:0}._97b0fc33c028be1a__button{--wp-ui-button-font-weight:var(--wpds-typography-font-weight-emphasis,600);--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-strong,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand-strong,#fff);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-strong-disabled,#8d8d8d);--wp-ui-button-padding-block:var(--wpds-dimension-padding-xs,4px);--wp-ui-button-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-button-height:var(--wpds-dimension-size-lg,40px);--wp-ui-button-aspect-ratio:auto;--wp-ui-button-font-size:var(--wpds-typography-font-size-md,13px);--wp-ui-button-min-width:calc(4ch + var(--wp-ui-button-padding-inline)*2);--wp-ui-button-icon-margin:calc((var(--wpds-dimension-size-2xs, 16px) - var(--wpds-dimension-size-sm, 24px))/2);--wp-ui-button-border-color:var(--wp-ui-button-background-color);--wp-ui-button-border-color-active:var(--wp-ui-button-background-color-active);--wp-ui-button-border-color-disabled:var(--wp-ui-button-background-color-disabled);--_gcd-button-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-button-font-size:var(--wp-ui-button-font-size);--_gcd-button-font-weight:var(--wp-ui-button-font-weight);align-items:center;aspect-ratio:var(--wp-ui-button-aspect-ratio);background-clip:border-box;background-color:var(--wp-ui-button-background-color);border-color:var(--wp-ui-button-border-color);border-radius:var(--wpds-border-radius-sm,2px);border-style:solid;border-width:1px;color:var(--wp-ui-button-foreground-color);display:inline-flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wp-ui-button-font-size);font-weight:var(--wp-ui-button-font-weight);gap:var(--wpds-dimension-gap-sm,8px);justify-content:center;line-height:var(--wpds-typography-line-height-sm,20px);max-width:100%;min-height:var(--wp-ui-button-height);min-width:var(--wp-ui-button-min-width);overflow-wrap:anywhere;padding-block:var(--wp-ui-button-padding-block);padding-inline:var(--wp-ui-button-padding-inline);position:relative;text-align:center;text-decoration:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}@media not (prefers-reduced-motion){transition:color .1s ease-out;*{transition:opacity .1s ease-out}}&[href]{cursor:pointer}[href]{color:inherit;text-decoration:inherit}&:not([data-disabled]):is(:hover,:active,:focus){background-color:var(--wp-ui-button-background-color-active);border-color:var(--wp-ui-button-border-color-active);color:var(--wp-ui-button-foreground-color-active)}&[data-disabled]:not(._914b42f315c0e580__is-loading){background-color:var(--wp-ui-button-background-color-disabled);border-color:var(--wp-ui-button-border-color-disabled);color:var(--wp-ui-button-foreground-color-disabled);@media (forced-colors:active){border-bottom-color:GrayText;border-left-color:GrayText;border-right-color:GrayText;border-top-color:GrayText;color:GrayText}}&:before{aspect-ratio:1;border:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid;border-block-end-color:transparent;border-block-start-color:var(--wp-ui-button-foreground-color);border-inline-end-color:var(--wp-ui-button-foreground-color);border-inline-start-color:transparent;border-radius:50%;box-sizing:border-box;content:"";display:block;height:var(--wp-ui-button-font-size);left:50%;opacity:0;pointer-events:none;position:absolute;top:50%;transform:translate(-50%,-50%);@media not (prefers-reduced-motion){transition:opacity .1s ease-out}@media (forced-colors:active){border-block-end-style:none;border-bottom-color:ButtonText;border-inline-start-style:none;border-left-color:ButtonText;border-right-color:ButtonText;border-top-color:ButtonText}}}._908205475f9f2a92__is-small{--wp-ui-button-padding-block:0px;--wp-ui-button-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-button-height:var(--wpds-dimension-size-sm,24px)}._9f6fc6553aeb36fe__icon{margin:var(--wp-ui-button-icon-margin)}.dd460c965226cc77__is-brand{&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 85%,#000));--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-brand-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000)}}.e722a8f96726aa99__is-neutral{&.ad0619a3217c6a5b__is-minimal[aria-pressed=true],&.b50b3358c5fb4d0b__is-solid{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-strong,#2d2d2d);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-strong-active,#1e1e1e);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral-strong,#f0f0f0);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-strong-active,#f0f0f0);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-strong-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d);--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-neutral-active,#6e6e6e);--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-neutral-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000)}}.abbb272e2ce49bd6__is-unstyled{background:none;border:none;min-width:unset}.cf59cf1b69629838__is-compact{--wp-ui-button-height:var(--wpds-dimension-size-md,32px)}._914b42f315c0e580__is-loading:not(.abbb272e2ce49bd6__is-unstyled){color:transparent;&:not([data-disabled]):is(:hover,:active,:focus){color:transparent}@media (forced-colors:active){color:ButtonFace}*{opacity:0}&:before{opacity:1;transition-delay:.05s;@media not (prefers-reduced-motion){animation:_5a1d53da6f830c8d__loading-animation 1s linear infinite}}}}@keyframes _5a1d53da6f830c8d__loading-animation{0%{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(1turn)}}}');
+  registerStyle6("be37f31c1e", "._11fc52b637ff8a7e__slot{inset:0;isolation:isolate;pointer-events:none;position:fixed;z-index:1000000003}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._11fc52b637ff8a7e__slot>*{pointer-events:auto}}}");
 }
-var style_default5 = { "button": "_97b0fc33c028be1a__button", "is-unstyled": "abbb272e2ce49bd6__is-unstyled", "is-loading": "_914b42f315c0e580__is-loading", "is-small": "_908205475f9f2a92__is-small", "icon": "_9f6fc6553aeb36fe__icon", "is-brand": "dd460c965226cc77__is-brand", "is-outline": "_62d5a778b7b258ee__is-outline", "is-minimal": "ad0619a3217c6a5b__is-minimal", "is-neutral": "e722a8f96726aa99__is-neutral", "is-solid": "b50b3358c5fb4d0b__is-solid", "is-compact": "cf59cf1b69629838__is-compact", "loading-animation": "_5a1d53da6f830c8d__loading-animation" };
-if (typeof process === "undefined" || true) {
-  registerStyle6("10f3806643", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._336cd3e4e743482f__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
+var wp_compat_overlay_slot_default = { "slot": "_11fc52b637ff8a7e__slot" };
+var WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE = "data-wp-compat-overlay-slot";
+function resolveOwnerDocument() {
+  return typeof document === "undefined" ? null : document;
 }
-var resets_default2 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
-if (typeof process === "undefined" || true) {
-  registerStyle6("7c3267f794", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{.af79fb116edb0dd7__outset-ring--focus:focus,.dfcfdc28396e5d98__outset-ring--focus-visible:focus-visible,.e5cd9ee879f6403a__outset-ring--focus-within:focus-within{--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}._3c9f5ee9fc9c136d__outset-ring--focus-within-except-active:focus-within,.abc777e9713fa711__outset-ring--focus-except-active:focus{outline:none}._3c9f5ee9fc9c136d__outset-ring--focus-within-except-active:focus-within:not(:has(:active)),.abc777e9713fa711__outset-ring--focus-except-active:focus:not(:active){--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}}}");
+function isInWordPressEnvironment() {
+  let topWp;
+  try {
+    topWp = window.top?.wp;
+  } catch {
+  }
+  const wp = topWp ?? window.wp;
+  return typeof wp?.components === "object" && wp.components !== null;
 }
-var focus_module_default = { "outset-ring--focus": "af79fb116edb0dd7__outset-ring--focus", "outset-ring--focus-visible": "dfcfdc28396e5d98__outset-ring--focus-visible", "outset-ring--focus-within": "e5cd9ee879f6403a__outset-ring--focus-within", "outset-ring--focus-except-active": "abc777e9713fa711__outset-ring--focus-except-active", "outset-ring--focus-within-except-active": "_3c9f5ee9fc9c136d__outset-ring--focus-within-except-active" };
-if (typeof process === "undefined" || true) {
-  registerStyle6("e8e31009f5", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}.c59a0ebebd71fa4a__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._46b5cb0c8e24e8c9__li{margin:var(--_gcd-li-margin,0)}");
+var cachedSlot = null;
+function ensureSlotIsAccessible(element) {
+  element.setAttribute("aria-hidden", "false");
+  return element;
 }
-var global_css_defense_default2 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li" };
-var Button3 = (0, import_element26.forwardRef)(
-  function UnforwardedButton({
-    tone = "brand",
-    variant = "solid",
-    size: size4 = "default",
-    className,
-    focusableWhenDisabled = true,
-    disabled: disabled2,
-    loading,
-    loadingAnnouncement = (0, import_i18n3.__)("Loading"),
-    children,
-    ...props
-  }, ref) {
-    const mergedClassName = clsx_default(
-      global_css_defense_default2.button,
-      resets_default2["box-sizing"],
-      focus_module_default["outset-ring--focus-except-active"],
-      variant !== "unstyled" && style_default5.button,
-      style_default5[`is-${tone}`],
-      style_default5[`is-${variant}`],
-      style_default5[`is-${size4}`],
-      loading && style_default5["is-loading"],
-      className
-    );
-    (0, import_element26.useEffect)(() => {
-      if (loading && loadingAnnouncement) {
-        speak(loadingAnnouncement);
-      }
-    }, [loading, loadingAnnouncement]);
-    return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
-      Button,
+function createSlot(ownerDocument2) {
+  const element = ownerDocument2.createElement("div");
+  element.setAttribute(WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE, "");
+  if (wp_compat_overlay_slot_default.slot) {
+    element.classList.add(wp_compat_overlay_slot_default.slot);
+  }
+  ownerDocument2.body.appendChild(element);
+  return element;
+}
+function getWpCompatOverlaySlot() {
+  if (typeof window === "undefined") {
+    return void 0;
+  }
+  if (!isInWordPressEnvironment() && window.__wpUiCompatOverlaySlotEnabled !== true) {
+    return void 0;
+  }
+  const ownerDocument2 = resolveOwnerDocument();
+  if (!ownerDocument2 || !ownerDocument2.body) {
+    return void 0;
+  }
+  if (cachedSlot && cachedSlot.ownerDocument === ownerDocument2 && cachedSlot.isConnected) {
+    return ensureSlotIsAccessible(cachedSlot);
+  }
+  const existing = ownerDocument2.querySelector(
+    `[${WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE}]`
+  );
+  if (existing instanceof HTMLDivElement) {
+    cachedSlot = ensureSlotIsAccessible(existing);
+    return cachedSlot;
+  }
+  if (cachedSlot?.isConnected) {
+    cachedSlot.remove();
+  }
+  cachedSlot = ensureSlotIsAccessible(createSlot(ownerDocument2));
+  return cachedSlot;
+}
+
+// packages/ui/build-module/form/primitives/constants.mjs
+var ITEM_POPUP_POSITIONER_PROPS = {
+  align: "start",
+  sideOffset: 8,
+  collisionPadding: 12
+};
+
+// packages/ui/build-module/utils/direction-provider.mjs
+var import_i18n3 = __toESM(require_i18n(), 1);
+var import_jsx_runtime43 = __toESM(require_jsx_runtime(), 1);
+function DirectionProvider3({ children }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(DirectionProvider, { direction: (0, import_i18n3.isRTL)() ? "rtl" : "ltr", children });
+}
+
+// packages/ui/build-module/tooltip/popup.mjs
+var import_element28 = __toESM(require_element(), 1);
+
+// packages/ui/build-module/tooltip/portal.mjs
+var import_element26 = __toESM(require_element(), 1);
+var import_jsx_runtime44 = __toESM(require_jsx_runtime(), 1);
+var Portal = (0, import_element26.forwardRef)(
+  function TooltipPortal3({ container, ...restProps }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+      index_parts_exports3.Portal,
       {
-        ref,
-        className: mergedClassName,
-        focusableWhenDisabled,
-        disabled: disabled2 ?? loading,
-        ...props,
-        children
+        container: container === void 0 ? getWpCompatOverlaySlot() : container,
+        ...restProps,
+        ref
       }
     );
   }
 );
 
-// packages/ui/build-module/button/icon.mjs
+// packages/ui/build-module/tooltip/positioner.mjs
 var import_element27 = __toESM(require_element(), 1);
-var import_jsx_runtime47 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime45 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE7 = "data-wp-hash";
 function getRuntime7() {
   const globalScope = globalThis;
@@ -17000,37 +17037,62 @@ function registerStyle7(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle7("effc4e3032", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._97b0fc33c028be1a__button,.abbb272e2ce49bd6__is-unstyled{appearance:none;padding:0}._97b0fc33c028be1a__button{--wp-ui-button-font-weight:var(--wpds-typography-font-weight-emphasis,600);--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-strong,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand-strong,#fff);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-strong-disabled,#8d8d8d);--wp-ui-button-padding-block:var(--wpds-dimension-padding-xs,4px);--wp-ui-button-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-button-height:var(--wpds-dimension-size-lg,40px);--wp-ui-button-aspect-ratio:auto;--wp-ui-button-font-size:var(--wpds-typography-font-size-md,13px);--wp-ui-button-min-width:calc(4ch + var(--wp-ui-button-padding-inline)*2);--wp-ui-button-icon-margin:calc((var(--wpds-dimension-size-2xs, 16px) - var(--wpds-dimension-size-sm, 24px))/2);--wp-ui-button-border-color:var(--wp-ui-button-background-color);--wp-ui-button-border-color-active:var(--wp-ui-button-background-color-active);--wp-ui-button-border-color-disabled:var(--wp-ui-button-background-color-disabled);--_gcd-button-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-button-font-size:var(--wp-ui-button-font-size);--_gcd-button-font-weight:var(--wp-ui-button-font-weight);align-items:center;aspect-ratio:var(--wp-ui-button-aspect-ratio);background-clip:border-box;background-color:var(--wp-ui-button-background-color);border-color:var(--wp-ui-button-border-color);border-radius:var(--wpds-border-radius-sm,2px);border-style:solid;border-width:1px;color:var(--wp-ui-button-foreground-color);display:inline-flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wp-ui-button-font-size);font-weight:var(--wp-ui-button-font-weight);gap:var(--wpds-dimension-gap-sm,8px);justify-content:center;line-height:var(--wpds-typography-line-height-sm,20px);max-width:100%;min-height:var(--wp-ui-button-height);min-width:var(--wp-ui-button-min-width);overflow-wrap:anywhere;padding-block:var(--wp-ui-button-padding-block);padding-inline:var(--wp-ui-button-padding-inline);position:relative;text-align:center;text-decoration:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}@media not (prefers-reduced-motion){transition:color .1s ease-out;*{transition:opacity .1s ease-out}}&[href]{cursor:pointer}[href]{color:inherit;text-decoration:inherit}&:not([data-disabled]):is(:hover,:active,:focus){background-color:var(--wp-ui-button-background-color-active);border-color:var(--wp-ui-button-border-color-active);color:var(--wp-ui-button-foreground-color-active)}&[data-disabled]:not(._914b42f315c0e580__is-loading){background-color:var(--wp-ui-button-background-color-disabled);border-color:var(--wp-ui-button-border-color-disabled);color:var(--wp-ui-button-foreground-color-disabled);@media (forced-colors:active){border-bottom-color:GrayText;border-left-color:GrayText;border-right-color:GrayText;border-top-color:GrayText;color:GrayText}}&:before{aspect-ratio:1;border:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid;border-block-end-color:transparent;border-block-start-color:var(--wp-ui-button-foreground-color);border-inline-end-color:var(--wp-ui-button-foreground-color);border-inline-start-color:transparent;border-radius:50%;box-sizing:border-box;content:"";display:block;height:var(--wp-ui-button-font-size);left:50%;opacity:0;pointer-events:none;position:absolute;top:50%;transform:translate(-50%,-50%);@media not (prefers-reduced-motion){transition:opacity .1s ease-out}@media (forced-colors:active){border-block-end-style:none;border-bottom-color:ButtonText;border-inline-start-style:none;border-left-color:ButtonText;border-right-color:ButtonText;border-top-color:ButtonText}}}._908205475f9f2a92__is-small{--wp-ui-button-padding-block:0px;--wp-ui-button-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-button-height:var(--wpds-dimension-size-sm,24px)}._9f6fc6553aeb36fe__icon{margin:var(--wp-ui-button-icon-margin)}.dd460c965226cc77__is-brand{&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 85%,#000));--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-brand-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000)}}.e722a8f96726aa99__is-neutral{&.ad0619a3217c6a5b__is-minimal[aria-pressed=true],&.b50b3358c5fb4d0b__is-solid{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-strong,#2d2d2d);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-strong-active,#1e1e1e);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral-strong,#f0f0f0);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-strong-active,#f0f0f0);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-strong-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d);--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-neutral-active,#6e6e6e);--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-neutral-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000)}}.abbb272e2ce49bd6__is-unstyled{background:none;border:none;min-width:unset}.cf59cf1b69629838__is-compact{--wp-ui-button-height:var(--wpds-dimension-size-md,32px)}._914b42f315c0e580__is-loading:not(.abbb272e2ce49bd6__is-unstyled){color:transparent;&:not([data-disabled]):is(:hover,:active,:focus){color:transparent}@media (forced-colors:active){color:ButtonFace}*{opacity:0}&:before{opacity:1;transition-delay:.05s;@media not (prefers-reduced-motion){animation:_5a1d53da6f830c8d__loading-animation 1s linear infinite}}}}@keyframes _5a1d53da6f830c8d__loading-animation{0%{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(1turn)}}}');
+  registerStyle7("10f3806643", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._336cd3e4e743482f__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
 }
-var style_default6 = { "button": "_97b0fc33c028be1a__button", "is-unstyled": "abbb272e2ce49bd6__is-unstyled", "is-loading": "_914b42f315c0e580__is-loading", "is-small": "_908205475f9f2a92__is-small", "icon": "_9f6fc6553aeb36fe__icon", "is-brand": "dd460c965226cc77__is-brand", "is-outline": "_62d5a778b7b258ee__is-outline", "is-minimal": "ad0619a3217c6a5b__is-minimal", "is-neutral": "e722a8f96726aa99__is-neutral", "is-solid": "b50b3358c5fb4d0b__is-solid", "is-compact": "cf59cf1b69629838__is-compact", "loading-animation": "_5a1d53da6f830c8d__loading-animation" };
-var ButtonIcon = (0, import_element27.forwardRef)(
-  function UnforwardedButtonIcon({ className, icon, ...props }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
-      Icon,
+var resets_default2 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
+if (typeof process === "undefined" || true) {
+  registerStyle7("19fcc06039", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{--_wp-ui-elevation-sm:0 1px 2px rgba(0,0,0,.05),0 2px 3px rgba(0,0,0,.04),0 6px 6px rgba(0,0,0,.03),0 8px 8px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-sm);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
+}
+var style_default6 = { "positioner": "_480b748dd3510e64__positioner", "popup": "_50096b232db7709d__popup" };
+var Positioner = (0, import_element27.forwardRef)(
+  function TooltipPositioner3({ align = "center", className, side = "top", sideOffset = 4, ...props }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+      index_parts_exports3.Positioner,
       {
         ref,
-        icon,
-        className: clsx_default(style_default6.icon, className),
-        size: 24,
-        ...props
+        align,
+        side,
+        sideOffset,
+        ...props,
+        className: clsx_default(
+          resets_default2["box-sizing"],
+          style_default6.positioner,
+          className
+        )
       }
     );
   }
 );
 
-// packages/ui/build-module/button/index.mjs
-ButtonIcon.displayName = "Button.Icon";
-var Button4 = Object.assign(Button3, {
-  /**
-   * An icon component specifically designed to work well when rendered inside
-   * a `Button` component.
-   */
-  Icon: ButtonIcon
-});
+// packages/ui/build-module/utils/theme-provider.mjs
+var theme = __toESM(require_theme(), 1);
 
-// packages/ui/build-module/icon-button/icon-button.mjs
-var import_element28 = __toESM(require_element(), 1);
-var import_jsx_runtime48 = __toESM(require_jsx_runtime(), 1);
+// packages/ui/build-module/lock-unlock.mjs
+var import_private_apis = __toESM(require_private_apis(), 1);
+var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
+  "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
+  "@wordpress/ui"
+);
+
+// packages/ui/build-module/utils/theme-provider.mjs
+function getThemeProvider() {
+  const themePackage = theme;
+  if (themePackage.ThemeProvider) {
+    return themePackage.ThemeProvider;
+  }
+  if (!themePackage.privateApis) {
+    throw new Error(
+      "@wordpress/ui: @wordpress/theme must expose `ThemeProvider` or `privateApis.ThemeProvider`."
+    );
+  }
+  return unlock(
+    themePackage.privateApis
+  ).ThemeProvider;
+}
+var ThemeProvider = getThemeProvider();
+
+// packages/ui/build-module/tooltip/popup.mjs
+var import_jsx_runtime46 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE8 = "data-wp-hash";
 function getRuntime8() {
   const globalScope = globalThis;
@@ -17112,144 +17174,46 @@ function registerStyle8(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle8("c5cdafb1bc", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer compositions{._28cfdc260e755391__icon-button{--wp-ui-button-aspect-ratio:1;--wp-ui-button-padding-inline:0px;--wp-ui-button-min-width:unset}.f1c70d719989a85a__icon{margin:-1px}}}");
+  registerStyle8("19fcc06039", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{--_wp-ui-elevation-sm:0 1px 2px rgba(0,0,0,.05),0 2px 3px rgba(0,0,0,.04),0 6px 6px rgba(0,0,0,.03),0 8px 8px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-sm);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
 }
-var style_default7 = { "icon-button": "_28cfdc260e755391__icon-button", "icon": "f1c70d719989a85a__icon" };
-var IconButton = (0, import_element28.forwardRef)(
-  function UnforwardedIconButton({
-    label,
-    className,
-    // Prevent accidental forwarding of `children`
-    children: _children,
-    disabled: disabled2,
-    focusableWhenDisabled = true,
-    icon,
-    size: size4,
-    shortcut,
+var style_default7 = { "positioner": "_480b748dd3510e64__positioner", "popup": "_50096b232db7709d__popup" };
+var POPUP_COLOR = { background: "#1e1e1e" };
+var Popup = (0, import_element28.forwardRef)(function TooltipPopup3({ portal, positioner, children, className, ...props }, ref) {
+  const popupContent = /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(ThemeProvider, { color: POPUP_COLOR, children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+    index_parts_exports3.Popup,
+    {
+      ref,
+      className: clsx_default(style_default7.popup, className),
+      ...props,
+      children
+    }
+  ) });
+  const positionedPopup = renderSlotWithChildren(
     positioner,
-    "aria-describedby": ariaDescribedBy,
-    "aria-keyshortcuts": ariaKeyShortcuts,
-    ...restProps
-  }, ref) {
-    const classes = clsx_default(style_default7["icon-button"], className);
-    const { descriptionId, targetProps } = useKeyboardShortcutProps({
-      "aria-describedby": ariaDescribedBy,
-      "aria-keyshortcuts": ariaKeyShortcuts,
-      shortcut
-    });
-    return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(Root, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(
-        Trigger,
-        {
-          ref,
-          ...targetProps,
-          disabled: disabled2 && !focusableWhenDisabled,
-          render: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
-            Button4,
-            {
-              ...restProps,
-              size: size4,
-              "aria-label": label,
-              disabled: disabled2,
-              focusableWhenDisabled
-            }
-          ),
-          className: classes,
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(Icon, { icon, size: 24, className: style_default7.icon }),
-            shortcut && descriptionId && /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
-              KeyboardShortcutDescription,
-              {
-                descriptionId,
-                shortcut
-              }
-            )
-          ]
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(Popup, { positioner, children: [
-        label,
-        shortcut && /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(import_jsx_runtime48.Fragment, { children: [
-          " ",
-          /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(KeyboardShortcutDisplay, { shortcut })
-        ] })
-      ] })
-    ] });
-  }
-);
-
-// packages/ui/build-module/form/primitives/autocomplete/index.mjs
-var autocomplete_exports = {};
-__export(autocomplete_exports, {
-  Clear: () => Clear,
-  Collection: () => Collection,
-  Empty: () => Empty,
-  Group: () => Group,
-  GroupLabel: () => GroupLabel,
-  Input: () => Input4,
-  InputGroup: () => InputGroup,
-  Item: () => Item,
-  ItemDescription: () => ForwardedItemDescription,
-  ItemLabel: () => ForwardedItemLabel,
-  List: () => List,
-  ListBody: () => ListBody,
-  Popup: () => Popup2,
-  Portal: () => Portal2,
-  Positioner: () => Positioner2,
-  Root: () => Root2,
-  Row: () => Row,
-  Separator: () => Separator,
-  Status: () => Status,
-  Value: () => Value,
-  useFilteredItems: () => useFilteredItems2
+    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(Positioner, {}),
+    popupContent
+  );
+  return renderSlotWithChildren(portal, /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(Portal, {}), positionedPopup);
 });
 
-// packages/ui/build-module/form/primitives/autocomplete/clear.mjs
+// packages/ui/build-module/tooltip/trigger.mjs
 var import_element29 = __toESM(require_element(), 1);
-var import_i18n4 = __toESM(require_i18n(), 1);
-var import_jsx_runtime49 = __toESM(require_jsx_runtime(), 1);
-var DEFAULT_RENDER = ({
-  "aria-label": ariaLabel = (0, import_i18n4.__)("Clear"),
-  ...props
-}, { disabled: disabled2 }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
-  IconButton,
-  {
-    icon: close_small_default,
-    focusableWhenDisabled: false,
-    disabled: disabled2,
-    "aria-hidden": disabled2 || void 0,
-    size: "small",
-    variant: "minimal",
-    tone: "neutral",
-    label: ariaLabel,
-    ...props
-  }
-);
-var Clear = (0, import_element29.forwardRef)(
-  function UnforwardedClear({ render = DEFAULT_RENDER, ...restProps }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
-      index_parts_exports.Clear,
-      {
-        ref,
-        render,
-        ...restProps
-      }
-    );
+var import_jsx_runtime47 = __toESM(require_jsx_runtime(), 1);
+var Trigger = (0, import_element29.forwardRef)(
+  function TooltipTrigger3(props, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(index_parts_exports3.Trigger, { ref, ...props });
   }
 );
 
-// packages/ui/build-module/form/primitives/autocomplete/collection.mjs
-var import_jsx_runtime50 = __toESM(require_jsx_runtime(), 1);
-function Collection({
-  children,
-  ...restProps
-}) {
-  return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(index_parts_exports.Collection, { ...restProps, children });
+// packages/ui/build-module/tooltip/root.mjs
+var import_jsx_runtime48 = __toESM(require_jsx_runtime(), 1);
+function Root(props) {
+  return /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(DirectionProvider3, { children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(index_parts_exports3.Root, { ...props }) });
 }
 
-// packages/ui/build-module/form/primitives/autocomplete/empty.mjs
+// packages/ui/build-module/icon-button/icon-button.mjs
 var import_element30 = __toESM(require_element(), 1);
-var import_jsx_runtime51 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime49 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE9 = "data-wp-hash";
 function getRuntime9() {
   const globalScope = globalThis;
@@ -17331,24 +17295,143 @@ function registerStyle9(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle9("2816bed933", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px)}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-md,32px);padding-inline:var(--wpds-dimension-padding-md,12px)}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-md, 12px));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline-end:var(--wp-ui-popup-item-padding-inline);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px));user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr)}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;gap:2px;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+  registerStyle9("c5cdafb1bc", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer compositions{._28cfdc260e755391__icon-button{--wp-ui-button-aspect-ratio:1;--wp-ui-button-padding-inline:0px;--wp-ui-button-min-width:unset}.f1c70d719989a85a__icon{margin:-1px}}}");
 }
-var item_popup_default = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "item-icon": "a3adcfd0b73ffd40__item-icon", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
-var Empty = (0, import_element30.forwardRef)(
-  function UnforwardedEmpty({ className, ...restProps }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
-      index_parts_exports.Empty,
+var style_default8 = { "icon-button": "_28cfdc260e755391__icon-button", "icon": "f1c70d719989a85a__icon" };
+var IconButton = (0, import_element30.forwardRef)(
+  function UnforwardedIconButton({
+    label,
+    className,
+    // Prevent accidental forwarding of `children`
+    children: _children,
+    disabled: disabled2,
+    focusableWhenDisabled = true,
+    icon,
+    size: size4,
+    shortcut,
+    positioner,
+    "aria-describedby": ariaDescribedBy,
+    "aria-keyshortcuts": ariaKeyShortcuts,
+    ...restProps
+  }, ref) {
+    const classes = clsx_default(style_default8["icon-button"], className);
+    const { descriptionId, targetProps } = useKeyboardShortcutProps({
+      "aria-describedby": ariaDescribedBy,
+      "aria-keyshortcuts": ariaKeyShortcuts,
+      shortcut
+    });
+    return /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(Root, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(
+        Trigger,
+        {
+          ref,
+          ...targetProps,
+          disabled: disabled2 && !focusableWhenDisabled,
+          render: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+            Button4,
+            {
+              ...restProps,
+              size: size4,
+              "aria-label": label,
+              disabled: disabled2,
+              focusableWhenDisabled
+            }
+          ),
+          className: classes,
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(Icon, { icon, size: 24, className: style_default8.icon }),
+            shortcut && descriptionId && /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+              KeyboardShortcutDescription,
+              {
+                descriptionId,
+                shortcut
+              }
+            )
+          ]
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(Popup, { positioner, children: [
+        label,
+        shortcut && /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(import_jsx_runtime49.Fragment, { children: [
+          " ",
+          /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(KeyboardShortcutDisplay, { shortcut })
+        ] })
+      ] })
+    ] });
+  }
+);
+
+// packages/ui/build-module/form/primitives/autocomplete/index.mjs
+var autocomplete_exports = {};
+__export(autocomplete_exports, {
+  Clear: () => Clear,
+  Collection: () => Collection,
+  Empty: () => Empty,
+  Group: () => Group,
+  GroupLabel: () => GroupLabel,
+  Input: () => Input4,
+  InputGroup: () => InputGroup,
+  Item: () => Item,
+  ItemDescription: () => ForwardedItemDescription,
+  ItemLabel: () => ForwardedItemLabel,
+  List: () => List,
+  ListBody: () => ListBody,
+  Popup: () => Popup2,
+  Portal: () => Portal2,
+  Positioner: () => Positioner2,
+  Root: () => Root2,
+  Row: () => Row,
+  Separator: () => Separator,
+  Status: () => Status,
+  Value: () => Value,
+  useFilteredItems: () => useFilteredItems2
+});
+
+// packages/ui/build-module/form/primitives/autocomplete/clear.mjs
+var import_element31 = __toESM(require_element(), 1);
+var import_i18n4 = __toESM(require_i18n(), 1);
+var import_jsx_runtime50 = __toESM(require_jsx_runtime(), 1);
+var DEFAULT_RENDER = ({
+  "aria-label": ariaLabel = (0, import_i18n4.__)("Clear"),
+  ...props
+}, { disabled: disabled2 }) => /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(
+  IconButton,
+  {
+    icon: close_small_default,
+    focusableWhenDisabled: false,
+    disabled: disabled2,
+    "aria-hidden": disabled2 || void 0,
+    size: "small",
+    variant: "minimal",
+    tone: "neutral",
+    label: ariaLabel,
+    ...props
+  }
+);
+var Clear = (0, import_element31.forwardRef)(
+  function UnforwardedClear({ render = DEFAULT_RENDER, ...restProps }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(
+      index_parts_exports.Clear,
       {
-        className: clsx_default(item_popup_default.empty, className),
         ref,
+        render,
         ...restProps
       }
     );
   }
 );
 
-// packages/ui/build-module/form/primitives/autocomplete/group.mjs
-var import_element31 = __toESM(require_element(), 1);
+// packages/ui/build-module/form/primitives/autocomplete/collection.mjs
+var import_jsx_runtime51 = __toESM(require_jsx_runtime(), 1);
+function Collection({
+  children,
+  ...restProps
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(index_parts_exports.Collection, { ...restProps, children });
+}
+
+// packages/ui/build-module/form/primitives/autocomplete/empty.mjs
+var import_element32 = __toESM(require_element(), 1);
 var import_jsx_runtime52 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE10 = "data-wp-hash";
 function getRuntime10() {
@@ -17431,25 +17514,24 @@ function registerStyle10(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle10("2816bed933", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px)}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-md,32px);padding-inline:var(--wpds-dimension-padding-md,12px)}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-md, 12px));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline-end:var(--wp-ui-popup-item-padding-inline);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px));user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr)}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;gap:2px;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+  registerStyle10("e25d67a230", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger[data-side=none] ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{--_wp-ui-popup-selection-offset:0px;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px);&:has(.a3adcfd0b73ffd40__item-icon){--_wp-ui-popup-selection-offset:calc(var(--wpds-dimension-size-2xs, 16px) + var(--wpds-dimension-gap-xs, 4px) - var(--wpds-dimension-padding-xs, 4px))}}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-sm,24px);padding-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));padding-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset))}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));margin-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline:var(--wp-ui-popup-item-padding-inline);user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
 }
-var item_popup_default2 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "item-icon": "a3adcfd0b73ffd40__item-icon", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
-var Group = (0, import_element31.forwardRef)(
-  function UnforwardedGroup({ className, children, ...restProps }, ref) {
+var item_popup_default = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "item-icon": "a3adcfd0b73ffd40__item-icon", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
+var Empty = (0, import_element32.forwardRef)(
+  function UnforwardedEmpty({ className, ...restProps }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(
-      index_parts_exports.Group,
+      index_parts_exports.Empty,
       {
-        className: clsx_default(item_popup_default2.group, className),
+        className: clsx_default(item_popup_default.empty, className),
         ref,
-        ...restProps,
-        children
+        ...restProps
       }
     );
   }
 );
 
-// packages/ui/build-module/form/primitives/autocomplete/group-label.mjs
-var import_element32 = __toESM(require_element(), 1);
+// packages/ui/build-module/form/primitives/autocomplete/group.mjs
+var import_element33 = __toESM(require_element(), 1);
 var import_jsx_runtime53 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE11 = "data-wp-hash";
 function getRuntime11() {
@@ -17532,37 +17614,26 @@ function registerStyle11(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle11("2816bed933", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px)}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-md,32px);padding-inline:var(--wpds-dimension-padding-md,12px)}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-md, 12px));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline-end:var(--wp-ui-popup-item-padding-inline);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px));user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr)}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;gap:2px;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+  registerStyle11("e25d67a230", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger[data-side=none] ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{--_wp-ui-popup-selection-offset:0px;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px);&:has(.a3adcfd0b73ffd40__item-icon){--_wp-ui-popup-selection-offset:calc(var(--wpds-dimension-size-2xs, 16px) + var(--wpds-dimension-gap-xs, 4px) - var(--wpds-dimension-padding-xs, 4px))}}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-sm,24px);padding-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));padding-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset))}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));margin-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline:var(--wp-ui-popup-item-padding-inline);user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
 }
-var item_popup_default3 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "item-icon": "a3adcfd0b73ffd40__item-icon", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
-var GroupLabel = (0, import_element32.forwardRef)(function UnforwardedGroupLabel({ className, children, ...restProps }, ref) {
-  return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
-    Text,
-    {
-      variant: "heading-sm",
-      className: clsx_default(item_popup_default3["group-label"], className),
-      render: /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(index_parts_exports.GroupLabel, { ref, ...restProps }),
-      children
-    }
-  );
-});
+var item_popup_default2 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "item-icon": "a3adcfd0b73ffd40__item-icon", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
+var Group = (0, import_element33.forwardRef)(
+  function UnforwardedGroup({ className, children, ...restProps }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
+      index_parts_exports.Group,
+      {
+        className: clsx_default(item_popup_default2.group, className),
+        ref,
+        ...restProps,
+        children
+      }
+    );
+  }
+);
 
-// packages/ui/build-module/form/primitives/autocomplete/input-group.mjs
-var import_element33 = __toESM(require_element(), 1);
-var import_jsx_runtime54 = __toESM(require_jsx_runtime(), 1);
-var InputGroup = (0, import_element33.forwardRef)(function UnforwardedInputGroup(props, ref) {
-  return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(index_parts_exports.InputGroup, { ref, ...props });
-});
-
-// packages/ui/build-module/form/primitives/autocomplete/input.mjs
-var import_element37 = __toESM(require_element(), 1);
-
-// packages/ui/build-module/form/primitives/input/input.mjs
-var import_element36 = __toESM(require_element(), 1);
-
-// packages/ui/build-module/form/primitives/input-layout/input-layout.mjs
+// packages/ui/build-module/form/primitives/autocomplete/group-label.mjs
 var import_element34 = __toESM(require_element(), 1);
-var import_jsx_runtime55 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime54 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE12 = "data-wp-hash";
 function getRuntime12() {
   const globalScope = globalThis;
@@ -17644,68 +17715,36 @@ function registerStyle12(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle12("e8e31009f5", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}.c59a0ebebd71fa4a__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._46b5cb0c8e24e8c9__li{margin:var(--_gcd-li-margin,0)}");
+  registerStyle12("e25d67a230", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger[data-side=none] ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{--_wp-ui-popup-selection-offset:0px;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px);&:has(.a3adcfd0b73ffd40__item-icon){--_wp-ui-popup-selection-offset:calc(var(--wpds-dimension-size-2xs, 16px) + var(--wpds-dimension-gap-xs, 4px) - var(--wpds-dimension-padding-xs, 4px))}}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-sm,24px);padding-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));padding-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset))}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));margin-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline:var(--wp-ui-popup-item-padding-inline);user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
 }
-var global_css_defense_default3 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li" };
-if (typeof process === "undefined" || true) {
-  registerStyle12("10f3806643", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._336cd3e4e743482f__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
-}
-var resets_default3 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
-if (typeof process === "undefined" || true) {
-  registerStyle12("fae9ae14d3", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.cb2baafdc08746bb__input-layout{--wp-ui-input-layout-padding-inline:var(--wpds-dimension-padding-md,12px);background-color:var(--wpds-color-background-interactive-neutral,var(--wpds-color-background-surface-neutral-strong,#fff));border-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d);border-radius:var(--wpds-border-radius-sm,2px);border-style:solid;border-width:var(--wpds-border-width-xs,1px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);height:var(--wpds-dimension-size-lg,40px);line-height:1;&._0c807a84cbb94e0c__is-size-compact{height:var(--wpds-dimension-size-md,32px)}&._0c807a84cbb94e0c__is-size-compact,&.ed67cda122dc1e7b__is-size-small{--wp-ui-input-layout-padding-inline:var(--wpds-dimension-padding-sm,8px)}&.ed67cda122dc1e7b__is-size-small{height:var(--wpds-dimension-size-sm,24px)}&._6fb7104732387680__is-disabled,&:has([data-can-disable-input-layout][data-disabled]){color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}&:not(._8097270636ca6100__is-borderless){background-color:var(--wpds-color-background-interactive-neutral-disabled,var(--wpds-color-background-surface-neutral-strong,#fff));border-color:var(--wpds-color-stroke-interactive-neutral-disabled,#dbdbdb);@media (forced-colors:active){border-bottom-color:GrayText;border-left-color:GrayText;border-right-color:GrayText;border-top-color:GrayText}}}&._8097270636ca6100__is-borderless{background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);border-color:transparent}&:has(._0d7afad74a057888__input-layout-slot:focus-within){--_gcd-div-outline:none;outline:none}&:hover:not(._6fb7104732387680__is-disabled,:has([data-can-disable-input-layout][data-disabled]),._8097270636ca6100__is-borderless){background-color:var(--wpds-color-background-interactive-neutral-active,var(--wpds-color-background-surface-neutral-strong,#fff));border-color:var(--wpds-color-stroke-interactive-neutral-active,#6e6e6e)}&:has(:invalid[data-validity-visible]){--focus-color:var(--wpds-color-stroke-interactive-error,#cc1818);border-color:var(--wpds-color-stroke-interactive-error,#cc1818);&:hover{border-color:var(--wpds-color-stroke-interactive-error-active,#9d0000)}}}.c192b41a12b4387b__slot-wrapper{display:contents}._0d7afad74a057888__input-layout-slot{align-items:center;display:flex;&._0c952682762ca288__is-padding-minimal{--wp-ui-input-layout-prefix-padding-start:calc(var(--wp-ui-input-layout-padding-inline) - var(--wpds-dimension-padding-xs, 4px));--wp-ui-input-layout-suffix-padding-end:calc(var(--wp-ui-input-layout-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}[data-slot-type=prefix] &{padding-inline-start:var(--wp-ui-input-layout-prefix-padding-start,var(--wp-ui-input-layout-padding-inline))}[data-slot-type=suffix] &{padding-inline-end:var(--wp-ui-input-layout-suffix-padding-end,var(--wp-ui-input-layout-padding-inline))}}}}');
-}
-var style_default8 = { "input-layout": "cb2baafdc08746bb__input-layout", "is-size-compact": "_0c807a84cbb94e0c__is-size-compact", "is-size-small": "ed67cda122dc1e7b__is-size-small", "is-disabled": "_6fb7104732387680__is-disabled", "is-borderless": "_8097270636ca6100__is-borderless", "input-layout-slot": "_0d7afad74a057888__input-layout-slot", "slot-wrapper": "c192b41a12b4387b__slot-wrapper", "is-padding-minimal": "_0c952682762ca288__is-padding-minimal" };
-var InputLayout = (0, import_element34.forwardRef)(
-  function UnforwardedInputLayout({
-    className,
-    children,
-    visuallyDisabled,
-    size: size4 = "default",
-    isBorderless,
-    prefix,
-    suffix,
-    ...restProps
-  }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)(
-      "div",
-      {
-        ref,
-        className: clsx_default(
-          global_css_defense_default3.div,
-          resets_default3["box-sizing"],
-          style_default8["input-layout"],
-          style_default8[`is-size-${size4}`],
-          visuallyDisabled && style_default8["is-disabled"],
-          isBorderless && style_default8["is-borderless"],
-          className
-        ),
-        ...restProps,
-        children: [
-          import_element34.Children.count(prefix) > 0 && /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(
-            "div",
-            {
-              className: style_default8["slot-wrapper"],
-              "data-slot-type": "prefix",
-              children: prefix
-            }
-          ),
-          children,
-          import_element34.Children.count(suffix) > 0 && /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(
-            "div",
-            {
-              className: style_default8["slot-wrapper"],
-              "data-slot-type": "suffix",
-              children: suffix
-            }
-          )
-        ]
-      }
-    );
-  }
-);
+var item_popup_default3 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "item-icon": "a3adcfd0b73ffd40__item-icon", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
+var GroupLabel = (0, import_element34.forwardRef)(function UnforwardedGroupLabel({ className, children, ...restProps }, ref) {
+  return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+    Text,
+    {
+      variant: "heading-sm",
+      className: clsx_default(item_popup_default3["group-label"], className),
+      render: /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(index_parts_exports.GroupLabel, { ref, ...restProps }),
+      children
+    }
+  );
+});
 
-// packages/ui/build-module/form/primitives/input-layout/slot.mjs
+// packages/ui/build-module/form/primitives/autocomplete/input-group.mjs
 var import_element35 = __toESM(require_element(), 1);
+var import_jsx_runtime55 = __toESM(require_jsx_runtime(), 1);
+var InputGroup = (0, import_element35.forwardRef)(function UnforwardedInputGroup(props, ref) {
+  return /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(index_parts_exports.InputGroup, { ref, ...props });
+});
+
+// packages/ui/build-module/form/primitives/autocomplete/input.mjs
+var import_element39 = __toESM(require_element(), 1);
+
+// packages/ui/build-module/form/primitives/input/input.mjs
+var import_element38 = __toESM(require_element(), 1);
+
+// packages/ui/build-module/form/primitives/input-layout/input-layout.mjs
+var import_element36 = __toESM(require_element(), 1);
 var import_jsx_runtime56 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE13 = "data-wp-hash";
 function getRuntime13() {
@@ -17788,31 +17827,68 @@ function registerStyle13(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
+  registerStyle13("abb19c3171", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}.c59a0ebebd71fa4a__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._46b5cb0c8e24e8c9__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._400bf7ee0c6061a9__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
+}
+var global_css_defense_default3 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li", "span": "_400bf7ee0c6061a9__span" };
+if (typeof process === "undefined" || true) {
+  registerStyle13("10f3806643", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._336cd3e4e743482f__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
+}
+var resets_default3 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
+if (typeof process === "undefined" || true) {
   registerStyle13("fae9ae14d3", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.cb2baafdc08746bb__input-layout{--wp-ui-input-layout-padding-inline:var(--wpds-dimension-padding-md,12px);background-color:var(--wpds-color-background-interactive-neutral,var(--wpds-color-background-surface-neutral-strong,#fff));border-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d);border-radius:var(--wpds-border-radius-sm,2px);border-style:solid;border-width:var(--wpds-border-width-xs,1px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);height:var(--wpds-dimension-size-lg,40px);line-height:1;&._0c807a84cbb94e0c__is-size-compact{height:var(--wpds-dimension-size-md,32px)}&._0c807a84cbb94e0c__is-size-compact,&.ed67cda122dc1e7b__is-size-small{--wp-ui-input-layout-padding-inline:var(--wpds-dimension-padding-sm,8px)}&.ed67cda122dc1e7b__is-size-small{height:var(--wpds-dimension-size-sm,24px)}&._6fb7104732387680__is-disabled,&:has([data-can-disable-input-layout][data-disabled]){color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}&:not(._8097270636ca6100__is-borderless){background-color:var(--wpds-color-background-interactive-neutral-disabled,var(--wpds-color-background-surface-neutral-strong,#fff));border-color:var(--wpds-color-stroke-interactive-neutral-disabled,#dbdbdb);@media (forced-colors:active){border-bottom-color:GrayText;border-left-color:GrayText;border-right-color:GrayText;border-top-color:GrayText}}}&._8097270636ca6100__is-borderless{background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);border-color:transparent}&:has(._0d7afad74a057888__input-layout-slot:focus-within){--_gcd-div-outline:none;outline:none}&:hover:not(._6fb7104732387680__is-disabled,:has([data-can-disable-input-layout][data-disabled]),._8097270636ca6100__is-borderless){background-color:var(--wpds-color-background-interactive-neutral-active,var(--wpds-color-background-surface-neutral-strong,#fff));border-color:var(--wpds-color-stroke-interactive-neutral-active,#6e6e6e)}&:has(:invalid[data-validity-visible]){--focus-color:var(--wpds-color-stroke-interactive-error,#cc1818);border-color:var(--wpds-color-stroke-interactive-error,#cc1818);&:hover{border-color:var(--wpds-color-stroke-interactive-error-active,#9d0000)}}}.c192b41a12b4387b__slot-wrapper{display:contents}._0d7afad74a057888__input-layout-slot{align-items:center;display:flex;&._0c952682762ca288__is-padding-minimal{--wp-ui-input-layout-prefix-padding-start:calc(var(--wp-ui-input-layout-padding-inline) - var(--wpds-dimension-padding-xs, 4px));--wp-ui-input-layout-suffix-padding-end:calc(var(--wp-ui-input-layout-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}[data-slot-type=prefix] &{padding-inline-start:var(--wp-ui-input-layout-prefix-padding-start,var(--wp-ui-input-layout-padding-inline))}[data-slot-type=suffix] &{padding-inline-end:var(--wp-ui-input-layout-suffix-padding-end,var(--wp-ui-input-layout-padding-inline))}}}}');
 }
 var style_default9 = { "input-layout": "cb2baafdc08746bb__input-layout", "is-size-compact": "_0c807a84cbb94e0c__is-size-compact", "is-size-small": "ed67cda122dc1e7b__is-size-small", "is-disabled": "_6fb7104732387680__is-disabled", "is-borderless": "_8097270636ca6100__is-borderless", "input-layout-slot": "_0d7afad74a057888__input-layout-slot", "slot-wrapper": "c192b41a12b4387b__slot-wrapper", "is-padding-minimal": "_0c952682762ca288__is-padding-minimal" };
-var InputLayoutSlot = (0, import_element35.forwardRef)(function UnforwardedInputLayoutSlot({ padding = "default", className, ...restProps }, ref) {
-  return /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
-    "div",
-    {
-      ref,
-      className: clsx_default(
-        style_default9["input-layout-slot"],
-        style_default9[`is-padding-${padding}`],
-        className
-      ),
-      ...restProps
-    }
-  );
-});
-InputLayoutSlot.displayName = "InputLayout.Slot";
+var InputLayout = (0, import_element36.forwardRef)(
+  function UnforwardedInputLayout({
+    className,
+    children,
+    visuallyDisabled,
+    size: size4 = "default",
+    isBorderless,
+    prefix,
+    suffix,
+    ...restProps
+  }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(
+      "div",
+      {
+        ref,
+        className: clsx_default(
+          global_css_defense_default3.div,
+          resets_default3["box-sizing"],
+          style_default9["input-layout"],
+          style_default9[`is-size-${size4}`],
+          visuallyDisabled && style_default9["is-disabled"],
+          isBorderless && style_default9["is-borderless"],
+          className
+        ),
+        ...restProps,
+        children: [
+          import_element36.Children.count(prefix) > 0 && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+            "div",
+            {
+              className: style_default9["slot-wrapper"],
+              "data-slot-type": "prefix",
+              children: prefix
+            }
+          ),
+          children,
+          import_element36.Children.count(suffix) > 0 && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+            "div",
+            {
+              className: style_default9["slot-wrapper"],
+              "data-slot-type": "suffix",
+              children: suffix
+            }
+          )
+        ]
+      }
+    );
+  }
+);
 
-// packages/ui/build-module/form/primitives/input-layout/index.mjs
-var InputLayout2 = Object.assign(InputLayout, {
-  Slot: InputLayoutSlot
-});
-
-// packages/ui/build-module/form/primitives/input/input.mjs
+// packages/ui/build-module/form/primitives/input-layout/slot.mjs
+var import_element37 = __toESM(require_element(), 1);
 var import_jsx_runtime57 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE14 = "data-wp-hash";
 function getRuntime14() {
@@ -17895,67 +17971,32 @@ function registerStyle14(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle14("e8e31009f5", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}.c59a0ebebd71fa4a__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._46b5cb0c8e24e8c9__li{margin:var(--_gcd-li-margin,0)}");
+  registerStyle14("fae9ae14d3", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.cb2baafdc08746bb__input-layout{--wp-ui-input-layout-padding-inline:var(--wpds-dimension-padding-md,12px);background-color:var(--wpds-color-background-interactive-neutral,var(--wpds-color-background-surface-neutral-strong,#fff));border-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d);border-radius:var(--wpds-border-radius-sm,2px);border-style:solid;border-width:var(--wpds-border-width-xs,1px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);height:var(--wpds-dimension-size-lg,40px);line-height:1;&._0c807a84cbb94e0c__is-size-compact{height:var(--wpds-dimension-size-md,32px)}&._0c807a84cbb94e0c__is-size-compact,&.ed67cda122dc1e7b__is-size-small{--wp-ui-input-layout-padding-inline:var(--wpds-dimension-padding-sm,8px)}&.ed67cda122dc1e7b__is-size-small{height:var(--wpds-dimension-size-sm,24px)}&._6fb7104732387680__is-disabled,&:has([data-can-disable-input-layout][data-disabled]){color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}&:not(._8097270636ca6100__is-borderless){background-color:var(--wpds-color-background-interactive-neutral-disabled,var(--wpds-color-background-surface-neutral-strong,#fff));border-color:var(--wpds-color-stroke-interactive-neutral-disabled,#dbdbdb);@media (forced-colors:active){border-bottom-color:GrayText;border-left-color:GrayText;border-right-color:GrayText;border-top-color:GrayText}}}&._8097270636ca6100__is-borderless{background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);border-color:transparent}&:has(._0d7afad74a057888__input-layout-slot:focus-within){--_gcd-div-outline:none;outline:none}&:hover:not(._6fb7104732387680__is-disabled,:has([data-can-disable-input-layout][data-disabled]),._8097270636ca6100__is-borderless){background-color:var(--wpds-color-background-interactive-neutral-active,var(--wpds-color-background-surface-neutral-strong,#fff));border-color:var(--wpds-color-stroke-interactive-neutral-active,#6e6e6e)}&:has(:invalid[data-validity-visible]){--focus-color:var(--wpds-color-stroke-interactive-error,#cc1818);border-color:var(--wpds-color-stroke-interactive-error,#cc1818);&:hover{border-color:var(--wpds-color-stroke-interactive-error-active,#9d0000)}}}.c192b41a12b4387b__slot-wrapper{display:contents}._0d7afad74a057888__input-layout-slot{align-items:center;display:flex;&._0c952682762ca288__is-padding-minimal{--wp-ui-input-layout-prefix-padding-start:calc(var(--wp-ui-input-layout-padding-inline) - var(--wpds-dimension-padding-xs, 4px));--wp-ui-input-layout-suffix-padding-end:calc(var(--wp-ui-input-layout-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}[data-slot-type=prefix] &{padding-inline-start:var(--wp-ui-input-layout-prefix-padding-start,var(--wp-ui-input-layout-padding-inline))}[data-slot-type=suffix] &{padding-inline-end:var(--wp-ui-input-layout-suffix-padding-end,var(--wp-ui-input-layout-padding-inline))}}}}');
 }
-var global_css_defense_default4 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li" };
-if (typeof process === "undefined" || true) {
-  registerStyle14("7c3267f794", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{.af79fb116edb0dd7__outset-ring--focus:focus,.dfcfdc28396e5d98__outset-ring--focus-visible:focus-visible,.e5cd9ee879f6403a__outset-ring--focus-within:focus-within{--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}._3c9f5ee9fc9c136d__outset-ring--focus-within-except-active:focus-within,.abc777e9713fa711__outset-ring--focus-except-active:focus{outline:none}._3c9f5ee9fc9c136d__outset-ring--focus-within-except-active:focus-within:not(:has(:active)),.abc777e9713fa711__outset-ring--focus-except-active:focus:not(:active){--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}}}");
-}
-var focus_module_default2 = { "outset-ring--focus": "af79fb116edb0dd7__outset-ring--focus", "outset-ring--focus-visible": "dfcfdc28396e5d98__outset-ring--focus-visible", "outset-ring--focus-within": "e5cd9ee879f6403a__outset-ring--focus-within", "outset-ring--focus-except-active": "abc777e9713fa711__outset-ring--focus-except-active", "outset-ring--focus-within-except-active": "_3c9f5ee9fc9c136d__outset-ring--focus-within-except-active" };
-if (typeof process === "undefined" || true) {
-  registerStyle14("afb8caf1cd", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._2ae7be2fc1bb17a3__input{--_gcd-input-padding:var(--wp-ui-input-padding-block,0px) var(--wp-ui-input-layout-padding-inline,0px);--_gcd-input-font-size:max(var(--wpds-typography-font-size-md,13px),16px);background:transparent;border:none;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:inherit;font-size:inherit;line-height:inherit;outline:none;padding-block:var(--wp-ui-input-padding-block,0);padding-inline:var(--wp-ui-input-layout-padding-inline,0);width:100%;@media (min-width:600px){--_gcd-input-font-size:inherit}&::placeholder{color:var(--wpds-color-foreground-interactive-neutral-weak,#707070)}&:disabled,&[aria-disabled=true]{--_gcd-input-placeholder-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&::placeholder{color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d)}@media (forced-colors:active){color:GrayText}}&[type=email],&[type=url]{direction:ltr}&[type=number]{appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{appearance:none;margin:0}}}}@layer compositions{.beecada4b38856ab__layout{font-size:max(var(--wpds-typography-font-size-md,13px),16px);@media (min-width:600px){font-size:var(--wpds-typography-font-size-md,13px)}}}}");
-}
-var style_default10 = { "input": "_2ae7be2fc1bb17a3__input", "layout": "beecada4b38856ab__layout" };
-var Input3 = (0, import_element36.forwardRef)(
-  function UnforwardedInput({ className, size: size4 = "default", prefix, suffix, style, ...restProps }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
-      InputLayout2,
-      {
-        className: clsx_default(
-          style_default10.layout,
-          focus_module_default2["outset-ring--focus-within"],
-          className
-        ),
-        style,
-        size: size4,
-        visuallyDisabled: restProps.disabled,
-        prefix,
-        suffix,
-        children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
-          Input,
-          {
-            ref,
-            className: clsx_default(global_css_defense_default4.input, style_default10.input),
-            ...restProps
-          }
-        )
-      }
-    );
-  }
-);
+var style_default10 = { "input-layout": "cb2baafdc08746bb__input-layout", "is-size-compact": "_0c807a84cbb94e0c__is-size-compact", "is-size-small": "ed67cda122dc1e7b__is-size-small", "is-disabled": "_6fb7104732387680__is-disabled", "is-borderless": "_8097270636ca6100__is-borderless", "input-layout-slot": "_0d7afad74a057888__input-layout-slot", "slot-wrapper": "c192b41a12b4387b__slot-wrapper", "is-padding-minimal": "_0c952682762ca288__is-padding-minimal" };
+var InputLayoutSlot = (0, import_element37.forwardRef)(function UnforwardedInputLayoutSlot({ padding = "default", className, ...restProps }, ref) {
+  return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
+    "div",
+    {
+      ref,
+      className: clsx_default(
+        style_default10["input-layout-slot"],
+        style_default10[`is-padding-${padding}`],
+        className
+      ),
+      ...restProps
+    }
+  );
+});
+InputLayoutSlot.displayName = "InputLayout.Slot";
 
-// packages/ui/build-module/form/primitives/autocomplete/input.mjs
+// packages/ui/build-module/form/primitives/input-layout/index.mjs
+var InputLayout2 = Object.assign(InputLayout, {
+  Slot: InputLayoutSlot
+});
+
+// packages/ui/build-module/form/primitives/input/input.mjs
 var import_jsx_runtime58 = __toESM(require_jsx_runtime(), 1);
-var DEFAULT_RENDER2 = (props) => /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(Input3, { ...props });
-var Input4 = (0, import_element37.forwardRef)(
-  function UnforwardedInput2({ render = DEFAULT_RENDER2, ...restProps }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(
-      index_parts_exports.Input,
-      {
-        ref,
-        render,
-        ...restProps
-      }
-    );
-  }
-);
-
-// packages/ui/build-module/form/primitives/autocomplete/item.mjs
-var import_element40 = __toESM(require_element(), 1);
-
-// packages/ui/build-module/form/primitives/autocomplete/item-description.mjs
-var import_element38 = __toESM(require_element(), 1);
-var import_jsx_runtime59 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE15 = "data-wp-hash";
 function getRuntime15() {
   const globalScope = globalThis;
@@ -18037,33 +18078,66 @@ function registerStyle15(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle15("2816bed933", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px)}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-md,32px);padding-inline:var(--wpds-dimension-padding-md,12px)}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-md, 12px));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline-end:var(--wp-ui-popup-item-padding-inline);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px));user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr)}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;gap:2px;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+  registerStyle15("abb19c3171", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}.c59a0ebebd71fa4a__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._46b5cb0c8e24e8c9__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._400bf7ee0c6061a9__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
 }
-var item_popup_default4 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "item-icon": "a3adcfd0b73ffd40__item-icon", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
-var ITEM_DESCRIPTION_DIRECT_CHILD = /* @__PURE__ */ Symbol();
-var ForwardedItemDescription = (0, import_element38.forwardRef)(function ItemDescription(props, ref) {
-  const { className, validationToken, ...restProps } = props;
-  if (validationToken !== ITEM_DESCRIPTION_DIRECT_CHILD) {
-    throw new Error(
-      "Autocomplete.ItemDescription: Missing direct autocomplete item parent. Render <Autocomplete.ItemDescription> as a direct child of <Autocomplete.Item>."
+var global_css_defense_default4 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li", "span": "_400bf7ee0c6061a9__span" };
+if (typeof process === "undefined" || true) {
+  registerStyle15("7c3267f794", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{.af79fb116edb0dd7__outset-ring--focus:focus,.dfcfdc28396e5d98__outset-ring--focus-visible:focus-visible,.e5cd9ee879f6403a__outset-ring--focus-within:focus-within{--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}._3c9f5ee9fc9c136d__outset-ring--focus-within-except-active:focus-within,.abc777e9713fa711__outset-ring--focus-except-active:focus{outline:none}._3c9f5ee9fc9c136d__outset-ring--focus-within-except-active:focus-within:not(:has(:active)),.abc777e9713fa711__outset-ring--focus-except-active:focus:not(:active){--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}}}");
+}
+var focus_module_default2 = { "outset-ring--focus": "af79fb116edb0dd7__outset-ring--focus", "outset-ring--focus-visible": "dfcfdc28396e5d98__outset-ring--focus-visible", "outset-ring--focus-within": "e5cd9ee879f6403a__outset-ring--focus-within", "outset-ring--focus-except-active": "abc777e9713fa711__outset-ring--focus-except-active", "outset-ring--focus-within-except-active": "_3c9f5ee9fc9c136d__outset-ring--focus-within-except-active" };
+if (typeof process === "undefined" || true) {
+  registerStyle15("afb8caf1cd", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._2ae7be2fc1bb17a3__input{--_gcd-input-padding:var(--wp-ui-input-padding-block,0px) var(--wp-ui-input-layout-padding-inline,0px);--_gcd-input-font-size:max(var(--wpds-typography-font-size-md,13px),16px);background:transparent;border:none;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:inherit;font-size:inherit;line-height:inherit;outline:none;padding-block:var(--wp-ui-input-padding-block,0);padding-inline:var(--wp-ui-input-layout-padding-inline,0);width:100%;@media (min-width:600px){--_gcd-input-font-size:inherit}&::placeholder{color:var(--wpds-color-foreground-interactive-neutral-weak,#707070)}&:disabled,&[aria-disabled=true]{--_gcd-input-placeholder-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&::placeholder{color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d)}@media (forced-colors:active){color:GrayText}}&[type=email],&[type=url]{direction:ltr}&[type=number]{appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{appearance:none;margin:0}}}}@layer compositions{.beecada4b38856ab__layout{font-size:max(var(--wpds-typography-font-size-md,13px),16px);@media (min-width:600px){font-size:var(--wpds-typography-font-size-md,13px)}}}}");
+}
+var style_default11 = { "input": "_2ae7be2fc1bb17a3__input", "layout": "beecada4b38856ab__layout" };
+var Input3 = (0, import_element38.forwardRef)(
+  function UnforwardedInput({ className, size: size4 = "default", prefix, suffix, style, ...restProps }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(
+      InputLayout2,
+      {
+        className: clsx_default(
+          style_default11.layout,
+          focus_module_default2["outset-ring--focus-within"],
+          className
+        ),
+        style,
+        size: size4,
+        visuallyDisabled: restProps.disabled,
+        prefix,
+        suffix,
+        children: /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(
+          Input,
+          {
+            ref,
+            className: clsx_default(global_css_defense_default4.input, style_default11.input),
+            ...restProps
+          }
+        )
+      }
     );
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(
-    Text,
-    {
-      ref,
-      variant: "body-sm",
-      className: clsx_default(
-        item_popup_default4["item-description"],
-        className
-      ),
-      ...restProps
-    }
-  );
-});
+);
 
-// packages/ui/build-module/form/primitives/autocomplete/item-label.mjs
-var import_element39 = __toESM(require_element(), 1);
+// packages/ui/build-module/form/primitives/autocomplete/input.mjs
+var import_jsx_runtime59 = __toESM(require_jsx_runtime(), 1);
+var DEFAULT_RENDER2 = (props) => /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(Input3, { ...props });
+var Input4 = (0, import_element39.forwardRef)(
+  function UnforwardedInput2({ render = DEFAULT_RENDER2, ...restProps }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(
+      index_parts_exports.Input,
+      {
+        ref,
+        render,
+        ...restProps
+      }
+    );
+  }
+);
+
+// packages/ui/build-module/form/primitives/autocomplete/item.mjs
+var import_element42 = __toESM(require_element(), 1);
+
+// packages/ui/build-module/form/primitives/autocomplete/item-description.mjs
+var import_element40 = __toESM(require_element(), 1);
 var import_jsx_runtime60 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE16 = "data-wp-hash";
 function getRuntime16() {
@@ -18146,22 +18220,33 @@ function registerStyle16(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle16("2816bed933", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px)}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-md,32px);padding-inline:var(--wpds-dimension-padding-md,12px)}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-md, 12px));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline-end:var(--wp-ui-popup-item-padding-inline);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px));user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr)}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;gap:2px;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+  registerStyle16("e25d67a230", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger[data-side=none] ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{--_wp-ui-popup-selection-offset:0px;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px);&:has(.a3adcfd0b73ffd40__item-icon){--_wp-ui-popup-selection-offset:calc(var(--wpds-dimension-size-2xs, 16px) + var(--wpds-dimension-gap-xs, 4px) - var(--wpds-dimension-padding-xs, 4px))}}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-sm,24px);padding-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));padding-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset))}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));margin-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline:var(--wp-ui-popup-item-padding-inline);user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
 }
-var item_popup_default5 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "item-icon": "a3adcfd0b73ffd40__item-icon", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
-var ForwardedItemLabel = (0, import_element39.forwardRef)(function ItemLabel({ className, ...restProps }, ref) {
+var item_popup_default4 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "item-icon": "a3adcfd0b73ffd40__item-icon", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
+var ITEM_DESCRIPTION_DIRECT_CHILD = /* @__PURE__ */ Symbol();
+var ForwardedItemDescription = (0, import_element40.forwardRef)(function ItemDescription(props, ref) {
+  const { className, validationToken, ...restProps } = props;
+  if (validationToken !== ITEM_DESCRIPTION_DIRECT_CHILD) {
+    throw new Error(
+      "Autocomplete.ItemDescription: Missing direct autocomplete item parent. Render <Autocomplete.ItemDescription> as a direct child of <Autocomplete.Item>."
+    );
+  }
   return /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(
     Text,
     {
       ref,
-      variant: "body-md",
-      className: clsx_default(item_popup_default5["item-label"], className),
+      variant: "body-sm",
+      className: clsx_default(
+        item_popup_default4["item-description"],
+        className
+      ),
       ...restProps
     }
   );
 });
 
-// packages/ui/build-module/form/primitives/autocomplete/item.mjs
+// packages/ui/build-module/form/primitives/autocomplete/item-label.mjs
+var import_element41 = __toESM(require_element(), 1);
 var import_jsx_runtime61 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE17 = "data-wp-hash";
 function getRuntime17() {
@@ -18244,61 +18329,22 @@ function registerStyle17(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle17("e8e31009f5", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}.c59a0ebebd71fa4a__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._46b5cb0c8e24e8c9__li{margin:var(--_gcd-li-margin,0)}");
+  registerStyle17("e25d67a230", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger[data-side=none] ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{--_wp-ui-popup-selection-offset:0px;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px);&:has(.a3adcfd0b73ffd40__item-icon){--_wp-ui-popup-selection-offset:calc(var(--wpds-dimension-size-2xs, 16px) + var(--wpds-dimension-gap-xs, 4px) - var(--wpds-dimension-padding-xs, 4px))}}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-sm,24px);padding-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));padding-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset))}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));margin-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline:var(--wp-ui-popup-item-padding-inline);user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
 }
-var global_css_defense_default5 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li" };
-if (typeof process === "undefined" || true) {
-  registerStyle17("2816bed933", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px)}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-md,32px);padding-inline:var(--wpds-dimension-padding-md,12px)}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-md, 12px));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline-end:var(--wp-ui-popup-item-padding-inline);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px));user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr)}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;gap:2px;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
-}
-var item_popup_default6 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "item-icon": "a3adcfd0b73ffd40__item-icon", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
-if (typeof process === "undefined" || true) {
-  registerStyle17("10f3806643", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._336cd3e4e743482f__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
-}
-var resets_default4 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
-var ITEM_CONTENT_COMPONENTS = {
-  Label: ForwardedItemLabel,
-  Description: ForwardedItemDescription,
-  descriptionValidationToken: ITEM_DESCRIPTION_DIRECT_CHILD,
-  validationMessage: "Autocomplete.ItemLabel must be the first direct child of every autocomplete item, followed only by Autocomplete.ItemDescription components."
-};
-var Item = (0, import_element40.forwardRef)(
-  function UnforwardedItem({
-    className,
-    children,
-    "aria-describedby": ariaDescribedBy,
-    "aria-label": ariaLabel,
-    "aria-labelledby": ariaLabelledBy,
-    ...restProps
-  }, ref) {
-    const { contentChildren, itemAriaProps } = useItemContent(
-      children,
-      ITEM_CONTENT_COMPONENTS,
-      {
-        "aria-describedby": ariaDescribedBy,
-        "aria-label": ariaLabel,
-        "aria-labelledby": ariaLabelledBy
-      }
-    );
-    return /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(
-      index_parts_exports.Item,
-      {
-        className: clsx_default(
-          global_css_defense_default5.div,
-          resets_default4["box-sizing"],
-          item_popup_default6.item,
-          className
-        ),
-        ref,
-        ...itemAriaProps,
-        ...restProps,
-        children: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("div", { className: item_popup_default6["item-text"], children: contentChildren })
-      }
-    );
-  }
-);
+var item_popup_default5 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "item-icon": "a3adcfd0b73ffd40__item-icon", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
+var ForwardedItemLabel = (0, import_element41.forwardRef)(function ItemLabel({ className, ...restProps }, ref) {
+  return /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(
+    Text,
+    {
+      ref,
+      variant: "body-md",
+      className: clsx_default(item_popup_default5["item-label"], className),
+      ...restProps
+    }
+  );
+});
 
-// packages/ui/build-module/form/primitives/autocomplete/list.mjs
-var import_element41 = __toESM(require_element(), 1);
+// packages/ui/build-module/form/primitives/autocomplete/item.mjs
 var import_jsx_runtime62 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE18 = "data-wp-hash";
 function getRuntime18() {
@@ -18381,24 +18427,62 @@ function registerStyle18(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle18("2816bed933", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px)}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-md,32px);padding-inline:var(--wpds-dimension-padding-md,12px)}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-md, 12px));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline-end:var(--wp-ui-popup-item-padding-inline);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px));user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr)}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;gap:2px;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+  registerStyle18("abb19c3171", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}.c59a0ebebd71fa4a__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._46b5cb0c8e24e8c9__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._400bf7ee0c6061a9__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
 }
-var item_popup_default7 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "item-icon": "a3adcfd0b73ffd40__item-icon", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
-var List = (0, import_element41.forwardRef)(
-  function UnforwardedList({ className, ...restProps }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime62.jsx)(
-      index_parts_exports.List,
+var global_css_defense_default5 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li", "span": "_400bf7ee0c6061a9__span" };
+if (typeof process === "undefined" || true) {
+  registerStyle18("e25d67a230", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger[data-side=none] ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{--_wp-ui-popup-selection-offset:0px;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px);&:has(.a3adcfd0b73ffd40__item-icon){--_wp-ui-popup-selection-offset:calc(var(--wpds-dimension-size-2xs, 16px) + var(--wpds-dimension-gap-xs, 4px) - var(--wpds-dimension-padding-xs, 4px))}}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-sm,24px);padding-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));padding-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset))}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));margin-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline:var(--wp-ui-popup-item-padding-inline);user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+}
+var item_popup_default6 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "item-icon": "a3adcfd0b73ffd40__item-icon", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
+if (typeof process === "undefined" || true) {
+  registerStyle18("10f3806643", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._336cd3e4e743482f__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
+}
+var resets_default4 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
+var ITEM_CONTENT_COMPONENTS = {
+  Label: ForwardedItemLabel,
+  Description: ForwardedItemDescription,
+  descriptionValidationToken: ITEM_DESCRIPTION_DIRECT_CHILD,
+  validationMessage: "Autocomplete.ItemLabel must be the first direct child of every autocomplete item, followed only by Autocomplete.ItemDescription components."
+};
+var Item = (0, import_element42.forwardRef)(
+  function UnforwardedItem({
+    className,
+    children,
+    "aria-describedby": ariaDescribedBy,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    ...restProps
+  }, ref) {
+    const { contentChildren, itemAriaProps } = useItemContent(
+      children,
+      ITEM_CONTENT_COMPONENTS,
       {
-        className: clsx_default(item_popup_default7.list, className),
+        "aria-describedby": ariaDescribedBy,
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy
+      }
+    );
+    return /* @__PURE__ */ (0, import_jsx_runtime62.jsx)(
+      index_parts_exports.Item,
+      {
+        className: clsx_default(
+          global_css_defense_default5.div,
+          resets_default4["box-sizing"],
+          item_popup_default6.item,
+          className
+        ),
         ref,
-        ...restProps
+        ...itemAriaProps,
+        ...restProps,
+        children: /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("div", { className: item_popup_default6["item-text"], children: contentChildren })
       }
     );
   }
 );
 
-// packages/ui/build-module/form/primitives/autocomplete/list-body.mjs
-var import_element42 = __toESM(require_element(), 1);
+// packages/ui/build-module/form/primitives/autocomplete/list.mjs
+var import_element43 = __toESM(require_element(), 1);
+var import_jsx_runtime63 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE19 = "data-wp-hash";
 function getRuntime19() {
   const globalScope = globalThis;
@@ -18480,28 +18564,24 @@ function registerStyle19(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle19("2816bed933", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px)}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-md,32px);padding-inline:var(--wpds-dimension-padding-md,12px)}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-md, 12px));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline-end:var(--wp-ui-popup-item-padding-inline);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px));user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr)}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;gap:2px;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+  registerStyle19("e25d67a230", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger[data-side=none] ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{--_wp-ui-popup-selection-offset:0px;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px);&:has(.a3adcfd0b73ffd40__item-icon){--_wp-ui-popup-selection-offset:calc(var(--wpds-dimension-size-2xs, 16px) + var(--wpds-dimension-gap-xs, 4px) - var(--wpds-dimension-padding-xs, 4px))}}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-sm,24px);padding-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));padding-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset))}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));margin-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline:var(--wp-ui-popup-item-padding-inline);user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
 }
-var item_popup_default8 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "item-icon": "a3adcfd0b73ffd40__item-icon", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
-var ListBody = (0, import_element42.forwardRef)(
-  function UnforwardedListBody({ render, ...props }, ref) {
-    const element = useRender({
-      defaultTagName: "div",
-      render,
-      ref,
-      props: mergeProps(
-        { className: item_popup_default8["list-scrollable-container"] },
-        props
-      )
-    });
-    return element;
+var item_popup_default7 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "item-icon": "a3adcfd0b73ffd40__item-icon", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
+var List = (0, import_element43.forwardRef)(
+  function UnforwardedList({ className, ...restProps }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(
+      index_parts_exports.List,
+      {
+        className: clsx_default(item_popup_default7.list, className),
+        ref,
+        ...restProps
+      }
+    );
   }
 );
 
-// packages/ui/build-module/form/primitives/autocomplete/popup.mjs
-var import_element45 = __toESM(require_element(), 1);
-
-// packages/ui/build-module/utils/css/item-popup.mjs
+// packages/ui/build-module/form/primitives/autocomplete/list-body.mjs
+var import_element44 = __toESM(require_element(), 1);
 var STYLE_HASH_ATTRIBUTE20 = "data-wp-hash";
 function getRuntime20() {
   const globalScope = globalThis;
@@ -18583,47 +18663,28 @@ function registerStyle20(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle20("2816bed933", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px)}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-md,32px);padding-inline:var(--wpds-dimension-padding-md,12px)}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-md, 12px));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline-end:var(--wp-ui-popup-item-padding-inline);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px));user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr)}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;gap:2px;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+  registerStyle20("e25d67a230", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger[data-side=none] ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{--_wp-ui-popup-selection-offset:0px;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px);&:has(.a3adcfd0b73ffd40__item-icon){--_wp-ui-popup-selection-offset:calc(var(--wpds-dimension-size-2xs, 16px) + var(--wpds-dimension-gap-xs, 4px) - var(--wpds-dimension-padding-xs, 4px))}}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-sm,24px);padding-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));padding-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset))}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));margin-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline:var(--wp-ui-popup-item-padding-inline);user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
 }
-var item_popup_default9 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "item-icon": "a3adcfd0b73ffd40__item-icon", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
-function getItemPopupWidthClassName(width = "anchor") {
-  switch (width) {
-    case "available":
-      return item_popup_default9["is-width-available"];
-    case "content":
-      return item_popup_default9["is-width-content"];
-    case "lg":
-      return item_popup_default9["is-width-lg"];
-    case "md":
-      return item_popup_default9["is-width-md"];
-    case "sm":
-      return item_popup_default9["is-width-sm"];
-    case "anchor":
-      return item_popup_default9["is-width-anchor"];
-    default:
-      return false;
-  }
-}
-
-// packages/ui/build-module/form/primitives/autocomplete/portal.mjs
-var import_element43 = __toESM(require_element(), 1);
-var import_jsx_runtime63 = __toESM(require_jsx_runtime(), 1);
-var Portal2 = (0, import_element43.forwardRef)(
-  function AutocompletePortal({ container, ...restProps }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(
-      index_parts_exports.Portal,
-      {
-        container: container ?? getWpCompatOverlaySlot(),
-        ...restProps,
-        ref
-      }
-    );
+var item_popup_default8 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "item-icon": "a3adcfd0b73ffd40__item-icon", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
+var ListBody = (0, import_element44.forwardRef)(
+  function UnforwardedListBody({ render, ...props }, ref) {
+    const element = useRender({
+      defaultTagName: "div",
+      render,
+      ref,
+      props: mergeProps(
+        { className: item_popup_default8["list-scrollable-container"] },
+        props
+      )
+    });
+    return element;
   }
 );
 
-// packages/ui/build-module/form/primitives/autocomplete/positioner.mjs
-var import_element44 = __toESM(require_element(), 1);
-var import_jsx_runtime64 = __toESM(require_jsx_runtime(), 1);
+// packages/ui/build-module/form/primitives/autocomplete/popup.mjs
+var import_element47 = __toESM(require_element(), 1);
+
+// packages/ui/build-module/utils/css/item-popup.mjs
 var STYLE_HASH_ATTRIBUTE21 = "data-wp-hash";
 function getRuntime21() {
   const globalScope = globalThis;
@@ -18705,32 +18766,46 @@ function registerStyle21(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle21("10f3806643", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._336cd3e4e743482f__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
+  registerStyle21("e25d67a230", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger[data-side=none] ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{--_wp-ui-popup-selection-offset:0px;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px);&:has(.a3adcfd0b73ffd40__item-icon){--_wp-ui-popup-selection-offset:calc(var(--wpds-dimension-size-2xs, 16px) + var(--wpds-dimension-gap-xs, 4px) - var(--wpds-dimension-padding-xs, 4px))}}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-sm,24px);padding-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));padding-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset))}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));margin-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline:var(--wp-ui-popup-item-padding-inline);user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
 }
-var resets_default5 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
-if (typeof process === "undefined" || true) {
-  registerStyle21("e61eb95308", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._8eb0a29484225eea__positioner{z-index:var(--wp-ui-autocomplete-z-index,initial)}}}");
+var item_popup_default9 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "item-icon": "a3adcfd0b73ffd40__item-icon", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
+function getItemPopupWidthClassName(width = "anchor") {
+  switch (width) {
+    case "available":
+      return item_popup_default9["is-width-available"];
+    case "content":
+      return item_popup_default9["is-width-content"];
+    case "lg":
+      return item_popup_default9["is-width-lg"];
+    case "md":
+      return item_popup_default9["is-width-md"];
+    case "sm":
+      return item_popup_default9["is-width-sm"];
+    case "anchor":
+      return item_popup_default9["is-width-anchor"];
+    default:
+      return false;
+  }
 }
-var style_default11 = { "positioner": "_8eb0a29484225eea__positioner" };
-var Positioner2 = (0, import_element44.forwardRef)(
-  function AutocompletePositioner({ className, ...props }, ref) {
+
+// packages/ui/build-module/form/primitives/autocomplete/portal.mjs
+var import_element45 = __toESM(require_element(), 1);
+var import_jsx_runtime64 = __toESM(require_jsx_runtime(), 1);
+var Portal2 = (0, import_element45.forwardRef)(
+  function AutocompletePortal({ container, ...restProps }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(
-      index_parts_exports.Positioner,
+      index_parts_exports.Portal,
       {
-        ...ITEM_POPUP_POSITIONER_PROPS,
-        ...props,
-        ref,
-        className: clsx_default(
-          resets_default5["box-sizing"],
-          style_default11.positioner,
-          className
-        )
+        container: container === void 0 ? getWpCompatOverlaySlot() : container,
+        ...restProps,
+        ref
       }
     );
   }
 );
 
-// packages/ui/build-module/form/primitives/autocomplete/popup.mjs
+// packages/ui/build-module/form/primitives/autocomplete/positioner.mjs
+var import_element46 = __toESM(require_element(), 1);
 var import_jsx_runtime65 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE22 = "data-wp-hash";
 function getRuntime22() {
@@ -18813,61 +18888,33 @@ function registerStyle22(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle22("2816bed933", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px)}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-md,32px);padding-inline:var(--wpds-dimension-padding-md,12px)}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-md, 12px));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline-end:var(--wp-ui-popup-item-padding-inline);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px));user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr)}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;gap:2px;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+  registerStyle22("10f3806643", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._336cd3e4e743482f__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
 }
-var item_popup_default10 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "item-icon": "a3adcfd0b73ffd40__item-icon", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
-var Popup2 = (0, import_element45.forwardRef)(
-  function UnforwardedPopup({ className, portal, positioner, width, ...restProps }, ref) {
-    const popupContent = /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(
-      index_parts_exports.Popup,
+var resets_default5 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
+if (typeof process === "undefined" || true) {
+  registerStyle22("e61eb95308", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._8eb0a29484225eea__positioner{z-index:var(--wp-ui-autocomplete-z-index,initial)}}}");
+}
+var style_default12 = { "positioner": "_8eb0a29484225eea__positioner" };
+var Positioner2 = (0, import_element46.forwardRef)(
+  function AutocompletePositioner({ className, ...props }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(
+      index_parts_exports.Positioner,
       {
+        ...ITEM_POPUP_POSITIONER_PROPS,
+        ...props,
         ref,
         className: clsx_default(
-          item_popup_default10.popup,
-          getItemPopupWidthClassName(width),
+          resets_default5["box-sizing"],
+          style_default12.positioner,
           className
-        ),
-        ...restProps
+        )
       }
     );
-    const positionedPopup = renderSlotWithChildren(
-      positioner,
-      /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(Positioner2, {}),
-      popupContent
-    );
-    return renderSlotWithChildren(portal, /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(Portal2, {}), positionedPopup);
   }
 );
 
-// packages/ui/build-module/form/primitives/autocomplete/context.mjs
-var import_element46 = __toESM(require_element(), 1);
-var AutocompleteGridContext = (0, import_element46.createContext)(false);
-var useAutocompleteGridContext = () => (0, import_element46.useContext)(AutocompleteGridContext);
-
-// packages/ui/build-module/form/primitives/autocomplete/root.mjs
+// packages/ui/build-module/form/primitives/autocomplete/popup.mjs
 var import_jsx_runtime66 = __toESM(require_jsx_runtime(), 1);
-var Root2 = function Root22(props) {
-  return /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(AutocompleteGridContext.Provider, { value: Boolean(props.grid), children: /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(DirectionProvider3, { children: /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(index_parts_exports.Root, { ...props }) }) });
-};
-
-// packages/ui/build-module/form/primitives/autocomplete/row.mjs
-var import_element47 = __toESM(require_element(), 1);
-var import_jsx_runtime67 = __toESM(require_jsx_runtime(), 1);
-var Row = (0, import_element47.forwardRef)(
-  function UnforwardedRow({ children, ...restProps }, ref) {
-    const isGrid = useAutocompleteGridContext();
-    if (!isGrid) {
-      throw new Error(
-        "Autocomplete.Row: Missing parent <Autocomplete.Root grid>. Render <Autocomplete.Row> inside <Autocomplete.Root grid>."
-      );
-    }
-    return /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(index_parts_exports.Row, { ref, ...restProps, children });
-  }
-);
-
-// packages/ui/build-module/form/primitives/autocomplete/separator.mjs
-var import_element48 = __toESM(require_element(), 1);
-var import_jsx_runtime68 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE23 = "data-wp-hash";
 function getRuntime23() {
   const globalScope = globalThis;
@@ -18949,26 +18996,60 @@ function registerStyle23(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle23("2816bed933", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px)}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-md,32px);padding-inline:var(--wpds-dimension-padding-md,12px)}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-md, 12px));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline-end:var(--wp-ui-popup-item-padding-inline);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px));user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr)}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;gap:2px;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+  registerStyle23("e25d67a230", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger[data-side=none] ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{--_wp-ui-popup-selection-offset:0px;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px);&:has(.a3adcfd0b73ffd40__item-icon){--_wp-ui-popup-selection-offset:calc(var(--wpds-dimension-size-2xs, 16px) + var(--wpds-dimension-gap-xs, 4px) - var(--wpds-dimension-padding-xs, 4px))}}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-sm,24px);padding-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));padding-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset))}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));margin-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline:var(--wp-ui-popup-item-padding-inline);user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
 }
-var item_popup_default11 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "item-icon": "a3adcfd0b73ffd40__item-icon", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
-var Separator = (0, import_element48.forwardRef)(function AutocompleteSeparator2({
-  className,
-  orientation: _orientation,
-  ...props
-}, ref) {
-  return /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
-    index_parts_exports.Separator,
-    {
-      ref,
-      className: clsx_default(item_popup_default11.separator, className),
-      ...props
-    }
-  );
-});
+var item_popup_default10 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "item-icon": "a3adcfd0b73ffd40__item-icon", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
+var Popup2 = (0, import_element47.forwardRef)(
+  function UnforwardedPopup({ className, portal, positioner, width, ...restProps }, ref) {
+    const popupContent = /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(
+      index_parts_exports.Popup,
+      {
+        ref,
+        className: clsx_default(
+          item_popup_default10.popup,
+          getItemPopupWidthClassName(width),
+          className
+        ),
+        ...restProps
+      }
+    );
+    const positionedPopup = renderSlotWithChildren(
+      positioner,
+      /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(Positioner2, {}),
+      popupContent
+    );
+    return renderSlotWithChildren(portal, /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(Portal2, {}), positionedPopup);
+  }
+);
 
-// packages/ui/build-module/form/primitives/autocomplete/status.mjs
+// packages/ui/build-module/form/primitives/autocomplete/context.mjs
+var import_element48 = __toESM(require_element(), 1);
+var AutocompleteGridContext = (0, import_element48.createContext)(false);
+var useAutocompleteGridContext = () => (0, import_element48.useContext)(AutocompleteGridContext);
+
+// packages/ui/build-module/form/primitives/autocomplete/root.mjs
+var import_jsx_runtime67 = __toESM(require_jsx_runtime(), 1);
+var Root2 = function Root22(props) {
+  return /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(AutocompleteGridContext.Provider, { value: Boolean(props.grid), children: /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(DirectionProvider3, { children: /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(index_parts_exports.Root, { ...props }) }) });
+};
+
+// packages/ui/build-module/form/primitives/autocomplete/row.mjs
 var import_element49 = __toESM(require_element(), 1);
+var import_jsx_runtime68 = __toESM(require_jsx_runtime(), 1);
+var Row = (0, import_element49.forwardRef)(
+  function UnforwardedRow({ children, ...restProps }, ref) {
+    const isGrid = useAutocompleteGridContext();
+    if (!isGrid) {
+      throw new Error(
+        "Autocomplete.Row: Missing parent <Autocomplete.Root grid>. Render <Autocomplete.Row> inside <Autocomplete.Root grid>."
+      );
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(index_parts_exports.Row, { ref, ...restProps, children });
+  }
+);
+
+// packages/ui/build-module/form/primitives/autocomplete/separator.mjs
+var import_element50 = __toESM(require_element(), 1);
 var import_jsx_runtime69 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE24 = "data-wp-hash";
 function getRuntime24() {
@@ -19051,12 +19132,114 @@ function registerStyle24(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle24("2816bed933", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px)}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-md,32px);padding-inline:var(--wpds-dimension-padding-md,12px)}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-md, 12px));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline-end:var(--wp-ui-popup-item-padding-inline);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px));user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr)}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;gap:2px;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+  registerStyle24("e25d67a230", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger[data-side=none] ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{--_wp-ui-popup-selection-offset:0px;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px);&:has(.a3adcfd0b73ffd40__item-icon){--_wp-ui-popup-selection-offset:calc(var(--wpds-dimension-size-2xs, 16px) + var(--wpds-dimension-gap-xs, 4px) - var(--wpds-dimension-padding-xs, 4px))}}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-sm,24px);padding-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));padding-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset))}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));margin-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline:var(--wp-ui-popup-item-padding-inline);user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
 }
-var item_popup_default12 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "item-icon": "a3adcfd0b73ffd40__item-icon", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
-var Status = (0, import_element49.forwardRef)(
+var item_popup_default11 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "item-icon": "a3adcfd0b73ffd40__item-icon", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
+var Separator = (0, import_element50.forwardRef)(function AutocompleteSeparator2({
+  className,
+  orientation: _orientation,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+    index_parts_exports.Separator,
+    {
+      ref,
+      className: clsx_default(item_popup_default11.separator, className),
+      ...props
+    }
+  );
+});
+
+// packages/ui/build-module/form/primitives/autocomplete/status.mjs
+var import_element51 = __toESM(require_element(), 1);
+var import_jsx_runtime70 = __toESM(require_jsx_runtime(), 1);
+var STYLE_HASH_ATTRIBUTE25 = "data-wp-hash";
+function getRuntime25() {
+  const globalScope = globalThis;
+  if (globalScope.__wpStyleRuntime) {
+    return globalScope.__wpStyleRuntime;
+  }
+  globalScope.__wpStyleRuntime = {
+    documents: /* @__PURE__ */ new Map(),
+    styles: /* @__PURE__ */ new Map(),
+    injectedStyles: /* @__PURE__ */ new WeakMap()
+  };
+  if (typeof document !== "undefined") {
+    registerDocument25(document);
+  }
+  return globalScope.__wpStyleRuntime;
+}
+function documentContainsStyleHash25(targetDocument, hash) {
+  if (!targetDocument.head) {
+    return false;
+  }
+  for (const style of targetDocument.head.querySelectorAll(
+    `style[${STYLE_HASH_ATTRIBUTE25}]`
+  )) {
+    if (style.getAttribute(STYLE_HASH_ATTRIBUTE25) === hash) {
+      return true;
+    }
+  }
+  return false;
+}
+function injectStyle25(targetDocument, hash, css) {
+  if (!targetDocument.head) {
+    return;
+  }
+  const runtime = getRuntime25();
+  let injectedStyles = runtime.injectedStyles.get(targetDocument);
+  if (!injectedStyles) {
+    injectedStyles = /* @__PURE__ */ new Set();
+    runtime.injectedStyles.set(targetDocument, injectedStyles);
+  }
+  if (injectedStyles.has(hash)) {
+    return;
+  }
+  if (documentContainsStyleHash25(targetDocument, hash)) {
+    injectedStyles.add(hash);
+    return;
+  }
+  const style = targetDocument.createElement("style");
+  style.setAttribute(STYLE_HASH_ATTRIBUTE25, hash);
+  style.appendChild(targetDocument.createTextNode(css));
+  targetDocument.head.appendChild(style);
+  injectedStyles.add(hash);
+}
+function registerDocument25(targetDocument) {
+  const runtime = getRuntime25();
+  runtime.documents.set(
+    targetDocument,
+    (runtime.documents.get(targetDocument) ?? 0) + 1
+  );
+  for (const [hash, css] of runtime.styles) {
+    injectStyle25(targetDocument, hash, css);
+  }
+  return () => {
+    const count = runtime.documents.get(targetDocument);
+    if (count === void 0) {
+      return;
+    }
+    if (count <= 1) {
+      runtime.documents.delete(targetDocument);
+      return;
+    }
+    runtime.documents.set(targetDocument, count - 1);
+  };
+}
+function registerStyle25(hash, css) {
+  const runtime = getRuntime25();
+  runtime.styles.set(hash, css);
+  for (const targetDocument of runtime.documents.keys()) {
+    injectStyle25(targetDocument, hash, css);
+  }
+}
+if (typeof process === "undefined" || true) {
+  registerStyle25("e25d67a230", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._234b520016b4e56f__popup{--wp-ui-popup-padding:var(--wpds-dimension-padding-xs,4px);--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);display:grid;grid-template-areas:"header" "status" "main";grid-template-rows:auto auto minmax(0,1fr);max-height:min(var(--available-height),480px,60dvh);max-width:var(--available-width);min-width:var(--anchor-width);&.b9a9946a395ccad8__is-width-anchor{width:var(--anchor-width)}&._7c9f1b268b013f02__is-width-content{width:auto}&._6f31db51d79ec899__is-width-sm{width:min(var(--available-width),var(--wpds-dimension-surface-width-sm,320px))}&.fa45cdb5f45e57fb__is-width-md{width:min(var(--available-width),var(--wpds-dimension-surface-width-md,400px))}&._46a909337f6be21c__is-width-lg{width:min(var(--available-width),var(--wpds-dimension-surface-width-lg,560px))}&._6083938dff06df34__is-width-available{width:var(--available-width)}}._101852fa256bb935__is-align-item-with-trigger[data-side=none] ._234b520016b4e56f__popup{max-height:none}._2fff4e9defe85de5__list-chrome{--_wp-ui-popup-selection-offset:0px;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);grid-area:main;line-height:var(--wpds-typography-line-height-sm,20px);&:has(.a3adcfd0b73ffd40__item-icon){--_wp-ui-popup-selection-offset:calc(var(--wpds-dimension-size-2xs, 16px) + var(--wpds-dimension-gap-xs, 4px) - var(--wpds-dimension-padding-xs, 4px))}}.f43dc7c768d7b622__list{display:grid;grid-template-areas:"scrollable" "footer";grid-template-rows:minmax(0,1fr) auto}._233cd60cdb84a2ef__list-scrollable-container{grid-area:scrollable;overflow-block:auto;overscroll-behavior:contain;scroll-padding-block:var(--wp-ui-popup-padding);&:not(:empty){padding-block:var(--wp-ui-popup-padding)}}.ec4db6f0122263e7__list-footer{grid-area:footer;padding-block:var(--wp-ui-popup-padding);._233cd60cdb84a2ef__list-scrollable-container:not(:empty)+&{border-block-start:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb)}}.b3c0d7f103fb10a2__group:not(:first-child){margin-block-start:var(--wpds-dimension-gap-sm,8px)}._21b59380477c306c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;min-height:var(--wpds-dimension-size-sm,24px);padding-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));padding-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset))}.be89a1df0fe77bd2__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline-end:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px));margin-inline-start:calc(var(--wp-ui-popup-padding) + var(--wpds-dimension-padding-sm, 8px) + var(--_wp-ui-popup-selection-offset));@media (forced-colors:active){background-color:CanvasText}}._684ccb7988365b4f__item{--wp-ui-popup-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:var(--wpds-dimension-padding-xs,4px);align-items:center;border-radius:var(--wpds-border-radius-sm,2px);display:flex;gap:var(--wpds-dimension-gap-xs,4px);justify-content:flex-start;margin-inline:var(--wp-ui-popup-padding);min-height:var(--wp-ui-popup-item-height);min-width:0;overflow-wrap:anywhere;padding-block:var(--wp-ui-popup-item-padding-block);padding-inline:var(--wp-ui-popup-item-padding-inline);user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&:has(>.a3adcfd0b73ffd40__item-icon){align-content:center;align-items:start;display:grid;grid-template-columns:auto minmax(0,1fr);padding-inline-start:calc(var(--wp-ui-popup-item-padding-inline) - var(--wpds-dimension-padding-xs, 4px))}&._38f7faff93c61958__is-size-small{--wp-ui-popup-item-height:var(--wpds-dimension-size-sm,24px);--wp-ui-popup-item-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-popup-item-padding-block:2px}&:not([data-selected]){._92fbe4765dfad5ee__item-indicator-icon{opacity:0}}&[data-highlighted]:not([aria-disabled=true]){background-color:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);outline:none;@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid Highlight}}&[aria-disabled=true]{background-color:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){color:GrayText}}}.a3adcfd0b73ffd40__item-icon{align-items:center;display:flex;height:var(--wpds-typography-line-height-sm,20px);pointer-events:none}._92fbe4765dfad5ee__item-indicator-icon{translate:0 1px}._74465fc7e8ecea1a__item-content{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);min-width:0}._41f0dd875c005a48__item-text{display:flex;flex-direction:column;min-width:0}._12335b76ada0b1f5__item-label{min-width:0}._160635254c702623__item-description{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}._684ccb7988365b4f__item[aria-disabled=true] ._160635254c702623__item-description,._684ccb7988365b4f__item[data-highlighted]:not([aria-disabled=true]) ._160635254c702623__item-description{color:inherit}._6eb78bc92f8d7795__status{grid-area:status}._06c7ff39d2f685b9__empty:not(:empty){grid-area:main}._06c7ff39d2f685b9__empty:not(:empty),._6eb78bc92f8d7795__status:not(:empty):not(:has([data-visually-hidden])){--wp-ui-popup-empty-min-height:var(--wpds-dimension-size-md,32px);--wp-ui-popup-empty-padding-inline:var(--wpds-dimension-padding-md,12px);align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px);min-height:var(--wp-ui-popup-empty-min-height);padding-inline:var(--wp-ui-popup-empty-padding-inline)}}}');
+}
+var item_popup_default12 = { "popup": "_234b520016b4e56f__popup _380b81b8f79fb10f__dropdown-motion", "is-width-anchor": "b9a9946a395ccad8__is-width-anchor", "is-width-content": "_7c9f1b268b013f02__is-width-content", "is-width-sm": "_6f31db51d79ec899__is-width-sm", "is-width-md": "fa45cdb5f45e57fb__is-width-md", "is-width-lg": "_46a909337f6be21c__is-width-lg", "is-width-available": "_6083938dff06df34__is-width-available", "is-align-item-with-trigger": "_101852fa256bb935__is-align-item-with-trigger", "list-chrome": "_2fff4e9defe85de5__list-chrome", "item-icon": "a3adcfd0b73ffd40__item-icon", "list": "f43dc7c768d7b622__list _2fff4e9defe85de5__list-chrome", "list-scrollable-container": "_233cd60cdb84a2ef__list-scrollable-container", "list-footer": "ec4db6f0122263e7__list-footer", "group": "b3c0d7f103fb10a2__group", "group-label": "_21b59380477c306c__group-label", "separator": "be89a1df0fe77bd2__separator", "item": "_684ccb7988365b4f__item", "is-size-small": "_38f7faff93c61958__is-size-small", "item-indicator-icon": "_92fbe4765dfad5ee__item-indicator-icon", "item-content": "_74465fc7e8ecea1a__item-content", "item-text": "_41f0dd875c005a48__item-text", "item-label": "_12335b76ada0b1f5__item-label", "item-description": "_160635254c702623__item-description", "status": "_6eb78bc92f8d7795__status", "empty": "_06c7ff39d2f685b9__empty" };
+var Status = (0, import_element51.forwardRef)(
   function UnforwardedStatus({ className, ...restProps }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(
       index_parts_exports.Status,
       {
         className: clsx_default(item_popup_default12.status, className),
@@ -19073,20 +19256,45 @@ function useFilteredItems2() {
 }
 
 // packages/ui/build-module/form/primitives/autocomplete/value.mjs
-var import_jsx_runtime70 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime71 = __toESM(require_jsx_runtime(), 1);
 function Value(props) {
-  return /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(index_parts_exports.Value, { ...props });
+  return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(index_parts_exports.Value, { ...props });
 }
 
 // packages/workflow/build-module/components/workflow-menu.mjs
 var import_data = __toESM(require_data(), 1);
-var import_element50 = __toESM(require_element(), 1);
-var import_i18n5 = __toESM(require_i18n(), 1);
+var import_element52 = __toESM(require_element(), 1);
+var import_i18n6 = __toESM(require_i18n(), 1);
 var import_components = __toESM(require_components(), 1);
 var import_keyboard_shortcuts = __toESM(require_keyboard_shortcuts(), 1);
 var import_keycodes = __toESM(require_keycodes(), 1);
-var import_jsx_runtime71 = __toESM(require_jsx_runtime(), 1);
 import { executeAbility, store as abilitiesStore } from "@wordpress/abilities";
+
+// packages/workflow/build-module/utils/get-error-message.mjs
+var import_html_entities = __toESM(require_html_entities(), 1);
+var import_i18n5 = __toESM(require_i18n(), 1);
+function getErrorMessage(error2) {
+  let message = "";
+  if (typeof error2 === "object" && error2 !== null) {
+    if ("message" in error2 && typeof error2.message === "string") {
+      message = error2.message;
+    }
+    if (!message && "name" in error2 && typeof error2.name === "string") {
+      message = error2.name;
+    }
+  } else if (error2 !== null && error2 !== void 0) {
+    message = String(error2);
+  }
+  if (!message) {
+    return (0, import_i18n5.__)(
+      "This ability couldn’t run. Check the browser console for details."
+    );
+  }
+  return (0, import_html_entities.decodeEntities)(message);
+}
+
+// packages/workflow/build-module/components/workflow-menu.mjs
+var import_jsx_runtime72 = __toESM(require_jsx_runtime(), 1);
 if (typeof document !== "undefined" && (typeof process === "undefined" || true) && !document.head.querySelector("style[data-wp-hash='715ff4efd0']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "715ff4efd0");
@@ -19094,43 +19302,15 @@ if (typeof document !== "undefined" && (typeof process === "undefined" || true) 
   document.head.appendChild(style);
 }
 var EMPTY_ARRAY2 = [];
-var inputLabel = (0, import_i18n5.__)("Run abilities and workflows");
+var inputLabel = (0, import_i18n6.__)("Run abilities and workflows");
 function WorkflowMenu() {
   const { registerShortcut } = (0, import_data.useDispatch)(import_keyboard_shortcuts.store);
-  const [search, setSearch] = (0, import_element50.useState)("");
-  const [isOpen, setIsOpen] = (0, import_element50.useState)(false);
-  const [abilityOutput, setAbilityOutput] = (0, import_element50.useState)(null);
-  const [isExecuting, setIsExecuting] = (0, import_element50.useState)(false);
-  const containerRef = (0, import_element50.useRef)();
-  const inputRef = (0, import_element50.useRef)();
-  const abilities = (0, import_data.useSelect)((select) => {
-    const allAbilities = select(abilitiesStore).getAbilities();
-    return allAbilities || EMPTY_ARRAY2;
-  }, []);
-  const filteredAbilities = (0, import_element50.useMemo)(() => {
-    if (!search) {
-      return abilities;
-    }
-    const searchLower = search.toLowerCase();
-    return abilities.filter(
-      (ability) => ability.label?.toLowerCase().includes(searchLower) || ability.name?.toLowerCase().includes(searchLower)
-    );
-  }, [abilities, search]);
-  (0, import_element50.useEffect)(() => {
-    if (abilityOutput && containerRef.current) {
-      containerRef.current.focus();
-    }
-  }, [abilityOutput]);
-  (0, import_element50.useEffect)(() => {
-    if (isOpen && !abilityOutput) {
-      inputRef.current?.focus();
-    }
-  }, [isOpen, abilityOutput]);
-  (0, import_element50.useEffect)(() => {
+  const [isOpen, setIsOpen] = (0, import_element52.useState)(false);
+  (0, import_element52.useEffect)(() => {
     registerShortcut({
       name: "core/workflows",
       category: "global",
-      description: (0, import_i18n5.__)("Open the workflow palette."),
+      description: (0, import_i18n6.__)("Open the workflow palette."),
       keyCombination: {
         modifier: "primary",
         character: "j"
@@ -19139,29 +19319,53 @@ function WorkflowMenu() {
   }, [registerShortcut]);
   (0, import_keyboard_shortcuts.useShortcut)(
     "core/workflows",
-    /** @type {React.KeyboardEventHandler} */
     (0, import_keycodes.withIgnoreIMEEvents)((event) => {
       if (event.defaultPrevented) {
         return;
       }
       event.preventDefault();
-      setIsOpen(!isOpen);
-    }),
-    {
-      bindGlobal: true
-    }
+      setIsOpen((open2) => !open2);
+    })
   );
-  (0, import_element50.useEffect)(() => {
+  (0, import_element52.useEffect)(() => {
     if (isOpen) {
       import("@wordpress/core-abilities");
     }
   }, [isOpen]);
-  const closeAndReset = () => {
-    setSearch("");
-    setIsOpen(false);
-    setAbilityOutput(null);
-    setIsExecuting(false);
-  };
+  if (!isOpen) {
+    return null;
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(WorkflowPalette, { onClose: () => setIsOpen(false) });
+}
+function WorkflowPalette({ onClose }) {
+  const [search, setSearch] = (0, import_element52.useState)("");
+  const [abilityOutput, setAbilityOutput] = (0, import_element52.useState)(null);
+  const [isExecuting, setIsExecuting] = (0, import_element52.useState)(false);
+  const containerRef = (0, import_element52.useRef)(null);
+  const inputRef = (0, import_element52.useRef)(null);
+  const abilities = (0, import_data.useSelect)((select) => {
+    const allAbilities = select(abilitiesStore).getAbilities();
+    return allAbilities || EMPTY_ARRAY2;
+  }, []);
+  const filteredAbilities = (0, import_element52.useMemo)(() => {
+    if (!search) {
+      return abilities;
+    }
+    const searchLower = search.toLowerCase();
+    return abilities.filter(
+      (ability) => ability.label.toLowerCase().includes(searchLower) || ability.name.toLowerCase().includes(searchLower)
+    );
+  }, [abilities, search]);
+  (0, import_element52.useEffect)(() => {
+    if (abilityOutput && containerRef.current) {
+      containerRef.current.focus();
+    }
+  }, [abilityOutput]);
+  (0, import_element52.useEffect)(() => {
+    if (!abilityOutput) {
+      inputRef.current?.focus();
+    }
+  }, [abilityOutput]);
   const goBack = () => {
     setAbilityOutput(null);
     setIsExecuting(false);
@@ -19169,22 +19373,19 @@ function WorkflowMenu() {
   };
   const handleExecuteAbility = async (ability) => {
     setIsExecuting(true);
+    const details = {
+      name: ability.name,
+      label: ability.label || ability.name,
+      description: ability.description || ""
+    };
     try {
       const result = await executeAbility(ability.name);
-      setAbilityOutput({
-        name: ability.name,
-        label: ability?.label || ability.name,
-        description: ability?.description || "",
-        success: true,
-        data: result
-      });
+      setAbilityOutput({ ...details, success: true, data: result });
     } catch (error2) {
       setAbilityOutput({
-        name: ability.name,
-        label: ability?.label || ability.name,
-        description: ability?.description || "",
+        ...details,
         success: false,
-        error: error2.message || String(error2)
+        error: getErrorMessage(error2)
       });
     } finally {
       setIsExecuting(false);
@@ -19197,20 +19398,17 @@ function WorkflowMenu() {
       goBack();
     }
   };
-  if (!isOpen) {
-    return null;
-  }
   const items = isExecuting ? EMPTY_ARRAY2 : filteredAbilities;
   const showEmpty = !isExecuting && !!search && !filteredAbilities.length;
-  return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
     import_components.Modal,
     {
       className: "workflows-workflow-menu",
       overlayClassName: "workflows-workflow-menu__overlay",
-      onRequestClose: abilityOutput ? goBack : closeAndReset,
+      onRequestClose: abilityOutput ? goBack : onClose,
       __experimentalHideHeader: true,
-      contentLabel: (0, import_i18n5.__)("Workflow palette"),
-      children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+      contentLabel: (0, import_i18n6.__)("Workflow palette"),
+      children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
         "div",
         {
           className: "workflows-workflow-menu__container",
@@ -19218,17 +19416,17 @@ function WorkflowMenu() {
           ref: containerRef,
           tabIndex: -1,
           role: "presentation",
-          children: abilityOutput ? /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)("div", { className: "workflows-workflow-menu__output", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)("div", { className: "workflows-workflow-menu__output-header", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("h3", { children: abilityOutput.label }),
-              abilityOutput.description && /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("p", { className: "workflows-workflow-menu__output-hint", children: abilityOutput.description })
+          children: abilityOutput ? /* @__PURE__ */ (0, import_jsx_runtime72.jsxs)("div", { className: "workflows-workflow-menu__output", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime72.jsxs)("div", { className: "workflows-workflow-menu__output-header", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime72.jsx)("h3", { children: abilityOutput.label }),
+              abilityOutput.description && /* @__PURE__ */ (0, import_jsx_runtime72.jsx)("p", { className: "workflows-workflow-menu__output-hint", children: abilityOutput.description })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("div", { className: "workflows-workflow-menu__output-content", children: abilityOutput.success ? /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("pre", { children: JSON.stringify(
+            /* @__PURE__ */ (0, import_jsx_runtime72.jsx)("div", { className: "workflows-workflow-menu__output-content", children: abilityOutput.success ? /* @__PURE__ */ (0, import_jsx_runtime72.jsx)("pre", { children: JSON.stringify(
               abilityOutput.data,
               null,
               2
-            ) }) : /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("div", { className: "workflows-workflow-menu__output-error", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("p", { children: abilityOutput.error }) }) })
-          ] }) : /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(
+            ) }) : /* @__PURE__ */ (0, import_jsx_runtime72.jsx)("div", { className: "workflows-workflow-menu__output-error", children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)("p", { children: abilityOutput.error }) }) })
+          ] }) : /* @__PURE__ */ (0, import_jsx_runtime72.jsxs)(
             autocomplete_exports.Root,
             {
               items: abilities,
@@ -19240,21 +19438,21 @@ function WorkflowMenu() {
               inline: true,
               autoHighlight: true,
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+                /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
                   autocomplete_exports.Input,
                   {
                     ref: inputRef,
                     placeholder: inputLabel,
                     "aria-label": inputLabel,
                     className: "workflows-workflow-menu__input",
-                    render: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+                    render: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
                       Input3,
                       {
-                        prefix: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(InputLayout2.Slot, { padding: "minimal", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+                        prefix: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(InputLayout2.Slot, { padding: "minimal", children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
                           Icon,
                           {
                             icon: search_default,
-                            style: (0, import_i18n5.isRTL)() ? void 0 : {
+                            style: (0, import_i18n6.isRTL)() ? void 0 : {
                               transform: "scaleX(-1)"
                             }
                           }
@@ -19263,20 +19461,20 @@ function WorkflowMenu() {
                     )
                   }
                 ),
-                /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(autocomplete_exports.Status, { className: "workflows-workflow-menu__executing", children: isExecuting ? (0, import_i18n5.__)("Executing ability…") : null }),
-                /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(autocomplete_exports.Empty, { className: "workflows-workflow-menu__empty", children: showEmpty ? (0, import_i18n5.__)("No results found.") : null }),
-                /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+                /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(autocomplete_exports.Status, { className: "workflows-workflow-menu__executing", children: isExecuting ? (0, import_i18n6.__)("Executing ability…") : null }),
+                /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(autocomplete_exports.Empty, { className: "workflows-workflow-menu__empty", children: showEmpty ? (0, import_i18n6.__)("No results found.") : null }),
+                /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
                   autocomplete_exports.List,
                   {
                     className: "workflows-workflow-menu__list",
-                    "aria-label": (0, import_i18n5.__)("Workflow suggestions"),
-                    children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(autocomplete_exports.ListBody, { className: "workflows-workflow-menu__list-body", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(autocomplete_exports.Collection, { children: (item) => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+                    "aria-label": (0, import_i18n6.__)("Workflow suggestions"),
+                    children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(autocomplete_exports.ListBody, { className: "workflows-workflow-menu__list-body", children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(autocomplete_exports.Collection, { children: (item) => /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
                       autocomplete_exports.Item,
                       {
                         value: item,
                         className: "workflows-workflow-menu__item",
                         onClick: () => handleExecuteAbility(item),
-                        children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(autocomplete_exports.ItemLabel, { className: "workflows-workflow-menu__item-label", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+                        children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(autocomplete_exports.ItemLabel, { className: "workflows-workflow-menu__item-label", children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
                           import_components.TextHighlight,
                           {
                             text: item.label,
@@ -19300,7 +19498,7 @@ function WorkflowMenu() {
 // packages/workflow/build-module/index.mjs
 var root = document.createElement("div");
 document.body.appendChild(root);
-(0, import_element51.createRoot)(root).render((0, import_element51.createElement)(WorkflowMenu));
+(0, import_element53.createRoot)(root).render((0, import_element53.createElement)(WorkflowMenu));
 /*! Bundled license information:
 
 use-sync-external-store/cjs/use-sync-external-store-shim.development.js:

@@ -28,6 +28,12 @@
 		"ariaLabel": true,
 		"visibility": false,
 		"lock": false,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true,
+			"__experimentalSkipSerialization": true
+		},
 		"color": {
 			"background": true,
 			"text": true,
@@ -39,7 +45,11 @@
 		},
 		"typography": {
 			"fontSize": true,
-			"__experimentalFontFamily": true
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalTextTransform": true,
+			"__experimentalLetterSpacing": true
 		},
 		"__experimentalBorder": {
 			"color": true,
@@ -71,6 +81,7 @@
 		}
 	},
 	"selectors": {
+		"background": ".wp-block-tab-list button",
 		"border": ".wp-block-tab-list button",
 		"shadow": ".wp-block-tab-list button",
 		"color": {

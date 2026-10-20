@@ -146,3 +146,13 @@
 .wp-block-query > .block-editor-media-placeholder.is-small {
   min-height: 60px;
 }
+
+.block-library-query-inspector__taxonomy-control-path {
+  margin-inline-start: var(--wpds-dimension-gap-xs, 4px);
+  font-size: var(--wpds-typography-font-size-sm, 12px);
+  color: var(--wpds-color-foreground-content-neutral-weak, #707070);
+}
+
+.block-library-query-inspector__taxonomy-control-limited-count {
+  padding-block: var(--wpds-dimension-padding-xs, 4px);
+}

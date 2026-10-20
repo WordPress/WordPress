@@ -1,4 +1,5 @@
 (function() {
+"use strict";
 var wp;
 (wp ||= {}).preferencesPersistence = (() => {
   var __create = Object.create;
@@ -87,15 +88,124 @@ var wp;
     };
   }
 
+  // packages/preferences-persistence/build-module/is-preferences-data.mjs
+  function isPreferencesData(data) {
+    return !!data && typeof data === "object" && !Array.isArray(data);
+  }
+
+  // packages/preferences-persistence/build-module/local-storage.mjs
+  function readStoredJSON(key) {
+    try {
+      const value = window.localStorage.getItem(key);
+      return value === null ? null : JSON.parse(value);
+    } catch {
+      return null;
+    }
+  }
+  function writeStoredJSON(key, value) {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+    }
+  }
+
+  // packages/preferences-persistence/build-module/migrations/preferences-package-data/convert-complementary-areas.mjs
+  function convertComplementaryAreas(state) {
+    return Object.keys(state).reduce(
+      (stateAccumulator, scope) => {
+        const scopeData = state[scope];
+        if (scopeData?.complementaryArea) {
+          const updatedScopeData = { ...scopeData };
+          delete updatedScopeData.complementaryArea;
+          updatedScopeData.isComplementaryAreaVisible = true;
+          stateAccumulator[scope] = updatedScopeData;
+          return stateAccumulator;
+        }
+        return stateAccumulator;
+      },
+      { ...state }
+    );
+  }
+
+  // packages/preferences-persistence/build-module/migrations/preferences-package-data/convert-editor-settings.mjs
+  var copyScope = (scope) => isPreferencesData(scope) ? { ...scope } : void 0;
+  function convertEditorSettings(data) {
+    const newData = { ...data };
+    const editPost = copyScope(data["core/edit-post"]);
+    const editSite = copyScope(data["core/edit-site"]);
+    const settingsToMoveToCore = [
+      "allowRightClickOverrides",
+      "distractionFree",
+      "editorMode",
+      "fixedToolbar",
+      "focusMode",
+      "hiddenBlockTypes",
+      "inactivePanels",
+      "keepCaretInsideBlock",
+      "mostUsedBlocks",
+      "openPanels",
+      "showBlockBreadcrumbs",
+      "showIconLabels",
+      "showListViewByDefault",
+      "isPublishSidebarEnabled",
+      "isComplementaryAreaVisible",
+      "pinnedItems"
+    ];
+    settingsToMoveToCore.forEach((setting) => {
+      if (editPost?.[setting] !== void 0) {
+        newData.core = {
+          ...copyScope(newData.core),
+          [setting]: editPost[setting]
+        };
+        delete editPost[setting];
+      }
+      if (editSite?.[setting] !== void 0) {
+        delete editSite[setting];
+      }
+    });
+    if (editPost && Object.keys(editPost).length > 0) {
+      newData["core/edit-post"] = editPost;
+    } else {
+      delete newData["core/edit-post"];
+    }
+    if (editSite && Object.keys(editSite).length > 0) {
+      newData["core/edit-site"] = editSite;
+    } else {
+      delete newData["core/edit-site"];
+    }
+    return newData;
+  }
+
+  // packages/preferences-persistence/build-module/migrations/preferences-package-data/index.mjs
+  function convertPreferencesPackageData(data) {
+    let newData = convertComplementaryAreas(data);
+    newData = convertEditorSettings(newData);
+    return newData;
+  }
+
+  // packages/preferences-persistence/build-module/get-newest-data.mjs
+  function pickNewestData(serverData, localStorageRestoreKey) {
+    const storedData = readStoredJSON(localStorageRestoreKey);
+    const localData = isPreferencesData(storedData) ? storedData : null;
+    if (!isPreferencesData(serverData)) {
+      return localData;
+    }
+    const serverModified = Date.parse(serverData._modified ?? "") || 0;
+    const localModified = Date.parse(localData?._modified ?? "") || 0;
+    return localData && localModified > serverModified ? localData : serverData;
+  }
+  function getNewestData(serverData, localStorageRestoreKey) {
+    const newestData = pickNewestData(serverData, localStorageRestoreKey);
+    return newestData ? convertPreferencesPackageData(newestData) : void 0;
+  }
+
   // packages/preferences-persistence/build-module/create/index.mjs
-  var EMPTY_OBJECT = {};
-  var localStorage = window.localStorage;
   function create({
     preloadedData,
     localStorageRestoreKey = "WP_PREFERENCES_RESTORE_DATA",
     requestDebounceMS = 2500
   } = {}) {
-    let cache = preloadedData;
+    let cache = isPreferencesData(preloadedData) ? preloadedData : void 0;
     const debouncedApiFetch = debounceAsync(import_api_fetch.default, requestDebounceMS);
     async function get() {
       if (cache) {
@@ -104,19 +214,10 @@ var wp;
       const user = await (0, import_api_fetch.default)({
         path: "/wp/v2/users/me?context=edit"
       });
-      const serverData = user?.meta?.persisted_preferences;
-      const localData = JSON.parse(
-        localStorage.getItem(localStorageRestoreKey)
-      );
-      const serverTimestamp = Date.parse(serverData?._modified) || 0;
-      const localTimestamp = Date.parse(localData?._modified) || 0;
-      if (serverData && serverTimestamp >= localTimestamp) {
-        cache = serverData;
-      } else if (localData) {
-        cache = localData;
-      } else {
-        cache = EMPTY_OBJECT;
-      }
+      cache = getNewestData(
+        user?.meta?.persisted_preferences,
+        localStorageRestoreKey
+      ) ?? {};
       return cache;
     }
     function set(newData) {
@@ -125,10 +226,7 @@ var wp;
         _modified: (/* @__PURE__ */ new Date()).toISOString()
       };
       cache = dataWithTimestamp;
-      localStorage.setItem(
-        localStorageRestoreKey,
-        JSON.stringify(dataWithTimestamp)
-      );
+      writeStoredJSON(localStorageRestoreKey, dataWithTimestamp);
       debouncedApiFetch({
         path: "/wp/v2/users/me",
         method: "PUT",
@@ -367,9 +465,7 @@ var wp;
 
   // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/index.mjs
   function getLegacyData(userId) {
-    const key = `WP_DATA_USER_${userId}`;
-    const unparsedData = window.localStorage.getItem(key);
-    return JSON.parse(unparsedData);
+    return readStoredJSON(`WP_DATA_USER_${userId}`);
   }
   function convertLegacyData(data) {
     if (!data) {
@@ -412,98 +508,23 @@ var wp;
       { from: "core/edit-site", to: "core/edit-site" },
       "editorMode"
     );
-    return data?.["core/preferences"]?.preferences;
+    const preferences = data?.["core/preferences"]?.preferences;
+    return isPreferencesData(preferences) ? preferences : void 0;
   }
   function convertLegacyLocalStorageData(userId) {
     const data = getLegacyData(userId);
     return convertLegacyData(data);
   }
 
-  // packages/preferences-persistence/build-module/migrations/preferences-package-data/convert-complementary-areas.mjs
-  function convertComplementaryAreas(state) {
-    return Object.keys(state).reduce((stateAccumulator, scope) => {
-      const scopeData = state[scope];
-      if (scopeData?.complementaryArea) {
-        const updatedScopeData = { ...scopeData };
-        delete updatedScopeData.complementaryArea;
-        updatedScopeData.isComplementaryAreaVisible = true;
-        stateAccumulator[scope] = updatedScopeData;
-        return stateAccumulator;
-      }
-      return stateAccumulator;
-    }, state);
-  }
-
-  // packages/preferences-persistence/build-module/migrations/preferences-package-data/convert-editor-settings.mjs
-  function convertEditorSettings(data) {
-    let newData = data;
-    const settingsToMoveToCore = [
-      "allowRightClickOverrides",
-      "distractionFree",
-      "editorMode",
-      "fixedToolbar",
-      "focusMode",
-      "hiddenBlockTypes",
-      "inactivePanels",
-      "keepCaretInsideBlock",
-      "mostUsedBlocks",
-      "openPanels",
-      "showBlockBreadcrumbs",
-      "showIconLabels",
-      "showListViewByDefault",
-      "isPublishSidebarEnabled",
-      "isComplementaryAreaVisible",
-      "pinnedItems"
-    ];
-    settingsToMoveToCore.forEach((setting) => {
-      if (data?.["core/edit-post"]?.[setting] !== void 0) {
-        newData = {
-          ...newData,
-          core: {
-            ...newData?.core,
-            [setting]: data["core/edit-post"][setting]
-          }
-        };
-        delete newData["core/edit-post"][setting];
-      }
-      if (data?.["core/edit-site"]?.[setting] !== void 0) {
-        delete newData["core/edit-site"][setting];
-      }
-    });
-    if (Object.keys(newData?.["core/edit-post"] ?? {})?.length === 0) {
-      delete newData["core/edit-post"];
-    }
-    if (Object.keys(newData?.["core/edit-site"] ?? {})?.length === 0) {
-      delete newData["core/edit-site"];
-    }
-    return newData;
-  }
-
-  // packages/preferences-persistence/build-module/migrations/preferences-package-data/index.mjs
-  function convertPreferencesPackageData(data) {
-    let newData = convertComplementaryAreas(data);
-    newData = convertEditorSettings(newData);
-    return newData;
-  }
-
   // packages/preferences-persistence/build-module/index.mjs
   function __unstableCreatePersistenceLayer(serverData, userId) {
     const localStorageRestoreKey = `WP_PREFERENCES_USER_${userId}`;
-    const localData = JSON.parse(
-      window.localStorage.getItem(localStorageRestoreKey)
-    );
-    const serverModified = Date.parse(serverData && serverData._modified) || 0;
-    const localModified = Date.parse(localData && localData._modified) || 0;
-    let preloadedData;
-    if (serverData && serverModified >= localModified) {
-      preloadedData = convertPreferencesPackageData(serverData);
-    } else if (localData) {
-      preloadedData = convertPreferencesPackageData(localData);
-    } else {
-      preloadedData = convertLegacyLocalStorageData(userId);
-    }
     return create({
-      preloadedData,
+      /*
+       * Fall back to data in the legacy format from the old persistence system.
+       * The server data is already preloaded, so fetching it again is redundant.
+       */
+      preloadedData: getNewestData(serverData, localStorageRestoreKey) ?? convertLegacyLocalStorageData(userId) ?? {},
       localStorageRestoreKey
     });
   }

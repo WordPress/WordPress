@@ -50,7 +50,6 @@ var wp;
   // packages/a11y/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
-    prefersReducedMotion: () => prefersReducedMotion,
     setup: () => setup,
     speak: () => speak
   });
@@ -134,11 +133,6 @@ var wp;
     if (introText) {
       introText.removeAttribute("hidden");
     }
-  }
-
-  // packages/a11y/build-module/shared/prefers-reduced-motion.mjs
-  function prefersReducedMotion() {
-    return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
   }
 
   // packages/a11y/build-module/index.mjs

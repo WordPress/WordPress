@@ -362,7 +362,8 @@ var wp;
     } catch {
       throw {
         code: "invalid_json",
-        message: (0, import_i18n.__)("The response is not a valid JSON response.")
+        message: (0, import_i18n.__)("The response is not a valid JSON response."),
+        data: { status: response.status }
       };
     }
   }
@@ -379,7 +380,11 @@ var wp;
     if (!shouldParseResponse) {
       throw response;
     }
-    throw await parseJsonAndNormalizeError(response);
+    const error = await parseJsonAndNormalizeError(response);
+    if (error && typeof error === "object" && !Array.isArray(error) && error.data === void 0) {
+      throw { ...error, data: { status: response.status } };
+    }
+    throw error;
   }
 
   // packages/api-fetch/build-module/middlewares/media-upload.mjs

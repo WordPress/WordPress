@@ -52,7 +52,7 @@ function render_block_core_template_part( $attributes ) {
 				__FUNCTION__,
 				sprintf(
 					/* translators: 1: Template part ID, 2: Error message. */
-					__( 'Error when loading the template part %1$s from the database: %2$s' ),
+					__( 'Error loading the template part %1$s from the database: %2$s' ),
 					$template_part_id,
 					$block_template->get_error_message()
 				)

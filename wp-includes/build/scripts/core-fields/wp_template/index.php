@@ -1,0 +1,21 @@
+<?php
+/**
+ * The `wp_template` collection: the fields templates have instead of the
+ * defaults.
+ *
+ * Templates support authors, yet their author is the theme, plugin, site,
+ * or user that provides them rather than their post author. So they opt out
+ * of the default author field, see wp_register_core_field_collections()
+ * in `src/index.php`, and get the author field of this collection instead,
+ * with its script module. Likewise for the title, labeled after the
+ * template.
+ *
+ * @package WordPress
+ */
+
+return array(
+	'origin' => 'core',
+	'kind'   => 'postType',
+	'name'   => 'wp_template',
+	'module' => '@wordpress/core-fields/wp_template',
+);

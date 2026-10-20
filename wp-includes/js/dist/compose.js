@@ -1022,11 +1022,9 @@ var wp;
       }
     }
     handleEvent(event) {
-      this.listeners[event.type]?.forEach(
-        (instance) => {
-          instance.handleEvent(event);
-        }
-      );
+      this.listeners[event.type]?.forEach((instance) => {
+        instance.handleEvent(event);
+      });
     }
   };
   var listener_default = Listener;
@@ -1057,12 +1055,11 @@ var wp;
           });
         }
         handleEvent(event) {
-          const handler = eventTypesToHandlers[
-            /** @type {keyof GlobalEventHandlersEventMap} */
-            event.type
-          ];
+          const handler = eventTypesToHandlers[event.type];
           if (typeof this.wrappedRef[handler] === "function") {
-            this.wrappedRef[handler](event);
+            this.wrappedRef[handler](
+              event
+            );
           }
         }
         handleRef(el) {
@@ -1082,7 +1079,13 @@ var wp;
         }
       }
       return (0, import_element2.forwardRef)((props, ref) => {
-        return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Wrapper, { ownProps: props, forwardedRef: ref });
+        return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+          Wrapper,
+          {
+            ownProps: props,
+            forwardedRef: ref
+          }
+        );
       });
     }, "withGlobalEvents");
   }
@@ -1172,30 +1175,37 @@ var wp;
   var import_element5 = __toESM(require_element(), 1);
   var import_deprecated3 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
-  function withState(initialState = {}) {
+  function createWithState(initialState) {
     (0, import_deprecated3.default)("wp.compose.withState", {
       since: "5.8",
       alternative: "wp.element.useState"
     });
-    return createHigherOrderComponent((OriginalComponent) => {
-      return class WrappedComponent extends import_element5.Component {
-        constructor(props) {
-          super(props);
-          this.setState = this.setState.bind(this);
-          this.state = initialState;
-        }
-        render() {
-          return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-            OriginalComponent,
-            {
-              ...this.props,
-              ...this.state,
-              setState: this.setState
-            }
-          );
-        }
-      };
-    }, "withState");
+    return createHigherOrderComponent(
+      (OriginalComponent) => {
+        const Inner = OriginalComponent;
+        return class WrappedComponent extends import_element5.Component {
+          constructor(props) {
+            super(props);
+            this.setState = this.setState.bind(this);
+            this.state = initialState;
+          }
+          render() {
+            return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+              Inner,
+              {
+                ...this.props,
+                ...this.state,
+                setState: this.setState
+              }
+            );
+          }
+        };
+      },
+      "withState"
+    );
+  }
+  function withState(initialState = {}) {
+    return createWithState(initialState);
   }
 
   // packages/compose/build-module/hooks/use-constrained-tabbing/index.mjs
@@ -1230,6 +1240,10 @@ var wp;
           return;
         }
         if (node.contains(nextElement)) {
+          return;
+        }
+        if (!import_dom.focus.tabbable.find(node).length) {
+          event.preventDefault();
           return;
         }
         const domAction = shiftKey ? "append" : "prepend";

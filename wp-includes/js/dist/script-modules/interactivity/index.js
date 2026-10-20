@@ -2079,9 +2079,11 @@ var getEvaluate = ({ scope }) => (entry) => {
     resetScope();
     const wrappedFunction = (...functionArgs) => {
       setScope(scope);
-      const functionResult = value(...functionArgs);
-      resetScope();
-      return functionResult;
+      try {
+        return value(...functionArgs);
+      } finally {
+        resetScope();
+      }
     };
     if (value.sync) {
       const syncAwareFunction = wrappedFunction;
@@ -2482,6 +2484,7 @@ directive(
 );
 
 // packages/interactivity/build-module/html.mjs
+var emptyHTML = globalThis.trustedTypes?.emptyHTML ?? "";
 var trustedHtmlByToken = /* @__PURE__ */ new WeakMap();
 function asDangerousHTML(html) {
   const { trustedTypes } = globalThis;
@@ -2502,13 +2505,14 @@ function getDangerousHTML(token) {
 }
 
 // packages/interactivity/build-module/directives/html.mjs
-var STABLE_EMPTY_HTML = Object.freeze({ __html: "" });
+var isServerHTMLRepresentation = (value) => isPlainObject(value) && value.wpServerHtml === true;
 directive(
   "html",
   ({ directives: { html: htmlEntries }, element, evaluate }) => {
     const entry = htmlEntries.find(isDefaultDirectiveSuffix);
-    const lastValue = A2(void 0);
-    const lastWrittenKey = A2(void 0);
+    const lastAppliedKey = A2(void 0);
+    const preactHtml = A2();
+    let result;
     if (!entry) {
       if (true) {
         warn(
@@ -2520,52 +2524,69 @@ directive(
         warnUniqueIdNotSupported("html", entry.uniqueId);
       }
     } else {
-      let result;
       try {
         result = evaluate(entry);
-      } catch {
-        result = void 0;
-      }
-      if (result !== PENDING_GETTER) {
         if (typeof result === "function") {
           result = result();
         }
-        if (isDangerousHTML(result)) {
-          lastValue.current = getDangerousHTML(result);
-        }
+      } catch {
+        result = void 0;
       }
     }
-    const resolvedValue = lastValue.current;
+    const active = !!entry && !entry.uniqueId;
+    const serverHTMLRepresentation = isServerHTMLRepresentation(result);
+    const preserveContent = result === PENDING_GETTER || serverHTMLRepresentation;
+    const trusted = isDangerousHTML(result);
+    const resolvedValue = trusted ? getDangerousHTML(result) : emptyHTML;
     useLayoutEffect(() => {
-      if (resolvedValue === void 0) {
+      if (!active) {
         return;
       }
+      if (preserveContent) {
+        if (serverHTMLRepresentation) {
+          lastAppliedKey.current = void 0;
+        }
+        return;
+      }
+      if (!trusted && result !== null && result !== void 0) {
+        warn(
+          "data-wp-html: the value is not trusted HTML. Use asDangerousHTML() to explicitly trust the markup."
+        );
+      }
       const key = String(resolvedValue);
-      if (lastWrittenKey.current === key) {
+      if (lastAppliedKey.current === key) {
         return;
       }
       const node = element.ref.current;
-      if (lastWrittenKey.current === void 0 && node.innerHTML === key) {
-        lastWrittenKey.current = key;
+      if (lastAppliedKey.current === void 0 && node.innerHTML === key) {
+        lastAppliedKey.current = key;
         return;
       }
       try {
         node.innerHTML = resolvedValue;
-        lastWrittenKey.current = key;
       } catch (error) {
-        lastWrittenKey.current = key;
+        node.innerHTML = emptyHTML;
         if (true) {
           warn(
-            `data-wp-html: the browser rejected this HTML value, so the element's existing content was left in place. ${error}`
+            `data-wp-html: the browser rejected this HTML value, so the element was emptied. ${error}`
           );
         }
       }
-    }, [resolvedValue, element.ref]);
-    if (resolvedValue === void 0) {
-      return;
+      lastAppliedKey.current = key;
+    }, [
+      result,
+      active,
+      preserveContent,
+      serverHTMLRepresentation,
+      trusted,
+      resolvedValue,
+      element.ref
+    ]);
+    if (active) {
+      preactHtml.current ??= preserveContent && element.props.dangerouslySetInnerHTML?.__html ? element.props.dangerouslySetInnerHTML : { __html: emptyHTML };
+      element.props.dangerouslySetInnerHTML = preactHtml.current;
+      element.props.children = void 0;
     }
-    element.props.dangerouslySetInnerHTML = STABLE_EMPTY_HTML;
-    element.props.children = void 0;
   }
 );
 
@@ -2992,6 +3013,9 @@ function parseDirectiveName(directiveName) {
     return null;
   }
   const suffixIndex = name.indexOf("--");
+  if (suffixIndex === 0 || name[0] === "-") {
+    return null;
+  }
   if (suffixIndex === -1) {
     return { prefix: name, suffix: null, uniqueId: null };
   }
@@ -3019,16 +3043,17 @@ function parseDirectiveValue(rawValue) {
   const namespace = regexResult?.[1] ?? null;
   const rawDirectiveValue = regexResult?.[2] ?? rawValue;
   let value = rawDirectiveValue;
-  try {
-    const parsedValue = JSON.parse(rawDirectiveValue);
-    if (isObject(parsedValue)) {
-      value = parsedValue;
+  if (/^\s*\{/.test(rawDirectiveValue)) {
+    try {
+      const parsedValue = JSON.parse(rawDirectiveValue);
+      if (isObject(parsedValue)) {
+        value = parsedValue;
+      }
+    } catch {
     }
-  } catch {
   }
   return { namespace, value };
 }
-var hydratedIslands = /* @__PURE__ */ new WeakSet();
 function toVdom(root) {
   const nodesToRemove = /* @__PURE__ */ new Set();
   const nodesToReplace = /* @__PURE__ */ new Set();
@@ -3044,22 +3069,22 @@ function toVdom(root) {
     }
     if (nodeType === 4) {
       nodesToReplace.add(node);
-      return node.nodeValue;
+      return node.data;
     }
     if (nodeType === 8 || nodeType === 7) {
       nodesToRemove.add(node);
       return null;
     }
     const elementNode = node;
-    const { attributes } = elementNode;
     const localName = elementNode.localName;
     const props = {};
     const children = [];
     const directives = [];
     let island = false;
-    for (let i6 = 0; i6 < attributes.length; i6++) {
-      const attributeName = attributes[i6].name;
-      const attributeValue = attributes[i6].value;
+    const attributeNames = elementNode.getAttributeNames();
+    for (let i6 = 0; i6 < attributeNames.length; i6++) {
+      const attributeName = attributeNames[i6];
+      const attributeValue = elementNode.getAttribute(attributeName) ?? "";
       if (attributeName[directivePrefix.length] && attributeName.slice(0, directivePrefix.length) === directivePrefix) {
         if (true) {
           if (attributeName === "data-wp-ignore") {
@@ -3079,6 +3104,8 @@ function toVdom(root) {
         } else {
           directives.push([attributeName, namespace, value]);
         }
+        props[attributeName] = attributeValue;
+        continue;
       } else if (attributeName === "ref") {
         continue;
       }
@@ -3087,9 +3114,6 @@ function toVdom(root) {
       } else {
         props[attributeName] = attributeValue;
       }
-    }
-    if (island) {
-      hydratedIslands.add(elementNode);
     }
     if (directives.length) {
       props.__directives = directives.reduce((obj, [name, ns, value]) => {
@@ -3125,15 +3149,23 @@ function toVdom(root) {
         );
       }
     }
+    if (props.__directives?.html) {
+      const conflictingPrefixes = [
+        "text",
+        "each",
+        "router-region"
+      ].filter((prefix) => prefix in props.__directives);
+      if (conflictingPrefixes.length) {
+        warn(
+          `The data-wp-html directive was ignored because it conflicts with ${conflictingPrefixes.map((prefix) => `data-wp-${prefix}`).join(", ")}.`
+        );
+        delete props.__directives.html;
+      }
+    }
     const hasDefaultHtmlDirective = props.__directives?.html?.some(
       ({ suffix }) => suffix === null
     );
     if (props.__directives?.["each-child"] || hasDefaultHtmlDirective) {
-      if (hasDefaultHtmlDirective) {
-        elementNode.querySelectorAll("[data-wp-interactive]").forEach((islandNode) => {
-          hydratedIslands.add(islandNode);
-        });
-      }
       props.dangerouslySetInnerHTML = {
         __html: elementNode.innerHTML
       };
@@ -3165,7 +3197,7 @@ function toVdom(root) {
   );
   nodesToReplace.forEach(
     (node) => node.replaceWith(
-      new window.Text(node.nodeValue ?? "")
+      new window.Text(node.data)
     )
   );
   return vdom;
@@ -3192,16 +3224,18 @@ var initialVdomPromise = new Promise((resolve2) => {
   resolveInitialVdom = resolve2;
 });
 var hydrateRegions = async () => {
-  const nodes = document.querySelectorAll(`[data-wp-interactive]`);
+  const nodes = [
+    ...document.querySelectorAll(`[data-wp-interactive]`)
+  ].filter(
+    (node) => !node.parentElement?.closest("[data-wp-interactive]")
+  );
   for (const node of nodes) {
-    if (!hydratedIslands.has(node)) {
-      await splitTask();
-      const fragment = getRegionRootFragment(node);
-      const vdom = toVdom(node);
-      initialVdom.set(node, vdom);
-      await splitTask();
-      U(vdom, fragment);
-    }
+    await splitTask();
+    const fragment = getRegionRootFragment(node);
+    const vdom = toVdom(node);
+    initialVdom.set(node, vdom);
+    await splitTask();
+    U(vdom, fragment);
   }
   resolveInitialVdom(initialVdom);
 };

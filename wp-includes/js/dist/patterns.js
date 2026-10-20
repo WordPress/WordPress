@@ -1,4 +1,5 @@
 (function() {
+"use strict";
 var wp;
 (wp ||= {}).patterns = (() => {
   var __create = Object.create;
@@ -102,17 +103,17 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/compose
-  var require_compose = __commonJS({
-    "package-external:@wordpress/compose"(exports, module) {
-      module.exports = window.wp.compose;
-    }
-  });
-
   // package-external:@wordpress/primitives
   var require_primitives = __commonJS({
     "package-external:@wordpress/primitives"(exports, module) {
       module.exports = window.wp.primitives;
+    }
+  });
+
+  // package-external:@wordpress/compose
+  var require_compose = __commonJS({
+    "package-external:@wordpress/compose"(exports, module) {
+      module.exports = window.wp.compose;
     }
   });
 
@@ -349,46 +350,10 @@ var wp;
   // packages/patterns/build-module/components/create-pattern-modal.mjs
   var import_components3 = __toESM(require_components(), 1);
 
-  // node_modules/.store/clsx@2.1.1-XOLP1vUL9vEGfpiXm37fAw/node_modules/clsx/dist/clsx.mjs
-  function r(e) {
-    var t, f, n = "";
-    if ("string" == typeof e || "number" == typeof e) n += e;
-    else if ("object" == typeof e) if (Array.isArray(e)) {
-      var o = e.length;
-      for (t = 0; t < o; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
-    } else for (f in e) e[f] && (n && (n += " "), n += f);
-    return n;
-  }
-  function clsx() {
-    for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
-    return n;
-  }
-  var clsx_default = clsx;
+  // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useRenderElement.mjs
+  var React4 = __toESM(require_react(), 1);
 
-  // node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/createLogOnce.mjs
-  var loggedMessages;
-  if (true) {
-    loggedMessages = /* @__PURE__ */ new Set();
-  }
-  function createLogOnce(severity, prefix) {
-    return function logOnce(...messages) {
-      if (true) {
-        const message = messages.join(" ");
-        const output = prefix ? `${prefix}: ${message}` : message;
-        const key = `${severity}:${output}`;
-        if (!loggedMessages.has(key)) {
-          loggedMessages.add(key);
-          if (severity === "warn") {
-            console.warn(output);
-          } else {
-            console.error(output);
-          }
-        }
-      }
-    };
-  }
-
-  // node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useRefWithInit.mjs
+  // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useRefWithInit.mjs
   var React = __toESM(require_react(), 1);
   var UNINITIALIZED = {};
   function useRefWithInit(init, initArg) {
@@ -399,17 +364,7 @@ var wp;
     return ref;
   }
 
-  // node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/warn.mjs
-  var warn = createLogOnce("warn", "Base UI");
-
-  // node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/empty.mjs
-  var EMPTY_ARRAY = Object.freeze([]);
-  var EMPTY_OBJECT = Object.freeze({});
-
-  // node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useRenderElement.mjs
-  var React4 = __toESM(require_react(), 1);
-
-  // node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/useMergedRefs.mjs
+  // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useMergedRefs.mjs
   function useMergedRefs(a, b, c, d) {
     const forkRef = useRefWithInit(createForkRef).current;
     if (didChange(forkRef, a, b, c, d)) {
@@ -498,17 +453,17 @@ var wp;
     };
   }
 
-  // node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/getReactElementRef.mjs
+  // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/getReactElementRef.mjs
   var React3 = __toESM(require_react(), 1);
 
-  // node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/reactVersion.mjs
+  // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/reactVersion.mjs
   var React2 = __toESM(require_react(), 1);
   var majorVersion = parseInt(React2.version, 10);
   function isReactVersionAtLeast(reactVersionToCheck) {
     return majorVersion >= reactVersionToCheck;
   }
 
-  // node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/getReactElementRef.mjs
+  // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/getReactElementRef.mjs
   function getReactElementRef(element) {
     if (!/* @__PURE__ */ React3.isValidElement(element)) {
       return null;
@@ -518,7 +473,7 @@ var wp;
     return (isReactVersionAtLeast(19) ? propsWithRef?.ref : reactElement.ref) ?? null;
   }
 
-  // node_modules/.store/@base-ui/utils@0.4.0-Z81C5N42agUorsFwt3T4Yw/node_modules/@base-ui/utils/mergeObjects.mjs
+  // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/mergeObjects.mjs
   function mergeObjects(a, b) {
     if (a && !b) {
       return a;
@@ -535,7 +490,37 @@ var wp;
     return void 0;
   }
 
-  // node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/getStateAttributesProps.mjs
+  // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/createLogOnce.mjs
+  var loggedMessages;
+  if (true) {
+    loggedMessages = /* @__PURE__ */ new Set();
+  }
+  function createLogOnce(severity, prefix) {
+    return function logOnce(...messages) {
+      if (true) {
+        const message = messages.join(" ");
+        const output = prefix ? `${prefix}: ${message}` : message;
+        const key = `${severity}:${output}`;
+        if (!loggedMessages.has(key)) {
+          loggedMessages.add(key);
+          if (severity === "warn") {
+            console.warn(output);
+          } else {
+            console.error(output);
+          }
+        }
+      }
+    };
+  }
+
+  // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/warn.mjs
+  var warn = createLogOnce("warn", "Base UI");
+
+  // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/empty.mjs
+  var EMPTY_ARRAY = Object.freeze([]);
+  var EMPTY_OBJECT = Object.freeze({});
+
+  // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/getStateAttributesProps.mjs
   function getStateAttributesProps(state, customMapping) {
     const props = {};
     for (const key in state) {
@@ -556,17 +541,17 @@ var wp;
     return props;
   }
 
-  // node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/resolveClassName.mjs
+  // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/resolveClassName.mjs
   function resolveClassName(className, state) {
     return typeof className === "function" ? className(state) : className;
   }
 
-  // node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/utils/resolveStyle.mjs
+  // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/resolveStyle.mjs
   function resolveStyle(style, state) {
     return typeof style === "function" ? style(state) : style;
   }
 
-  // node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/merge-props/mergeProps.mjs
+  // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/merge-props/mergeProps.mjs
   var EMPTY_PROPS = {};
   function mergeProps(a, b, c, d, e) {
     if (!c && !d && !e && !a) {
@@ -603,14 +588,14 @@ var wp;
   function createInitialMergedProps(inputProps) {
     if (isPropsGetter(inputProps)) {
       return {
-        ...resolvePropsGetter(inputProps, EMPTY_PROPS)
+        ...inputProps(EMPTY_PROPS)
       };
     }
     return copyInitialProps(inputProps);
   }
   function mergeInto(merged, inputProps) {
     if (isPropsGetter(inputProps)) {
-      return resolvePropsGetter(inputProps, merged);
+      return inputProps(merged);
     }
     return mutablyMergeInto(merged, inputProps);
   }
@@ -660,12 +645,6 @@ var wp;
   }
   function isPropsGetter(inputProps) {
     return typeof inputProps === "function";
-  }
-  function resolvePropsGetter(inputProps, previousProps) {
-    if (isPropsGetter(inputProps)) {
-      return inputProps(previousProps);
-    }
-    return inputProps ?? EMPTY_PROPS;
   }
   function mergeEventHandlers(ourHandler, theirHandler) {
     if (!theirHandler) {
@@ -721,7 +700,7 @@ var wp;
     return event != null && typeof event === "object" && "nativeEvent" in event;
   }
 
-  // node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/internals/useRenderElement.mjs
+  // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useRenderElement.mjs
   var import_react = __toESM(require_react(), 1);
   function useRenderElement(element, componentProps, params = {}) {
     let renderProp = componentProps.render;
@@ -805,12 +784,7 @@ var wp;
       }
       return /* @__PURE__ */ React4.cloneElement(render, mergedProps);
     }
-    if (element) {
-      if (typeof element === "string") {
-        return renderTag(element, props);
-      }
-    }
-    throw new Error(true ? "Base UI: Render element or function are not defined." : formatErrorMessage_default(8));
+    return renderTag(element, props);
   }
   function warnIfRenderPropLooksLikeComponent(renderFn) {
     const functionName = renderFn.name;
@@ -843,7 +817,23 @@ var wp;
     return /* @__PURE__ */ React4.createElement(Tag, props);
   }
 
-  // node_modules/.store/@base-ui/react@1.8.0-AmwqKTN4N3wuPkzw6LPphA/node_modules/@base-ui/react/use-render/useRender.mjs
+  // node_modules/.store/clsx@2.1.1-XOLP1vUL9vEGfpiXm37fAw/node_modules/clsx/dist/clsx.mjs
+  function r(e) {
+    var t, f, n = "";
+    if ("string" == typeof e || "number" == typeof e) n += e;
+    else if ("object" == typeof e) if (Array.isArray(e)) {
+      var o = e.length;
+      for (t = 0; t < o; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
+    } else for (f in e) e[f] && (n && (n += " "), n += f);
+    return n;
+  }
+  function clsx() {
+    for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
+    return n;
+  }
+  var clsx_default = clsx;
+
+  // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/use-render/useRender.mjs
   function useRender(params) {
     return useRenderElement(params.defaultTagName ?? "div", params, params);
   }
@@ -935,9 +925,9 @@ var wp;
   }
   var style_default = { "text": "_83ed8a8da5dd50ea__text", "heading-2xl": "_14437cfb77831647__heading-2xl", "heading-xl": "_3c78b7fa9b4072dd__heading-xl", "heading-lg": "aa58f227716bcde2__heading-lg", "heading-md": "fc4da56d8dfe52c4__heading-md", "heading-sm": "a9b78c7c82e8dff7__heading-sm", "body-xl": "_305ff559e52180d5__body-xl", "body-lg": "ca1aa3fc2029e958__body-lg", "body-md": "_131101940be12424__body-md", "body-sm": "_0e8d87a42c1f75fa__body-sm" };
   if (typeof process === "undefined" || true) {
-    registerStyle("e8e31009f5", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}.c59a0ebebd71fa4a__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._46b5cb0c8e24e8c9__li{margin:var(--_gcd-li-margin,0)}");
+    registerStyle("abb19c3171", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}.c59a0ebebd71fa4a__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._46b5cb0c8e24e8c9__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._400bf7ee0c6061a9__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
   }
-  var global_css_defense_default = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li" };
+  var global_css_defense_default = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li", "span": "_400bf7ee0c6061a9__span" };
   var Text = (0, import_element2.forwardRef)(
     function UnforwardedText({ variant = "body-md", render, className, ...props }, ref) {
       const element = useRender({
@@ -958,12 +948,57 @@ var wp;
     }
   );
 
-  // packages/icons/build-module/library/symbol.mjs
+  // packages/icons/build-module/library/check.mjs
   var import_primitives = __toESM(require_primitives(), 1);
   var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-  var symbol_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.Path, { d: "M15.2071 6.20711L20.2929 11.2929C20.6834 11.6834 20.6834 12.3166 20.2929 12.7071L15.2071 17.7929C14.8166 18.1834 14.1834 18.1834 13.7929 17.7929L8.70711 12.7071C8.31658 12.3166 8.31658 11.6834 8.70711 11.2929L13.7929 6.20711C14.1834 5.81658 14.8166 5.81658 15.2071 6.20711Z" }),
-    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.Path, { d: "M9.5 5.5L3.70711 11.2929C3.31658 11.6834 3.31658 12.3166 3.70711 12.7071L9.5 18.5" })
+  var check_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.Path, { d: "M7 12L10 15L17 8" }) });
+
+  // packages/icons/build-module/library/footer.mjs
+  var import_primitives2 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  var footer_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.Path, { d: "M9.75 4.75H18C18.6904 4.75 19.25 5.30964 19.25 6V14.25M9.75 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V14.25M9.75 4.75V14.25M19.25 14.25V18C19.25 18.6904 18.6904 19.25 18 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V14.25M19.25 14.25H9.75M9.75 14.25H4.75" }),
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.Path, { d: "M19.25 15.5V18C19.25 18.6904 18.6904 19.25 18 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V15.5C4.75 14.8096 5.30964 14.25 6 14.25H18C18.6904 14.25 19.25 14.8096 19.25 15.5Z", fill: "currentColor" })
+  ] });
+
+  // packages/icons/build-module/library/header.mjs
+  var import_primitives3 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var header_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.Path, { d: "M9.75 19.25H18C18.6904 19.25 19.25 18.6904 19.25 18V9.75M9.75 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V9.75M9.75 19.25V9.75M19.25 9.75V6C19.25 5.30964 18.6904 4.75 18 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V9.75M19.25 9.75H9.75M9.75 9.75H4.75" }),
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.Path, { d: "M19.25 8.5V6C19.25 5.30964 18.6904 4.75 18 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V8.5C4.75 9.19036 5.30964 9.75 6 9.75H18C18.6904 9.75 19.25 9.19036 19.25 8.5Z", fill: "currentColor" })
+  ] });
+
+  // packages/icons/build-module/library/navigation-overlay.mjs
+  var import_primitives4 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var navigation_overlay_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives4.Path, { d: "M4.75 9.25V16C4.75 16.6904 5.30964 17.25 6 17.25H8M4.75 9.25V6C4.75 5.30964 5.30964 4.75 6 4.75H16C16.6904 4.75 17.25 5.30964 17.25 6V8M4.75 9.25H8" }),
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives4.Path, { d: "M10.75 11.25C10.75 10.9739 10.9739 10.75 11.25 10.75H18.75C19.0261 10.75 19.25 10.9739 19.25 11.25V18.75C19.25 19.0261 19.0261 19.25 18.75 19.25H11.25C10.9739 19.25 10.75 19.0261 10.75 18.75V11.25Z", fill: "currentColor" })
+  ] });
+
+  // packages/icons/build-module/library/sidebar.mjs
+  var import_primitives5 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  var sidebar_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives5.Path, { d: "M9.75 19.25H18C18.6904 19.25 19.25 18.6904 19.25 18V9.75M9.75 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V9.75M9.75 19.25V9.75M19.25 9.75V6C19.25 5.30964 18.6904 4.75 18 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V9.75M19.25 9.75H9.75M9.75 9.75H4.75" }),
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives5.Path, { d: "M6 19.25H9.75V9.75H4.75V18C4.75 18.6904 5.30964 19.25 6 19.25Z", fill: "currentColor" })
+  ] });
+
+  // packages/icons/build-module/library/symbol-filled.mjs
+  var import_primitives6 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  var symbol_filled_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives6.Path, { d: "M15.2071 6.20711L20.2929 11.2929C20.6834 11.6834 20.6834 12.3166 20.2929 12.7071L15.2071 17.7929C14.8166 18.1834 14.1834 18.1834 13.7929 17.7929L8.70711 12.7071C8.31658 12.3166 8.31658 11.6834 8.70711 11.2929L13.7929 6.20711C14.1834 5.81658 14.8166 5.81658 15.2071 6.20711Z", fill: "currentColor" }),
+    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives6.Path, { d: "M9.5 5.5L3.70711 11.2929C3.31658 11.6834 3.31658 12.3166 3.70711 12.7071L9.5 18.5" })
+  ] });
+
+  // packages/icons/build-module/library/symbol.mjs
+  var import_primitives7 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+  var symbol_default = /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_primitives7.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives7.Path, { d: "M15.2071 6.20711L20.2929 11.2929C20.6834 11.6834 20.6834 12.3166 20.2929 12.7071L15.2071 17.7929C14.8166 18.1834 14.1834 18.1834 13.7929 17.7929L8.70711 12.7071C8.31658 12.3166 8.31658 11.6834 8.70711 11.2929L13.7929 6.20711C14.1834 5.81658 14.8166 5.81658 15.2071 6.20711Z" }),
+    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives7.Path, { d: "M9.5 5.5L3.70711 11.2929C3.31658 11.6834 3.31658 12.3166 3.70711 12.7071L9.5 18.5" })
   ] });
 
   // packages/ui/build-module/stack/stack.mjs
@@ -1095,7 +1130,7 @@ var wp;
   var import_components2 = __toESM(require_components(), 1);
   var import_compose = __toESM(require_compose(), 1);
   var import_html_entities = __toESM(require_html_entities(), 1);
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
   var unescapeString = (arg) => {
     return (0, import_html_entities.decodeEntities)(arg);
   };
@@ -1126,7 +1161,7 @@ var wp;
       }, []);
       onChange(uniqueTerms);
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
       import_components2.FormTokenField,
       {
         className: "patterns-menu-items__convert-modal-categories",
@@ -1204,7 +1239,7 @@ var wp;
   }
 
   // packages/patterns/build-module/components/create-pattern-modal.mjs
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
   function CreatePatternModal({
     className = "patterns-menu-items__convert-modal",
     modalTitle,
@@ -1214,7 +1249,7 @@ var wp;
       (select) => select(import_core_data3.store).getPostType(PATTERN_TYPES.user)?.labels?.add_new_item,
       []
     );
-    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
       import_components3.Modal,
       {
         title: modalTitle || defaultModalTitle,
@@ -1222,7 +1257,7 @@ var wp;
         overlayClassName: className,
         focusOnMount: "firstContentElement",
         size: "small",
-        children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(CreatePatternModalContents, { ...restProps })
+        children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(CreatePatternModalContents, { ...restProps })
       }
     );
   }
@@ -1276,15 +1311,15 @@ var wp;
         setTitle("");
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
       "form",
       {
         onSubmit: (event) => {
           event.preventDefault();
           onCreate(title, syncType);
         },
-        children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(Stack, { direction: "column", gap: "lg", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Stack, { direction: "column", gap: "lg", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
             import_components3.TextControl,
             {
               label: (0, import_i18n3.__)("Name"),
@@ -1294,7 +1329,7 @@ var wp;
               className: "patterns-create-modal__name-input"
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
             CategorySelector,
             {
               categoryTerms,
@@ -1302,7 +1337,7 @@ var wp;
               categoryMap
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
             import_components3.ToggleControl,
             {
               label: (0, import_i18n3._x)("Synced", "pattern (singular)"),
@@ -1317,8 +1352,8 @@ var wp;
               }
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(Stack, { gap: "sm", justify: "end", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Stack, { gap: "sm", justify: "end", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
               import_components3.Button,
               {
                 __next40pxDefaultSize: true,
@@ -1330,7 +1365,7 @@ var wp;
                 children: (0, import_i18n3.__)("Cancel")
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
               import_components3.Button,
               {
                 __next40pxDefaultSize: true,
@@ -1352,7 +1387,7 @@ var wp;
   var import_data6 = __toESM(require_data(), 1);
   var import_i18n4 = __toESM(require_i18n(), 1);
   var import_notices2 = __toESM(require_notices(), 1);
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
   function getTermLabels(pattern, categories) {
     if (pattern.type !== PATTERN_TYPES.user) {
       return categories.core?.filter(
@@ -1409,7 +1444,7 @@ var wp;
     if (!pattern) {
       return null;
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       CreatePatternModal,
       {
         modalTitle: (0, import_i18n4.__)("Duplicate pattern"),
@@ -1421,15 +1456,327 @@ var wp;
     );
   }
 
-  // packages/patterns/build-module/components/rename-pattern-modal.mjs
+  // packages/patterns/build-module/components/create-template-part-modal/index.mjs
   var import_components4 = __toESM(require_components(), 1);
-  var import_core_data5 = __toESM(require_core_data(), 1);
-  var import_data7 = __toESM(require_data(), 1);
+  var import_compose2 = __toESM(require_compose(), 1);
+  var import_core_data6 = __toESM(require_core_data(), 1);
+  var import_data8 = __toESM(require_data(), 1);
   var import_element7 = __toESM(require_element(), 1);
-  var import_html_entities2 = __toESM(require_html_entities(), 1);
   var import_i18n5 = __toESM(require_i18n(), 1);
   var import_notices3 = __toESM(require_notices(), 1);
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  var import_blocks2 = __toESM(require_blocks(), 1);
+
+  // node_modules/.store/tslib@2.8.1-LT-dxu1EkVy7OUDyVf5glQ/node_modules/tslib/tslib.es6.mjs
+  var __assign = function() {
+    __assign = Object.assign || function __assign2(t) {
+      for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+      return t;
+    };
+    return __assign.apply(this, arguments);
+  };
+
+  // node_modules/.store/lower-case@2.0.2-5YZP5nczP5_f_8Vt5KBPjA/node_modules/lower-case/dist.es2015/index.js
+  function lowerCase(str) {
+    return str.toLowerCase();
+  }
+
+  // node_modules/.store/no-case@3.0.4-R4Hzt6qn-erEsTak7ojDpg/node_modules/no-case/dist.es2015/index.js
+  var DEFAULT_SPLIT_REGEXP = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g];
+  var DEFAULT_STRIP_REGEXP = /[^A-Z0-9]+/gi;
+  function noCase(input, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    var _a = options.splitRegexp, splitRegexp = _a === void 0 ? DEFAULT_SPLIT_REGEXP : _a, _b = options.stripRegexp, stripRegexp = _b === void 0 ? DEFAULT_STRIP_REGEXP : _b, _c = options.transform, transform = _c === void 0 ? lowerCase : _c, _d = options.delimiter, delimiter = _d === void 0 ? " " : _d;
+    var result = replace(replace(input, splitRegexp, "$1\0$2"), stripRegexp, "\0");
+    var start = 0;
+    var end = result.length;
+    while (result.charAt(start) === "\0")
+      start++;
+    while (result.charAt(end - 1) === "\0")
+      end--;
+    return result.slice(start, end).split("\0").map(transform).join(delimiter);
+  }
+  function replace(input, re, value) {
+    if (re instanceof RegExp)
+      return input.replace(re, value);
+    return re.reduce(function(input2, re2) {
+      return input2.replace(re2, value);
+    }, input);
+  }
+
+  // node_modules/.store/dot-case@3.0.4-hi-rLWlWmiZ169n4dWcbUA/node_modules/dot-case/dist.es2015/index.js
+  function dotCase(input, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    return noCase(input, __assign({ delimiter: "." }, options));
+  }
+
+  // node_modules/.store/param-case@3.0.4-rdAht_VwpGpefPRylN2bTA/node_modules/param-case/dist.es2015/index.js
+  function paramCase(input, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    return dotCase(input, __assign({ delimiter: "-" }, options));
+  }
+
+  // packages/patterns/build-module/components/create-template-part-modal/utils.mjs
+  var import_data7 = __toESM(require_data(), 1);
+  var import_core_data5 = __toESM(require_core_data(), 1);
+  var EMPTY_ARRAY2 = [];
+  function useExistingTemplateParts() {
+    return (0, import_data7.useSelect)(
+      (select) => select(import_core_data5.store).getEntityRecords(
+        "postType",
+        "wp_template_part",
+        { per_page: -1 }
+      ) ?? EMPTY_ARRAY2,
+      []
+    );
+  }
+  function getUniqueTemplatePartTitle(title, templateParts) {
+    const lowercaseTitle = title.toLowerCase();
+    const existingTitles = templateParts.map(
+      (templatePart) => templatePart.title.rendered.toLowerCase()
+    );
+    if (!existingTitles.includes(lowercaseTitle)) {
+      return title;
+    }
+    let suffix = 2;
+    while (existingTitles.includes(`${lowercaseTitle} ${suffix}`)) {
+      suffix++;
+    }
+    return `${title} ${suffix}`;
+  }
+  function getCleanTemplatePartSlug(title) {
+    return paramCase(title).replace(/[^\w-]+/g, "") || "wp-custom-part";
+  }
+
+  // packages/patterns/build-module/components/create-template-part-modal/index.mjs
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
+  function getAreaRadioId(value, instanceId) {
+    return `patterns-create-template-part-modal__area-option-${value}-${instanceId}`;
+  }
+  function getAreaRadioDescriptionId(value, instanceId) {
+    return `patterns-create-template-part-modal__area-option-description-${value}-${instanceId}`;
+  }
+  function CreateTemplatePartModal({
+    modalTitle,
+    ...restProps
+  }) {
+    const defaultModalTitle = (0, import_data8.useSelect)(
+      (select) => select(import_core_data6.store).getPostType("wp_template_part")?.labels?.add_new_item,
+      []
+    );
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+      import_components4.Modal,
+      {
+        title: modalTitle || defaultModalTitle,
+        onRequestClose: restProps.closeModal,
+        overlayClassName: "patterns-create-template-part-modal",
+        focusOnMount: "firstContentElement",
+        size: "medium",
+        children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(CreateTemplatePartModalContents, { ...restProps })
+      }
+    );
+  }
+  var getTemplatePartIcon = (areaOrIconName) => {
+    if ("header" === areaOrIconName) {
+      return header_default;
+    } else if ("footer" === areaOrIconName) {
+      return footer_default;
+    } else if ("sidebar" === areaOrIconName) {
+      return sidebar_default;
+    } else if ("navigation-overlay" === areaOrIconName) {
+      return navigation_overlay_default;
+    }
+    return symbol_filled_default;
+  };
+  function CreateTemplatePartModalContents({
+    defaultArea = "uncategorized",
+    blocks = [],
+    confirmLabel = (0, import_i18n5.__)("Add"),
+    closeModal,
+    onCreate,
+    onError,
+    defaultTitle = ""
+  }) {
+    const { createErrorNotice } = (0, import_data8.useDispatch)(import_notices3.store);
+    const { saveEntityRecord } = (0, import_data8.useDispatch)(import_core_data6.store);
+    const existingTemplateParts = useExistingTemplateParts();
+    const [title, setTitle] = (0, import_element7.useState)(defaultTitle);
+    const [area, setArea] = (0, import_element7.useState)(defaultArea);
+    const [isSubmitting, setIsSubmitting] = (0, import_element7.useState)(false);
+    const instanceId = (0, import_compose2.useInstanceId)(CreateTemplatePartModal);
+    const defaultTemplatePartAreas = (0, import_data8.useSelect)(
+      (select) => select(import_core_data6.store).getCurrentTheme()?.default_template_part_areas,
+      []
+    );
+    async function createTemplatePart() {
+      if (!title || isSubmitting) {
+        return;
+      }
+      try {
+        setIsSubmitting(true);
+        const uniqueTitle = getUniqueTemplatePartTitle(
+          title,
+          existingTemplateParts
+        );
+        const cleanSlug = getCleanTemplatePartSlug(uniqueTitle);
+        const templatePart = await saveEntityRecord(
+          "postType",
+          "wp_template_part",
+          {
+            slug: cleanSlug,
+            title: uniqueTitle,
+            content: (0, import_blocks2.serialize)(blocks),
+            area
+          },
+          { throwOnError: true }
+        );
+        await onCreate(templatePart);
+      } catch (error) {
+        const errorMessage = error instanceof Error && "code" in error && error.message && error.code !== "unknown_error" ? error.message : (0, import_i18n5.__)(
+          "An error occurred while creating the template part."
+        );
+        createErrorNotice(errorMessage, { type: "snackbar" });
+        onError?.();
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+      "form",
+      {
+        onSubmit: async (event) => {
+          event.preventDefault();
+          await createTemplatePart();
+        },
+        children: /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_components4.__experimentalVStack, { spacing: "4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+            import_components4.TextControl,
+            {
+              label: (0, import_i18n5.__)("Name"),
+              value: title,
+              onChange: setTitle,
+              required: true
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("fieldset", { className: "patterns-create-template-part-modal__area-fieldset", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_components4.BaseControl.VisualLabel, { as: "legend", children: (0, import_i18n5.__)("Area") }),
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "patterns-create-template-part-modal__area-radio-group", children: (defaultTemplatePartAreas ?? []).map(
+              (item) => {
+                const icon = getTemplatePartIcon(item.icon);
+                return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
+                  "div",
+                  {
+                    className: "patterns-create-template-part-modal__area-radio-wrapper",
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+                        "input",
+                        {
+                          type: "radio",
+                          id: getAreaRadioId(
+                            item.area,
+                            instanceId
+                          ),
+                          name: `patterns-create-template-part-modal__area-${instanceId}`,
+                          value: item.area,
+                          checked: area === item.area,
+                          onChange: () => {
+                            setArea(item.area);
+                          },
+                          "aria-describedby": getAreaRadioDescriptionId(
+                            item.area,
+                            instanceId
+                          )
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+                        import_components4.Icon,
+                        {
+                          icon,
+                          className: "patterns-create-template-part-modal__area-radio-icon"
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+                        "label",
+                        {
+                          htmlFor: getAreaRadioId(
+                            item.area,
+                            instanceId
+                          ),
+                          className: "patterns-create-template-part-modal__area-radio-label",
+                          children: item.label
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+                        import_components4.Icon,
+                        {
+                          icon: check_default,
+                          className: "patterns-create-template-part-modal__area-radio-checkmark"
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+                        "p",
+                        {
+                          className: "patterns-create-template-part-modal__area-radio-description",
+                          id: getAreaRadioDescriptionId(
+                            item.area,
+                            instanceId
+                          ),
+                          children: item.description
+                        }
+                      )
+                    ]
+                  },
+                  item.area
+                );
+              }
+            ) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_components4.__experimentalHStack, { justify: "right", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+              import_components4.Button,
+              {
+                __next40pxDefaultSize: true,
+                variant: "tertiary",
+                onClick: () => {
+                  closeModal();
+                },
+                children: (0, import_i18n5.__)("Cancel")
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+              import_components4.Button,
+              {
+                __next40pxDefaultSize: true,
+                variant: "primary",
+                type: "submit",
+                "aria-disabled": !title || isSubmitting,
+                isBusy: isSubmitting,
+                children: confirmLabel
+              }
+            )
+          ] })
+        ] })
+      }
+    );
+  }
+
+  // packages/patterns/build-module/components/rename-pattern-modal.mjs
+  var import_components5 = __toESM(require_components(), 1);
+  var import_core_data7 = __toESM(require_core_data(), 1);
+  var import_data9 = __toESM(require_data(), 1);
+  var import_element8 = __toESM(require_element(), 1);
+  var import_html_entities2 = __toESM(require_html_entities(), 1);
+  var import_i18n6 = __toESM(require_i18n(), 1);
+  var import_notices4 = __toESM(require_notices(), 1);
+  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
   function RenamePatternModal({
     onClose,
     onError,
@@ -1438,13 +1785,13 @@ var wp;
     ...props
   }) {
     const originalName = (0, import_html_entities2.decodeEntities)(pattern.title);
-    const [name, setName] = (0, import_element7.useState)(originalName);
-    const [isSaving, setIsSaving] = (0, import_element7.useState)(false);
+    const [name, setName] = (0, import_element8.useState)(originalName);
+    const [isSaving, setIsSaving] = (0, import_element8.useState)(false);
     const {
       editEntityRecord,
       __experimentalSaveSpecifiedEntityEdits: saveSpecifiedEntityEdits
-    } = (0, import_data7.useDispatch)(import_core_data5.store);
-    const { createSuccessNotice, createErrorNotice } = (0, import_data7.useDispatch)(import_notices3.store);
+    } = (0, import_data9.useDispatch)(import_core_data7.store);
+    const { createSuccessNotice, createErrorNotice } = (0, import_data9.useDispatch)(import_notices4.store);
     const onRename = async (event) => {
       event.preventDefault();
       if (!name || name === pattern.title || isSaving) {
@@ -1465,13 +1812,13 @@ var wp;
           { throwOnError: true }
         );
         onSuccess?.(savedRecord);
-        createSuccessNotice((0, import_i18n5.__)("Pattern renamed"), {
+        createSuccessNotice((0, import_i18n6.__)("Pattern renamed"), {
           type: "snackbar",
           id: "pattern-update"
         });
       } catch (error) {
         onError?.();
-        const errorMessage = error.message && error.code !== "unknown_error" ? error.message : (0, import_i18n5.__)("An error occurred while renaming the pattern.");
+        const errorMessage = error.message && error.code !== "unknown_error" ? error.message : (0, import_i18n6.__)("An error occurred while renaming the pattern.");
         createErrorNotice(errorMessage, {
           type: "snackbar",
           id: "pattern-update"
@@ -1485,41 +1832,41 @@ var wp;
       onClose?.();
       setName("");
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-      import_components4.Modal,
+    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+      import_components5.Modal,
       {
-        title: (0, import_i18n5.__)("Rename"),
+        title: (0, import_i18n6.__)("Rename"),
         ...props,
         onRequestClose: onClose,
         focusOnMount: "firstContentElement",
         size: "small",
-        children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("form", { onSubmit: onRename, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(Stack, { direction: "column", gap: "lg", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-            import_components4.TextControl,
+        children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("form", { onSubmit: onRename, children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Stack, { direction: "column", gap: "lg", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+            import_components5.TextControl,
             {
-              label: (0, import_i18n5.__)("Name"),
+              label: (0, import_i18n6.__)("Name"),
               value: name,
               onChange: setName,
               required: true
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(Stack, { gap: "sm", justify: "end", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-              import_components4.Button,
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Stack, { gap: "sm", justify: "end", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+              import_components5.Button,
               {
                 __next40pxDefaultSize: true,
                 variant: "tertiary",
                 onClick: onRequestClose,
-                children: (0, import_i18n5.__)("Cancel")
+                children: (0, import_i18n6.__)("Cancel")
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-              import_components4.Button,
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+              import_components5.Button,
               {
                 __next40pxDefaultSize: true,
                 variant: "primary",
                 type: "submit",
-                children: (0, import_i18n5.__)("Save")
+                children: (0, import_i18n6.__)("Save")
               }
             )
           ] })
@@ -1532,28 +1879,28 @@ var wp;
   var import_block_editor5 = __toESM(require_block_editor(), 1);
 
   // packages/patterns/build-module/components/pattern-convert-button.mjs
-  var import_blocks2 = __toESM(require_blocks(), 1);
+  var import_blocks3 = __toESM(require_blocks(), 1);
   var import_block_editor3 = __toESM(require_block_editor(), 1);
-  var import_element8 = __toESM(require_element(), 1);
-  var import_components5 = __toESM(require_components(), 1);
-  var import_data8 = __toESM(require_data(), 1);
-  var import_core_data6 = __toESM(require_core_data(), 1);
-  var import_i18n6 = __toESM(require_i18n(), 1);
-  var import_notices4 = __toESM(require_notices(), 1);
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  var import_element9 = __toESM(require_element(), 1);
+  var import_components6 = __toESM(require_components(), 1);
+  var import_data10 = __toESM(require_data(), 1);
+  var import_core_data8 = __toESM(require_core_data(), 1);
+  var import_i18n7 = __toESM(require_i18n(), 1);
+  var import_notices5 = __toESM(require_notices(), 1);
+  var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
   function PatternConvertButton({
     clientIds,
     rootClientId,
     closeBlockSettingsMenu
   }) {
-    const { createSuccessNotice } = (0, import_data8.useDispatch)(import_notices4.store);
-    const { replaceBlocks, updateBlockAttributes } = (0, import_data8.useDispatch)(import_block_editor3.store);
-    const { setEditingPattern: setEditingPattern2 } = unlock((0, import_data8.useDispatch)(store));
-    const [isModalOpen, setIsModalOpen] = (0, import_element8.useState)(false);
-    const { getBlockAttributes } = (0, import_data8.useSelect)(import_block_editor3.store);
-    const canConvert = (0, import_data8.useSelect)(
+    const { createSuccessNotice } = (0, import_data10.useDispatch)(import_notices5.store);
+    const { replaceBlocks, updateBlockAttributes } = (0, import_data10.useDispatch)(import_block_editor3.store);
+    const { setEditingPattern: setEditingPattern2 } = unlock((0, import_data10.useDispatch)(store));
+    const [isModalOpen, setIsModalOpen] = (0, import_element9.useState)(false);
+    const { getBlockAttributes } = (0, import_data10.useSelect)(import_block_editor3.store);
+    const canConvert = (0, import_data10.useSelect)(
       (select) => {
-        const { canUser } = select(import_core_data6.store);
+        const { canUser } = select(import_core_data8.store);
         const {
           getBlocksByClientId: getBlocksByClientId2,
           canInsertBlockType,
@@ -1562,11 +1909,11 @@ var wp;
         const rootId = rootClientId || (clientIds.length > 0 ? getBlockRootClientId(clientIds[0]) : void 0);
         const blocks = getBlocksByClientId2(clientIds) ?? [];
         const hasReusableBlockSupport = (blockName) => {
-          const blockType = (0, import_blocks2.getBlockType)(blockName);
+          const blockType = (0, import_blocks3.getBlockType)(blockName);
           const hasParent = blockType && "parent" in blockType;
-          return (0, import_blocks2.hasBlockSupport)(blockName, "reusable", !hasParent);
+          return (0, import_blocks3.hasBlockSupport)(blockName, "reusable", !hasParent);
         };
-        const isSyncedPattern = blocks.length === 1 && blocks[0] && (0, import_blocks2.isReusableBlock)(blocks[0]) && !!select(import_core_data6.store).getEntityRecord(
+        const isSyncedPattern = blocks.length === 1 && blocks[0] && (0, import_blocks3.isReusableBlock)(blocks[0]) && !!select(import_core_data8.store).getEntityRecord(
           "postType",
           "wp_block",
           blocks[0].attributes.ref
@@ -1593,9 +1940,9 @@ var wp;
       },
       [clientIds, rootClientId]
     );
-    const { getBlocksByClientId } = (0, import_data8.useSelect)(import_block_editor3.store);
-    const getContent = (0, import_element8.useCallback)(
-      () => (0, import_blocks2.serialize)(getBlocksByClientId(clientIds)),
+    const { getBlocksByClientId } = (0, import_data10.useSelect)(import_block_editor3.store);
+    const getContent = (0, import_element9.useCallback)(
+      () => (0, import_blocks3.serialize)(getBlocksByClientId(clientIds)),
       [getBlocksByClientId, clientIds]
     );
     if (!canConvert) {
@@ -1614,20 +1961,20 @@ var wp;
           });
         }
       } else {
-        const newBlock = (0, import_blocks2.createBlock)("core/block", {
+        const newBlock = (0, import_blocks3.createBlock)("core/block", {
           ref: pattern.id
         });
         replaceBlocks(clientIds, newBlock);
         setEditingPattern2(newBlock.clientId, true);
       }
       createSuccessNotice(
-        pattern.wp_pattern_sync_status === PATTERN_SYNC_TYPES.unsynced ? (0, import_i18n6.sprintf)(
+        pattern.wp_pattern_sync_status === PATTERN_SYNC_TYPES.unsynced ? (0, import_i18n7.sprintf)(
           // translators: %s: the name the user has given to the pattern.
-          (0, import_i18n6.__)("Unsynced pattern created: %s"),
+          (0, import_i18n7.__)("Unsynced pattern created: %s"),
           pattern.title.raw
-        ) : (0, import_i18n6.sprintf)(
+        ) : (0, import_i18n7.sprintf)(
           // translators: %s: the name the user has given to the pattern.
-          (0, import_i18n6.__)("Synced pattern created: %s"),
+          (0, import_i18n7.__)("Synced pattern created: %s"),
           pattern.title.raw
         ),
         {
@@ -1638,18 +1985,18 @@ var wp;
       setIsModalOpen(false);
       closeBlockSettingsMenu();
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(import_jsx_runtime7.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-        import_components5.MenuItem,
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(import_jsx_runtime14.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+        import_components6.MenuItem,
         {
           icon: symbol_default,
           onClick: () => setIsModalOpen(true),
           "aria-expanded": isModalOpen,
           "aria-haspopup": "dialog",
-          children: (0, import_i18n6.__)("Create pattern")
+          children: (0, import_i18n7.__)("Create pattern")
         }
       ),
-      isModalOpen && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+      isModalOpen && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
         CreatePatternModal,
         {
           content: getContent,
@@ -1668,17 +2015,17 @@ var wp;
   }
 
   // packages/patterns/build-module/components/patterns-manage-button.mjs
-  var import_components6 = __toESM(require_components(), 1);
-  var import_i18n7 = __toESM(require_i18n(), 1);
-  var import_blocks3 = __toESM(require_blocks(), 1);
-  var import_data9 = __toESM(require_data(), 1);
-  var import_element9 = __toESM(require_element(), 1);
+  var import_components7 = __toESM(require_components(), 1);
+  var import_i18n8 = __toESM(require_i18n(), 1);
+  var import_blocks4 = __toESM(require_blocks(), 1);
+  var import_data11 = __toESM(require_data(), 1);
+  var import_element10 = __toESM(require_element(), 1);
   var import_block_editor4 = __toESM(require_block_editor(), 1);
   var import_url = __toESM(require_url(), 1);
-  var import_core_data7 = __toESM(require_core_data(), 1);
-  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+  var import_core_data9 = __toESM(require_core_data(), 1);
+  var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
   function PatternsManageButton({ clientId, onClose }) {
-    const [showConfirmDialog, setShowConfirmDialog] = (0, import_element9.useState)(false);
+    const [showConfirmDialog, setShowConfirmDialog] = (0, import_element10.useState)(false);
     const {
       attributes,
       canDetach,
@@ -1687,13 +2034,13 @@ var wp;
       isSyncedPattern,
       isUnsyncedPattern,
       canEdit
-    } = (0, import_data9.useSelect)(
+    } = (0, import_data11.useSelect)(
       (select) => {
         const { canRemoveBlock, getBlock, canEditBlock } = select(import_block_editor4.store);
-        const { canUser } = select(import_core_data7.store);
+        const { canUser } = select(import_core_data9.store);
         const block = getBlock(clientId);
         const _isUnsyncedPattern = !!block?.attributes?.metadata?.patternName;
-        const _isSyncedPattern = !!block && (0, import_blocks3.isReusableBlock)(block) && !!canUser("update", {
+        const _isSyncedPattern = !!block && (0, import_blocks4.isReusableBlock)(block) && !!canUser("read", {
           kind: "postType",
           name: "wp_block",
           id: block.attributes.ref
@@ -1723,9 +2070,9 @@ var wp;
       },
       [clientId]
     );
-    const { updateBlockAttributes } = (0, import_data9.useDispatch)(import_block_editor4.store);
+    const { updateBlockAttributes } = (0, import_data11.useDispatch)(import_block_editor4.store);
     const { convertSyncedPatternToStatic: convertSyncedPatternToStatic2 } = unlock(
-      (0, import_data9.useDispatch)(store)
+      (0, import_data11.useDispatch)(store)
     );
     if (!isVisible || !canEdit) {
       return null;
@@ -1743,37 +2090,37 @@ var wp;
       onClose?.();
       setShowConfirmDialog(false);
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
-      canDetach && /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_components6.MenuItem, { onClick: () => setShowConfirmDialog(true), children: (0, import_i18n7.__)("Detach") }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
-          import_components6.__experimentalConfirmDialog,
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(import_jsx_runtime15.Fragment, { children: [
+      canDetach && /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(import_jsx_runtime15.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_components7.MenuItem, { onClick: () => setShowConfirmDialog(true), children: (0, import_i18n8.__)("Detach") }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+          import_components7.__experimentalConfirmDialog,
           {
             isOpen: showConfirmDialog,
             onConfirm: handleDetach,
             onCancel: () => setShowConfirmDialog(false),
-            confirmButtonText: (0, import_i18n7.__)("Detach"),
+            confirmButtonText: (0, import_i18n8.__)("Detach"),
             size: "medium",
-            title: (0, import_i18n7.__)("Detach pattern?"),
+            title: (0, import_i18n8.__)("Detach pattern?"),
             __experimentalHideHeader: false,
-            children: isSyncedPattern ? (0, import_i18n7.__)(
+            children: isSyncedPattern ? (0, import_i18n8.__)(
               "The blocks will be separated from the original pattern and will be fully editable. Future changes to the pattern will not apply here."
-            ) : (0, import_i18n7.__)(
+            ) : (0, import_i18n8.__)(
               "Blocks will no longer be associated with this pattern and will be fully editable."
             )
           }
         )
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_components6.MenuItem, { href: managePatternsUrl, children: (0, import_i18n7.__)("Manage patterns") })
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_components7.MenuItem, { href: managePatternsUrl, children: (0, import_i18n8.__)("Manage patterns") })
     ] });
   }
   var patterns_manage_button_default = PatternsManageButton;
 
   // packages/patterns/build-module/components/index.mjs
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
   function PatternsMenuItems({ rootClientId }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_block_editor5.BlockSettingsMenuControls, { children: ({ selectedClientIds, onClose }) => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(import_jsx_runtime9.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_block_editor5.BlockSettingsMenuControls, { children: ({ selectedClientIds, onClose }) => /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(import_jsx_runtime16.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         PatternConvertButton,
         {
           clientIds: selectedClientIds,
@@ -1781,7 +2128,7 @@ var wp;
           closeBlockSettingsMenu: onClose
         }
       ),
-      selectedClientIds.length === 1 && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+      selectedClientIds.length === 1 && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         patterns_manage_button_default,
         {
           clientId: selectedClientIds[0],
@@ -1792,15 +2139,15 @@ var wp;
   }
 
   // packages/patterns/build-module/components/rename-pattern-category-modal.mjs
-  var import_components7 = __toESM(require_components(), 1);
-  var import_core_data8 = __toESM(require_core_data(), 1);
-  var import_data10 = __toESM(require_data(), 1);
-  var import_element10 = __toESM(require_element(), 1);
+  var import_components8 = __toESM(require_components(), 1);
+  var import_core_data10 = __toESM(require_core_data(), 1);
+  var import_data12 = __toESM(require_data(), 1);
+  var import_element11 = __toESM(require_element(), 1);
   var import_html_entities3 = __toESM(require_html_entities(), 1);
-  var import_i18n8 = __toESM(require_i18n(), 1);
-  var import_notices5 = __toESM(require_notices(), 1);
+  var import_i18n9 = __toESM(require_i18n(), 1);
+  var import_notices6 = __toESM(require_notices(), 1);
   var import_a11y = __toESM(require_a11y(), 1);
-  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
   function RenamePatternCategoryModal({
     category,
     existingCategories,
@@ -1809,14 +2156,14 @@ var wp;
     onSuccess,
     ...props
   }) {
-    const id = (0, import_element10.useId)();
-    const textControlRef = (0, import_element10.useRef)();
-    const [name, setName] = (0, import_element10.useState)((0, import_html_entities3.decodeEntities)(category.name));
-    const [isSaving, setIsSaving] = (0, import_element10.useState)(false);
-    const [validationMessage, setValidationMessage] = (0, import_element10.useState)(false);
+    const id = (0, import_element11.useId)();
+    const textControlRef = (0, import_element11.useRef)();
+    const [name, setName] = (0, import_element11.useState)((0, import_html_entities3.decodeEntities)(category.name));
+    const [isSaving, setIsSaving] = (0, import_element11.useState)(false);
+    const [validationMessage, setValidationMessage] = (0, import_element11.useState)(false);
     const validationMessageId = validationMessage ? `patterns-rename-pattern-category-modal__validation-message-${id}` : void 0;
-    const { saveEntityRecord, invalidateResolution } = (0, import_data10.useDispatch)(import_core_data8.store);
-    const { createErrorNotice, createSuccessNotice } = (0, import_data10.useDispatch)(import_notices5.store);
+    const { saveEntityRecord, invalidateResolution } = (0, import_data12.useDispatch)(import_core_data10.store);
+    const { createErrorNotice, createSuccessNotice } = (0, import_data12.useDispatch)(import_notices6.store);
     const onChange = (newName) => {
       if (validationMessage) {
         setValidationMessage(void 0);
@@ -1829,7 +2176,7 @@ var wp;
         return;
       }
       if (!name || name === category.name) {
-        const message = (0, import_i18n8.__)("Please enter a new name for this category.");
+        const message = (0, import_i18n9.__)("Please enter a new name for this category.");
         (0, import_a11y.speak)(message, "assertive");
         setValidationMessage(message);
         textControlRef.current?.focus();
@@ -1838,7 +2185,7 @@ var wp;
       if (existingCategories.patternCategories.find((existingCategory) => {
         return existingCategory.id !== category.id && existingCategory.label.toLowerCase() === name.toLowerCase();
       })) {
-        const message = (0, import_i18n8.__)(
+        const message = (0, import_i18n9.__)(
           "This category already exists. Please use a different name."
         );
         (0, import_a11y.speak)(message, "assertive");
@@ -1860,7 +2207,7 @@ var wp;
         invalidateResolution("getUserPatternCategories");
         onSuccess?.(savedRecord);
         onClose();
-        createSuccessNotice((0, import_i18n8.__)("Pattern category renamed."), {
+        createSuccessNotice((0, import_i18n9.__)("Pattern category renamed."), {
           type: "snackbar",
           id: "pattern-category-update"
         });
@@ -1879,26 +2226,26 @@ var wp;
       onClose();
       setName("");
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
-      import_components7.Modal,
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+      import_components8.Modal,
       {
-        title: (0, import_i18n8.__)("Rename"),
+        title: (0, import_i18n9.__)("Rename"),
         onRequestClose,
         ...props,
-        children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("form", { onSubmit: onSave, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Stack, { direction: "column", gap: "lg", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Stack, { direction: "column", gap: "sm", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
-              import_components7.TextControl,
+        children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("form", { onSubmit: onSave, children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(Stack, { direction: "column", gap: "lg", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(Stack, { direction: "column", gap: "sm", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+              import_components8.TextControl,
               {
                 ref: textControlRef,
-                label: (0, import_i18n8.__)("Name"),
+                label: (0, import_i18n9.__)("Name"),
                 value: name,
                 onChange,
                 "aria-describedby": validationMessageId,
                 required: true
               }
             ),
-            validationMessage && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+            validationMessage && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
               "span",
               {
                 className: "patterns-rename-pattern-category-modal__validation-message",
@@ -1907,25 +2254,25 @@ var wp;
               }
             )
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Stack, { gap: "sm", justify: "end", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
-              import_components7.Button,
+          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(Stack, { gap: "sm", justify: "end", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+              import_components8.Button,
               {
                 __next40pxDefaultSize: true,
                 variant: "tertiary",
                 onClick: onRequestClose,
-                children: (0, import_i18n8.__)("Cancel")
+                children: (0, import_i18n9.__)("Cancel")
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
-              import_components7.Button,
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+              import_components8.Button,
               {
                 __next40pxDefaultSize: true,
                 variant: "primary",
                 type: "submit",
                 "aria-disabled": !name || name === category.name || isSaving,
                 isBusy: isSaving,
-                children: (0, import_i18n8.__)("Save")
+                children: (0, import_i18n9.__)("Save")
               }
             )
           ] })
@@ -1935,31 +2282,31 @@ var wp;
   }
 
   // packages/patterns/build-module/components/pattern-overrides-controls.mjs
-  var import_element12 = __toESM(require_element(), 1);
+  var import_element13 = __toESM(require_element(), 1);
   var import_block_editor6 = __toESM(require_block_editor(), 1);
-  var import_components9 = __toESM(require_components(), 1);
-  var import_i18n10 = __toESM(require_i18n(), 1);
+  var import_components10 = __toESM(require_components(), 1);
+  var import_i18n11 = __toESM(require_i18n(), 1);
 
   // packages/patterns/build-module/components/allow-overrides-modal.mjs
-  var import_components8 = __toESM(require_components(), 1);
-  var import_i18n9 = __toESM(require_i18n(), 1);
-  var import_element11 = __toESM(require_element(), 1);
+  var import_components9 = __toESM(require_components(), 1);
+  var import_i18n10 = __toESM(require_i18n(), 1);
+  var import_element12 = __toESM(require_element(), 1);
   var import_a11y2 = __toESM(require_a11y(), 1);
-  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
   function AllowOverridesModal({
     placeholder,
     initialName = "",
     onClose,
     onSave
   }) {
-    const [editedBlockName, setEditedBlockName] = (0, import_element11.useState)(initialName);
-    const descriptionId = (0, import_element11.useId)();
+    const [editedBlockName, setEditedBlockName] = (0, import_element12.useState)(initialName);
+    const descriptionId = (0, import_element12.useId)();
     const isNameValid = !!editedBlockName.trim();
     const handleSubmit = () => {
       if (editedBlockName !== initialName) {
-        const message = (0, import_i18n9.sprintf)(
+        const message = (0, import_i18n10.sprintf)(
           /* translators: %s: new name/label for the block */
-          (0, import_i18n9.__)('Block name changed to: "%s".'),
+          (0, import_i18n10.__)('Block name changed to: "%s".'),
           editedBlockName
         );
         (0, import_a11y2.speak)(message, "assertive");
@@ -1967,15 +2314,15 @@ var wp;
       onSave(editedBlockName);
       onClose();
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-      import_components8.Modal,
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      import_components9.Modal,
       {
-        title: (0, import_i18n9.__)("Enable overrides"),
+        title: (0, import_i18n10.__)("Enable overrides"),
         onRequestClose: onClose,
         focusOnMount: "firstContentElement",
         aria: { describedby: descriptionId },
         size: "small",
-        children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
           "form",
           {
             onSubmit: (event) => {
@@ -1985,40 +2332,40 @@ var wp;
               }
               handleSubmit();
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Stack, { direction: "column", gap: "xl", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Text, { id: descriptionId, children: (0, import_i18n9.__)(
+            children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(Stack, { direction: "column", gap: "xl", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Text, { id: descriptionId, children: (0, import_i18n10.__)(
                 "Overrides are changes you make to a block within a synced pattern instance. Use overrides to customize a synced pattern instance to suit its new context. Name this block to specify an override."
               ) }),
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-                import_components8.TextControl,
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+                import_components9.TextControl,
                 {
                   value: editedBlockName,
-                  label: (0, import_i18n9.__)("Name"),
-                  help: (0, import_i18n9.__)(
+                  label: (0, import_i18n10.__)("Name"),
+                  help: (0, import_i18n10.__)(
                     'For example, if you are creating a recipe pattern, you use "Recipe Title", "Recipe Description", etc.'
                   ),
                   placeholder,
                   onChange: setEditedBlockName
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Stack, { gap: "sm", justify: "end", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-                  import_components8.Button,
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(Stack, { gap: "sm", justify: "end", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+                  import_components9.Button,
                   {
                     __next40pxDefaultSize: true,
                     variant: "tertiary",
                     onClick: onClose,
-                    children: (0, import_i18n9.__)("Cancel")
+                    children: (0, import_i18n10.__)("Cancel")
                   }
                 ),
-                /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-                  import_components8.Button,
+                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+                  import_components9.Button,
                   {
                     __next40pxDefaultSize: true,
                     "aria-disabled": !isNameValid,
                     variant: "primary",
                     type: "submit",
-                    children: (0, import_i18n9.__)("Enable")
+                    children: (0, import_i18n10.__)("Enable")
                   }
                 )
               ] })
@@ -2029,15 +2376,15 @@ var wp;
     );
   }
   function DisallowOverridesModal({ onClose, onSave }) {
-    const descriptionId = (0, import_element11.useId)();
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-      import_components8.Modal,
+    const descriptionId = (0, import_element12.useId)();
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      import_components9.Modal,
       {
-        title: (0, import_i18n9.__)("Disable overrides"),
+        title: (0, import_i18n10.__)("Disable overrides"),
         onRequestClose: onClose,
         aria: { describedby: descriptionId },
         size: "small",
-        children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
           "form",
           {
             onSubmit: (event) => {
@@ -2045,27 +2392,27 @@ var wp;
               onSave();
               onClose();
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Stack, { direction: "column", gap: "xl", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Text, { id: descriptionId, children: (0, import_i18n9.__)(
+            children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(Stack, { direction: "column", gap: "xl", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Text, { id: descriptionId, children: (0, import_i18n10.__)(
                 "Are you sure you want to disable overrides? Disabling overrides will revert all applied overrides for this block throughout instances of this pattern."
               ) }),
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Stack, { gap: "sm", justify: "end", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-                  import_components8.Button,
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(Stack, { gap: "sm", justify: "end", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+                  import_components9.Button,
                   {
                     __next40pxDefaultSize: true,
                     variant: "tertiary",
                     onClick: onClose,
-                    children: (0, import_i18n9.__)("Cancel")
+                    children: (0, import_i18n10.__)("Cancel")
                   }
                 ),
-                /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-                  import_components8.Button,
+                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+                  import_components9.Button,
                   {
                     __next40pxDefaultSize: true,
                     variant: "primary",
                     type: "submit",
-                    children: (0, import_i18n9.__)("Disable")
+                    children: (0, import_i18n10.__)("Disable")
                   }
                 )
               ] })
@@ -2077,15 +2424,15 @@ var wp;
   }
 
   // packages/patterns/build-module/components/pattern-overrides-controls.mjs
-  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
   function PatternOverridesControls({
     attributes,
     setAttributes,
     name: blockName
   }) {
-    const controlId = (0, import_element12.useId)();
-    const [showAllowOverridesModal, setShowAllowOverridesModal] = (0, import_element12.useState)(false);
-    const [showDisallowOverridesModal, setShowDisallowOverridesModal] = (0, import_element12.useState)(false);
+    const controlId = (0, import_element13.useId)();
+    const [showAllowOverridesModal, setShowAllowOverridesModal] = (0, import_element13.useState)(false);
+    const [showDisallowOverridesModal, setShowDisallowOverridesModal] = (0, import_element13.useState)(false);
     const hasName = !!attributes.metadata?.name;
     const defaultBindings = attributes.metadata?.bindings?.__default;
     const hasOverrides = hasName && defaultBindings?.source === PATTERN_OVERRIDES_BINDING_SOURCE;
@@ -2108,20 +2455,20 @@ var wp;
       return null;
     }
     const hasUnsupportedImageAttributes = blockName === "core/image" && !!attributes.href?.length;
-    const helpText = !hasOverrides && hasUnsupportedImageAttributes ? (0, import_i18n10.__)(
+    const helpText = !hasOverrides && hasUnsupportedImageAttributes ? (0, import_i18n11.__)(
       `Overrides currently don't support image links. Remove the link first before enabling overrides.`
-    ) : (0, import_i18n10.__)(
+    ) : (0, import_i18n11.__)(
       "Allow changes to this block throughout instances of this pattern."
     );
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_block_editor6.InspectorControls, { group: "advanced", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
-        import_components9.BaseControl,
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)(import_jsx_runtime19.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_block_editor6.InspectorControls, { group: "advanced", children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+        import_components10.BaseControl,
         {
           id: controlId,
-          label: (0, import_i18n10.__)("Overrides"),
+          label: (0, import_i18n11.__)("Overrides"),
           help: helpText,
-          children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
-            import_components9.Button,
+          children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+            import_components10.Button,
             {
               __next40pxDefaultSize: true,
               className: "pattern-overrides-control__allow-overrides-button",
@@ -2136,12 +2483,12 @@ var wp;
               },
               disabled: !hasOverrides && hasUnsupportedImageAttributes,
               accessibleWhenDisabled: true,
-              children: hasOverrides ? (0, import_i18n10.__)("Disable overrides") : (0, import_i18n10.__)("Enable overrides")
+              children: hasOverrides ? (0, import_i18n11.__)("Disable overrides") : (0, import_i18n11.__)("Enable overrides")
             }
           )
         }
       ) }),
-      showAllowOverridesModal && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+      showAllowOverridesModal && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         AllowOverridesModal,
         {
           initialName: attributes.metadata?.name,
@@ -2151,7 +2498,7 @@ var wp;
           }
         }
       ),
-      showDisallowOverridesModal && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+      showDisallowOverridesModal && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         DisallowOverridesModal,
         {
           onClose: () => setShowDisallowOverridesModal(false),
@@ -2164,15 +2511,15 @@ var wp;
 
   // packages/patterns/build-module/components/reset-overrides-control.mjs
   var import_block_editor7 = __toESM(require_block_editor(), 1);
-  var import_components10 = __toESM(require_components(), 1);
-  var import_data11 = __toESM(require_data(), 1);
-  var import_i18n11 = __toESM(require_i18n(), 1);
-  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
+  var import_components11 = __toESM(require_components(), 1);
+  var import_data13 = __toESM(require_data(), 1);
+  var import_i18n12 = __toESM(require_i18n(), 1);
+  var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
   var CONTENT = "content";
   function ResetOverridesControl(props) {
     const name = props.attributes.metadata?.name;
-    const registry = (0, import_data11.useRegistry)();
-    const isOverridden = (0, import_data11.useSelect)(
+    const registry = (0, import_data13.useRegistry)();
+    const isOverridden = (0, import_data13.useSelect)(
       (select) => {
         if (!name) {
           return;
@@ -2219,7 +2566,7 @@ var wp;
         [CONTENT]: newOverrides
       });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_block_editor7.__unstableBlockToolbarLastItem, { children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_components10.ToolbarGroup, { children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_components10.ToolbarButton, { onClick, disabled: !isOverridden, children: (0, import_i18n11.__)("Reset") }) }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_block_editor7.__unstableBlockToolbarLastItem, { children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_components11.ToolbarGroup, { children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_components11.ToolbarButton, { onClick, disabled: !isOverridden, children: (0, import_i18n12.__)("Reset") }) }) });
   }
 
   // packages/patterns/build-module/private-apis.mjs
@@ -2229,6 +2576,8 @@ var wp;
     CreatePatternModal,
     CreatePatternModalContents,
     DuplicatePatternModal,
+    CreateTemplatePartModal,
+    CreateTemplatePartModalContents,
     isOverridableBlock,
     useDuplicatePatternProps,
     RenamePatternModal,

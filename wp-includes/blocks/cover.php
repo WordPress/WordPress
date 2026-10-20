@@ -16,6 +16,15 @@
  * @return string Returns the cover block markup, if useFeaturedImage is true.
  */
 function render_block_core_cover( $attributes, $content ) {
+	// The view module decides whether a background video may play, so it is
+	// only needed for the two video background types.
+	if (
+		isset( $attributes['backgroundType'] ) &&
+		in_array( $attributes['backgroundType'], array( 'video', 'embed-video' ), true )
+	) {
+		wp_enqueue_script_module( '@wordpress/block-library/cover/view' );
+	}
+
 	// Handle embed video background.
 	if (
 		isset( $attributes['backgroundType'] ) &&
@@ -26,19 +35,17 @@ function render_block_core_cover( $attributes, $content ) {
 	) {
 		$url = $attributes['url'];
 
-		// The view script decides whether the embed may autoplay, so it is only
-		// needed for embed backgrounds.
-		wp_enqueue_script_module( '@wordpress/block-library/cover/view' );
-
 		// Use WordPress's native oEmbed processing (includes caching).
 		$oembed_html = wp_oembed_get( $url );
 
 		if ( $oembed_html ) {
-			// Extract iframe src from the oEmbed HTML.
-			preg_match( '/src=["\']([^"\']+)["\']/', $oembed_html, $src_matches );
-			if ( ! empty( $src_matches[1] ) ) {
-				$iframe_src = $src_matches[1];
-
+			// Read the iframe src with the HTML API, which returns the attribute
+			// value decoded, so `&amp;` in the query string becomes `&`.
+			$oembed_processor = new WP_HTML_Tag_Processor( $oembed_html );
+			$iframe_src       = $oembed_processor->next_tag( 'IFRAME' )
+				? $oembed_processor->get_attribute( 'src' )
+				: null;
+			if ( is_string( $iframe_src ) && '' !== $iframe_src ) {
 				// Detect provider from iframe src URL.
 				$lower_src = strtolower( $iframe_src );
 				$provider  = null;
@@ -154,6 +161,31 @@ function render_block_core_cover( $attributes, $content ) {
 					}
 				}
 			}
+		}
+
+		return $content;
+	}
+
+	// Handle uploaded video background. The video is saved with `autoplay`, so
+	// the view module stops it for a visitor who prefers reduced motion. The
+	// directives are added here rather than in the saved markup so existing
+	// content does not need a deprecation.
+	if (
+		isset( $attributes['backgroundType'] ) &&
+		'video' === $attributes['backgroundType']
+	) {
+		$processor = new WP_HTML_Tag_Processor( $content );
+
+		if ( $processor->next_tag(
+			array(
+				'tag_name'   => 'VIDEO',
+				'class_name' => 'wp-block-cover__video-background',
+			)
+		) ) {
+			$processor->set_attribute( 'data-wp-interactive', 'core/cover' );
+			$processor->set_attribute( 'data-wp-init', 'callbacks.stopBackgroundVideo' );
+
+			$content = $processor->get_updated_html();
 		}
 
 		return $content;

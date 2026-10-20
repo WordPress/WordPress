@@ -163,3 +163,78 @@ body.admin-color-fresh {
   width: 100%;
   justify-content: center;
 }
+
+.patterns-create-template-part-modal {
+  z-index: 1000001;
+}
+
+.patterns-create-template-part-modal__area-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.patterns-create-template-part-modal__area-radio-group {
+  border: 1px solid #949494;
+  border-radius: 2px;
+}
+
+.patterns-create-template-part-modal__area-radio-wrapper {
+  position: relative;
+  padding: 12px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: min-content 1fr min-content;
+  gap: 4px 8px;
+  color: #1e1e1e;
+}
+.patterns-create-template-part-modal__area-radio-wrapper + .patterns-create-template-part-modal__area-radio-wrapper {
+  border-top: 1px solid #949494;
+}
+.patterns-create-template-part-modal__area-radio-wrapper input[type=radio] {
+  position: absolute;
+  opacity: 0;
+}
+.patterns-create-template-part-modal__area-radio-wrapper:has(input[type=radio]:checked) {
+  z-index: 1;
+}
+.patterns-create-template-part-modal__area-radio-wrapper:has(input[type=radio]:not(:checked)):hover {
+  color: var(--wp-admin-theme-color);
+}
+.patterns-create-template-part-modal__area-radio-wrapper > *:not(.patterns-create-template-part-modal__area-radio-label) {
+  pointer-events: none;
+}
+
+.patterns-create-template-part-modal__area-radio-label::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+input[type=radio]:not(:checked) ~ .patterns-create-template-part-modal__area-radio-label::before {
+  cursor: var(--wpds-cursor-control, pointer);
+}
+input[type=radio]:focus-visible ~ .patterns-create-template-part-modal__area-radio-label::before {
+  outline: 4px solid transparent;
+  box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+}
+
+.patterns-create-template-part-modal__area-radio-icon,
+.patterns-create-template-part-modal__area-radio-checkmark {
+  fill: currentColor;
+}
+
+input[type=radio]:not(:checked) ~ .patterns-create-template-part-modal__area-radio-checkmark {
+  opacity: 0;
+}
+
+.patterns-create-template-part-modal__area-radio-description {
+  grid-column: 2/3;
+  margin: 0;
+  color: #757575;
+  font-size: 12px;
+  line-height: normal;
+  text-wrap: pretty;
+}
+input[type=radio]:not(:checked):hover ~ .patterns-create-template-part-modal__area-radio-description {
+  color: inherit;
+}

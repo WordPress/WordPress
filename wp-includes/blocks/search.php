@@ -384,6 +384,20 @@ function styles_for_block_core_search( $attributes ) {
 		);
 	}
 
+	// Add minimum width and height styles.
+	$dimensions_styles = wp_style_engine_get_styles(
+		array(
+			'dimensions' => array(
+				'minWidth'  => $attributes['style']['dimensions']['minWidth'] ?? null,
+				'minHeight' => $attributes['style']['dimensions']['minHeight'] ?? null,
+			),
+		)
+	);
+
+	if ( ! empty( $dimensions_styles['css'] ) ) {
+		$wrapper_styles[] = $dimensions_styles['css'];
+	}
+
 	// Add border width and color styles.
 	apply_block_core_search_border_styles( $attributes, 'width', $wrapper_styles, $button_styles, $input_styles );
 	apply_block_core_search_border_styles( $attributes, 'color', $wrapper_styles, $button_styles, $input_styles );
@@ -457,6 +471,20 @@ function styles_for_block_core_search( $attributes ) {
 		}
 	}
 
+	// Shadow lands on the same elements as the border.
+	if ( ! empty( $attributes['style']['shadow'] ) && is_string( $attributes['style']['shadow'] ) ) {
+		$shadow_styles = wp_style_engine_get_styles( array( 'shadow' => $attributes['style']['shadow'] ) );
+
+		if ( ! empty( $shadow_styles['css'] ) ) {
+			if ( $is_button_inside ) {
+				$wrapper_styles[] = $shadow_styles['css'];
+			} else {
+				$button_styles[] = $shadow_styles['css'];
+				$input_styles[]  = $shadow_styles['css'];
+			}
+		}
+	}
+
 	$use_input_for_colors = ! empty( $attributes['buttonPosition'] ) && 'no-button' === $attributes['buttonPosition'];
 
 	// Add color styles.
@@ -487,6 +515,24 @@ function styles_for_block_core_search( $attributes ) {
 			$input_styles[] = $custom_gradient_style;
 		} else {
 			$button_styles[] = $custom_gradient_style;
+		}
+	}
+
+	// Background skips serialization, so it follows color onto the same element.
+	if ( ! empty( $attributes['style']['background']['gradient'] ) ) {
+		$background_styles = wp_style_engine_get_styles(
+			array(
+				'background' => array(
+					'gradient' => $attributes['style']['background']['gradient'],
+				),
+			)
+		);
+		if ( ! empty( $background_styles['css'] ) ) {
+			if ( $use_input_for_colors ) {
+				$input_styles[] = $background_styles['css'];
+			} else {
+				$button_styles[] = $background_styles['css'];
+			}
 		}
 	}
 
@@ -646,11 +692,13 @@ function get_color_classes_for_block_core_search( $attributes ) {
 	$has_custom_background_color = ! empty( $attributes['style']['color']['background'] );
 	$has_named_gradient          = ! empty( $attributes['gradient'] );
 	$has_custom_gradient         = ! empty( $attributes['style']['color']['gradient'] );
+	$has_background_gradient     = ! empty( $attributes['style']['background']['gradient'] );
 	if (
 		$has_named_background_color ||
 		$has_custom_background_color ||
 		$has_named_gradient ||
-		$has_custom_gradient
+		$has_custom_gradient ||
+		$has_background_gradient
 	) {
 		$classnames[] = 'has-background';
 	}

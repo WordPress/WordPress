@@ -129,12 +129,15 @@
 		"color": {
 			"heading": true,
 			"text": true,
+			"link": true,
+			"button": true,
 			"background": false,
 			"__experimentalSkipSerialization": [ "gradients" ],
 			"enableContrastChecker": false
 		},
 		"dimensions": {
-			"aspectRatio": true
+			"aspectRatio": true,
+			"minWidth": true
 		},
 		"typography": {
 			"fontSize": true,

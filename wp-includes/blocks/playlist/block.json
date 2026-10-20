@@ -69,6 +69,15 @@
 	"supports": {
 		"anchor": true,
 		"align": true,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true,
+				"gradient": true
+			}
+		},
 		"color": {
 			"gradients": true,
 			"link": true,
@@ -86,6 +95,10 @@
 				"style": true,
 				"width": true
 			}
+		},
+		"dimensions": {
+			"minHeight": true,
+			"minWidth": true
 		},
 		"interactivity": true,
 		"shadow": true,

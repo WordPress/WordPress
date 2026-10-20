@@ -103,13 +103,20 @@
 			}
 		},
 		"interactivity": {
-			"clientNavigation": true
+			"clientNavigation": true,
+			"interactive": true
 		},
 		"shadow": {
+			"__experimentalSkipSerialization": true
+		},
+		"dimensions": {
+			"minWidth": true,
+			"minHeight": true,
 			"__experimentalSkipSerialization": true
 		}
 	},
 	"selectors": {
+		"dimensions": ".wp-block-video video",
 		"shadow": ".wp-block-video video",
 		"filter": {
 			"duotone": ".wp-block-video video"

@@ -501,6 +501,32 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
   pointer-events: none;
 }
 
+.block-editor-block-list__block.is-movable-multi-selected:not(.is-partially-selected) {
+  cursor: grab;
+}
+.is-dragging .block-editor-block-list__block.is-movable-multi-selected:not(.is-partially-selected) {
+  cursor: grabbing;
+}
+
+.block-editor-block-list__drag-count {
+  position: fixed;
+  z-index: 1001;
+  pointer-events: none;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 4px;
+  border-radius: 12px;
+  background: var(--wp-admin-theme-color);
+  color: #fff;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+}
+
 .is-vertical .block-list-appender {
   width: 24px;
   margin-right: auto;
@@ -529,17 +555,26 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
   width: auto;
 }
 
-.block-editor-block-list__layout .is-dragging {
+.block-editor-block-list__layout .is-dragging:not([data-drag-pile]) {
   opacity: 0.1;
 }
-.block-editor-block-list__layout .is-dragging iframe {
+.block-editor-block-list__layout .is-dragging:not([data-drag-pile]) iframe {
   pointer-events: none;
 }
-.block-editor-block-list__layout .is-dragging::selection {
+.block-editor-block-list__layout .is-dragging:not([data-drag-pile])::selection {
   background: transparent !important;
 }
-.block-editor-block-list__layout .is-dragging::after {
+.block-editor-block-list__layout .is-dragging:not([data-drag-pile])::after {
   content: none !important;
+}
+
+[data-drag-pile] .block-editor-block-list__layout .is-dragging:not([data-drag-pile]) {
+  visibility: hidden;
+}
+[data-drag-pile] .block-editor-block-list__layout .is-dragging[data-drag-pile] {
+  position: relative;
+  z-index: 999;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .block-editor-block-preview__content-iframe .block-list-appender {
@@ -917,9 +952,7 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 }
 
 .is-selected .non-breaking-space {
-  outline: 1px solid currentColor;
-  outline-offset: -1px;
-  opacity: 0.8;
+  background: radial-gradient(circle, #cc1818 2px, transparent 2.5px) center/100% 100% no-repeat;
 }
 
 .block-editor-warning {

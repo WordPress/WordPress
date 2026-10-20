@@ -66,8 +66,7 @@ function render_block_core_term_template( $attributes, $content, $block ) {
 		}
 	}
 
-	$terms_query = new WP_Term_Query( $query_args );
-	$terms       = $terms_query->get_terms();
+	$terms = get_terms( $query_args );
 
 	if ( ! $terms || is_wp_error( $terms ) ) {
 		return '';
@@ -85,9 +84,10 @@ function render_block_core_term_template( $attributes, $content, $block ) {
 		$term_id  = $term->term_id;
 		$taxonomy = $term->taxonomy;
 
-		$filter_block_context = static function ( $context ) use ( $term_id, $taxonomy ) {
+		$filter_block_context = static function ( $context ) use ( $term_id, $taxonomy, $term ) {
 			$context['termId']   = $term_id;
 			$context['taxonomy'] = $taxonomy;
+			$context['termData'] = $term;
 			return $context;
 		};
 
