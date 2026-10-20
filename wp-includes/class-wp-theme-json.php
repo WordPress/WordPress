@@ -684,7 +684,7 @@ class WP_Theme_JSON {
 	/**
 	 * The valid pseudo-selectors that can be used for blocks.
 	 *
-	 * @since 7.0
+	 * @since 7.0.0
 	 * @since 7.2.0 Added `core/navigation-submenu`.
 	 * @var array
 	 */
