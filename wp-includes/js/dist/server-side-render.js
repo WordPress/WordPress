@@ -116,6 +116,36 @@ var wp;
   var import_api_fetch = __toESM(require_api_fetch(), 1);
   var import_url = __toESM(require_url(), 1);
   var import_blocks = __toESM(require_blocks(), 1);
+
+  // packages/server-side-render/build-module/errors.mjs
+  function parseErrorMessage(error) {
+    if (error?.code === "rest_invalid_param" && error.data?.params?.attributes && 1 === Object.values(error.data.params).length) {
+      return `Invalid attribute: ${error.data.params.attributes}`;
+    }
+    if (error instanceof Error) {
+      return error.message;
+    }
+    if (!error) {
+      return "";
+    } else if (typeof error.message === "string") {
+      return error.message;
+    } else if (typeof error === "string") {
+      return error;
+    } else if (
+      // Only consider own method, lest we erroneously end up calling
+      // `Object#toString` at the end of the prototype chain, thereby
+      // returning `"[object Object]"`.
+      Object.hasOwn(error, "toString") && typeof error.toString === "function"
+    ) {
+      const result = error.toString();
+      if (typeof result === "string") {
+        return result;
+      }
+    }
+    return "";
+  }
+
+  // packages/server-side-render/build-module/hook.mjs
   function rendererPath(block, attributes = null, urlQueryArgs = {}) {
     return (0, import_url.addQueryArgs)(`/wp/v2/block-renderer/${block}`, {
       context: "edit",
@@ -191,9 +221,10 @@ var wp;
               if (error instanceof Error && error.name === "AbortError") {
                 return;
               }
+              console.warn(error);
               setResponse({
                 status: "error",
-                error: error instanceof Error ? error.message : String(error)
+                error: parseErrorMessage(error)
               });
             }).finally(() => {
               shouldDebounceRef.current = true;

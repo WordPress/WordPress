@@ -328,7 +328,7 @@ function resolve(id, parentUrl) {
   return resolveImportMap(importMap, urlResolved || id, parentUrl) || id;
 }
 
-// node_modules/es-module-lexer/dist/lexer.js
+// node_modules/.store/es-module-lexer@1.7.0-gHi57fYnqFW7Bwxoq90PCA/node_modules/es-module-lexer/dist/lexer.js
 var ImportType;
 !(function(A2) {
   A2[A2.Static = 1] = "Static", A2[A2.Dynamic = 2] = "Dynamic", A2[A2.ImportMeta = 3] = "ImportMeta", A2[A2.StaticSourcePhase = 4] = "StaticSourcePhase", A2[A2.DynamicSourcePhase = 5] = "DynamicSourcePhase", A2[A2.StaticDeferPhase = 6] = "StaticDeferPhase", A2[A2.DynamicDeferPhase = 7] = "DynamicDeferPhase";
@@ -669,6 +669,7 @@ var {
   getRegionRootFragment,
   initialVdomPromise,
   toVdom,
+  parseDirectiveValue,
   render,
   parseServerData,
   populateServerData,
@@ -677,7 +678,9 @@ var {
   h: createElement,
   navigationSignal,
   sessionId,
-  warn
+  warn,
+  afterNextFrame,
+  getScope
 } = privateApis(
   "I acknowledge that using private APIs means my theme or plugin will inevitably break in the next version of WordPress."
 );
@@ -690,13 +693,24 @@ var getPagePath = (url) => {
   return u.pathname + u.search;
 };
 var parseRegionAttribute = (region) => {
-  const value = region.getAttribute(regionAttr);
-  try {
-    const { id, attachTo } = JSON.parse(value);
-    return { id, attachTo };
-  } catch {
+  const { value } = parseDirectiveValue(
+    region.getAttribute(regionAttr) ?? ""
+  );
+  if (typeof value === "string") {
     return { id: value };
   }
+  return {
+    id: value.id,
+    attachTo: value.attachTo
+  };
+};
+var parseRegionId = (value) => {
+  if (value === null) {
+    return null;
+  }
+  const { value: parsedValue } = parseDirectiveValue(value);
+  const id = typeof parsedValue === "string" ? parsedValue : parsedValue.id;
+  return typeof id === "string" && id ? id : null;
 };
 var cloneRouterRegionContent = (vdom) => {
   if (!vdom) {
@@ -732,8 +746,8 @@ var fetchPage = async (url, { html }) => {
 };
 var preparePage = async (url, dom, { vdom } = {}) => {
   dom.querySelectorAll("noscript").forEach((el) => el.remove());
-  const regions = {};
-  const regionsToAttach = {};
+  const regions = /* @__PURE__ */ Object.create(null);
+  const regionsToAttach = /* @__PURE__ */ Object.create(null);
   dom.querySelectorAll(regionsSelector).forEach((region) => {
     const { id, attachTo } = parseRegionAttribute(region);
     if (region.parentElement.closest(`[${regionAttr}]`)) {
@@ -817,16 +831,71 @@ var forcePageReload = (href) => {
   return new Promise(() => {
   });
 };
+var LIFECYCLE_RELEASE_BOUND = 1e4;
+var reloadAndDischarge = (token) => {
+  try {
+    window.location.reload();
+  } finally {
+    if (currentNavigationId === token && (state.navigating || state.initiator !== null && state.initiator !== void 0)) {
+      batch(() => {
+        if (state.navigating) {
+          state.navigating = false;
+        }
+        if (state.initiator !== null) {
+          state.initiator = null;
+        }
+      });
+    }
+  }
+};
 window.addEventListener("popstate", async () => {
   const pagePath = getPagePath(window.location.href);
-  const page = pages.has(pagePath) && await pages.get(pagePath);
-  if (page) {
+  const token = ++navigationId;
+  currentNavigationId = token;
+  setTimeout(() => {
+    if (currentNavigationId === token && state.navigating) {
+      state.navigating = false;
+    }
+  }, LIFECYCLE_RELEASE_BOUND);
+  if (!pages.has(pagePath)) {
+    reloadAndDischarge(token);
+    return;
+  }
+  try {
+    if (state.initiator !== null && state.initiator !== void 0) {
+      state.initiator = null;
+    }
+    const page = await pages.get(pagePath);
+    if (!page) {
+      reloadAndDischarge(token);
+      return;
+    }
+    if (currentNavigationId === token) {
+      batch(() => {
+        state.navigating = true;
+        state.initiator = null;
+      });
+    }
     batch(() => {
       state.url = window.location.href;
       renderPage(page);
     });
-  } else {
-    window.location.reload();
+    if (currentNavigationId === token) {
+      afterNextFrame(() => {
+        if (currentNavigationId === token) {
+          state.navigating = false;
+        }
+      });
+    }
+  } catch (error) {
+    if (currentNavigationId === token && state.navigating) {
+      afterNextFrame(() => {
+        if (currentNavigationId === token) {
+          state.navigating = false;
+        }
+      });
+    }
+    throw error;
   }
 });
 document.querySelectorAll(regionsSelector).forEach((region) => {
@@ -848,10 +917,38 @@ window.document.querySelectorAll("script[type=module][src]").forEach(({ src }) =
   );
 })();
 var navigatingTo = "";
+var navigationId = 0;
+var currentNavigationId = 0;
 var hasLoadedNavigationTextsData = false;
 var navigationTexts = {
   loading: "Loading page, please wait.",
   loaded: "Page Loaded."
+};
+var resolveInitiator = (declared) => {
+  if (typeof declared === "string" && declared !== "") {
+    return declared;
+  }
+  if (declared === null) {
+    return null;
+  }
+  if (declared === void 0) {
+    const scope = getScope();
+    const element = scope?.ref?.current;
+    if (typeof element?.closest !== "function") {
+      return null;
+    }
+    const region = element.closest(`[${regionAttr}]`);
+    if (!region) {
+      return null;
+    }
+    return parseRegionId(region.getAttribute(regionAttr));
+  }
+  if (true) {
+    warn(
+      "The `initiator` option of `actions.navigate()` must be a nonempty string or null. Ignoring the value."
+    );
+  }
+  return null;
 };
 var { state: privateState } = store(
   "core/router/private",
@@ -867,6 +964,10 @@ var { state: privateState } = store(
 );
 var { state, actions } = store("core/router", {
   state: {
+    // `navigating` and `initiator` are deliberately not declared here.
+    // Giving them an idle value would change a tracked signal from
+    // `undefined` to a value when the router module lazily loads, which
+    // would re-run every watcher already bound to them.
     get navigation() {
       if (true) {
         warn(
@@ -892,6 +993,7 @@ var { state, actions } = store("core/router", {
      * @param [options.timeout]                  Time until the navigation is aborted, in milliseconds. Default is 10000.
      * @param [options.loadingAnimation]         Whether an animation should be shown while navigating. Default to `true`.
      * @param [options.screenReaderAnnouncement] Whether a message for screen readers should be announced while navigating. Default to `true`.
+     * @param [options.initiator]                Who started the navigation. A nonempty string is used as is; `null` suppresses attribution silently; omitting it derives the value from the directive scope. An empty string or any other invalid value warns when `SCRIPT_DEBUG` is enabled, resolves to `null`, and never derives an initiator.
      *
      * @return  Promise that resolves once the navigation is completed or aborted.
      */
@@ -900,6 +1002,7 @@ var { state, actions } = store("core/router", {
       if (clientNavigationDisabled) {
         yield forcePageReload(href);
       }
+      const initiator = resolveInitiator(options.initiator);
       const pagePath = getPagePath(href);
       const { navigation } = privateState;
       const {
@@ -924,34 +1027,55 @@ var { state, actions } = store("core/router", {
           a11ySpeak("loading");
         }
       }, 400);
-      const page = yield Promise.race([
-        pages.get(pagePath),
-        timeoutPromise
-      ]);
-      clearTimeout(loadingTimeout);
-      if (navigatingTo !== href) {
-        return;
-      }
-      if (page && !page.initialData?.config?.["core/router"]?.clientNavigationDisabled) {
-        yield importScriptModules(page.scriptModules);
+      const token = ++navigationId;
+      currentNavigationId = token;
+      try {
         batch(() => {
-          state.url = href;
-          if (loadingAnimation) {
-            navigation.hasStarted = false;
-            navigation.hasFinished = true;
-          }
-          renderPage(page);
+          state.navigating = true;
+          state.initiator = initiator;
         });
-        window.history[options.replace ? "replaceState" : "pushState"]({ wpInteractivityId: sessionId }, "", href);
-        if (screenReaderAnnouncement) {
-          a11ySpeak("loaded");
+        const page = yield Promise.race([
+          pages.get(pagePath),
+          timeoutPromise
+        ]);
+        clearTimeout(loadingTimeout);
+        if (navigatingTo !== href) {
+          return;
         }
-        const { hash } = new URL(href, window.location.href);
-        if (hash) {
-          document.querySelector(hash)?.scrollIntoView();
+        if (page && !page.initialData?.config?.["core/router"]?.clientNavigationDisabled) {
+          yield importScriptModules(page.scriptModules);
+          batch(() => {
+            state.url = href;
+            if (loadingAnimation) {
+              navigation.hasStarted = false;
+              navigation.hasFinished = true;
+            }
+            renderPage(page);
+          });
+          window.history[options.replace ? "replaceState" : "pushState"]({ wpInteractivityId: sessionId }, "", href);
+          if (screenReaderAnnouncement) {
+            a11ySpeak("loaded");
+          }
+          const { hash } = new URL(href, window.location.href);
+          if (hash) {
+            document.querySelector(hash)?.scrollIntoView();
+          }
+        } else {
+          setTimeout(() => {
+            if (currentNavigationId === token && state.navigating) {
+              state.navigating = false;
+            }
+          }, LIFECYCLE_RELEASE_BOUND);
+          yield forcePageReload(href);
         }
-      } else {
-        yield forcePageReload(href);
+      } finally {
+        if (currentNavigationId === token) {
+          afterNextFrame(() => {
+            if (currentNavigationId === token) {
+              state.navigating = false;
+            }
+          });
+        }
       }
     },
     /**

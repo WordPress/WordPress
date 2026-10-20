@@ -54,12 +54,16 @@
 		"filter": {
 			"duotone": true
 		},
+		"shadow": {
+			"__experimentalSkipSerialization": true
+		},
 		"interactivity": {
 			"clientNavigation": true
 		}
 	},
 	"selectors": {
 		"border": ".wp-block-avatar img",
+		"shadow": ".wp-block-avatar img",
 		"filter": {
 			"duotone": ".wp-block-avatar img"
 		}

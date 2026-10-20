@@ -65,10 +65,14 @@
 				"padding": true,
 				"blockGap": true
 			}
+		},
+		"shadow": {
+			"__experimentalSkipSerialization": true
 		}
 	},
 	"selectors": {
 		"border": ".wp-block-tab-list button",
+		"shadow": ".wp-block-tab-list button",
 		"color": {
 			"background": ".wp-block-tab-list button",
 			"text": ".wp-block-tab-list button"

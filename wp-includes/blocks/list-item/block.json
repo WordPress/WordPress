@@ -24,6 +24,11 @@
 		"html": false,
 		"className": false,
 		"splitting": true,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true
+		},
 		"__experimentalBorder": {
 			"color": true,
 			"radius": true,
@@ -46,6 +51,7 @@
 				"padding": false
 			}
 		},
+		"shadow": true,
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
@@ -65,6 +71,7 @@
 	},
 	"selectors": {
 		"root": ".wp-block-list > li",
-		"border": ".wp-block-list:not(.wp-block-list .wp-block-list) > li"
+		"border": ".wp-block-list:not(.wp-block-list .wp-block-list) > li",
+		"shadow": ".wp-block-list:not(.wp-block-list .wp-block-list) > li"
 	}
 }

@@ -24,7 +24,7 @@
 :root :where(.wp-block-tag-cloud.is-style-outline a) {
   border: 1px solid currentColor;
   font-size: unset !important;
-  margin-left: 0;
+  margin-left: 0 !important;
   padding: 1ch 2ch;
   text-decoration: none !important;
 }

@@ -105,6 +105,8 @@
   --wpds-color-background-thumb-brand-active: #3858e9;
   /* Background color for thumbs with a brand tone and normal emphasis (eg. slider thumb and filled track), in their disabled state. */
   --wpds-color-background-thumb-brand-disabled: #dbdbdb;
+  /* Background color for thumbs with a neutral tone and normal emphasis (eg. progressbar indicator). */
+  --wpds-color-background-thumb-neutral: #1e1e1e;
   /* Background color for thumbs with a neutral tone and weak emphasis (eg. scrollbar thumb). */
   --wpds-color-background-thumb-neutral-weak: #8d8d8d;
   /* Background color for thumbs with a neutral tone and weak emphasis (eg. scrollbar thumb) that are hovered, focused, or active. */

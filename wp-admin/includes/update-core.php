@@ -1170,6 +1170,9 @@ $_old_files = array(
 	 * 'wp-includes/images/icon-library/update.svg',
 	 * 'wp-includes/images/icon-library/wordpress.svg',
 	 */
+	// 7.2
+	'wp-includes/js/dist/sync.js',
+	'wp-includes/js/dist/sync.min.js',
 );
 
 /**

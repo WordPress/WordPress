@@ -19,6 +19,7 @@ var touchStartEvent = {
   startY: 0,
   startTime: 0
 };
+var inertElements = [];
 var focusableSelectors = [
   ".wp-lightbox-close-button",
   ".wp-lightbox-navigation-button"
@@ -290,7 +291,7 @@ var { state, actions, callbacks } = store(
         } = state.selectedImage.imageRef;
         let { x: screenPosX, y: screenPosY } = state.selectedImage.imageRef.getBoundingClientRect();
         const naturalRatio = naturalWidth / naturalHeight;
-        let originalRatio = originalWidth / originalHeight;
+        const originalRatio = originalWidth / originalHeight;
         if (state.selectedImage.scaleAttr === "contain") {
           if (naturalRatio > originalRatio) {
             const heightWithoutSpace = originalWidth / naturalRatio;
@@ -302,47 +303,15 @@ var { state, actions, callbacks } = store(
             originalWidth = widthWithoutSpace;
           }
         }
-        originalRatio = originalWidth / originalHeight;
-        let imgMaxWidth = parseFloat(
+        const imgMaxWidth = parseFloat(
           state.selectedImage.targetWidth && state.selectedImage.targetWidth !== "none" ? state.selectedImage.targetWidth : naturalWidth
         );
-        let imgMaxHeight = parseFloat(
+        const imgMaxHeight = parseFloat(
           state.selectedImage.targetHeight && state.selectedImage.targetHeight !== "none" ? state.selectedImage.targetHeight : naturalHeight
         );
-        let imgRatio = imgMaxWidth / imgMaxHeight;
-        let containerMaxWidth = imgMaxWidth;
-        let containerMaxHeight = imgMaxHeight;
+        const fullSizeRatio = imgMaxWidth / imgMaxHeight;
         let containerWidth = imgMaxWidth;
         let containerHeight = imgMaxHeight;
-        if (naturalRatio.toFixed(2) !== imgRatio.toFixed(2)) {
-          if (naturalRatio > imgRatio) {
-            const reducedHeight = imgMaxWidth / naturalRatio;
-            if (imgMaxHeight - reducedHeight > imgMaxWidth) {
-              imgMaxHeight = reducedHeight;
-              imgMaxWidth = reducedHeight * naturalRatio;
-            } else {
-              imgMaxHeight = imgMaxWidth / naturalRatio;
-            }
-          } else {
-            const reducedWidth = imgMaxHeight * naturalRatio;
-            if (imgMaxWidth - reducedWidth > imgMaxHeight) {
-              imgMaxWidth = reducedWidth;
-              imgMaxHeight = reducedWidth / naturalRatio;
-            } else {
-              imgMaxWidth = imgMaxHeight * naturalRatio;
-            }
-          }
-          containerWidth = imgMaxWidth;
-          containerHeight = imgMaxHeight;
-          imgRatio = imgMaxWidth / imgMaxHeight;
-          if (originalRatio > imgRatio) {
-            containerMaxWidth = imgMaxWidth;
-            containerMaxHeight = containerMaxWidth / originalRatio;
-          } else {
-            containerMaxHeight = imgMaxHeight;
-            containerMaxWidth = containerMaxHeight * originalRatio;
-          }
-        }
         if (originalWidth > containerWidth || originalHeight > containerHeight) {
           containerWidth = originalWidth;
           containerHeight = originalHeight;
@@ -366,23 +335,37 @@ var { state, actions, callbacks } = store(
           containerHeight
         );
         const targetContainerRatio = targetMaxWidth / targetMaxHeight;
-        if (originalRatio > targetContainerRatio) {
+        if (fullSizeRatio > targetContainerRatio) {
           containerWidth = targetMaxWidth;
-          containerHeight = containerWidth / originalRatio;
+          containerHeight = containerWidth / fullSizeRatio;
         } else {
           containerHeight = targetMaxHeight;
-          containerWidth = containerHeight * originalRatio;
+          containerWidth = containerHeight * fullSizeRatio;
         }
-        const containerScale = originalWidth / containerWidth;
-        const lightboxImgWidth = imgMaxWidth * (containerWidth / containerMaxWidth);
-        const lightboxImgHeight = imgMaxHeight * (containerHeight / containerMaxHeight);
+        const hasCroppedSource = naturalRatio.toFixed(2) !== fullSizeRatio.toFixed(2);
+        const sourceRatio = hasCroppedSource ? naturalRatio : fullSizeRatio;
+        const containerScale = Math.max(
+          originalWidth / containerWidth,
+          originalHeight / containerHeight,
+          originalWidth / (containerHeight * sourceRatio),
+          originalHeight * sourceRatio / containerWidth
+        );
+        const thumbnailWidth = originalWidth / containerScale;
+        const thumbnailHeight = originalHeight / containerScale;
+        const cropX = (containerWidth - thumbnailWidth) / 2;
+        const cropY = (containerHeight - thumbnailHeight) / 2;
+        screenPosX -= cropX * containerScale;
+        screenPosY -= cropY * containerScale;
         state.overlayStyles = `
 					--wp--lightbox-initial-top-position: ${screenPosY}px;
 					--wp--lightbox-initial-left-position: ${screenPosX}px;
 					--wp--lightbox-container-width: ${containerWidth + 1}px;
 					--wp--lightbox-container-height: ${containerHeight + 1}px;
-					--wp--lightbox-image-width: ${lightboxImgWidth}px;
-					--wp--lightbox-image-height: ${lightboxImgHeight}px;
+					--wp--lightbox-image-width: ${containerWidth}px;
+					--wp--lightbox-image-height: ${containerHeight}px;
+					--wp--lightbox-initial-clip: inset(${cropY}px ${cropX}px);
+					--wp--lightbox-thumbnail-width: ${hasCroppedSource ? thumbnailWidth : containerWidth}px;
+					--wp--lightbox-thumbnail-height: ${hasCroppedSource ? thumbnailHeight : containerHeight}px;
 					--wp--lightbox-scale: ${containerScale};
 					--wp--lightbox-scrollbar-width: ${window.innerWidth - document.documentElement.clientWidth}px;
 				`;
@@ -443,13 +426,24 @@ var { state, actions, callbacks } = store(
         }
       },
       setInertElements() {
-        document.querySelectorAll("body > :not(.wp-lightbox-overlay)").forEach((el) => {
-          if (state.overlayEnabled) {
-            el.setAttribute("inert", "");
-          } else {
-            el.removeAttribute("inert");
+        if (!state.overlayEnabled) {
+          inertElements.forEach(
+            (el) => el.removeAttribute("inert")
+          );
+          inertElements = [];
+          return;
+        }
+        const { ref } = getElement();
+        let node = ref;
+        while (node && node !== document.body && node.parentElement) {
+          for (const sibling of node.parentElement.children) {
+            if (sibling !== node && !sibling.hasAttribute("inert")) {
+              sibling.setAttribute("inert", "");
+              inertElements.push(sibling);
+            }
           }
-        });
+          node = node.parentElement;
+        }
       },
       initTriggerButton() {
         const { imageId } = getContext();

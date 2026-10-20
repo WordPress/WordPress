@@ -1,4 +1,4 @@
-// node_modules/temml/dist/temml.mjs
+// node_modules/.store/temml@0.10.34-cIom-bDUKdjul-PTPEPx3w/node_modules/temml/dist/temml.mjs
 var ParseError = class _ParseError {
   constructor(message, token) {
     let error = " " + message;
@@ -12071,7 +12071,22 @@ function latexToMathML(latex, { displayMode = true } = {}) {
   });
   const doc = document.implementation.createHTMLDocument("");
   doc.body.innerHTML = mathML;
-  return doc.body.querySelector("math")?.innerHTML ?? "";
+  const math2 = doc.body.querySelector("math");
+  if (!math2) {
+    return "";
+  }
+  for (const cell of math2.querySelectorAll(
+    "mtd.tml-right, mtd.tml-left"
+  )) {
+    cell.setAttribute(
+      "columnalign",
+      cell.classList.contains("tml-right") ? "right" : "left"
+    );
+  }
+  for (const element of math2.querySelectorAll("[class]")) {
+    element.removeAttribute("class");
+  }
+  return math2.innerHTML;
 }
 export {
   latexToMathML as default

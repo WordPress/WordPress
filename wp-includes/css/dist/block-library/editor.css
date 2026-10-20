@@ -176,6 +176,10 @@
   margin: 0 auto;
 }
 
+.wp-block-avatar__help-text {
+  grid-column: 1/-1;
+}
+
 .wp-block[data-align=center] > .wp-block-button {
   text-align: center;
   margin-left: auto;
@@ -749,7 +753,6 @@ html :where(.wp-block-column) {
 }
 
 .wp-block-gallery__source-settings {
-  grid-column: 1/-1;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -765,8 +768,7 @@ html :where(.wp-block-column) {
 }
 
 .wp-block-gallery__source-notice {
-  grid-column: 1/-1;
-  margin: 0;
+  margin: 16px 0 0;
 }
 
 /**
@@ -2330,7 +2332,8 @@ html[dir=rtl] .has-drop-cap:not(:focus)::first-letter {
 .wp-block[data-align=left] > .wp-block-table th, .wp-block[data-align=right] > .wp-block-table td,
 .wp-block[data-align=right] > .wp-block-table th, .wp-block[data-align=center] > .wp-block-table td,
 .wp-block[data-align=center] > .wp-block-table th {
-  word-break: break-word;
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 .wp-block[data-align=center] > .wp-block-table {
   text-align: initial;
@@ -2342,6 +2345,10 @@ html[dir=rtl] .has-drop-cap:not(:focus)::first-letter {
 .wp-block-table th {
   border: 1px solid;
   padding: 0.5em;
+}
+.wp-block-table td [contenteditable=true],
+.wp-block-table th [contenteditable=true] {
+  overflow-wrap: inherit;
 }
 .wp-block-table td.is-selected,
 .wp-block-table th.is-selected {

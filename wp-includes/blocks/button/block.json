@@ -70,6 +70,12 @@
 		"splitting": true,
 		"align": false,
 		"alignWide": false,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true,
+			"__experimentalSkipSerialization": true
+		},
 		"color": {
 			"__experimentalSkipSerialization": true,
 			"gradients": true,

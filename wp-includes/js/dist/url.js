@@ -33,9 +33,9 @@ var wp;
   ));
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // node_modules/remove-accents/index.js
+  // node_modules/.store/remove-accents@0.5.0-S_lnImruWgc6kBSjIJlPgw/node_modules/remove-accents/index.js
   var require_remove_accents = __commonJS({
-    "node_modules/remove-accents/index.js"(exports, module) {
+    "node_modules/.store/remove-accents@0.5.0-S_lnImruWgc6kBSjIJlPgw/node_modules/remove-accents/index.js"(exports, module) {
       var characterMap = {
         "\xC0": "A",
         "\xC1": "A",

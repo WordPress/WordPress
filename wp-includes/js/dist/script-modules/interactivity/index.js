@@ -8,7 +8,7 @@ var __export = (target, all) => {
     __defProp(target, name, { get: all[name], enumerable: true });
 };
 
-// node_modules/preact/dist/preact.module.js
+// node_modules/.store/preact@10.29.1-Z6mqfktFgyEx3dIpXJAnhg/node_modules/preact/dist/preact.module.js
 function m(n3, l6) {
   for (var u5 in l6) n3[u5] = l6[u5];
   return n3;
@@ -260,7 +260,7 @@ function X(n3) {
 }
 var n, l, u, t, i, r, o, e, f, c, s, a, h, p, v, y, d, w, _, g;
 var init_preact_module = __esm({
-  "node_modules/preact/dist/preact.module.js"() {
+  "node_modules/.store/preact@10.29.1-Z6mqfktFgyEx3dIpXJAnhg/node_modules/preact/dist/preact.module.js"() {
     d = {};
     w = [];
     _ = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
@@ -285,16 +285,16 @@ var init_preact_module = __esm({
   }
 });
 
-// node_modules/preact/devtools/dist/devtools.module.js
+// node_modules/.store/preact@10.29.1-Z6mqfktFgyEx3dIpXJAnhg/node_modules/preact/devtools/dist/devtools.module.js
 var i4;
 var init_devtools_module = __esm({
-  "node_modules/preact/devtools/dist/devtools.module.js"() {
+  "node_modules/.store/preact@10.29.1-Z6mqfktFgyEx3dIpXJAnhg/node_modules/preact/devtools/dist/devtools.module.js"() {
     init_preact_module();
     null != (i4 = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0) && i4.__PREACT_DEVTOOLS__ && i4.__PREACT_DEVTOOLS__.attachPreact("10.29.1", l, { Fragment: S, Component: C });
   }
 });
 
-// node_modules/preact/debug/dist/debug.module.js
+// node_modules/.store/preact@10.29.1-Z6mqfktFgyEx3dIpXJAnhg/node_modules/preact/debug/dist/debug.module.js
 var debug_module_exports = {};
 __export(debug_module_exports, {
   getCurrentVNode: () => c4,
@@ -345,7 +345,7 @@ function w4(n3) {
 }
 var t4, i5, s5, l5, d5, v5, m3, b3;
 var init_debug_module = __esm({
-  "node_modules/preact/debug/dist/debug.module.js"() {
+  "node_modules/.store/preact@10.29.1-Z6mqfktFgyEx3dIpXJAnhg/node_modules/preact/debug/dist/debug.module.js"() {
     init_preact_module();
     init_devtools_module();
     t4 = {};
@@ -538,10 +538,10 @@ var init_debug_module = __esm({
 // packages/interactivity/build-module/index.mjs
 init_preact_module();
 
-// node_modules/@preact/signals/dist/signals.module.js
+// node_modules/.store/@preact/signals@1.3.0-z_ppW6levm_l-xtsxo7hFg/node_modules/@preact/signals/dist/signals.module.js
 init_preact_module();
 
-// node_modules/preact/hooks/dist/hooks.module.js
+// node_modules/.store/preact@10.29.1-Z6mqfktFgyEx3dIpXJAnhg/node_modules/preact/hooks/dist/hooks.module.js
 init_preact_module();
 var t2;
 var r2;
@@ -697,7 +697,7 @@ function D2(n3, t5) {
   return "function" == typeof t5 ? t5(n3) : t5;
 }
 
-// node_modules/@preact/signals-core/dist/signals-core.module.js
+// node_modules/.store/@preact/signals-core@1.8.0-YrJJPniKXpf_juG_JvRhXw/node_modules/@preact/signals-core/dist/signals-core.module.js
 var i3 = /* @__PURE__ */ Symbol.for("preact-signals");
 function t3() {
   if (!(s3 > 1)) {
@@ -1034,7 +1034,7 @@ function E2(i6) {
   return t5.d.bind(t5);
 }
 
-// node_modules/@preact/signals/dist/signals.module.js
+// node_modules/.store/@preact/signals@1.3.0-z_ppW6levm_l-xtsxo7hFg/node_modules/@preact/signals/dist/signals.module.js
 var v4;
 var s4;
 function l4(n3, i6) {
@@ -1267,6 +1267,14 @@ var onDOMReady = (callback) => {
     document.addEventListener("DOMContentLoaded", callback);
   }
 };
+var watch = (callback) => E2(() => {
+  setScope();
+  try {
+    return callback();
+  } finally {
+    resetScope();
+  }
+});
 function createFlusher(compute, notify) {
   let flush = () => void 0;
   const dispose = E2(function() {
@@ -2052,43 +2060,39 @@ var resolve = (path, namespace) => {
     }
   }
 };
-var getEvaluate = ({ scope }) => (
-  // TODO: When removing the temporarily remaining `value( ...args )` call below, remove the `...args` parameter too.
-  ((entry, ...args) => {
-    let { value: path, namespace } = entry;
-    if (typeof path !== "string") {
-      throw new Error("The `value` prop should be a string path");
-    }
-    const hasNegationOperator = path[0] === "!" && !!(path = path.slice(1));
-    setScope(scope);
-    const value = resolve(path, namespace);
-    if (typeof value === "function") {
-      if (hasNegationOperator) {
-        warn(
-          "Using a function with a negation operator is deprecated and will stop working in WordPress 6.9. Please use derived state instead."
-        );
-        const functionResult = !value(...args);
-        resetScope();
-        return functionResult;
-      }
+var getEvaluate = ({ scope }) => (entry) => {
+  let { value: path, namespace } = entry;
+  if (typeof path !== "string") {
+    throw new Error("The `value` prop should be a string path");
+  }
+  const hasNegationOperator = path[0] === "!" && !!(path = path.slice(1));
+  setScope(scope);
+  const value = resolve(path, namespace);
+  if (typeof value === "function") {
+    if (hasNegationOperator) {
+      warn(
+        `The value of "${path}" is a function and cannot be negated. Please use derived state instead.`
+      );
       resetScope();
-      const wrappedFunction = (...functionArgs) => {
-        setScope(scope);
-        const functionResult = value(...functionArgs);
-        resetScope();
-        return functionResult;
-      };
-      if (value.sync) {
-        const syncAwareFunction = wrappedFunction;
-        syncAwareFunction.sync = true;
-      }
-      return wrappedFunction;
+      return void 0;
     }
-    const result = value;
     resetScope();
-    return hasNegationOperator && value !== PENDING_GETTER ? !result : result;
-  })
-);
+    const wrappedFunction = (...functionArgs) => {
+      setScope(scope);
+      const functionResult = value(...functionArgs);
+      resetScope();
+      return functionResult;
+    };
+    if (value.sync) {
+      const syncAwareFunction = wrappedFunction;
+      syncAwareFunction.sync = true;
+    }
+    return wrappedFunction;
+  }
+  const result = value;
+  resetScope();
+  return hasNegationOperator && value !== PENDING_GETTER ? !result : result;
+};
 var getPriorityLevels = (directives) => {
   const byPriority = Object.keys(directives).reduce((obj, name) => {
     if (directiveCallbacks[name]) {
@@ -2167,10 +2171,20 @@ l.vnode = (vnode) => {
 };
 
 // packages/interactivity/build-module/directives/utils/warnings.mjs
-var warnUniqueIdWithTwoHyphens = (prefix, suffix, uniqueId) => {
+var warnSuffixNotSupported = (prefix, suffix) => {
   if (true) {
     warn(
-      `The usage of data-wp-${prefix}--${suffix}${uniqueId ? `--${uniqueId}` : ""} (two hyphens for unique ID) is deprecated and will stop working in WordPress 7.1. Please use data-wp-${prefix}${uniqueId ? `--${suffix}---${uniqueId}` : `---${suffix}`} (three hyphens for unique ID) from now on.`
+      `Suffixes for the data-wp-${prefix} directive are not supported. Ignoring the directive with suffix "${suffix}".`
+    );
+  }
+};
+var warnEventNameWithTwoHyphens = (prefix, eventName) => {
+  if (true) {
+    const [event, ...rest] = eventName.split("--");
+    warn(
+      `The data-wp-${prefix}--${eventName} directive listens for an event named "${eventName}". Two-hyphen unique IDs are no longer supported. If you meant to add a unique ID, please use data-wp-${prefix}--${event}---${rest.join(
+        "--"
+      )} instead.`
     );
   }
 };
@@ -2467,36 +2481,102 @@ directive(
   { priority: 1 }
 );
 
-// packages/interactivity/build-module/directives/ignore.mjs
-init_preact_module();
+// packages/interactivity/build-module/html.mjs
+var trustedHtmlByToken = /* @__PURE__ */ new WeakMap();
+function asDangerousHTML(html) {
+  const { trustedTypes } = globalThis;
+  if (typeof html !== "string" && !trustedTypes?.isHTML(html)) {
+    throw new TypeError(
+      "asDangerousHTML() expects a string or a native TrustedHTML value."
+    );
+  }
+  const token = Object.freeze(/* @__PURE__ */ Object.create(null));
+  trustedHtmlByToken.set(token, html);
+  return token;
+}
+function isDangerousHTML(value) {
+  return typeof value === "object" && value !== null && trustedHtmlByToken.has(value);
+}
+function getDangerousHTML(token) {
+  return trustedHtmlByToken.get(token);
+}
+
+// packages/interactivity/build-module/directives/html.mjs
+var STABLE_EMPTY_HTML = Object.freeze({ __html: "" });
 directive(
-  "ignore",
-  ({
-    element: {
-      type: Type,
-      props: { innerHTML, ...rest }
+  "html",
+  ({ directives: { html: htmlEntries }, element, evaluate }) => {
+    const entry = htmlEntries.find(isDefaultDirectiveSuffix);
+    const lastValue = A2(void 0);
+    const lastWrittenKey = A2(void 0);
+    if (!entry) {
+      if (true) {
+        warn(
+          "The usage of data-wp-html--suffix is not supported. Please use data-wp-html instead."
+        );
+      }
+    } else if (entry.uniqueId) {
+      if (true) {
+        warnUniqueIdNotSupported("html", entry.uniqueId);
+      }
+    } else {
+      let result;
+      try {
+        result = evaluate(entry);
+      } catch {
+        result = void 0;
+      }
+      if (result !== PENDING_GETTER) {
+        if (typeof result === "function") {
+          result = result();
+        }
+        if (isDangerousHTML(result)) {
+          lastValue.current = getDangerousHTML(result);
+        }
+      }
     }
-  }) => {
-    if (true) {
-      warn(
-        "The data-wp-ignore directive is deprecated and will be removed in version 7.0."
-      );
+    const resolvedValue = lastValue.current;
+    useLayoutEffect(() => {
+      if (resolvedValue === void 0) {
+        return;
+      }
+      const key = String(resolvedValue);
+      if (lastWrittenKey.current === key) {
+        return;
+      }
+      const node = element.ref.current;
+      if (lastWrittenKey.current === void 0 && node.innerHTML === key) {
+        lastWrittenKey.current = key;
+        return;
+      }
+      try {
+        node.innerHTML = resolvedValue;
+        lastWrittenKey.current = key;
+      } catch (error) {
+        lastWrittenKey.current = key;
+        if (true) {
+          warn(
+            `data-wp-html: the browser rejected this HTML value, so the element's existing content was left in place. ${error}`
+          );
+        }
+      }
+    }, [resolvedValue, element.ref]);
+    if (resolvedValue === void 0) {
+      return;
     }
-    const cached = T2(() => innerHTML, []);
-    return k(Type, {
-      dangerouslySetInnerHTML: { __html: cached },
-      ...rest
-    });
+    element.props.dangerouslySetInnerHTML = STABLE_EMPTY_HTML;
+    element.props.children = void 0;
   }
 );
 
 // packages/interactivity/build-module/directives/init.mjs
 directive("init", ({ directives: { init }, evaluate }) => {
   init.forEach((entry) => {
-    if (true) {
-      if (entry.suffix) {
-        warnUniqueIdWithTwoHyphens("init", entry.suffix);
+    if (entry.suffix !== null) {
+      if (true) {
+        warnSuffixNotSupported("init", entry.suffix);
       }
+      return;
     }
     useInit(() => {
       let start;
@@ -2569,14 +2649,12 @@ function wrapEventAsync(event) {
 var getGlobalEventDirective = (type) => {
   return ({ directives, evaluate }) => {
     directives[`on-${type}`].filter(isNonDefaultDirectiveSuffix).forEach((entry) => {
-      const suffixParts = entry.suffix.split("--", 2);
-      const eventName = suffixParts[0];
+      const eventName = entry.suffix;
       if (true) {
-        if (suffixParts[1]) {
-          warnUniqueIdWithTwoHyphens(
+        if (eventName.includes("--")) {
+          warnEventNameWithTwoHyphens(
             `on-${type}`,
-            suffixParts[0],
-            suffixParts[1]
+            eventName
           );
         }
       }
@@ -2624,20 +2702,16 @@ var getGlobalAsyncEventDirective = (type) => {
 directive("on", ({ directives: { on }, element, evaluate }) => {
   const events = /* @__PURE__ */ new Map();
   on.filter(isNonDefaultDirectiveSuffix).forEach((entry) => {
-    const suffixParts = entry.suffix.split("--", 2);
+    const eventType = entry.suffix;
     if (true) {
-      if (suffixParts[1]) {
-        warnUniqueIdWithTwoHyphens(
-          "on",
-          suffixParts[0],
-          suffixParts[1]
-        );
+      if (eventType.includes("--")) {
+        warnEventNameWithTwoHyphens("on", eventType);
       }
     }
-    if (!events.has(suffixParts[0])) {
-      events.set(suffixParts[0], /* @__PURE__ */ new Set());
+    if (!events.has(eventType)) {
+      events.set(eventType, /* @__PURE__ */ new Set());
     }
-    events.get(suffixParts[0]).add(entry);
+    events.get(eventType).add(entry);
   });
   events.forEach((entries, eventType) => {
     const existingHandler = element.props[`on${eventType}`];
@@ -2727,9 +2801,7 @@ directive(
     }
     if (entry.suffix) {
       if (true) {
-        warn(
-          `Suffixes for the data-wp-router-region directive are not supported. Ignoring the directive with suffix "${entry.suffix}".`
-        );
+        warnSuffixNotSupported("router-region", entry.suffix);
       }
       return;
     }
@@ -2761,10 +2833,11 @@ directive(
 // packages/interactivity/build-module/directives/run.mjs
 directive("run", ({ directives: { run }, evaluate }) => {
   run.forEach((entry) => {
-    if (true) {
-      if (entry.suffix) {
-        warnUniqueIdWithTwoHyphens("run", entry.suffix);
+    if (entry.suffix !== null) {
+      if (true) {
+        warnSuffixNotSupported("run", entry.suffix);
       }
+      return;
     }
     let result = evaluate(entry);
     if (typeof result === "function") {
@@ -2865,10 +2938,11 @@ directive("text", ({ directives: { text }, element, evaluate }) => {
 // packages/interactivity/build-module/directives/watch.mjs
 directive("watch", ({ directives: { watch: watch2 }, evaluate }) => {
   watch2.forEach((entry) => {
-    if (true) {
-      if (entry.suffix) {
-        warnUniqueIdWithTwoHyphens("watch", entry.suffix);
+    if (entry.suffix !== null) {
+      if (true) {
+        warnSuffixNotSupported("watch", entry.suffix);
       }
+      return;
     }
     useWatch(() => {
       let start;
@@ -2940,6 +3014,20 @@ function parseDirectiveName(directiveName) {
   return { prefix, suffix: suffix || null, uniqueId: null };
 }
 var nsPathRegExp = /^([\w_\/-]+)::(.+)$/;
+function parseDirectiveValue(rawValue) {
+  const regexResult = nsPathRegExp.exec(rawValue);
+  const namespace = regexResult?.[1] ?? null;
+  const rawDirectiveValue = regexResult?.[2] ?? rawValue;
+  let value = rawDirectiveValue;
+  try {
+    const parsedValue = JSON.parse(rawDirectiveValue);
+    if (isObject(parsedValue)) {
+      value = parsedValue;
+    }
+  } catch {
+  }
+  return { namespace, value };
+}
 var hydratedIslands = /* @__PURE__ */ new WeakSet();
 function toVdom(root) {
   const nodesToRemove = /* @__PURE__ */ new Set();
@@ -2968,33 +3056,28 @@ function toVdom(root) {
     const props = {};
     const children = [];
     const directives = [];
-    let ignore = false;
     let island = false;
     for (let i6 = 0; i6 < attributes.length; i6++) {
       const attributeName = attributes[i6].name;
       const attributeValue = attributes[i6].value;
       if (attributeName[directivePrefix.length] && attributeName.slice(0, directivePrefix.length) === directivePrefix) {
-        if (attributeName === "data-wp-ignore") {
-          ignore = true;
-        } else {
-          const regexResult = nsPathRegExp.exec(attributeValue);
-          const namespace = regexResult?.[1] ?? null;
-          let value = regexResult?.[2] ?? attributeValue;
-          try {
-            const parsedValue = JSON.parse(value);
-            value = isObject(parsedValue) ? parsedValue : value;
-          } catch {
-          }
-          if (attributeName === "data-wp-interactive") {
-            island = true;
-            const islandNamespace = (
-              // eslint-disable-next-line no-nested-ternary
-              typeof value === "string" ? value : typeof value?.namespace === "string" ? value.namespace : null
+        if (true) {
+          if (attributeName === "data-wp-ignore") {
+            warn(
+              "The data-wp-ignore directive has been removed. The element and its descendants are now hydrated like any other element. Please remove the attribute."
             );
-            namespaces.push(islandNamespace);
-          } else {
-            directives.push([attributeName, namespace, value]);
           }
+        }
+        const { namespace, value } = parseDirectiveValue(attributeValue);
+        if (attributeName === "data-wp-interactive") {
+          island = true;
+          const islandNamespace = (
+            // eslint-disable-next-line no-nested-ternary
+            typeof value === "string" ? value : typeof value?.namespace === "string" ? value.namespace : null
+          );
+          namespaces.push(islandNamespace);
+        } else {
+          directives.push([attributeName, namespace, value]);
         }
       } else if (attributeName === "ref") {
         continue;
@@ -3004,15 +3087,6 @@ function toVdom(root) {
       } else {
         props[attributeName] = attributeValue;
       }
-    }
-    if (ignore && !island) {
-      return [
-        k(localName, {
-          ...props,
-          innerHTML: elementNode.innerHTML,
-          __directives: { ignore: true }
-        })
-      ];
     }
     if (island) {
       hydratedIslands.add(elementNode);
@@ -3051,7 +3125,15 @@ function toVdom(root) {
         );
       }
     }
-    if (props.__directives?.["each-child"]) {
+    const hasDefaultHtmlDirective = props.__directives?.html?.some(
+      ({ suffix }) => suffix === null
+    );
+    if (props.__directives?.["each-child"] || hasDefaultHtmlDirective) {
+      if (hasDefaultHtmlDirective) {
+        elementNode.querySelectorAll("[data-wp-interactive]").forEach((islandNode) => {
+          hydratedIslands.add(islandNode);
+        });
+      }
       props.dangerouslySetInnerHTML = {
         __html: elementNode.innerHTML
       };
@@ -3128,7 +3210,6 @@ var hydrateRegions = async () => {
 if (true) {
   await Promise.resolve().then(() => (init_debug_module(), debug_module_exports));
 }
-var watch = E2;
 var requiredConsent = "I acknowledge that using private APIs means my theme or plugin will inevitably break in the next version of WordPress.";
 var privateApis = (lock) => {
   if (lock === requiredConsent) {
@@ -3136,6 +3217,8 @@ var privateApis = (lock) => {
       getRegionRootFragment,
       initialVdomPromise,
       toVdom,
+      // Shares the directive-value interpretation with internal consumers.
+      parseDirectiveValue,
       directive,
       getNamespace,
       h: k,
@@ -3149,7 +3232,9 @@ var privateApis = (lock) => {
       deepReadOnly,
       navigationSignal,
       sessionId,
-      warn
+      warn,
+      afterNextFrame,
+      getScope
     };
   }
   throw new Error("Forbidden access.");
@@ -3166,6 +3251,7 @@ window.addEventListener("popstate", (event) => {
   }
 });
 export {
+  asDangerousHTML,
   getConfig,
   getContext,
   getElement,

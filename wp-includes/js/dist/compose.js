@@ -75,9 +75,9 @@ var wp;
     }
   });
 
-  // node_modules/mousetrap/mousetrap.js
+  // node_modules/.store/mousetrap@1.6.5-wXrhfo95WfPhGlz0ygmxKA/node_modules/mousetrap/mousetrap.js
   var require_mousetrap = __commonJS({
-    "node_modules/mousetrap/mousetrap.js"(exports, module) {
+    "node_modules/.store/mousetrap@1.6.5-wXrhfo95WfPhGlz0ygmxKA/node_modules/mousetrap/mousetrap.js"(exports, module) {
       (function(window2, document2, undefined2) {
         if (!window2) {
           return;
@@ -551,13 +551,6 @@ var wp;
     }
   });
 
-  // vendor-external:react
-  var require_react = __commonJS({
-    "vendor-external:react"(exports, module) {
-      module.exports = window.React;
-    }
-  });
-
   // packages/compose/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
@@ -606,7 +599,7 @@ var wp;
     withState: () => withState
   });
 
-  // node_modules/tslib/tslib.es6.mjs
+  // node_modules/.store/tslib@2.8.1-LT-dxu1EkVy7OUDyVf5glQ/node_modules/tslib/tslib.es6.mjs
   var __assign = function() {
     __assign = Object.assign || function __assign2(t) {
       for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -618,12 +611,12 @@ var wp;
     return __assign.apply(this, arguments);
   };
 
-  // node_modules/lower-case/dist.es2015/index.js
+  // node_modules/.store/lower-case@2.0.2-5YZP5nczP5_f_8Vt5KBPjA/node_modules/lower-case/dist.es2015/index.js
   function lowerCase(str) {
     return str.toLowerCase();
   }
 
-  // node_modules/no-case/dist.es2015/index.js
+  // node_modules/.store/no-case@3.0.4-R4Hzt6qn-erEsTak7ojDpg/node_modules/no-case/dist.es2015/index.js
   var DEFAULT_SPLIT_REGEXP = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g];
   var DEFAULT_STRIP_REGEXP = /[^A-Z0-9]+/gi;
   function noCase(input, options) {
@@ -648,7 +641,7 @@ var wp;
     }, input);
   }
 
-  // node_modules/pascal-case/dist.es2015/index.js
+  // node_modules/.store/pascal-case@3.1.2-khtSA9hpCTEVLYfMgyRdoA/node_modules/pascal-case/dist.es2015/index.js
   function pascalCaseTransform(input, index) {
     var firstChar = input.charAt(0);
     var lowerChars = input.substr(1).toLowerCase();
@@ -1669,7 +1662,7 @@ var wp;
             if (!(child instanceof defaultView.HTMLElement)) {
               return;
             }
-            if (!child.getAttribute("inert")) {
+            if (!child.hasAttribute("inert")) {
               child.setAttribute("inert", "true");
               updates.push(() => {
                 child.removeAttribute("inert");
@@ -1743,10 +1736,10 @@ var wp;
       eventsRef.current.onDragMove?.(event);
     }, []);
     const endDrag = (0, import_element16.useCallback)(
-      function endDrag2(event) {
+      function handleEndDrag(event) {
         eventsRef.current.onDragEnd?.(event);
         document.removeEventListener("mousemove", onMouseMove);
-        document.removeEventListener("mouseup", endDrag2);
+        document.removeEventListener("mouseup", handleEndDrag);
         setIsDragging(false);
       },
       [onMouseMove]
@@ -1778,7 +1771,7 @@ var wp;
   // packages/compose/build-module/hooks/use-keyboard-shortcut/index.mjs
   var import_mousetrap = __toESM(require_mousetrap(), 1);
 
-  // node_modules/mousetrap/plugins/global-bind/mousetrap-global-bind.js
+  // node_modules/.store/mousetrap@1.6.5-wXrhfo95WfPhGlz0ygmxKA/node_modules/mousetrap/plugins/global-bind/mousetrap-global-bind.js
   (function(Mousetrap3) {
     if (!Mousetrap3) {
       return;
@@ -2198,43 +2191,13 @@ var wp;
   }
   var use_warn_on_change_default = useWarnOnChange;
 
-  // node_modules/use-memo-one/dist/use-memo-one.esm.js
-  var import_react = __toESM(require_react());
-  function areInputsEqual(newInputs, lastInputs) {
-    if (newInputs.length !== lastInputs.length) {
-      return false;
-    }
-    for (var i = 0; i < newInputs.length; i++) {
-      if (newInputs[i] !== lastInputs[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-  function useMemoOne(getResult, inputs) {
-    var initial = (0, import_react.useState)(function() {
-      return {
-        inputs,
-        result: getResult()
-      };
-    })[0];
-    var committed = (0, import_react.useRef)(initial);
-    var isInputMatch = Boolean(inputs && committed.current.inputs && areInputsEqual(inputs, committed.current.inputs));
-    var cache = isInputMatch ? committed.current : {
-      inputs,
-      result: getResult()
-    };
-    (0, import_react.useEffect)(function() {
-      committed.current = cache;
-    }, [cache]);
-    return cache.result;
-  }
-
   // packages/compose/build-module/hooks/use-debounce/index.mjs
   var import_element25 = __toESM(require_element(), 1);
   function useDebounce(fn, wait, options) {
-    const debounced = useMemoOne(
+    const debounced = (0, import_element25.useMemo)(
       () => debounce(fn, wait ?? 0, options),
+      // Depends on the individual options rather than the `options` object.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [fn, wait, options?.leading, options?.trailing, options?.maxWait]
     );
     (0, import_element25.useEffect)(() => () => debounced.cancel(), [debounced]);
@@ -2256,7 +2219,7 @@ var wp;
   // packages/compose/build-module/hooks/use-throttle/index.mjs
   var import_element27 = __toESM(require_element(), 1);
   function useThrottle(fn, wait, options) {
-    const throttled = useMemoOne(
+    const throttled = (0, import_element27.useMemo)(
       () => throttle(fn, wait ?? 0, options),
       [fn, wait, options]
     );

@@ -37,6 +37,7 @@
 		},
 		"dimensions": {
 			"minHeight": true,
+			"minWidth": true,
 			"__experimentalDefaultControls": {
 				"minHeight": false
 			}
@@ -46,12 +47,15 @@
 			"__experimentalFontFamily": true,
 			"lineHeight": true,
 			"textAlign": true,
+			"textColumns": true,
+			"textIndent": true,
 			"__experimentalFontStyle": true,
 			"__experimentalFontWeight": true,
 			"__experimentalLetterSpacing": true,
 			"__experimentalTextTransform": true,
 			"__experimentalTextDecoration": true,
 			"__experimentalWritingMode": true,
+			"fitText": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}

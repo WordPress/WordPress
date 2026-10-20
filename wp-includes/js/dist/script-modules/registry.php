@@ -28,6 +28,11 @@ return array(
 		'asset' => 'block-library/accordion/view.min.asset.php',
 	),
 	array(
+		'id' => '@wordpress/block-library/cover/view',
+		'path' => 'block-library/cover/view',
+		'asset' => 'block-library/cover/view.min.asset.php',
+	),
+	array(
 		'id' => '@wordpress/block-library/file/view',
 		'path' => 'block-library/file/view',
 		'asset' => 'block-library/file/view.min.asset.php',

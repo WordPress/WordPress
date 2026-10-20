@@ -50,6 +50,11 @@
 				"type": "flex"
 			}
 		},
+		"spacing": {
+			"padding": true,
+			"margin": true,
+			"blockGap": true
+		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
@@ -62,6 +67,12 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
 		},
 		"interactivity": {
 			"clientNavigation": true

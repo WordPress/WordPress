@@ -162,6 +162,7 @@ var getValueFromObjectPath = (object, path, defaultValue) => {
 var VALID_SETTINGS = [
   "appearanceTools",
   "useRootPaddingAwareAlignments",
+  "background.backgroundClip",
   "background.backgroundImage",
   "background.backgroundRepeat",
   "background.backgroundSize",
@@ -784,7 +785,7 @@ function getBlockSelector(blockType, target = "root", options = {}) {
   return null;
 }
 
-// node_modules/colord/index.mjs
+// node_modules/.store/colord@2.10.0-Qx66Amv6c9C3nDPQDizV6Q/node_modules/colord/index.mjs
 for (r = { grad: 0.9, turn: 360, rad: 360 / (2 * Math.PI) }, t = function(r2) {
   return "string" == typeof r2 ? r2.length > 0 : "number" == typeof r2;
 }, n = function(r2, t2, n2) {
@@ -1603,7 +1604,7 @@ function getStylesDeclarations(blockStyles = {}, selector = "", useRootPaddingAl
     if (isRoot && (useRootPaddingAlign || disableRootPadding) && rule.key.startsWith("padding")) {
       return;
     }
-    const cssProperty = rule.key.startsWith("--") ? rule.key : kebabCase(rule.key);
+    const cssProperty = rule.key.startsWith("-") ? rule.key : kebabCase(rule.key);
     let ruleValue = getResolvedValue(rule.value, tree);
     if (cssProperty === "font-size") {
       ruleValue = getTypographyFontSizeValue(

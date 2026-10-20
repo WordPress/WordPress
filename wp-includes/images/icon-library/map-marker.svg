@@ -1,4 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: none" stroke="currentColor" stroke-width="1.5">
-	<path d="M6.75 10.37C6.75 7.4705 9.10051 5.12 12 5.12C14.8995 5.12 17.25 7.4705 17.25 10.37C17.25 13.2695 14 17 12 19.25C10 17 6.75 13.2695 6.75 10.37Z" vector-effect="non-scaling-stroke" />
+	<path d="M6.75 10.37C6.75 7.4705 9.10051 5.12 12 5.12C14.8995 5.12 17.25 7.4705 17.25 10.37C17.25 13.2695 14 17 12 19.25C10 17 6.75 13.2695 6.75 10.37Z" />
 	<path d="M12 12A1.5 1.5 0 1 0 12 9A1.5 1.5 0 0 0 12 12Z" fill="currentColor" stroke="none" />
 </svg>

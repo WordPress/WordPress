@@ -28,7 +28,7 @@ var wp;
     getCSSValueFromRawStyle: () => getCSSValueFromRawStyle
   });
 
-  // node_modules/tslib/tslib.es6.mjs
+  // node_modules/.store/tslib@2.8.1-LT-dxu1EkVy7OUDyVf5glQ/node_modules/tslib/tslib.es6.mjs
   var __assign = function() {
     __assign = Object.assign || function __assign2(t) {
       for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -40,12 +40,12 @@ var wp;
     return __assign.apply(this, arguments);
   };
 
-  // node_modules/lower-case/dist.es2015/index.js
+  // node_modules/.store/lower-case@2.0.2-5YZP5nczP5_f_8Vt5KBPjA/node_modules/lower-case/dist.es2015/index.js
   function lowerCase(str) {
     return str.toLowerCase();
   }
 
-  // node_modules/no-case/dist.es2015/index.js
+  // node_modules/.store/no-case@3.0.4-R4Hzt6qn-erEsTak7ojDpg/node_modules/no-case/dist.es2015/index.js
   var DEFAULT_SPLIT_REGEXP = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g];
   var DEFAULT_STRIP_REGEXP = /[^A-Z0-9]+/gi;
   function noCase(input, options) {
@@ -70,7 +70,7 @@ var wp;
     }, input);
   }
 
-  // node_modules/dot-case/dist.es2015/index.js
+  // node_modules/.store/dot-case@3.0.4-hi-rLWlWmiZ169n4dWcbUA/node_modules/dot-case/dist.es2015/index.js
   function dotCase(input, options) {
     if (options === void 0) {
       options = {};
@@ -78,7 +78,7 @@ var wp;
     return noCase(input, __assign({ delimiter: "." }, options));
   }
 
-  // node_modules/param-case/dist.es2015/index.js
+  // node_modules/.store/param-case@3.0.4-rdAht_VwpGpefPRylN2bTA/node_modules/param-case/dist.es2015/index.js
   function paramCase(input, options) {
     if (options === void 0) {
       options = {};
@@ -425,12 +425,56 @@ var wp;
       );
     }
   };
+  var VALID_BACKGROUND_CLIP_VALUES = [
+    "border-box",
+    "padding-box",
+    "content-box",
+    "text"
+  ];
+  var backgroundClip = {
+    name: "backgroundClip",
+    generate: (style, options) => {
+      const value = style?.background?.backgroundClip;
+      if (!value || !VALID_BACKGROUND_CLIP_VALUES.includes(value)) {
+        return [];
+      }
+      const rules = [
+        {
+          selector: options.selector,
+          key: "backgroundClip",
+          value
+        }
+      ];
+      if (value === "text") {
+        rules.push(
+          {
+            selector: options.selector,
+            key: "-webkit-background-clip",
+            value: "text"
+          },
+          {
+            selector: options.selector,
+            key: "-webkit-text-fill-color",
+            value: "transparent"
+          }
+        );
+      } else {
+        rules.push({
+          selector: options.selector,
+          key: "-webkit-text-fill-color",
+          value: "currentColor"
+        });
+      }
+      return rules;
+    }
+  };
   var background_default2 = [
     backgroundImage,
     backgroundPosition,
     backgroundRepeat,
     backgroundSize,
-    backgroundAttachment
+    backgroundAttachment,
+    backgroundClip
   ];
 
   // packages/style-engine/build-module/styles/shadow/index.mjs
@@ -662,7 +706,9 @@ var wp;
     if (!options?.selector) {
       const inlineRules = [];
       rules.forEach((rule) => {
-        inlineRules.push(`${paramCase(rule.key)}: ${rule.value};`);
+        inlineRules.push(
+          `${rule.key.startsWith("-") ? rule.key : paramCase(rule.key)}: ${rule.value};`
+        );
       });
       return inlineRules.join(" ");
     }
@@ -684,7 +730,7 @@ var wp;
       (acc, subSelector) => {
         acc.push(
           `${subSelector} { ${groupedRules[subSelector].map(
-            (rule) => `${paramCase(rule.key)}: ${rule.value};`
+            (rule) => `${rule.key.startsWith("-") ? rule.key : paramCase(rule.key)}: ${rule.value};`
           ).join(" ")} }`
         );
         return acc;

@@ -99,7 +99,7 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/multiply-matrices.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/multiply-matrices.js
   function dot3(a, b2) {
     return a[0] * b2[0] + a[1] * b2[1] + a[2] * b2[2];
   }
@@ -113,7 +113,7 @@ var wp;
     return out;
   }
 
-  // packages/theme/node_modules/colorjs.io/src/util.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/util.js
   function isString(str) {
     return type(str) === "string";
   }
@@ -203,7 +203,7 @@ var wp;
     return false;
   }
 
-  // packages/theme/node_modules/colorjs.io/src/Type.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/Type.js
   var Type = class {
     // Class properties - declared here so that type inference works
     type;
@@ -311,7 +311,7 @@ var wp;
     }
   };
 
-  // packages/theme/node_modules/colorjs.io/src/Format.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/Format.js
   var instance = /* @__PURE__ */ Symbol("instance");
   var Format = class _Format {
     // Class properties - declared here so that type inference works
@@ -428,7 +428,7 @@ var wp;
     }
   };
 
-  // packages/theme/node_modules/colorjs.io/src/hooks.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/hooks.js
   var Hooks = class {
     add(name, callback, first) {
       if (typeof arguments[0] != "string") {
@@ -454,7 +454,7 @@ var wp;
   var hooks = new Hooks();
   var hooks_default = hooks;
 
-  // packages/theme/node_modules/colorjs.io/src/adapt.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/adapt.js
   var WHITES = {
     // for compatibility, the four-digit chromaticity-derived ones everyone else uses
     D50: [0.3457 / 0.3585, 1, (1 - 0.3457 - 0.3585) / 0.3585],
@@ -502,7 +502,7 @@ var wp;
     }
   }
 
-  // packages/theme/node_modules/colorjs.io/src/defaults.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/defaults.js
   var defaults_default = {
     gamut_mapping: "css",
     precision: 5,
@@ -516,7 +516,7 @@ var wp;
     }
   };
 
-  // packages/theme/node_modules/colorjs.io/src/parse.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/parse.js
   function parse(str, options) {
     let env = {
       str: String(str)?.trim(),
@@ -700,7 +700,7 @@ var wp;
     }
   }
 
-  // packages/theme/node_modules/colorjs.io/src/getColor.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/getColor.js
   function getColor(color, options) {
     if (Array.isArray(color)) {
       return color.map((c) => getColor(c, options));
@@ -721,7 +721,7 @@ var wp;
     return color;
   }
 
-  // packages/theme/node_modules/colorjs.io/src/ColorSpace.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/ColorSpace.js
   var \u03B5 = 75e-6;
   var ColorSpace = class _ColorSpace {
     constructor(options) {
@@ -1068,7 +1068,7 @@ var wp;
     return ret;
   }
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/xyz-d65.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/xyz-d65.js
   var xyz_d65_default = new ColorSpace({
     id: "xyz-d65",
     name: "XYZ D65",
@@ -1095,7 +1095,7 @@ var wp;
     aliases: ["xyz"]
   });
 
-  // packages/theme/node_modules/colorjs.io/src/RGBColorSpace.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/RGBColorSpace.js
   var RGBColorSpace = class extends ColorSpace {
     /**
      * Creates a new RGB ColorSpace.
@@ -1147,7 +1147,7 @@ var wp;
     }
   };
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/xyz-d50.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/xyz-d50.js
   var xyz_d50_default = new ColorSpace({
     id: "xyz-d50",
     name: "XYZ D50",
@@ -1157,7 +1157,7 @@ var wp;
     toBase: (coords) => adapt("D50", xyz_d65_default.white, coords)
   });
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/lab.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/lab.js
   var \u03B52 = 216 / 24389;
   var \u03B53 = 24 / 116;
   var \u03BA = 24389 / 27;
@@ -1218,7 +1218,7 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/angles.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/angles.js
   function constrain(angle) {
     if (typeof angle !== "number") {
       return angle;
@@ -1226,7 +1226,7 @@ var wp;
     return (angle % 360 + 360) % 360;
   }
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/lch.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/lch.js
   var lch_default = new ColorSpace({
     id: "lch",
     name: "LCH",
@@ -1275,7 +1275,7 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaE2000.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/deltaE/deltaE2000.js
   var Gfactor = 25 ** 7;
   var \u03C0 = Math.PI;
   var r2d = 180 / \u03C0;
@@ -1364,7 +1364,7 @@ var wp;
     return Math.sqrt(dE);
   }
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/oklab.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/oklab.js
   var M = {
     XYZtoLMS: [
       [0.819022437996703, 0.3619062600528904, -0.1288737815209879],
@@ -1433,7 +1433,7 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaEOK.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/deltaE/deltaEOK.js
   function deltaEOK_default(color, sample) {
     [color, sample] = getColor([color, sample]);
     let [L1, a1, b1] = oklab_default.from(color);
@@ -1444,7 +1444,7 @@ var wp;
     return Math.sqrt(\u0394L ** 2 + \u0394a ** 2 + \u0394b ** 2);
   }
 
-  // packages/theme/node_modules/colorjs.io/src/inGamut.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/inGamut.js
   var \u03B54 = 75e-6;
   function inGamut(color, space, { epsilon = \u03B54 } = {}) {
     color = getColor(color);
@@ -1459,7 +1459,7 @@ var wp;
     return space.inGamut(coords, { epsilon });
   }
 
-  // packages/theme/node_modules/colorjs.io/src/to.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/to.js
   function to(color, space, { inGamut: inGamut2 } = {}) {
     color = getColor(color);
     space = ColorSpace.get(space);
@@ -1472,7 +1472,7 @@ var wp;
   }
   to.returns = "color";
 
-  // packages/theme/node_modules/colorjs.io/src/getAll.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/getAll.js
   function getAll(color, options) {
     color = getColor(color);
     let space = ColorSpace.get(options, options?.space);
@@ -1486,7 +1486,7 @@ var wp;
     return precision === void 0 ? coords : coords.map((coord) => toPrecision(coord, precision));
   }
 
-  // packages/theme/node_modules/colorjs.io/src/get.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/get.js
   function get(color, prop) {
     color = getColor(color);
     if (prop === "alpha") {
@@ -1497,7 +1497,7 @@ var wp;
     return coords[index];
   }
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/oklch.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/oklch.js
   var oklch_default = new ColorSpace({
     id: "oklch",
     name: "OkLCh",
@@ -1527,7 +1527,7 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/setAll.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/setAll.js
   function setAll(color, space, coords, alpha) {
     color = getColor(color);
     if (Array.isArray(space)) {
@@ -1542,7 +1542,7 @@ var wp;
   }
   setAll.returns = "color";
 
-  // packages/theme/node_modules/colorjs.io/src/set.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/set.js
   function set(color, prop, value) {
     color = getColor(color);
     if (arguments.length === 2 && type(arguments[1]) === "object") {
@@ -1567,7 +1567,7 @@ var wp;
   }
   set.returns = "color";
 
-  // packages/theme/node_modules/colorjs.io/src/clone.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/clone.js
   function clone(color) {
     return {
       space: color.space,
@@ -1579,7 +1579,7 @@ var wp;
     };
   }
 
-  // packages/theme/node_modules/colorjs.io/src/distance.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/distance.js
   function distance(color1, color2, space = "lab") {
     space = ColorSpace.get(space);
     let coords1 = space.from(color1);
@@ -1595,12 +1595,12 @@ var wp;
     );
   }
 
-  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaE76.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/deltaE/deltaE76.js
   function deltaE76(color, sample) {
     return distance(color, sample, "lab");
   }
 
-  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaECMC.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/deltaE/deltaECMC.js
   var \u03C02 = Math.PI;
   var d2r2 = \u03C02 / 180;
   function deltaECMC_default(color, sample, { l = 2, c = 1 } = {}) {
@@ -1643,7 +1643,7 @@ var wp;
     return Math.sqrt(dE);
   }
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/xyz-abs-d65.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/xyz-abs-d65.js
   var Yw = 203;
   var xyz_abs_d65_default = new ColorSpace({
     // Absolute CIE XYZ, with a D65 whitepoint,
@@ -1676,7 +1676,7 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/jzazbz.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/jzazbz.js
   var b = 1.15;
   var g = 0.66;
   var n = 2610 / 2 ** 14;
@@ -1776,7 +1776,7 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/jzczhz.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/jzczhz.js
   var jzczhz_default = new ColorSpace({
     id: "jzczhz",
     name: "JzCzHz",
@@ -1806,7 +1806,7 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaEJz.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/deltaE/deltaEJz.js
   function deltaEJz_default(color, sample) {
     [color, sample] = getColor([color, sample]);
     let [Jz1, Cz1, Hz1] = jzczhz_default.from(color);
@@ -1826,7 +1826,7 @@ var wp;
     return Math.sqrt(\u0394J ** 2 + \u0394C ** 2 + \u0394H ** 2);
   }
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/ictcp.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/ictcp.js
   var c12 = 3424 / 4096;
   var c22 = 2413 / 128;
   var c32 = 2392 / 128;
@@ -1932,7 +1932,7 @@ var wp;
     return LMS;
   }
 
-  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaEITP.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/deltaE/deltaEITP.js
   function deltaEITP_default(color, sample) {
     [color, sample] = getColor([color, sample]);
     let [I1, T1, P1] = ictcp_default.from(color);
@@ -1940,7 +1940,7 @@ var wp;
     return 720 * Math.sqrt((I1 - I2) ** 2 + 0.25 * (T1 - T2) ** 2 + (P1 - P2) ** 2);
   }
 
-  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaEOK2.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/deltaE/deltaEOK2.js
   function deltaEOK2_default(color, sample) {
     [color, sample] = getColor([color, sample]);
     let abscale = 2;
@@ -1952,7 +1952,7 @@ var wp;
     return Math.sqrt(\u0394L ** 2 + \u0394a ** 2 + \u0394b ** 2);
   }
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/cam16.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/cam16.js
   var white2 = WHITES.D65;
   var adaptedCoef = 0.42;
   var adaptedCoefInv = 1 / adaptedCoef;
@@ -2202,7 +2202,7 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/hct.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/hct.js
   var white3 = WHITES.D65;
   var \u03B55 = 216 / 24389;
   var \u03BA2 = 24389 / 27;
@@ -2302,7 +2302,7 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaEHCT.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/deltaE/deltaEHCT.js
   var rad2deg2 = 180 / Math.PI;
   var deg2rad2 = Math.PI / 180;
   var ucsCoeff = [1, 7e-3, 0.0228];
@@ -2323,7 +2323,7 @@ var wp;
     return Math.sqrt((t1 - t2) ** 2 + (a1 - a2) ** 2 + (b1 - b2) ** 2);
   }
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/helmlab.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/helmlab.js
   var { cos, sin, sqrt, atan2, exp, abs, pow, PI } = Math;
   var CAT_TO_HELM = [
     [1.000042977349746, 20718877053183e-18, -4361018085669474e-20],
@@ -2600,7 +2600,7 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaEHelmlab.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/deltaE/deltaEHelmlab.js
   var sl = -0.9155125151657894;
   var sc = 2.9268353744941558;
   var wC = 3.966003089807536;
@@ -2625,7 +2625,7 @@ var wp;
     return compressed ** q;
   }
 
-  // packages/theme/node_modules/colorjs.io/src/deltaE/index.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/deltaE/index.js
   var deltaE_default = {
     deltaE76,
     deltaECMC: deltaECMC_default,
@@ -2638,7 +2638,7 @@ var wp;
     deltaEHelmlab: deltaEHelmlab_default
   };
 
-  // packages/theme/node_modules/colorjs.io/src/toGamut.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/toGamut.js
   function calcEpsilon(jnd) {
     const order = !jnd ? 0 : Math.floor(Math.log10(Math.abs(jnd)));
     return Math.max(parseFloat(`1e${order - 2}`), 1e-6);
@@ -2973,7 +2973,7 @@ var wp;
     return rgbOrigin;
   }
 
-  // packages/theme/node_modules/colorjs.io/src/serialize.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/serialize.js
   function serialize(color, options = {}) {
     let {
       precision = defaults_default.precision,
@@ -3053,7 +3053,7 @@ var wp;
     return ret;
   }
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/srgb-linear.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/srgb-linear.js
   var M6 = {
     // calculated directly from the RGB and white chromaticities; when rounded to
     // 8 decimal places, agrees completely with the official matrix
@@ -3078,7 +3078,7 @@ var wp;
     M: M6
   });
 
-  // packages/theme/node_modules/colorjs.io/src/keywords.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/keywords.js
   var keywords_default = {
     aliceblue: [240 / 255, 248 / 255, 1],
     antiquewhite: [250 / 255, 235 / 255, 215 / 255],
@@ -3230,7 +3230,7 @@ var wp;
     yellowgreen: [154 / 255, 205 / 255, 50 / 255]
   };
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/srgb.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/srgb.js
   var coordGrammar = Array(3).fill("<percentage> | <number>[0, 255]");
   var coordGrammarNumber = Array(3).fill("<number>[0, 255]");
   var srgb_default = new RGBColorSpace({
@@ -3345,19 +3345,19 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/equals.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/equals.js
   function equals(color1, color2) {
     color1 = getColor(color1);
     color2 = getColor(color2);
     return color1.space === color2.space && color1.alpha === color2.alpha && color1.coords.every((c, i) => c === color2.coords[i]);
   }
 
-  // packages/theme/node_modules/colorjs.io/src/luminance.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/luminance.js
   function getLuminance(color) {
     return get(color, [xyz_d65_default, "y"]);
   }
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/hsl.js
+  // node_modules/.store/colorjs.io@0.7.1-METd09ReG36PFivDyznZ-w/node_modules/colorjs.io/src/spaces/hsl.js
   var hsl_default = new ColorSpace({
     id: "hsl",
     name: "HSL",
@@ -3436,7 +3436,7 @@ var wp;
     }
   });
 
-  // node_modules/memize/dist/index.js
+  // node_modules/.store/memize@2.1.1-roXbtpG2bis3Lggp7SQpAA/node_modules/memize/dist/index.js
   function memize(fn, options) {
     var size = 0;
     var head;
@@ -3599,6 +3599,7 @@ var wp;
       "background-surface-neutral-strong"
     ],
     "bg-fgSurface4": [
+      "background-thumb-neutral",
       "foreground-content-neutral",
       "foreground-interactive-neutral",
       "foreground-interactive-neutral-active",
@@ -3700,11 +3701,20 @@ var wp;
         `Unsupported seed color "${seed}": expected a fully opaque hex value, an \`rgb()\`/\`rgba()\` string, or a CSS named color.`
       );
     }
-    const { alpha = 1, spaceId } = parsedColor;
+    const { alpha = 1, coords, spaceId } = parsedColor;
     if (!ALLOWED_SEED_COLOR_SPACES.some((space) => space.id === spaceId)) {
       throw new Error(
         `Unsupported seed color "${seed}": expected a fully opaque hex value, an \`rgb()\`/\`rgba()\` string, or a CSS named color, but received a \`${spaceId}\` color.`
       );
+    }
+    for (const [index, coordinate] of coords.entries()) {
+      if (coordinate === null) {
+        coords[index] = 0;
+      } else if (typeof coordinate !== "number" || !Number.isFinite(coordinate)) {
+        throw new Error(
+          `Unsupported seed color "${seed}": expected every RGB channel to be a finite number.`
+        );
+      }
     }
     if (alpha !== 1) {
       throw new Error(
@@ -5062,7 +5072,15 @@ var wp;
         }
         rootProviderCountByDocument.set(doc, active + 1);
       }
-      const previous = /* @__PURE__ */ new Map();
+      const previous = new Map(
+        Array.from(root.style, (key) => [
+          key,
+          {
+            value: root.style.getPropertyValue(key),
+            priority: root.style.getPropertyPriority(key)
+          }
+        ])
+      );
       const applied = [];
       const previousRootProvider = root.getAttribute(
         "data-wpds-root-provider"
@@ -5078,7 +5096,6 @@ var wp;
         if (!rawKey.startsWith("--") || rawValue === null || rawValue === void 0) {
           continue;
         }
-        previous.set(rawKey, root.style.getPropertyValue(rawKey));
         root.style.setProperty(rawKey, String(rawValue));
         applied.push(rawKey);
       }
@@ -5092,9 +5109,13 @@ var wp;
           }
         }
         for (const key of applied) {
-          const prev = previous.get(key);
-          if (prev) {
-            root.style.setProperty(key, prev);
+          const previousProperty = previous.get(key);
+          if (previousProperty) {
+            root.style.setProperty(
+              key,
+              previousProperty.value || " ",
+              previousProperty.priority
+            );
           } else {
             root.style.removeProperty(key);
           }

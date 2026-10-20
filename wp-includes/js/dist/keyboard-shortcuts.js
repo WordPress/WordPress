@@ -274,7 +274,7 @@ var wp;
   function useShortcut(name, callback, { isDisabled = false } = {}) {
     const shortcuts = (0, import_element3.useContext)(context);
     const isMatch = useShortcutEventMatch();
-    const callbackRef = (0, import_element3.useRef)();
+    const callbackRef = (0, import_element3.useRef)(void 0);
     (0, import_element3.useEffect)(() => {
       callbackRef.current = callback;
     }, [callback]);

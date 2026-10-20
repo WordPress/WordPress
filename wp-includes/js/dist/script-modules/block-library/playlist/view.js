@@ -1,7 +1,7 @@
 // packages/block-library/build-module/playlist/view.mjs
 import { store, getContext, getElement } from "@wordpress/interactivity";
 
-// node_modules/colord/index.mjs
+// node_modules/.store/colord@2.10.0-Qx66Amv6c9C3nDPQDizV6Q/node_modules/colord/index.mjs
 for (r = { grad: 0.9, turn: 360, rad: 360 / (2 * Math.PI) }, t = function(r2) {
   return "string" == typeof r2 ? r2.length > 0 : "number" == typeof r2;
 }, n = function(r2, t2, n2) {
@@ -172,8 +172,11 @@ var A = function(r) {
   return r instanceof q ? r : new q(r);
 };
 
-// node_modules/@arraypress/waveform-player/dist/waveform-player.esm.js
-function $2(e2) {
+// node_modules/.store/@arraypress/waveform-player@1.27.0-5lSg0kJG4ah83J6WIqLUFw/node_modules/@arraypress/waveform-player/dist/waveform-player-no-autoinit.esm.js
+function $2() {
+  return typeof window < "u" && typeof document < "u";
+}
+function q2(e2) {
   let t = -1 / 0;
   for (let i = 0; i < e2.length; i++) e2[i] > t && (t = e2[i]);
   return t;
@@ -181,10 +184,10 @@ function $2(e2) {
 function S(e2) {
   return String(e2 ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
-function q2(e2) {
+function U(e2) {
   return S(typeof e2 == "number" ? `${e2}px` : e2);
 }
-function st(e2) {
+function it(e2) {
   if (typeof e2 != "string" || e2 === "") return false;
   try {
     let t = new URL(e2, "http://localhost/");
@@ -217,29 +220,29 @@ function D(e2, t = {}) {
   let o = a.map((n) => _(n)).filter((n) => n !== null && n >= i && n <= s);
   return o.length ? o : r;
 }
-function rt(e2, t, i = null) {
+function st(e2, t, i = null) {
   return t.includes(e2) ? e2 : i;
 }
-function at(e2) {
+function rt(e2) {
   if (typeof e2 == "string") {
     let t = e2.trim().toLowerCase();
     return t !== "" && t !== "false" && t !== "0";
   }
   return !!e2;
 }
-function vt(e2) {
+function kt(e2) {
   return e2 === void 0 ? void 0 : e2 === "true";
 }
-function it(e2) {
+function et(e2) {
   if (typeof e2 == "string" && e2.trim().startsWith("[")) try {
     return JSON.parse(e2);
   } catch {
   }
   return e2;
 }
-function O(e2) {
+function I(e2) {
   let t = {}, i = (o, n = o) => {
-    let l2 = vt(e2.dataset[n]);
+    let l2 = kt(e2.dataset[n]);
     l2 !== void 0 && (t[o] = l2);
   }, s = (o, n = o, l2 = false) => {
     let h = e2.dataset[n];
@@ -253,13 +256,13 @@ function O(e2) {
     let h = H2(l2);
     h ? t[o] = h : console.warn(`[WaveformPlayer] Invalid ${n} attribute, expected a JSON array:`, l2);
   };
-  if (e2.dataset.src && (t.url = e2.dataset.src), e2.dataset.url && (t.url = e2.dataset.url), s("height"), s("samples"), e2.dataset.preload && (t.preload = e2.dataset.preload), e2.dataset.crossOrigin && (t.crossOrigin = e2.dataset.crossOrigin), e2.dataset.audioMode && (t.audioMode = e2.dataset.audioMode), e2.dataset.style && (t.waveformStyle = e2.dataset.style), e2.dataset.waveformStyle && (t.waveformStyle = e2.dataset.waveformStyle), e2.dataset.waveformGradient && (t.waveformGradient = e2.dataset.waveformGradient), s("barWidth"), s("barSpacing"), s("barRadius"), e2.dataset.buttonAlign && (t.buttonAlign = e2.dataset.buttonAlign), e2.dataset.layout && (t.layout = e2.dataset.layout), e2.dataset.buttonStyle && (t.buttonStyle = e2.dataset.buttonStyle), r("buttonSize"), r("buttonRadius"), e2.dataset.colorPreset && (t.colorPreset = e2.dataset.colorPreset), e2.dataset.waveformColor && (t.waveformColor = it(e2.dataset.waveformColor)), e2.dataset.progressColor && (t.progressColor = it(e2.dataset.progressColor)), e2.dataset.color && (t.waveformColor = e2.dataset.color), e2.dataset.theme && (t.colorPreset = e2.dataset.theme), i("autoplay"), i("showControls"), i("showInfo"), i("showTime"), i("showHoverTime"), i("seekHandle"), i("showBPM", "showBpm"), s("bpm"), i("singlePlay"), i("playOnSeek"), e2.dataset.title && (t.title = e2.dataset.title), e2.dataset.artist && (t.artist = e2.dataset.artist), e2.dataset.album && (t.album = e2.dataset.album), e2.dataset.artwork && (t.artwork = e2.dataset.artwork), e2.dataset.artworkPosition && (t.artworkPosition = e2.dataset.artworkPosition), e2.dataset.waveform && (t.waveform = e2.dataset.waveform), a("markers"), s("playbackRate", "playbackRate", true), i("showPlaybackSpeed"), e2.dataset.playbackRates) {
+  if (e2.dataset.src && (t.url = e2.dataset.src), e2.dataset.url && (t.url = e2.dataset.url), s("height"), s("samples"), e2.dataset.preload && (t.preload = e2.dataset.preload), e2.dataset.crossOrigin && (t.crossOrigin = e2.dataset.crossOrigin), e2.dataset.audioMode && (t.audioMode = e2.dataset.audioMode), e2.dataset.style && (t.waveformStyle = e2.dataset.style), e2.dataset.waveformStyle && (t.waveformStyle = e2.dataset.waveformStyle), e2.dataset.waveformGradient && (t.waveformGradient = e2.dataset.waveformGradient), s("barWidth"), s("barSpacing"), s("barRadius"), e2.dataset.buttonAlign && (t.buttonAlign = e2.dataset.buttonAlign), e2.dataset.layout && (t.layout = e2.dataset.layout), e2.dataset.buttonStyle && (t.buttonStyle = e2.dataset.buttonStyle), r("buttonSize"), r("buttonRadius"), e2.dataset.colorPreset && (t.colorPreset = e2.dataset.colorPreset), e2.dataset.waveformColor && (t.waveformColor = et(e2.dataset.waveformColor)), e2.dataset.progressColor && (t.progressColor = et(e2.dataset.progressColor)), e2.dataset.color && (t.waveformColor = e2.dataset.color), e2.dataset.theme && (t.colorPreset = e2.dataset.theme), i("autoplay"), i("showControls"), i("showInfo"), i("showTime"), i("showHoverTime"), i("seekHandle"), i("showBPM", "showBpm"), s("bpm"), i("singlePlay"), i("playOnSeek"), e2.dataset.title && (t.title = e2.dataset.title), e2.dataset.artist && (t.artist = e2.dataset.artist), e2.dataset.album && (t.album = e2.dataset.album), e2.dataset.artwork && (t.artwork = e2.dataset.artwork), e2.dataset.artworkPosition && (t.artworkPosition = e2.dataset.artworkPosition), e2.dataset.waveform && (t.waveform = e2.dataset.waveform), a("markers"), s("playbackRate", "playbackRate", true), i("showPlaybackSpeed"), e2.dataset.playbackRates) {
     let o = D(e2.dataset.playbackRates);
     o ? t.playbackRates = o : console.warn("[WaveformPlayer] Invalid playbackRates attribute:", e2.dataset.playbackRates);
   }
-  return i("enableMediaSession"), i("showMarkers"), i("accessibleSeek"), e2.dataset.seekLabel && (t.seekLabel = e2.dataset.seekLabel), e2.dataset.seekValueText && (t.seekValueText = e2.dataset.seekValueText), e2.dataset.errorText && (t.errorText = e2.dataset.errorText), e2.dataset.playPauseLabel && (t.playPauseLabel = e2.dataset.playPauseLabel), e2.dataset.speedLabel && (t.speedLabel = e2.dataset.speedLabel), e2.dataset.artworkAlt && (t.artworkAlt = e2.dataset.artworkAlt), e2.dataset.unknownTrackText && (t.unknownTrackText = e2.dataset.unknownTrackText), t;
+  return i("enableMediaSession"), i("showMarkers"), i("accessibleSeek"), e2.dataset.seekLabel && (t.seekLabel = e2.dataset.seekLabel), e2.dataset.seekValueText && (t.seekValueText = e2.dataset.seekValueText), e2.dataset.errorText && (t.errorText = e2.dataset.errorText), e2.dataset.playPauseLabel && (t.playPauseLabel = e2.dataset.playPauseLabel), e2.dataset.speedLabel && (t.speedLabel = e2.dataset.speedLabel), e2.dataset.artworkAlt && (t.artworkAlt = e2.dataset.artworkAlt), e2.dataset.unknownTrackText && (t.unknownTrackText = e2.dataset.unknownTrackText), e2.dataset.playIcon && (t.playIcon = e2.dataset.playIcon), e2.dataset.pauseIcon && (t.pauseIcon = e2.dataset.pauseIcon), t;
 }
-function ot(e2, ...t) {
+function at(e2, ...t) {
   let i = 0;
   return e2.replace(/%(?:(\d+)\$)?s/g, (s, r) => {
     let a = r ? Number(r) - 1 : i++;
@@ -272,18 +275,18 @@ function E2(e2) {
   let i = Math.floor(t / 3600), s = Math.floor(t % 3600 / 60), r = Math.floor(t % 60);
   return i > 0 ? `${i}:${s.toString().padStart(2, "0")}:${r.toString().padStart(2, "0")}` : `${s}:${r.toString().padStart(2, "0")}`;
 }
-var St = 0;
-function nt(e2) {
+var vt = 0;
+function ot(e2) {
   let t = e2 || "audio", i = 5381;
   for (let s = 0; s < t.length; s++) i = (i << 5) + i + t.charCodeAt(s) | 0;
-  return `wp_${(i >>> 0).toString(36)}_${(St++).toString(36)}`;
+  return `wp_${(i >>> 0).toString(36)}_${(vt++).toString(36)}`;
 }
-function I(e2) {
+function O(e2) {
   if (!e2) return "Audio";
   let t = e2.split("/");
   return t[t.length - 1].split(".")[0].replace(/[-_]/g, " ").replace(/\b\w/g, (r) => r.toUpperCase());
 }
-function U(e2) {
+function j2(e2) {
   if (typeof e2 != "string") return null;
   let t = e2.match(/rgba?\(\s*([\d.]+)\s*[,\s]\s*([\d.]+)\s*[,\s]\s*([\d.]+)\s*(?:[,/]\s*([\d.]+)(%?))?/i);
   if (!t) return null;
@@ -292,16 +295,16 @@ function U(e2) {
   let a = t[4] === void 0 ? 1 : Number(t[4]);
   return Number.isFinite(a) ? (t[5] === "%" && (a /= 100), { r: i, g: s, b: r, a: m2(a, 0, 1) }) : null;
 }
-function lt(e2) {
-  let t = U(e2);
+function nt(e2) {
+  let t = j2(e2);
   return !t || t.a <= 0 ? null : (t.r * 299 + t.g * 587 + t.b * 114) / 1e3;
 }
-function j2(...e2) {
+function V(...e2) {
   let t = {};
   for (let i of e2) for (let s in i) i[s] !== null && i[s] !== void 0 && (t[s] = i[s]);
   return t;
 }
-function ht(e2, t) {
+function lt(e2, t) {
   let i;
   return function(...r) {
     let a = () => {
@@ -345,7 +348,7 @@ function P(e2, t, i, s) {
   let r = i.width, a = i.height, o = s && s.waveformGradient, [n, l2, h, c2] = o === "horizontal" ? [0, 0, r, 0] : o === "diagonal" ? [0, 0, r, a] : [0, 0, 0, a];
   try {
     let d = e2.createLinearGradient(n, l2, h, c2);
-    return t.forEach((b, y2) => d.addColorStop(y2 / (t.length - 1), b)), d;
+    return t.forEach((w2, y2) => d.addColorStop(y2 / (t.length - 1), w2)), d;
   } catch {
     return t[0];
   }
@@ -356,60 +359,60 @@ function x2(e2, t, i, s, r, a) {
     e2.beginPath(), e2.roundRect(t, i, s, r, Array.isArray(a) ? a.map(l2) : l2(a)), e2.fill();
   } else e2.fillRect(t, i, s, r);
 }
-function pt(e2, t) {
+function dt(e2, t) {
   return (e2.barRadius || 0) * t;
 }
-function Et(e2, t) {
-  let i = pt(e2, t);
+function St(e2, t) {
+  let i = dt(e2, t);
   return [i, i, 0, 0];
 }
-function ct(e2, t, i, s, r) {
+function ht(e2, t, i, s, r) {
   let a = r / 2;
   e2.beginPath(), e2.moveTo(t, s - a), e2.lineTo(i - a, s - a), e2.arc(i - a, s, a, -Math.PI / 2, Math.PI / 2), e2.lineTo(t, s + a), e2.arc(t, s, a, Math.PI / 2, -Math.PI / 2), e2.closePath();
 }
-function V(e2, t, i, s, r) {
-  let a = window.devicePixelRatio || 1, o = r.barWidth * a, n = r.barSpacing * a, l2 = Math.floor(t.width / (o + n)), h = B(i, l2), c2 = t.height, d = s * t.width, b = Et(r, a), y2 = P(e2, r.color, t, r), w2 = P(e2, r.progressColor, t, r);
+function G(e2, t, i, s, r) {
+  let a = window.devicePixelRatio || 1, o = r.barWidth * a, n = r.barSpacing * a, l2 = Math.floor(t.width / (o + n)), h = B(i, l2), c2 = t.height, d = s * t.width, w2 = St(r, a), y2 = P(e2, r.color, t, r), b = P(e2, r.progressColor, t, r);
   e2.clearRect(0, 0, t.width, t.height), e2.fillStyle = y2;
   for (let f = 0; f < h.length; f++) {
     let p2 = f * (o + n);
     if (p2 + o > t.width) break;
     let g2 = h[f] * c2 * 0.9, u = c2 - g2;
-    x2(e2, p2, u, o, g2, b);
+    x2(e2, p2, u, o, g2, w2);
   }
-  e2.save(), e2.beginPath(), e2.rect(0, 0, d, c2), e2.clip(), e2.fillStyle = w2;
+  e2.save(), e2.beginPath(), e2.rect(0, 0, d, c2), e2.clip(), e2.fillStyle = b;
   for (let f = 0; f < h.length; f++) {
     let p2 = f * (o + n);
     if (p2 > d) break;
     let g2 = h[f] * c2 * 0.9, u = c2 - g2;
-    x2(e2, p2, u, o, g2, b);
+    x2(e2, p2, u, o, g2, w2);
   }
   e2.restore();
 }
-function Pt(e2, t, i, s, r) {
-  let a = window.devicePixelRatio || 1, o = r.barWidth * a, n = r.barSpacing * a, l2 = Math.floor(t.width / (o + n)), h = B(i, l2), c2 = t.height, d = c2 / 2, b = s * t.width, y2 = pt(r, a), w2 = [y2, y2, 0, 0], f = [0, 0, y2, y2], p2 = P(e2, r.color, t, r), g2 = P(e2, r.progressColor, t, r);
+function Et(e2, t, i, s, r) {
+  let a = window.devicePixelRatio || 1, o = r.barWidth * a, n = r.barSpacing * a, l2 = Math.floor(t.width / (o + n)), h = B(i, l2), c2 = t.height, d = c2 / 2, w2 = s * t.width, y2 = dt(r, a), b = [y2, y2, 0, 0], f = [0, 0, y2, y2], p2 = P(e2, r.color, t, r), g2 = P(e2, r.progressColor, t, r);
   e2.clearRect(0, 0, t.width, t.height), e2.fillStyle = p2;
   for (let u = 0; u < h.length; u++) {
     let k2 = u * (o + n);
     if (k2 + o > t.width) break;
     let v2 = h[u] * c2 * 0.45;
-    x2(e2, k2, d - v2, o, v2, w2), x2(e2, k2, d, o, v2, f);
+    x2(e2, k2, d - v2, o, v2, b), x2(e2, k2, d, o, v2, f);
   }
-  e2.save(), e2.beginPath(), e2.rect(0, 0, b, c2), e2.clip(), e2.fillStyle = g2;
+  e2.save(), e2.beginPath(), e2.rect(0, 0, w2, c2), e2.clip(), e2.fillStyle = g2;
   for (let u = 0; u < h.length; u++) {
     let k2 = u * (o + n);
-    if (k2 > b) break;
+    if (k2 > w2) break;
     let v2 = h[u] * c2 * 0.45;
-    x2(e2, k2, d - v2, o, v2, w2), x2(e2, k2, d, o, v2, f);
+    x2(e2, k2, d - v2, o, v2, b), x2(e2, k2, d, o, v2, f);
   }
   e2.restore();
 }
-function Tt(e2, t, i, s, r) {
+function Pt(e2, t, i, s, r) {
   let a = t.width, o = t.height, n = o / 2, l2 = o * 0.35;
   e2.clearRect(0, 0, a, o);
-  let h = (c2, d, b = 1, y2 = false) => {
-    let w2 = P(e2, c2, t, r), f = Array.isArray(c2) ? c2[c2.length - 1] : c2;
-    y2 && (e2.shadowBlur = 12, e2.shadowColor = f), e2.strokeStyle = w2, e2.lineWidth = d, e2.lineCap = "round", e2.lineJoin = "round", e2.beginPath(), e2.moveTo(0, n);
-    let p2 = [], g2 = Math.floor(i.length * b);
+  let h = (c2, d, w2 = 1, y2 = false) => {
+    let b = P(e2, c2, t, r), f = Array.isArray(c2) ? c2[c2.length - 1] : c2;
+    y2 && (e2.shadowBlur = 12, e2.shadowColor = f), e2.strokeStyle = b, e2.lineWidth = d, e2.lineCap = "round", e2.lineJoin = "round", e2.beginPath(), e2.moveTo(0, n);
+    let p2 = [], g2 = Math.floor(i.length * w2);
     for (let u = 0; u < g2; u++) {
       let k2 = u / (i.length - 1) * a, v2 = i[u], A2 = Math.sin(u * 0.1) * v2, L = n + A2 * l2;
       p2.push({ x: k2, y: L });
@@ -427,44 +430,44 @@ function Tt(e2, t, i, s, r) {
   }
   h(r.color, 2, 1, false), s > 0 && h(r.progressColor, 3, s, true);
 }
-function ut(e2, t, i, s, r) {
-  let a = window.devicePixelRatio || 1, o = (r.barWidth || 3) * a, n = (r.barSpacing || 1) * a, l2 = Math.floor(t.width / (o + n)), h = B(i, l2), c2 = t.height, d = 4 * a, b = 2 * a, y2 = s * t.width, w2 = c2 / 2, f = P(e2, r.color, t, r), p2 = P(e2, r.progressColor, t, r);
+function ct(e2, t, i, s, r) {
+  let a = window.devicePixelRatio || 1, o = (r.barWidth || 3) * a, n = (r.barSpacing || 1) * a, l2 = Math.floor(t.width / (o + n)), h = B(i, l2), c2 = t.height, d = 4 * a, w2 = 2 * a, y2 = s * t.width, b = c2 / 2, f = P(e2, r.color, t, r), p2 = P(e2, r.progressColor, t, r);
   e2.clearRect(0, 0, t.width, t.height);
   for (let g2 = 0; g2 < h.length; g2++) {
     let u = g2 * (o + n);
     if (u + o > t.width) break;
-    let k2 = h[g2] * c2 * 0.9, v2 = Math.floor(k2 / (d + b));
+    let k2 = h[g2] * c2 * 0.9, v2 = Math.floor(k2 / (d + w2));
     e2.fillStyle = u < y2 ? p2 : f;
     for (let A2 = 0; A2 < v2; A2++) {
-      let L = A2 * (d + b);
-      e2.fillRect(u, w2 - L - d, o, d), A2 > 0 && e2.fillRect(u, w2 + L, o, d);
+      let L = A2 * (d + w2);
+      e2.fillRect(u, b - L - d, o, d), A2 > 0 && e2.fillRect(u, b + L, o, d);
     }
   }
 }
-function dt(e2, t, i, s, r) {
-  let a = window.devicePixelRatio || 1, o = (r.barWidth || 2) * a, n = (r.barSpacing || 3) * a, l2 = Math.floor(t.width / (o + n)), h = B(i, l2), c2 = t.height, d = Math.max(1.5 * a, o / 2), b = s * t.width, y2 = c2 / 2, w2 = P(e2, r.color, t, r), f = P(e2, r.progressColor, t, r);
+function ut(e2, t, i, s, r) {
+  let a = window.devicePixelRatio || 1, o = (r.barWidth || 2) * a, n = (r.barSpacing || 3) * a, l2 = Math.floor(t.width / (o + n)), h = B(i, l2), c2 = t.height, d = Math.max(1.5 * a, o / 2), w2 = s * t.width, y2 = c2 / 2, b = P(e2, r.color, t, r), f = P(e2, r.progressColor, t, r);
   e2.clearRect(0, 0, t.width, t.height);
   for (let p2 = 0; p2 < h.length; p2++) {
     let g2 = p2 * (o + n) + o / 2;
     if (g2 > t.width) break;
     let u = h[p2] * c2 * 0.9;
-    e2.fillStyle = g2 < b ? f : w2, e2.beginPath(), e2.arc(g2, y2 - u / 2, d, 0, Math.PI * 2), e2.fill(), e2.beginPath(), e2.arc(g2, y2 + u / 2, d, 0, Math.PI * 2), e2.fill();
+    e2.fillStyle = g2 < w2 ? f : b, e2.beginPath(), e2.arc(g2, y2 - u / 2, d, 0, Math.PI * 2), e2.fill(), e2.beginPath(), e2.arc(g2, y2 + u / 2, d, 0, Math.PI * 2), e2.fill();
   }
 }
-function At(e2, t, i, s, r) {
+function Tt(e2, t, i, s, r) {
   let a = t.width, o = t.height, n = o / 2, l2 = 4, h = l2 / 2, c2 = !!r.seekActive;
-  if (e2.clearRect(0, 0, a, o), e2.fillStyle = P(e2, r.color, t, r) || "rgba(255, 255, 255, 0.2)", ct(e2, h, a, n, l2), e2.fill(), s > 0) {
+  if (e2.clearRect(0, 0, a, o), e2.fillStyle = P(e2, r.color, t, r) || "rgba(255, 255, 255, 0.2)", ht(e2, h, a, n, l2), e2.fill(), s > 0) {
     let d = Math.max(h * 2, s * a);
-    e2.save(), e2.globalAlpha = r.seekHandle && !c2 ? 0.7 : 1, e2.fillStyle = P(e2, r.progressColor, t, r) || "rgba(255, 255, 255, 0.9)", ct(e2, h, d, n, l2), e2.fill(), e2.restore();
+    e2.save(), e2.globalAlpha = r.seekHandle && !c2 ? 0.7 : 1, e2.fillStyle = P(e2, r.progressColor, t, r) || "rgba(255, 255, 255, 0.9)", ht(e2, h, d, n, l2), e2.fill(), e2.restore();
   }
 }
-var Mt = { bars: V, bar: V, mirror: Pt, line: Tt, blocks: ut, block: ut, dots: dt, dot: dt, seekbar: At };
-function ft(e2, t, i, s, r) {
-  (Mt[r.waveformStyle] || V)(e2, t, i, s, r);
+var At = { bars: G, bar: G, mirror: Et, line: Pt, blocks: ct, block: ct, dots: ut, dot: ut, seekbar: Tt };
+function pt(e2, t, i, s, r) {
+  (At[r.waveformStyle] || G)(e2, t, i, s, r);
 }
-function mt(e2) {
+function ft(e2) {
   try {
-    let t = e2.getChannelData(0), i = e2.sampleRate, s = Ct(t, i);
+    let t = e2.getChannelData(0), i = e2.sampleRate, s = Mt(t, i);
     if (s.length < 2) return 120;
     let r = [];
     for (let l2 = 1; l2 < s.length; l2++) r.push((s[l2] - s[l2 - 1]) / i);
@@ -480,7 +483,7 @@ function mt(e2) {
     return console.warn("[WaveformPlayer] BPM detection failed:", t), null;
   }
 }
-function Ct(e2, t) {
+function Mt(e2, t) {
   let r = [], a = 0;
   for (let o = 0; o < e2.length - 2048; o += 1024) {
     let n = 0;
@@ -495,37 +498,37 @@ function Ct(e2, t) {
   }
   return r;
 }
-function Lt(e2, t = 1800) {
+function Ct(e2, t = 1800) {
   let i = e2.length / t, s = e2.numberOfChannels, r = [];
   for (let o = 0; o < s; o++) {
     let n = e2.getChannelData(o);
     for (let l2 = 0; l2 < t; l2++) {
-      let h = ~~(l2 * i), c2 = ~~(h + i), d = 0, b = 0;
-      for (let w2 = h; w2 < c2; w2++) {
-        let f = n[w2];
-        f > b && (b = f), f < d && (d = f);
+      let h = ~~(l2 * i), c2 = ~~(h + i), d = 0, w2 = 0;
+      for (let b = h; b < c2; b++) {
+        let f = n[b];
+        f > w2 && (w2 = f), f < d && (d = f);
       }
-      let y2 = Math.max(Math.abs(b), Math.abs(d));
+      let y2 = Math.max(Math.abs(w2), Math.abs(d));
       (o === 0 || y2 > r[l2]) && (r[l2] = y2);
     }
   }
-  let a = $2(r);
+  let a = q2(r);
   return a > 0 ? r.map((o) => o / a) : r;
 }
-async function G(e2, t = 1800, i = false) {
+async function K(e2, t = 1800, i = false) {
   let s;
   try {
     let r = window.AudioContext || window.webkitAudioContext;
     s = new r();
-    let o = await (await fetch(e2)).arrayBuffer(), n = await s.decodeAudioData(o), l2 = Lt(n, t);
-    l2 = _t(l2);
+    let o = await (await fetch(e2)).arrayBuffer(), n = await s.decodeAudioData(o), l2 = Ct(n, t);
+    l2 = Lt(l2);
     let h = null;
-    return i && (h = mt(n)), { peaks: l2, bpm: h };
+    return i && (h = ft(n)), { peaks: l2, bpm: h };
   } finally {
     s && s.close();
   }
 }
-function yt(e2 = 1800) {
+function mt(e2 = 1800) {
   let t = [];
   for (let i = 0; i < e2; i++) {
     let s = Math.random() * 0.5 + 0.3, r = Math.sin(i / e2 * Math.PI * 4) * 0.2;
@@ -533,30 +536,30 @@ function yt(e2 = 1800) {
   }
   return t;
 }
-function _t(e2, t = 0.95) {
-  let i = $2(e2);
+function Lt(e2, t = 0.95) {
+  let i = q2(e2);
   if (i === 0 || i > t) return e2;
   let s = t / i;
   return e2.map((r) => r * s);
 }
-var K = 128;
-function gt(e2) {
+var Y = 128;
+function yt(e2) {
   let t = document.documentElement, i = document.body;
   return t.classList.contains(e2) || t.classList.contains(`${e2}-mode`) || t.classList.contains(`theme-${e2}`) || t.getAttribute("data-theme") === e2 || t.getAttribute("data-color-scheme") === e2 || i.classList.contains(e2) || i.classList.contains(`${e2}-mode`) || i.getAttribute("data-theme") === e2;
 }
-function xt(e2) {
+function _t(e2) {
   let t = 0, i = 0;
   for (let s = e2; s && s.nodeType === 1 && i < 0.995; s = s.parentElement) {
-    let r = U(getComputedStyle(s).backgroundColor);
+    let r = j2(getComputedStyle(s).backgroundColor);
     if (!r || r.a <= 0) continue;
     let a = r.a * (1 - i);
     t += (r.r * 299 + r.g * 587 + r.b * 114) / 1e3 * a, i += a;
   }
   return { sum: t, alpha: i };
 }
-function Rt() {
-  let e2 = lt(getComputedStyle(document.body).color);
-  if (e2 !== null) return e2 > K ? "dark" : "light";
+function xt() {
+  let e2 = nt(getComputedStyle(document.body).color);
+  if (e2 !== null) return e2 > Y ? "dark" : "light";
   if (window.matchMedia) {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
     if (window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
@@ -564,52 +567,52 @@ function Rt() {
   return "dark";
 }
 function R2(e2) {
-  if (gt("dark")) return "dark";
-  if (gt("light")) return "light";
+  if (yt("dark")) return "dark";
+  if (yt("light")) return "light";
   try {
-    let t = e2 && e2.nodeType === 1 ? e2 : document.body, { sum: i, alpha: s } = xt(t), r = Rt(), a = i + (r === "dark" ? 0 : 255) * (1 - s);
-    return a > K ? "light" : a < K ? "dark" : r;
+    let t = e2 && e2.nodeType === 1 ? e2 : document.body, { sum: i, alpha: s } = _t(t), r = xt(), a = i + (r === "dark" ? 0 : 255) * (1 - s);
+    return a > Y ? "light" : a < Y ? "dark" : r;
   } catch {
     return "dark";
   }
 }
 var C = { dark: { waveformColor: "rgba(255, 255, 255, 0.3)", progressColor: "rgba(255, 255, 255, 0.9)" }, light: { waveformColor: "rgba(0, 0, 0, 0.2)", progressColor: "rgba(0, 0, 0, 0.8)" } };
-function J(e2, t) {
+function X(e2, t) {
   if (e2 && C[e2]) return C[e2];
   let i = R2(t);
   return C[i];
 }
 var W = { url: "", height: 64, samples: 1800, preload: "metadata", crossOrigin: null, audioMode: "self", playbackRate: 1, showPlaybackSpeed: false, playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2], buttonAlign: "auto", layout: "default", buttonStyle: "circle", buttonSize: null, buttonRadius: null, waveformStyle: "mirror", barWidth: 2, barSpacing: 0, barRadius: 1, waveformGradient: "vertical", colorPreset: null, waveformColor: null, progressColor: null, autoplay: false, showControls: true, showInfo: true, showTime: true, showHoverTime: false, seekHandle: false, showBPM: false, bpm: null, singlePlay: true, playOnSeek: true, enableMediaSession: true, markers: [], showMarkers: true, accessibleSeek: true, seekLabel: null, seekValueText: null, title: null, artist: null, artwork: null, artworkPosition: "info", album: "", errorText: "Unable to load audio", playPauseLabel: "Play/Pause", speedLabel: "Playback speed", artworkAlt: "Album artwork", unknownTrackText: "Unknown Track", playIcon: '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>', pauseIcon: '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>', onLoad: null, onPlay: null, onPause: null, onEnd: null, onError: null, onTimeUpdate: null, onNextTrack: null, onPreviousTrack: null };
-var X = { bars: { barWidth: 3, barSpacing: 1 }, mirror: { barWidth: 2, barSpacing: 2 }, line: { barWidth: 2, barSpacing: 0 }, blocks: { barWidth: 4, barSpacing: 2 }, dots: { barWidth: 3, barSpacing: 3 }, seekbar: { barWidth: 1, barSpacing: 0 } };
-var Q = ["auto", "top", "center", "bottom"];
+var Q = { bars: { barWidth: 3, barSpacing: 1 }, mirror: { barWidth: 2, barSpacing: 2 }, line: { barWidth: 2, barSpacing: 0 }, blocks: { barWidth: 4, barSpacing: 2 }, dots: { barWidth: 3, barSpacing: 3 }, seekbar: { barWidth: 1, barSpacing: 0 } };
+var Z = ["auto", "top", "center", "bottom"];
 var N2 = 0.25;
 var F = 4;
-var Dt = { buttonAlign: Q, layout: ["default", "preview"], buttonStyle: ["circle", "minimal"], artworkPosition: ["info", "button"], waveformStyle: Object.keys(X), waveformGradient: ["vertical", "horizontal", "diagonal"], audioMode: ["self", "external"], preload: ["none", "metadata", "auto"], colorPreset: Object.keys(C), crossOrigin: ["anonymous", "use-credentials"] };
-var Bt = { height: { min: 1, integer: true }, samples: { min: 1, integer: true }, barWidth: { min: 0 }, barSpacing: { min: 0 }, barRadius: { min: 0 }, bpm: { min: 1 }, playbackRate: { min: N2, max: F } };
-var Ht = ["autoplay", "showControls", "showInfo", "showTime", "showHoverTime", "seekHandle", "showBPM", "singlePlay", "playOnSeek", "enableMediaSession", "showMarkers", "accessibleSeek", "showPlaybackSpeed"];
-var Ot = ["onLoad", "onPlay", "onPause", "onEnd", "onError", "onTimeUpdate", "onNextTrack", "onPreviousTrack"];
-function Y(e2, t) {
+var Rt = { buttonAlign: Z, layout: ["default", "preview"], buttonStyle: ["circle", "minimal"], artworkPosition: ["info", "button"], waveformStyle: Object.keys(Q), waveformGradient: ["vertical", "horizontal", "diagonal"], audioMode: ["self", "external"], preload: ["none", "metadata", "auto"], colorPreset: Object.keys(C), crossOrigin: ["anonymous", "use-credentials"] };
+var Dt = { height: { min: 1, integer: true }, samples: { min: 1, integer: true }, barWidth: { min: 0 }, barSpacing: { min: 0 }, barRadius: { min: 0 }, bpm: { min: 1 }, playbackRate: { min: N2, max: F } };
+var Bt = ["autoplay", "showControls", "showInfo", "showTime", "showHoverTime", "seekHandle", "showBPM", "singlePlay", "playOnSeek", "enableMediaSession", "showMarkers", "accessibleSeek", "showPlaybackSpeed"];
+var Ht = ["onLoad", "onPlay", "onPause", "onEnd", "onError", "onTimeUpdate", "onNextTrack", "onPreviousTrack"];
+function J(e2, t) {
   console.warn(`[WaveformPlayer] Invalid ${e2} option, using default:`, t);
 }
 function z(e2) {
   let t = H2(e2);
   return t ? t.reduce((i, s) => {
     let r = s && typeof s == "object" ? _(s.time, null, { min: 0 }) : null;
-    return r === null ? (Y("marker", s), i) : (i.push({ ...s, time: r, label: s.label == null ? "" : s.label }), i);
-  }, []) : (e2 != null && Y("markers", e2), []);
+    return r === null ? (J("marker", s), i) : (i.push({ ...s, time: r, label: s.label == null ? "" : s.label }), i);
+  }, []) : (e2 != null && J("markers", e2), []);
 }
-function Z(e2) {
+function tt(e2) {
   let t = (s) => e2[s] != null, i = (s) => {
-    Y(s, e2[s]), e2[s] = W[s];
+    J(s, e2[s]), e2[s] = W[s];
   };
-  for (let [s, r] of Object.entries(Bt)) {
+  for (let [s, r] of Object.entries(Dt)) {
     if (!t(s)) continue;
     let a = _(e2[s], null, r);
     a === null ? i(s) : e2[s] = a;
   }
-  for (let [s, r] of Object.entries(Dt)) t(s) && rt(e2[s], r) === null && i(s);
-  for (let s of Ht) e2[s] = at(e2[s]);
-  for (let s of Ot) t(s) && typeof e2[s] != "function" && i(s);
+  for (let [s, r] of Object.entries(Rt)) t(s) && st(e2[s], r) === null && i(s);
+  for (let s of Bt) e2[s] = rt(e2[s]);
+  for (let s of Ht) t(s) && typeof e2[s] != "function" && i(s);
   if (t("playbackRates")) {
     let s = D(e2.playbackRates, { min: N2, max: F, fallback: null });
     s === null ? i("playbackRates") : e2.playbackRates = s;
@@ -628,21 +631,21 @@ function Z(e2) {
   return e2;
 }
 var It = "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#71717a" fill-opacity="0.15"/><g fill="none" stroke="#a1a1aa" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="17" r="2.2"/><circle cx="17" cy="15" r="2.2"/><path d="M10.2 17V7l9-1.6v9"/></g></svg>');
-var bt = 5;
+var gt = 5;
 var wt = 10;
-var Wt = 'button, a[href], input, [role="slider"]';
+var Ot = 'button, a[href], input, [role="slider"]';
 var T = class e {
   static instances = /* @__PURE__ */ new Map();
   static currentlyPlaying = null;
   constructor(t, i = {}) {
     if (this.container = typeof t == "string" ? document.querySelector(t) : t, !this.container) throw new Error("[WaveformPlayer] Container element not found");
-    let s = O(this.container), r = { ...i };
-    r.style && !r.waveformStyle && (r.waveformStyle = r.style), r.src && !r.url && (r.url = r.src), this.options = Z(j2(W, s, r));
-    let a = J(this.options.colorPreset, this.container);
+    let s = I(this.container), r = { ...i };
+    r.style && !r.waveformStyle && (r.waveformStyle = r.style), r.src && !r.url && (r.url = r.src), this.options = tt(V(W, s, r));
+    let a = X(this.options.colorPreset, this.container);
     this._autoTheme = this.options.colorPreset == null || !C[this.options.colorPreset], this._presetKeys = [], this._scheme = this.options.colorPreset && C[this.options.colorPreset] ? this.options.colorPreset : R2(this.container);
     for (let [n, l2] of Object.entries(a)) (this.options[n] === null || this.options[n] === void 0) && (this.options[n] = l2, this._presetKeys.push(n));
-    let o = X[this.options.waveformStyle];
-    o && (s.barWidth === void 0 && i.barWidth === void 0 && (this.options.barWidth = o.barWidth), s.barSpacing === void 0 && i.barSpacing === void 0 && (this.options.barSpacing = o.barSpacing)), this.audio = null, this.canvas = null, this.ctx = null, this.waveformData = [], this.progress = 0, this._activeMarkerIndex = -1, this._markerLabelTimer = null, this.isPlaying = false, this.isLoading = false, this.hasError = false, this.updateTimer = null, this.resizeObserver = null, this._ac = new AbortController(), this.id = this.container.id || nt(this.options.url), e.instances.set(this.id, this), e._watchTheme();
+    let o = Q[this.options.waveformStyle];
+    o && (s.barWidth === void 0 && i.barWidth === void 0 && (this.options.barWidth = o.barWidth), s.barSpacing === void 0 && i.barSpacing === void 0 && (this.options.barSpacing = o.barSpacing)), this.audio = null, this.canvas = null, this.ctx = null, this.waveformData = [], this.progress = 0, this._activeMarkerIndex = -1, this._markerLabelTimer = null, this.isPlaying = false, this.isLoading = false, this.hasError = false, this.updateTimer = null, this.resizeObserver = null, this._ac = new AbortController(), this.id = this.container.id || ot(this.options.url), e.instances.set(this.id, this), e._watchTheme();
     try {
       this.init();
     } catch (n) {
@@ -671,10 +674,10 @@ var T = class e {
   }
   createDOM() {
     this.container.innerHTML = "", this.container.className = "waveform-player";
-    let t = Q.includes(this.options.buttonAlign) ? this.options.buttonAlign : "auto";
+    let t = Z.includes(this.options.buttonAlign) ? this.options.buttonAlign : "auto";
     t === "auto" && (this.options.waveformStyle === "bars" ? t = "bottom" : t = "center"), this.options.layout === "preview" && this.container.classList.add("waveform-layout-preview"), this.container.classList.toggle("waveform-theme-light", this._scheme === "light");
     let s = [];
-    this.options.buttonSize != null && s.push(`--wfp-btn-size: ${q2(this.options.buttonSize)}`), this.options.buttonRadius != null && s.push(`--wfp-btn-radius: ${q2(this.options.buttonRadius)}`);
+    this.options.buttonSize != null && s.push(`--wfp-btn-size: ${U(this.options.buttonSize)}`), this.options.buttonRadius != null && s.push(`--wfp-btn-radius: ${U(this.options.buttonRadius)}`);
     let r = s.length ? ` style="${s.join("; ")};"` : "", a = this.options.artworkPosition === "button" && this.options.artwork, o = a ? `<img class="waveform-btn-artwork" src="${S(this.options.artwork)}" alt="" aria-hidden="true">` : "", n = this.options.showControls ? `
         <button class="waveform-btn${this.options.buttonStyle === "minimal" ? " waveform-btn-minimal" : ""}${a ? " waveform-btn-has-artwork" : ""}" aria-label="${S(this.options.playPauseLabel)}"${r}>
           ${o}
@@ -859,7 +862,7 @@ var T = class e {
   }
   initKeyboardControls() {
     this.container.setAttribute("tabindex", "-1"), this.container.addEventListener("click", (t) => {
-      t.target.closest(Wt) || (e.getAllInstances().forEach((i) => {
+      t.target.closest(Ot) || (e.getAllInstances().forEach((i) => {
         i !== this && i.container.setAttribute("tabindex", "-1");
       }), this.container.setAttribute("tabindex", "0"), this.container.focus());
     }, { signal: this._ac.signal }), this.container.addEventListener("keydown", (t) => {
@@ -885,11 +888,11 @@ var T = class e {
       switch (t.key) {
         case "ArrowLeft":
         case "ArrowDown":
-          r = s - bt;
+          r = s - gt;
           break;
         case "ArrowRight":
         case "ArrowUp":
-          r = s + bt;
+          r = s + gt;
           break;
         case "PageDown":
           r = s - wt;
@@ -933,7 +936,7 @@ var T = class e {
   updateSeekAccessibility() {
     if (!this.seekEl) return;
     let t = this.getSeekDuration(), i = Math.min(this.getSeekCurrentTime(), t);
-    this.seekEl.setAttribute("aria-valuemax", String(Math.round(t))), this.seekEl.setAttribute("aria-valuenow", String(Math.round(i))), this.seekEl.setAttribute("aria-valuetext", ot(this.options.seekValueText || "%1$s of %2$s", E2(i), E2(t)));
+    this.seekEl.setAttribute("aria-valuemax", String(Math.round(t))), this.seekEl.setAttribute("aria-valuenow", String(Math.round(i))), this.seekEl.setAttribute("aria-valuetext", at(this.options.seekValueText || "%1$s of %2$s", E2(i), E2(t)));
   }
   initMediaSession() {
     if (!("mediaSession" in navigator) || !this.options.enableMediaSession || !this.audio) return;
@@ -997,7 +1000,7 @@ var T = class e {
         this._seekFromPointer(i.clientX), !this._seekHover && !this.options.showHoverTime && this._hideHoverTip(), this._updateSeekHandle();
       }
     };
-    this.canvas.addEventListener("pointerup", t), this.canvas.addEventListener("pointercancel", t), this.setupHoverTime(), this.setupSeekHandle(), this.resizeHandler = ht(() => this.resizeCanvas(), 100), window.addEventListener("resize", this.resizeHandler);
+    this.canvas.addEventListener("pointerup", t), this.canvas.addEventListener("pointercancel", t), this.setupHoverTime(), this.setupSeekHandle(), this.resizeHandler = lt(() => this.resizeCanvas(), 100), window.addEventListener("resize", this.resizeHandler);
   }
   setupResizeObserver() {
     "ResizeObserver" in window && (this.resizeObserver = new ResizeObserver(() => {
@@ -1009,7 +1012,7 @@ var T = class e {
       this.setLoading(true), this.progress = 0, this.hasError = false, this.container.classList.remove("waveform-is-placeholder");
       let i = !!this.options.waveform;
       i && this.setWaveformData(this.options.waveform);
-      let s = this.options.title || I(t);
+      let s = this.options.title || O(t);
       if (this.titleEl && (this.titleEl.textContent = s), this.applySeekLabel(s), this.audio && (this.audio.src = t, this.audio.preload !== "none" && await new Promise((r, a) => {
         let o = () => {
           this.audio.removeEventListener("loadedmetadata", o), this.audio.removeEventListener("error", n), r();
@@ -1018,10 +1021,10 @@ var T = class e {
         };
         this.audio.addEventListener("loadedmetadata", o), this.audio.addEventListener("error", n);
       })), !i) try {
-        let r = await G(t, this.options.samples, this.options.showBPM);
+        let r = await K(t, this.options.samples, this.options.showBPM);
         this.waveformData = r.peaks, r.bpm && (this.detectedBPM = r.bpm, this.updateBPMDisplay());
       } catch (r) {
-        console.warn("[WaveformPlayer] Using placeholder waveform:", r), this.waveformData = yt(this.options.samples), this.container.classList.add("waveform-is-placeholder");
+        console.warn("[WaveformPlayer] Using placeholder waveform:", r), this.waveformData = mt(this.options.samples), this.container.classList.add("waveform-is-placeholder");
       }
       this.drawWaveform(), this.renderMarkers(), this.options.onLoad && this.options.onLoad(this);
     } catch (i) {
@@ -1032,7 +1035,7 @@ var T = class e {
   }
   async loadTrack(t, i = null, s = null, r = {}) {
     let a = Object.prototype.hasOwnProperty.call(r, "artwork"), o = Object.prototype.hasOwnProperty.call(r, "artworkAlt");
-    this.isPlaying && this.pause(), this.audio && (this.audio.src = "", this.audio.load()), this.hasError = false, this.errorEl && (this.errorEl.style.display = "none"), this.canvas && (this.canvas.style.opacity = "1"), this.playBtn && (this.playBtn.disabled = false), this.progress = 0, this.waveformData = [], this.options = Z(j2(this.options, { url: t, title: i === null ? this.options.title : i, artist: s === null ? this.options.artist : s, ...r })), a && (this.options.artwork = r.artwork || null), o ? this.options.artworkAlt = r.artworkAlt || "" : a && (this.options.artworkAlt = this.options.artwork ? W.artworkAlt : ""), r.preload && this.audio && (this.audio.preload = this.options.preload), r.crossOrigin && this.audio && (this.audio.crossOrigin = this.options.crossOrigin), s !== null && this.syncArtist(s), (a || o) && this.syncArtwork(a ? r.artwork : this.options.artwork, o ? r.artworkAlt : this.options.artworkAlt), this.options.markers = r.markers ? z(r.markers) : [], this.options.waveform = r.waveform || null, await this.load(t), r.autoplay !== false && this.play()?.catch(() => {
+    this.isPlaying && this.pause(), this.audio && (this.audio.src = "", this.audio.load()), this.hasError = false, this.errorEl && (this.errorEl.style.display = "none"), this.canvas && (this.canvas.style.opacity = "1"), this.playBtn && (this.playBtn.disabled = false), this.progress = 0, this.waveformData = [], this.options = tt(V(this.options, { url: t, title: i === null ? this.options.title : i, artist: s === null ? this.options.artist : s, ...r })), a && (this.options.artwork = r.artwork || null), o ? this.options.artworkAlt = r.artworkAlt || "" : a && (this.options.artworkAlt = this.options.artwork ? W.artworkAlt : ""), r.preload && this.audio && (this.audio.preload = this.options.preload), r.crossOrigin && this.audio && (this.audio.crossOrigin = this.options.crossOrigin), s !== null && this.syncArtist(s), (a || o) && this.syncArtwork(a ? r.artwork : this.options.artwork, o ? r.artworkAlt : this.options.artworkAlt), this.options.markers = r.markers ? z(r.markers) : [], this.options.waveform = r.waveform || null, await this.load(t), r.autoplay !== false && this.play()?.catch(() => {
     });
   }
   setWaveformData(t) {
@@ -1046,7 +1049,7 @@ var T = class e {
     this.waveformData = D(t, { fallback: [] }), this.drawWaveform();
   }
   drawWaveform() {
-    !this.ctx || this.waveformData.length === 0 || ft(this.ctx, this.canvas, this.waveformData, this.progress, { ...this.options, waveformStyle: this.options.waveformStyle || "bars", color: this.options.waveformColor, progressColor: this.options.progressColor, seekActive: this._seekHover || this._dragging });
+    !this.ctx || this.waveformData.length === 0 || pt(this.ctx, this.canvas, this.waveformData, this.progress, { ...this.options, waveformStyle: this.options.waveformStyle || "bars", color: this.options.waveformColor, progressColor: this.options.progressColor, seekActive: this._seekHover || this._dragging });
   }
   resizeCanvas() {
     if (!this.canvas || this.isDestroying) return;
@@ -1193,7 +1196,7 @@ var T = class e {
   refreshTheme() {
     if (!this._autoTheme) return;
     this._scheme = R2(this.container);
-    let t = J(this.options.colorPreset, this.container);
+    let t = X(this.options.colorPreset, this.container);
     for (let i of this._presetKeys || []) i in t && (this.options[i] = t[i]);
     this._applyThemeColors();
   }
@@ -1292,7 +1295,7 @@ var T = class e {
   }
   static async generateWaveformData(t, i = 1800) {
     try {
-      return (await G(t, i)).peaks;
+      return (await K(t, i)).peaks;
     } catch (s) {
       throw console.error("[WaveformPlayer] Failed to generate waveform:", s), s;
     }
@@ -1303,25 +1306,22 @@ var T = class e {
     return i === t ? void 0 : i;
   }
 };
-T.utils = { formatTime: E2, extractTitleFromUrl: I, escapeHtml: S, isSafeHref: st, parseDataAttributes: O, detectColorScheme: R2 };
-var et = () => typeof window < "u" && typeof document < "u";
-var Nt = () => true;
-function kt(e2) {
+T.utils = { formatTime: E2, extractTitleFromUrl: O, escapeHtml: S, isSafeHref: it, parseDataAttributes: I, detectColorScheme: R2 };
+function bt(e2) {
   if (!(e2.dataset.waveformInitialized === "true" || T.getInstance(e2))) try {
     new T(e2), e2.dataset.waveformInitialized = "true";
   } catch (t) {
     console.error("[WaveformPlayer] Failed to initialize:", t, e2);
   }
 }
-function tt(e2 = document) {
-  if (!et()) return;
+function Wt(e2 = document) {
+  if (!$2()) return;
   let t = e2 || document;
-  t.matches?.("[data-waveform-player]") && kt(t), t.querySelectorAll("[data-waveform-player]").forEach(kt);
+  t.matches?.("[data-waveform-player]") && bt(t), t.querySelectorAll("[data-waveform-player]").forEach(bt);
 }
-et() && !Nt() && (document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", () => tt()) : tt());
-T.init = tt;
-et() && (window.WaveformPlayer = T);
-var se = T;
+T.init = Wt;
+$2() && (window.WaveformPlayer = T);
+var ie = T;
 
 // packages/block-library/build-module/utils/waveform-utils.mjs
 var DEFAULT_WAVEFORM_HEIGHT = 100;
@@ -1687,7 +1687,7 @@ function initWaveformPlayer(element, {
     waveformStyle
   });
   element.appendChild(container);
-  const instance = new se(container);
+  const instance = new ie(container);
   if (instance.artworkEl) {
     instance.artworkEl.alt = imageAlt || "";
   }

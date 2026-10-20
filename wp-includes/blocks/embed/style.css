@@ -107,13 +107,16 @@
   min-width: 280px;
 }
 
-.wp-block-cover .wp-block-embed {
+:root :where(.wp-block-cover .wp-block-embed) {
   min-width: 320px;
   min-height: 240px;
 }
 
 .wp-block-group.is-layout-flex .wp-block-embed {
   flex: 1 1 0%;
+}
+
+:root :where(.wp-block-group.is-layout-flex .wp-block-embed) {
   min-width: 0;
 }
 

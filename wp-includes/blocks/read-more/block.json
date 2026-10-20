@@ -43,6 +43,10 @@
 				"textDecoration": true
 			}
 		},
+		"dimensions": {
+			"minHeight": true,
+			"minWidth": true
+		},
 		"spacing": {
 			"margin": [ "top", "bottom" ],
 			"padding": true,
@@ -53,6 +57,7 @@
 		"__experimentalBorder": {
 			"color": true,
 			"radius": true,
+			"style": true,
 			"width": true,
 			"__experimentalDefaultControls": {
 				"width": true

@@ -30,9 +30,9 @@ var ReactJSXRuntime = (() => {
     }
   });
 
-  // ../react-19/node_modules/react/cjs/react-jsx-runtime.development.js
+  // ../../node_modules/.store/react@19.3.0-tJRCs5toIV1MwFohgXUjkg/node_modules/react/cjs/react-jsx-runtime.development.js
   var require_react_jsx_runtime_development = __commonJS({
-    "../react-19/node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
+    "../../node_modules/.store/react@19.3.0-tJRCs5toIV1MwFohgXUjkg/node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
       "use strict";
       (function() {
         function getComponentNameFromType(type) {
@@ -301,9 +301,9 @@ var ReactJSXRuntime = (() => {
     }
   });
 
-  // ../react-19/node_modules/react/jsx-runtime.js
+  // ../../node_modules/.store/react@19.3.0-tJRCs5toIV1MwFohgXUjkg/node_modules/react/jsx-runtime.js
   var require_jsx_runtime = __commonJS({
-    "../react-19/node_modules/react/jsx-runtime.js"(exports, module) {
+    "../../node_modules/.store/react@19.3.0-tJRCs5toIV1MwFohgXUjkg/node_modules/react/jsx-runtime.js"(exports, module) {
       "use strict";
       if (false) {
         module.exports = null;

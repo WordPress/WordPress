@@ -44,6 +44,11 @@
 				"link": true
 			}
 		},
+		"spacing": {
+			"padding": true,
+			"margin": true,
+			"blockGap": true
+		},
 		"layout": {
 			"allowSwitching": false,
 			"allowInheriting": false,
@@ -62,6 +67,18 @@
 			"__experimentalLetterSpacing": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": false,
+				"radius": false,
+				"style": false,
+				"width": false
 			}
 		},
 		"interactivity": {

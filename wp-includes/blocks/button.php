@@ -60,6 +60,53 @@ function render_block_core_button( $attributes, $content ) {
 		return '';
 	}
 
+	// Background skips serialization, so apply it to the link like color.
+	$background = $attributes['style']['background'] ?? null;
+
+	if ( is_array( $background ) ) {
+		$background_styles = array(
+			'backgroundImage'      => $background['backgroundImage'] ?? null,
+			'backgroundSize'       => $background['backgroundSize'] ?? null,
+			'backgroundPosition'   => $background['backgroundPosition'] ?? null,
+			'backgroundRepeat'     => $background['backgroundRepeat'] ?? null,
+			'backgroundAttachment' => $background['backgroundAttachment'] ?? null,
+			'gradient'             => $background['gradient'] ?? null,
+		);
+
+		// Mirror the background block support defaults.
+		if ( ! empty( $background_styles['backgroundImage'] ) ) {
+			$background_styles['backgroundSize'] = $background_styles['backgroundSize'] ?? 'cover';
+			if ( 'contain' === $background_styles['backgroundSize'] && ! $background_styles['backgroundPosition'] ) {
+				$background_styles['backgroundPosition'] = '50% 50%';
+			}
+		}
+
+		$styles = wp_style_engine_get_styles( array( 'background' => $background_styles ) );
+
+		if ( ! empty( $styles['css'] ) ) {
+			$processor = new WP_HTML_Tag_Processor( $content );
+			while ( $processor->next_tag() ) {
+				if ( $tag !== $processor->get_tag() ) {
+					continue;
+				}
+
+				$existing_style = $processor->get_attribute( 'style' );
+				if ( is_string( $existing_style ) && '' !== $existing_style ) {
+					$separator = str_ends_with( $existing_style, ';' ) ? '' : ';';
+					$processor->set_attribute( 'style', $existing_style . $separator . $styles['css'] );
+				} else {
+					$processor->set_attribute( 'style', $styles['css'] );
+				}
+
+				if ( ! empty( $background_styles['backgroundImage'] ) || ! empty( $background_styles['gradient'] ) ) {
+					$processor->add_class( 'has-background' );
+				}
+				break;
+			}
+			$content = $processor->get_updated_html();
+		}
+	}
+
 	$width = $attributes['style']['dimensions']['width'] ?? null;
 
 	if ( is_string( $width ) && '' !== $width ) {

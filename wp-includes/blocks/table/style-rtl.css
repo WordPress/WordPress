@@ -67,7 +67,8 @@
 }
 .wp-block-table .has-fixed-layout td,
 .wp-block-table .has-fixed-layout th {
-  word-break: break-word;
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 .wp-block-table.alignleft, .wp-block-table.aligncenter, .wp-block-table.alignright {
   display: table;
@@ -77,7 +78,8 @@
 .wp-block-table.alignleft th, .wp-block-table.aligncenter td,
 .wp-block-table.aligncenter th, .wp-block-table.alignright td,
 .wp-block-table.alignright th {
-  word-break: break-word;
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 .wp-block-table .has-subtle-light-gray-background-color {
   background-color: #f3f4f5;

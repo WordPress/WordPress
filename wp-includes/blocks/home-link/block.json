@@ -52,6 +52,10 @@
 			}
 		},
 		"shadow": true,
+		"dimensions": {
+			"minHeight": true,
+			"minWidth": true
+		},
 		"__experimentalBorder": {
 			"color": true,
 			"radius": true,
@@ -62,6 +66,14 @@
 				"radius": false,
 				"style": false,
 				"width": false
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
 			}
 		},
 		"interactivity": {

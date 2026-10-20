@@ -15,7 +15,7 @@
  * @return string Returns the Icon.
  */
 function render_block_core_icon( $attributes ) {
-	if ( empty( $attributes['icon'] ) ) {
+	if ( empty( $attributes['icon'] ) || ! is_string( $attributes['icon'] ) ) {
 		return;
 	}
 

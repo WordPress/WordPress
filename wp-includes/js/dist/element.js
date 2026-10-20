@@ -325,9 +325,13 @@ var wp;
     createPortal,
     flushSync,
     /* eslint-disable react/no-deprecated */
+    // @ts-expect-error Removed from @types/react-dom; still present at runtime.
     findDOMNode,
+    // @ts-expect-error Removed from @types/react-dom; still present at runtime.
     render,
+    // @ts-expect-error Removed from @types/react-dom; still present at runtime.
     hydrate,
+    // @ts-expect-error Removed from @types/react-dom; still present at runtime.
     unmountComponentAtNode
     /* eslint-enable react/no-deprecated */
   } = ReactDOM;
@@ -362,7 +366,7 @@ var wp;
   };
   var platform_default = Platform;
 
-  // node_modules/is-plain-object/dist/is-plain-object.mjs
+  // node_modules/.store/is-plain-object@5.1.0-5G_-lUnpSwJHYfRbkIxLrw/node_modules/is-plain-object/dist/is-plain-object.mjs
   function isObject(o) {
     return Object.prototype.toString.call(o) === "[object Object]";
   }
@@ -379,7 +383,7 @@ var wp;
     return true;
   }
 
-  // node_modules/tslib/tslib.es6.mjs
+  // node_modules/.store/tslib@2.8.1-LT-dxu1EkVy7OUDyVf5glQ/node_modules/tslib/tslib.es6.mjs
   var __assign = function() {
     __assign = Object.assign || function __assign2(t) {
       for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -391,12 +395,12 @@ var wp;
     return __assign.apply(this, arguments);
   };
 
-  // node_modules/lower-case/dist.es2015/index.js
+  // node_modules/.store/lower-case@2.0.2-5YZP5nczP5_f_8Vt5KBPjA/node_modules/lower-case/dist.es2015/index.js
   function lowerCase(str) {
     return str.toLowerCase();
   }
 
-  // node_modules/no-case/dist.es2015/index.js
+  // node_modules/.store/no-case@3.0.4-R4Hzt6qn-erEsTak7ojDpg/node_modules/no-case/dist.es2015/index.js
   var DEFAULT_SPLIT_REGEXP = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g];
   var DEFAULT_STRIP_REGEXP = /[^A-Z0-9]+/gi;
   function noCase(input, options) {
@@ -421,7 +425,7 @@ var wp;
     }, input);
   }
 
-  // node_modules/dot-case/dist.es2015/index.js
+  // node_modules/.store/dot-case@3.0.4-hi-rLWlWmiZ169n4dWcbUA/node_modules/dot-case/dist.es2015/index.js
   function dotCase(input, options) {
     if (options === void 0) {
       options = {};
@@ -429,7 +433,7 @@ var wp;
     return noCase(input, __assign({ delimiter: "." }, options));
   }
 
-  // node_modules/param-case/dist.es2015/index.js
+  // node_modules/.store/param-case@3.0.4-rdAht_VwpGpefPRylN2bTA/node_modules/param-case/dist.es2015/index.js
   function paramCase(input, options) {
     if (options === void 0) {
       options = {};
@@ -844,8 +848,9 @@ var wp;
       case Provider.$$typeof:
         return renderChildren(props.children, props.value, legacyContext);
       case Consumer.$$typeof:
+        const contextValue = context !== void 0 ? context : (type._context || type)._currentValue;
         return renderElement(
-          props.children(context || type._currentValue),
+          props.children(contextValue),
           context,
           legacyContext
         );

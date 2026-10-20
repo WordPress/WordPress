@@ -44,11 +44,24 @@ function render_block_core_template_part( $attributes ) {
 			)
 		);
 		$template_part_post  = $template_part_query->have_posts() ? $template_part_query->next_post() : null;
-		if ( $template_part_post ) {
+		$block_template      = $template_part_post ? _build_block_template_result_from_post( $template_part_post ) : null;
+		// Can be a WP_Error if the post's `wp_theme` terms can't be read, even though the query
+		// matched on them. Report it and fall back to the theme file.
+		if ( is_wp_error( $block_template ) ) {
+			wp_trigger_error(
+				__FUNCTION__,
+				sprintf(
+					/* translators: 1: Template part ID, 2: Error message. */
+					__( 'Error when loading the template part %1$s from the database: %2$s' ),
+					$template_part_id,
+					$block_template->get_error_message()
+				)
+			);
+		}
+		if ( $block_template && ! is_wp_error( $block_template ) ) {
 			// A published post might already exist if this template part was customized elsewhere
 			// or if it's part of a customized template.
-			$block_template = _build_block_template_result_from_post( $template_part_post );
-			$content        = $block_template->content;
+			$content = $block_template->content;
 			if ( isset( $block_template->area ) ) {
 				$area = $block_template->area;
 			}

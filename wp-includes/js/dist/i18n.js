@@ -58,7 +58,7 @@ var wp;
     subscribe: () => subscribe
   });
 
-  // node_modules/@tannin/sprintf/src/index.js
+  // node_modules/.store/@tannin/sprintf@1.3.2-Cmr2Bq6cYom5t58CNvMjRw/node_modules/@tannin/sprintf/src/index.js
   var PATTERN = /%(((\d+)\$)|(\(([$_a-zA-Z][$_a-zA-Z0-9]*)\)))?[ +0#-]*\d*(\.(\d+|\*))?(ll|[lhqL])?([cduxXefgsp%])/g;
   function sprintf(string, ...args) {
     var i = 0;
@@ -110,7 +110,7 @@ var wp;
     return sprintf(format, ...args);
   }
 
-  // node_modules/@tannin/postfix/index.js
+  // node_modules/.store/@tannin/postfix@1.1.0-W6ibRltZusNW1WsbQOcTdQ/node_modules/@tannin/postfix/index.js
   var PRECEDENCE;
   var OPENERS;
   var TERMINATORS;
@@ -172,7 +172,7 @@ var wp;
     return terms.concat(stack.reverse());
   }
 
-  // node_modules/@tannin/evaluate/index.js
+  // node_modules/.store/@tannin/evaluate@1.2.0-7ebKezVk6XCQujBP4J6xHg/node_modules/@tannin/evaluate/index.js
   var OPERATORS = {
     "!": function(a) {
       return !a;
@@ -249,7 +249,7 @@ var wp;
     return stack[0];
   }
 
-  // node_modules/@tannin/compile/index.js
+  // node_modules/.store/@tannin/compile@1.1.0--iQBjBAIbl3DnmEGxRSFZQ/node_modules/@tannin/compile/index.js
   function compile(expression) {
     var terms = postfix(expression);
     return function(variables) {
@@ -257,7 +257,7 @@ var wp;
     };
   }
 
-  // node_modules/@tannin/plural-forms/index.js
+  // node_modules/.store/@tannin/plural-forms@1.1.0-AmFaEDvEGZ72sApHx17gAw/node_modules/@tannin/plural-forms/index.js
   function pluralForms(expression) {
     var evaluate2 = compile(expression);
     return function(n) {
@@ -265,7 +265,7 @@ var wp;
     };
   }
 
-  // node_modules/tannin/index.js
+  // node_modules/.store/tannin@1.2.0-n1rGtdNtyRx-1nud3wLKmA/node_modules/tannin/index.js
   var DEFAULT_OPTIONS = {
     contextDelimiter: "",
     onMissingKey: null

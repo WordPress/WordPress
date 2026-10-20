@@ -1,3 +1,6 @@
+.wp-block-query-pagination {
+  box-sizing: border-box;
+}
 .wp-block-query-pagination.is-content-justification-space-between > .wp-block-query-pagination-next:last-of-type {
   margin-inline-start: auto;
 }

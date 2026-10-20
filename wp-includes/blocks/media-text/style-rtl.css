@@ -39,8 +39,11 @@
   direction: rtl;
   grid-column: 2;
   grid-row: 1;
-  padding: 0 8% 0 8%;
   word-break: break-word;
+}
+
+:where(.wp-block-media-text > .wp-block-media-text__content) {
+  padding: 0 8%;
 }
 
 .wp-block-media-text.has-media-on-the-right > .wp-block-media-text__media {

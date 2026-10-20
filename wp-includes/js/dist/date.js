@@ -40,9 +40,9 @@ var wp;
     }
   });
 
-  // node_modules/moment-timezone/builds/moment-timezone-with-data-1970-2030.js
+  // node_modules/.store/moment-timezone@0.5.43-QVs1v3CqjvhipHjKObM4Sw/node_modules/moment-timezone/builds/moment-timezone-with-data-1970-2030.js
   var require_moment_timezone_with_data_1970_2030 = __commonJS({
-    "node_modules/moment-timezone/builds/moment-timezone-with-data-1970-2030.js"(exports, module) {
+    "node_modules/.store/moment-timezone@0.5.43-QVs1v3CqjvhipHjKObM4Sw/node_modules/moment-timezone/builds/moment-timezone-with-data-1970-2030.js"(exports, module) {
       (function(root, factory) {
         "use strict";
         if (typeof module === "object" && module.exports) {
@@ -1391,9 +1391,9 @@ var wp;
     }
   });
 
-  // node_modules/moment-timezone/moment-timezone-utils.js
+  // node_modules/.store/moment-timezone@0.5.43-QVs1v3CqjvhipHjKObM4Sw/node_modules/moment-timezone/moment-timezone-utils.js
   var require_moment_timezone_utils = __commonJS({
-    "node_modules/moment-timezone/moment-timezone-utils.js"(exports, module) {
+    "node_modules/.store/moment-timezone@0.5.43-QVs1v3CqjvhipHjKObM4Sw/node_modules/moment-timezone/moment-timezone-utils.js"(exports, module) {
       (function(root, factory) {
         "use strict";
         if (typeof module === "object" && module.exports) {
@@ -1956,7 +1956,9 @@ var wp;
       char = dateFormat[i];
       if ("\\" === char) {
         i++;
-        newFormat.push("[" + dateFormat[i] + "]");
+        if (i < dateFormat.length) {
+          newFormat.push("[" + dateFormat[i] + "]");
+        }
         continue;
       }
       if (char in formatMap) {

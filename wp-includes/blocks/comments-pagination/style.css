@@ -1,3 +1,6 @@
+.wp-block-comments-pagination {
+  box-sizing: border-box;
+}
 .wp-block-comments-pagination > .wp-block-comments-pagination-next,
 .wp-block-comments-pagination > .wp-block-comments-pagination-previous,
 .wp-block-comments-pagination > .wp-block-comments-pagination-numbers {

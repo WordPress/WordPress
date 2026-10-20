@@ -78,6 +78,10 @@
 			"margin": true,
 			"padding": true
 		},
+		"dimensions": {
+			"minHeight": true,
+			"minWidth": true
+		},
 		"color": {
 			"gradients": true,
 			"link": true,
@@ -99,6 +103,7 @@
 				"style": true
 			}
 		},
+		"shadow": true,
 		"interactivity": true
 	},
 	"editorStyle": "wp-block-file-editor",

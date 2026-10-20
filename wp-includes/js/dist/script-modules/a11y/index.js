@@ -40,10 +40,16 @@ function speak(message, ariaLive) {
   }
 }
 
+// packages/a11y/build-module/shared/prefers-reduced-motion.mjs
+function prefersReducedMotion() {
+  return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
+}
+
 // packages/a11y/build-module/module/index.mjs
 var setup = () => {
 };
 export {
+  prefersReducedMotion,
   setup,
   speak
 };
