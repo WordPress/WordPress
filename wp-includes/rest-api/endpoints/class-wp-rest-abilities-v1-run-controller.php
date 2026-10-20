@@ -95,6 +95,20 @@ class WP_REST_Abilities_V1_Run_Controller extends WP_REST_Controller {
 			return $result;
 		}
 
+		/*
+		 * Preserve empty objects in nested properties when encoding an associative
+		 * result as JSON. Preparation can convert empty PHP arrays to stdClass.
+		 *
+		 * The REST server's `_fields` and `_embed` processing expects arrays at the
+		 * response root and for numeric collection items. Converting those values
+		 * to objects would cause type errors, so skip root empty arrays and numeric
+		 * collections until that processing supports objects. An empty object result
+		 * therefore still encodes as [], and a list containing one encodes as [[]].
+		 */
+		if ( is_array( $result ) && ! wp_is_numeric_array( $result ) ) {
+			$result = wp_prepare_json_value_for_client( $result, $ability->get_output_schema() );
+		}
+
 		return rest_ensure_response( $result );
 	}
 

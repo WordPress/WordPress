@@ -148,6 +148,8 @@ class WP_AI_Client_Ability_Function_Resolver {
 			);
 		}
 
+		$result = wp_prepare_json_value_for_client( $result, $ability->get_output_schema() );
+
 		return new FunctionResponse(
 			$function_id,
 			$function_name,
