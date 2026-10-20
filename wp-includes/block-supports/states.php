@@ -612,16 +612,73 @@ function wp_split_selector_list( $selector ) {
 }
 
 /**
+ * Returns the ancestor part of a block selector whose leading compound names
+ * a different block, e.g. `.wp-block-list > ` in List Item's `.wp-block-list > li`.
+ *
+ * The block-instance class is on the block's own wrapper, so a leading compound
+ * naming another block must be kept rather than swapped for that class. When the
+ * next compound carries a `wp-block-*` class (`.wp-block-button .wp-block-button__link`),
+ * the selector describes a nested element and keeps the leading swap.
+ *
+ * @since 7.2.0
+ *
+ * @param string      $selector   A single block or feature selector.
+ * @param string|null $block_name Name of the block being scoped.
+ * @return string The leading compound and its combinator, or an empty string.
+ */
+function wp_get_state_selector_ancestor( $selector, $block_name ) {
+	if (
+		! is_string( $block_name ) ||
+		'' === $block_name ||
+		! preg_match( '/^\.(wp-block-[-_a-zA-Z0-9]+)/', $selector, $matches ) ||
+		wp_get_block_default_classname( $block_name ) === $matches[1]
+	) {
+		return '';
+	}
+
+	$ancestor_length = 0;
+	$next_compound   = '';
+	$depth           = 0;
+	$selector_length = strlen( $selector );
+
+	for ( $i = 0; $i < $selector_length; $i++ ) {
+		$char = $selector[ $i ];
+
+		if ( '(' === $char || '[' === $char ) {
+			++$depth;
+		} elseif ( ( ')' === $char || ']' === $char ) && $depth > 0 ) {
+			--$depth;
+		} elseif ( 0 === $depth && str_contains( " \t\n\r\f>+~", $char ) ) {
+			if ( $ancestor_length ) {
+				break;
+			}
+			$ancestor_length = $i + strspn( $selector, " \t\n\r\f>+~", $i );
+			$i               = $ancestor_length - 1;
+		} elseif ( 0 === $depth && $ancestor_length ) {
+			$next_compound .= $char;
+		}
+	}
+
+	if ( '' === $next_compound || str_contains( $next_compound, '.wp-block-' ) ) {
+		return '';
+	}
+
+	return substr( $selector, 0, $ancestor_length );
+}
+
+/**
  * Builds a scoped selector from a block selector and optional pseudo-state.
  *
  * @since 7.1.0
+ * @since 7.2.0 Added the `$block_name` parameter.
  *
  * @param string      $base_selector  Block-instance scoping selector.
  * @param string|null $block_selector Block or feature selector from metadata.
  * @param string      $state          Pseudo-state selector.
+ * @param string|null $block_name     Optional. Name of the block being scoped.
  * @return string Scoped selector.
  */
-function wp_build_state_selector( $base_selector, $block_selector, $state ) {
+function wp_build_state_selector( $base_selector, $block_selector, $state, $block_name = null ) {
 	if ( ! is_string( $block_selector ) || '' === trim( $block_selector ) ) {
 		return $base_selector . $state;
 	}
@@ -635,6 +692,9 @@ function wp_build_state_selector( $base_selector, $block_selector, $state ) {
 			continue;
 		}
 
+		$ancestor = wp_get_state_selector_ancestor( $selector, $block_name );
+		$selector = substr( $selector, strlen( $ancestor ) );
+
 		/*
 		 * Replace only the leading block selector part (e.g. class name,
 		 * attribute selector, ID, or tag name) with the block instance selector.
@@ -642,11 +702,11 @@ function wp_build_state_selector( $base_selector, $block_selector, $state ) {
 		 * same element and combinators without spaces.
 		 */
 		if ( preg_match( '/^([.#]?[-_a-zA-Z0-9]+|\[[^\]]+\])/', $selector, $matches ) ) {
-			$scoped_selectors[] = $base_selector . substr( $selector, strlen( $matches[0] ) ) . $state;
+			$scoped_selectors[] = $ancestor . $base_selector . substr( $selector, strlen( $matches[0] ) ) . $state;
 			continue;
 		}
 
-		$scoped_selectors[] = $base_selector . $state;
+		$scoped_selectors[] = $ancestor . $base_selector . $state;
 	}
 
 	return empty( $scoped_selectors )
@@ -839,7 +899,8 @@ function wp_render_block_states_support( $block_content, $block ) {
 		$selector             = wp_build_state_selector(
 			".$unique_class",
 			$rule['selector'],
-			$rule['state']
+			$rule['state'],
+			$block_name
 		);
 		$important_style_rule = array(
 			'selector'     => $selector,
