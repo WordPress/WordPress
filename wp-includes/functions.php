@@ -3509,7 +3509,7 @@ function wp_get_image_mime( $file ) {
  * @since 4.9.6 Support was added for AAC (.aac) files.
  * @since 6.8.0 Support was added for `audio/x-wav`.
  *
- * @return string[] Array of mime types keyed by the file extension regex corresponding to those types.
+ * @return array<string, string> Array of mime types keyed by the file extension regex corresponding to those types.
  */
 function wp_get_mime_types() {
 	/**
@@ -3520,8 +3520,8 @@ function wp_get_mime_types() {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param string[] $wp_get_mime_types Mime types keyed by the file extension regex
-	 *                                    corresponding to those types.
+	 * @param array<string, string> $wp_get_mime_types Mime types keyed by the file extension regex
+	 *                                                 corresponding to those types.
 	 */
 	return apply_filters(
 		'mime_types',
@@ -3645,7 +3645,7 @@ function wp_get_mime_types() {
  *
  * @since 4.6.0
  *
- * @return array[] Multi-dimensional array of file extensions types keyed by the type of file.
+ * @return array<string, string[]> Multi-dimensional array of file extensions types keyed by the type of file.
  */
 function wp_get_ext_types() {
 
@@ -3656,7 +3656,7 @@ function wp_get_ext_types() {
 	 *
 	 * @see wp_ext2type()
 	 *
-	 * @param array[] $ext2type Multi-dimensional array of file extensions types keyed by the type of file.
+	 * @param array<string, string[]> $ext2type Multi-dimensional array of file extensions types keyed by the type of file.
 	 */
 	return apply_filters(
 		'ext2type',
@@ -3730,8 +3730,7 @@ function wp_filesize( $path ): int {
  * @since 2.8.6
  *
  * @param int|WP_User $user Optional. User to check. Defaults to current user.
- * @return string[] Array of mime types keyed by the file extension regex corresponding
- *                  to those types.
+ * @return array<string, string> Array of mime types keyed by the file extension regex corresponding to those types.
  */
 function get_allowed_mime_types( $user = null ) {
 	$t = wp_get_mime_types();
@@ -3750,8 +3749,8 @@ function get_allowed_mime_types( $user = null ) {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array            $t    Mime types keyed by the file extension regex corresponding to those types.
-	 * @param int|WP_User|null $user User ID, User object or null if not provided (indicates current user).
+	 * @param array<string, string> $t    Mime types keyed by the file extension regex corresponding to those types.
+	 * @param int|WP_User|null      $user User ID, User object or null if not provided (indicates current user).
 	 */
 	return apply_filters( 'upload_mimes', $t, $user );
 }
