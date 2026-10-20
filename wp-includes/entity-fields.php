@@ -288,8 +288,8 @@ function _wp_get_post_type_fields_preload_paths( $post_types ) {
 }
 
 /**
- * Returns the post types whose fields the screen of the site editor being
- * loaded lists, from its `p` query arg.
+ * Returns the post types whose items the screen of the site editor being
+ * loaded lists or edits, from its `p` query arg.
  *
  * The screens are the routes in
  * packages/edit-site/src/components/site-editor-routes in Gutenberg: the
@@ -323,16 +323,13 @@ function _wp_get_site_editor_screen_post_types() {
 }
 
 /**
- * Preloads the fields of the post types the site editor lists.
+ * Preloads the fields of the post types the editors list.
  *
- * The site editor reads them from the `/wp/v2/entity-fields` route before it
- * can list the post fields, see `useFields` in
- * packages/editor/src/dataviews/fields-loader/index.ts in Gutenberg: those of
- * the edited post, if any, and of the post types of the screen it opens on.
- *
- * The post editor is left untouched: it only reads the fields in the
- * DataForm-based inspector, an experiment of the Gutenberg plugin which
- * preloads them on its own.
+ * The editors read them from the `/wp/v2/entity-fields` route, see `useFields`
+ * in packages/editor/src/dataviews/fields-loader/index.ts in Gutenberg. The
+ * post editor reads those of the edited post in the post summary of its
+ * inspector. The site editor reads those of the edited post, if any, and of
+ * the post types of the screen it opens on.
  *
  * @since 7.2.0
  * @access private
@@ -342,15 +339,15 @@ function _wp_get_site_editor_screen_post_types() {
  * @return array Filtered preload paths.
  */
 function _wp_preload_entity_fields( $paths, $context ) {
-	if ( 'core/edit-site' !== $context->name ) {
-		return $paths;
-	}
-
 	$post_types = array();
-	if ( isset( $context->post ) ) {
+	if ( 'core/edit-post' === $context->name && isset( $context->post ) ) {
 		$post_types[] = $context->post->post_type;
+	} elseif ( 'core/edit-site' === $context->name ) {
+		if ( isset( $context->post ) ) {
+			$post_types[] = $context->post->post_type;
+		}
+		$post_types = array_merge( $post_types, _wp_get_site_editor_screen_post_types() );
 	}
-	$post_types = array_merge( $post_types, _wp_get_site_editor_screen_post_types() );
 
 	return array_merge(
 		$paths,

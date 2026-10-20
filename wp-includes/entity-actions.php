@@ -189,13 +189,16 @@ function _wp_add_entity_action_modules_to_editor_script( $scripts = null ) {
 }
 
 /**
- * Preloads the actions of the post type the post editor edits.
+ * Preloads the actions of the post types the editors list.
  *
- * The actions menu of the post editor reads them from the `wp/v2/entity-actions`
- * route as it loads, see `useEntityActions()` in
- * packages/editor/src/dataviews/entity-actions-loader.ts. The path must match the
- * request of the `getEntityActionsConfig` core data resolver, see
- * packages/core-data/src/resolvers.js.
+ * The editors read them from the `/wp/v2/entity-actions` route as they load,
+ * see `useEntityActions()` in
+ * packages/editor/src/dataviews/entity-actions-loader.ts in Gutenberg. The
+ * post editor reads those of the edited post in its actions menu. The site
+ * editor reads those of the edited post, if any, and of the post types of the
+ * screen it opens on, whose lists show the actions of their items. A path must
+ * match the request of the `getEntityActionsConfig` core data resolver, see
+ * packages/core-data/src/resolvers.js in Gutenberg.
  *
  * @since 7.2.0
  *
@@ -204,11 +207,24 @@ function _wp_add_entity_action_modules_to_editor_script( $scripts = null ) {
  * @return array Filtered preload paths.
  */
 function _wp_preload_entity_actions( $paths, $context ) {
+	$post_types = array();
 	if ( 'core/edit-post' === $context->name && isset( $context->post ) ) {
+		$post_types[] = $context->post->post_type;
+	} elseif ( 'core/edit-site' === $context->name ) {
+		if ( isset( $context->post ) ) {
+			$post_types[] = $context->post->post_type;
+		}
+		$post_types = array_merge( $post_types, _wp_get_site_editor_screen_post_types() );
+	}
+
+	foreach ( array_unique( $post_types ) as $post_type ) {
+		if ( ! post_type_exists( $post_type ) ) {
+			continue;
+		}
 		$paths[] = add_query_arg(
 			array(
 				'kind' => 'postType',
-				'name' => $context->post->post_type,
+				'name' => $post_type,
 			),
 			'/wp/v2/entity-actions'
 		);
