@@ -320,7 +320,36 @@ final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
 			return $master_key;
 		}
 
-		$cipher   = new WP_Secrets_Cipher();
+		$cipher       = new WP_Secrets_Cipher();
+		$has_current  = is_array( $existing ) && isset( $existing['current'] ) && is_array( $existing['current'] );
+		$is_unchanged = false;
+
+		if ( $has_current ) {
+			$current_value = $cipher->decrypt_value( $master_key, $scope, $site_id, $name, WP_Secret_Version::CURRENT, $existing['current'] );
+			$is_unchanged  = is_string( $current_value ) && hash_equals( $current_value, $value );
+
+			if ( is_string( $current_value ) ) {
+				wp_secrets_memzero( $current_value );
+			}
+		}
+
+		/*
+		 * A write that would change nothing stored is skipped, and reports nothing
+		 * to wp_secret_changed: a settings form that saves an unchanged value on
+		 * every submit has not changed the secret. Rewriting the record would also
+		 * reset the current slot's 'created' time and clear a 'needs_rotation' flag
+		 * on a value that was never rotated.
+		 *
+		 * The exception is a write that raises 'needs_rotation', such as importing
+		 * an option that holds the value already stored. That value has still sat
+		 * in plaintext, so the flag is recorded, and handled as a rewrite below.
+		 */
+		if ( $is_unchanged && ( ! $needs_rotation || ! empty( $existing['current']['needs_rotation'] ) ) ) {
+			wp_secrets_memzero( $master_key );
+
+			return true;
+		}
+
 		$new_slot = $cipher->encrypt_value( $master_key, $scope, $site_id, $name, WP_Secret_Version::CURRENT, $value );
 
 		if ( is_wp_error( $new_slot ) ) {
@@ -355,12 +384,24 @@ final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
 		 * than failing this write. The value was already unreadable before this
 		 * call; refusing to let an operator set a new one over it would repeat the
 		 * corrupted-record-blocks-everything failure this API is built to avoid.
+		 *
+		 * Saving the current value again, as a settings form does on every save, is
+		 * not a rotation: demoting it would replace the previous value that a
+		 * rotation in progress still depends on. The existing previous slot is kept
+		 * instead, and can be carried over as stored because it is already bound to
+		 * WP_Secret_Version::PREVIOUS.
 		 */
-		if ( is_array( $existing ) && isset( $existing['current'] ) && is_array( $existing['current'] ) ) {
-			$demoted = $this->demote_slot( $cipher, $master_key, $scope, $site_id, $name, $existing['current'] );
+		if ( $has_current ) {
+			if ( $is_unchanged ) {
+				if ( isset( $existing['previous'] ) && is_array( $existing['previous'] ) ) {
+					$record['previous'] = $existing['previous'];
+				}
+			} else {
+				$demoted = $this->demote_slot( $cipher, $master_key, $scope, $site_id, $name, $existing['current'] );
 
-			if ( ! is_wp_error( $demoted ) ) {
-				$record['previous'] = $demoted;
+				if ( ! is_wp_error( $demoted ) ) {
+					$record['previous'] = $demoted;
+				}
 			}
 		}
 
