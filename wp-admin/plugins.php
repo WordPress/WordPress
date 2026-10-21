@@ -740,8 +740,6 @@ if ( isset( $_GET['error'] ) ) {
 	wp_admin_notice( __( 'Plugin deactivated.' ), $updated_notice_args );
 } elseif ( isset( $_GET['deactivate-multi'] ) ) {
 	wp_admin_notice( __( 'Selected plugins deactivated.' ), $updated_notice_args );
-} elseif ( 'update-selected' === $action ) {
-	wp_admin_notice( __( 'All selected plugins are up to date.' ), $updated_notice_args );
 } elseif ( isset( $_GET['resume'] ) ) {
 	wp_admin_notice( __( 'Plugin resumed.' ), $updated_notice_args );
 } elseif ( isset( $_GET['enabled-auto-update'] ) ) {
