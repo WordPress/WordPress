@@ -22,7 +22,7 @@ function wp_load_press_this() {
 			403
 		);
 	} elseif ( is_plugin_active( $plugin_file ) ) {
-		include WP_PLUGIN_DIR . '/press-this/class-wp-press-this-plugin.php'; // @phpstan-ignore include.fileNotFound
+		include WP_PLUGIN_DIR . '/press-this/class-wp-press-this-plugin.php';
 		$wp_press_this = new WP_Press_This_Plugin(); // @phpstan-ignore class.notFound
 		$wp_press_this->html();
 	} elseif ( current_user_can( 'activate_plugins' ) ) {
