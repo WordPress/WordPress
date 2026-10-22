@@ -702,10 +702,13 @@ function dynamic_sidebar( $index = 1 ) {
 		$index = "sidebar-$index";
 	} else {
 		$index = sanitize_title( $index );
-		foreach ( (array) $wp_registered_sidebars as $key => $value ) {
-			if ( sanitize_title( $value['name'] ) === $index ) {
-				$index = $key;
-				break;
+
+		if ( empty( $wp_registered_sidebars[ $index ] ) ) {
+			foreach ( (array) $wp_registered_sidebars as $key => $value ) {
+				if ( sanitize_title( $value['name'] ) === $index ) {
+					$index = $key;
+					break;
+				}
 			}
 		}
 	}
