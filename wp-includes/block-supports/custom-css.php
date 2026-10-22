@@ -124,6 +124,74 @@ function wp_process_custom_css_state_entries( $state_entries, $selector ) {
 }
 
 /**
+ * Generates the custom CSS class name for a block and registers its stylesheet.
+ *
+ * @since 7.2.0
+ * @access private
+ *
+ * @param array $parsed_block The parsed block.
+ * @return string|null The generated class name, or null if the block has no custom CSS to render.
+ *
+ * @phpstan-param array{
+ *     blockName: string|null,
+ *     attrs: array{
+ *         className?: string,
+ *         style?: array{
+ *             css?: string,
+ *             ...
+ *         },
+ *         ...
+ *     },
+ *     ...
+ * } $parsed_block
+ */
+function wp_generate_custom_css_class_name( $parsed_block ) {
+	$style = $parsed_block['attrs']['style'] ?? null;
+	if ( empty( $style ) || ! is_array( $style ) ) {
+		return null;
+	}
+
+	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $parsed_block['blockName'] );
+	if ( ! block_has_support( $block_type, 'customCSS', true ) ) {
+		return null;
+	}
+
+	$viewport_settings        = wp_get_global_settings( array( 'viewport' ) );
+	$responsive_media_queries = WP_Theme_JSON::get_viewport_media_queries( $viewport_settings );
+	$state_entries            = wp_get_custom_css_state_entries( $style, $parsed_block['blockName'], $responsive_media_queries );
+	if ( empty( $state_entries ) ) {
+		return null;
+	}
+
+	// Generate a unique class name for this block instance.
+	$class_name    = wp_unique_id_from_values( $parsed_block, 'wp-custom-css-' );
+	$processed_css = wp_process_custom_css_state_entries( $state_entries, '.' . $class_name );
+	if ( '' === $processed_css ) {
+		return null;
+	}
+
+	/**
+	 * Reuse one handle so identical custom CSS is enqueued only once via
+	 * {@see wp_unique_id_from_values()}. Explicitly declare the `wp-block-library`
+	 * dependency so `global-styles` is guaranteed to print after it, preventing
+	 * block default styles from unintentionally overriding global styles.
+	 */
+	$handle = 'wp-block-custom-css';
+	if ( ! wp_style_is( $handle, 'registered' ) ) {
+		wp_register_style( $handle, false, array( 'wp-block-library', 'global-styles' ) );
+	}
+	$after_styles = wp_styles()->get_data( $handle, 'after' );
+	if ( ! is_array( $after_styles ) ) {
+		$after_styles = array();
+	}
+	if ( ! in_array( $processed_css, $after_styles, true ) ) {
+		wp_add_inline_style( $handle, $processed_css );
+	}
+
+	return $class_name;
+}
+
+/**
  * Render the custom CSS stylesheet and add class name to block as required.
  *
  * @since 7.0.0
@@ -157,27 +225,8 @@ function wp_process_custom_css_state_entries( $state_entries, $selector ) {
  * }
  */
 function wp_render_custom_css_support_styles( $parsed_block ) {
-	$style = $parsed_block['attrs']['style'] ?? null;
-	if ( empty( $style ) || ! is_array( $style ) ) {
-		return $parsed_block;
-	}
-
-	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $parsed_block['blockName'] );
-	if ( ! block_has_support( $block_type, 'customCSS', true ) ) {
-		return $parsed_block;
-	}
-
-	$viewport_settings        = wp_get_global_settings( array( 'viewport' ) );
-	$responsive_media_queries = WP_Theme_JSON::get_viewport_media_queries( $viewport_settings );
-	$state_entries            = wp_get_custom_css_state_entries( $style, $parsed_block['blockName'], $responsive_media_queries );
-	if ( empty( $state_entries ) ) {
-		return $parsed_block;
-	}
-
-	// Generate a unique class name for this block instance.
-	$class_name    = wp_unique_id_from_values( $parsed_block, 'wp-custom-css-' );
-	$processed_css = wp_process_custom_css_state_entries( $state_entries, '.' . $class_name );
-	if ( '' === $processed_css ) {
+	$class_name = wp_generate_custom_css_class_name( $parsed_block );
+	if ( null === $class_name ) {
 		return $parsed_block;
 	}
 
@@ -187,24 +236,6 @@ function wp_render_custom_css_support_styles( $parsed_block ) {
 		: $class_name;
 
 	$parsed_block['attrs']['className'] = $updated_class_name;
-
-	/**
-	 * Reuse one handle so identical custom CSS is enqueued only once via
-	 * {@see wp_unique_id_from_values()}. Explicitly declare the `wp-block-library`
-	 * dependency so `global-styles` is guaranteed to print after it, preventing
-	 * block default styles from unintentionally overriding global styles.
-	 */
-	$handle = 'wp-block-custom-css';
-	if ( ! wp_style_is( $handle, 'registered' ) ) {
-		wp_register_style( $handle, false, array( 'wp-block-library', 'global-styles' ) );
-	}
-	$after_styles = wp_styles()->get_data( $handle, 'after' );
-	if ( ! is_array( $after_styles ) ) {
-		$after_styles = array();
-	}
-	if ( ! in_array( $processed_css, $after_styles, true ) ) {
-		wp_add_inline_style( $handle, $processed_css );
-	}
 
 	return $parsed_block;
 }
@@ -221,41 +252,54 @@ function wp_enqueue_block_custom_css() {
 /**
  * Applies the custom CSS class name to the block's rendered HTML.
  *
- * The class name is generated in {@see wp_render_custom_css_support_styles()}
- * and stored in block attributes. This filter adds it to the actual markup.
+ * Uses the class name that {@see wp_render_custom_css_support_styles()}
+ * stored in the block attributes. Blocks that a parent parsed and rendered
+ * itself never reach that filter, so the class name is generated here instead
+ * via {@see wp_generate_custom_css_class_name()}.
  *
  * @since 7.0.0
+ * @since 7.2.0 Generates the class name when the block attributes lack one.
  *
  * @param string $block_content Rendered block content.
  * @param array  $block         Block object.
  * @return string Filtered block content.
  *
  * @phpstan-param array{
+ *     blockName: string|null,
  *     attrs: array{
  *         className?: string,
+ *         style?: array{
+ *             css?: string,
+ *             ...
+ *         },
  *         ...
  *     },
  *     ...
  * } $block
  */
 function wp_render_custom_css_class_name( $block_content, $block ) {
-	$class_name_attr   = $block['attrs']['className'] ?? null;
-	$class_name_prefix = 'wp-custom-css-';
-	if ( ! is_string( $class_name_attr ) || ! str_contains( $class_name_attr, $class_name_prefix ) ) {
-		return $block_content;
-	}
+	$class_name_attr    = $block['attrs']['className'] ?? null;
+	$class_name_prefix  = 'wp-custom-css-';
+	$matched_class_name = null;
 
 	// Parse out the 'wp-custom-css-*' class name added by wp_render_custom_css_support_styles().
-	$matched_class_name = null;
-	$token_delimiter    = " \t\f\r\n";
-	$class_token        = strtok( $class_name_attr, $token_delimiter );
-	while ( false !== $class_token ) {
-		if ( str_starts_with( $class_token, $class_name_prefix ) ) {
-			$matched_class_name = $class_token;
-			break;
+	if ( is_string( $class_name_attr ) && str_contains( $class_name_attr, $class_name_prefix ) ) {
+		$token_delimiter = " \t\f\r\n";
+		$class_token     = strtok( $class_name_attr, $token_delimiter );
+		while ( false !== $class_token ) {
+			if ( str_starts_with( $class_token, $class_name_prefix ) ) {
+				$matched_class_name = $class_token;
+				break;
+			}
+			$class_token = strtok( $token_delimiter );
 		}
-		$class_token = strtok( $token_delimiter );
 	}
+
+	// Direct WP_Block::render() calls skip render_block_data for the block itself.
+	if ( null === $matched_class_name ) {
+		$matched_class_name = wp_generate_custom_css_class_name( $block );
+	}
+
 	if ( null === $matched_class_name ) {
 		return $block_content;
 	}
