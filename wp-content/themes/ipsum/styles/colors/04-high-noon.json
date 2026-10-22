@@ -1,0 +1,59 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "High Noon",
+	"settings": {
+		"custom": {
+			"controlScheme": "light"
+		},
+		"color": {
+			"duotone": [
+				{
+					"colors": [
+						"#000000",
+						"#FFFF66"
+					],
+					"name": "Black and acid",
+					"slug": "duotone-1"
+				}
+			],
+			"palette": [
+				{
+					"color": "#FFFF66",
+					"name": "Color 1",
+					"slug": "theme-1"
+				},
+				{
+					"color": "#000000bf",
+					"name": "Color 2",
+					"slug": "theme-2"
+				},
+				{
+					"color": "#465800",
+					"name": "Color 3",
+					"slug": "theme-3"
+				},
+				{
+					"color": "#00000033",
+					"name": "Color 4",
+					"slug": "theme-4"
+				},
+				{
+					"color": "#00000008",
+					"name": "Color 5",
+					"slug": "theme-5"
+				},
+				{
+					"color": "#000000",
+					"name": "Color 6",
+					"slug": "theme-6"
+				}
+			]
+		}
+	},
+	"styles": {
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--jetbrains-mono)"
+		}
+	}
+}

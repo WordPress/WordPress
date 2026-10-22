@@ -1,0 +1,77 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Golden Hour",
+	"settings": {
+		"color": {
+			"duotone": [
+				{
+					"colors": [
+						"#7a1000",
+						"#ffd9bd"
+					],
+					"name": "Peach on maroon",
+					"slug": "duotone-1"
+				}
+			],
+			"palette": [
+				{
+					"color": "#7a1000",
+					"name": "Color 1",
+					"slug": "theme-1"
+				},
+				{
+					"color": "#ffd9bd",
+					"name": "Color 2",
+					"slug": "theme-2"
+				},
+				{
+					"color": "#ff8c52",
+					"name": "Color 3",
+					"slug": "theme-3"
+				},
+				{
+					"color": "#ffd9bd40",
+					"name": "Color 4",
+					"slug": "theme-4"
+				},
+				{
+					"color": "#ffd9bd1a",
+					"name": "Color 5",
+					"slug": "theme-5"
+				},
+				{
+					"color": "#fff1e8",
+					"name": "Color 6",
+					"slug": "theme-6"
+				}
+			]
+		},
+		"custom": {
+			"controlScheme": "dark"
+		}
+	},
+	"styles": {
+		"blocks": {
+			"core/post-featured-image": {
+				"filter": {
+					"duotone": "var:preset|duotone|duotone-1"
+				}
+			}
+		},
+		"elements": {
+			"heading": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--manrope)",
+					"fontStyle": "normal",
+					"fontWeight": "500"
+				}
+			}
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--manrope)",
+			"fontStyle": "normal",
+			"fontWeight": "400"
+		}
+	}
+}

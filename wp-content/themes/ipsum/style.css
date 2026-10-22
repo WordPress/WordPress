@@ -1,0 +1,309 @@
+/*
+Theme Name: Ipsum
+Theme URI: https://wordpress.org/themes/ipsum/
+Author: the WordPress team
+Author URI: https://wordpress.org
+Description: Ipsum is a blank canvas built around the blogging experience, our proposal for what a default theme should be. Named after lorem ipsum, the placeholder that fills a page until real content arrives, it is composed enough to stand on its own and to be transformed the moment people start writing.
+Requires at least: 7.2
+Tested up to: 7.2
+Requires PHP: 7.4
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: ipsum
+Tags: one-column, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready, wide-blocks, block-styles, style-variations, blog
+*/
+
+/* Crossfade page transition */
+
+@view-transition {
+	navigation: auto;
+}
+
+/* Font smoothing */
+body {
+	text-rendering: geometricprecision;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	/*
+	 * Let long unbroken strings, such as URLs, break onto the next line
+	 * instead of pushing the page wider than the viewport when zoomed in.
+	 * https://www.w3.org/WAI/WCAG22/Understanding/reflow.html
+	 */
+	overflow-wrap: break-word;
+}
+
+/*
+ * Progressive enhancement to reduce widows and orphans
+ * https://github.com/WordPress/gutenberg/issues/55190
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote,
+caption,
+figcaption,
+p {
+	text-wrap: pretty;
+}
+
+/*
+ * Link styles
+ * https://github.com/WordPress/gutenberg/issues/42319
+ * Dotted editorial underlines; !important also keeps the style from being reset
+ * by the text-decoration shorthand emitted in generated global styles.
+ * The span selector catches the editor's inline underline format.
+ */
+a,
+u,
+ins,
+span[style*="text-decoration"] {
+	text-decoration-thickness: 1px !important;
+	text-decoration-style: dotted !important;
+	text-underline-offset: 0.1em;
+}
+
+/*
+ * Breathing room when jumping to in-page anchors (e.g. the comments CTA
+ * landing on #comments or #respond), so targets don't sit flush with the
+ * viewport edge.
+ */
+:target {
+	scroll-margin-block-start: var(--wp--preset--spacing--50);
+}
+
+/*
+ * The comments list starts flush with its heading, unlike the comment form,
+ * whose internal whitespace pads its landing — match their perceived offset.
+ */
+#comments {
+	scroll-margin-block-start: var(--wp--preset--spacing--70);
+}
+
+/*
+ * Change the position of the more block on the front, by making it a block level element.
+ * https://github.com/WordPress/gutenberg/issues/65934
+ */
+.more-link {
+	display: block;
+}
+
+/*
+ * Prevents unnecessary scrollbars while handling long lines of preformatted text.
+ * https://core.trac.wordpress.org/ticket/63875
+ */
+:where(pre) {
+	overflow-x: auto;
+}
+
+/*
+ * Make sure headers and footers have no margin, so the root block gap
+ * never adds spacing the parts don't control themselves.
+ * https://github.com/WordPress/gutenberg/issues/47637
+ */
+header.wp-block-template-part,
+footer.wp-block-template-part {
+	margin-block-start: 0;
+}
+
+/*
+ * Tables. All table styling lives here in one block (theme.json css strings
+ * cannot carry comments, and its table css remaps selectors onto the inner
+ * table) — edit or remove any rule below independently.
+ *
+ * Strokes: every table line — outer border, cell grid, and the rule under
+ * the header — draws in the ink wash, matching the calendar and form fields.
+ */
+.wp-block-table table,
+.wp-block-table th,
+.wp-block-table td {
+	border-color: var(--wp--preset--color--theme-4);
+}
+
+/*
+ * Header row: the palette wash as ground, a single hairline underneath
+ * (!important beats core's `thead { border-bottom: 3px solid }`, whose color
+ * would otherwise resolve to currentColor), and the theme's meta voice —
+ * Manrope, small, bold — for the labels.
+ */
+.wp-block-table thead {
+	background-color: var(--wp--preset--color--theme-5);
+	border-bottom-width: 1px !important;
+	border-bottom-color: var(--wp--preset--color--theme-4);
+}
+
+.wp-block-table thead th {
+	text-align: left;
+	font-family: var(--wp--preset--font-family--manrope);
+	font-size: var(--wp--preset--font-size--small);
+	font-style: normal;
+	font-weight: 700;
+}
+
+/*
+ * Striped tables: tint rows and rule with the palette wash instead of core's
+ * fixed gray, so stripes stay legible under every color variation.
+ */
+.wp-block-table.is-style-stripes tbody tr:nth-child(odd) {
+	background-color: var(--wp--preset--color--theme-5);
+}
+
+.wp-block-table.is-style-stripes {
+	border-bottom-color: var(--wp--preset--color--theme-5);
+}
+
+/*
+ * Utility class prefixing an element with the "·" meta separator. Used where
+ * neighbors render conditionally (e.g. the comment Edit link only exists for
+ * users who can edit), so the dot appears and disappears with its element
+ * instead of leaving orphan separators. The padding carries the breathing
+ * room — literal spaces in generated content can collapse — so rows using
+ * this class need no block gap of their own.
+ */
+.dot-before::before {
+	content: "·";
+	font-weight: 600;
+	padding-inline: 0.5em;
+}
+
+/*
+ * Sticky headers: a sticky root block inside a template part has no room to
+ * travel — the part's wrapper element is exactly as tall as its content — so
+ * the wrapper itself must carry the stickiness. Keyed on the class core emits
+ * for the position support, so any header design set to sticky just works.
+ */
+header.wp-block-template-part:has(> .is-position-sticky) {
+	position: sticky;
+	inset-block-start: 0;
+	z-index: 10;
+}
+
+/*
+ * Keep a sticky header clear of the admin bar: it is fixed over the viewport,
+ * so logged-in users would see the header slide beneath it. Core publishes the
+ * bar's height (32px desktop / 46px small screens) as a custom property.
+ */
+.admin-bar header.wp-block-template-part:has(> .is-position-sticky) {
+	inset-block-start: var(--wp-admin--admin-bar--height, 32px);
+}
+
+/*
+ * Short pages: a sticky bottom bar can only pin within the page's own height,
+ * so the site wrapper must reach at least the viewport; main grows to push
+ * the footer and the pinned bar down on pages with little content.
+ */
+.wp-site-blocks {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	min-height: calc(100svh - var(--wp-admin--admin-bar--height, 0px));
+}
+
+.wp-site-blocks > main {
+	flex-grow: 1;
+}
+
+/* Utility class for pinning an element to the bottom of the viewport. */
+.sticky-bottom {
+	position: sticky;
+	inset-block-end: 0;
+	z-index: 10;
+	width: fit-content;
+	margin-inline-start: auto;
+}
+
+/*
+ * Quiet search button inside the pinned Search Bar part only: light ground,
+ * outlined; global button states take back over on hover/focus/active.
+ */
+.sticky-bottom .wp-block-search__button.wp-element-button:not(:hover):not(:focus):not(:active) {
+	background-color: var(--wp--preset--color--theme-1);
+	border: 1px dotted var(--wp--preset--color--theme-2);
+	color: var(--wp--preset--color--theme-2);
+}
+
+/*
+ * Utility class for a query loop whose post rows hover as one: hovering any
+ * visible content of a row colors the whole row. Keyed on the row's child
+ * blocks because the row group's own box spans the full alignwide band.
+ */
+.hover-together .wp-block-post > .wp-block-group,
+.hover-together .wp-block-post > .wp-block-group a {
+	transition: color 0.15s ease-out;
+}
+
+.hover-together .wp-block-post > .wp-block-group:has(> :hover),
+.hover-together .wp-block-post > .wp-block-group:has(> :hover) a {
+	color: var(--wp--preset--color--theme-6);
+}
+
+/*
+ * Arrival bar: the blank canvas keeps index and single visually close, so a
+ * thin accent bar sweeps the top of the viewport when a single post loads,
+ * then fades — a quiet confirmation that navigation happened. The sweep is a
+ * scaleX() transform rather than a width change so it runs on the compositor
+ * instead of relaying out and repainting every frame while the page loads.
+ * Transforms have no logical origin, so RTL flips the origin to follow the
+ * reading direction.
+ */
+@media (prefers-reduced-motion: no-preference) {
+	.single::before {
+		content: "";
+		position: fixed;
+		inset-block-start: 0;
+		inset-inline-start: 0;
+		block-size: 3px;
+		inline-size: 100%;
+		background-color: var(--wp--preset--color--theme-3);
+		z-index: 99;
+		pointer-events: none;
+		transform-origin: left;
+		animation: ipsum-arrival 0.9s ease-out forwards;
+	}
+
+	.rtl.single::before {
+		transform-origin: right;
+	}
+
+	.admin-bar.single::before {
+		inset-block-start: var(--wp-admin--admin-bar--height, 32px);
+	}
+
+	@keyframes ipsum-arrival {
+		0% {
+			transform: scaleX(0);
+			opacity: 1;
+		}
+
+		60% {
+			transform: scaleX(1);
+			opacity: 1;
+		}
+
+		100% {
+			transform: scaleX(1);
+			opacity: 0;
+		}
+	}
+}
+
+/* A light tilt-and-settle on the row's featured image when the row is hovered. */
+@media (prefers-reduced-motion: no-preference) {
+	@keyframes tilt-settle {
+		35% {
+			transform: rotate(-1deg);
+		}
+
+		100% {
+			transform: rotate(0deg);
+		}
+	}
+
+	.hover-together .wp-block-post > .wp-block-group:has(> :hover) .wp-block-post-featured-image img {
+		animation: tilt-settle 0.5s ease-out;
+	}
+}

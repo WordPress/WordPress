@@ -1,0 +1,81 @@
+{
+	"version": 3,
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"title": "STIX Two Text",
+	"slug": "stix-two-text",
+	"settings": {
+		"typography": {
+			"fontFamilies": [
+				{
+					"name": "STIX Two Text",
+					"slug": "stix-two-text",
+					"fontFamily": "\"STIX Two Text\", serif",
+					"fontFace": [
+						{
+							"fontFamily": "STIX Two Text",
+							"fontStyle": "normal",
+							"fontWeight": "400 700",
+							"src": [
+								"file:./assets/fonts/stix-two-text/stix-two-text-var-normal.woff2"
+							]
+						},
+						{
+							"fontFamily": "STIX Two Text",
+							"fontStyle": "italic",
+							"fontWeight": "400 700",
+							"src": [
+								"file:./assets/fonts/stix-two-text/stix-two-text-var-italic.woff2"
+							]
+						}
+					]
+				},
+				{
+					"fontFace": [
+						{
+							"fontFamily": "Manrope",
+							"fontStretch": "normal",
+							"fontStyle": "normal",
+							"fontWeight": "200 800",
+							"src": [
+								"file:./assets/fonts/manrope/manrope-var-normal.woff2"
+							]
+						}
+					],
+					"fontFamily": "\"Manrope\", sans-serif",
+					"name": "Manrope",
+					"slug": "manrope"
+				},
+				{
+					"fontFace": [
+						{
+							"fontFamily": "JetBrains Mono",
+							"fontStretch": "normal",
+							"fontStyle": "normal",
+							"fontWeight": "100 800",
+							"src": [
+								"file:./assets/fonts/jetbrains-mono/jetbrains-mono-var-normal.woff2"
+							]
+						},
+						{
+							"fontFamily": "JetBrains Mono",
+							"fontStretch": "normal",
+							"fontStyle": "italic",
+							"fontWeight": "100 800",
+							"src": [
+								"file:./assets/fonts/jetbrains-mono/jetbrains-mono-var-italic.woff2"
+							]
+						}
+					],
+					"fontFamily": "\"JetBrains Mono\", monospace",
+					"name": "JetBrains Mono",
+					"slug": "jetbrains-mono"
+				}
+			]
+		}
+	},
+	"styles": {
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--stix-two-text)"
+		}
+	}
+}

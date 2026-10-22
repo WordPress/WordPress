@@ -1,0 +1,66 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "After Hours",
+	"settings": {
+		"custom": {
+			"controlScheme": "dark"
+		},
+		"color": {
+			"duotone": [
+				{
+					"colors": [
+						"#310c25",
+						"#e26bbe"
+					],
+					"name": "Pink on black",
+					"slug": "duotone-1"
+				}
+			],
+			"palette": [
+				{
+					"color": "#310c25",
+					"name": "Color 1",
+					"slug": "theme-1"
+				},
+				{
+					"color": "#e26bbe",
+					"name": "Color 2",
+					"slug": "theme-2"
+				},
+				{
+					"color": "#f2a3d8",
+					"name": "Color 3",
+					"slug": "theme-3"
+				},
+				{
+					"color": "#e26bbe40",
+					"name": "Color 4",
+					"slug": "theme-4"
+				},
+				{
+					"color": "#e26bbe1a",
+					"name": "Color 5",
+					"slug": "theme-5"
+				},
+				{
+					"color": "#ffcdec",
+					"name": "Color 6",
+					"slug": "theme-6"
+				}
+			]
+		}
+	},
+	"styles": {
+		"elements": {
+			"heading": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--archivo-condensed)"
+				}
+			}
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--archivo)"
+		}
+	}
+}

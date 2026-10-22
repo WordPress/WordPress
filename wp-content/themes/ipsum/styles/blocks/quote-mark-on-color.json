@@ -1,0 +1,10 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Quote Mark on Color",
+	"slug": "text-quote-mark-on-color",
+	"blockTypes": ["core/heading", "core/paragraph"],
+	"styles": {
+		"css": "&::before{content:\"❝\" / \"\";display:block;color:currentcolor;font-size:var(--wp--preset--font-size--2-x-large);line-height:1;}"
+	}
+}

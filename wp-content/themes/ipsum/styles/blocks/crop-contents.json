@@ -1,0 +1,10 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Crop Contents",
+	"slug": "crop-contents",
+	"blockTypes": ["core/group"],
+	"styles": {
+		"css": "overflow:clip;"
+	}
+}

@@ -1,0 +1,54 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Evening",
+	"settings": {
+		"custom": {
+			"controlScheme": "dark"
+		},
+		"color": {
+			"duotone": [
+				{
+					"colors": [
+						"#000000",
+						"#FFFFFF"
+					],
+					"name": "Black and white",
+					"slug": "duotone-1"
+				}
+			],
+			"palette": [
+				{
+					"color": "#000000",
+					"name": "Color 1",
+					"slug": "theme-1"
+				},
+				{
+					"color": "#FAFAFA",
+					"name": "Color 2",
+					"slug": "theme-2"
+				},
+				{
+					"color": "#FE4C57",
+					"name": "Color 3",
+					"slug": "theme-3"
+				},
+				{
+					"color": "#FAFAFA40",
+					"name": "Color 4",
+					"slug": "theme-4"
+				},
+				{
+					"color": "#FAFAFA1A",
+					"name": "Color 5",
+					"slug": "theme-5"
+				},
+				{
+					"color": "#FFFFFF",
+					"name": "Color 6",
+					"slug": "theme-6"
+				}
+			]
+		}
+	}
+}
