@@ -40,8 +40,10 @@
  *     accept_raw: bool,
  *     show_in_index: bool,
  *     allow_batch?: array{v1?: bool}|false,
+ *     data_processing?: bool|array{fields?: bool, embed?: bool, links?: bool},
  *     ...
  * }
+ * @phpstan-type Data_Processing array{fields: bool, embed: bool, links: bool}
  */
 #[AllowDynamicProperties]
 class WP_REST_Server {
@@ -622,31 +624,41 @@ class WP_REST_Server {
 	 *
 	 * @since 4.4.0
 	 * @since 5.4.0 The `$embed` parameter can now contain a list of link relations to include.
+	 * @since 7.2.0 The links are not added or embedded when the response turns off the `links` or
+	 *              `embed` data processing, scalar and object data is returned as it is unless
+	 *              the object implements `ArrayAccess`, and list items that are not arrays are left
+	 *              as they are when embedding.
+	 *
+	 * @see WP_REST_Response::get_data_processing()
 	 *
 	 * @param WP_REST_Response $response Response object.
 	 * @param bool|string[]    $embed    Whether to embed all links, a filtered list of link relations, or no links.
-	 * @return array {
-	 *     Data with sub-requests embedded.
-	 *
-	 *     @type array $_links    Links.
-	 *     @type array $_embedded Embedded objects.
-	 * }
+	 * @return mixed Data with sub-requests embedded: an array with the links under `_links` and the embedded
+	 *               resources under `_embedded`, or scalar and object data as it is unless the object
+	 *               implements `ArrayAccess`.
 	 */
 	public function response_to_data( $response, $embed ) {
-		$data  = $response->get_data();
-		$links = self::get_compact_response_links( $response );
+		$data = $response->get_data();
+
+		// Scalar and object data has no place for links or embedded resources, unless the object acts as an array.
+		if ( null !== $data && ! is_array( $data ) && ! $data instanceof ArrayAccess ) {
+			return $data;
+		}
+
+		$processing = $response->get_data_processing();
+		$links      = $processing['links'] ? self::get_compact_response_links( $response ) : array();
 
 		if ( ! empty( $links ) ) {
 			// Convert links to part of the data.
 			$data['_links'] = $links;
 		}
 
-		if ( $embed ) {
+		if ( $embed && $processing['embed'] ) {
 			$this->embed_cache = array();
 			// Determine if this is a numeric array.
 			if ( wp_is_numeric_array( $data ) ) {
 				foreach ( $data as $key => $item ) {
-					$data[ $key ] = $this->embed_links( $item, $embed );
+					$data[ $key ] = is_array( $item ) || $item instanceof ArrayAccess ? $this->embed_links( $item, $embed ) : $item;
 				}
 			} else {
 				$data = $this->embed_links( $data, $embed );
@@ -1132,6 +1144,78 @@ class WP_REST_Server {
 	}
 
 	/**
+	 * Resolves the data processing settings of a route handler.
+	 *
+	 * A route, or one of its handlers, sets the `data_processing` option to serve its data as returned.
+	 * The option is `false` to turn off every feature, or an array with any of these keys:
+	 *
+	 * - `fields`: Whether the `_fields` parameter filters the response data.
+	 * - `embed`:  Whether the `_embed` parameter embeds linked resources in the response data.
+	 * - `links`:  Whether the response links are added to the response data as `_links`.
+	 *
+	 * Each feature is resolved on its own: the handler setting applies, then the route setting, and the
+	 * feature stays on when neither sets it. Embedding needs the links, so `embed` is off whenever `links`
+	 * is off.
+	 *
+	 * The option covers these three features only. Authentication, permission checks, status codes, headers
+	 * and JSON encoding apply as usual, and keys of the data itself, such as its own `_links`, stay as returned.
+	 *
+	 * The server resolves the settings when it matches a request, and sets them on the request attributes,
+	 * on the matched handler and on the response, for a response returned by the `rest_pre_dispatch` filter too.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @see WP_REST_Response::get_data_processing()
+	 *
+	 * @param array      $handler       The route handler.
+	 * @param array|null $route_options Optional. The options of the handler's route. Default null.
+	 * @return array {
+	 *     Whether each data processing feature is on.
+	 *
+	 *     @type bool $fields Whether the `_fields` parameter filters the response data.
+	 *     @type bool $embed  Whether the `_embed` parameter embeds linked resources in the response data.
+	 *     @type bool $links  Whether the response links are added to the response data as `_links`.
+	 * }
+	 *
+	 * @phpstan-return Data_Processing
+	 */
+	public static function resolve_data_processing( $handler, $route_options = null ) {
+		$processing = array(
+			'fields' => true,
+			'embed'  => true,
+			'links'  => true,
+		);
+
+		$settings = array(
+			$route_options['data_processing'] ?? null,
+			$handler['data_processing'] ?? null,
+		);
+
+		foreach ( $settings as $setting ) {
+			if ( is_bool( $setting ) ) {
+				$processing = array_fill_keys( array_keys( $processing ), $setting );
+				continue;
+			}
+
+			if ( ! is_array( $setting ) ) {
+				continue;
+			}
+
+			foreach ( array_keys( $processing ) as $feature ) {
+				if ( isset( $setting[ $feature ] ) ) {
+					$processing[ $feature ] = (bool) $setting[ $feature ];
+				}
+			}
+		}
+
+		if ( ! $processing['links'] ) {
+			$processing['embed'] = false;
+		}
+
+		return $processing;
+	}
+
+	/**
 	 * Matches the request to a callback and call it.
 	 *
 	 * @since 4.4.0
@@ -1165,6 +1249,12 @@ class WP_REST_Server {
 			// ...then convert WP_Error across.
 			if ( is_wp_error( $result ) ) {
 				$result = $this->error_to_response( $result );
+			}
+
+			// The response matched no handler, so it follows the settings of the handler the request would match.
+			$match = $this->find_handler_for_request( $request );
+			if ( null !== $match ) {
+				$result->set_data_processing( $match[1]['data_processing'] ?? true );
 			}
 
 			array_pop( $this->dispatching_requests );
@@ -1232,6 +1322,53 @@ class WP_REST_Server {
 	 * @phpstan-return array{non-empty-string, Route_Handler}|WP_Error
 	 */
 	protected function match_request_to_handler( $request ) {
+		$match = $this->find_handler_for_request( $request );
+
+		if ( null === $match ) {
+			return new WP_Error(
+				'rest_no_route',
+				__( 'No route was found matching the URL and request method.' ),
+				array( 'status' => 404 )
+			);
+		}
+
+		list( $route, $handler, $args ) = $match;
+
+		if ( ! is_callable( $handler['callback'] ) ) {
+			return array( $route, $handler );
+		}
+
+		$request->set_url_params( $args );
+		$request->set_attributes( $handler );
+
+		$defaults = array();
+
+		foreach ( $handler['args'] as $arg => $options ) {
+			if ( isset( $options['default'] ) ) {
+				$defaults[ $arg ] = $options['default'];
+			}
+		}
+
+		$request->set_default_params( $defaults );
+
+		return array( $route, $handler );
+	}
+
+	/**
+	 * Finds the route and the handler that a request matches, without changing the request.
+	 *
+	 * The handler carries its resolved data processing settings under `data_processing`.
+	 *
+	 * @access private
+	 * @since 7.2.0
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 * @return array|null The route, the handler with its resolved data processing settings, and the URL
+	 *                    parameters, or null when no handler matches.
+	 *
+	 * @phpstan-return array{non-empty-string, Route_Handler, array<string, string>}|null
+	 */
+	protected function find_handler_for_request( $request ) {
 		$method = $request->get_method();
 		$path   = $request->get_route();
 
@@ -1265,8 +1402,6 @@ class WP_REST_Server {
 			}
 
 			foreach ( $handlers as $handler ) {
-				$callback = $handler['callback'];
-
 				// Fallback to GET method if no HEAD method is registered.
 				$checked_method = $method;
 				if ( 'HEAD' === $method && empty( $handler['methods']['HEAD'] ) ) {
@@ -1276,32 +1411,14 @@ class WP_REST_Server {
 					continue;
 				}
 
-				if ( ! is_callable( $callback ) ) {
-					return array( $route, $handler );
-				}
+				// Resolve the data processing settings once, for the request attributes, the matched handler and the response.
+				$handler['data_processing'] = self::resolve_data_processing( $handler, $this->get_route_options( $route ) );
 
-				$request->set_url_params( $args );
-				$request->set_attributes( $handler );
-
-				$defaults = array();
-
-				foreach ( $handler['args'] as $arg => $options ) {
-					if ( isset( $options['default'] ) ) {
-						$defaults[ $arg ] = $options['default'];
-					}
-				}
-
-				$request->set_default_params( $defaults );
-
-				return array( $route, $handler );
+				return array( $route, $handler, $args );
 			}
 		}
 
-		return new WP_Error(
-			'rest_no_route',
-			__( 'No route was found matching the URL and request method.' ),
-			array( 'status' => 404 )
-		);
+		return null;
 	}
 
 	/**
@@ -1414,6 +1531,7 @@ class WP_REST_Server {
 
 		$response->set_matched_route( $route );
 		$response->set_matched_handler( $handler );
+		$response->set_data_processing( $handler['data_processing'] ?? true );
 
 		return $response;
 	}
@@ -1705,10 +1823,11 @@ class WP_REST_Server {
 			'endpoints' => array(),
 		);
 
-		$allow_batch = false;
+		$allow_batch   = false;
+		$route_options = $this->get_route_options( $route );
 
-		if ( isset( $this->route_options[ $route ] ) ) {
-			$options = $this->route_options[ $route ];
+		if ( null !== $route_options ) {
+			$options = $route_options;
 
 			if ( isset( $options['namespace'] ) ) {
 				$data['namespace'] = $options['namespace'];
@@ -1740,6 +1859,12 @@ class WP_REST_Server {
 
 			if ( $callback_batch ) {
 				$endpoint_data['allow_batch'] = $callback_batch;
+			}
+
+			$data_processing = self::resolve_data_processing( $callback, $route_options );
+
+			if ( in_array( false, $data_processing, true ) ) {
+				$endpoint_data['data_processing'] = $data_processing;
 			}
 
 			if ( isset( $callback['args'] ) ) {
@@ -1955,6 +2080,12 @@ class WP_REST_Server {
 					}
 
 					$result = $this->respond_to_request( $single_request, $route, $handler, $error );
+				}
+			} elseif ( ! is_wp_error( $matches[ $i ] ) ) {
+				// The response matched no handler, so it follows the settings of the handler the request matched.
+				$result = rest_ensure_response( $result );
+				if ( $result instanceof WP_REST_Response ) {
+					$result->set_data_processing( $matches[ $i ][1]['data_processing'] ?? true );
 				}
 			}
 

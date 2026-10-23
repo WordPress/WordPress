@@ -950,6 +950,8 @@ function _rest_array_intersect_key_recursive( $array1, $array2 ) {
  * Filters the REST API response to include only an allow-listed set of response object fields.
  *
  * @since 4.8.0
+ * @since 7.2.0 The response is left unchanged when the route turns off the `fields` response
+ *              processing or when the response data is not an array.
  *
  * @param WP_REST_Response $response Current response being served.
  * @param WP_REST_Server   $server   ResponseHandler instance (usually WP_REST_Server).
@@ -961,7 +963,17 @@ function rest_filter_response_fields( $response, $server, $request ) {
 		return $response;
 	}
 
+	$processing = $response->get_data_processing();
+	if ( ! $processing['fields'] ) {
+		return $response;
+	}
+
 	$data = $response->get_data();
+
+	// Only arrays have fields to filter.
+	if ( ! is_array( $data ) ) {
+		return $response;
+	}
 
 	$fields = wp_parse_list( $request['_fields'] );
 
@@ -993,7 +1005,7 @@ function rest_filter_response_fields( $response, $server, $request ) {
 	if ( wp_is_numeric_array( $data ) ) {
 		$new_data = array();
 		foreach ( $data as $item ) {
-			$new_data[] = _rest_array_intersect_key_recursive( $item, $fields_as_keyed );
+			$new_data[] = is_array( $item ) ? _rest_array_intersect_key_recursive( $item, $fields_as_keyed ) : $item;
 		}
 	} else {
 		$new_data = _rest_array_intersect_key_recursive( $data, $fields_as_keyed );
@@ -3048,7 +3060,7 @@ function rest_preload_api_request( $memo, $path ) {
 		/** This filter is documented in wp-includes/rest-api/class-wp-rest-server.php */
 		$response = apply_filters( 'rest_post_dispatch', rest_ensure_response( $response ), $server, $request );
 		$embed    = $request->has_param( '_embed' ) ? rest_parse_embed_param( $request['_embed'] ) : false;
-		$data     = (array) $server->response_to_data( $response, $embed );
+		$data     = $server->response_to_data( $response, $embed );
 
 		if ( 'OPTIONS' === $method ) {
 			$memo[ $method ][ $path ] = array(
