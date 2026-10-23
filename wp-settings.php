@@ -206,6 +206,7 @@ require ABSPATH . WPINC . '/theme-previews.php';
 require ABSPATH . WPINC . '/template.php';
 require ABSPATH . WPINC . '/class-wp-view-config-data.php';
 require ABSPATH . WPINC . '/view-config.php';
+require ABSPATH . WPINC . '/entity-utils.php';
 require ABSPATH . WPINC . '/class-wp-entity-actions-registry.php';
 require ABSPATH . WPINC . '/entity-actions.php';
 require ABSPATH . WPINC . '/class-wp-entity-fields-registry.php';

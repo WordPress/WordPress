@@ -404,17 +404,31 @@ class WP_Entity_Actions_Registry {
 	 *
 	 * @param string $kind The entity kind (e.g. `postType`).
 	 * @param string $name The entity name (e.g. `page`).
-	 * @return array<string, string[]> The ids of the actions each module
-	 *                                 applies to, keyed by module id, in
-	 *                                 registration order. Empty when the
-	 *                                 entity is invalid.
+	 * @return array[] {
+	 *     The script modules, in registration order. Empty when the entity
+	 *     is invalid.
+	 *
+	 *     @type array ...$0 {
+	 *         @type string   $id      The id of the script module.
+	 *         @type string[] $actions The ids of the actions the module
+	 *                                 applies to, in registration order.
+	 *     }
+	 * }
 	 */
 	public function get_registered_action_modules( $kind, $name ) {
 		if ( ! $this->validate_entity( __METHOD__, $kind, $name ) ) {
 			return array();
 		}
 		$this->initialize();
-		return $this->action_modules[ $kind ][ $name ] ?? array();
+		$modules = array();
+		foreach ( $this->action_modules[ $kind ][ $name ] ?? array() as $module => $action_ids ) {
+			$modules[] = array(
+				// A numeric module id is an integer as an array key.
+				'id'      => (string) $module,
+				'actions' => $action_ids,
+			);
+		}
+		return $modules;
 	}
 
 	/**

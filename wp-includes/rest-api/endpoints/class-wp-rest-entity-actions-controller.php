@@ -197,20 +197,11 @@ class WP_REST_Entity_Actions_Controller extends WP_REST_Controller {
 		$kind = $request->get_param( 'kind' );
 		$name = $request->get_param( 'name' );
 
-		$script_modules = array();
-		foreach ( wp_get_registered_entity_action_modules( $kind, $name ) as $module => $action_ids ) {
-			$script_modules[] = array(
-				// A numeric module id is an integer as an array key.
-				'id'      => (string) $module,
-				'actions' => array_values( $action_ids ),
-			);
-		}
-
 		$response = array(
 			'kind'           => $kind,
 			'name'           => $name,
 			'actions'        => wp_get_registered_entity_actions( $kind, $name ),
-			'script_modules' => $script_modules,
+			'script_modules' => wp_get_registered_entity_action_modules( $kind, $name ),
 		);
 
 		return rest_ensure_response( $response );

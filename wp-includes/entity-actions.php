@@ -80,17 +80,22 @@ function wp_get_registered_entity_actions( $kind, $name ) {
 }
 
 /**
- * Returns the ids of the script modules registered for the given entity.
+ * Returns the script modules registered for the given entity.
  *
  * @since 7.2.0
  *
  * @param string $kind The entity kind (e.g. `postType`).
  * @param string $name The entity name (e.g. `page`).
- * @return array<string, string[]> The ids of the actions each module
- *                                 applies to, keyed by module id, in
- *                                 registration order. Empty until the
- *                                 `init` action has completed: a read
- *                                 before then is refused.
+ * @return array[] {
+ *     The script modules, in registration order. Empty until the `init`
+ *     action has completed: a read before then is refused.
+ *
+ *     @type array ...$0 {
+ *         @type string   $id      The id of the script module.
+ *         @type string[] $actions The ids of the actions the module applies
+ *                                 to, in registration order.
+ *     }
+ * }
  */
 function wp_get_registered_entity_action_modules( $kind, $name ) {
 	return WP_Entity_Actions_Registry::get_instance()->get_registered_action_modules( $kind, $name );
@@ -114,78 +119,21 @@ function wp_get_all_registered_entity_action_modules() {
 
 /**
  * Declares the script modules of the entity actions as dependencies of the
- * editor script.
+ * editor script, see _wp_add_entity_modules_to_editor_script().
  *
- * The editor imports the script modules of an entity on demand, with a dynamic
- * `import()` the browser resolves through the import map of the page. Listing
- * the modules as dynamic `module_dependencies` of the `wp-editor` script adds
- * them to the import map of every page that loads the editor script: the post
- * editor, the site editor, and the pages booted by `@wordpress/boot`, whose
- * prerequisites depend on it. A dynamic dependency is only listed in the
- * import map; the module is fetched when it is imported.
- *
- * Reading the registry fires `wp_entity_actions_api_init`, so the actions and their
- * script modules are registered on demand. It only reads the registry on the
- * pages that load the editor script, not on every admin request (heartbeat,
- * Ajax, other screens). It runs on `admin_footer`, the last action before the
- * import map is printed that fires both in the admin template and in the pages
- * rendered outside it, which print the import map themselves. By then `init`
- * has completed, so the post types and supports the actions derive from are
- * final.
- * The registry only accepts registrations while the action fires, so the
- * modules declared here are the modules of every action the page can show.
+ * The actions are loaded by `usePostActions()` of the editor script, so every
+ * screen showing them loads it.
  *
  * The `admin_footer` action passes it no argument, so the global registry is
  * used. In other scenarios (tests), the scripts are given directly.
  *
  * @since 7.2.0
+ * @access private
  *
  * @param WP_Scripts|null $scripts The scripts registry. Defaults to the global one.
  */
 function _wp_add_entity_action_modules_to_editor_script( $scripts = null ) {
-	if ( ! $scripts instanceof WP_Scripts ) {
-		$scripts = wp_scripts();
-	}
-
-	// The actions are loaded by `usePostActions()` of the editor script, so
-	// every screen showing them loads it.
-	if ( ! $scripts->query( 'wp-editor', 'enqueued' ) && ! $scripts->query( 'wp-editor', 'done' ) ) {
-		return;
-	}
-
-	$kinds = wp_get_all_registered_entity_action_modules();
-	if ( empty( $kinds ) ) {
-		return;
-	}
-
-	$dependencies = $scripts->get_data( 'wp-editor', 'module_dependencies' );
-	$dependencies = is_array( $dependencies ) ? $dependencies : array();
-
-	$declared = array();
-	foreach ( $dependencies as $dependency ) {
-		$declared[] = is_array( $dependency ) ? $dependency['id'] : $dependency;
-	}
-
-	$added = false;
-	foreach ( $kinds as $entities ) {
-		foreach ( $entities as $modules ) {
-			foreach ( $modules as $module ) {
-				if ( ! in_array( $module, $declared, true ) ) {
-					$dependencies[] = array(
-						'id'     => $module,
-						'import' => 'dynamic',
-					);
-					$declared[]     = $module;
-					$added          = true;
-				}
-			}
-		}
-	}
-
-	if ( $added ) {
-		// `add_data()` replaces the value, hence the merge above.
-		$scripts->add_data( 'wp-editor', 'module_dependencies', $dependencies );
-	}
+	_wp_add_entity_modules_to_editor_script( $scripts, 'wp_get_all_registered_entity_action_modules' );
 }
 
 /**
@@ -201,34 +149,12 @@ function _wp_add_entity_action_modules_to_editor_script( $scripts = null ) {
  * packages/core-data/src/resolvers.js in Gutenberg.
  *
  * @since 7.2.0
+ * @access private
  *
- * @param array                   $paths   REST API paths to preload.
- * @param WP_Block_Editor_Context $context Block editor context.
- * @return array Filtered preload paths.
+ * @param mixed $paths   REST API paths to preload.
+ * @param mixed $context Optional. Block editor context. Default null.
+ * @return mixed Filtered preload paths. See _wp_add_entity_preload_paths().
  */
-function _wp_preload_entity_actions( $paths, $context ) {
-	$post_types = array();
-	if ( 'core/edit-post' === $context->name && isset( $context->post ) ) {
-		$post_types[] = $context->post->post_type;
-	} elseif ( 'core/edit-site' === $context->name ) {
-		if ( isset( $context->post ) ) {
-			$post_types[] = $context->post->post_type;
-		}
-		$post_types = array_merge( $post_types, _wp_get_site_editor_screen_post_types() );
-	}
-
-	foreach ( array_unique( $post_types ) as $post_type ) {
-		if ( ! post_type_exists( $post_type ) ) {
-			continue;
-		}
-		$paths[] = add_query_arg(
-			array(
-				'kind' => 'postType',
-				'name' => $post_type,
-			),
-			'/wp/v2/entity-actions'
-		);
-	}
-
-	return $paths;
+function _wp_preload_entity_actions( $paths, $context = null ) {
+	return _wp_add_entity_preload_paths( $paths, $context, '/wp/v2/entity-actions' );
 }
