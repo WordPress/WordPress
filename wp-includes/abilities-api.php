@@ -22,7 +22,7 @@
  * Abilities must be registered on the `wp_abilities_api_init` action hook.
  * Attempting to register an ability outside of this hook will fail and
  * trigger a `_doing_it_wrong()` notice.
-
+ *
  * Example:
  *
  *     function my_plugin_register_abilities(): void {
@@ -38,12 +38,11 @@
  *                     'type'        => 'string',
  *                     'enum'        => array( 'subscriber', 'contributor', 'author', 'editor', 'administrator' ),
  *                     'description' => __( 'Limits the export to users with this role.', 'my-plugin' ),
- *                     'required'    => false,
+ *                     'default'     => 'subscriber',
  *                 ),
  *                 'output_schema'         => array(
  *                     'type'        => 'string',
  *                     'description' => __( 'User data in CSV format.', 'my-plugin' ),
- *                     'required'    => true,
  *                 ),
  *                 'meta'                  => array(
  *                     'public' => true,
@@ -52,6 +51,11 @@
  *         );
  *     }
  *     add_action( 'wp_abilities_api_init', 'my_plugin_register_abilities' );
+ *
+ * Use a category to group related abilities and improve discoverability. The
+ * `data-export` category must be registered first with `wp_register_ability_category()`
+ * on `wp_abilities_api_categories_init`, or the ability registration fails.
+ * Abilities that omit `category` fall back to the built-in `uncategorized` category.
  *
  * Once registered, abilities can be checked, retrieved, and managed:
  *
@@ -72,7 +76,8 @@
  *
  *  - Always register abilities on the `wp_abilities_api_init` hook.
  *  - Use namespaced ability names to prevent conflicts.
- *  - Implement robust permission checks in permission callbacks.
+ *  - Declare capabilities required for every execution in `required_capabilities`.
+ *  - Check input-dependent permissions in `permission_callback`.
  *  - Provide an `input_schema` to ensure data integrity and document expected inputs.
  *  - Define an `output_schema` to describe return values and validate responses.
  *  - Return `WP_Error` objects for failures rather than throwing exceptions.
@@ -90,7 +95,8 @@ declare( strict_types = 1 );
  *
  *  1. Hook into the `wp_abilities_api_init` action.
  *  2. Call `wp_register_ability()` with a namespaced name and configuration.
- *  3. Provide execute and permission callbacks.
+ *  3. Provide an `execute_callback`. For permission checks, set `required_capabilities`,
+ *     `permission_callback`, or both.
  *
  * Example:
  *
@@ -98,24 +104,23 @@ declare( strict_types = 1 );
  *         wp_register_ability(
  *             'my-plugin/analyze-text',
  *             array(
- *                 'label'               => __( 'Analyze Text', 'my-plugin' ),
- *                 'description'         => __( 'Performs sentiment analysis on provided text.', 'my-plugin' ),
- *                 'category'            => 'text-processing',
- *                 'input_schema'        => array(
+ *                 'label'                 => __( 'Analyze Text', 'my-plugin' ),
+ *                 'description'           => __( 'Performs sentiment analysis on provided text.', 'my-plugin' ),
+ *                 'category'              => 'text-processing',
+ *                 'input_schema'          => array(
  *                     'type'        => 'string',
  *                     'description' => __( 'The text to be analyzed.', 'my-plugin' ),
  *                     'minLength'   => 10,
- *                     'required'    => true,
  *                 ),
- *                 'output_schema'       => array(
+ *                 'output_schema'         => array(
  *                     'type'        => 'string',
  *                     'enum'        => array( 'positive', 'negative', 'neutral' ),
  *                     'description' => __( 'The sentiment result: positive, negative, or neutral.', 'my-plugin' ),
- *                     'required'    => true,
  *                 ),
- *                 'execute_callback'    => 'my_plugin_analyze_text',
- *                 'permission_callback' => 'my_plugin_can_analyze_text',
- *                 'meta'                => array(
+ *                 'execute_callback'      => 'my_plugin_analyze_text',
+ *                 'required_capabilities' => array( 'edit_posts' ),
+ *                 'permission_callback'   => 'my_plugin_can_analyze_text',
+ *                 'meta'                  => array(
  *                     'annotations' => array(
  *                         'readonly' => true,
  *                     ),
@@ -126,6 +131,9 @@ declare( strict_types = 1 );
  *     }
  *     add_action( 'wp_abilities_api_init', 'my_plugin_register_abilities' );
  *
+ * The `text-processing` category must be registered first with
+ * `wp_register_ability_category()`, or the registration fails.
+ *
  * On failure, this function returns `null` and calls `_doing_it_wrong()` with the reason.
  * By default, the resulting notice is displayed when `WP_DEBUG` is enabled.
  *
@@ -133,7 +141,8 @@ declare( strict_types = 1 );
  *
  * Ability names must follow these rules:
  *
- *  - Include a namespace prefix (e.g., `my-plugin/my-ability`).
+ *  - Include exactly one namespace and one ability name, separated by a single slash
+ *    (e.g., `my-plugin/my-ability`). Nested namespaces are not supported.
  *  - Use only lowercase alphanumeric characters, dashes, and forward slashes.
  *  - Use descriptive, action-oriented names (e.g., `process-payment`, `generate-report`).
  *
@@ -167,21 +176,22 @@ declare( strict_types = 1 );
  * related WordPress REST API Schema documentation:
  * https://developer.wordpress.org/rest-api/extending-the-rest-api/schema/#json-schema-basics
  *
- * Defining schemas is mandatory when there is a value to pass or return.
- * They ensure data integrity, improve developer experience, and enable
- * better documentation:
+ * An input schema is required when passing non-null input. Without one, only `null`
+ * input is accepted and callbacks receive no arguments. When input is `null`, a
+ * top-level `default` in the input schema is applied before validation.
  *
- *     'input_schema' => array(
+ * An output schema is optional. When omitted, output schema validation is skipped.
+ * Define one to document and validate the result returned by the ability:
+ *
+ *     'input_schema'  => array(
  *         'type'        => 'string',
  *         'description' => __( 'The text to be analyzed.', 'my-plugin' ),
  *         'minLength'   => 10,
- *         'required'    => true,
  *     ),
- *     'output_schema'       => array(
+ *     'output_schema' => array(
  *         'type'        => 'string',
  *         'enum'        => array( 'positive', 'negative', 'neutral' ),
  *         'description' => __( 'The sentiment result: positive, negative, or neutral.', 'my-plugin' ),
- *         'required'    => true,
  *     ),
  *
  * ### Callbacks
@@ -189,7 +199,9 @@ declare( strict_types = 1 );
  * #### Execute Callback
  *
  * The execute callback performs the ability's core functionality. It receives
- * optional input data and returns either a result or `WP_Error` on failure.
+ * the normalized, validated input when an input schema is defined, and no arguments
+ * otherwise. It returns either a result or `WP_Error` on failure. Exceptions thrown
+ * by execute or permission callbacks are caught and converted to a `WP_Error`.
  *
  *     function my_plugin_analyze_text( string $input ): string|WP_Error {
  *         $score = My_Plugin::perform_sentiment_analysis( $input );
@@ -199,18 +211,54 @@ declare( strict_types = 1 );
  *         return My_Plugin::interpret_sentiment_score( $score );
  *     }
  *
- * #### Permission Callback
+ * #### Required Capabilities and Permission Callback
+ *
+ * Declare only the minimum capabilities required for every execution in
+ * `required_capabilities`. Check additional capabilities that depend on the input
+ * in `permission_callback`. Declaring capabilities needed only for particular inputs
+ * can cause discovery to hide an ability the current user is allowed to execute
+ * with other inputs.
+ *
+ * Each required capability is checked with `current_user_can()` before the
+ * permission callback runs. The callback is optional when the list is non-empty.
+ * For an ability that everyone may execute, use `__return_true` as the callback
+ * with no required capabilities.
  *
  * The permission callback determines whether the ability can be executed.
  * It receives the same input as the execute callback and must return a
  * boolean or `WP_Error`. Common use cases include checking user capabilities,
- * validating API keys, or verifying system state:
+ * validating API keys, or verifying system state. In the example above, every
+ * execution requires `edit_posts`, and the callback only adds the check that
+ * depends on the input:
  *
  *     function my_plugin_can_analyze_text( string $input ): bool|WP_Error {
- *         return current_user_can( 'edit_posts' );
+ *         // Only administrators can analyze long texts.
+ *         if ( mb_strlen( $input ) > 5000 ) {
+ *             return current_user_can( 'manage_options' );
+ *         }
+ *         return true;
  *     }
  *
+ * ### Execution Lifecycle
+ *
+ * Call `WP_Ability::execute()` to normalize and validate input, check permissions,
+ * invoke the execute callback, and validate output. It returns the result or a
+ * `WP_Error` on failure. Custom ability classes can override this behavior.
+ *
+ * Hooks run in this order, and processing stops at the first failure:
+ *
+ *  1. `wp_ability_invoked` action, with the raw input.
+ *  2. `wp_pre_execute_ability` filter, which can short-circuit the rest of execution.
+ *  3. `wp_ability_normalize_input`, `wp_ability_validate_input`, and
+ *     `wp_ability_permission_result` filters. The input validation filter runs only
+ *     when a non-empty input schema is defined.
+ *  4. `wp_before_execute_ability` action.
+ *  5. `wp_ability_execute_result` and `wp_ability_validate_output` filters.
+ *  6. `wp_after_execute_ability` action.
+ *
  * ### Client Exposure
+ *
+ * Exposure flags do not grant execution permission.
  *
  * Set the high-level `public` flag to make an ability available to clients
  * such as the REST API, MCP, or AI agents:
@@ -235,12 +283,14 @@ declare( strict_types = 1 );
  * @since 7.2.0 Added the `required_capabilities` argument.
  *
  * @see WP_Abilities_Registry::register()
+ * @see WP_Ability::execute()
  * @see wp_register_ability_category()
  * @see wp_unregister_ability()
  *
  * @param string               $name The name of the ability. Must be a namespaced string containing
  *                                   a prefix, e.g., `my-plugin/my-ability`. Can only contain lowercase
- *                                   alphanumeric characters, dashes, and forward slashes.
+ *                                   alphanumeric characters and dashes, with exactly one slash
+ *                                   separating the namespace from the ability name.
  * @param array<string, mixed> $args {
  *     An associative array of arguments for configuring the ability.
  *
@@ -258,12 +308,14 @@ declare( strict_types = 1 );
  *                                                       Receives optional mixed input data (same as `execute_callback`) and
  *                                                       must return `true`/`false` for simple checks, or `WP_Error` for
  *                                                       detailed error responses. To let everyone run the ability,
- *                                                       use `__return_true`. The `public` meta flag doesn't affect
- *                                                       this. It only controls where the ability is shown.
- *     @type list<string>         $required_capabilities Optional. Capabilities the current user must have to run the
- *                                                       ability. Each one is checked with `current_user_can()` before
- *                                                       `permission_callback` runs. Use it for checks that don't depend
- *                                                       on the input. Default empty array.
+ *                                                       use `__return_true` with no required capabilities. The `public`
+ *                                                       meta flag doesn't affect this. It only controls where the
+ *                                                       ability is shown.
+ *     @type list<string>         $required_capabilities Optional. Minimum capabilities required for every execution of the
+ *                                                       ability, regardless of input. Each one is checked with
+ *                                                       `current_user_can()` before `permission_callback` runs.
+ *                                                       Must be a list of non-empty strings. Check input-dependent
+ *                                                       requirements in `permission_callback`. Default empty array.
  *     @type array<string, mixed> $input_schema          Optional. JSON Schema definition for validating the ability's input.
  *                                                       Must be a valid JSON Schema object defining the structure and
  *                                                       constraints for input data. Used for automatic validation and
@@ -276,7 +328,8 @@ declare( strict_types = 1 );
  *
  *         @type array<string, bool|null> $annotations  {
  *             Optional. Semantic annotations describing the ability's behavioral characteristics.
- *             These annotations are hints for tooling and documentation.
+ *             These annotations are hints for tooling and documentation, not enforced behavior.
+ *             Each annotation defaults to null, indicating that its behavior is unspecified.
  *
  *             @type bool|null $readonly    Optional. If true, the ability does not modify its environment.
  *             @type bool|null $destructive Optional. If true, the ability may perform destructive updates to its environment.
@@ -295,7 +348,9 @@ declare( strict_types = 1 );
  *     @type string               $ability_class       Optional. Fully-qualified custom class name to instantiate
  *                                                     instead of the default `WP_Ability` class. The custom class
  *                                                     must extend `WP_Ability`. Useful for advanced customization
- *                                                     of ability behavior.
+ *                                                     of ability behavior, including callback handling. The default
+ *                                                     execute and permission callback registration requirements
+ *                                                     are not enforced for custom classes.
  * }
  * @return WP_Ability|null The registered ability instance on success, `null` on failure.
  *
@@ -426,14 +481,15 @@ function wp_get_ability( string $name ): ?WP_Ability {
  *
  * When called without arguments, returns all registered abilities. When called
  * with an $args array, returns only abilities that match every specified condition.
+ * In both cases, the callbacks and filters below can change the result.
  *
  * Filtering pipeline (executed in order):
  *
- * 1. Declarative filters (`category`, `namespace`, `meta`) — per-item, AND logic between
- *    arg types.
+ * 1. Declarative filters (`category`, `namespace`, `meta`, `has_required_capabilities`) —
+ *    per-item, AND logic between arg types.
  * 2. `item_include_callback` — per-item, caller-scoped. Return true to include, false to exclude.
  * 3. `wp_get_abilities_item_include` filter — per-item, ecosystem-scoped. Plugins can enforce
- *    universal inclusion rules regardless of what the caller passed.
+ *    inclusion rules for abilities that passed the declarative filters.
  * 4. `result_callback` — on the full matched array, caller-scoped. Sort, slice, or reshape.
  * 5. `wp_get_abilities_result` filter — on the full array, ecosystem-scoped.
  *
@@ -441,7 +497,7 @@ function wp_get_ability( string $name ): ?WP_Ability {
  *
  * Examples:
  *
- *     // All abilities (unchanged behaviour).
+ *     // All abilities.
  *     $abilities = wp_get_abilities();
  *
  *     // Filter by category.
@@ -452,6 +508,10 @@ function wp_get_ability( string $name ): ?WP_Ability {
  *
  *     // Filter by meta.
  *     $abilities = wp_get_abilities( array( 'meta' => array( 'show_in_rest' => true ) ) );
+ *
+ *     // Abilities whose declared minimum capabilities the current user has.
+ *     // Input-dependent permission checks still run when executing an ability.
+ *     $abilities = wp_get_abilities( array( 'has_required_capabilities' => true ) );
  *
  *     // Combine filters (AND logic between arg types).
  *     $abilities = wp_get_abilities( array(
@@ -470,14 +530,14 @@ function wp_get_ability( string $name ): ?WP_Ability {
  *     // Caller-scoped result callback (sort + paginate).
  *     $abilities = wp_get_abilities( array(
  *         'result_callback' => function ( array $abilities ) {
- *             usort( $abilities, fn( $a, $b ) => strcasecmp( $a->get_label(), $b->get_label() ) );
- *             return array_slice( $abilities, 0, 10 );
+ *             uasort( $abilities, fn( $a, $b ) => strcasecmp( $a->get_label(), $b->get_label() ) );
+ *             return array_slice( $abilities, 0, 10, true );
  *         },
  *     ) );
  *
  * The pipeline always runs, even when called with no arguments. This ensures that the
- * `wp_get_abilities_item_include` and `wp_get_abilities_result` filters always fire,
- * giving plugins a reliable place to enforce universal inclusion or shaping rules.
+ * `wp_get_abilities_result` filter always fires, giving plugins a reliable place to
+ * enforce universal shaping rules.
  * For raw, unfiltered registry data that bypasses the filter pipeline entirely, use
  * {@see WP_Abilities_Registry::get_all_registered()} directly.
  *
@@ -488,21 +548,23 @@ function wp_get_ability( string $name ): ?WP_Ability {
  * @see WP_Abilities_Registry::get_all_registered()
  *
  * @param array $args {
- *     Optional. Arguments to filter the returned abilities. Default empty array (returns all).
+ *     Optional. Arguments to filter the returned abilities. Default empty array.
+ *     Omitted filters do not restrict the results.
  *
- *     @type string          $category                  Filter by category slug. Only abilities whose category
+ *     @type string          $category                  Optional. Filter by category slug. Only abilities whose category
  *                                                      exactly matches the given slug are included.
- *     @type string          $namespace                 Filter by ability namespace prefix. Pass the namespace
+ *     @type string          $namespace                 Optional. Filter by ability namespace prefix. Pass the namespace
  *                                                      without a trailing slash, e.g. `'woocommerce'` matches
  *                                                      `'woocommerce/create-order'`.
- *     @type array           $meta                      Filter by meta key/value pairs. All conditions must
- *                                                      match (AND logic). Supports nested arrays for structured
- *                                                      meta, e.g. `array( 'mcp' => array( 'public' => true ) )`.
- *     @type bool            $has_required_capabilities Whether to leave out abilities whose required capabilities
+ *     @type array           $meta                      Optional. Filter by meta key/value pairs. All keys must exist
+ *                                                      and non-array values must match strictly, including their types.
+ *                                                      Nested arrays are matched recursively as subsets, e.g.
+ *                                                      `array( 'mcp' => array( 'public' => true ) )`.
+ *     @type bool            $has_required_capabilities Optional. Whether to leave out abilities whose required capabilities
  *                                                      the current user doesn't have. Abilities without required
- *                                                      capabilities are always included. Permission callbacks
- *                                                      and filters don't run, so an included ability can still
- *                                                      deny execution. Default false.
+ *                                                      capabilities pass this check but remain subject to other filters.
+ *                                                      Permission callbacks do not run, so inclusion does not guarantee
+ *                                                      execution permission.
  *     @type callable        $item_include_callback     Optional. A callback invoked per ability after declarative
  *                                                      filters. Receives a WP_Ability instance, returns bool.
  *                                                      Return true to include, false to exclude.
@@ -510,10 +572,9 @@ function wp_get_ability( string $name ): ?WP_Ability {
  *                                                      array. Receives WP_Ability[], must return WP_Ability[].
  *                                                      Use for sorting, slicing, or reshaping the result.
  * }
- * @return WP_Ability[] An array of registered WP_Ability instances matching the given args,
- *                      keyed by ability name. Returns an empty array if no abilities are
- *                      registered, the registry is unavailable, or no abilities match the
- *                      given args.
+ * @return WP_Ability[] An array of registered WP_Ability instances, keyed by ability name
+ *                      unless reshaped by a callback or filter. Returns an empty array if
+ *                      the registry is unavailable.
  */
 function wp_get_abilities( array $args = array() ): array {
 	$registry = WP_Abilities_Registry::get_instance();
@@ -567,12 +628,12 @@ function wp_get_abilities( array $args = array() ): array {
 		 * Filters whether an individual ability should be included in the result set.
 		 *
 		 * Fires after the declarative filters and the caller-scoped item_include_callback.
-		 * Plugins can use this to enforce universal inclusion rules regardless of
-		 * what the caller passed in $args.
+		 * Only abilities that pass the declarative filters reach this hook. It can override
+		 * the caller-scoped callback's result.
 		 *
 		 * @since 7.1.0
 		 *
-		 * @param bool       $include Whether to include the ability. Default true (after declarative filters pass).
+		 * @param bool       $include The caller-scoped callback's result, or true when no callback is provided.
 		 * @param WP_Ability $ability The ability instance being evaluated.
 		 * @param array      $args    The full $args array passed to wp_get_abilities().
 		 */
@@ -606,7 +667,9 @@ function wp_get_abilities( array $args = array() ): array {
  * Checks whether an ability's meta array matches a set of required key/value conditions.
  *
  * All conditions must match (AND logic). Supports nested arrays for structured meta,
- * e.g. `array( 'mcp' => array( 'public' => true ) )`.
+ * e.g. `array( 'mcp' => array( 'public' => true ) )`. Every condition key must exist,
+ * and non-array values are compared strictly, including their types. Extra meta keys
+ * are allowed at any level.
  *
  * @since 7.1.0
  * @access private
@@ -666,8 +729,9 @@ function _wp_get_abilities_match_meta( array $meta, array $conditions ): bool {
  * @see wp_register_ability()
  * @see wp_unregister_ability_category()
  *
- * @param string               $slug The unique slug for the ability category. Must contain only lowercase
- *                                   alphanumeric characters and dashes (e.g., 'data-export').
+ * @param string               $slug The unique slug for the ability category. Must contain lowercase
+ *                                   alphanumeric segments separated by single dashes (e.g., 'data-export'),
+ *                                   with no leading or trailing dash.
  * @param array<string, mixed> $args {
  *     An associative array of arguments for the ability category.
  *
@@ -816,8 +880,9 @@ function wp_get_ability_category( string $slug ): ?WP_Ability_Category {
  * @see WP_Ability_Categories_Registry::get_all_registered()
  * @see wp_get_ability_category()
  *
- * @return WP_Ability_Category[] An array of registered ability category instances. Returns an empty array
- *                               if no ability categories are registered or if the registry is unavailable.
+ * @return WP_Ability_Category[] An array of registered ability category instances,
+ *                               keyed by category slug. Returns an empty array if no ability categories
+ *                               are registered or if the registry is unavailable.
  */
 function wp_get_ability_categories(): array {
 	$registry = WP_Ability_Categories_Registry::get_instance();

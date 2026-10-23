@@ -164,8 +164,9 @@ class WP_Ability {
 	 *     @type callable             $permission_callback   A callback function to check permissions before execution.
 	 *                                                       Receives optional mixed input and returns bool or WP_Error.
 	 *                                                       Required unless `$required_capabilities` lists at least one capability.
-	 *     @type list<string>         $required_capabilities Optional. Capabilities the current user must have to run the
-	 *                                                       ability. They are checked before `$permission_callback`.
+	 *     @type list<string>         $required_capabilities Optional. Minimum capabilities required for every execution of the
+	 *                                                       ability, regardless of input. They are checked before
+	 *                                                       `$permission_callback`, which handles input-dependent requirements.
 	 *     @type array<string, mixed> $input_schema          Optional. JSON Schema definition for the ability's input.
 	 *     @type array<string, mixed> $output_schema         Optional. JSON Schema definition for the ability's output.
 	 *     @type array<string, mixed> $meta                  {
@@ -238,8 +239,9 @@ class WP_Ability {
 	 *     @type callable             $permission_callback   A callback function to check permissions before execution.
 	 *                                                       Receives optional mixed input and returns bool or WP_Error.
 	 *                                                       Required unless `$required_capabilities` lists at least one capability.
-	 *     @type list<string>         $required_capabilities Optional. Capabilities the current user must have to run the
-	 *                                                       ability. They are checked before `$permission_callback`.
+	 *     @type list<string>         $required_capabilities Optional. Minimum capabilities required for every execution of the
+	 *                                                       ability, regardless of input. They are checked before
+	 *                                                       `$permission_callback`, which handles input-dependent requirements.
 	 *     @type array<string, mixed> $input_schema          Optional. JSON Schema definition for the ability's input. Required if ability accepts an input.
 	 *     @type array<string, mixed> $output_schema         Optional. JSON Schema definition for the ability's output.
 	 *     @type array<string, mixed> $meta                  {
@@ -274,8 +276,9 @@ class WP_Ability {
 	 *     @type callable             $permission_callback   A callback function to check permissions before execution.
 	 *                                                       Receives optional mixed input and returns bool or WP_Error.
 	 *                                                       Required unless `$required_capabilities` lists at least one capability.
-	 *     @type list<string>         $required_capabilities Optional. Capabilities the current user must have to run the
-	 *                                                       ability. They are checked before `$permission_callback`.
+	 *     @type list<string>         $required_capabilities Optional. Minimum capabilities required for every execution of the
+	 *                                                       ability, regardless of input. They are checked before
+	 *                                                       `$permission_callback`, which handles input-dependent requirements.
 	 *     @type array<string, mixed> $input_schema          Optional. JSON Schema definition for the ability's input.
 	 *     @type array<string, mixed> $output_schema         Optional. JSON Schema definition for the ability's output.
 	 *     @type array<string, mixed> $meta                  {
