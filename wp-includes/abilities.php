@@ -358,7 +358,7 @@ function wp_register_core_abilities(): void {
 
 				return array_intersect_key( $all, array_flip( $requested_fields ) );
 			},
-			'required_capabilities' => array( 'manage_options' ),
+			'required_capabilities' => array( 'view_site_health_checks' ),
 			'meta'                  => array(
 				'annotations' => array(
 					'readonly'    => true,
