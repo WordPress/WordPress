@@ -1559,13 +1559,10 @@ class WP_Rewrite {
 			$random_base_posts[] = get_page_by_path( $random_slug, OBJECT, 'post' );
 		}
 
-		$random_base_is_taken = false;
-		foreach ( $random_base_posts as $random_base_post ) {
-			if ( $random_base_post instanceof WP_Post && is_post_publicly_viewable( $random_base_post ) ) {
-				$random_base_is_taken = true;
-				break;
-			}
-		}
+		$random_base_is_taken = array_any(
+			$random_base_posts,
+			fn( $random_base_post ) => $random_base_post instanceof WP_Post && is_post_publicly_viewable( $random_base_post )
+		);
 
 		if ( ! $random_base_is_taken ) {
 			$rules[ $random_base . '/?$' ] = $this->index . '?random=1';

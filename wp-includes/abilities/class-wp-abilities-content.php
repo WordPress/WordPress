@@ -282,13 +282,10 @@ final class WP_Abilities_Content {
 	 * @return bool True if the requested statuses may be queried.
 	 */
 	private function can_query_statuses( array $where, WP_Post_Type $post_type_object ): bool {
-		foreach ( $this->get_requested_statuses( $where ) as $status ) {
-			if ( ! $this->can_query_status( $status, $post_type_object ) ) {
-				return false;
-			}
-		}
-
-		return true;
+		return array_all(
+			$this->get_requested_statuses( $where ),
+			fn( $status ) => $this->can_query_status( $status, $post_type_object )
+		);
 	}
 
 	/**
@@ -790,13 +787,10 @@ final class WP_Abilities_Content {
 	 * @return bool True when post meta and term caches should be primed.
 	 */
 	private function should_prime_post_caches( array $fields ): bool {
-		foreach ( self::CACHE_PRIMING_FIELDS as $field ) {
-			if ( $this->is_field_requested( $field, $fields ) ) {
-				return true;
-			}
-		}
-
-		return false;
+		return array_any(
+			self::CACHE_PRIMING_FIELDS,
+			fn( $field ) => $this->is_field_requested( $field, $fields )
+		);
 	}
 
 	/**

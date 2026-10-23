@@ -2205,13 +2205,10 @@ function wp_admin_page_exists(): bool {
 		return true;
 	}
 
-	foreach ( (array) $_wp_submenu_nopriv as $nopriv_submenus ) {
-		if ( isset( $nopriv_submenus[ $plugin_page ] ) ) {
-			return true;
-		}
-	}
-
-	return false;
+	return array_any(
+		(array) $_wp_submenu_nopriv,
+		fn( $nopriv_submenus ) => isset( $nopriv_submenus[ $plugin_page ] )
+	);
 }
 
 /**

@@ -261,13 +261,10 @@ final class WP_Secrets_Config_Key_Provider implements WP_Secrets_Keyring {
 	 * @phpstan-assert-if-true non-empty-string $logged_in_salt
 	 */
 	private function are_usable_salt_values( $logged_in_key, $logged_in_salt ): bool {
-		foreach ( array( $logged_in_key, $logged_in_salt ) as $value ) {
-			if ( ! is_string( $value ) || '' === $value || self::KNOWN_PLACEHOLDER === $value ) {
-				return false;
-			}
-		}
-
-		return true;
+		return array_all(
+			array( $logged_in_key, $logged_in_salt ),
+			fn( $value ) => is_string( $value ) && '' !== $value && self::KNOWN_PLACEHOLDER !== $value
+		);
 	}
 
 	/**

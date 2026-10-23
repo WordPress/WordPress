@@ -641,12 +641,10 @@ class WP_Ability {
 			return false;
 		}
 
-		foreach ( $capabilities as $capability ) {
-			if ( ! is_string( $capability ) || '' === trim( $capability ) ) {
-				return false;
-			}
-		}
-		return true;
+		return array_all(
+			$capabilities,
+			fn( $capability ) => is_string( $capability ) && '' !== trim( $capability )
+		);
 	}
 
 	/**
