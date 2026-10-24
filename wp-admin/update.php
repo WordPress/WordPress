@@ -179,7 +179,7 @@ if ( isset( $_GET['action'] ) ) {
 		$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'type', 'title', 'nonce', 'url', 'overwrite' ) ) );
 		$result   = $upgrader->install( $file_upload->package, array( 'overwrite_package' => $overwrite ) );
 
-		if ( $result || is_wp_error( $result ) ) {
+		if ( $result ) {
 			$file_upload->cleanup();
 		}
 
@@ -331,7 +331,7 @@ if ( isset( $_GET['action'] ) ) {
 		$upgrader = new Theme_Upgrader( new Theme_Installer_Skin( compact( 'type', 'title', 'nonce', 'url', 'overwrite' ) ) );
 		$result   = $upgrader->install( $file_upload->package, array( 'overwrite_package' => $overwrite ) );
 
-		if ( $result || is_wp_error( $result ) ) {
+		if ( $result ) {
 			$file_upload->cleanup();
 		}
 
