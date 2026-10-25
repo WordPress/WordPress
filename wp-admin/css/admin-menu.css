@@ -791,7 +791,7 @@ li#wp-admin-bar-menu-toggle {
 		border: none;
 	}
 
-	/* Remove submenu headers and adjust sub meu*/
+	/* Remove submenu headers and adjust submenu */
 	#adminmenu .wp-submenu .wp-submenu-head {
 		display: none;
 	}
