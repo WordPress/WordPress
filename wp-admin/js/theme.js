@@ -1364,7 +1364,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 
 			// Trigger a route update for the current model.
 			self.theme.trigger( 'theme:expand', nextModel.cid );
-			// Set focus again to the 'Next' navigation button after the view fully re-rendeers.
+			// Set focus again to the 'Next' navigation button after the view fully re-renders.
 			$( '.theme-header .right' ).trigger( 'focus' );
 			themes.announceThemeDebounced( nextModel );
 		}
@@ -1401,7 +1401,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 
 			// Trigger a route update for the current model.
 			self.theme.trigger( 'theme:expand', previousModel.cid );
-			// Set focus again to the 'Previous' navigation button after the view fully re-rendeers.
+			// Set focus again to the 'Previous' navigation button after the view fully re-renders.
 			$( '.theme-header .left' ).trigger( 'focus' );
 			themes.announceThemeDebounced( previousModel );
 		}

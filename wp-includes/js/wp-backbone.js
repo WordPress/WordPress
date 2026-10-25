@@ -480,7 +480,7 @@ window.wp = window.wp || {};
 		/**
 		 * The base view class.
 		 *
-		 * This extends the backbone view to have a build-in way to use subviews. This
+		 * This extends the backbone view to have a built-in way to use subviews. This
 		 * makes it easier to have nested views.
 		 *
 		 * @since 3.5.0

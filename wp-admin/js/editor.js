@@ -133,7 +133,7 @@ window.wp = window.wp || {};
 					/*
 					 * Override the editor's focus method to conditionally skip
 					 * focusing the editor based on the input device. Note that
-					 * editor.focus() aleady uses a `skipFocus` parameter. When
+					 * editor.focus() already uses a `skipFocus` parameter. When
 					 * it is true, it calls activateEditor(editor) instead of
 					 * focusEditor(editor).
 					 */
@@ -1044,7 +1044,7 @@ window.wp = window.wp || {};
 			// Unmark special paragraph closing tags.
 			html = html.replace( /<\/p#>/g, '</p>\n' );
 
-			// Pad remaining <p> tags whit a line break.
+			// Pad remaining <p> tags with a line break.
 			html = html.replace( /\s*(<p [^>]+>[\s\S]*?<\/p>)/g, '\n$1' );
 
 			// Trim.
