@@ -659,7 +659,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * uploaded-file handlers and the attachment is inserted by the shared code
 	 * in insert_attachment().
 	 *
-	 * @since 7.1.0
+	 * @since 7.2.0
 	 *
 	 * @param string      $url  URL of the image to sideload.
 	 * @param string|null $time Optional. Time formatted in 'yyyy/mm'. Default null.
