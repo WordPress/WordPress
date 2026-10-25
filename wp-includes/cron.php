@@ -205,7 +205,8 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array(), $wp_error
 		'schedule' => $event->schedule,
 		'args'     => $event->args,
 	);
-	uksort( $crons, 'strnatcasecmp' );
+
+	ksort( $crons );
 
 	return _set_cron_array( $crons, $wp_error );
 }
@@ -329,7 +330,8 @@ function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array(), $wp
 		'args'     => $event->args,
 		'interval' => $event->interval,
 	);
-	uksort( $crons, 'strnatcasecmp' );
+
+	ksort( $crons );
 
 	return _set_cron_array( $crons, $wp_error );
 }
