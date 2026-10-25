@@ -1022,12 +1022,12 @@ function wp_kses( $content, $allowed_html, $allowed_protocols = array() ) {
  * @access private This function should not be called directly, as it serves a transitionary
  *                 role while replacing the implementation of {@see \wp_kses()}.
  *
- * @param string $content              Text content to filter.
- * @param array[]|string $allowed_html An array of allowed HTML elements and attributes,
- *                                     or a context name such as 'post'. See wp_kses_allowed_html()
- *                                     for the list of accepted context names.
- * @param string[] $allowed_protocols  Optional. Array of allowed URL protocols.
- *                                     Defaults to the result of wp_allowed_protocols().
+ * @param string         $content           Text content to filter.
+ * @param array[]|string $allowed_html      An array of allowed HTML elements and attributes,
+ *                                          or a context name such as 'post'. See wp_kses_allowed_html()
+ *                                          for the list of accepted context names.
+ * @param string[]       $allowed_protocols Optional. Array of allowed URL protocols.
+ *                                          Defaults to the result of wp_allowed_protocols().
  * @return string Filtered content containing only the allowed HTML.
  */
 function wp_sanitize_html_kses( $content, $allowed_html, $allowed_protocols = array() ) {
@@ -1230,9 +1230,9 @@ function wp_sanitize_html_kses( $content, $allowed_html, $allowed_protocols = ar
 		 * @since 7.2.0
 		 * @access private
 		 *
-		 * @param bool $is_inside_mathml_text_integration_point
-		 * @param bool $is_inside_svg_html_integration_point
-		 * @return bool
+		 * @param bool $is_inside_mathml_text_integration_point Whether the token is inside a MathML text integration point.
+		 * @param bool $is_inside_svg_html_integration_point    Whether the token is inside an SVG HTML integration point.
+		 * @return bool Whether the current token risks escaping foreign content.
 		 */
 		private function could_escape_foreign_content( bool $is_inside_mathml_text_integration_point, bool $is_inside_svg_html_integration_point ): bool {
 			$token_name   = $this->get_token_name();
@@ -1370,7 +1370,7 @@ function wp_sanitize_html_kses( $content, $allowed_html, $allowed_protocols = ar
 		 * @since 7.2.0
 		 * @access private
 		 *
-		 * @param string $text Does a block comment delimiter exist in this string value?
+		 * @param string $text Text to check for a block comment delimiter.
 		 * @return bool Whether a block comment delimiter of any kind was found in the given string.
 		 */
 		private static function contains_a_block_delimiter( string $text ): bool {
@@ -1928,7 +1928,7 @@ function wp_sanitize_html_kses( $content, $allowed_html, $allowed_protocols = ar
 							if ( 'TITLE' === $token_name || 'TEXTAREA' === $token_name ) {
 								/*
 								 * RCDATA nodes can be safely escaped, but this must be
-								 * done after enqueing the update to avoid double-escaping.
+								 * done after enqueuing the update to avoid double-escaping.
 								 */
 								$tag_maker->set_modifiable_text( $text );
 								$tag_maker->lexical_updates['modifiable text']->text = strtr(
