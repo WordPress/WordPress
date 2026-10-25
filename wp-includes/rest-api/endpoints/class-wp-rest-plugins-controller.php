@@ -664,7 +664,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get's the activation status for a plugin.
+	 * Gets the activation status for a plugin.
 	 *
 	 * @since 5.5.0
 	 *

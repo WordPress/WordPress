@@ -58,7 +58,6 @@ class WP_Sitemaps_Renderer {
 		/**
 		 * Filters the URL for the sitemap stylesheet.
 		 *
-		 * If a falsey value is returned, no stylesheet will be used and
 		 * Following the deprecation of XSLT by browser manufacturers the
 		 * outcome of this filter is ignored.
 		 *
@@ -86,7 +85,6 @@ class WP_Sitemaps_Renderer {
 		/**
 		 * Filters the URL for the sitemap index stylesheet.
 		 *
-		 * If a falsey value is returned, no stylesheet will be used and
 		 * Following the deprecation of XSLT by browser manufacturers the
 		 * outcome of this filter is ignored.
 		 *
