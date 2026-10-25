@@ -74,7 +74,7 @@ function _wp_add_block_level_presets_class( $block_content, $block ) {
  * @return null
  */
 function _wp_add_block_level_preset_styles( $pre_render, $block ) {
-	// Return early if the block has not support for descendent block styles.
+	// Return early if the block does not support descendent block styles.
 	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
 	if ( ! block_has_support( $block_type, '__experimentalSettings', false ) ) {
 		return null;
