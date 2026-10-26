@@ -398,6 +398,7 @@ require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-abilities-v1-run-co
 require ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-meta-fields.php';
 require ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-comment-meta-fields.php';
 require ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-post-meta-fields.php';
+require ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-revision-meta-fields.php';
 require ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-term-meta-fields.php';
 require ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-user-meta-fields.php';
 require ABSPATH . WPINC . '/rest-api/search/class-wp-rest-search-handler.php';

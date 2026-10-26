@@ -28,6 +28,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * Instance of a revision meta fields object.
 	 *
 	 * @since 6.4.0
+	 * @since 7.2.0 Now a WP_REST_Revision_Meta_Fields instance, which only exposes revisioned meta keys.
 	 * @var WP_REST_Post_Meta_Fields
 	 */
 	protected $meta;
@@ -68,7 +69,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 		$this->rest_base         = 'revisions';
 		$this->parent_base       = ! empty( $post_type_object->rest_base ) ? $post_type_object->rest_base : $post_type_object->name;
 		$this->namespace         = ! empty( $post_type_object->rest_namespace ) ? $post_type_object->rest_namespace : 'wp/v2';
-		$this->meta              = new WP_REST_Post_Meta_Fields( $parent_post_type );
+		$this->meta              = new WP_REST_Revision_Meta_Fields( $parent_post_type );
 	}
 
 	/**
@@ -596,6 +597,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @since 4.7.0
 	 * @since 5.9.0 Renamed `$post` to `$item` to match parent class for PHP 8 named parameter support.
 	 * @since 7.1.0 The global post is now restored to its previous value before returning.
+	 * @since 7.2.0 The `meta` field only includes the meta keys that are revisioned for the parent post type.
 	 *
 	 * @global WP_Post|null $post Global post object.
 	 *
@@ -813,6 +815,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * Retrieves the revision's schema, conforming to JSON Schema.
 	 *
 	 * @since 4.7.0
+	 * @since 7.2.0 The `meta` property only describes the meta keys that are revisioned for the parent post type.
 	 *
 	 * @return array Item schema data.
 	 */
