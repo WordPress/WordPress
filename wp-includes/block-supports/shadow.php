@@ -25,13 +25,13 @@ function wp_register_shadow_support( $block_type ) {
 		$block_type->attributes = array();
 	}
 
-	if ( array_key_exists( 'style', $block_type->attributes ) ) {
+	if ( ! array_key_exists( 'style', $block_type->attributes ) ) {
 		$block_type->attributes['style'] = array(
 			'type' => 'object',
 		);
 	}
 
-	if ( array_key_exists( 'shadow', $block_type->attributes ) ) {
+	if ( ! array_key_exists( 'shadow', $block_type->attributes ) ) {
 		$block_type->attributes['shadow'] = array(
 			'type' => 'string',
 		);

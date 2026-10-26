@@ -237,7 +237,7 @@ function wp_get_child_layout_style_rules( $selector, $child_layout, $parent_layo
 		$column_start_number = floatval( $column_start );
 		$parent_column_width = $minimum_column_width ? $minimum_column_width : '12rem';
 		$parent_column_value = floatval( $parent_column_width );
-		$parent_column_unit  = explode( $parent_column_value, $parent_column_width );
+		$parent_column_unit  = explode( (string) $parent_column_value, $parent_column_width );
 
 		$num_cols_to_break_at = 2;
 		if ( $column_span_number && $column_start_number ) {

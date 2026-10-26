@@ -24,6 +24,7 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.8.0
 	 * @var array
+	 * @phpstan-var array{ version?: int, settings?: array<string, mixed>, styles?: array<string, mixed>, ...<string, mixed> }
 	 */
 	protected $theme_json = null;
 
@@ -3187,6 +3188,8 @@ class WP_Theme_JSON {
 	 * @param string $selector         The style block selector.
 	 * @param bool   $use_root_padding Whether to add custom properties at root level.
 	 * @return array Returns the modified $declarations.
+	 *
+	 * @phpstan-return list<array{ name: non-falsy-string, value: scalar }>
 	 */
 	protected static function compute_style_properties( $styles, $settings = array(), $properties = null, $theme_json = null, $selector = null, $use_root_padding = null ) {
 		if ( empty( $styles ) ) {
@@ -6052,11 +6055,14 @@ class WP_Theme_JSON {
 	 *
 	 * @since 6.3.0
 	 *
-	 * @param array $metadata The related block metadata containing selectors.
-	 * @param array $node     A merged theme.json node for block or variation. Features
-	 *                        promoted to their own selector are removed from it.
-	 * @return array The style declarations for the node's features with custom
-	 *               selectors.
+	 * @param array<string, mixed> $metadata The related block metadata containing selectors.
+	 * @param array<string, mixed> $node     A merged theme.json node for block or variation. Features
+	 *                                       promoted to their own selector are removed from it.
+	 * @return array<string, array[]> The style declarations for the node's features with custom
+	 *                                selectors, keyed by selector.
+	 *
+	 * @phpstan-param array{ selectors?: array<string, string|array<string, string>> } $metadata
+	 * @phpstan-return array<string, list<array{ name: non-falsy-string, value: scalar }>>
 	 */
 	protected function get_feature_declarations_for_node( $metadata, &$node ) {
 		$declarations = array();
@@ -6076,9 +6082,10 @@ class WP_Theme_JSON {
 				continue;
 			}
 
-			if ( is_array( $feature_selectors ) ) {
+			if ( is_array( $feature_selectors ) && is_array( $node[ $feature ] ) ) {
+				$feature_styles = $node[ $feature ];
 				foreach ( $feature_selectors as $subfeature => $subfeature_selector ) {
-					if ( 'root' === $subfeature || empty( $node[ $feature ][ $subfeature ] ) ) {
+					if ( 'root' === $subfeature || empty( $feature_styles[ $subfeature ] ) ) {
 						continue;
 					}
 
@@ -6088,7 +6095,7 @@ class WP_Theme_JSON {
 					 */
 					$subfeature_node = array(
 						$feature => array(
-							$subfeature => $node[ $feature ][ $subfeature ],
+							$subfeature => $feature_styles[ $subfeature ],
 						),
 					);
 
@@ -6109,8 +6116,9 @@ class WP_Theme_JSON {
 					 * styles will be included under its own selector not the
 					 * block's.
 					 */
-					unset( $node[ $feature ][ $subfeature ] );
+					unset( $feature_styles[ $subfeature ] );
 				}
+				$node[ $feature ] = $feature_styles;
 			}
 
 			/*
