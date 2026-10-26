@@ -10,7 +10,23 @@
 /**
  * Class used for interacting with block styles.
  *
+ * The properties of a block style as the registry stores them are more than its register() hash
+ * accepts: `name` is required for a style to be registered at all, and `label` is filled in from
+ * the name when the caller omits it, so both are always present on the way back out. The shape
+ * stays open because the array is stored verbatim, so a caller's own keys survive, including
+ * into the REST response, which does not set `additionalProperties` to false.
+ *
  * @since 5.3.0
+ *
+ * @phpstan-type Block_Style_Properties array{
+ *     name: string,
+ *     label: string,
+ *     inline_style?: string,
+ *     style_handle?: string,
+ *     is_default?: bool,
+ *     style_data?: array<string, mixed>,
+ *     ...
+ * }
  */
 #[AllowDynamicProperties]
 final class WP_Block_Styles_Registry {

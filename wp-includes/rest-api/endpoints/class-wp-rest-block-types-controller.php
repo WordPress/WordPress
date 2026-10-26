@@ -13,6 +13,8 @@
  * @since 5.5.0
  *
  * @see WP_REST_Controller
+ *
+ * @phpstan-import-type Block_Style_Properties from WP_Block_Styles_Registry
  */
 class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 

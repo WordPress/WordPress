@@ -201,7 +201,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *                                         a callback that may or may not exist.
 	 * @param int                   $priority  The exact priority used when adding the original filter callback.
 	 * @return bool Whether the callback existed before it was removed.
-	 * @phpstan-param Maybe_Callable $callback
+	 * @phpstan-param callable|string|array{0: string|object, 1: string} $callback
 	 */
 	public function remove_filter( $hook_name, $callback, $priority ) {
 		if ( null === $priority ) {
@@ -249,7 +249,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *                  of that hook is returned, or false if the function is not attached.
 	 *                  If `$callback` and `$priority` are both provided, a boolean is returned
 	 *                  for whether the specific function is registered at that priority.
-	 * @phpstan-param Maybe_Callable|false $callback
+	 * @phpstan-param callable|string|array{0: string|object, 1: string}|false $callback
 	 * @phpstan-return (
 	 *     $callback is false
 	 *         ? bool
