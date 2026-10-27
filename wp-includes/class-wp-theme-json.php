@@ -686,13 +686,11 @@ class WP_Theme_JSON {
 	 * The valid pseudo-selectors that can be used for blocks.
 	 *
 	 * @since 7.0.0
-	 * @since 7.2.0 Added `core/navigation-submenu`.
 	 * @var array
 	 */
 	const VALID_BLOCK_PSEUDO_SELECTORS = array(
-		'core/button'             => array( ':hover', ':focus', ':focus-visible', ':active' ),
-		'core/navigation-link'    => array( ':hover', ':focus', ':focus-visible', ':active' ),
-		'core/navigation-submenu' => array( ':hover', ':focus', ':focus-visible', ':active' ),
+		'core/button'          => array( ':hover', ':focus', ':focus-visible', ':active' ),
+		'core/navigation-link' => array( ':hover', ':focus', ':focus-visible', ':active' ),
 	);
 
 	/**
@@ -711,12 +709,10 @@ class WP_Theme_JSON {
 	 * `.wp-block-navigation-item.current-menu-item:hover`.
 	 *
 	 * @since 7.1.0
-	 * @since 7.2.0 Added `core/navigation-submenu`.
 	 * @var array
 	 */
 	const VALID_BLOCK_CUSTOM_STATES = array(
-		'core/navigation-link'    => array( '-current' ),
-		'core/navigation-submenu' => array( '-current' ),
+		'core/navigation-link' => array( '-current' ),
 	);
 
 	/**
