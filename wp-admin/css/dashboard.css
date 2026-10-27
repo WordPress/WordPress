@@ -352,8 +352,7 @@
 /* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-icon::before,
 #dashboard_right_now li a::before,
-#dashboard_right_now li span::before,
-#dashboard_right_now .search-engines-info::before {
+#dashboard_right_now li span::before {
 	color: #646970;
 	font: 400 20px/1 dashicons;
 	display: inline-block;
@@ -433,50 +432,41 @@
 
 /* Right Now specific Icons styles */
 
-#dashboard_right_now .search-engines-info::before,
 #dashboard_right_now li a::before,
-#dashboard_right_now li > span::before { /* get only the first level span to exclude screen-reader-text in mu-storage */
+#dashboard_right_now li > span::before {
 	padding: 0 5px 0 0;
-	/* generic icon for items added by CPTs ? */
-	content: "\f159";
-	content: "\f159" / "";
+	/*
+	 * Default icon for plugin-added items: a copy of the core `asterisk` icon.
+	 * Plugins can still override `content` with a Dashicon.
+	 */
+	content: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2024%2024%22%20style%3D%22fill%3A%20none%22%20stroke%3D%22%23646970%22%20stroke-width%3D%221.5%22%3E%3Cpath%20d%3D%22M5.72131%2015.625L12%2012M12%2012L18.2787%208.375M12%2012V4.75M12%2012L12%2019.25M12%2012L5.72131%208.375M12%2012L18.2787%2015.625%22%20stroke-linecap%3D%22square%22%20%2F%3E%3C%2Fsvg%3E");
+	content: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2024%2024%22%20style%3D%22fill%3A%20none%22%20stroke%3D%22%23646970%22%20stroke-width%3D%221.5%22%3E%3Cpath%20d%3D%22M5.72131%2015.625L12%2012M12%2012L18.2787%208.375M12%2012V4.75M12%2012L12%2019.25M12%2012L5.72131%208.375M12%2012L18.2787%2015.625%22%20stroke-linecap%3D%22square%22%20%2F%3E%3C%2Fsvg%3E") / "";
 }
 
-#dashboard_right_now .page-count a::before,
-#dashboard_right_now .page-count span::before {
-	content: "\f105";
-	content: "\f105" / "";
+#dashboard_right_now li a:has(> svg)::before,
+#dashboard_right_now li > span:has(> svg)::before {
+	display: none;
 }
 
-#dashboard_right_now .post-count a::before,
-#dashboard_right_now .post-count span::before {
-	content: "\f109";
-	content: "\f109" / "";
+#dashboard_right_now li a:has(> svg),
+#dashboard_right_now li > span:has(> svg),
+#dashboard_right_now .search-engines-info a {
+	display: inline-flex;
+	align-items: flex-start;
+	gap: 5px;
+	/* Match the height of ::before icon rows so the floated list items don't snag. */
+	vertical-align: top;
 }
 
-#dashboard_right_now .comment-count a::before {
-	content: "\f101";
-	content: "\f101" / "";
+#dashboard_right_now li a > svg,
+#dashboard_right_now li > span > svg,
+#dashboard_right_now .search-engines-info svg {
+	flex: none;
+	color: #646970;
 }
 
-#dashboard_right_now .comment-mod-count a::before {
-	content: "\f125";
-	content: "\f125" / "";
-}
-
-#dashboard_right_now .storage-count a::before {
-	content: "\f104";
-	content: "\f104" / "";
-}
-
-#dashboard_right_now .storage-count.warning a::before {
-	content: "\f153";
-	content: "\f153" / "";
-}
-
-#dashboard_right_now .search-engines-info::before {
-	content: "\f348";
-	content: "\f348" / "";
+#dashboard_right_now .warning a > svg,
+#dashboard_right_now .search-engines-info svg {
 	color: #d63638;
 }
 

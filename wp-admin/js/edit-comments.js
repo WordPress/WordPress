@@ -152,7 +152,7 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 			return;
 		}
 
-		$( '.comment-count a', '#dashboard_right_now' ).text( response.i18n_comments_text );
+		$( '.comment-count .comments-count-text', '#dashboard_right_now' ).text( response.i18n_comments_text );
 	};
 
 	/**
