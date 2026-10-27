@@ -248,6 +248,8 @@ function remove_permastruct( $name ) {
  * @param callable $callback Callback to run on feed display.
  * @return string Feed action name.
  *
+ * @phpstan-param non-empty-string                        $feedname
+ * @phpstan-param callable(bool, non-empty-string): mixed $callback
  * @phpstan-return non-falsy-string
  */
 function add_feed( $feedname, $callback ) {

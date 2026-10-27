@@ -1427,13 +1427,15 @@ function _relocate_children( $old_ID, $new_ID ) {
  * @see add_menu_page()
  * @global int $_wp_last_object_menu
  *
- * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
- * @param string   $menu_title The text to be used for the menu.
- * @param string   $capability The capability required for this menu to be displayed to the user.
- * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $callback   Optional. The function to be called to output the content for this page.
- * @param string   $icon_url   Optional. The URL to the icon to be used for this menu.
+ * @param string               $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string               $menu_title The text to be used for the menu.
+ * @param string               $capability The capability required for this menu to be displayed to the user.
+ * @param string               $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable|string|null $callback   Optional. The function to be called to output the content for this page.
+ * @param string               $icon_url   Optional. The URL to the icon to be used for this menu.
  * @return string The resulting page's hook_suffix.
+ *
+ * @phpstan-param ''|(callable(): mixed)|null $callback
  */
 function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $callback = '', $icon_url = '') {
 	_deprecated_function( __FUNCTION__, '4.5.0', 'add_menu_page()' );
@@ -1460,13 +1462,15 @@ function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $ca
  * @see add_menu_page()
  * @global int $_wp_last_utility_menu
  *
- * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
- * @param string   $menu_title The text to be used for the menu.
- * @param string   $capability The capability required for this menu to be displayed to the user.
- * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $callback   Optional. The function to be called to output the content for this page.
- * @param string   $icon_url   Optional. The URL to the icon to be used for this menu.
+ * @param string               $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string               $menu_title The text to be used for the menu.
+ * @param string               $capability The capability required for this menu to be displayed to the user.
+ * @param string               $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable|string|null $callback   Optional. The function to be called to output the content for this page.
+ * @param string               $icon_url   Optional. The URL to the icon to be used for this menu.
  * @return string The resulting page's hook_suffix.
+ *
+ * @phpstan-param ''|(callable(): mixed)|null $callback
  */
 function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $callback = '', $icon_url = '') {
 	_deprecated_function( __FUNCTION__, '4.5.0', 'add_menu_page()' );

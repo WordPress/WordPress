@@ -896,6 +896,8 @@ function plugin_dir_url( $file ) {
  *
  * @param string   $file     The filename of the plugin including the path.
  * @param callable $callback The function hooked to the 'activate_PLUGIN' action.
+ *
+ * @phpstan-param callable(bool): mixed $callback
  */
 function register_activation_hook( $file, $callback ) {
 	$file = plugin_basename( $file );
@@ -919,6 +921,8 @@ function register_activation_hook( $file, $callback ) {
  *
  * @param string   $file     The filename of the plugin including the path.
  * @param callable $callback The function hooked to the 'deactivate_PLUGIN' action.
+ *
+ * @phpstan-param callable(bool): mixed $callback
  */
 function register_deactivation_hook( $file, $callback ) {
 	$file = plugin_basename( $file );
@@ -950,6 +954,8 @@ function register_deactivation_hook( $file, $callback ) {
  * @param string   $file     Plugin file.
  * @param callable $callback The callback to run when the hook is called. Must be
  *                           a static method or function.
+ *
+ * @phpstan-param (callable-string|array{class-string, non-empty-string})&(callable(): mixed) $callback
  */
 function register_uninstall_hook( $file, $callback ) {
 	if ( is_array( $callback ) && is_object( $callback[0] ) ) {
