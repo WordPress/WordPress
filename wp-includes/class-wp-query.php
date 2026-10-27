@@ -14,6 +14,10 @@
  *
  * @since 1.5.0
  * @since 4.5.0 Removed the `$comments_popup` property.
+ *
+ * @phpstan-property-read bool                                      $query_vars_changed
+ * @phpstan-property-read false|(lowercase-string&non-falsy-string) $query_vars_hash
+ * @phpstan-method void init_query_flags()
  */
 #[AllowDynamicProperties]
 class WP_Query {
@@ -451,6 +455,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 * @var bool|string
+	 * @phpstan-var false|(lowercase-string&non-falsy-string)
 	 */
 	private $query_vars_hash = false;
 

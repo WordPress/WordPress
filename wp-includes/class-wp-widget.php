@@ -412,6 +412,8 @@ class WP_Widget {
 	 * @global array $wp_registered_widgets
 	 *
 	 * @param int $deprecated Not used.
+	 *
+	 * @final
 	 */
 	public function update_callback( $deprecated = 1 ) {
 		global $wp_registered_widgets;
@@ -504,6 +506,8 @@ class WP_Widget {
 	 *     @type int $number Number increment used for multiples of the same widget.
 	 * }
 	 * @return string|null
+	 *
+	 * @final
 	 */
 	public function form_callback( $widget_args = 1 ) {
 		if ( is_numeric( $widget_args ) ) {

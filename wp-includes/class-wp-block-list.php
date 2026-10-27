@@ -10,6 +10,9 @@
  * Class representing a list of block instances.
  *
  * @since 5.5.0
+ *
+ * @phpstan-implements Iterator<int, WP_Block>
+ * @phpstan-implements ArrayAccess<int, WP_Block>
  */
 #[AllowDynamicProperties]
 class WP_Block_List implements Iterator, ArrayAccess, Countable {
@@ -105,7 +108,7 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
 	 *
 	 * @link https://www.php.net/manual/en/arrayaccess.offsetset.php
 	 *
-	 * @param int            $offset Offset of block value to set.
+	 * @param int|null       $offset Offset of block value to set, or null to append.
 	 * @param array|WP_Block $value  Block value.
 	 */
 	#[ReturnTypeWillChange]
