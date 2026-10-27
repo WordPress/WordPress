@@ -73,26 +73,6 @@ get_admin_page_parent();
 function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 	global $self, $parent_file, $submenu_file, $plugin_page, $typenow;
 
-	/*
-	 * Dashicons back-compat: the `$menu` global keeps the Dashicons values of the core
-	 * menu items. Those Dashicons are only mapped to their replacement icons here, when
-	 * the menu is rendered.
-	 */
-	$dashicon_replacements = array(
-		'dashicons-dashboard'        => 'core-admin/dashboard',
-		'dashicons-admin-post'       => 'core-admin/pin',
-		'dashicons-admin-media'      => 'core-admin/media',
-		'dashicons-admin-links'      => 'core-admin/link',
-		'dashicons-admin-page'       => 'core-admin/page',
-		'dashicons-admin-comments'   => 'core-admin/comment',
-		'dashicons-admin-appearance' => 'core-admin/brush',
-		'dashicons-admin-plugins'    => 'core-admin/plugins',
-		'dashicons-admin-users'      => 'core-admin/people',
-		'dashicons-admin-tools'      => 'core-admin/tool',
-		'dashicons-admin-settings'   => 'core-admin/settings',
-		'dashicons-admin-multisite'  => 'core-admin/sites',
-	);
-
 	$first = true;
 	// 0 = menu_title, 1 = capability, 2 = menu_slug, 3 = page_title, 4 = classes, 5 = hookname, 6 = icon_url.
 	foreach ( $menu as $key => $item ) {
@@ -145,13 +125,17 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		 * If the string 'none' (previously 'div') is passed instead of a URL, don't output
 		 * the default menu image so an icon can be added to div.wp-menu-image as background
 		 * with CSS. Dashicons and base64-encoded data:image/svg_xml URIs are also handled
-		 * as special cases. Dashicons that have a replacement, and namespaced icon names, are
-		 * rendered as inline SVG, or leave the menu image empty if the icon is not found.
-		 * Any other value is treated as an image URL.
+		 * as special cases. Namespaced icon names are rendered as inline SVG, or leave the
+		 * menu image empty if the icon is not found. Any other value is treated as an image URL.
+		 *
+		 * Dashicons back-compat: the `$menu` global keeps the Dashicons of the menu items,
+		 * including the core ones. Dashicons with a registered replacement icon are only
+		 * mapped to it here, when the menu is rendered, and other Dashicons are rendered
+		 * with the Dashicons font.
 		 */
 		if ( ! empty( $item[6] ) ) {
 			$img       = '<img src="' . esc_url( $item[6] ) . '" alt="" />';
-			$icon_name = $dashicon_replacements[ $item[6] ] ?? $item[6];
+			$icon_name = WP_Icons_Registry::get_instance()->get_admin_icon_name_for_dashicon( $item[6] ) ?? $item[6];
 
 			if ( 'none' === $item[6] || 'div' === $item[6] ) {
 				$img = '<br />';
