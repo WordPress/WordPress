@@ -2149,8 +2149,8 @@ function wp_mkdir_p( $target ) {
  * @param string $path File path.
  * @return bool True if path is absolute, false is not absolute.
  *
+ * @phpstan-assert-if-true =non-falsy-string $path
  * @phpstan-return ( $path is non-falsy-string ? bool : false )
- * @phpstan-assert-if-true non-falsy-string $path
  */
 function path_is_absolute( $path ) {
 	/*
@@ -7597,6 +7597,8 @@ function _device_can_upload() {
  *
  * @param string $path The resource path or URL.
  * @return bool True if the path is a stream URL.
+ *
+ * @phpstan-assert-if-true =non-falsy-string $path
  */
 function wp_is_stream( $path ) {
 	$scheme_separator = strpos( $path, '://' );
@@ -8229,6 +8231,7 @@ function wp_generate_uuid4() {
  *                       to accept any UUID version. Otherwise, only version allowed is `4`.
  * @return bool The string is a valid UUID or false on failure.
  *
+ * @phpstan-assert-if-true =lowercase-string&non-falsy-string $uuid
  * @phpstan-return ( $version is 4|null ? bool : false )
  */
 function wp_is_uuid( $uuid, $version = null ) {

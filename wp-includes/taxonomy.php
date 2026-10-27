@@ -375,6 +375,7 @@ function get_taxonomy( $taxonomy ) {
  * @param string $taxonomy Name of taxonomy object.
  * @return bool Whether the taxonomy exists.
  *
+ * @phpstan-assert-if-true =non-falsy-string $taxonomy
  * @phpstan-return ( $taxonomy is non-falsy-string ? bool : false )
  */
 function taxonomy_exists( $taxonomy ) {
