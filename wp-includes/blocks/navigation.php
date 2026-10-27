@@ -1639,6 +1639,10 @@ add_action( 'init', 'register_block_core_navigation' );
  * change those classes, so equivalent custom properties and a scoping class
  * are generated for each configured viewport layout.
  *
+ * The inner lists are built with `get_block_wrapper_attributes()`, so they also
+ * receive the generated `wp-custom-css-*` class. Remove it from those lists so
+ * custom CSS only targets the wrapper.
+ *
  * Currently this is required as a workaround because of how difficult it is for nav
  * child blocks to inherit styles through the complex responsive nav block html. The
  * bug in https://github.com/WordPress/gutenberg/issues/62690 also prevents inheritance.
@@ -1694,6 +1698,14 @@ function block_core_navigation_add_support_classes_to_container( $block_content,
 		$state_class = $matches[0];
 	}
 
+	$custom_css_class = null;
+	foreach ( $processor->class_list() as $class_name ) {
+		if ( str_starts_with( $class_name, 'wp-custom-css-' ) ) {
+			$custom_css_class = $class_name;
+			break;
+		}
+	}
+
 	$layout_class = null;
 	if ( ! empty( $styles ) ) {
 		$layout_class = wp_unique_id( 'wp-block-navigation-' );
@@ -1712,7 +1724,7 @@ function block_core_navigation_add_support_classes_to_container( $block_content,
 		);
 	}
 
-	if ( null === $state_class && null === $layout_class ) {
+	if ( null === $state_class && null === $layout_class && null === $custom_css_class ) {
 		return $block_content;
 	}
 
@@ -1725,6 +1737,10 @@ function block_core_navigation_add_support_classes_to_container( $block_content,
 
 		if ( ! $processor->has_class( 'wp-block-navigation__container' ) ) {
 			continue;
+		}
+
+		if ( null !== $custom_css_class ) {
+			$processor->remove_class( $custom_css_class );
 		}
 
 		if ( null !== $layout_class ) {

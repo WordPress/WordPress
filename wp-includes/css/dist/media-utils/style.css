@@ -229,6 +229,9 @@
  * Colors
  */
 /**
+ * Typography
+ */
+/**
  * SCSS Variables.
  *
  * Please use variables from this sheet to ensure consistency across the UI.
@@ -269,9 +272,6 @@
 /**
  * React Native specific.
  * These variables do not appear to be used anywhere else.
- */
-/**
- * Typography
  */
 /**
  * Breakpoints & Media Queries
@@ -339,17 +339,17 @@ fieldset.media-edit {
 fieldset.media-edit .media-edit__compact-group {
   border: 1px dashed #949494;
   border-radius: 4px;
-  overflow: hidden;
 }
 fieldset.media-edit .media-edit__compact-group.is-single {
   border-radius: 2px;
 }
 fieldset.media-edit .media-edit__compact-group .media-edit__picker-button {
   border: 0;
-  border-radius: 0;
 }
 fieldset.media-edit .media-edit__compact-group .media-edit__picker-button:focus-visible {
-  box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+  outline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) solid var(--focus-color, var(--wpds-color-stroke-focus, var(--wp-admin-theme-color, #3858e9)));
+  outline-offset: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px));
+  outline-offset: calc(var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) + 1px);
 }
 fieldset.media-edit .media-edit__compact-group .media-edit__compact:not(:last-child) {
   border-bottom: 1px solid #f0f0f0;
@@ -415,13 +415,13 @@ fieldset.media-edit .media-edit__picker-button:not(.has-attachment):hover {
 fieldset.media-edit .media-edit__picker-button:hover {
   color: var(--wp-admin-theme-color);
 }
-fieldset.media-edit .media-edit__picker-button:focus-visible {
-  box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-  outline: none;
-}
 fieldset.media-edit .media-edit__picker-button[aria-disabled=true] {
   opacity: 0.6;
   cursor: default;
+}
+fieldset.media-edit .media-edit__picker-button:focus-visible {
+  outline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) solid var(--focus-color, var(--wpds-color-stroke-focus, var(--wp-admin-theme-color, #3858e9)));
+  outline-offset: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px));
 }
 fieldset.media-edit .media-edit__picker-button .media-edit__picker-button-spinner {
   position: absolute;

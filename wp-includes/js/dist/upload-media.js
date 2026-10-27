@@ -603,6 +603,108 @@ var wp;
     }
   }
 
+  // packages/upload-media/build-module/feature-detection.mjs
+  var cachedResult = null;
+  function detectClientSideMediaSupport() {
+    if (cachedResult !== null) {
+      return cachedResult;
+    }
+    if (typeof WebAssembly === "undefined") {
+      cachedResult = {
+        supported: false,
+        reason: "WebAssembly is not supported in this browser."
+      };
+      return cachedResult;
+    }
+    if (typeof SharedArrayBuffer === "undefined") {
+      cachedResult = {
+        supported: false,
+        reason: "SharedArrayBuffer is not available. This may be due to missing cross-origin isolation headers."
+      };
+      return cachedResult;
+    }
+    if (typeof Worker === "undefined") {
+      cachedResult = {
+        supported: false,
+        reason: "Web Workers are not supported in this browser."
+      };
+      return cachedResult;
+    }
+    if (typeof navigator !== "undefined" && "deviceMemory" in navigator && navigator.deviceMemory <= 2) {
+      cachedResult = {
+        supported: false,
+        reason: "Device has insufficient memory for client-side media processing."
+      };
+      return cachedResult;
+    }
+    if (typeof navigator !== "undefined" && "hardwareConcurrency" in navigator && navigator.hardwareConcurrency < 2) {
+      cachedResult = {
+        supported: false,
+        reason: "Device has insufficient CPU cores for client-side media processing."
+      };
+      return cachedResult;
+    }
+    if (typeof navigator !== "undefined") {
+      const connection = navigator.connection;
+      if (connection) {
+        if (connection.saveData) {
+          cachedResult = {
+            supported: false,
+            reason: "Data saver mode is enabled."
+          };
+          return cachedResult;
+        }
+        if (connection.effectiveType === "slow-2g" || connection.effectiveType === "2g") {
+          cachedResult = {
+            supported: false,
+            reason: "Network connection is too slow for client-side media processing."
+          };
+          return cachedResult;
+        }
+      }
+    }
+    if (typeof window !== "undefined") {
+      try {
+        const testBlob = new Blob([""], {
+          type: "application/javascript"
+        });
+        const testUrl = URL.createObjectURL(testBlob);
+        try {
+          const testWorker = new Worker(testUrl);
+          testWorker.terminate();
+        } finally {
+          URL.revokeObjectURL(testUrl);
+        }
+      } catch {
+        cachedResult = {
+          supported: false,
+          reason: "The site's Content Security Policy (CSP) does not allow blob: workers. The worker-src directive must include blob: to enable client-side media processing."
+        };
+        return cachedResult;
+      }
+    }
+    cachedResult = { supported: true };
+    return cachedResult;
+  }
+  function isClientSideMediaSupported() {
+    return detectClientSideMediaSupport().supported;
+  }
+  function isHeicCanvasSupported() {
+    return typeof createImageBitmap !== "undefined" && typeof OffscreenCanvas !== "undefined";
+  }
+  function clearFeatureDetectionCache() {
+    cachedResult = null;
+  }
+  var BYTES_PER_PIXEL = 4;
+  var INTERLACED_MEMORY_BUDGET = 0.75 * 1024 * 1024 * 1024;
+  var BASELINE_MEMORY_BUDGET = 1.5 * 1024 * 1024 * 1024;
+  function exceedsClientProcessingMemory(dimensions) {
+    const { width, height, interlaced } = dimensions;
+    const estimatedBytes = width * height * BYTES_PER_PIXEL;
+    const budget = interlaced ? INTERLACED_MEMORY_BUDGET : BASELINE_MEMORY_BUDGET;
+    return estimatedBytes > budget;
+  }
+
   // packages/upload-media/build-module/image-file.mjs
   var ImageFile = class extends File {
     width = 0;
@@ -746,6 +848,23 @@ var wp;
     return new File([new Blob([buffer])], fileName, {
       type
     });
+  }
+  async function vipsEncodeCanvasAsJpeg(id, canvas, source, quality) {
+    const { width, height } = canvas;
+    if (exceedsClientProcessingMemory({ width, height, interlaced: true })) {
+      return null;
+    }
+    const { vipsEncodePixelsAsJpeg: encodePixelsAsJpeg } = await loadVipsModule();
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      throw new Error("Could not get canvas 2d context");
+    }
+    const pixels = ctx.getImageData(0, 0, width, height).data.buffer;
+    const buffer = await encodePixelsAsJpeg(id, pixels, width, height, {
+      quality,
+      metadataSource: await source.arrayBuffer()
+    });
+    return new Blob([buffer], { type: "image/jpeg" });
   }
   async function vipsHasTransparency(url) {
     const { vipsHasTransparency: hasTransparency } = await loadVipsModule();
@@ -2130,8 +2249,26 @@ var wp;
   var IMAGE_DECODER_TIMEOUT = 15e3;
   var HeicUnsupportedError = class extends Error {
   };
-  async function canvasConvertToJpeg(file, quality = 0.82) {
-    const baseName = getFileBasename(file.name);
+  async function canvasConvertToJpeg(file, quality = 0.82, encode) {
+    const canvas = await decodeToCanvas(file);
+    const jpegBlob = await encodeCanvas(canvas, quality, encode);
+    return new File([jpegBlob], `${getFileBasename(file.name)}.jpg`, {
+      type: "image/jpeg"
+    });
+  }
+  async function encodeCanvas(canvas, quality, encode) {
+    if (encode) {
+      try {
+        const encoded = await encode(canvas, quality);
+        if (encoded) {
+          return encoded;
+        }
+      } catch {
+      }
+    }
+    return canvas.convertToBlob({ type: "image/jpeg", quality });
+  }
+  async function decodeToCanvas(file) {
     try {
       const bitmap = await createImageBitmap(file);
       try {
@@ -2141,13 +2278,7 @@ var wp;
           throw new Error("Could not get canvas 2d context");
         }
         ctx.drawImage(bitmap, 0, 0);
-        const jpegBlob = await canvas.convertToBlob({
-          type: "image/jpeg",
-          quality
-        });
-        return new File([jpegBlob], `${baseName}.jpg`, {
-          type: "image/jpeg"
-        });
+        return canvas;
       } finally {
         bitmap.close();
       }
@@ -2198,13 +2329,7 @@ var wp;
               throw new Error("Could not get canvas 2d context");
             }
             ctx.drawImage(videoFrame, 0, 0);
-            const jpegBlob = await canvas.convertToBlob({
-              type: "image/jpeg",
-              quality
-            });
-            return new File([jpegBlob], `${baseName}.jpg`, {
-              type: "image/jpeg"
-            });
+            return canvas;
           } finally {
             videoFrame.close();
           }
@@ -2251,14 +2376,7 @@ var wp;
             frame.close();
           }
         }
-        const outputCanvas = heicData.rotation !== 0 ? applyRotation(canvas, heicData.rotation) : applyExifOrientation(canvas, heicData.exifOrientation);
-        const jpegBlob = await outputCanvas.convertToBlob({
-          type: "image/jpeg",
-          quality
-        });
-        return new File([jpegBlob], `${baseName}.jpg`, {
-          type: "image/jpeg"
-        });
+        return heicData.rotation !== 0 ? applyRotation(canvas, heicData.rotation) : applyExifOrientation(canvas, heicData.exifOrientation);
       }
     }
     throw new HeicUnsupportedError(getHeicUnsupportedMessage());
@@ -2351,108 +2469,6 @@ var wp;
         reject(e);
       });
     });
-  }
-
-  // packages/upload-media/build-module/feature-detection.mjs
-  var cachedResult = null;
-  function detectClientSideMediaSupport() {
-    if (cachedResult !== null) {
-      return cachedResult;
-    }
-    if (typeof WebAssembly === "undefined") {
-      cachedResult = {
-        supported: false,
-        reason: "WebAssembly is not supported in this browser."
-      };
-      return cachedResult;
-    }
-    if (typeof SharedArrayBuffer === "undefined") {
-      cachedResult = {
-        supported: false,
-        reason: "SharedArrayBuffer is not available. This may be due to missing cross-origin isolation headers."
-      };
-      return cachedResult;
-    }
-    if (typeof Worker === "undefined") {
-      cachedResult = {
-        supported: false,
-        reason: "Web Workers are not supported in this browser."
-      };
-      return cachedResult;
-    }
-    if (typeof navigator !== "undefined" && "deviceMemory" in navigator && navigator.deviceMemory <= 2) {
-      cachedResult = {
-        supported: false,
-        reason: "Device has insufficient memory for client-side media processing."
-      };
-      return cachedResult;
-    }
-    if (typeof navigator !== "undefined" && "hardwareConcurrency" in navigator && navigator.hardwareConcurrency < 2) {
-      cachedResult = {
-        supported: false,
-        reason: "Device has insufficient CPU cores for client-side media processing."
-      };
-      return cachedResult;
-    }
-    if (typeof navigator !== "undefined") {
-      const connection = navigator.connection;
-      if (connection) {
-        if (connection.saveData) {
-          cachedResult = {
-            supported: false,
-            reason: "Data saver mode is enabled."
-          };
-          return cachedResult;
-        }
-        if (connection.effectiveType === "slow-2g" || connection.effectiveType === "2g") {
-          cachedResult = {
-            supported: false,
-            reason: "Network connection is too slow for client-side media processing."
-          };
-          return cachedResult;
-        }
-      }
-    }
-    if (typeof window !== "undefined") {
-      try {
-        const testBlob = new Blob([""], {
-          type: "application/javascript"
-        });
-        const testUrl = URL.createObjectURL(testBlob);
-        try {
-          const testWorker = new Worker(testUrl);
-          testWorker.terminate();
-        } finally {
-          URL.revokeObjectURL(testUrl);
-        }
-      } catch {
-        cachedResult = {
-          supported: false,
-          reason: "The site's Content Security Policy (CSP) does not allow blob: workers. The worker-src directive must include blob: to enable client-side media processing."
-        };
-        return cachedResult;
-      }
-    }
-    cachedResult = { supported: true };
-    return cachedResult;
-  }
-  function isClientSideMediaSupported() {
-    return detectClientSideMediaSupport().supported;
-  }
-  function isHeicCanvasSupported() {
-    return typeof createImageBitmap !== "undefined" && typeof OffscreenCanvas !== "undefined";
-  }
-  function clearFeatureDetectionCache() {
-    cachedResult = null;
-  }
-  var BYTES_PER_PIXEL = 4;
-  var INTERLACED_MEMORY_BUDGET = 0.5 * 1024 * 1024 * 1024;
-  var BASELINE_MEMORY_BUDGET = 0.9 * 1024 * 1024 * 1024;
-  function exceedsClientProcessingMemory(dimensions) {
-    const { width, height, interlaced } = dimensions;
-    const estimatedBytes = width * height * BYTES_PER_PIXEL;
-    const budget = interlaced ? INTERLACED_MEMORY_BUDGET : BASELINE_MEMORY_BUDGET;
-    return estimatedBytes > budget;
   }
 
   // packages/upload-media/build-module/get-image-dimensions.mjs
@@ -2940,10 +2956,12 @@ var wp;
           OperationType.Finalize
         );
       } else if (isImage && isHeic) {
+        const encode = isClientSideMediaSupported() ? (canvas, quality) => vipsEncodeCanvasAsJpeg(id, canvas, heicFile, quality) : void 0;
         try {
           heicJpeg = await canvasConvertToJpeg(
             heicFile,
-            settings.imageQuality ?? DEFAULT_OUTPUT_QUALITY
+            settings.imageQuality ?? DEFAULT_OUTPUT_QUALITY,
+            encode
           );
         } catch (error) {
           const unsupported = error instanceof HeicUnsupportedError;

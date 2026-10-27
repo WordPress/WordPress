@@ -348,7 +348,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '97c0d5fbf2243cfc2429'
+		'version' => '4a571c13b124fb334523'
 	),
 	'core-fields/root_site.js' => array(
 		'dependencies' => array(
@@ -459,7 +459,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '4b2e3230d57e16afb0ad'
+		'version' => 'cef91e6c10beba154e91'
 	),
 	'interactivity/index.js' => array(
 		'dependencies' => array(
@@ -572,7 +572,7 @@
 		'dependencies' => array(
 			
 		),
-		'version' => '4aef10eaf28026b90482'
+		'version' => 'f731e8a2508597df70e0'
 	),
 	'widget-primitives/index.js' => array(
 		'dependencies' => array(
@@ -613,6 +613,6 @@
 				'import' => 'dynamic'
 			)
 		),
-		'version' => 'fc89488ffb88c0560c75'
+		'version' => 'e351e6a92196af96b818'
 	)
 );

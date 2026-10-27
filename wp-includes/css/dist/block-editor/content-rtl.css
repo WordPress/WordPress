@@ -449,7 +449,9 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
   }
 }
 .block-editor-block-list__block .block-editor-block-list__block-html-textarea:focus {
-  box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+  outline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) solid var(--focus-color, var(--wpds-color-stroke-focus, var(--wp-admin-theme-color, #3858e9)));
+  outline-offset: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px));
+  outline-offset: calc(-1 * var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)));
 }
 
 .block-editor-block-list__zoom-out-separator {

@@ -187,26 +187,20 @@ body.admin-color-fresh {
   appearance: none;
   background: none;
   border: 0;
+  border-radius: var(--wpds-border-radius-sm, 2px);
   text-align: left;
-}
-@media not (prefers-reduced-motion) {
-  .block-directory-downloadable-block-list-item {
-    transition: box-shadow 0.1s linear;
-  }
-}
-.block-directory-downloadable-block-list-item {
+  scroll-margin: 4px;
   position: relative;
 }
 .block-directory-downloadable-block-list-item:not([aria-disabled=true]) {
   cursor: var(--wpds-cursor-control, pointer);
 }
-.block-directory-downloadable-block-list-item:hover {
-  box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-  outline: 2px solid transparent;
+.block-directory-downloadable-block-list-item:hover:not([aria-disabled=true]) {
+  background-color: var(--wpds-color-background-interactive-neutral-weak-active, #ededed);
 }
 .block-directory-downloadable-block-list-item[data-focus-visible] {
-  box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-  outline: 2px solid transparent;
+  outline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) solid var(--focus-color, var(--wpds-color-stroke-focus, var(--wp-admin-theme-color, #3858e9)));
+  outline-offset: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px));
 }
 .block-directory-downloadable-block-list-item.is-installing .block-directory-downloadable-block-list-item__author {
   display: none;
