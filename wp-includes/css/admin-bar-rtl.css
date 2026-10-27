@@ -684,6 +684,8 @@ html:lang(he-il) .rtl #wpadminbar * {
 	background-color: rgba(255, 255, 255, 0.9);
 	cursor: text;
 	border: 0;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 #wpadminbar #adminbarsearch .adminbar-button {

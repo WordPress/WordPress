@@ -359,6 +359,8 @@ input[type="radio"].disabled:checked::before {
 	border-color: var(--wp-admin-theme-color);
 	color: #1e1e1e;
 	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color);
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .wp-core-ui select:active {
@@ -379,15 +381,14 @@ input[type="radio"].disabled:checked::before {
 	transform: none;
 }
 
-.wp-core-ui select[aria-disabled="true"] {
-	cursor: default;
+@media all and (forced-colors: active) and (prefers-color-scheme: dark) {
+	.wp-core-ui select {
+		background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fsvg%3E);
+	}
 }
 
-/* Reset Firefox inner outline that appears on :focus. */
-/* This ruleset overrides the color change on :focus thus needs to be after select:focus. */
-.wp-core-ui select:-moz-focusring {
-	color: transparent;
-	text-shadow: 0 0 0 #0a4b78;
+.wp-core-ui select[aria-disabled="true"] {
+	cursor: default;
 }
 
 /* Remove background focus style from IE11 while keeping focus style available on option elements. */

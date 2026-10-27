@@ -2948,7 +2948,8 @@ div.action-links {
 
 #plugin-information-tabs a:active,
 #plugin-information-tabs a:focus {
-	outline: none;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 #plugin-information-content {

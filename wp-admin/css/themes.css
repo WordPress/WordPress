@@ -502,7 +502,8 @@ body.js .theme-browser.search-loading {
 .theme-overlay .theme-header .right:focus,
 .theme-overlay .theme-header .left:focus {
 	box-shadow: none;
-	outline: none;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .theme-overlay .theme-header .left.disabled,
