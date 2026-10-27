@@ -204,8 +204,8 @@ class WP_Sitemaps {
 
 		$url_list = $provider->get_url_list( $paged, $object_subtype );
 
-		// Force a 404 and bail early if no URLs are present.
-		if ( empty( $url_list ) ) {
+		// Force a 404 and bail early if the requested page is out of range.
+		if ( $paged > $provider->get_max_num_pages( $object_subtype ) ) {
 			$this->send_404();
 			return;
 		}
