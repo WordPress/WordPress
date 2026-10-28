@@ -3,7 +3,7 @@ Contributors: the WordPress team
 Requires at least: 4.7
 Tested up to: 7.1
 Requires PHP: 5.2.4
-Stable tag: 3.2
+Stable tag: 3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,11 @@ all elements on your site are automatically calculated based on the colors
 you pick, ensuring a high, accessible color contrast for your visitors.
 
 == Changelog ==
+
+= 3.3 =
+* Released: October 28, 2026
+
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_3.3
 
 = 3.2 =
 * Released: August 19, 2026
