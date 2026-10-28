@@ -50,6 +50,15 @@ class WP_Block_Parser {
 	public $stack;
 
 	/**
+	 * Internal block processor for parsing and scanning input document.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @var WP_Block_Processor|null
+	 */
+	private $block_processor = null;
+
+	/**
 	 * Parses a document and returns a list of block structures
 	 *
 	 * When encountering an invalid parse will return a best-effort
@@ -66,6 +75,8 @@ class WP_Block_Parser {
 		$this->offset   = 0;
 		$this->output   = array();
 		$this->stack    = array();
+
+		$this->block_processor = new WP_Block_Processor( $document );
 
 		while ( $this->proceed() ) {
 			continue;
@@ -90,47 +101,62 @@ class WP_Block_Parser {
 	 * @return bool
 	 */
 	public function proceed() {
-		$next_token = $this->next_token();
-		list( $token_type, $block_name, $attrs, $start_offset, $token_length ) = $next_token;
+		// Ensure this is initialized, because some legacy code calls this method directly.
+		$this->block_processor ??= new WP_Block_Processor( $this->document );
+
+		$processor   = $this->block_processor;
 		$stack_depth = count( $this->stack );
+
+		// Handle the cases when no more tokens exist.
+		if ( ! $processor->next_delimiter() ) {
+			// if not in a block then flush output.
+			if ( 0 === $stack_depth ) {
+				$this->add_freeform();
+				return false;
+			}
+
+			/*
+			 * Otherwise we have a problem
+			 * This is an error
+			 *
+			 * we have options
+			 * - treat it all as freeform text
+			 * - assume an implicit closer (easiest when not nesting)
+			 */
+
+			// for the easy case we'll assume an implicit closer.
+			if ( 1 === $stack_depth ) {
+				$this->add_block_from_stack();
+				return false;
+			}
+
+			/*
+			 * for the nested case where it's more difficult we'll
+			 * have to assume that multiple closers are missing
+			 * and so we'll collapse the whole stack piecewise
+			 */
+			while ( 0 < count( $this->stack ) ) {
+				$this->add_block_from_stack();
+			}
+			return false;
+		}
+
+		$token_type   = $processor->get_delimiter_type();
+		$block_name   = $processor->get_block_type();
+		$attrs        = $processor->allocate_and_return_parsed_attributes() ?? (
+			JSON_ERROR_NONE === $processor->get_last_json_error()
+				? array()
+				: null
+		);
+		$span         = $processor->get_span();
+		$start_offset = $span->start;
+		$token_length = $span->length;
 
 		// we may have some HTML soup before the next block.
 		$leading_html_start = $start_offset > $this->offset ? $this->offset : null;
 
 		switch ( $token_type ) {
-			case 'no-more-tokens':
-				// if not in a block then flush output.
-				if ( 0 === $stack_depth ) {
-					$this->add_freeform();
-					return false;
-				}
-
-				/*
-				 * Otherwise we have a problem
-				 * This is an error
-				 *
-				 * we have options
-				 * - treat it all as freeform text
-				 * - assume an implicit closer (easiest when not nesting)
-				 */
-
-				// for the easy case we'll assume an implicit closer.
-				if ( 1 === $stack_depth ) {
-					$this->add_block_from_stack();
-					return false;
-				}
-
-				/*
-				 * for the nested case where it's more difficult we'll
-				 * have to assume that multiple closers are missing
-				 * and so we'll collapse the whole stack piecewise
-				 */
-				while ( 0 < count( $this->stack ) ) {
-					$this->add_block_from_stack();
-				}
-				return false;
-
-			case 'void-block':
+			case WP_Block_Processor::VOID:
 				/*
 				 * easy case is if we stumbled upon a void block
 				 * in the top-level of the document
@@ -160,22 +186,19 @@ class WP_Block_Parser {
 				$this->offset = $start_offset + $token_length;
 				return true;
 
-			case 'block-opener':
+			case WP_Block_Processor::OPENER:
 				// track all newly-opened blocks on the stack.
-				array_push(
-					$this->stack,
-					new WP_Block_Parser_Frame(
-						new WP_Block_Parser_Block( $block_name, $attrs, array(), '', array() ),
-						$start_offset,
-						$token_length,
-						$start_offset + $token_length,
-						$leading_html_start
-					)
+				$this->stack[] = new WP_Block_Parser_Frame(
+					new WP_Block_Parser_Block( $block_name, $attrs, array(), '', array() ),
+					$start_offset,
+					$token_length,
+					$start_offset + $token_length,
+					$leading_html_start
 				);
-				$this->offset = $start_offset + $token_length;
+				$this->offset  = $start_offset + $token_length;
 				return true;
 
-			case 'block-closer':
+			case WP_Block_Processor::CLOSER:
 				/*
 				 * if we're missing an opener we're in trouble
 				 * This is an error
@@ -234,72 +257,43 @@ class WP_Block_Parser {
 	 * @since 5.0.0
 	 * @since 4.6.1 fixed a bug in attribute parsing which caused catastrophic backtracking on invalid block comments
 	 *
+	 * @deprecated 7.2.0 Use {@see WP_Block_Processor} instead.
+	 *
 	 * @return array
 	 */
 	public function next_token() {
-		$matches = null;
+		// Ensure this is initialized, because some legacy code calls this method directly.
+		$this->block_processor ??= new WP_Block_Processor( $this->document );
 
-		/*
-		 * aye the magic
-		 * we're using a single RegExp to tokenize the block comment delimiters
-		 * we're also using a trick here because the only difference between a
-		 * block opener and a block closer is the leading `/` before `wp:` (and
-		 * a closer has no attributes). we can trap them both and process the
-		 * match back in PHP to see which one it was.
-		 */
-		$has_match = preg_match(
-			'/<!--\s+(?P<closer>\/)?wp:(?P<namespace>[a-z][a-z0-9_-]*\/)?(?P<name>[a-z][a-z0-9_-]*)\s+(?P<attrs>{(?:(?:[^}]+|}+(?=})|(?!}\s+\/?-->).)*+)?}\s+)?(?P<void>\/)?-->/s',
-			$this->document,
-			$matches,
-			PREG_OFFSET_CAPTURE,
-			$this->offset
+		$processor = $this->block_processor;
+
+		if ( ! $processor->next_delimiter() ) {
+			return array( 'no-more-tokens', null, null, null, null );
+		}
+
+		$span       = $processor->get_span();
+		$started_at = $span->start;
+		$length     = $span->length;
+		$name       = $processor->get_block_type();
+		$attrs      = $processor->allocate_and_return_parsed_attributes() ?? (
+			JSON_ERROR_NONE === $processor->get_last_json_error()
+				? array()
+				: null
 		);
 
-		// if we get here we probably have catastrophic backtracking or out-of-memory in the PCRE.
-		if ( false === $has_match ) {
-			return array( 'no-more-tokens', null, null, null, null );
+		switch ( $processor->get_delimiter_type() ) {
+			case WP_Block_Processor::VOID:
+				return array( 'void-block', $name, $attrs, $started_at, $length );
+
+			case WP_Block_Processor::CLOSER:
+				return array( 'block-closer', $name, null, $started_at, $length );
+
+			case WP_Block_Processor::OPENER:
+				return array( 'block-opener', $name, $attrs, $started_at, $length );
 		}
 
-		// we have no more tokens.
-		if ( 0 === $has_match ) {
-			return array( 'no-more-tokens', null, null, null, null );
-		}
-
-		list( $match, $started_at ) = $matches[0];
-
-		$length    = strlen( $match );
-		$is_closer = isset( $matches['closer'] ) && -1 !== $matches['closer'][1];
-		$is_void   = isset( $matches['void'] ) && -1 !== $matches['void'][1];
-		$namespace = $matches['namespace'];
-		$namespace = ( -1 !== $namespace[1] ) ? $namespace[0] : 'core/';
-		$name      = $namespace . $matches['name'][0];
-		$has_attrs = isset( $matches['attrs'] ) && -1 !== $matches['attrs'][1];
-
-		/*
-		 * Fun fact! It's not trivial in PHP to create "an empty associative array" since all arrays
-		 * are associative arrays. If we use `array()` we get a JSON `[]`
-		 */
-		$attrs = $has_attrs
-			? json_decode( $matches['attrs'][0], /* as-associative */ true )
-			: array();
-
-		/*
-		 * This state isn't allowed
-		 * This is an error
-		 */
-		if ( $is_closer && ( $is_void || $has_attrs ) ) {
-			// we can ignore them since they don't hurt anything.
-		}
-
-		if ( $is_void ) {
-			return array( 'void-block', $name, $attrs, $started_at, $length );
-		}
-
-		if ( $is_closer ) {
-			return array( 'block-closer', $name, null, $started_at, $length );
-		}
-
-		return array( 'block-opener', $name, $attrs, $started_at, $length );
+		// This should never be reachable.
+		return $this->next_token();
 	}
 
 	/**
