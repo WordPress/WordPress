@@ -145,33 +145,43 @@ function render_block_core_playlist( $attributes, $content, $block ) {
 	></div>';
 
 	// Add the waveform player container inside the figure.
-	$figure = null;
-	preg_match( '/<figure[^>]*>/', $content, $figure );
-	if ( ! empty( $figure[0] ) ) {
-		$content = preg_replace( '/(<figure[^>]*>)/', '$1' . $html, $content, 1 );
-	}
+	$processor = new class( $content ) extends WP_HTML_Tag_Processor {
+		/**
+		 * Inserts HTML immediately after the current token.
+		 *
+		 * @since 7.1.4
+		 *
+		 * @param string $html HTML to insert.
+		 */
+		public function block_core_playlist_insert_after( string $html ) {
+			$this->set_bookmark( 'here' );
+			$span = $this->bookmarks['here'];
 
-	$processor = new WP_HTML_Tag_Processor( $content );
-	$processor->next_tag( 'figure' );
-	$processor->set_attribute( 'data-wp-interactive', 'core/playlist' );
+			$this->lexical_updates[] = new WP_HTML_Text_Replacement( $span->start + $span->length, 0, $html );
+		}
+	};
 
 	$waveform_style = $attributes['waveformStyle'] ?? 'bars';
 
-	$processor->set_attribute(
-		'data-wp-context',
-		wp_json_encode(
-			array(
-				'playlistId'            => $playlist_id,
-				'currentId'             => $playlist_tracks[0],
-				'isPlaying'             => false,
-				'tracks'                => $playlist_tracks,
-				'waveformStyle'         => $waveform_style,
-				'showPlayButtonArtwork' => $show_play_button_artwork,
-				'labelPauseTrack'       => __( 'Pause' ),
-				'labelSelectTrack'      => __( 'Play' ),
+	if ( $processor->next_tag( 'figure' ) ) {
+		$processor->block_core_playlist_insert_after( $html );
+		$processor->set_attribute( 'data-wp-interactive', 'core/playlist' );
+		$processor->set_attribute(
+			'data-wp-context',
+			wp_json_encode(
+				array(
+					'playlistId'            => $playlist_id,
+					'currentId'             => $playlist_tracks[0],
+					'isPlaying'             => false,
+					'tracks'                => $playlist_tracks,
+					'waveformStyle'         => $waveform_style,
+					'showPlayButtonArtwork' => $show_play_button_artwork,
+					'labelPauseTrack'       => __( 'Pause' ),
+					'labelSelectTrack'      => __( 'Play' ),
+				)
 			)
-		)
-	);
+		);
+	}
 
 	// Track IDs are render-time only. Add them after inner blocks have rendered
 	// so track buttons can update the Interactivity API state without storing

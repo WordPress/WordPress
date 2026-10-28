@@ -290,12 +290,8 @@ function block_core_image_render_lightbox( $block_content, array $block, WP_Bloc
 	$body_content = $processor->get_updated_html();
 
 	// Adds a button alongside image in the body content.
-	// Extract the img tag using preg_match for structured access.
-	$img = null;
-	preg_match( '/<img[^>]+>/', $body_content, $img );
-
-	if ( isset( $img[0] ) ) {
-		$button_html = '<button
+	$button =
+		'<button
 			class="lightbox-trigger"
 			type="button"
 			aria-haspopup="dialog"
@@ -310,13 +306,26 @@ function block_core_image_render_lightbox( $block_content, array $block, WP_Bloc
 			</svg>
 		</button>';
 
-		// Build the replacement: img tag + button.
-		// Use str_replace for literal replacement instead of preg_replace to avoid
-		// PCRE backreference interpretation of $ and \ sequences in user-controlled
-		// image attributes (e.g., alt="Just $5 today").
-		$button       = $img[0] . $button_html;
-		$body_content = str_replace( $img[0], $button, $body_content );
+	$button_processor = new class( $body_content ) extends WP_HTML_Tag_Processor {
+		/**
+		 * Inserts HTML immediately after the current token.
+		 *
+		 * @since 7.1.4
+		 *
+		 * @param string $html HTML to insert.
+		 */
+		public function block_core_image_insert_after( string $html ) {
+			$this->set_bookmark( 'here' );
+			$span = $this->bookmarks['here'];
+
+			$this->lexical_updates[] = new WP_HTML_Text_Replacement( $span->start + $span->length, 0, $html );
+		}
+	};
+
+	if ( $button_processor->next_tag( 'img' ) ) {
+		$button_processor->block_core_image_insert_after( $button );
 	}
+	$body_content = $button_processor->get_updated_html();
 
 	add_action( 'wp_footer', 'block_core_image_print_lightbox_overlay' );
 

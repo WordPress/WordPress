@@ -1,6 +1,6 @@
 <?php
 /**
- * The "Rename…" action, for the post types supporting `title`. Its
+ * The "Rename" action, for the post types supporting `title`. Its
  * JavaScript parts (`isEligible` and `RenderModal`) are in `action.tsx`,
  * next to this file.
  *
@@ -8,7 +8,7 @@
  */
 
 return array(
-	'label'             => __( 'Rename…' ),
+	'label'             => __( 'Rename' ),
 	'modalHeader'       => __( 'Rename' ),
 	'modalFocusOnMount' => 'firstContentElement',
 );

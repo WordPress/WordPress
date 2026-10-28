@@ -53,7 +53,7 @@ function render_block_core_post_navigation_link( $attributes, $content ) {
 	// `$label` is used to prepend the provided label, if we want to show the page title as well.
 	if ( isset( $attributes['label'] ) && ! empty( $attributes['label'] ) ) {
 		$label = "{$attributes['label']}";
-		$link  = $label;
+		$link  = wp_kses_post( $label );
 	}
 
 	// If we want to also show the page title, make the page title a link and prepend the label.

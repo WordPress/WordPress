@@ -11012,16 +11012,16 @@ var wp;
           selector: " > .alignleft",
           rules: {
             float: "left",
-            "margin-inline-start": "0",
-            "margin-inline-end": "2em"
+            "margin-left": "0",
+            "margin-right": "2em"
           }
         },
         {
           selector: " > .alignright",
           rules: {
             float: "right",
-            "margin-inline-start": "2em",
-            "margin-inline-end": "0"
+            "margin-left": "2em",
+            "margin-right": "0"
           }
         },
         {
@@ -11063,16 +11063,16 @@ var wp;
           selector: " > .alignleft",
           rules: {
             float: "left",
-            "margin-inline-start": "0",
-            "margin-inline-end": "2em"
+            "margin-left": "0",
+            "margin-right": "2em"
           }
         },
         {
           selector: " > .alignright",
           rules: {
             float: "right",
-            "margin-inline-start": "2em",
-            "margin-inline-end": "0"
+            "margin-left": "2em",
+            "margin-right": "0"
           }
         },
         {
@@ -18468,16 +18468,16 @@ var wp;
           selector: " > .alignleft",
           rules: {
             float: "left",
-            "margin-inline-start": "0",
-            "margin-inline-end": "2em"
+            "margin-left": "0",
+            "margin-right": "2em"
           }
         },
         {
           selector: " > .alignright",
           rules: {
             float: "right",
-            "margin-inline-start": "2em",
-            "margin-inline-end": "0"
+            "margin-left": "2em",
+            "margin-right": "0"
           }
         },
         {
@@ -18519,16 +18519,16 @@ var wp;
           selector: " > .alignleft",
           rules: {
             float: "left",
-            "margin-inline-start": "0",
-            "margin-inline-end": "2em"
+            "margin-left": "0",
+            "margin-right": "2em"
           }
         },
         {
           selector: " > .alignright",
           rules: {
             float: "right",
-            "margin-inline-start": "2em",
-            "margin-inline-end": "0"
+            "margin-left": "2em",
+            "margin-right": "0"
           }
         },
         {
@@ -44415,7 +44415,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle7("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle7("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default7 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var ITEM_DESCRIPTION_DIRECT_CHILD = /* @__PURE__ */ Symbol();
@@ -44524,7 +44524,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle8("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle8("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default8 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var ItemLabel = (0, import_element40.forwardRef)(
@@ -44638,7 +44638,7 @@ var wp;
   }
   var resets_default2 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
   if (typeof process === "undefined" || true) {
-    registerStyle9("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle9("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default9 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var ITEM_CONTENT_COMPONENTS = {
@@ -44884,7 +44884,7 @@ var wp;
   }
   var resets_default3 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
   if (typeof process === "undefined" || true) {
-    registerStyle10("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle10("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default10 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var CheckboxItem = (0, import_element42.forwardRef)(
@@ -45041,7 +45041,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle11("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle11("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default11 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var Group = (0, import_element43.forwardRef)(function MenuGroup5({ className, ...props }, ref) {
@@ -45145,7 +45145,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle12("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle12("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default12 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var GroupLabel = (0, import_element44.forwardRef)(
@@ -45254,7 +45254,7 @@ var wp;
   }
   var resets_default4 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
   if (typeof process === "undefined" || true) {
-    registerStyle13("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle13("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default13 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var LinkItem = (0, import_element45.forwardRef)(function MenuLinkItem3({
@@ -45591,7 +45591,7 @@ var wp;
   }
   var resets_default5 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
   if (typeof process === "undefined" || true) {
-    registerStyle15("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle15("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default14 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var MENU_SUBMENU_POPUP_POSITIONER_PROPS = {
@@ -45797,7 +45797,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle16("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle16("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default15 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var Popup = (0, import_element49.forwardRef)(function MenuPopup3({ children, className, portal, positioner, ...props }, ref) {
@@ -45913,7 +45913,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle17("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle17("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default16 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var PrefixIcon = (0, import_element50.forwardRef)(
@@ -46019,7 +46019,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle18("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle18("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default17 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var RadioGroup = (0, import_element51.forwardRef)(
@@ -46134,7 +46134,7 @@ var wp;
   }
   var resets_default6 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
   if (typeof process === "undefined" || true) {
-    registerStyle19("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle19("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default18 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var radioCheck = /* @__PURE__ */ (0, import_jsx_runtime234.jsx)(import_primitives127.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime234.jsx)(import_primitives127.Circle, { cx: 12, cy: 12, r: 3 }) });
@@ -46483,7 +46483,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle20("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle20("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default19 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var Separator2 = (0, import_element54.forwardRef)(
@@ -46600,7 +46600,7 @@ var wp;
   }
   var resets_default7 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
   if (typeof process === "undefined" || true) {
-    registerStyle21("2cc7311239", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
+    registerStyle21("35c74d3f9f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion,._7f344b94e270e039__dropdown-motion--fade-only{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}}._380b81b8f79fb10f__dropdown-motion{transform:translate(0);&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=inline-start][data-ending-style],&[data-side=inline-start][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=inline-end][data-ending-style],&[data-side=inline-end][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-start][data-ending-style],&:dir(rtl)[data-side=inline-start][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&:dir(rtl)[data-side=inline-end][data-ending-style],&:dir(rtl)[data-side=inline-end][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d61e2d85c0ee0699__positioner{z-index:var(--wp-ui-menu-z-index,initial)}._34e81249f419a5a5__popup{--wp-ui-menu-popup-padding:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-min-width:160px;--wp-ui-menu-max-width:var(--wpds-dimension-surface-width-sm,320px);--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-item-padding-inline-end:var(--wpds-dimension-padding-sm,8px);--_wp-ui-menu-group-head-padding-base:var(--wpds-dimension-padding-sm,8px);--wp-ui-menu-group-head-padding-inline:var(--_wp-ui-menu-group-head-padding-base);--wp-ui-menu-selection-indicator-track-size:0px;--wp-ui-menu-selection-indicator-size:var(--wpds-dimension-size-2xs,16px);--wp-ui-menu-selection-indicator-gap:0px;--_wp-ui-menu-elevation-md:0px 2px 3px 0px #0000000d,0px 4px 5px 0px #0000000a,0px 12px 12px 0px #00000008,0px 16px 16px 0px #00000005;background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-menu-elevation-md);max-height:min(var(--available-height),480px,60dvh);max-width:min(var(--available-width),var(--wp-ui-menu-max-width));min-width:min(var(--available-width),var(--wp-ui-menu-min-width));outline:none;overflow-block:auto;overscroll-behavior:none;padding:var(--wp-ui-menu-popup-padding);scroll-padding:var(--wp-ui-menu-popup-padding);&:has(._42313b48c5459be3__item-selection-indicator){--_wp-ui-menu-item-padding-inline-start:var(--wpds-dimension-padding-xs,4px);--wp-ui-menu-selection-indicator-track-size:var(--wpds-dimension-size-2xs,16px)}}._33f07ab17005471d__list{--_wp-ui-menu-item-label-line-height:var(--wpds-typography-line-height-sm,20px);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--_wp-ui-menu-item-label-line-height)}._33f07ab17005471d__list,.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{--wp-ui-menu-group-prefix-gap:0px;display:grid;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];min-width:0}.e05914e1005d7c2e__radio-group,.f11085533c0056b0__group{grid-column:1/-1}._33f07ab17005471d__list:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.e05914e1005d7c2e__radio-group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix),.f11085533c0056b0__group:has(>._5c913bce0d8bb0d6__item>._64924ecabf65a5d6__item-prefix){--wp-ui-menu-group-prefix-gap:var(--wpds-dimension-gap-xs,4px)}._4a0fd085d76fd23c__group-label{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);grid-column:prefix-start/content-end;line-height:var(--wpds-typography-line-height-xs,16px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));min-height:var(--wpds-dimension-size-sm,24px);min-width:0;padding-block:var(--wpds-dimension-padding-xs,4px);text-transform:uppercase}.bfc11368eadf3b39__separator{background-color:var(--wpds-color-stroke-surface-neutral-weak,#f0f0f0);grid-column:prefix-start/content-end;height:var(--wpds-border-width-xs,1px);margin-block:var(--wpds-dimension-gap-xs,4px);margin-inline:calc(var(--wp-ui-menu-group-head-padding-inline) - var(--_wp-ui-menu-group-head-padding-base));@media (forced-colors:active){background-color:CanvasText}}._5c913bce0d8bb0d6__item{--wp-ui-menu-item-height:var(--wpds-dimension-size-md,32px);--wp-ui-menu-item-padding-block:var(--wpds-dimension-padding-xs,4px);--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);align-content:center;align-items:start;border-radius:var(--wpds-border-radius-sm,2px);display:grid;gap:0;grid-column:1/-1;grid-template-columns:[item-padding-start] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-start)) [selection-start] var(--wp-ui-menu-selection-indicator-track-size) [selection-end] var(--wp-ui-menu-selection-indicator-gap) [prefix-start] max-content [prefix-end] var(--wp-ui-menu-group-prefix-gap) [content-start] minmax(0,1fr) [content-end] var(--wp-ui-menu-item-padding-inline,var(--_wp-ui-menu-item-padding-inline-end)) [item-padding-end];justify-content:stretch;min-height:var(--wp-ui-menu-item-height);min-width:0;padding-block:var(--wp-ui-menu-item-padding-block);scroll-margin:var(--wp-ui-menu-popup-padding);text-decoration:none;user-select:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&[href]{cursor:pointer}@supports (grid-template-columns:subgrid){grid-template-columns:subgrid}&[data-popup-open]:not([data-highlighted],[data-disabled],[aria-disabled=true]){background-color:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);@media (forced-colors:active){--_gcd-div-outline:var(--wpds-border-width-xs,1px) solid GrayText}}&[data-highlighted]:not([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);background-color:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));color:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);outline:none;@media (forced-colors:active){--_gcd-a-color:HighlightText;background-color:Highlight;color:HighlightText;forced-color-adjust:none}}&:is([data-disabled],[aria-disabled=true]){--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d);&[data-highlighted]{--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-a-outline:var(--_gcd-div-outline)}@media (forced-colors:active){--_gcd-a-color:GrayText;color:GrayText}}}._42313b48c5459be3__item-selection-indicator,._64924ecabf65a5d6__item-prefix,.af879698ede76757__item-content{grid-row:1}._42313b48c5459be3__item-selection-indicator{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;grid-column:selection-start/selection-end;height:var(--_wp-ui-menu-item-label-line-height);justify-content:center;justify-self:center;margin-inline-end:var(--wpds-dimension-gap-xs,4px);pointer-events:none;width:var(--wp-ui-menu-selection-indicator-size);&[data-unchecked]{opacity:0}}._99c5bd141cbf516f__checkbox-selection-icon{translate:0 1px}._59aa9b3b3a651148__radio-selection-icon{fill:currentColor;height:var(--wpds-dimension-size-2xs,16px);width:var(--wpds-dimension-size-2xs,16px)}._64924ecabf65a5d6__item-prefix{align-items:center;display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:prefix-start/prefix-end;justify-content:center;min-width:0}.a836378335a4cbf1__prefix-icon{align-self:flex-start;flex-shrink:0;margin-block-start:calc((var(--_wp-ui-menu-item-label-line-height) - var(--_wp-ui-menu-prefix-icon-size))/2)}.af879698ede76757__item-content{align-items:center;align-self:stretch;box-sizing:border-box;display:grid;grid-column:prefix-start/content-end;grid-template-columns:[label-start] minmax(0,1fr) [label-end suffix-start] auto [suffix-end shortcut-start] auto [shortcut-end trailing-start] auto [trailing-end];min-width:0;pointer-events:none;&._5c211f9edfe0ed66__has-prefix{grid-column:content-start/content-end}}._76f3e69cf2228139__item-descriptions{display:flex;flex-direction:column;grid-column:prefix-start/content-end;grid-row:2;min-width:0;padding-block-end:var(--wpds-dimension-padding-xs,4px);pointer-events:none}._5ed41da4abcf8958__item-label{--_gcd-heading-color:currentColor;--_gcd-p-line-height:var(--_wp-ui-menu-item-label-line-height);color:inherit;grid-column:label-start/label-end;line-height:var(--_wp-ui-menu-item-label-line-height);min-width:0;overflow-wrap:anywhere}.fa88c9f1a96a4c5a__item-description{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral-weak,#707070);color:var(--wpds-color-foreground-content-neutral-weak,#707070);overflow-wrap:anywhere}.af879698ede76757__item-content>._091406749ed93e6e__item-suffix{align-items:center;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;gap:var(--wpds-dimension-gap-xs,4px);grid-column:suffix-start/suffix-end;margin-inline-start:var(--wpds-dimension-gap-md,12px)}.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{grid-column:shortcut-start/shortcut-end}._06be17a91bf434a0__item-trailing,.af879698ede76757__item-content>._23630f40071a29ff__item-shortcut{color:var(--wpds-color-foreground-content-neutral-weak,#707070);margin-inline-start:var(--wpds-dimension-gap-md,12px)}._06be17a91bf434a0__item-trailing{align-items:center;display:flex;grid-column:trailing-start/trailing-end}._5ed41da4abcf8958__item-label+:is(._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){margin-inline-start:var(--wpds-dimension-gap-xl,24px)}._23630f40071a29ff__item-shortcut+._06be17a91bf434a0__item-trailing{margin-inline-start:var(--wpds-dimension-gap-xs,4px)}.b78aec79bf93eba0__submenu-chevron{margin-inline-end:calc(var(--wpds-dimension-gap-sm, 8px)*-1)}.b78aec79bf93eba0__submenu-chevron:dir(rtl){transform:rotate(180deg)}._60da3b6f9718cf76__external-link-indicator{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-gap-xs,4px);text-decoration:none}._60da3b6f9718cf76__external-link-indicator:after{content:"\\2197"}._60da3b6f9718cf76__external-link-indicator:dir(rtl):after{content:"\\2196"}._5c913bce0d8bb0d6__item:is([data-highlighted],[data-disabled],[aria-disabled=true]) ._42313b48c5459be3__item-selection-indicator,._5c913bce0d8bb0d6__item:is([data-highlighted],[data-popup-open],[data-disabled],[aria-disabled=true]) :is(.fa88c9f1a96a4c5a__item-description,._091406749ed93e6e__item-suffix,._23630f40071a29ff__item-shortcut,._06be17a91bf434a0__item-trailing){--_gcd-heading-color:currentColor;color:inherit}}}');
   }
   var style_default20 = { "positioner": "d61e2d85c0ee0699__positioner", "popup": "_34e81249f419a5a5__popup", "item-selection-indicator": "_42313b48c5459be3__item-selection-indicator", "is-root": "_087a537b24fee6a1__is-root _380b81b8f79fb10f__dropdown-motion", "is-submenu": "_6d3b567f6289bdc2__is-submenu _7f344b94e270e039__dropdown-motion--fade-only", "list": "_33f07ab17005471d__list", "group": "f11085533c0056b0__group", "radio-group": "e05914e1005d7c2e__radio-group", "item": "_5c913bce0d8bb0d6__item", "item-prefix": "_64924ecabf65a5d6__item-prefix", "group-label": "_4a0fd085d76fd23c__group-label", "separator": "bfc11368eadf3b39__separator", "item-content": "af879698ede76757__item-content", "checkbox-selection-icon": "_99c5bd141cbf516f__checkbox-selection-icon", "radio-selection-icon": "_59aa9b3b3a651148__radio-selection-icon", "prefix-icon": "a836378335a4cbf1__prefix-icon", "has-prefix": "_5c211f9edfe0ed66__has-prefix", "item-descriptions": "_76f3e69cf2228139__item-descriptions", "item-label": "_5ed41da4abcf8958__item-label", "item-description": "fa88c9f1a96a4c5a__item-description", "item-suffix": "_091406749ed93e6e__item-suffix", "item-shortcut": "_23630f40071a29ff__item-shortcut", "item-trailing": "_06be17a91bf434a0__item-trailing", "submenu-chevron": "b78aec79bf93eba0__submenu-chevron", "external-link-indicator": "_60da3b6f9718cf76__external-link-indicator" };
   var SubmenuTrigger = (0, import_element56.forwardRef)(
@@ -69846,14 +69846,14 @@ var wp;
   var import_blocks45 = __toESM(require_blocks(), 1);
 
   // packages/block-editor/build-module/components/default-block-appender/index.mjs
-  var import_i18n135 = __toESM(require_i18n(), 1);
+  var import_i18n136 = __toESM(require_i18n(), 1);
   var import_html_entities = __toESM(require_html_entities(), 1);
   var import_data77 = __toESM(require_data(), 1);
   var import_keycodes13 = __toESM(require_keycodes(), 1);
 
   // packages/block-editor/build-module/components/inserter/index.mjs
   var import_a11y15 = __toESM(require_a11y(), 1);
-  var import_i18n134 = __toESM(require_i18n(), 1);
+  var import_i18n135 = __toESM(require_i18n(), 1);
   var import_components118 = __toESM(require_components(), 1);
   var import_data76 = __toESM(require_data(), 1);
   var import_blocks44 = __toESM(require_blocks(), 1);
@@ -69862,7 +69862,7 @@ var wp;
   // packages/block-editor/build-module/components/inserter/menu.mjs
   var import_element307 = __toESM(require_element(), 1);
   var import_components116 = __toESM(require_components(), 1);
-  var import_i18n132 = __toESM(require_i18n(), 1);
+  var import_i18n133 = __toESM(require_i18n(), 1);
   var import_compose93 = __toESM(require_compose(), 1);
   var import_data74 = __toESM(require_data(), 1);
 
@@ -72967,7 +72967,9 @@ var wp;
       __unstableIsSelectionMergeable: __unstableIsSelectionMergeable2,
       __unstableGetSelectedBlocksWithPartialSelection: __unstableGetSelectedBlocksWithPartialSelection2,
       canInsertBlockType: canInsertBlockType2,
-      getBlockRootClientId: getBlockRootClientId2
+      getBlockRootClientId: getBlockRootClientId2,
+      getBlockAttributes: getBlockAttributes3,
+      getSelectionStart: getSelectionStart2
     } = (0, import_data52.useSelect)(store);
     const {
       flashBlock: flashBlock2,
@@ -73001,6 +73003,11 @@ var wp;
         );
         return true;
       }
+      function isSelectedFieldBound() {
+        const { clientId, attributeKey } = getSelectionStart2();
+        const bindings = clientId ? getBlockAttributes3(clientId)?.metadata?.bindings : void 0;
+        return !!(attributeKey && bindings?.[attributeKey] || bindings?.__default);
+      }
       function handler(event) {
         if (event.defaultPrevented) {
           return;
@@ -73012,7 +73019,7 @@ var wp;
         if (selectedBlockClientIds.length === 0) {
           return;
         }
-        const isWholeSingleBlockCopy = event.type === "copy" && !hasMultiSelection2() && isBlockEntirelySelected(
+        const isWholeSingleBlockCopy = event.type === "copy" && !hasMultiSelection2() && !isSelectedFieldBound() && isBlockEntirelySelected(
           event.target.ownerDocument,
           selectedBlockClientIds[0]
         );
@@ -77468,7 +77475,7 @@ var wp;
 
   // packages/block-editor/build-module/components/inserter/media-tab/media-tab.mjs
   var import_element303 = __toESM(require_element(), 1);
-  var import_i18n130 = __toESM(require_i18n(), 1);
+  var import_i18n131 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/inserter/media-tab/hooks.mjs
   var import_element214 = __toESM(require_element(), 1);
@@ -77685,7 +77692,7 @@ var wp;
   }
 
   // packages/block-editor/build-module/components/inserter/media-tab/media-panel.mjs
-  var import_i18n128 = __toESM(require_i18n(), 1);
+  var import_i18n129 = __toESM(require_i18n(), 1);
   var import_components112 = __toESM(require_components(), 1);
   var import_element302 = __toESM(require_element(), 1);
   var import_compose91 = __toESM(require_compose(), 1);
@@ -77693,7 +77700,7 @@ var wp;
 
   // packages/block-editor/build-module/components/inserter/media-tab/media-grid.mjs
   var import_element299 = __toESM(require_element(), 1);
-  var import_i18n123 = __toESM(require_i18n(), 1);
+  var import_i18n124 = __toESM(require_i18n(), 1);
 
   // packages/dataviews/build-module/dataviews/index.mjs
   var import_element286 = __toESM(require_element(), 1);
@@ -77793,10 +77800,10 @@ var wp;
   var dataviews_context_default = DataViewsContext;
 
   // packages/dataviews/build-module/components/dataviews-layouts/index.mjs
-  var import_i18n93 = __toESM(require_i18n(), 1);
+  var import_i18n94 = __toESM(require_i18n(), 1);
 
   // packages/dataviews/build-module/components/dataviews-layouts/table/index.mjs
-  var import_i18n79 = __toESM(require_i18n(), 1);
+  var import_i18n80 = __toESM(require_i18n(), 1);
   var import_components57 = __toESM(require_components(), 1);
   var import_compose66 = __toESM(require_compose(), 1);
   var import_element224 = __toESM(require_element(), 1);
@@ -77841,10 +77848,30 @@ var wp;
 
   // packages/dataviews/build-module/components/dataviews-item-actions/index.mjs
   var import_components53 = __toESM(require_components(), 1);
-  var import_i18n73 = __toESM(require_i18n(), 1);
+  var import_i18n74 = __toESM(require_i18n(), 1);
   var import_element216 = __toESM(require_element(), 1);
   var import_data64 = __toESM(require_data(), 1);
   var import_compose64 = __toESM(require_compose(), 1);
+
+  // packages/dataviews/build-module/utils/get-action-label.mjs
+  var import_i18n73 = __toESM(require_i18n(), 1);
+  var TRAILING_ELLIPSIS = /(?:\s*(?:[…⋯]|[.。．]{3,}(?![.。．])))+\s*$/u;
+  function getActionLabel(action, items, context = "button") {
+    const label = typeof action.label === "string" ? action.label : action.label(items);
+    if (context === "button") {
+      return label.replace(TRAILING_ELLIPSIS, "");
+    }
+    if (!("RenderModal" in action) || TRAILING_ELLIPSIS.test(label)) {
+      return label;
+    }
+    return (0, import_i18n73.sprintf)(
+      /* translators: %s: Action label. Use the ellipsis and spacing appropriate for your language. */
+      (0, import_i18n73._x)("%s\u2026", "menu item requiring further input"),
+      label
+    );
+  }
+
+  // packages/dataviews/build-module/components/dataviews-item-actions/index.mjs
   var import_jsx_runtime384 = __toESM(require_jsx_runtime(), 1);
   function ButtonTrigger({
     action,
@@ -77852,7 +77879,7 @@ var wp;
     items,
     variant
   }) {
-    const label = typeof action.label === "string" ? action.label : action.label(items);
+    const label = getActionLabel(action, items);
     return /* @__PURE__ */ (0, import_jsx_runtime384.jsx)(
       import_components53.Button,
       {
@@ -77870,7 +77897,7 @@ var wp;
     onClick,
     items
   }) {
-    const label = typeof action.label === "string" ? action.label : action.label(items);
+    const label = getActionLabel(action, items, "menu");
     return /* @__PURE__ */ (0, import_jsx_runtime384.jsx)(menu_exports.Item, { disabled: action.disabled, onClick, children: /* @__PURE__ */ (0, import_jsx_runtime384.jsx)(menu_exports.ItemLabel, { children: label }) });
   }
   function ActionModal({
@@ -78016,7 +78043,7 @@ var wp;
               {
                 size: isSmall ? "small" : "compact",
                 icon: more_vertical_default,
-                label: (0, import_i18n73.__)("Actions"),
+                label: (0, import_i18n74.__)("Actions"),
                 accessibleWhenDisabled: true,
                 className: "dataviews-all-actions-button"
               }
@@ -78087,31 +78114,31 @@ var wp;
 
   // packages/dataviews/build-module/components/dataviews-bulk-actions/index.mjs
   var import_components54 = __toESM(require_components(), 1);
-  var import_i18n75 = __toESM(require_i18n(), 1);
+  var import_i18n76 = __toESM(require_i18n(), 1);
   var import_element217 = __toESM(require_element(), 1);
   var import_data65 = __toESM(require_data(), 1);
   var import_compose65 = __toESM(require_compose(), 1);
 
   // packages/dataviews/build-module/utils/get-footer-message.mjs
-  var import_i18n74 = __toESM(require_i18n(), 1);
+  var import_i18n75 = __toESM(require_i18n(), 1);
   function getFooterMessage(selectionCount, itemsCount, totalItems, onlyTotalCount = false) {
     if (selectionCount > 0) {
-      return (0, import_i18n74.sprintf)(
+      return (0, import_i18n75.sprintf)(
         /* translators: %s: formatted number of items. */
-        (0, import_i18n74._n)("%s item selected", "%s items selected", selectionCount),
+        (0, import_i18n75._n)("%s item selected", "%s items selected", selectionCount),
         selectionCount.toLocaleString()
       );
     }
     if (onlyTotalCount || totalItems <= itemsCount) {
-      return (0, import_i18n74.sprintf)(
+      return (0, import_i18n75.sprintf)(
         /* translators: %s: formatted number of items. */
-        (0, import_i18n74._n)("%s item", "%s items", totalItems),
+        (0, import_i18n75._n)("%s item", "%s items", totalItems),
         totalItems.toLocaleString()
       );
     }
-    return (0, import_i18n74.sprintf)(
+    return (0, import_i18n75.sprintf)(
       /* translators: %1$s: formatted number of items. %2$s: formatted total number of items. */
-      (0, import_i18n74._n)("%1$s of %2$s item", "%1$s of %2$s items", totalItems),
+      (0, import_i18n75._n)("%1$s of %2$s item", "%1$s of %2$s items", totalItems),
       itemsCount.toLocaleString(),
       totalItems.toLocaleString()
     );
@@ -78165,7 +78192,7 @@ var wp;
           checked: hasSelection,
           disabled: !hasSelection,
           onCheckedChange: () => onChangeSelection([]),
-          "aria-label": (0, import_i18n75.__)("Deselect all")
+          "aria-label": (0, import_i18n76.__)("Deselect all")
         }
       );
     }
@@ -78184,7 +78211,7 @@ var wp;
             );
           }
         },
-        "aria-label": areAllSelected ? (0, import_i18n75.__)("Deselect all") : (0, import_i18n75.__)("Select all")
+        "aria-label": areAllSelected ? (0, import_i18n76.__)("Deselect all") : (0, import_i18n76.__)("Select all")
       }
     );
   }
@@ -78194,7 +78221,7 @@ var wp;
     isBusy,
     items
   }) {
-    const label = typeof action.label === "string" ? action.label : action.label(items);
+    const label = getActionLabel(action, items);
     const isMobile = (0, import_compose65.useViewportMatch)("medium", "<");
     return /* @__PURE__ */ (0, import_jsx_runtime385.jsx)(
       import_components54.Button,
@@ -78236,7 +78263,7 @@ var wp;
         {
           onClick,
           disabled: !!action.disabled || isBusy,
-          children: /* @__PURE__ */ (0, import_jsx_runtime385.jsx)(menu_exports.ItemLabel, { children: typeof action.label === "string" ? action.label : action.label(selectedEligibleItems) })
+          children: /* @__PURE__ */ (0, import_jsx_runtime385.jsx)(menu_exports.ItemLabel, { children: getActionLabel(action, selectedEligibleItems, "menu") })
         }
       );
     }
@@ -78259,7 +78286,7 @@ var wp;
         showTooltip: true,
         tooltipPosition: "top",
         size: "compact",
-        label: (0, import_i18n75.__)("Cancel"),
+        label: (0, import_i18n76.__)("Cancel"),
         disabled: !!actionInProgress,
         accessibleWhenDisabled: false,
         onClick: () => onChangeSelection(EMPTY_ARRAY7)
@@ -78302,7 +78329,7 @@ var wp;
                     disableSelectAll: isInfiniteScroll
                   }
                 ),
-                !selection2.length && !isInfiniteScroll && /* @__PURE__ */ (0, import_jsx_runtime385.jsx)(field_exports.Label, { variant: "plain", children: (0, import_i18n75.__)("Select all") })
+                !selection2.length && !isInfiniteScroll && /* @__PURE__ */ (0, import_jsx_runtime385.jsx)(field_exports.Label, { variant: "plain", children: (0, import_i18n76.__)("Select all") })
               ]
             }
           ),
@@ -78327,7 +78354,7 @@ var wp;
                     className: "dataviews-bulk-actions__action",
                     isBusy: !!actionInProgress,
                     accessibleWhenDisabled: true,
-                    children: (0, import_i18n75.__)("Actions")
+                    children: (0, import_i18n76.__)("Actions")
                   }
                 )
               }
@@ -78447,7 +78474,7 @@ var wp;
   }
 
   // packages/dataviews/build-module/components/dataviews-layouts/table/column-header-menu.mjs
-  var import_i18n76 = __toESM(require_i18n(), 1);
+  var import_i18n77 = __toESM(require_i18n(), 1);
   var import_components55 = __toESM(require_components(), 1);
   var import_element218 = __toESM(require_element(), 1);
 
@@ -78514,7 +78541,7 @@ var wp;
       (f) => !visibleFieldIds.includes(f.id)
     );
     const canInsert = (canInsertLeft || canInsertRight) && !!hiddenFields.length;
-    const isRtl = (0, import_i18n76.isRTL)();
+    const isRtl = (0, import_i18n77.isRTL)();
     return /* @__PURE__ */ (0, import_jsx_runtime386.jsxs)(menu_exports.Root, { children: [
       isCovered && /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(VisuallyHidden, { children: header }),
       /* @__PURE__ */ (0, import_jsx_runtime386.jsxs)(
@@ -78584,7 +78611,7 @@ var wp;
                 ]
               });
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.ItemLabel, { children: (0, import_i18n76.__)("Add filter") })
+            children: /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.ItemLabel, { children: (0, import_i18n77.__)("Add filter") })
           }
         ) }),
         (canMove || isHidable || canInsert) && field && /* @__PURE__ */ (0, import_jsx_runtime386.jsxs)(menu_exports.Group, { children: [
@@ -78609,7 +78636,7 @@ var wp;
                   fields: newFields
                 });
               },
-              children: /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.ItemLabel, { children: (0, import_i18n76.__)("Move left") })
+              children: /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.ItemLabel, { children: (0, import_i18n77.__)("Move left") })
             }
           ),
           canMove && /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(
@@ -78633,11 +78660,11 @@ var wp;
                   fields: newFields
                 });
               },
-              children: /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.ItemLabel, { children: (0, import_i18n76.__)("Move right") })
+              children: /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.ItemLabel, { children: (0, import_i18n77.__)("Move right") })
             }
           ),
           canInsertLeft && !!hiddenFields.length && /* @__PURE__ */ (0, import_jsx_runtime386.jsxs)(menu_exports.SubmenuRoot, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.SubmenuTrigger, { children: /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.ItemLabel, { children: (0, import_i18n76.__)("Insert left") }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.SubmenuTrigger, { children: /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.ItemLabel, { children: (0, import_i18n77.__)("Insert left") }) }),
             /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.Popup, { children: hiddenFields.map((hiddenField) => {
               const insertIndex = isRtl ? index3 + 1 : index3;
               return /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(
@@ -78665,7 +78692,7 @@ var wp;
             }) })
           ] }),
           canInsertRight && !!hiddenFields.length && /* @__PURE__ */ (0, import_jsx_runtime386.jsxs)(menu_exports.SubmenuRoot, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.SubmenuTrigger, { children: /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.ItemLabel, { children: (0, import_i18n76.__)("Insert right") }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.SubmenuTrigger, { children: /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.ItemLabel, { children: (0, import_i18n77.__)("Insert right") }) }),
             /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.Popup, { children: hiddenFields.map((hiddenField) => {
               const insertIndex = isRtl ? index3 : index3 + 1;
               return /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(
@@ -78705,7 +78732,7 @@ var wp;
                   )
                 });
               },
-              children: /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.ItemLabel, { children: (0, import_i18n76.__)("Hide column") })
+              children: /* @__PURE__ */ (0, import_jsx_runtime386.jsx)(menu_exports.ItemLabel, { children: (0, import_i18n77.__)("Hide column") })
             }
           )
         ] })
@@ -78869,9 +78896,9 @@ var wp;
 
   // packages/dataviews/build-module/components/dataviews-layouts/table/use-scroll-state.mjs
   var import_element220 = __toESM(require_element(), 1);
-  var import_i18n77 = __toESM(require_i18n(), 1);
+  var import_i18n78 = __toESM(require_i18n(), 1);
   var isScrolledToEnd = (element) => {
-    if ((0, import_i18n77.isRTL)()) {
+    if ((0, import_i18n78.isRTL)()) {
       const scrollLeft = Math.abs(element.scrollLeft);
       return scrollLeft <= 1;
     }
@@ -79094,7 +79121,7 @@ var wp;
 
   // packages/dataviews/build-module/components/dataviews-view-config/properties-section.mjs
   var import_components56 = __toESM(require_components(), 1);
-  var import_i18n78 = __toESM(require_i18n(), 1);
+  var import_i18n79 = __toESM(require_i18n(), 1);
   var import_element222 = __toESM(require_element(), 1);
   var import_jsx_runtime389 = __toESM(require_jsx_runtime(), 1);
   function FieldItem3({
@@ -79147,7 +79174,7 @@ var wp;
     const totalVisibleFields = visibleLockedFields.length + visibleRegularFieldsCount;
     const isSingleVisibleLockedField = totalVisibleFields === 1 && visibleLockedFields.length === 1;
     return /* @__PURE__ */ (0, import_jsx_runtime389.jsxs)(Stack, { direction: "column", className: "dataviews-field-control", children: [
-      showLabel && /* @__PURE__ */ (0, import_jsx_runtime389.jsx)(import_components56.BaseControl.VisualLabel, { children: (0, import_i18n78.__)("Properties") }),
+      showLabel && /* @__PURE__ */ (0, import_jsx_runtime389.jsx)(import_components56.BaseControl.VisualLabel, { children: (0, import_i18n79.__)("Properties") }),
       /* @__PURE__ */ (0, import_jsx_runtime389.jsx)(
         Stack,
         {
@@ -79506,7 +79533,7 @@ var wp;
       }
     };
     const isInfiniteScroll = view.infiniteScrollEnabled && !dataByGroup;
-    const isRtl = (0, import_i18n79.isRTL)();
+    const isRtl = (0, import_i18n80.isRTL)();
     const mediaAspectRatio = view.layout?.aspectRatio && MEDIA_ASPECT_RATIOS.includes(view.layout.aspectRatio) ? view.layout.aspectRatio : void 0;
     const tableStyle = {
       "--wp-dataviews-media-aspect-ratio": mediaAspectRatio ?? "1/1"
@@ -79702,7 +79729,7 @@ var wp;
                           "dataviews-view-table__actions-column--stuck": !isHorizontalScrollEnd
                         }
                       ),
-                      children: /* @__PURE__ */ (0, import_jsx_runtime390.jsx)("span", { className: "dataviews-view-table-header", children: (0, import_i18n79.__)("Actions") })
+                      children: /* @__PURE__ */ (0, import_jsx_runtime390.jsx)("span", { className: "dataviews-view-table-header", children: (0, import_i18n80.__)("Actions") })
                     }
                   )
                 ] })
@@ -79715,9 +79742,9 @@ var wp;
                   {
                     colSpan: columnCount,
                     className: "dataviews-view-table__group-header-cell",
-                    children: view.groupBy?.showLabel === false ? groupName : (0, import_i18n79.sprintf)(
+                    children: view.groupBy?.showLabel === false ? groupName : (0, import_i18n80.sprintf)(
                       // translators: 1: The label of the field e.g. "Date". 2: The value of the field, e.g.: "May 2022".
-                      (0, import_i18n79.__)("%1$s: %2$s"),
+                      (0, import_i18n80.__)("%1$s: %2$s"),
                       groupField.label,
                       groupName
                     )
@@ -79792,17 +79819,17 @@ var wp;
   // packages/dataviews/build-module/components/dataviews-layouts/grid/index.mjs
   var import_components60 = __toESM(require_components(), 1);
   var import_element229 = __toESM(require_element(), 1);
-  var import_i18n82 = __toESM(require_i18n(), 1);
+  var import_i18n83 = __toESM(require_i18n(), 1);
 
   // packages/dataviews/build-module/components/dataviews-layouts/grid/composite-grid.mjs
   var import_components59 = __toESM(require_components(), 1);
-  var import_i18n81 = __toESM(require_i18n(), 1);
+  var import_i18n82 = __toESM(require_i18n(), 1);
   var import_compose67 = __toESM(require_compose(), 1);
   var import_element228 = __toESM(require_element(), 1);
 
   // packages/dataviews/build-module/components/dataviews-layouts/grid/preview-size-picker.mjs
   var import_components58 = __toESM(require_components(), 1);
-  var import_i18n80 = __toESM(require_i18n(), 1);
+  var import_i18n81 = __toESM(require_i18n(), 1);
   var import_element225 = __toESM(require_element(), 1);
   var import_jsx_runtime391 = __toESM(require_jsx_runtime(), 1);
   var imageSizes = [
@@ -79967,7 +79994,7 @@ var wp;
             "aria-label": titleField?.getValueFormatted({
               item,
               field: titleField
-            }) || (0, import_i18n81.__)("Navigate to item")
+            }) || (0, import_i18n82.__)("Navigate to item")
           };
         }
       }
@@ -80309,9 +80336,9 @@ var wp;
                   {
                     role: "row",
                     "aria-rowindex": i + 1,
-                    "aria-label": (0, import_i18n81.sprintf)(
+                    "aria-label": (0, import_i18n82.sprintf)(
                       /* translators: %d: The row number in the grid */
-                      (0, import_i18n81.__)("Row %d"),
+                      (0, import_i18n82.__)("Row %d"),
                       i + 1
                     ),
                     className: "dataviews-view-grid__row",
@@ -80480,9 +80507,9 @@ var wp;
             direction: "column",
             gap: "sm",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime394.jsx)("h3", { className: "dataviews-view-grid__group-header", children: view.groupBy?.showLabel === false ? groupName : (0, import_i18n82.sprintf)(
+              /* @__PURE__ */ (0, import_jsx_runtime394.jsx)("h3", { className: "dataviews-view-grid__group-header", children: view.groupBy?.showLabel === false ? groupName : (0, import_i18n83.sprintf)(
                 // translators: 1: The label of the field e.g. "Date". 2: The value of the field, e.g.: "May 2022".
-                (0, import_i18n82.__)("%1$s: %2$s"),
+                (0, import_i18n83.__)("%1$s: %2$s"),
                 groupField.label,
                 groupName
               ) }),
@@ -80517,7 +80544,7 @@ var wp;
   var import_compose68 = __toESM(require_compose(), 1);
   var import_components61 = __toESM(require_components(), 1);
   var import_element230 = __toESM(require_element(), 1);
-  var import_i18n83 = __toESM(require_i18n(), 1);
+  var import_i18n84 = __toESM(require_i18n(), 1);
   var import_data66 = __toESM(require_data(), 1);
   var import_jsx_runtime395 = __toESM(require_jsx_runtime(), 1);
   function generateItemWrapperCompositeId(idPrefix) {
@@ -80540,7 +80567,7 @@ var wp;
       idPrefix,
       primaryAction.id
     );
-    const label = typeof primaryAction.label === "string" ? primaryAction.label : primaryAction.label([item]);
+    const label = getActionLabel(primaryAction, [item]);
     return "RenderModal" in primaryAction ? /* @__PURE__ */ (0, import_jsx_runtime395.jsx)("div", { role: "gridcell", children: /* @__PURE__ */ (0, import_jsx_runtime395.jsx)(
       import_components61.Composite.Item,
       {
@@ -80682,7 +80709,7 @@ var wp;
                         {
                           size: "small",
                           icon: more_vertical_default,
-                          label: (0, import_i18n83.__)("Actions"),
+                          label: (0, import_i18n84.__)("Actions"),
                           accessibleWhenDisabled: true,
                           onKeyDownCapture: onDropdownTriggerKeyDown
                         }
@@ -80989,9 +81016,9 @@ var wp;
           role: "grid",
           children: /* @__PURE__ */ (0, import_jsx_runtime395.jsx)(Stack, { direction: "column", gap: "lg", className: listClassName, children: Array.from(dataByGroup.entries()).map(
             ([groupName, groupItems]) => /* @__PURE__ */ (0, import_jsx_runtime395.jsxs)(Stack, { direction: "column", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime395.jsx)("h3", { className: "dataviews-view-list__group-header", children: view.groupBy?.showLabel === false ? groupName : (0, import_i18n83.sprintf)(
+              /* @__PURE__ */ (0, import_jsx_runtime395.jsx)("h3", { className: "dataviews-view-list__group-header", children: view.groupBy?.showLabel === false ? groupName : (0, import_i18n84.sprintf)(
                 // translators: 1: The label of the field e.g. "Date". 2: The value of the field, e.g.: "May 2022".
-                (0, import_i18n83.__)("%1$s: %2$s"),
+                (0, import_i18n84.__)("%1$s: %2$s"),
                 groupField.label,
                 groupName
               ) }),
@@ -81072,7 +81099,7 @@ var wp;
   var import_components62 = __toESM(require_components(), 1);
 
   // packages/dataviews/build-module/components/dataviews-layouts/activity/activity-group.mjs
-  var import_i18n84 = __toESM(require_i18n(), 1);
+  var import_i18n85 = __toESM(require_i18n(), 1);
   var import_element231 = __toESM(require_element(), 1);
   var import_jsx_runtime396 = __toESM(require_jsx_runtime(), 1);
   function ActivityGroup({
@@ -81084,7 +81111,7 @@ var wp;
   }) {
     const groupHeader = showLabel ? (0, import_element231.createInterpolateElement)(
       // translators: %s: The label of the field e.g. "Status".
-      (0, import_i18n84.sprintf)((0, import_i18n84.__)("%s: <groupName />"), groupField.label).trim(),
+      (0, import_i18n85.sprintf)((0, import_i18n85.__)("%s: <groupName />"), groupField.label).trim(),
       {
         groupName: /* @__PURE__ */ (0, import_jsx_runtime396.jsx)(
           groupField.render,
@@ -81381,7 +81408,7 @@ var wp;
 
   // packages/dataviews/build-module/components/dataviews-layouts/picker-grid/index.mjs
   var import_components65 = __toESM(require_components(), 1);
-  var import_i18n87 = __toESM(require_i18n(), 1);
+  var import_i18n88 = __toESM(require_i18n(), 1);
   var import_compose70 = __toESM(require_compose(), 1);
   var import_element235 = __toESM(require_element(), 1);
 
@@ -81389,12 +81416,12 @@ var wp;
   var import_components64 = __toESM(require_components(), 1);
   var import_data68 = __toESM(require_data(), 1);
   var import_element234 = __toESM(require_element(), 1);
-  var import_i18n86 = __toESM(require_i18n(), 1);
+  var import_i18n87 = __toESM(require_i18n(), 1);
 
   // packages/dataviews/build-module/components/dataviews-pagination/index.mjs
   var import_components63 = __toESM(require_components(), 1);
   var import_element233 = __toESM(require_element(), 1);
-  var import_i18n85 = __toESM(require_i18n(), 1);
+  var import_i18n86 = __toESM(require_i18n(), 1);
   var import_jsx_runtime399 = __toESM(require_jsx_runtime(), 1);
   function hasPaginationControls(view, paginationInfo) {
     return !view.infiniteScrollEnabled && paginationInfo.totalItems > 0 && paginationInfo.totalPages > 1;
@@ -81412,9 +81439,9 @@ var wp;
         return {
           value: page.toString(),
           label: page.toString(),
-          "aria-label": currentPage === page ? (0, import_i18n85.sprintf)(
+          "aria-label": currentPage === page ? (0, import_i18n86.sprintf)(
             // translators: 1: current page number. 2: total number of pages.
-            (0, import_i18n85.__)("Page %1$d of %2$d"),
+            (0, import_i18n86.__)("Page %1$d of %2$d"),
             currentPage,
             totalPages
           ) : page.toString()
@@ -81430,9 +81457,9 @@ var wp;
         gap: "xs",
         className: clsx_default("dataviews-pagination__page-select", className),
         children: (0, import_element233.createInterpolateElement)(
-          (0, import_i18n85.sprintf)(
+          (0, import_i18n86.sprintf)(
             // translators: 1: Current page number, 2: Total number of pages.
-            (0, import_i18n85._x)("<div>Page</div>%1$s<div>of %2$d</div>", "paging"),
+            (0, import_i18n86._x)("<div>Page</div>%1$s<div>of %2$d</div>", "paging"),
             "<CurrentPage />",
             totalPages
           ),
@@ -81459,7 +81486,7 @@ var wp;
                       className: "dataviews-pagination__page-select-trigger",
                       size: "small",
                       variant: "minimal",
-                      "aria-label": (0, import_i18n85.__)("Current page")
+                      "aria-label": (0, import_i18n86.__)("Current page")
                     }
                   ),
                   /* @__PURE__ */ (0, import_jsx_runtime399.jsx)(select_exports.Popup, { width: "content", children: pageSelectOptions.map((option) => /* @__PURE__ */ (0, import_jsx_runtime399.jsx)(
@@ -81509,8 +81536,8 @@ var wp;
               }),
               disabled: currentPage === 1,
               accessibleWhenDisabled: true,
-              label: (0, import_i18n85.__)("Previous page"),
-              icon: (0, import_i18n85.isRTL)() ? next_default : previous_default,
+              label: (0, import_i18n86.__)("Previous page"),
+              icon: (0, import_i18n86.isRTL)() ? next_default : previous_default,
               showTooltip: true,
               size: "compact",
               tooltipPosition: "top"
@@ -81522,8 +81549,8 @@ var wp;
               onClick: () => onChangeView({ ...view, page: currentPage + 1 }),
               disabled: currentPage >= totalPages,
               accessibleWhenDisabled: true,
-              label: (0, import_i18n85.__)("Next page"),
-              icon: (0, import_i18n85.isRTL)() ? previous_default : next_default,
+              label: (0, import_i18n86.__)("Next page"),
+              icon: (0, import_i18n86.isRTL)() ? previous_default : next_default,
               showTooltip: true,
               size: "compact",
               tooltipPosition: "top"
@@ -81602,7 +81629,7 @@ var wp;
       import_components65.Composite.Item,
       {
         ref: elementRef,
-        "aria-label": titleField ? titleField.getValue({ item }) || (0, import_i18n87.__)("(no title)") : void 0,
+        "aria-label": titleField ? titleField.getValue({ item }) || (0, import_i18n88.__)("(no title)") : void 0,
         render: ({ children, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime401.jsx)(Stack, { direction: "column", children, ...props }),
         role: "option",
         "aria-posinset": posinset,
@@ -81742,9 +81769,9 @@ var wp;
             {
               className: "dataviews-view-picker-grid-group__header",
               id: headerId,
-              children: showLabel ? (0, import_i18n87.sprintf)(
+              children: showLabel ? (0, import_i18n88.sprintf)(
                 // translators: 1: The label of the field e.g. "Date". 2: The value of the field, e.g.: "May 2022".
-                (0, import_i18n87.__)("%1$s: %2$s"),
+                (0, import_i18n88.__)("%1$s: %2$s"),
                 groupField.label,
                 groupName
               ) : groupName
@@ -81993,7 +82020,7 @@ var wp;
   var picker_grid_default = ViewPickerGrid;
 
   // packages/dataviews/build-module/components/dataviews-layouts/picker-table/index.mjs
-  var import_i18n88 = __toESM(require_i18n(), 1);
+  var import_i18n89 = __toESM(require_i18n(), 1);
   var import_components66 = __toESM(require_components(), 1);
   var import_element236 = __toESM(require_element(), 1);
   var import_jsx_runtime402 = __toESM(require_jsx_runtime(), 1);
@@ -82314,9 +82341,9 @@ var wp;
                             colSpan: columns.length + (hasPrimaryColumn ? 1 : 0) + 1,
                             className: "dataviews-view-table__group-header-cell",
                             role: "presentation",
-                            children: view.groupBy?.showLabel === false ? groupName : (0, import_i18n88.sprintf)(
+                            children: view.groupBy?.showLabel === false ? groupName : (0, import_i18n89.sprintf)(
                               // translators: 1: The label of the field e.g. "Date". 2: The value of the field, e.g.: "May 2022".
-                              (0, import_i18n88.__)("%1$s: %2$s"),
+                              (0, import_i18n89.__)("%1$s: %2$s"),
                               groupField.label,
                               groupName
                             )
@@ -82408,7 +82435,7 @@ var wp;
   var import_components67 = __toESM(require_components(), 1);
   var import_element237 = __toESM(require_element(), 1);
   var import_compose71 = __toESM(require_compose(), 1);
-  var import_i18n89 = __toESM(require_i18n(), 1);
+  var import_i18n90 = __toESM(require_i18n(), 1);
   var import_jsx_runtime403 = __toESM(require_jsx_runtime(), 1);
   function isDefined4(item) {
     return !!item;
@@ -82552,9 +82579,9 @@ var wp;
             {
               className: "dataviews-view-picker-activity-group__header",
               id: headerId,
-              children: showLabel ? (0, import_i18n89.sprintf)(
+              children: showLabel ? (0, import_i18n90.sprintf)(
                 // translators: 1: The label of the field e.g. "Date". 2: The value of the field, e.g.: "May 2022".
-                (0, import_i18n89.__)("%1$s: %2$s"),
+                (0, import_i18n90.__)("%1$s: %2$s"),
                 groupField.label,
                 groupName
               ) : groupName
@@ -82669,7 +82696,7 @@ var wp;
 
   // packages/dataviews/build-module/components/dataviews-layouts/utils/density-picker.mjs
   var import_components68 = __toESM(require_components(), 1);
-  var import_i18n90 = __toESM(require_i18n(), 1);
+  var import_i18n91 = __toESM(require_i18n(), 1);
   var import_element238 = __toESM(require_element(), 1);
   var import_jsx_runtime404 = __toESM(require_jsx_runtime(), 1);
   function DensityPicker() {
@@ -82678,7 +82705,7 @@ var wp;
     return /* @__PURE__ */ (0, import_jsx_runtime404.jsxs)(
       import_components68.__experimentalToggleGroupControl,
       {
-        label: (0, import_i18n90.__)("Density"),
+        label: (0, import_i18n91.__)("Density"),
         value: view.layout?.density || "balanced",
         onChange: (value) => {
           context.onChangeView({
@@ -82695,7 +82722,7 @@ var wp;
             import_components68.__experimentalToggleGroupControlOption,
             {
               value: "comfortable",
-              label: (0, import_i18n90._x)(
+              label: (0, import_i18n91._x)(
                 "Comfortable",
                 "Density option for DataView layout"
               )
@@ -82706,7 +82733,7 @@ var wp;
             import_components68.__experimentalToggleGroupControlOption,
             {
               value: "balanced",
-              label: (0, import_i18n90._x)("Balanced", "Density option for DataView layout")
+              label: (0, import_i18n91._x)("Balanced", "Density option for DataView layout")
             },
             "balanced"
           ),
@@ -82714,7 +82741,7 @@ var wp;
             import_components68.__experimentalToggleGroupControlOption,
             {
               value: "compact",
-              label: (0, import_i18n90._x)("Compact", "Density option for DataView layout")
+              label: (0, import_i18n91._x)("Compact", "Density option for DataView layout")
             },
             "compact"
           )
@@ -82725,7 +82752,7 @@ var wp;
 
   // packages/dataviews/build-module/components/dataviews-layouts/utils/media-fit-control.mjs
   var import_components69 = __toESM(require_components(), 1);
-  var import_i18n91 = __toESM(require_i18n(), 1);
+  var import_i18n92 = __toESM(require_i18n(), 1);
   var import_element239 = __toESM(require_element(), 1);
   var import_jsx_runtime405 = __toESM(require_jsx_runtime(), 1);
   function MediaFitControl() {
@@ -82741,7 +82768,7 @@ var wp;
     return /* @__PURE__ */ (0, import_jsx_runtime405.jsx)(
       import_components69.ToggleControl,
       {
-        label: (0, import_i18n91.__)("Original aspect ratio"),
+        label: (0, import_i18n92.__)("Original aspect ratio"),
         checked: view.layout?.mediaFit === "contain",
         onChange: (isChecked) => {
           context.onChangeView({
@@ -82758,7 +82785,7 @@ var wp;
 
   // packages/dataviews/build-module/components/dataviews-layouts/utils/preview-size-picker.mjs
   var import_components70 = __toESM(require_components(), 1);
-  var import_i18n92 = __toESM(require_i18n(), 1);
+  var import_i18n93 = __toESM(require_i18n(), 1);
   var import_element240 = __toESM(require_element(), 1);
   var import_jsx_runtime406 = __toESM(require_jsx_runtime(), 1);
   var imageSizes2 = [
@@ -82807,7 +82834,7 @@ var wp;
       import_components70.RangeControl,
       {
         showTooltip: false,
-        label: (0, import_i18n92.__)("Preview size"),
+        label: (0, import_i18n93.__)("Preview size"),
         value: previewSizeToUse,
         min: 0,
         max: breakValues.length - 1,
@@ -82841,35 +82868,35 @@ var wp;
   var VIEW_LAYOUTS = [
     {
       type: LAYOUT_TABLE,
-      label: (0, import_i18n93.__)("Table"),
+      label: (0, import_i18n94.__)("Table"),
       component: table_default,
       icon: block_table_default,
       viewConfigOptions: DensityPicker
     },
     {
       type: LAYOUT_GRID,
-      label: (0, import_i18n93.__)("Grid"),
+      label: (0, import_i18n94.__)("Grid"),
       component: grid_default3,
       icon: category_default,
       viewConfigOptions: GridConfigOptions
     },
     {
       type: LAYOUT_LIST,
-      label: (0, import_i18n93.__)("List"),
+      label: (0, import_i18n94.__)("List"),
       component: ViewList,
-      icon: (0, import_i18n93.isRTL)() ? format_list_bullets_rtl_default : format_list_bullets_default,
+      icon: (0, import_i18n94.isRTL)() ? format_list_bullets_rtl_default : format_list_bullets_default,
       viewConfigOptions: DensityPicker
     },
     {
       type: LAYOUT_ACTIVITY,
-      label: (0, import_i18n93.__)("Activity"),
+      label: (0, import_i18n94.__)("Activity"),
       component: ViewActivity,
       icon: scheduled_default,
       viewConfigOptions: DensityPicker
     },
     {
       type: LAYOUT_PICKER_GRID,
-      label: (0, import_i18n93.__)("Grid"),
+      label: (0, import_i18n94.__)("Grid"),
       component: picker_grid_default,
       icon: category_default,
       viewConfigOptions: GridConfigOptions,
@@ -82877,7 +82904,7 @@ var wp;
     },
     {
       type: LAYOUT_PICKER_TABLE,
-      label: (0, import_i18n93.__)("Table"),
+      label: (0, import_i18n94.__)("Table"),
       component: picker_table_default,
       icon: block_table_default,
       viewConfigOptions: DensityPicker,
@@ -82885,7 +82912,7 @@ var wp;
     },
     {
       type: LAYOUT_PICKER_ACTIVITY,
-      label: (0, import_i18n93.__)("Activity"),
+      label: (0, import_i18n94.__)("Activity"),
       component: ViewPickerActivity,
       icon: scheduled_default,
       viewConfigOptions: DensityPicker,
@@ -82898,7 +82925,7 @@ var wp;
 
   // packages/dataviews/build-module/components/dataviews-filters/filter.mjs
   var import_components73 = __toESM(require_components(), 1);
-  var import_i18n96 = __toESM(require_i18n(), 1);
+  var import_i18n97 = __toESM(require_i18n(), 1);
   var import_element245 = __toESM(require_element(), 1);
 
   // node_modules/.store/@ariakit/react-components@0.7.1-aGG7Eicir0X5jH9sMy0tHA/node_modules/@ariakit/react-components/dist/button/utils.js
@@ -87939,7 +87966,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/dataviews/build-module/components/dataviews-filters/search-widget.mjs
   var import_remove_accents2 = __toESM(require_remove_accents(), 1);
   var import_compose72 = __toESM(require_compose(), 1);
-  var import_i18n94 = __toESM(require_i18n(), 1);
+  var import_i18n95 = __toESM(require_i18n(), 1);
   var import_element242 = __toESM(require_element(), 1);
   var import_components71 = __toESM(require_components(), 1);
 
@@ -88063,9 +88090,9 @@ If there's a particular need for this, please submit a feature request at https:
         setActiveId: setActiveCompositeId,
         role: "listbox",
         className: "dataviews-filters__search-widget-listbox",
-        "aria-label": (0, import_i18n94.sprintf)(
+        "aria-label": (0, import_i18n95.sprintf)(
           /* translators: List of items for a filter. 1: Filter name. e.g.: "List of: Author". */
-          (0, import_i18n94.__)("List of: %1$s"),
+          (0, import_i18n95.__)("List of: %1$s"),
           filter.name
         ),
         onFocusVisible: () => {
@@ -88209,12 +88236,12 @@ If there's a particular need for this, please submit a feature request at https:
         setValue: setSearchValue,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime417.jsxs)("div", { className: "dataviews-filters__search-widget-filter-combobox__wrapper", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime417.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime417.jsx)(ComboboxLabel, {}), children: (0, import_i18n94.__)("Search items") }),
+            /* @__PURE__ */ (0, import_jsx_runtime417.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime417.jsx)(ComboboxLabel, {}), children: (0, import_i18n95.__)("Search items") }),
             /* @__PURE__ */ (0, import_jsx_runtime417.jsx)(
               Combobox,
               {
                 autoSelect: "always",
-                placeholder: (0, import_i18n94.__)("Search"),
+                placeholder: (0, import_i18n95.__)("Search"),
                 className: "dataviews-filters__search-widget-filter-combobox__input"
               }
             ),
@@ -88273,7 +88300,7 @@ If there's a particular need for this, please submit a feature request at https:
                     element.value
                   );
                 }),
-                !matches2.length && /* @__PURE__ */ (0, import_jsx_runtime417.jsx)("p", { children: (0, import_i18n94.__)("No results found") })
+                !matches2.length && /* @__PURE__ */ (0, import_jsx_runtime417.jsx)("p", { children: (0, import_i18n95.__)("No results found") })
               ]
             }
           )
@@ -88290,7 +88317,7 @@ If there's a particular need for this, please submit a feature request at https:
       return /* @__PURE__ */ (0, import_jsx_runtime417.jsx)("div", { className: "dataviews-filters__search-widget-no-elements", children: /* @__PURE__ */ (0, import_jsx_runtime417.jsx)(import_components71.Spinner, {}) });
     }
     if (elements.length === 0) {
-      return /* @__PURE__ */ (0, import_jsx_runtime417.jsx)("div", { className: "dataviews-filters__search-widget-no-elements", children: (0, import_i18n94.__)("No elements found") });
+      return /* @__PURE__ */ (0, import_jsx_runtime417.jsx)("div", { className: "dataviews-filters__search-widget-no-elements", children: (0, import_i18n95.__)("No elements found") });
     }
     const Widget = elements.length > 10 ? ComboboxList22 : ListBox;
     return /* @__PURE__ */ (0, import_jsx_runtime417.jsx)(Widget, { ...props, filter: { ...props.filter, elements } });
@@ -88390,7 +88417,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/dataviews/build-module/utils/operators.mjs
-  var import_i18n95 = __toESM(require_i18n(), 1);
+  var import_i18n96 = __toESM(require_i18n(), 1);
   var import_element244 = __toESM(require_element(), 1);
   var import_date2 = __toESM(require_date(), 1);
 
@@ -88444,11 +88471,11 @@ If there's a particular need for this, please submit a feature request at https:
   }
   var isNoneOperatorDefinition = {
     /* translators: DataViews operator name */
-    label: (0, import_i18n95.__)("Is none of"),
+    label: (0, import_i18n96.__)("Is none of"),
     filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-      (0, import_i18n95.sprintf)(
+      (0, import_i18n96.sprintf)(
         /* translators: 1: Filter name (e.g. "Author"). 2: Filter value (e.g. "Admin"): "Author is none of: Admin, Editor". */
-        (0, import_i18n95.__)("<Name>%1$s is none of: </Name><Value>%2$s</Value>"),
+        (0, import_i18n96.__)("<Name>%1$s is none of: </Name><Value>%2$s</Value>"),
         filter.name,
         activeElements.map((element) => element.label).join(", ")
       ),
@@ -88474,11 +88501,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_IS_ANY,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Includes"),
+      label: (0, import_i18n96.__)("Includes"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Author"). 2: Filter value (e.g. "Admin"): "Author is any: Admin, Editor". */
-          (0, import_i18n95.__)("<Name>%1$s includes: </Name><Value>%2$s</Value>"),
+          (0, import_i18n96.__)("<Name>%1$s includes: </Name><Value>%2$s</Value>"),
           filter.name,
           activeElements.map((element) => element.label).join(", ")
         ),
@@ -88507,11 +88534,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_IS_ALL,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Includes all"),
+      label: (0, import_i18n96.__)("Includes all"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Author"). 2: Filter value (e.g. "Admin"): "Author includes all: Admin, Editor". */
-          (0, import_i18n95.__)("<Name>%1$s includes all: </Name><Value>%2$s</Value>"),
+          (0, import_i18n96.__)("<Name>%1$s includes all: </Name><Value>%2$s</Value>"),
           filter.name,
           activeElements.map((element) => element.label).join(", ")
         ),
@@ -88538,11 +88565,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_BETWEEN,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Between (inc)"),
+      label: (0, import_i18n96.__)("Between (inc)"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Item count"). 2: Filter value min. 3: Filter value max. e.g.: "Item count between (inc): 10 and 180". */
-          (0, import_i18n95.__)(
+          (0, import_i18n96.__)(
             "<Name>%1$s between (inc): </Name><Value>%2$s and %3$s</Value>"
           ),
           filter.name,
@@ -88574,11 +88601,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_IN_THE_PAST,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("In the past"),
+      label: (0, import_i18n96.__)("In the past"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Date"). 2: Filter value (e.g. "7 days"): "Date is in the past: 7 days". */
-          (0, import_i18n95.__)(
+          (0, import_i18n96.__)(
             "<Name>%1$s is in the past: </Name><Value>%2$s</Value>"
           ),
           filter.name,
@@ -88602,11 +88629,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_OVER,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Over"),
+      label: (0, import_i18n96.__)("Over"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Date"). 2: Filter value (e.g. "7 days"): "Date is over: 7 days". */
-          (0, import_i18n95.__)("<Name>%1$s is over: </Name><Value>%2$s</Value>"),
+          (0, import_i18n96.__)("<Name>%1$s is over: </Name><Value>%2$s</Value>"),
           filter.name,
           `${activeElements[0].value.value} ${activeElements[0].value.unit}`
         ),
@@ -88628,11 +88655,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_IS,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Is"),
+      label: (0, import_i18n96.__)("Is"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Author"). 2: Filter value (e.g. "Admin"): "Author is: Admin". */
-          (0, import_i18n95.__)("<Name>%1$s is: </Name><Value>%2$s</Value>"),
+          (0, import_i18n96.__)("<Name>%1$s is: </Name><Value>%2$s</Value>"),
           filter.name,
           activeElements[0].label
         ),
@@ -88646,11 +88673,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_IS_NOT,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Is not"),
+      label: (0, import_i18n96.__)("Is not"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Author"). 2: Filter value (e.g. "Admin"): "Author is not: Admin". */
-          (0, import_i18n95.__)("<Name>%1$s is not: </Name><Value>%2$s</Value>"),
+          (0, import_i18n96.__)("<Name>%1$s is not: </Name><Value>%2$s</Value>"),
           filter.name,
           activeElements[0].label
         ),
@@ -88664,11 +88691,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_LESS_THAN,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Less than"),
+      label: (0, import_i18n96.__)("Less than"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Count"). 2: Filter value (e.g. "10"): "Count is less than: 10". */
-          (0, import_i18n95.__)("<Name>%1$s is less than: </Name><Value>%2$s</Value>"),
+          (0, import_i18n96.__)("<Name>%1$s is less than: </Name><Value>%2$s</Value>"),
           filter.name,
           activeElements[0].label
         ),
@@ -88686,11 +88713,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_GREATER_THAN,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Greater than"),
+      label: (0, import_i18n96.__)("Greater than"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Count"). 2: Filter value (e.g. "10"): "Count is greater than: 10". */
-          (0, import_i18n95.__)(
+          (0, import_i18n96.__)(
             "<Name>%1$s is greater than: </Name><Value>%2$s</Value>"
           ),
           filter.name,
@@ -88710,11 +88737,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_LESS_THAN_OR_EQUAL,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Less than or equal"),
+      label: (0, import_i18n96.__)("Less than or equal"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Count"). 2: Filter value (e.g. "10"): "Count is less than or equal to: 10". */
-          (0, import_i18n95.__)(
+          (0, import_i18n96.__)(
             "<Name>%1$s is less than or equal to: </Name><Value>%2$s</Value>"
           ),
           filter.name,
@@ -88734,11 +88761,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_GREATER_THAN_OR_EQUAL,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Greater than or equal"),
+      label: (0, import_i18n96.__)("Greater than or equal"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Count"). 2: Filter value (e.g. "10"): "Count is greater than or equal to: 10". */
-          (0, import_i18n95.__)(
+          (0, import_i18n96.__)(
             "<Name>%1$s is greater than or equal to: </Name><Value>%2$s</Value>"
           ),
           filter.name,
@@ -88758,11 +88785,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_BEFORE,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Before"),
+      label: (0, import_i18n96.__)("Before"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Date"). 2: Filter value (e.g. "2024-01-01"): "Date is before: 2024-01-01". */
-          (0, import_i18n95.__)("<Name>%1$s is before: </Name><Value>%2$s</Value>"),
+          (0, import_i18n96.__)("<Name>%1$s is before: </Name><Value>%2$s</Value>"),
           filter.name,
           activeElements[0].label
         ),
@@ -88783,11 +88810,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_AFTER,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("After"),
+      label: (0, import_i18n96.__)("After"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Date"). 2: Filter value (e.g. "2024-01-01"): "Date is after: 2024-01-01". */
-          (0, import_i18n95.__)("<Name>%1$s is after: </Name><Value>%2$s</Value>"),
+          (0, import_i18n96.__)("<Name>%1$s is after: </Name><Value>%2$s</Value>"),
           filter.name,
           activeElements[0].label
         ),
@@ -88808,11 +88835,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_BEFORE_INC,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Before (inc)"),
+      label: (0, import_i18n96.__)("Before (inc)"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Date"). 2: Filter value (e.g. "2024-01-01"): "Date is on or before: 2024-01-01". */
-          (0, import_i18n95.__)(
+          (0, import_i18n96.__)(
             "<Name>%1$s is on or before: </Name><Value>%2$s</Value>"
           ),
           filter.name,
@@ -88835,11 +88862,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_AFTER_INC,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("After (inc)"),
+      label: (0, import_i18n96.__)("After (inc)"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Date"). 2: Filter value (e.g. "2024-01-01"): "Date is on or after: 2024-01-01". */
-          (0, import_i18n95.__)(
+          (0, import_i18n96.__)(
             "<Name>%1$s is on or after: </Name><Value>%2$s</Value>"
           ),
           filter.name,
@@ -88862,11 +88889,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_CONTAINS,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Contains"),
+      label: (0, import_i18n96.__)("Contains"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Title"). 2: Filter value (e.g. "Hello"): "Title contains: Hello". */
-          (0, import_i18n95.__)("<Name>%1$s contains: </Name><Value>%2$s</Value>"),
+          (0, import_i18n96.__)("<Name>%1$s contains: </Name><Value>%2$s</Value>"),
           filter.name,
           activeElements[0].label
         ),
@@ -88884,11 +88911,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_NOT_CONTAINS,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Doesn't contain"),
+      label: (0, import_i18n96.__)("Doesn't contain"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Title"). 2: Filter value (e.g. "Hello"): "Title doesn't contain: Hello". */
-          (0, import_i18n95.__)(
+          (0, import_i18n96.__)(
             "<Name>%1$s doesn't contain: </Name><Value>%2$s</Value>"
           ),
           filter.name,
@@ -88908,11 +88935,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_STARTS_WITH,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Starts with"),
+      label: (0, import_i18n96.__)("Starts with"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Title"). 2: Filter value (e.g. "Hello"): "Title starts with: Hello". */
-          (0, import_i18n95.__)("<Name>%1$s starts with: </Name><Value>%2$s</Value>"),
+          (0, import_i18n96.__)("<Name>%1$s starts with: </Name><Value>%2$s</Value>"),
           filter.name,
           activeElements[0].label
         ),
@@ -88930,11 +88957,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_ON,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("On"),
+      label: (0, import_i18n96.__)("On"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Date"). 2: Filter value (e.g. "2024-01-01"): "Date is: 2024-01-01". */
-          (0, import_i18n95.__)("<Name>%1$s is: </Name><Value>%2$s</Value>"),
+          (0, import_i18n96.__)("<Name>%1$s is: </Name><Value>%2$s</Value>"),
           filter.name,
           activeElements[0].label
         ),
@@ -88955,11 +88982,11 @@ If there's a particular need for this, please submit a feature request at https:
     {
       name: OPERATOR_NOT_ON,
       /* translators: DataViews operator name */
-      label: (0, import_i18n95.__)("Not on"),
+      label: (0, import_i18n96.__)("Not on"),
       filterText: (filter, activeElements) => (0, import_element244.createInterpolateElement)(
-        (0, import_i18n95.sprintf)(
+        (0, import_i18n96.sprintf)(
           /* translators: 1: Filter name (e.g. "Date"). 2: Filter value (e.g. "2024-01-01"): "Date is not: 2024-01-01". */
-          (0, import_i18n95.__)("<Name>%1$s is not: </Name><Value>%2$s</Value>"),
+          (0, import_i18n96.__)("<Name>%1$s is not: </Name><Value>%2$s</Value>"),
           filter.name,
           activeElements[0].label
         ),
@@ -89001,9 +89028,9 @@ If there's a particular need for this, please submit a feature request at https:
     if (operator !== void 0) {
       return operator.filterText(filter, activeElements);
     }
-    return (0, import_i18n96.sprintf)(
+    return (0, import_i18n97.sprintf)(
       /* translators: 1: Filter name e.g.: "Unknown status for Author". */
-      (0, import_i18n96.__)("Unknown status for %1$s"),
+      (0, import_i18n97.__)("Unknown status for %1$s"),
       filter.name
     );
   };
@@ -89084,7 +89111,7 @@ If there's a particular need for this, please submit a feature request at https:
                   {
                     size: "small",
                     variant: "minimal",
-                    "aria-label": (0, import_i18n96.__)("Conditions"),
+                    "aria-label": (0, import_i18n97.__)("Conditions"),
                     className: "dataviews-filters__summary-operators-filter-select",
                     style: { minWidth: 0 }
                   }
@@ -89180,7 +89207,7 @@ If there's a particular need for this, please submit a feature request at https:
     const isLocked = filterInView?.isLocked;
     const hasValues = !isLocked && filterInView?.value !== void 0;
     const canResetOrRemove = !isLocked && (!isPrimary || hasValues);
-    const resetOrRemoveLabel = isPrimary ? (0, import_i18n96.__)("Reset") : (0, import_i18n96.__)("Remove");
+    const resetOrRemoveLabel = isPrimary ? (0, import_i18n97.__)("Reset") : (0, import_i18n97.__)("Remove");
     return /* @__PURE__ */ (0, import_jsx_runtime420.jsx)(
       import_components73.Dropdown,
       {
@@ -89238,9 +89265,9 @@ If there's a particular need for this, please submit a feature request at https:
                 )
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime420.jsx)(tooltip_exports.Popup, { children: (0, import_i18n96.sprintf)(
+            /* @__PURE__ */ (0, import_jsx_runtime420.jsx)(tooltip_exports.Popup, { children: (0, import_i18n97.sprintf)(
               /* translators: 1: Filter name. */
-              (0, import_i18n96.__)("Filter by: %1$s"),
+              (0, import_i18n97.__)("Filter by: %1$s"),
               filter.name.toLowerCase()
             ) })
           ] }),
@@ -89299,7 +89326,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/dataviews/build-module/components/dataviews-filters/add-filter.mjs
   var import_components74 = __toESM(require_components(), 1);
-  var import_i18n97 = __toESM(require_i18n(), 1);
+  var import_i18n98 = __toESM(require_i18n(), 1);
   var import_element246 = __toESM(require_element(), 1);
   var import_jsx_runtime421 = __toESM(require_jsx_runtime(), 1);
   function AddFilterMenu({
@@ -89362,7 +89389,7 @@ If there's a particular need for this, please submit a feature request at https:
               ref
             }
           ),
-          children: (0, import_i18n97.__)("Add filter")
+          children: (0, import_i18n98.__)("Add filter")
         },
         ...{ filters, view, onChangeView, setOpenedFilter }
       }
@@ -89372,7 +89399,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/dataviews/build-module/components/dataviews-filters/reset-filters.mjs
   var import_components75 = __toESM(require_components(), 1);
-  var import_i18n98 = __toESM(require_i18n(), 1);
+  var import_i18n99 = __toESM(require_i18n(), 1);
   var import_jsx_runtime422 = __toESM(require_jsx_runtime(), 1);
   function ResetFilter({
     filters,
@@ -89401,7 +89428,7 @@ If there's a particular need for this, please submit a feature request at https:
             filters: view.filters?.filter((f) => !!f.isLocked) || []
           });
         },
-        children: (0, import_i18n98.__)("Reset")
+        children: (0, import_i18n99.__)("Reset")
       }
     );
   }
@@ -89523,7 +89550,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/dataviews/build-module/components/dataviews-filters/toggle.mjs
   var import_element249 = __toESM(require_element(), 1);
   var import_components76 = __toESM(require_components(), 1);
-  var import_i18n99 = __toESM(require_i18n(), 1);
+  var import_i18n100 = __toESM(require_i18n(), 1);
   var import_jsx_runtime424 = __toESM(require_jsx_runtime(), 1);
   function FiltersToggle() {
     const {
@@ -89547,12 +89574,12 @@ If there's a particular need for this, please submit a feature request at https:
     }
     const hasVisibleFilters = filters.some((filter) => filter.isVisible);
     const addFilterButtonProps = {
-      label: (0, import_i18n99.__)("Add filter"),
+      label: (0, import_i18n100.__)("Add filter"),
       "aria-expanded": false,
       isPressed: false
     };
     const toggleFiltersButtonProps = {
-      label: (0, import_i18n99._x)("Filter", "verb"),
+      label: (0, import_i18n100._x)("Filter", "verb"),
       "aria-expanded": isShowingFilter,
       isPressed: isShowingFilter,
       onClick: () => {
@@ -89628,7 +89655,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/dataviews/build-module/components/dataviews-layout/index.mjs
   var import_element251 = __toESM(require_element(), 1);
   var import_components77 = __toESM(require_components(), 1);
-  var import_i18n100 = __toESM(require_i18n(), 1);
+  var import_i18n101 = __toESM(require_i18n(), 1);
   var import_jsx_runtime426 = __toESM(require_jsx_runtime(), 1);
   function DataViewsLayout({ className }) {
     const {
@@ -89649,7 +89676,7 @@ If there's a particular need for this, please submit a feature request at https:
       renderItemLink,
       defaultLayouts,
       containerRef,
-      empty = /* @__PURE__ */ (0, import_jsx_runtime426.jsx)("p", { children: (0, import_i18n100.__)("No results") })
+      empty = /* @__PURE__ */ (0, import_jsx_runtime426.jsx)("p", { children: (0, import_i18n101.__)("No results") })
     } = (0, import_element251.useContext)(dataviews_context_default);
     const isDelayedInitialLoading = useDelayedLoading(!hasInitiallyLoaded, {
       delay: 200
@@ -89743,7 +89770,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/dataviews/build-module/components/dataviews-search/index.mjs
-  var import_i18n101 = __toESM(require_i18n(), 1);
+  var import_i18n102 = __toESM(require_i18n(), 1);
   var import_element254 = __toESM(require_element(), 1);
   var import_components78 = __toESM(require_components(), 1);
   var import_compose74 = __toESM(require_compose(), 1);
@@ -89774,7 +89801,7 @@ If there's a particular need for this, please submit a feature request at https:
         });
       }
     }, [debouncedSearch]);
-    const searchLabel = label || (0, import_i18n101.__)("Search");
+    const searchLabel = label || (0, import_i18n102.__)("Search");
     return /* @__PURE__ */ (0, import_jsx_runtime429.jsx)(
       import_components78.SearchControl,
       {
@@ -89791,7 +89818,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/dataviews/build-module/components/dataviews-view-config/index.mjs
   var import_components79 = __toESM(require_components(), 1);
-  var import_i18n102 = __toESM(require_i18n(), 1);
+  var import_i18n103 = __toESM(require_i18n(), 1);
   var import_element255 = __toESM(require_element(), 1);
   var import_warning8 = __toESM(require_warning(), 1);
   var import_compose75 = __toESM(require_compose(), 1);
@@ -89817,7 +89844,7 @@ If there's a particular need for this, please submit a feature request at https:
             {
               size: "compact",
               icon: activeView?.icon,
-              label: (0, import_i18n102.__)("Layout")
+              label: (0, import_i18n103.__)("Layout")
             }
           )
         }
@@ -89884,7 +89911,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime430.jsx)(
       import_components79.SelectControl,
       {
-        label: (0, import_i18n102.__)("Sort by"),
+        label: (0, import_i18n103.__)("Sort by"),
         value: view.sort?.field,
         options: orderOptions,
         onChange: (value) => {
@@ -89917,7 +89944,7 @@ If there's a particular need for this, please submit a feature request at https:
       {
         className: "dataviews-view-config__sort-direction",
         isBlock: true,
-        label: (0, import_i18n102.__)("Order"),
+        label: (0, import_i18n103.__)("Order"),
         value,
         onChange: (newDirection) => {
           if (newDirection === "asc" || newDirection === "desc") {
@@ -89960,7 +89987,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components79.__experimentalToggleGroupControl,
       {
         isBlock: true,
-        label: (0, import_i18n102.__)("Items per page"),
+        label: (0, import_i18n103.__)("Items per page"),
         value: view.perPage || 10,
         disabled: !view?.sort?.field,
         onChange: (newItemsPerPage) => {
@@ -90003,7 +90030,7 @@ If there's a particular need for this, please submit a feature request at https:
             onReset();
           }
         },
-        children: (0, import_i18n102.__)("Reset view")
+        children: (0, import_i18n103.__)("Reset view")
       }
     );
   }
@@ -90032,7 +90059,7 @@ If there's a particular need for this, please submit a feature request at https:
               {
                 size: "compact",
                 icon: cog_default,
-                label: (0, import_i18n102._x)(
+                label: (0, import_i18n103._x)(
                   "View options",
                   "View is used as a noun"
                 ),
@@ -90069,7 +90096,7 @@ If there's a particular need for this, please submit a feature request at https:
                           {
                             level: 2,
                             className: "dataviews-settings-section__title",
-                            children: (0, import_i18n102.__)("Appearance")
+                            children: (0, import_i18n103.__)("Appearance")
                           }
                         ),
                         /* @__PURE__ */ (0, import_jsx_runtime430.jsx)(ResetViewButton, {})
@@ -90526,27 +90553,27 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/dataviews/build-module/components/dataform-controls/datetime.mjs
   var import_components90 = __toESM(require_components(), 1);
   var import_element268 = __toESM(require_element(), 1);
-  var import_i18n105 = __toESM(require_i18n(), 1);
+  var import_i18n106 = __toESM(require_i18n(), 1);
   var import_a11y10 = __toESM(require_a11y(), 1);
   var import_date5 = __toESM(require_date(), 1);
 
   // packages/dataviews/build-module/components/dataform-controls/utils/relative-date-control.mjs
   var import_components89 = __toESM(require_components(), 1);
   var import_element266 = __toESM(require_element(), 1);
-  var import_i18n103 = __toESM(require_i18n(), 1);
+  var import_i18n104 = __toESM(require_i18n(), 1);
   var import_jsx_runtime441 = __toESM(require_jsx_runtime(), 1);
   var TIME_UNITS_OPTIONS = {
     [OPERATOR_IN_THE_PAST]: [
-      { value: "days", label: (0, import_i18n103.__)("Days") },
-      { value: "weeks", label: (0, import_i18n103.__)("Weeks") },
-      { value: "months", label: (0, import_i18n103.__)("Months") },
-      { value: "years", label: (0, import_i18n103.__)("Years") }
+      { value: "days", label: (0, import_i18n104.__)("Days") },
+      { value: "weeks", label: (0, import_i18n104.__)("Weeks") },
+      { value: "months", label: (0, import_i18n104.__)("Months") },
+      { value: "years", label: (0, import_i18n104.__)("Years") }
     ],
     [OPERATOR_OVER]: [
-      { value: "days", label: (0, import_i18n103.__)("Days ago") },
-      { value: "weeks", label: (0, import_i18n103.__)("Weeks ago") },
-      { value: "months", label: (0, import_i18n103.__)("Months ago") },
-      { value: "years", label: (0, import_i18n103.__)("Years ago") }
+      { value: "days", label: (0, import_i18n104.__)("Days ago") },
+      { value: "weeks", label: (0, import_i18n104.__)("Weeks ago") },
+      { value: "months", label: (0, import_i18n104.__)("Months ago") },
+      { value: "years", label: (0, import_i18n104.__)("Years ago") }
     ]
   };
   function RelativeDateControl({
@@ -90605,7 +90632,7 @@ If there's a particular need for this, please submit a feature request at https:
             import_components89.SelectControl,
             {
               className: "dataviews-controls__relative-date-unit",
-              label: (0, import_i18n103.__)("Unit"),
+              label: (0, import_i18n104.__)("Unit"),
               value: unit,
               options,
               onChange: onChangeUnit,
@@ -90671,7 +90698,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/dataviews/build-module/components/dataform-controls/utils/get-timezone-description.mjs
   var import_date3 = __toESM(require_date(), 1);
-  var import_i18n104 = __toESM(require_i18n(), 1);
+  var import_i18n105 = __toESM(require_i18n(), 1);
   function getTimezoneDescription() {
     const { timezone } = (0, import_date3.getSettings)();
     const userTimezoneOffset = -1 * ((/* @__PURE__ */ new Date()).getTimezoneOffset() / 60);
@@ -90683,13 +90710,13 @@ If there's a particular need for this, please submit a feature request at https:
     const prettyTimezoneString = timezone.string.replaceAll("_", " ");
     let timezoneDetail = zoneAbbr;
     if ("UTC" === timezone.string) {
-      timezoneDetail = (0, import_i18n104.__)("Coordinated Universal Time");
+      timezoneDetail = (0, import_i18n105.__)("Coordinated Universal Time");
     } else if (prettyTimezoneString.trim().length > 0) {
       timezoneDetail = `(${zoneAbbr}) ${prettyTimezoneString}`;
     }
-    return (0, import_i18n104.sprintf)(
+    return (0, import_i18n105.sprintf)(
       /* translators: %s: timezone detail, e.g. "(CEST) Europe/Madrid" or "UTC+3". */
-      (0, import_i18n104.__)("Timezone: %s"),
+      (0, import_i18n105.__)("Timezone: %s"),
       timezoneDetail
     );
   }
@@ -90800,9 +90827,9 @@ If there's a particular need for this, please submit a feature request at https:
     const locale = getCalendarLocale((0, import_date5.getSettings)().l10n.locale);
     let displayLabel = label;
     if (isValid2?.required && !markWhenOptional && !hideLabelFromVision) {
-      displayLabel = `${label} (${(0, import_i18n105.__)("Required")})`;
+      displayLabel = `${label} (${(0, import_i18n106.__)("Required")})`;
     } else if (!isValid2?.required && markWhenOptional && !hideLabelFromVision) {
-      displayLabel = `${label} (${(0, import_i18n105.__)("Optional")})`;
+      displayLabel = `${label} (${(0, import_i18n106.__)("Optional")})`;
     }
     return /* @__PURE__ */ (0, import_jsx_runtime442.jsx)(
       import_components90.BaseControl,
@@ -90819,7 +90846,7 @@ If there's a particular need for this, please submit a feature request at https:
               required: !!isValid2?.required,
               customValidity: getCustomValidity(isValid2, validity),
               type: "datetime-local",
-              label: (0, import_i18n105.__)("Date time"),
+              label: (0, import_i18n106.__)("Date time"),
               hideLabelFromVision: true,
               value: formatDateTime(value),
               onValueChange: handleManualDateTimeChange,
@@ -90839,7 +90866,7 @@ If there's a particular need for this, please submit a feature request at https:
               onMonthChange: setCalendarMonth,
               timeZone,
               locale,
-              dir: (0, import_i18n105.isRTL)() ? "rtl" : "ltr",
+              dir: (0, import_i18n106.isRTL)() ? "rtl" : "ltr",
               weekStartsOn,
               disabled: disabled2 || disabledMatchers
             }
@@ -90889,18 +90916,18 @@ If there's a particular need for this, please submit a feature request at https:
   var import_components91 = __toESM(require_components(), 1);
   var import_a11y11 = __toESM(require_a11y(), 1);
   var import_element269 = __toESM(require_element(), 1);
-  var import_i18n106 = __toESM(require_i18n(), 1);
+  var import_i18n107 = __toESM(require_i18n(), 1);
   var import_date6 = __toESM(require_date(), 1);
   var import_jsx_runtime443 = __toESM(require_jsx_runtime(), 1);
   var DATE_PRESETS = [
     {
       id: "today",
-      label: (0, import_i18n106.__)("Today"),
+      label: (0, import_i18n107.__)("Today"),
       getValue: () => (0, import_date6.getDate)(null)
     },
     {
       id: "yesterday",
-      label: (0, import_i18n106.__)("Yesterday"),
+      label: (0, import_i18n107.__)("Yesterday"),
       getValue: () => {
         const today = (0, import_date6.getDate)(null);
         return subDays(today, 1);
@@ -90908,7 +90935,7 @@ If there's a particular need for this, please submit a feature request at https:
     },
     {
       id: "past-week",
-      label: (0, import_i18n106.__)("Past week"),
+      label: (0, import_i18n107.__)("Past week"),
       getValue: () => {
         const today = (0, import_date6.getDate)(null);
         return subDays(today, 7);
@@ -90916,7 +90943,7 @@ If there's a particular need for this, please submit a feature request at https:
     },
     {
       id: "past-month",
-      label: (0, import_i18n106.__)("Past month"),
+      label: (0, import_i18n107.__)("Past month"),
       getValue: () => {
         const today = (0, import_date6.getDate)(null);
         return subMonths(today, 1);
@@ -90926,7 +90953,7 @@ If there's a particular need for this, please submit a feature request at https:
   var DATE_RANGE_PRESETS = [
     {
       id: "last-7-days",
-      label: (0, import_i18n106.__)("Last 7 days"),
+      label: (0, import_i18n107.__)("Last 7 days"),
       getValue: () => {
         const today = (0, import_date6.getDate)(null);
         return [subDays(today, 7), today];
@@ -90934,7 +90961,7 @@ If there's a particular need for this, please submit a feature request at https:
     },
     {
       id: "last-30-days",
-      label: (0, import_i18n106.__)("Last 30 days"),
+      label: (0, import_i18n107.__)("Last 30 days"),
       getValue: () => {
         const today = (0, import_date6.getDate)(null);
         return [subDays(today, 30), today];
@@ -90942,7 +90969,7 @@ If there's a particular need for this, please submit a feature request at https:
     },
     {
       id: "month-to-date",
-      label: (0, import_i18n106.__)("Month to date"),
+      label: (0, import_i18n107.__)("Month to date"),
       getValue: () => {
         const today = (0, import_date6.getDate)(null);
         return [startOfMonth(today), today];
@@ -90950,7 +90977,7 @@ If there's a particular need for this, please submit a feature request at https:
     },
     {
       id: "last-year",
-      label: (0, import_i18n106.__)("Last year"),
+      label: (0, import_i18n107.__)("Last year"),
       getValue: () => {
         const today = (0, import_date6.getDate)(null);
         return [subYears(today, 1), today];
@@ -90958,7 +90985,7 @@ If there's a particular need for this, please submit a feature request at https:
     },
     {
       id: "year-to-date",
-      label: (0, import_i18n106.__)("Year to date"),
+      label: (0, import_i18n107.__)("Year to date"),
       getValue: () => {
         const today = (0, import_date6.getDate)(null);
         return [startOfYear(today), today];
@@ -91144,9 +91171,9 @@ If there's a particular need for this, please submit a feature request at https:
     );
     let displayLabel = label;
     if (isValid2?.required && !markWhenOptional) {
-      displayLabel = `${label} (${(0, import_i18n106.__)("Required")})`;
+      displayLabel = `${label} (${(0, import_i18n107.__)("Required")})`;
     } else if (!isValid2?.required && markWhenOptional) {
-      displayLabel = `${label} (${(0, import_i18n106.__)("Optional")})`;
+      displayLabel = `${label} (${(0, import_i18n107.__)("Optional")})`;
     }
     return /* @__PURE__ */ (0, import_jsx_runtime443.jsx)(
       ValidatedDateControl,
@@ -91199,7 +91226,7 @@ If there's a particular need for this, please submit a feature request at https:
                         size: "small",
                         disabled: !!selectedPresetId || disabled2,
                         accessibleWhenDisabled: true,
-                        children: (0, import_i18n106.__)("Custom")
+                        children: (0, import_i18n107.__)("Custom")
                       }
                     )
                   ]
@@ -91210,7 +91237,7 @@ If there's a particular need for this, please submit a feature request at https:
                 {
                   ref: validityTargetRef,
                   type: "date",
-                  label: (0, import_i18n106.__)("Date"),
+                  label: (0, import_i18n107.__)("Date"),
                   hideLabelFromVision: true,
                   value,
                   onChange: handleManualDateChange,
@@ -91229,7 +91256,7 @@ If there's a particular need for this, please submit a feature request at https:
                   month: calendarMonth,
                   onMonthChange: setCalendarMonth,
                   locale,
-                  dir: (0, import_i18n106.isRTL)() ? "rtl" : "ltr",
+                  dir: (0, import_i18n107.isRTL)() ? "rtl" : "ltr",
                   weekStartsOn,
                   disabled: disabled2 || disabledMatchers,
                   disableNavigation: disabled2
@@ -91369,9 +91396,9 @@ If there's a particular need for this, please submit a feature request at https:
     );
     let displayLabel = label;
     if (field.isValid?.required && !markWhenOptional) {
-      displayLabel = `${label} (${(0, import_i18n106.__)("Required")})`;
+      displayLabel = `${label} (${(0, import_i18n107.__)("Required")})`;
     } else if (!field.isValid?.required && markWhenOptional) {
-      displayLabel = `${label} (${(0, import_i18n106.__)("Optional")})`;
+      displayLabel = `${label} (${(0, import_i18n107.__)("Optional")})`;
     }
     return /* @__PURE__ */ (0, import_jsx_runtime443.jsx)(
       ValidatedDateControl,
@@ -91424,7 +91451,7 @@ If there's a particular need for this, please submit a feature request at https:
                         size: "small",
                         accessibleWhenDisabled: true,
                         disabled: !!selectedPresetId || disabled2,
-                        children: (0, import_i18n106.__)("Custom")
+                        children: (0, import_i18n107.__)("Custom")
                       }
                     )
                   ]
@@ -91443,7 +91470,7 @@ If there's a particular need for this, please submit a feature request at https:
                       {
                         ref: fromInputRef,
                         type: "date",
-                        label: (0, import_i18n106.__)("From"),
+                        label: (0, import_i18n107.__)("From"),
                         hideLabelFromVision: true,
                         value: value?.[0],
                         onChange: (newValue) => handleManualDateChange("from", newValue),
@@ -91458,7 +91485,7 @@ If there's a particular need for this, please submit a feature request at https:
                       {
                         ref: toInputRef,
                         type: "date",
-                        label: (0, import_i18n106.__)("To"),
+                        label: (0, import_i18n107.__)("To"),
                         hideLabelFromVision: true,
                         value: value?.[1],
                         onChange: (newValue) => handleManualDateChange("to", newValue),
@@ -91480,7 +91507,7 @@ If there's a particular need for this, please submit a feature request at https:
                   month: calendarMonth,
                   onMonthChange: setCalendarMonth,
                   locale,
-                  dir: (0, import_i18n106.isRTL)() ? "rtl" : "ltr",
+                  dir: (0, import_i18n107.isRTL)() ? "rtl" : "ltr",
                   weekStartsOn,
                   disabled: disabled2 || disabledMatchers
                 }
@@ -91733,7 +91760,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/dataviews/build-module/components/dataform-controls/utils/validated-number.mjs
   var import_components93 = __toESM(require_components(), 1);
   var import_element272 = __toESM(require_element(), 1);
-  var import_i18n107 = __toESM(require_i18n(), 1);
+  var import_i18n108 = __toESM(require_i18n(), 1);
   var import_jsx_runtime450 = __toESM(require_jsx_runtime(), 1);
   function toNumberOrEmpty(value) {
     if (value === "" || value === void 0) {
@@ -91760,12 +91787,12 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime450.jsx)(
       import_components93.BaseControl,
       {
-        help: (0, import_i18n107.__)("The max. value must be greater than the min. value."),
+        help: (0, import_i18n108.__)("The max. value must be greater than the min. value."),
         children: /* @__PURE__ */ (0, import_jsx_runtime450.jsxs)(import_components93.Flex, { direction: "row", gap: 4, children: [
           /* @__PURE__ */ (0, import_jsx_runtime450.jsx)(
             import_components93.__experimentalNumberControl,
             {
-              label: (0, import_i18n107.__)("Min."),
+              label: (0, import_i18n108.__)("Min."),
               value: min3,
               max: max3 ? Number(max3) - step : void 0,
               onChange: onChangeMin,
@@ -91776,7 +91803,7 @@ If there's a particular need for this, please submit a feature request at https:
           /* @__PURE__ */ (0, import_jsx_runtime450.jsx)(
             import_components93.__experimentalNumberControl,
             {
-              label: (0, import_i18n107.__)("Max."),
+              label: (0, import_i18n108.__)("Max."),
               value: max3,
               min: min3 ? Number(min3) + step : void 0,
               onChange: onChangeMax,
@@ -91951,7 +91978,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/dataviews/build-module/components/dataform-controls/time.mjs
   var import_components95 = __toESM(require_components(), 1);
   var import_element275 = __toESM(require_element(), 1);
-  var import_i18n108 = __toESM(require_i18n(), 1);
+  var import_i18n109 = __toESM(require_i18n(), 1);
   var import_jsx_runtime455 = __toESM(require_jsx_runtime(), 1);
   function getStep(timeFormat, values) {
     const tokens = (timeFormat ?? "").replace(/\\./g, "");
@@ -91993,13 +92020,13 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime455.jsx)(
       import_components95.BaseControl,
       {
-        help: (0, import_i18n108.__)("The end time must be later than the start time."),
+        help: (0, import_i18n109.__)("The end time must be later than the start time."),
         children: /* @__PURE__ */ (0, import_jsx_runtime455.jsxs)(Stack, { direction: "row", gap: "sm", justify: "space-between", children: [
           /* @__PURE__ */ (0, import_jsx_runtime455.jsx)(
             ValidatedInputControl,
             {
               type: "time",
-              label: (0, import_i18n108.__)("From"),
+              label: (0, import_i18n109.__)("From"),
               value: from,
               onValueChange: onChangeFrom,
               hideLabelFromVision,
@@ -92013,7 +92040,7 @@ If there's a particular need for this, please submit a feature request at https:
             ValidatedInputControl,
             {
               type: "time",
-              label: (0, import_i18n108.__)("To"),
+              label: (0, import_i18n109.__)("To"),
               value: to2,
               onValueChange: onChangeTo,
               hideLabelFromVision,
@@ -92328,7 +92355,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/dataviews/build-module/components/dataform-controls/color.mjs
   var import_components98 = __toESM(require_components(), 1);
   var import_element280 = __toESM(require_element(), 1);
-  var import_i18n109 = __toESM(require_i18n(), 1);
+  var import_i18n110 = __toESM(require_i18n(), 1);
   var import_jsx_runtime460 = __toESM(require_jsx_runtime(), 1);
   var ColorPickerDropdown = ({
     color,
@@ -92345,7 +92372,7 @@ If there's a particular need for this, please submit a feature request at https:
           import_components98.Button,
           {
             onClick: onToggle,
-            "aria-label": (0, import_i18n109.__)("Open color picker"),
+            "aria-label": (0, import_i18n110.__)("Open color picker"),
             size: "small",
             disabled: disabled2,
             accessibleWhenDisabled: true,
@@ -92416,7 +92443,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/dataviews/build-module/components/dataform-controls/password.mjs
   var import_components99 = __toESM(require_components(), 1);
   var import_element281 = __toESM(require_element(), 1);
-  var import_i18n110 = __toESM(require_i18n(), 1);
+  var import_i18n111 = __toESM(require_i18n(), 1);
   var import_jsx_runtime461 = __toESM(require_jsx_runtime(), 1);
   function Password({
     data,
@@ -92448,7 +92475,7 @@ If there's a particular need for this, please submit a feature request at https:
               icon: isVisible2 ? unseen_default : seen_default,
               onClick: toggleVisibility,
               size: "small",
-              label: isVisible2 ? (0, import_i18n110.__)("Hide password") : (0, import_i18n110.__)("Show password"),
+              label: isVisible2 ? (0, import_i18n111.__)("Hide password") : (0, import_i18n111.__)("Show password"),
               disabled: disabled2,
               accessibleWhenDisabled: true
             }
@@ -92573,7 +92600,7 @@ If there's a particular need for this, please submit a feature request at https:
   var set_value_from_id_default = setValueFromId;
 
   // packages/dataviews/build-module/field-types/email.mjs
-  var import_i18n111 = __toESM(require_i18n(), 1);
+  var import_i18n112 = __toESM(require_i18n(), 1);
 
   // packages/dataviews/build-module/field-types/utils/render-from-elements.mjs
   function RenderFromElements({
@@ -92683,7 +92710,7 @@ If there's a particular need for this, please submit a feature request at https:
   function isValidCustom(item, field) {
     const value = field.getValue({ item });
     if (![void 0, "", null].includes(value) && !emailRegex.test(value)) {
-      return (0, import_i18n111.__)("Value must be a valid email address.");
+      return (0, import_i18n112.__)("Value must be a valid email address.");
     }
     return null;
   }
@@ -92719,7 +92746,7 @@ If there's a particular need for this, please submit a feature request at https:
   };
 
   // packages/dataviews/build-module/field-types/integer.mjs
-  var import_i18n112 = __toESM(require_i18n(), 1);
+  var import_i18n113 = __toESM(require_i18n(), 1);
 
   // packages/dataviews/build-module/field-types/utils/sort-number.mjs
   var sort_number_default = (a, b, direction) => {
@@ -92785,7 +92812,7 @@ If there's a particular need for this, please submit a feature request at https:
   function isValidCustom2(item, field) {
     const value = field.getValue({ item });
     if (![void 0, "", null].includes(value) && !Number.isInteger(value)) {
-      return (0, import_i18n112.__)("Value must be an integer.");
+      return (0, import_i18n113.__)("Value must be an integer.");
     }
     return null;
   }
@@ -92831,7 +92858,7 @@ If there's a particular need for this, please submit a feature request at https:
   };
 
   // packages/dataviews/build-module/field-types/number.mjs
-  var import_i18n113 = __toESM(require_i18n(), 1);
+  var import_i18n114 = __toESM(require_i18n(), 1);
   var format3 = {
     separatorThousand: ",",
     separatorDecimal: ".",
@@ -92867,7 +92894,7 @@ If there's a particular need for this, please submit a feature request at https:
   function isValidCustom3(item, field) {
     const value = field.getValue({ item });
     if (!isEmpty2(value) && !Number.isFinite(value)) {
-      return (0, import_i18n113.__)("Value must be a number.");
+      return (0, import_i18n114.__)("Value must be a number.");
     }
     return null;
   }
@@ -93191,7 +93218,7 @@ If there's a particular need for this, please submit a feature request at https:
   };
 
   // packages/dataviews/build-module/field-types/boolean.mjs
-  var import_i18n114 = __toESM(require_i18n(), 1);
+  var import_i18n115 = __toESM(require_i18n(), 1);
 
   // packages/dataviews/build-module/field-types/utils/is-valid-required-for-bool.mjs
   function isValidRequiredForBool(item, field) {
@@ -93206,17 +93233,17 @@ If there's a particular need for this, please submit a feature request at https:
   }) {
     const value = field.getValue({ item });
     if (value === true) {
-      return (0, import_i18n114.__)("True");
+      return (0, import_i18n115.__)("True");
     }
     if (value === false) {
-      return (0, import_i18n114.__)("False");
+      return (0, import_i18n115.__)("False");
     }
     return "";
   }
   function isValidCustom4(item, field) {
     const value = field.getValue({ item });
     if (![void 0, "", null].includes(value) && ![true, false].includes(value)) {
-      return (0, import_i18n114.__)("Value must be true, false, or undefined");
+      return (0, import_i18n115.__)("Value must be true, false, or undefined");
     }
     return null;
   }
@@ -93268,7 +93295,7 @@ If there's a particular need for this, please submit a feature request at https:
   };
 
   // packages/dataviews/build-module/field-types/array.mjs
-  var import_i18n115 = __toESM(require_i18n(), 1);
+  var import_i18n116 = __toESM(require_i18n(), 1);
 
   // packages/dataviews/build-module/field-types/utils/is-valid-required-for-array.mjs
   function isValidRequiredForArray(item, field) {
@@ -93296,10 +93323,10 @@ If there's a particular need for this, please submit a feature request at https:
       return null;
     }
     if (!Array.isArray(value)) {
-      return (0, import_i18n115.__)("Value must be an array.");
+      return (0, import_i18n116.__)("Value must be an array.");
     }
     if (!value.every((v2) => typeof v2 === "string")) {
-      return (0, import_i18n115.__)("Every value must be a string.");
+      return (0, import_i18n116.__)("Every value must be a string.");
     }
     return null;
   }
@@ -93396,7 +93423,7 @@ If there's a particular need for this, please submit a feature request at https:
   };
 
   // packages/dataviews/build-module/field-types/color.mjs
-  var import_i18n116 = __toESM(require_i18n(), 1);
+  var import_i18n117 = __toESM(require_i18n(), 1);
   var import_jsx_runtime464 = __toESM(require_jsx_runtime(), 1);
   function render3({ item, field }) {
     if (field.hasElements) {
@@ -93426,7 +93453,7 @@ If there's a particular need for this, please submit a feature request at https:
   function isValidCustom6(item, field) {
     const value = field.getValue({ item });
     if (![void 0, "", null].includes(value) && !A(value).isValid()) {
-      return (0, import_i18n116.__)("Value must be a valid color.");
+      return (0, import_i18n117.__)("Value must be a valid color.");
     }
     return null;
   }
@@ -94323,7 +94350,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/dataviews/build-module/components/dataform-layouts/normalize-form.mjs
-  var import_i18n117 = __toESM(require_i18n(), 1);
+  var import_i18n118 = __toESM(require_i18n(), 1);
   var DEFAULT_LAYOUT = {
     type: "regular",
     labelPosition: "top"
@@ -94354,14 +94381,14 @@ If there's a particular need for this, please submit a feature request at https:
       if (typeof openAs === "object" && openAs.type === "modal") {
         normalizedOpenAs = {
           type: "modal",
-          applyLabel: openAs.applyLabel?.trim() || (0, import_i18n117.__)("Apply"),
-          cancelLabel: openAs.cancelLabel?.trim() || (0, import_i18n117.__)("Cancel")
+          applyLabel: openAs.applyLabel?.trim() || (0, import_i18n118.__)("Apply"),
+          cancelLabel: openAs.cancelLabel?.trim() || (0, import_i18n118.__)("Cancel")
         };
       } else if (openAs === "modal") {
         normalizedOpenAs = {
           type: "modal",
-          applyLabel: (0, import_i18n117.__)("Apply"),
-          cancelLabel: (0, import_i18n117.__)("Cancel")
+          applyLabel: (0, import_i18n118.__)("Apply"),
+          cancelLabel: (0, import_i18n118.__)("Cancel")
         };
       } else {
         normalizedOpenAs = { type: "dropdown" };
@@ -94562,7 +94589,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/dataviews/build-module/components/dataform-layouts/panel/summary-button.mjs
   var import_components102 = __toESM(require_components(), 1);
-  var import_i18n118 = __toESM(require_i18n(), 1);
+  var import_i18n119 = __toESM(require_i18n(), 1);
   var import_compose85 = __toESM(require_compose(), 1);
 
   // packages/dataviews/build-module/components/dataform-layouts/panel/utils/get-label-classname.mjs
@@ -94670,13 +94697,13 @@ If there's a particular need for this, please submit a feature request at https:
       "dataforms-layouts-panel__field-control"
     );
     const errorId = `${controlId}-error`;
-    const ariaLabel = showError ? (0, import_i18n118.sprintf)(
+    const ariaLabel = showError ? (0, import_i18n119.sprintf)(
       // translators: %s: Field name.
-      (0, import_i18n118._x)("Edit %s (has errors)", "field"),
+      (0, import_i18n119._x)("Edit %s (has errors)", "field"),
       fieldLabel || ""
-    ) : (0, import_i18n118.sprintf)(
+    ) : (0, import_i18n119.sprintf)(
       // translators: %s: Field name.
-      (0, import_i18n118._x)("Edit %s", "field"),
+      (0, import_i18n119._x)("Edit %s", "field"),
       fieldLabel || ""
     );
     return /* @__PURE__ */ (0, import_jsx_runtime469.jsxs)("div", { className, children: [
@@ -94759,7 +94786,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_deepmerge2 = __toESM(require_cjs(), 1);
   var import_es65 = __toESM(require_es6(), 1);
   var import_element289 = __toESM(require_element(), 1);
-  var import_i18n119 = __toESM(require_i18n(), 1);
+  var import_i18n120 = __toESM(require_i18n(), 1);
   function isFormValid(formValidity) {
     if (!formValidity) {
       return true;
@@ -94878,7 +94905,7 @@ If there's a particular need for this, please submit a feature request at https:
             {
               elements: {
                 type: "invalid",
-                message: (0, import_i18n119.__)("Could not validate elements.")
+                message: (0, import_i18n120.__)("Could not validate elements.")
               }
             },
             [...path, formField.id]
@@ -94897,7 +94924,7 @@ If there's a particular need for this, please submit a feature request at https:
             {
               elements: {
                 type: "invalid",
-                message: (0, import_i18n119.__)(
+                message: (0, import_i18n120.__)(
                   "Value must be one of the elements."
                 )
               }
@@ -94923,7 +94950,7 @@ If there's a particular need for this, please submit a feature request at https:
       if (error2 instanceof Error) {
         errorMessage = error2.message;
       } else {
-        errorMessage = String(error2) || (0, import_i18n119.__)(
+        errorMessage = String(error2) || (0, import_i18n120.__)(
           "Unknown error when running elements validation asynchronously."
         );
       }
@@ -94982,7 +95009,7 @@ If there's a particular need for this, please submit a feature request at https:
           {
             custom: {
               type: "invalid",
-              message: (0, import_i18n119.__)("Validation could not be processed.")
+              message: (0, import_i18n120.__)("Validation could not be processed.")
             }
           },
           [...path, formField.id]
@@ -94997,7 +95024,7 @@ If there's a particular need for this, please submit a feature request at https:
       if (error2 instanceof Error) {
         errorMessage = error2.message;
       } else {
-        errorMessage = String(error2) || (0, import_i18n119.__)(
+        errorMessage = String(error2) || (0, import_i18n120.__)(
           "Unknown error when running custom validation asynchronously."
         );
       }
@@ -95039,7 +95066,7 @@ If there's a particular need for this, please submit a feature request at https:
       return {
         pattern: {
           type: "invalid",
-          message: (0, import_i18n119.__)("Value does not match the required pattern.")
+          message: (0, import_i18n120.__)("Value does not match the required pattern.")
         }
       };
     }
@@ -95047,7 +95074,7 @@ If there's a particular need for this, please submit a feature request at https:
       return {
         min: {
           type: "invalid",
-          message: (0, import_i18n119.__)("Value is below the minimum.")
+          message: (0, import_i18n120.__)("Value is below the minimum.")
         }
       };
     }
@@ -95055,7 +95082,7 @@ If there's a particular need for this, please submit a feature request at https:
       return {
         max: {
           type: "invalid",
-          message: (0, import_i18n119.__)("Value is above the maximum.")
+          message: (0, import_i18n120.__)("Value is above the maximum.")
         }
       };
     }
@@ -95063,7 +95090,7 @@ If there's a particular need for this, please submit a feature request at https:
       return {
         minLength: {
           type: "invalid",
-          message: (0, import_i18n119.__)("Value is too short.")
+          message: (0, import_i18n120.__)("Value is too short.")
         }
       };
     }
@@ -95071,7 +95098,7 @@ If there's a particular need for this, please submit a feature request at https:
       return {
         maxLength: {
           type: "invalid",
-          message: (0, import_i18n119.__)("Value is too long.")
+          message: (0, import_i18n120.__)("Value is too long.")
         }
       };
     }
@@ -95079,7 +95106,7 @@ If there's a particular need for this, please submit a feature request at https:
       return {
         elements: {
           type: "invalid",
-          message: (0, import_i18n119.__)("Value must be one of the elements.")
+          message: (0, import_i18n120.__)("Value must be one of the elements.")
         }
       };
     }
@@ -95102,7 +95129,7 @@ If there's a particular need for this, please submit a feature request at https:
         if (error2 instanceof Error) {
           errorMessage = error2.message;
         } else {
-          errorMessage = String(error2) || (0, import_i18n119.__)("Unknown error when running custom validation.");
+          errorMessage = String(error2) || (0, import_i18n120.__)("Unknown error when running custom validation.");
         }
         return {
           custom: {
@@ -95129,14 +95156,14 @@ If there's a particular need for this, please submit a feature request at https:
       );
       fieldValidity.elements = {
         type: "validating",
-        message: (0, import_i18n119.__)("Validating\u2026")
+        message: (0, import_i18n120.__)("Validating\u2026")
       };
     }
     if (customError instanceof Promise) {
       handleCustomValidationAsync(customError, formField, promiseHandler);
       fieldValidity.custom = {
         type: "validating",
-        message: (0, import_i18n119.__)("Validating\u2026")
+        message: (0, import_i18n120.__)("Validating\u2026")
       };
     }
     if (Object.keys(fieldValidity).length > 0) {
@@ -95505,7 +95532,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/dataviews/build-module/components/dataform-layouts/panel/dropdown.mjs
   var import_components104 = __toESM(require_components(), 1);
-  var import_i18n120 = __toESM(require_i18n(), 1);
+  var import_i18n121 = __toESM(require_i18n(), 1);
   var import_element293 = __toESM(require_element(), 1);
   var import_compose87 = __toESM(require_compose(), 1);
   var import_jsx_runtime471 = __toESM(require_jsx_runtime(), 1);
@@ -95525,7 +95552,7 @@ If there's a particular need for this, please submit a feature request at https:
           onClose && /* @__PURE__ */ (0, import_jsx_runtime471.jsx)(
             import_components104.Button,
             {
-              label: (0, import_i18n120.__)("Close"),
+              label: (0, import_i18n121.__)("Close"),
               icon: close_small_default,
               onClick: onClose,
               size: "small"
@@ -95695,7 +95722,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_compose88 = __toESM(require_compose(), 1);
 
   // packages/dataviews/build-module/components/dataform-layouts/get-validation-message.mjs
-  var import_i18n121 = __toESM(require_i18n(), 1);
+  var import_i18n122 = __toESM(require_i18n(), 1);
   function countInvalidFields(validity) {
     if (!validity) {
       return 0;
@@ -95722,9 +95749,9 @@ If there's a particular need for this, please submit a feature request at https:
     if (invalidCount === 0) {
       return void 0;
     }
-    return (0, import_i18n121.sprintf)(
+    return (0, import_i18n122.sprintf)(
       /* translators: %d: Number of fields that need attention */
-      (0, import_i18n121._n)(
+      (0, import_i18n122._n)(
         "%d field needs attention",
         "%d fields need attention",
         invalidCount
@@ -96057,7 +96084,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/dataviews/build-module/components/dataform-layouts/details/index.mjs
   var import_element295 = __toESM(require_element(), 1);
-  var import_i18n122 = __toESM(require_i18n(), 1);
+  var import_i18n123 = __toESM(require_i18n(), 1);
   var import_a11y13 = __toESM(require_a11y(), 1);
   var import_compose89 = __toESM(require_compose(), 1);
   var import_jsx_runtime476 = __toESM(require_jsx_runtime(), 1);
@@ -96125,7 +96152,7 @@ If there's a particular need for this, please submit a feature request at https:
     if (summaryField && summaryField.render) {
       summaryContent = /* @__PURE__ */ (0, import_jsx_runtime476.jsx)(summaryField.render, { item: data, field: summaryField });
     } else {
-      summaryContent = field.label || (0, import_i18n122.__)("More details");
+      summaryContent = field.label || (0, import_i18n123.__)("More details");
     }
     return /* @__PURE__ */ (0, import_jsx_runtime476.jsxs)(
       "details",
@@ -96367,7 +96394,7 @@ If there's a particular need for this, please submit a feature request at https:
     mediaFit: "contain"
   };
   var DEFAULT_LAYOUTS2 = { grid: { layout: GRID_LAYOUT } };
-  var getTitle = (item) => typeof item.title === "string" ? item.title : item.title?.rendered || (0, import_i18n123.__)("no title");
+  var getTitle = (item) => typeof item.title === "string" ? item.title : item.title?.rendered || (0, import_i18n124.__)("no title");
   function MediaGridPreview({
     item,
     mediaType,
@@ -96400,9 +96427,9 @@ If there's a particular need for this, please submit a feature request at https:
       return void 0;
     }
     const start2 = (page - 1) * perPage + 1;
-    return (0, import_i18n123.sprintf)(
+    return (0, import_i18n124.sprintf)(
       /* translators: 1: The first item shown on the page. 2: The last item shown on the page. 3: The total number of items. */
-      (0, import_i18n123.__)("%1$d\u2013%2$d of %3$d"),
+      (0, import_i18n124.__)("%1$d\u2013%2$d of %3$d"),
       start2,
       Math.min(page * perPage, totalItems),
       totalItems
@@ -96433,7 +96460,7 @@ If there's a particular need for this, please submit a feature request at https:
       () => [
         {
           id: "preview",
-          label: (0, import_i18n123.__)("Preview"),
+          label: (0, import_i18n124.__)("Preview"),
           type: "media",
           render: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime481.jsx)(
             MediaGridPreview,
@@ -96447,7 +96474,7 @@ If there's a particular need for this, please submit a feature request at https:
         {
           // Hidden from the card but used as its accessible name.
           id: "title",
-          label: (0, import_i18n123.__)("Title"),
+          label: (0, import_i18n124.__)("Title"),
           type: "text",
           getValue: ({ item }) => getTitle(item),
           enableSorting: false,
@@ -96580,7 +96607,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/inserter/media-tab/use-media-insert.mjs
   var import_element300 = __toESM(require_element(), 1);
-  var import_i18n124 = __toESM(require_i18n(), 1);
+  var import_i18n125 = __toESM(require_i18n(), 1);
   var import_blocks43 = __toESM(require_blocks(), 1);
   var import_data69 = __toESM(require_data(), 1);
   var import_notices6 = __toESM(require_notices(), 1);
@@ -96632,7 +96659,7 @@ If there's a particular need for this, please submit a feature request at https:
                   }
                 });
                 createSuccessNotice(
-                  (0, import_i18n124.__)("Image uploaded and inserted."),
+                  (0, import_i18n125.__)("Image uploaded and inserted."),
                   { type: "snackbar", id: "inserter-notice" }
                 );
               } else {
@@ -96670,7 +96697,7 @@ If there's a particular need for this, please submit a feature request at https:
     );
     const confirmExternalInsert = (0, import_element300.useCallback)(() => {
       onInsert((0, import_blocks43.cloneBlock)(pendingExternalBlock));
-      createSuccessNotice((0, import_i18n124.__)("Image inserted."), {
+      createSuccessNotice((0, import_i18n125.__)("Image inserted."), {
         type: "snackbar",
         id: "inserter-notice"
       });
@@ -96691,13 +96718,13 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/inserter/media-tab/use-attachment-actions.mjs
   var import_element301 = __toESM(require_element(), 1);
-  var import_i18n126 = __toESM(require_i18n(), 1);
+  var import_i18n127 = __toESM(require_i18n(), 1);
   var import_data70 = __toESM(require_data(), 1);
   var import_notices7 = __toESM(require_notices(), 1);
 
   // packages/block-editor/build-module/components/inserter/media-tab/detach-confirmation.mjs
   var import_components108 = __toESM(require_components(), 1);
-  var import_i18n125 = __toESM(require_i18n(), 1);
+  var import_i18n126 = __toESM(require_i18n(), 1);
   var import_jsx_runtime482 = __toESM(require_jsx_runtime(), 1);
   function DetachConfirmation({
     postTypeLabel,
@@ -96705,13 +96732,13 @@ If there's a particular need for this, please submit a feature request at https:
     onConfirm
   }) {
     return /* @__PURE__ */ (0, import_jsx_runtime482.jsxs)(import_jsx_runtime482.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime482.jsx)("p", { children: postTypeLabel ? (0, import_i18n125.sprintf)(
+      /* @__PURE__ */ (0, import_jsx_runtime482.jsx)("p", { children: postTypeLabel ? (0, import_i18n126.sprintf)(
         /* translators: %s: Name of the post type e.g: "Page". */
-        (0, import_i18n125.__)(
+        (0, import_i18n126.__)(
           "Detach this image from the current %s? The image will remain in the Media Library."
         ),
         postTypeLabel
-      ) : (0, import_i18n125.__)(
+      ) : (0, import_i18n126.__)(
         "Detach this image from the current post? The image will remain in the Media Library."
       ) }),
       /* @__PURE__ */ (0, import_jsx_runtime482.jsxs)("div", { className: "block-editor-inserter__media-panel-detach-actions", children: [
@@ -96721,7 +96748,7 @@ If there's a particular need for this, please submit a feature request at https:
             __next40pxDefaultSize: true,
             variant: "tertiary",
             onClick: onCancel,
-            children: (0, import_i18n125.__)("Cancel")
+            children: (0, import_i18n126.__)("Cancel")
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime482.jsx)(
@@ -96730,7 +96757,7 @@ If there's a particular need for this, please submit a feature request at https:
             __next40pxDefaultSize: true,
             variant: "primary",
             onClick: onConfirm,
-            children: (0, import_i18n125.__)("Detach")
+            children: (0, import_i18n126.__)("Detach")
           }
         )
       ] })
@@ -96769,7 +96796,7 @@ If there's a particular need for this, please submit a feature request at https:
         try {
           const attachedCount = await attach(selectedMedia);
           if (!attachedCount) {
-            createWarningNotice((0, import_i18n126.__)("No images were attached."), {
+            createWarningNotice((0, import_i18n127.__)("No images were attached."), {
               type: "snackbar",
               id: "inserter-notice"
             });
@@ -96777,18 +96804,18 @@ If there's a particular need for this, please submit a feature request at https:
           }
           refresh();
           createSuccessNotice(
-            category.postTypeLabel ? (0, import_i18n126.sprintf)(
+            category.postTypeLabel ? (0, import_i18n127.sprintf)(
               /* translators: %1$d: Number of images attached. %2$s: Name of the post type e.g: "Page". */
-              (0, import_i18n126._n)(
+              (0, import_i18n127._n)(
                 "%1$d image attached to %2$s.",
                 "%1$d images attached to %2$s.",
                 attachedCount
               ),
               attachedCount,
               category.postTypeLabel
-            ) : (0, import_i18n126.sprintf)(
+            ) : (0, import_i18n127.sprintf)(
               /* translators: %d: Number of images attached to the post. */
-              (0, import_i18n126._n)(
+              (0, import_i18n127._n)(
                 "%d image attached to post.",
                 "%d images attached to post.",
                 attachedCount
@@ -96798,7 +96825,7 @@ If there's a particular need for this, please submit a feature request at https:
             { type: "snackbar", id: "inserter-notice" }
           );
         } catch {
-          createErrorNotice((0, import_i18n126.__)("Could not attach images."), {
+          createErrorNotice((0, import_i18n127.__)("Could not attach images."), {
             type: "snackbar",
             id: "inserter-notice"
           });
@@ -96822,15 +96849,15 @@ If there's a particular need for this, please submit a feature request at https:
           await detach(media);
           refresh();
           createSuccessNotice(
-            category.postTypeLabel ? (0, import_i18n126.sprintf)(
+            category.postTypeLabel ? (0, import_i18n127.sprintf)(
               /* translators: %s: Name of the post type e.g: "Page". */
-              (0, import_i18n126.__)("Image detached from %s."),
+              (0, import_i18n127.__)("Image detached from %s."),
               category.postTypeLabel
-            ) : (0, import_i18n126.__)("Image detached from post."),
+            ) : (0, import_i18n127.__)("Image detached from post."),
             { type: "snackbar", id: "inserter-notice" }
           );
         } catch {
-          createErrorNotice((0, import_i18n126.__)("Could not detach image."), {
+          createErrorNotice((0, import_i18n127.__)("Could not detach image."), {
             type: "snackbar",
             id: "inserter-notice"
           });
@@ -96843,9 +96870,9 @@ If there's a particular need for this, please submit a feature request at https:
       if (category.getReportUrl) {
         list.push({
           id: "report",
-          label: (0, import_i18n126.sprintf)(
+          label: (0, import_i18n127.sprintf)(
             /* translators: %s: The media type to report e.g: "image", "video", "audio" */
-            (0, import_i18n126.__)("Report %s"),
+            (0, import_i18n127.__)("Report %s"),
             category.mediaType
           ),
           icon: external_default,
@@ -96863,13 +96890,13 @@ If there's a particular need for this, please submit a feature request at https:
       if (detach) {
         list.push({
           id: "detach",
-          label: category.postTypeLabel ? (0, import_i18n126.sprintf)(
+          label: category.postTypeLabel ? (0, import_i18n127.sprintf)(
             /* translators: %s: Name of the post type e.g: "Page". */
-            (0, import_i18n126.__)("Detach from %s"),
+            (0, import_i18n127.__)("Detach from %s"),
             category.postTypeLabel
-          ) : (0, import_i18n126.__)("Detach from post"),
+          ) : (0, import_i18n127.__)("Detach from post"),
           icon: link_off_default,
-          modalHeader: (0, import_i18n126.__)("Detach image"),
+          modalHeader: (0, import_i18n127.__)("Detach image"),
           RenderModal: ({
             items,
             closeModal
@@ -96952,7 +96979,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/inserter/media-tab/insert-external-image-modal.mjs
   var import_components111 = __toESM(require_components(), 1);
-  var import_i18n127 = __toESM(require_i18n(), 1);
+  var import_i18n128 = __toESM(require_i18n(), 1);
   var import_jsx_runtime485 = __toESM(require_jsx_runtime(), 1);
   function InsertExternalImageModal({
     onClose,
@@ -96961,15 +96988,15 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime485.jsxs)(
       import_components111.Modal,
       {
-        title: (0, import_i18n127.__)("Insert external image"),
+        title: (0, import_i18n128.__)("Insert external image"),
         onRequestClose: onClose,
         className: "block-editor-inserter-media-tab-media-preview-inserter-external-image-modal",
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime485.jsxs)(Stack, { direction: "column", gap: "md", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime485.jsx)("p", { children: (0, import_i18n127.__)(
+            /* @__PURE__ */ (0, import_jsx_runtime485.jsx)("p", { children: (0, import_i18n128.__)(
               "This image cannot be uploaded to your Media Library, but it can still be inserted as an external image."
             ) }),
-            /* @__PURE__ */ (0, import_jsx_runtime485.jsx)("p", { children: (0, import_i18n127.__)(
+            /* @__PURE__ */ (0, import_jsx_runtime485.jsx)("p", { children: (0, import_i18n128.__)(
               "External images can be removed by the external provider without warning and could even have legal compliance issues related to privacy legislation."
             ) })
           ] }),
@@ -96987,7 +97014,7 @@ If there's a particular need for this, please submit a feature request at https:
                     __next40pxDefaultSize: true,
                     variant: "tertiary",
                     onClick: onClose,
-                    children: (0, import_i18n127.__)("Cancel")
+                    children: (0, import_i18n128.__)("Cancel")
                   }
                 ),
                 /* @__PURE__ */ (0, import_jsx_runtime485.jsx)(
@@ -96996,7 +97023,7 @@ If there's a particular need for this, please submit a feature request at https:
                     __next40pxDefaultSize: true,
                     variant: "primary",
                     onClick: onSubmit,
-                    children: (0, import_i18n127.__)("Insert")
+                    children: (0, import_i18n128.__)("Insert")
                   }
                 )
               ]
@@ -97090,13 +97117,13 @@ If there's a particular need for this, please submit a feature request at https:
       },
       [insert7, category.mediaType]
     );
-    const searchLabel = category.labels.search_items || (0, import_i18n128.__)("Search");
+    const searchLabel = category.labels.search_items || (0, import_i18n129.__)("Search");
     const emptyMessage = category.emptyMessage && !search ? (
       // For a source with a custom empty message (e.g. Attachments)
       // and no active search, an empty result means nothing is
       // attached yet — clearer than the generic "no results found".
       category.emptyMessage
-    ) : (0, import_i18n128.__)("No results found.");
+    ) : (0, import_i18n129.__)("No results found.");
     return /* @__PURE__ */ (0, import_jsx_runtime486.jsxs)("div", { ref: panelRef, className: "block-editor-inserter__media-panel", children: [
       /* @__PURE__ */ (0, import_jsx_runtime486.jsx)(
         MediaGrid,
@@ -97131,8 +97158,8 @@ If there's a particular need for this, please submit a feature request at https:
           footer: attach ? /* @__PURE__ */ (0, import_jsx_runtime486.jsx)(
             MediaLibraryButton,
             {
-              label: (0, import_i18n128.__)("Attach images"),
-              title: (0, import_i18n128.__)("Attach images"),
+              label: (0, import_i18n129.__)("Attach images"),
+              title: (0, import_i18n129.__)("Attach images"),
               onSelect: handleAttach,
               multiple: "add",
               allowedTypes: ATTACH_ALLOWED_TYPES
@@ -97152,7 +97179,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/inserter/media-tab/source-menu.mjs
   var import_components113 = __toESM(require_components(), 1);
-  var import_i18n129 = __toESM(require_i18n(), 1);
+  var import_i18n130 = __toESM(require_i18n(), 1);
   var import_jsx_runtime487 = __toESM(require_jsx_runtime(), 1);
   function SourceMenu({
     sources,
@@ -97168,7 +97195,7 @@ If there's a particular need for this, please submit a feature request at https:
             {
               __next40pxDefaultSize: true,
               icon: settings_default,
-              label: (0, import_i18n129.__)("Media source")
+              label: (0, import_i18n130.__)("Media source")
             }
           )
         }
@@ -97236,7 +97263,7 @@ If there's a particular need for this, please submit a feature request at https:
       return {
         libraryCategories: library,
         sources: [
-          ...library.length ? [{ name: LIBRARY_SOURCE, label: (0, import_i18n130.__)("Media library") }] : [],
+          ...library.length ? [{ name: LIBRARY_SOURCE, label: (0, import_i18n131.__)("Media library") }] : [],
           ...categories.filter(
             (category2) => !LIBRARY_CATEGORIES.includes(category2.name)
           ).map(({ name, label }) => ({ name, label }))
@@ -97281,7 +97308,7 @@ If there's a particular need for this, please submit a feature request at https:
         footer: /* @__PURE__ */ (0, import_jsx_runtime488.jsx)(
           MediaLibraryButton,
           {
-            label: (0, import_i18n130.__)("Open Media Library"),
+            label: (0, import_i18n131.__)("Open Media Library"),
             onSelect: onSelectMedia,
             allowedTypes: ALLOWED_MEDIA_TYPES2
           }
@@ -97293,7 +97320,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/inserter/search-results.mjs
   var import_element304 = __toESM(require_element(), 1);
-  var import_i18n131 = __toESM(require_i18n(), 1);
+  var import_i18n132 = __toESM(require_i18n(), 1);
   var import_compose92 = __toESM(require_compose(), 1);
   var import_a11y14 = __toESM(require_a11y(), 1);
   var import_data72 = __toESM(require_data(), 1);
@@ -97404,9 +97431,9 @@ If there's a particular need for this, please submit a feature request at https:
         return;
       }
       const count = filteredBlockTypes.length + filteredBlockPatterns.length;
-      const resultsFoundMessage = (0, import_i18n131.sprintf)(
+      const resultsFoundMessage = (0, import_i18n132.sprintf)(
         /* translators: %d: number of results. */
-        (0, import_i18n131._n)("%d result found.", "%d results found.", count),
+        (0, import_i18n132._n)("%d result found.", "%d results found.", count),
         count
       );
       debouncedSpeak(resultsFoundMessage);
@@ -97423,14 +97450,14 @@ If there's a particular need for this, please submit a feature request at https:
     const blocksUI = !!filteredBlockTypes.length && /* @__PURE__ */ (0, import_jsx_runtime489.jsx)(
       panel_default,
       {
-        title: /* @__PURE__ */ (0, import_jsx_runtime489.jsx)(VisuallyHidden, { children: (0, import_i18n131.__)("Blocks") }),
+        title: /* @__PURE__ */ (0, import_jsx_runtime489.jsx)(VisuallyHidden, { children: (0, import_i18n132.__)("Blocks") }),
         children: /* @__PURE__ */ (0, import_jsx_runtime489.jsx)(
           block_types_list_default,
           {
             items: currentShownBlockTypes,
             onSelect: onSelectBlockType,
             onHover,
-            label: (0, import_i18n131.__)("Blocks"),
+            label: (0, import_i18n132.__)("Blocks"),
             isDraggable
           }
         )
@@ -97439,7 +97466,7 @@ If there's a particular need for this, please submit a feature request at https:
     const patternsUI = !!filteredBlockPatterns.length && /* @__PURE__ */ (0, import_jsx_runtime489.jsx)(
       panel_default,
       {
-        title: /* @__PURE__ */ (0, import_jsx_runtime489.jsx)(VisuallyHidden, { children: (0, import_i18n131.__)("Patterns") }),
+        title: /* @__PURE__ */ (0, import_jsx_runtime489.jsx)(VisuallyHidden, { children: (0, import_i18n132.__)("Patterns") }),
         children: /* @__PURE__ */ (0, import_jsx_runtime489.jsx)("div", { className: "block-editor-inserter__quick-inserter-patterns", children: /* @__PURE__ */ (0, import_jsx_runtime489.jsx)(
           block_patterns_list_default,
           {
@@ -97735,8 +97762,8 @@ If there's a particular need for this, please submit a feature request at https:
               setFilterValue(value);
             },
             value: filterValue,
-            label: (0, import_i18n132.__)("Search"),
-            placeholder: (0, import_i18n132.__)("Search")
+            label: (0, import_i18n133.__)("Search"),
+            placeholder: (0, import_i18n133.__)("Search")
           }
         ),
         !!delayedFilterValue && /* @__PURE__ */ (0, import_jsx_runtime491.jsx)(
@@ -97784,7 +97811,7 @@ If there's a particular need for this, please submit a feature request at https:
           }
         ) }),
         showInserterHelpPanel && /* @__PURE__ */ (0, import_jsx_runtime491.jsxs)("div", { className: "block-editor-inserter__tips", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime491.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime491.jsx)("h2", {}), children: (0, import_i18n132.__)("A tip for using the block editor") }),
+          /* @__PURE__ */ (0, import_jsx_runtime491.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime491.jsx)("h2", {}), children: (0, import_i18n133.__)("A tip for using the block editor") }),
           /* @__PURE__ */ (0, import_jsx_runtime491.jsx)(tips_default, {})
         ] })
       ] });
@@ -97864,11 +97891,11 @@ If there's a particular need for this, please submit a feature request at https:
               onSelect: handleSetSelectedTab,
               onClose,
               selectedTab,
-              closeButtonLabel: (0, import_i18n132.__)("Close Block Inserter"),
+              closeButtonLabel: (0, import_i18n133.__)("Close Block Inserter"),
               tabs: [
                 {
                   name: "blocks",
-                  title: (0, import_i18n132.__)("Blocks"),
+                  title: (0, import_i18n133.__)("Blocks"),
                   panelRef: blocksPanelRef,
                   panel: /* @__PURE__ */ (0, import_jsx_runtime491.jsxs)(import_jsx_runtime491.Fragment, { children: [
                     inserterSearch,
@@ -97877,7 +97904,7 @@ If there's a particular need for this, please submit a feature request at https:
                 },
                 {
                   name: "patterns",
-                  title: (0, import_i18n132.__)("Patterns"),
+                  title: (0, import_i18n133.__)("Patterns"),
                   panelRef: patternsPanelRef,
                   panel: /* @__PURE__ */ (0, import_jsx_runtime491.jsxs)(import_jsx_runtime491.Fragment, { children: [
                     inserterSearch,
@@ -97886,7 +97913,7 @@ If there's a particular need for this, please submit a feature request at https:
                 },
                 {
                   name: "media",
-                  title: (0, import_i18n132.__)("Media"),
+                  title: (0, import_i18n133.__)("Media"),
                   panelRef: mediaPanelRef,
                   panel: /* @__PURE__ */ (0, import_jsx_runtime491.jsxs)(import_jsx_runtime491.Fragment, { children: [
                     inserterSearch,
@@ -97926,7 +97953,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/inserter/quick-inserter.mjs
   var import_element308 = __toESM(require_element(), 1);
-  var import_i18n133 = __toESM(require_i18n(), 1);
+  var import_i18n134 = __toESM(require_i18n(), 1);
   var import_components117 = __toESM(require_components(), 1);
   var import_data75 = __toESM(require_data(), 1);
   var import_jsx_runtime492 = __toESM(require_jsx_runtime(), 1);
@@ -97997,8 +98024,8 @@ If there's a particular need for this, please submit a feature request at https:
               onChange: (value) => {
                 setFilterValue(value);
               },
-              label: (0, import_i18n133.__)("Search"),
-              placeholder: (0, import_i18n133.__)("Search")
+              label: (0, import_i18n134.__)("Search"),
+              placeholder: (0, import_i18n134.__)("Search")
             }
           ),
           /* @__PURE__ */ (0, import_jsx_runtime492.jsxs)("div", { className: "block-editor-inserter__quick-inserter-results", children: [
@@ -98024,10 +98051,10 @@ If there's a particular need for this, please submit a feature request at https:
                 __next40pxDefaultSize: true,
                 variant: "secondary",
                 onClick: onBrowseAll,
-                "aria-label": (0, import_i18n133.__)(
+                "aria-label": (0, import_i18n134.__)(
                   "Browse all. This will open the main inserter panel in the editor toolbar."
                 ),
-                children: (0, import_i18n133.__)("Browse all")
+                children: (0, import_i18n134.__)("Browse all")
               }
             ) })
           ] })
@@ -98073,13 +98100,13 @@ If there's a particular need for this, please submit a feature request at https:
     if (!label && appenderLabel) {
       label = appenderLabel;
     } else if (!label && hasSingleBlockType) {
-      label = (0, import_i18n134.sprintf)(
+      label = (0, import_i18n135.sprintf)(
         // translators: %s: the name of the block when there is only one
-        (0, import_i18n134._x)("Add %s", "directly add the only allowed block"),
+        (0, import_i18n135._x)("Add %s", "directly add the only allowed block"),
         blockTitle.toLowerCase()
       );
     } else if (!label) {
-      label = (0, import_i18n134._x)("Add block", "Generic label for block inserter button");
+      label = (0, import_i18n135._x)("Add block", "Generic label for block inserter button");
     }
     function handleClick(event) {
       if (onToggle) {
@@ -98236,9 +98263,9 @@ If there's a particular need for this, please submit a feature request at https:
         }
       }
       if (blockLabelToInsert) {
-        const message2 = (0, import_i18n134.sprintf)(
+        const message2 = (0, import_i18n135.sprintf)(
           // translators: %s: the name of the block that has been added
-          (0, import_i18n134.__)("%s block added"),
+          (0, import_i18n135.__)("%s block added"),
           blockLabelToInsert
         );
         (0, import_a11y15.speak)(message2);
@@ -98305,7 +98332,7 @@ If there's a particular need for this, please submit a feature request at https:
         popoverProps: { position, shift: true },
         onToggle,
         expandOnMobile: true,
-        headerTitle: (0, import_i18n134.__)("Add a block"),
+        headerTitle: (0, import_i18n135.__)("Add a block"),
         renderToggle: renderToggle3,
         renderContent,
         onClose: onSelectOrClose
@@ -98342,7 +98369,7 @@ If there's a particular need for this, please submit a feature request at https:
     if (isLocked || isManualGrid) {
       return null;
     }
-    const value = (0, import_html_entities.decodeEntities)(placeholder) || (0, import_i18n135.__)("Type / to choose a block");
+    const value = (0, import_html_entities.decodeEntities)(placeholder) || (0, import_i18n136.__)("Type / to choose a block");
     const onAppend = () => {
       insertDefaultBlock2(void 0, rootClientId);
       startTyping2();
@@ -98360,7 +98387,7 @@ If there's a particular need for this, please submit a feature request at https:
             {
               tabIndex: "0",
               role: "button",
-              "aria-label": (0, import_i18n135.__)("Add default block"),
+              "aria-label": (0, import_i18n136.__)("Add default block"),
               className: "block-editor-default-block-appender__content",
               onKeyDown: (event) => {
                 if (import_keycodes13.ENTER === event.keyCode || import_keycodes13.SPACE === event.keyCode) {
@@ -98393,7 +98420,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/button-block-appender/index.mjs
   var import_components119 = __toESM(require_components(), 1);
   var import_element310 = __toESM(require_element(), 1);
-  var import_i18n136 = __toESM(require_i18n(), 1);
+  var import_i18n137 = __toESM(require_i18n(), 1);
   var import_deprecated10 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime495 = __toESM(require_jsx_runtime(), 1);
   function ButtonBlockAppender({ rootClientId, className, onFocus, tabIndex, onSelect }, ref) {
@@ -98421,13 +98448,13 @@ If there's a particular need for this, please submit a feature request at https:
           if (appenderLabel) {
             label = appenderLabel;
           } else if (hasSingleBlockType) {
-            label = (0, import_i18n136.sprintf)(
+            label = (0, import_i18n137.sprintf)(
               // translators: %s: the name of the block when there is only one
-              (0, import_i18n136._x)("Add %s", "directly add the only allowed block"),
+              (0, import_i18n137._x)("Add %s", "directly add the only allowed block"),
               blockTitle.toLowerCase()
             );
           } else {
-            label = (0, import_i18n136._x)(
+            label = (0, import_i18n137._x)(
               "Add block",
               "Generic label for block inserter button"
             );
@@ -98526,7 +98553,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_compose98 = __toESM(require_compose(), 1);
   var import_data82 = __toESM(require_data(), 1);
   var import_element315 = __toESM(require_element(), 1);
-  var import_i18n138 = __toESM(require_i18n(), 1);
+  var import_i18n139 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/block-tools/insertion-point.mjs
   var import_data81 = __toESM(require_data(), 1);
@@ -98538,7 +98565,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_data79 = __toESM(require_data(), 1);
   var import_element311 = __toESM(require_element(), 1);
   var import_components120 = __toESM(require_components(), 1);
-  var import_i18n137 = __toESM(require_i18n(), 1);
+  var import_i18n138 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/block-popover/use-popover-scroll.mjs
   var import_compose94 = __toESM(require_compose(), 1);
@@ -98647,7 +98674,7 @@ If there's a particular need for this, please submit a feature request at https:
           } else {
             top = previousRect ? previousRect.top : nextRect.top;
             height = previousRect ? previousRect.height : nextRect.height;
-            if ((0, import_i18n137.isRTL)()) {
+            if ((0, import_i18n138.isRTL)()) {
               left = nextRect ? nextRect.right : previousRect.left;
               width = previousRect && nextRect ? previousRect.left - nextRect.right : 0;
             } else {
@@ -99254,7 +99281,7 @@ If there's a particular need for this, please submit a feature request at https:
               if (offsetTop < blockElRect.top || offsetTop > blockElRect.bottom) {
                 return false;
               }
-              return (0, import_i18n138.isRTL)() ? blockElRect.right < offsetLeft : blockElRect.left > offsetLeft;
+              return (0, import_i18n139.isRTL)() ? blockElRect.right < offsetLeft : blockElRect.left > offsetLeft;
             }
           );
           if (!clientId) {
@@ -99594,7 +99621,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_data88 = __toESM(require_data(), 1);
   var import_element319 = __toESM(require_element(), 1);
   var import_compose100 = __toESM(require_compose(), 1);
-  var import_i18n139 = __toESM(require_i18n(), 1);
+  var import_i18n140 = __toESM(require_i18n(), 1);
   var import_blocks49 = __toESM(require_blocks(), 1);
 
   // packages/block-editor/build-module/components/use-on-block-drop/index.mjs
@@ -99934,7 +99961,7 @@ If there's a particular need for this, please submit a feature request at https:
         }
       }
     }
-    const isRightToLeft = (0, import_i18n139.isRTL)();
+    const isRightToLeft = (0, import_i18n140.isRTL)();
     if (dropZoneElement && parentBlockOrientation === "horizontal") {
       const rect = dropZoneElement.getBoundingClientRect();
       const [distance, edge] = getDistanceToNearestEdge(position, rect, [
@@ -100462,7 +100489,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_compose102 = __toESM(require_compose(), 1);
   var import_data90 = __toESM(require_data(), 1);
   var import_element321 = __toESM(require_element(), 1);
-  var import_i18n140 = __toESM(require_i18n(), 1);
+  var import_i18n141 = __toESM(require_i18n(), 1);
   var import_jsx_runtime506 = __toESM(require_jsx_runtime(), 1);
   function ZoomOutSeparator({
     clientId,
@@ -100558,7 +100585,7 @@ If there's a particular need for this, please submit a feature request at https:
               duration: 0.1,
               delay: 0.125
             },
-            children: (0, import_i18n140.__)("Drop pattern.")
+            children: (0, import_i18n141.__)("Drop pattern.")
           }
         )
       }
@@ -100826,7 +100853,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_element356 = __toESM(require_element(), 1);
   var import_blocks81 = __toESM(require_blocks(), 1);
   var import_a11y17 = __toESM(require_a11y(), 1);
-  var import_i18n173 = __toESM(require_i18n(), 1);
+  var import_i18n174 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/block-tools/use-block-toolbar-popover-props.mjs
   var import_compose107 = __toESM(require_compose(), 1);
@@ -100835,7 +100862,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_element331 = __toESM(require_element(), 1);
 
   // packages/block-editor/build-module/hooks/position.mjs
-  var import_i18n142 = __toESM(require_i18n(), 1);
+  var import_i18n143 = __toESM(require_i18n(), 1);
   var import_blocks53 = __toESM(require_blocks(), 1);
   var import_compose106 = __toESM(require_compose(), 1);
   var import_data95 = __toESM(require_data(), 1);
@@ -101316,14 +101343,14 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/use-block-display-information/index.mjs
   var import_data94 = __toESM(require_data(), 1);
   var import_blocks52 = __toESM(require_blocks(), 1);
-  var import_i18n141 = __toESM(require_i18n(), 1);
+  var import_i18n142 = __toESM(require_i18n(), 1);
   function getPositionTypeLabel(attributes) {
     const positionType = attributes?.style?.position?.type;
     if (positionType === "sticky") {
-      return (0, import_i18n141.__)("Sticky");
+      return (0, import_i18n142.__)("Sticky");
     }
     if (positionType === "fixed") {
-      return (0, import_i18n141.__)("Fixed");
+      return (0, import_i18n142.__)("Fixed");
     }
     return null;
   }
@@ -101356,9 +101383,9 @@ If there's a particular need for this, please submit a feature request at https:
           const positionLabel2 = getPositionTypeLabel(attributes);
           return {
             isSynced: false,
-            title: (0, import_i18n141.__)("Pattern"),
+            title: (0, import_i18n142.__)("Pattern"),
             icon: symbol_default,
-            description: pattern?.description || (0, import_i18n141.__)("A block pattern."),
+            description: pattern?.description || (0, import_i18n142.__)("A block pattern."),
             anchor: attributes?.anchor,
             positionLabel: positionLabel2,
             positionType: attributes?.style?.position?.type,
@@ -101409,19 +101436,19 @@ If there's a particular need for this, please submit a feature request at https:
   var POSITION_SUPPORT_KEY = "position";
   var DEFAULT_OPTION = {
     value: "__default",
-    label: (0, import_i18n142.__)("Default")
+    label: (0, import_i18n143.__)("Default")
   };
   var STICKY_OPTION = {
     value: "sticky",
-    label: (0, import_i18n142._x)("Sticky", "Name for the value of the CSS position property"),
-    description: (0, import_i18n142.__)(
+    label: (0, import_i18n143._x)("Sticky", "Name for the value of the CSS position property"),
+    description: (0, import_i18n143.__)(
       "The block will stick to the top of the window instead of scrolling."
     )
   };
   var FIXED_OPTION = {
     value: "fixed",
-    label: (0, import_i18n142._x)("Fixed", "Name for the value of the CSS position property"),
-    description: (0, import_i18n142.__)("The block will not move when the page is scrolled.")
+    label: (0, import_i18n143._x)("Fixed", "Name for the value of the CSS position property"),
+    description: (0, import_i18n143.__)("The block will not move when the page is scrolled.")
   };
   var POSITION_SIDES = ["top", "right", "bottom", "left"];
   var VALID_POSITION_TYPES = ["sticky", "fixed"];
@@ -101546,9 +101573,9 @@ If there's a particular need for this, please submit a feature request at https:
     const stateStyle = isViewportState ? getStyleForState2(style, selectedState) : void 0;
     const value = isViewportState ? stateStyle?.position?.type ?? style?.position?.type : style?.position?.type;
     const blockInformation = useBlockDisplayInformation(firstParentClientId);
-    const stickyHelpText = allowSticky && value === STICKY_OPTION.value && blockInformation ? (0, import_i18n142.sprintf)(
+    const stickyHelpText = allowSticky && value === STICKY_OPTION.value && blockInformation ? (0, import_i18n143.sprintf)(
       /* translators: %s: the name of the parent block. */
-      (0, import_i18n142.__)(
+      (0, import_i18n143.__)(
         "The block will stick to the scrollable area of the parent %s block."
       ),
       blockInformation.title
@@ -101595,7 +101622,7 @@ If there's a particular need for this, please submit a feature request at https:
     return options.length > 1 ? /* @__PURE__ */ (0, import_jsx_runtime514.jsx)(inspector_controls_default, { group: "position", children: /* @__PURE__ */ (0, import_jsx_runtime514.jsx)(
       SelectControl2,
       {
-        label: (0, import_i18n142.__)("Position"),
+        label: (0, import_i18n143.__)("Position"),
         hideLabelFromVision: true,
         description: stickyHelpText,
         popupWidth: "anchor",
@@ -101855,7 +101882,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_keyboard_shortcuts10 = __toESM(require_keyboard_shortcuts(), 1);
 
   // packages/block-editor/build-module/components/block-toolbar/index.mjs
-  var import_i18n171 = __toESM(require_i18n(), 1);
+  var import_i18n172 = __toESM(require_i18n(), 1);
   var import_data128 = __toESM(require_data(), 1);
   var import_element353 = __toESM(require_element(), 1);
   var import_compose114 = __toESM(require_compose(), 1);
@@ -101865,7 +101892,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/block-mover/index.mjs
   var import_components133 = __toESM(require_components(), 1);
   var import_data100 = __toESM(require_data(), 1);
-  var import_i18n145 = __toESM(require_i18n(), 1);
+  var import_i18n146 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/block-draggable/index.mjs
   var import_blocks54 = __toESM(require_blocks(), 1);
@@ -102134,20 +102161,20 @@ If there's a particular need for this, please submit a feature request at https:
   var import_compose109 = __toESM(require_compose(), 1);
   var import_data99 = __toESM(require_data(), 1);
   var import_element334 = __toESM(require_element(), 1);
-  var import_i18n144 = __toESM(require_i18n(), 1);
+  var import_i18n145 = __toESM(require_i18n(), 1);
   var import_keycodes14 = __toESM(require_keycodes(), 1);
 
   // packages/block-editor/build-module/components/block-mover/mover-description.mjs
-  var import_i18n143 = __toESM(require_i18n(), 1);
+  var import_i18n144 = __toESM(require_i18n(), 1);
   var getMovementDirection = (moveDirection, orientation) => {
     if (moveDirection === "up") {
       if (orientation === "horizontal") {
-        return (0, import_i18n143.isRTL)() ? "right" : "left";
+        return (0, import_i18n144.isRTL)() ? "right" : "left";
       }
       return "up";
     } else if (moveDirection === "down") {
       if (orientation === "horizontal") {
-        return (0, import_i18n143.isRTL)() ? "left" : "right";
+        return (0, import_i18n144.isRTL)() ? "left" : "right";
       }
       return "down";
     }
@@ -102166,18 +102193,18 @@ If there's a particular need for this, please submit a feature request at https:
       );
     }
     if (isFirst && isLast) {
-      return (0, import_i18n143.sprintf)(
+      return (0, import_i18n144.sprintf)(
         // translators: %s: Type of block (i.e. Text, Image etc)
-        (0, import_i18n143.__)("Block %s is the only block, and cannot be moved"),
+        (0, import_i18n144.__)("Block %s is the only block, and cannot be moved"),
         type
       );
     }
     if (dir > 0 && !isLast) {
       const movementDirection = getMovementDirection("down", orientation);
       if (movementDirection === "down") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Type of block (i.e. Text, Image etc), 2: Position of selected block, 3: New position
-          (0, import_i18n143.__)(
+          (0, import_i18n144.__)(
             "Move %1$s block from position %2$d down to position %3$d"
           ),
           type,
@@ -102186,9 +102213,9 @@ If there's a particular need for this, please submit a feature request at https:
         );
       }
       if (movementDirection === "left") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Type of block (i.e. Text, Image etc), 2: Position of selected block, 3: New position
-          (0, import_i18n143.__)(
+          (0, import_i18n144.__)(
             "Move %1$s block from position %2$d left to position %3$d"
           ),
           type,
@@ -102197,9 +102224,9 @@ If there's a particular need for this, please submit a feature request at https:
         );
       }
       if (movementDirection === "right") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Type of block (i.e. Text, Image etc), 2: Position of selected block, 3: New position
-          (0, import_i18n143.__)(
+          (0, import_i18n144.__)(
             "Move %1$s block from position %2$d right to position %3$d"
           ),
           type,
@@ -102211,27 +102238,27 @@ If there's a particular need for this, please submit a feature request at https:
     if (dir > 0 && isLast) {
       const movementDirection = getMovementDirection("down", orientation);
       if (movementDirection === "down") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Type of block (i.e. Text, Image etc)
-          (0, import_i18n143.__)(
+          (0, import_i18n144.__)(
             "Block %1$s is at the end of the content and can\u2019t be moved down"
           ),
           type
         );
       }
       if (movementDirection === "left") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Type of block (i.e. Text, Image etc)
-          (0, import_i18n143.__)(
+          (0, import_i18n144.__)(
             "Block %1$s is at the end of the content and can\u2019t be moved left"
           ),
           type
         );
       }
       if (movementDirection === "right") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Type of block (i.e. Text, Image etc)
-          (0, import_i18n143.__)(
+          (0, import_i18n144.__)(
             "Block %1$s is at the end of the content and can\u2019t be moved right"
           ),
           type
@@ -102241,18 +102268,18 @@ If there's a particular need for this, please submit a feature request at https:
     if (dir < 0 && !isFirst) {
       const movementDirection = getMovementDirection("up", orientation);
       if (movementDirection === "up") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Type of block (i.e. Text, Image etc), 2: Position of selected block, 3: New position
-          (0, import_i18n143.__)("Move %1$s block from position %2$d up to position %3$d"),
+          (0, import_i18n144.__)("Move %1$s block from position %2$d up to position %3$d"),
           type,
           position,
           position - 1
         );
       }
       if (movementDirection === "left") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Type of block (i.e. Text, Image etc), 2: Position of selected block, 3: New position
-          (0, import_i18n143.__)(
+          (0, import_i18n144.__)(
             "Move %1$s block from position %2$d left to position %3$d"
           ),
           type,
@@ -102261,9 +102288,9 @@ If there's a particular need for this, please submit a feature request at https:
         );
       }
       if (movementDirection === "right") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Type of block (i.e. Text, Image etc), 2: Position of selected block, 3: New position
-          (0, import_i18n143.__)(
+          (0, import_i18n144.__)(
             "Move %1$s block from position %2$d right to position %3$d"
           ),
           type,
@@ -102275,27 +102302,27 @@ If there's a particular need for this, please submit a feature request at https:
     if (dir < 0 && isFirst) {
       const movementDirection = getMovementDirection("up", orientation);
       if (movementDirection === "up") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Type of block (i.e. Text, Image etc)
-          (0, import_i18n143.__)(
+          (0, import_i18n144.__)(
             "Block %1$s is at the beginning of the content and can\u2019t be moved up"
           ),
           type
         );
       }
       if (movementDirection === "left") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Type of block (i.e. Text, Image etc)
-          (0, import_i18n143.__)(
+          (0, import_i18n144.__)(
             "Block %1$s is at the beginning of the content and can\u2019t be moved left"
           ),
           type
         );
       }
       if (movementDirection === "right") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Type of block (i.e. Text, Image etc)
-          (0, import_i18n143.__)(
+          (0, import_i18n144.__)(
             "Block %1$s is at the beginning of the content and can\u2019t be moved right"
           ),
           type
@@ -102306,30 +102333,30 @@ If there's a particular need for this, please submit a feature request at https:
   function getMultiBlockMoverDescription(selectedCount, firstIndex, isFirst, isLast, dir, orientation) {
     const position = firstIndex + 1;
     if (isFirst && isLast) {
-      return (0, import_i18n143.__)("All blocks are selected, and cannot be moved");
+      return (0, import_i18n144.__)("All blocks are selected, and cannot be moved");
     }
     if (dir > 0 && !isLast) {
       const movementDirection = getMovementDirection("down", orientation);
       if (movementDirection === "down") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Number of selected blocks, 2: Position of selected blocks
-          (0, import_i18n143.__)("Move %1$d blocks from position %2$d down by one place"),
+          (0, import_i18n144.__)("Move %1$d blocks from position %2$d down by one place"),
           selectedCount,
           position
         );
       }
       if (movementDirection === "left") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Number of selected blocks, 2: Position of selected blocks
-          (0, import_i18n143.__)("Move %1$d blocks from position %2$d left by one place"),
+          (0, import_i18n144.__)("Move %1$d blocks from position %2$d left by one place"),
           selectedCount,
           position
         );
       }
       if (movementDirection === "right") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Number of selected blocks, 2: Position of selected blocks
-          (0, import_i18n143.__)("Move %1$d blocks from position %2$d right by one place"),
+          (0, import_i18n144.__)("Move %1$d blocks from position %2$d right by one place"),
           selectedCount,
           position
         );
@@ -102338,17 +102365,17 @@ If there's a particular need for this, please submit a feature request at https:
     if (dir > 0 && isLast) {
       const movementDirection = getMovementDirection("down", orientation);
       if (movementDirection === "down") {
-        return (0, import_i18n143.__)(
+        return (0, import_i18n144.__)(
           "Blocks cannot be moved down as they are already at the bottom"
         );
       }
       if (movementDirection === "left") {
-        return (0, import_i18n143.__)(
+        return (0, import_i18n144.__)(
           "Blocks cannot be moved left as they are already are at the leftmost position"
         );
       }
       if (movementDirection === "right") {
-        return (0, import_i18n143.__)(
+        return (0, import_i18n144.__)(
           "Blocks cannot be moved right as they are already are at the rightmost position"
         );
       }
@@ -102356,25 +102383,25 @@ If there's a particular need for this, please submit a feature request at https:
     if (dir < 0 && !isFirst) {
       const movementDirection = getMovementDirection("up", orientation);
       if (movementDirection === "up") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Number of selected blocks, 2: Position of selected blocks
-          (0, import_i18n143.__)("Move %1$d blocks from position %2$d up by one place"),
+          (0, import_i18n144.__)("Move %1$d blocks from position %2$d up by one place"),
           selectedCount,
           position
         );
       }
       if (movementDirection === "left") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Number of selected blocks, 2: Position of selected blocks
-          (0, import_i18n143.__)("Move %1$d blocks from position %2$d left by one place"),
+          (0, import_i18n144.__)("Move %1$d blocks from position %2$d left by one place"),
           selectedCount,
           position
         );
       }
       if (movementDirection === "right") {
-        return (0, import_i18n143.sprintf)(
+        return (0, import_i18n144.sprintf)(
           // translators: 1: Number of selected blocks, 2: Position of selected blocks
-          (0, import_i18n143.__)("Move %1$d blocks from position %2$d right by one place"),
+          (0, import_i18n144.__)("Move %1$d blocks from position %2$d right by one place"),
           selectedCount,
           position
         );
@@ -102383,17 +102410,17 @@ If there's a particular need for this, please submit a feature request at https:
     if (dir < 0 && isFirst) {
       const movementDirection = getMovementDirection("up", orientation);
       if (movementDirection === "up") {
-        return (0, import_i18n143.__)(
+        return (0, import_i18n144.__)(
           "Blocks cannot be moved up as they are already at the top"
         );
       }
       if (movementDirection === "left") {
-        return (0, import_i18n143.__)(
+        return (0, import_i18n144.__)(
           "Blocks cannot be moved left as they are already are at the leftmost position"
         );
       }
       if (movementDirection === "right") {
-        return (0, import_i18n143.__)(
+        return (0, import_i18n144.__)(
           "Blocks cannot be moved right as they are already are at the rightmost position"
         );
       }
@@ -102405,12 +102432,12 @@ If there's a particular need for this, please submit a feature request at https:
   var getArrowIcon = (direction, orientation) => {
     if (direction === "up") {
       if (orientation === "horizontal") {
-        return (0, import_i18n144.isRTL)() ? chevron_right_default : chevron_left_default;
+        return (0, import_i18n145.isRTL)() ? chevron_right_default : chevron_left_default;
       }
       return chevron_up_default;
     } else if (direction === "down") {
       if (orientation === "horizontal") {
-        return (0, import_i18n144.isRTL)() ? chevron_left_default : chevron_right_default;
+        return (0, import_i18n145.isRTL)() ? chevron_left_default : chevron_right_default;
       }
       return chevron_down_default;
     }
@@ -102419,14 +102446,14 @@ If there's a particular need for this, please submit a feature request at https:
   var getMovementDirectionLabel = (moveDirection, orientation) => {
     if (moveDirection === "up") {
       if (orientation === "horizontal") {
-        return (0, import_i18n144.isRTL)() ? (0, import_i18n144.__)("Move right") : (0, import_i18n144.__)("Move left");
+        return (0, import_i18n145.isRTL)() ? (0, import_i18n145.__)("Move right") : (0, import_i18n145.__)("Move left");
       }
-      return (0, import_i18n144.__)("Move up");
+      return (0, import_i18n145.__)("Move up");
     } else if (moveDirection === "down") {
       if (orientation === "horizontal") {
-        return (0, import_i18n144.isRTL)() ? (0, import_i18n144.__)("Move left") : (0, import_i18n144.__)("Move right");
+        return (0, import_i18n145.isRTL)() ? (0, import_i18n145.__)("Move left") : (0, import_i18n145.__)("Move right");
       }
-      return (0, import_i18n144.__)("Move down");
+      return (0, import_i18n145.__)("Move down");
     }
     return null;
   };
@@ -102514,9 +102541,9 @@ If there's a particular need for this, please submit a feature request at https:
             shortcut: import_keycodes14.displayShortcut.secondary(keyCharacter)
           }
         ),
-        hasBlocks && /* @__PURE__ */ (0, import_jsx_runtime517.jsx)(VisuallyHidden, { id: descriptionId, children: (0, import_i18n144.sprintf)(
+        hasBlocks && /* @__PURE__ */ (0, import_jsx_runtime517.jsx)(VisuallyHidden, { id: descriptionId, children: (0, import_i18n145.sprintf)(
           // translators: 1: Description of the block movement. 2: Keyboard shortcut.
-          (0, import_i18n144.__)("%1$s (%2$s)"),
+          (0, import_i18n145.__)("%1$s (%2$s)"),
           getBlockMoverDescription(
             blocksCount,
             blockType && blockType.title,
@@ -102595,7 +102622,7 @@ If there's a particular need for this, please submit a feature request at https:
               __next40pxDefaultSize: true,
               icon: drag_handle_default,
               className: "block-editor-block-mover__drag-handle",
-              label: (0, import_i18n145.__)("Drag"),
+              label: (0, import_i18n146.__)("Drag"),
               tabIndex: "-1",
               ...draggableProps
             }
@@ -102625,7 +102652,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/block-parent-selector/index.mjs
   var import_components134 = __toESM(require_components(), 1);
   var import_data102 = __toESM(require_data(), 1);
-  var import_i18n146 = __toESM(require_i18n(), 1);
+  var import_i18n147 = __toESM(require_i18n(), 1);
   var import_element336 = __toESM(require_element(), 1);
   var import_blocks56 = __toESM(require_blocks(), 1);
 
@@ -102811,9 +102838,9 @@ If there's a particular need for this, please submit a feature request at https:
       {
         className: "block-editor-block-parent-selector__button",
         onClick: () => selectBlock2(parentClientId),
-        label: (0, import_i18n146.sprintf)(
+        label: (0, import_i18n147.sprintf)(
           /* translators: %s: Name of the block's parent. */
-          (0, import_i18n146.__)("Select parent block: %s"),
+          (0, import_i18n147.__)("Select parent block: %s"),
           blockInformation?.title
         ),
         showTooltip: true,
@@ -102854,14 +102881,14 @@ If there's a particular need for this, please submit a feature request at https:
                     onClick: onToggle,
                     "aria-expanded": isOpen,
                     disabled: disabled2,
-                    label: hasSingleBlockType ? (0, import_i18n146.sprintf)(
+                    label: hasSingleBlockType ? (0, import_i18n147.sprintf)(
                       // translators: %s: the name of the block when there is only one
-                      (0, import_i18n146._x)(
+                      (0, import_i18n147._x)(
                         "Add %s",
                         "directly add the only allowed block"
                       ),
                       blockTitle.toLowerCase()
-                    ) : (0, import_i18n146._x)(
+                    ) : (0, import_i18n147._x)(
                       "Add block",
                       "Generic label for block inserter button"
                     ),
@@ -102894,7 +102921,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_components149 = __toESM(require_components(), 1);
   var import_data116 = __toESM(require_data(), 1);
   var import_element344 = __toESM(require_element(), 1);
-  var import_i18n158 = __toESM(require_i18n(), 1);
+  var import_i18n159 = __toESM(require_i18n(), 1);
   var import_keyboard_shortcuts9 = __toESM(require_keyboard_shortcuts(), 1);
   var import_compose111 = __toESM(require_compose(), 1);
 
@@ -102907,7 +102934,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_blocks58 = __toESM(require_blocks(), 1);
   var import_data103 = __toESM(require_data(), 1);
   var import_notices8 = __toESM(require_notices(), 1);
-  var import_i18n147 = __toESM(require_i18n(), 1);
+  var import_i18n148 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/hooks/supports.mjs
   var import_blocks57 = __toESM(require_blocks(), 1);
@@ -103041,7 +103068,7 @@ If there's a particular need for this, please submit a feature request at https:
         try {
           if (!window.navigator.clipboard) {
             createErrorNotice(
-              (0, import_i18n147.__)(
+              (0, import_i18n148.__)(
                 "Unable to paste styles. This feature is only available on secure (https) sites in supporting browsers."
               ),
               { type: "snackbar" }
@@ -103051,7 +103078,7 @@ If there's a particular need for this, please submit a feature request at https:
           html = await window.navigator.clipboard.readText();
         } catch {
           createErrorNotice(
-            (0, import_i18n147.__)(
+            (0, import_i18n148.__)(
               "Unable to paste styles. Please allow browser clipboard permissions before continuing."
             ),
             {
@@ -103062,7 +103089,7 @@ If there's a particular need for this, please submit a feature request at https:
         }
         if (!html || !hasSerializedBlocks(html)) {
           createWarningNotice(
-            (0, import_i18n147.__)(
+            (0, import_i18n148.__)(
               "Unable to paste styles. Block styles couldn't be found within the copied content."
             ),
             {
@@ -103092,9 +103119,9 @@ If there's a particular need for this, please submit a feature request at https:
         if (targetBlocks.length === 1) {
           const title = (0, import_blocks58.getBlockType)(targetBlocks[0].name)?.title;
           createSuccessNotice(
-            (0, import_i18n147.sprintf)(
+            (0, import_i18n148.sprintf)(
               // Translators: %s: Name of the block being pasted, e.g. "Paragraph".
-              (0, import_i18n147.__)("Pasted styles to %s."),
+              (0, import_i18n148.__)("Pasted styles to %s."),
               // The block pasted to is registered.
               title
             ),
@@ -103102,9 +103129,9 @@ If there's a particular need for this, please submit a feature request at https:
           );
         } else {
           createSuccessNotice(
-            (0, import_i18n147.sprintf)(
+            (0, import_i18n148.sprintf)(
               // Translators: %d: The number of the blocks.
-              (0, import_i18n147.__)("Pasted styles to %d blocks."),
+              (0, import_i18n148.__)("Pasted styles to %d blocks."),
               targetBlocks.length
             ),
             { type: "snackbar" }
@@ -103242,7 +103269,7 @@ If there's a particular need for this, please submit a feature request at https:
   var note_icon_slot_default = NoteIconSlotFill;
 
   // packages/block-editor/build-module/components/block-settings-menu/block-html-convert-button.mjs
-  var import_i18n148 = __toESM(require_i18n(), 1);
+  var import_i18n149 = __toESM(require_i18n(), 1);
   var import_components137 = __toESM(require_components(), 1);
   var import_blocks61 = __toESM(require_blocks(), 1);
   var import_data105 = __toESM(require_data(), 1);
@@ -103263,7 +103290,7 @@ If there's a particular need for this, please submit a feature request at https:
           clientId,
           (0, import_blocks61.rawHandler)({ HTML: (0, import_blocks61.getBlockContent)(block) })
         ),
-        children: (0, import_i18n148.__)("Convert to Blocks")
+        children: (0, import_i18n149.__)("Convert to Blocks")
       }
     );
   }
@@ -103284,7 +103311,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/convert-to-group-buttons/index.mjs
   var import_components140 = __toESM(require_components(), 1);
-  var import_i18n150 = __toESM(require_i18n(), 1);
+  var import_i18n151 = __toESM(require_i18n(), 1);
   var import_data108 = __toESM(require_data(), 1);
   var import_keycodes15 = __toESM(require_keycodes(), 1);
 
@@ -103323,7 +103350,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_data107 = __toESM(require_data(), 1);
   var import_blocks63 = __toESM(require_blocks(), 1);
   var import_components139 = __toESM(require_components(), 1);
-  var import_i18n149 = __toESM(require_i18n(), 1);
+  var import_i18n150 = __toESM(require_i18n(), 1);
   var import_jsx_runtime521 = __toESM(require_jsx_runtime(), 1);
   var layouts = {
     group: { type: "constrained" },
@@ -103379,7 +103406,7 @@ If there's a particular need for this, please submit a feature request at https:
         import_components139.ToolbarButton,
         {
           icon: group_default,
-          label: (0, import_i18n149._x)("Group", "action: convert blocks to group"),
+          label: (0, import_i18n150._x)("Group", "action: convert blocks to group"),
           onClick: onConvertToGroup
         }
       ),
@@ -103387,7 +103414,7 @@ If there's a particular need for this, please submit a feature request at https:
         import_components139.ToolbarButton,
         {
           icon: row_default,
-          label: (0, import_i18n149._x)("Row", "action: convert blocks to row"),
+          label: (0, import_i18n150._x)("Row", "action: convert blocks to row"),
           onClick: onConvertToRow
         }
       ),
@@ -103395,7 +103422,7 @@ If there's a particular need for this, please submit a feature request at https:
         import_components139.ToolbarButton,
         {
           icon: stack_default,
-          label: (0, import_i18n149._x)("Stack", "action: convert blocks to stack"),
+          label: (0, import_i18n150._x)("Stack", "action: convert blocks to stack"),
           onClick: onConvertToStack
         }
       ),
@@ -103403,7 +103430,7 @@ If there's a particular need for this, please submit a feature request at https:
         import_components139.ToolbarButton,
         {
           icon: grid_default,
-          label: (0, import_i18n149._x)("Grid", "action: convert blocks to grid"),
+          label: (0, import_i18n150._x)("Grid", "action: convert blocks to grid"),
           onClick: onConvertToGrid
         }
       )
@@ -103457,7 +103484,7 @@ If there's a particular need for this, please submit a feature request at https:
             onConvertToGroup();
             onClose();
           },
-          children: (0, import_i18n150._x)("Group", "verb")
+          children: (0, import_i18n151._x)("Group", "verb")
         }
       ),
       isUngroupable2 && /* @__PURE__ */ (0, import_jsx_runtime522.jsx)(
@@ -103467,7 +103494,7 @@ If there's a particular need for this, please submit a feature request at https:
             onConvertFromGroup();
             onClose();
           },
-          children: (0, import_i18n150._x)(
+          children: (0, import_i18n151._x)(
             "Ungroup",
             "Ungrouping blocks from within a grouping block back into individual blocks within the Editor"
           )
@@ -103477,7 +103504,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/block-lock/menu-item.mjs
-  var import_i18n152 = __toESM(require_i18n(), 1);
+  var import_i18n153 = __toESM(require_i18n(), 1);
   var import_element339 = __toESM(require_element(), 1);
   var import_components142 = __toESM(require_components(), 1);
 
@@ -103507,7 +103534,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/block-lock/modal.mjs
-  var import_i18n151 = __toESM(require_i18n(), 1);
+  var import_i18n152 = __toESM(require_i18n(), 1);
   var import_element338 = __toESM(require_element(), 1);
   var import_components141 = __toESM(require_components(), 1);
   var import_data110 = __toESM(require_data(), 1);
@@ -103561,9 +103588,9 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime523.jsx)(
       import_components141.Modal,
       {
-        title: (0, import_i18n151.sprintf)(
+        title: (0, import_i18n152.sprintf)(
           /* translators: %s: Name of the block. */
-          (0, import_i18n151.__)("Lock %s"),
+          (0, import_i18n152.__)("Lock %s"),
           // An existing block has display information.
           blockInformation.title
         ),
@@ -103586,7 +103613,7 @@ If there's a particular need for this, please submit a feature request at https:
             },
             children: [
               /* @__PURE__ */ (0, import_jsx_runtime523.jsxs)("fieldset", { className: "block-editor-block-lock-modal__options", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime523.jsx)("legend", { children: (0, import_i18n151.__)("Select the features you want to lock") }),
+                /* @__PURE__ */ (0, import_jsx_runtime523.jsx)("legend", { children: (0, import_i18n152.__)("Select the features you want to lock") }),
                 /* @__PURE__ */ (0, import_jsx_runtime523.jsx)(
                   "ul",
                   {
@@ -103597,7 +103624,7 @@ If there's a particular need for this, please submit a feature request at https:
                         import_components141.CheckboxControl,
                         {
                           className: "block-editor-block-lock-modal__options-all",
-                          label: (0, import_i18n151.__)("Lock all"),
+                          label: (0, import_i18n152.__)("Lock all"),
                           checked: isAllChecked,
                           indeterminate: isMixed,
                           onChange: (newValue) => setLock({
@@ -103617,7 +103644,7 @@ If there's a particular need for this, please submit a feature request at https:
                               /* @__PURE__ */ (0, import_jsx_runtime523.jsx)(
                                 import_components141.CheckboxControl,
                                 {
-                                  label: (0, import_i18n151.__)("Lock editing"),
+                                  label: (0, import_i18n152.__)("Lock editing"),
                                   checked: !!lock4.edit,
                                   onChange: (edit) => setLock((prevLock) => ({
                                     ...prevLock,
@@ -103637,7 +103664,7 @@ If there's a particular need for this, please submit a feature request at https:
                               /* @__PURE__ */ (0, import_jsx_runtime523.jsx)(
                                 import_components141.CheckboxControl,
                                 {
-                                  label: (0, import_i18n151.__)("Lock movement"),
+                                  label: (0, import_i18n152.__)("Lock movement"),
                                   checked: lock4.move,
                                   onChange: (move) => setLock((prevLock) => ({
                                     ...prevLock,
@@ -103657,7 +103684,7 @@ If there's a particular need for this, please submit a feature request at https:
                               /* @__PURE__ */ (0, import_jsx_runtime523.jsx)(
                                 import_components141.CheckboxControl,
                                 {
-                                  label: (0, import_i18n151.__)("Lock removal"),
+                                  label: (0, import_i18n152.__)("Lock removal"),
                                   checked: lock4.remove,
                                   onChange: (remove6) => setLock((prevLock) => ({
                                     ...prevLock,
@@ -103683,7 +103710,7 @@ If there's a particular need for this, please submit a feature request at https:
                   import_components141.ToggleControl,
                   {
                     className: "block-editor-block-lock-modal__template-lock",
-                    label: (0, import_i18n151.__)("Apply to all blocks inside"),
+                    label: (0, import_i18n152.__)("Apply to all blocks inside"),
                     checked: applyTemplateLock,
                     disabled: lock4.move && !lock4.remove,
                     onChange: () => setApplyTemplateLock(!applyTemplateLock)
@@ -103703,7 +103730,7 @@ If there's a particular need for this, please submit a feature request at https:
                         variant: "tertiary",
                         onClick: onClose,
                         __next40pxDefaultSize: true,
-                        children: (0, import_i18n151.__)("Cancel")
+                        children: (0, import_i18n152.__)("Cancel")
                       }
                     ) }),
                     /* @__PURE__ */ (0, import_jsx_runtime523.jsx)(import_components141.FlexItem, { children: /* @__PURE__ */ (0, import_jsx_runtime523.jsx)(
@@ -103714,7 +103741,7 @@ If there's a particular need for this, please submit a feature request at https:
                         disabled: !isDirty,
                         accessibleWhenDisabled: true,
                         __next40pxDefaultSize: true,
-                        children: (0, import_i18n151.__)("Apply")
+                        children: (0, import_i18n152.__)("Apply")
                       }
                     ) })
                   ]
@@ -103740,7 +103767,7 @@ If there's a particular need for this, please submit a feature request at https:
     if (!canLock) {
       return null;
     }
-    const label = isLocked ? (0, import_i18n152.__)("Unlock") : (0, import_i18n152.__)("Lock");
+    const label = isLocked ? (0, import_i18n153.__)("Unlock") : (0, import_i18n153.__)("Lock");
     return /* @__PURE__ */ (0, import_jsx_runtime524.jsxs)(import_jsx_runtime524.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime524.jsx)(
         import_components142.MenuItem,
@@ -103757,7 +103784,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/block-lock/toolbar.mjs
-  var import_i18n153 = __toESM(require_i18n(), 1);
+  var import_i18n154 = __toESM(require_i18n(), 1);
   var import_components143 = __toESM(require_components(), 1);
   var import_element340 = __toESM(require_element(), 1);
   var import_jsx_runtime525 = __toESM(require_jsx_runtime(), 1);
@@ -103778,9 +103805,9 @@ If there's a particular need for this, please submit a feature request at https:
     if (!isLocked && !hasLockButtonShownRef.current) {
       return null;
     }
-    let label = isLocked ? (0, import_i18n153.__)("Unlock") : (0, import_i18n153.__)("Lock");
+    let label = isLocked ? (0, import_i18n154.__)("Unlock") : (0, import_i18n154.__)("Lock");
     if (!canLock && isLocked) {
-      label = (0, import_i18n153.__)("Locked");
+      label = (0, import_i18n154.__)("Locked");
     }
     return /* @__PURE__ */ (0, import_jsx_runtime525.jsxs)(import_jsx_runtime525.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime525.jsx)(import_components143.ToolbarGroup, { className: "block-editor-block-lock-toolbar", children: /* @__PURE__ */ (0, import_jsx_runtime525.jsx)(
@@ -103799,7 +103826,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/block-settings-menu/block-mode-toggle.mjs
-  var import_i18n154 = __toESM(require_i18n(), 1);
+  var import_i18n155 = __toESM(require_i18n(), 1);
   var import_components144 = __toESM(require_components(), 1);
   var import_blocks65 = __toESM(require_blocks(), 1);
   var import_data111 = __toESM(require_data(), 1);
@@ -103823,7 +103850,7 @@ If there's a particular need for this, please submit a feature request at https:
     if (!blockType || !(0, import_blocks65.hasBlockSupport)(blockType, "html", true) || !enabled) {
       return null;
     }
-    const label = mode2 === "visual" ? (0, import_i18n154.__)("Edit as HTML") : (0, import_i18n154.__)("Edit visually");
+    const label = mode2 === "visual" ? (0, import_i18n155.__)("Edit as HTML") : (0, import_i18n155.__)("Edit visually");
     return /* @__PURE__ */ (0, import_jsx_runtime526.jsx)(
       import_components144.MenuItem,
       {
@@ -103838,14 +103865,14 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/block-rename/rename-control.mjs
   var import_components146 = __toESM(require_components(), 1);
-  var import_i18n156 = __toESM(require_i18n(), 1);
+  var import_i18n157 = __toESM(require_i18n(), 1);
   var import_element342 = __toESM(require_element(), 1);
   var import_data113 = __toESM(require_data(), 1);
   var import_keyboard_shortcuts8 = __toESM(require_keyboard_shortcuts(), 1);
 
   // packages/block-editor/build-module/components/block-rename/modal.mjs
   var import_components145 = __toESM(require_components(), 1);
-  var import_i18n155 = __toESM(require_i18n(), 1);
+  var import_i18n156 = __toESM(require_i18n(), 1);
   var import_element341 = __toESM(require_element(), 1);
   var import_a11y16 = __toESM(require_a11y(), 1);
   var import_data112 = __toESM(require_data(), 1);
@@ -103882,13 +103909,13 @@ If there's a particular need for this, please submit a feature request at https:
     const autoSelectInputText = (event) => event.target.select();
     const handleSubmit = () => {
       const newName = nameIsOriginal || nameIsEmpty ? void 0 : editedBlockName;
-      const message2 = nameIsOriginal || nameIsEmpty ? (0, import_i18n155.sprintf)(
+      const message2 = nameIsOriginal || nameIsEmpty ? (0, import_i18n156.sprintf)(
         /* translators: %s: new name/label for the block */
-        (0, import_i18n155.__)('Block name reset to: "%s".'),
+        (0, import_i18n156.__)('Block name reset to: "%s".'),
         editedBlockName
-      ) : (0, import_i18n155.sprintf)(
+      ) : (0, import_i18n156.sprintf)(
         /* translators: %s: new name/label for the block */
-        (0, import_i18n155.__)('Block name changed to: "%s".'),
+        (0, import_i18n156.__)('Block name changed to: "%s".'),
         editedBlockName
       );
       (0, import_a11y16.speak)(message2, "assertive");
@@ -103903,7 +103930,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime527.jsx)(
       import_components145.Modal,
       {
-        title: (0, import_i18n155.__)("Rename"),
+        title: (0, import_i18n156.__)("Rename"),
         onRequestClose: onClose,
         overlayClassName: "block-editor-block-rename-modal",
         focusOnMount: "firstContentElement",
@@ -103923,8 +103950,8 @@ If there's a particular need for this, please submit a feature request at https:
                 import_components145.TextControl,
                 {
                   value: editedBlockName ?? blockName,
-                  label: (0, import_i18n155.__)("Name"),
-                  help: hasOverridesWarning ? (0, import_i18n155.__)(
+                  label: (0, import_i18n156.__)("Name"),
+                  help: hasOverridesWarning ? (0, import_i18n156.__)(
                     "This block allows overrides. Changing the name can cause problems with content entered into instances of this pattern."
                   ) : void 0,
                   placeholder: originalBlockName,
@@ -103939,7 +103966,7 @@ If there's a particular need for this, please submit a feature request at https:
                     __next40pxDefaultSize: true,
                     variant: "tertiary",
                     onClick: onClose,
-                    children: (0, import_i18n155.__)("Cancel")
+                    children: (0, import_i18n156.__)("Cancel")
                   }
                 ),
                 /* @__PURE__ */ (0, import_jsx_runtime527.jsx)(
@@ -103950,7 +103977,7 @@ If there's a particular need for this, please submit a feature request at https:
                     disabled: !isNameValid,
                     variant: "primary",
                     type: "submit",
-                    children: (0, import_i18n155.__)("Save")
+                    children: (0, import_i18n156.__)("Save")
                   }
                 )
               ] })
@@ -103981,7 +104008,7 @@ If there's a particular need for this, please submit a feature request at https:
           "aria-expanded": renamingBlock,
           "aria-haspopup": "dialog",
           shortcut,
-          children: (0, import_i18n156.__)("Rename")
+          children: (0, import_i18n157.__)("Rename")
         }
       ),
       renamingBlock && /* @__PURE__ */ (0, import_jsx_runtime528.jsx)(
@@ -104107,7 +104134,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_components148 = __toESM(require_components(), 1);
   var import_compose110 = __toESM(require_compose(), 1);
   var import_data115 = __toESM(require_data(), 1);
-  var import_i18n157 = __toESM(require_i18n(), 1);
+  var import_i18n158 = __toESM(require_i18n(), 1);
   var import_jsx_runtime530 = __toESM(require_jsx_runtime(), 1);
   function BlockParentSelectorMenuItem({
     parentClientId,
@@ -104130,9 +104157,9 @@ If there's a particular need for this, please submit a feature request at https:
         ref: menuItemRef,
         icon: /* @__PURE__ */ (0, import_jsx_runtime530.jsx)(block_icon_default, { icon: parentBlockType.icon }),
         onClick: () => selectBlock2(parentClientId),
-        children: (0, import_i18n157.sprintf)(
+        children: (0, import_i18n158.sprintf)(
           /* translators: %s: Name of the block's parent. */
-          (0, import_i18n157.__)("Select parent block (%s)"),
+          (0, import_i18n158.__)("Select parent block (%s)"),
           parentBlockType.title
         )
       }
@@ -104174,7 +104201,7 @@ If there's a particular need for this, please submit a feature request at https:
         }
       }
     );
-    const copyMenuItemLabel = label ? label : (0, import_i18n158.__)("Copy");
+    const copyMenuItemLabel = label ? label : (0, import_i18n159.__)("Copy");
     return /* @__PURE__ */ (0, import_jsx_runtime531.jsx)(import_components149.MenuItem, { ref, shortcut, children: copyMenuItemLabel });
   }
   function BlockSettingsDropdown({
@@ -104301,7 +104328,7 @@ If there's a particular need for this, please submit a feature request at https:
             import_components149.DropdownMenu,
             {
               icon: more_vertical_default,
-              label: (0, import_i18n158.__)("Options"),
+              label: (0, import_i18n159.__)("Options"),
               className: "block-editor-block-settings-menu",
               popoverProps: POPOVER_PROPS5,
               noIcons: true,
@@ -104334,7 +104361,7 @@ If there's a particular need for this, please submit a feature request at https:
                             firstParentClientId
                           );
                         }),
-                        children: (0, import_i18n158.__)("Move up")
+                        children: (0, import_i18n159.__)("Move up")
                       }
                     ),
                     /* @__PURE__ */ (0, import_jsx_runtime531.jsx)(
@@ -104349,7 +104376,7 @@ If there's a particular need for this, please submit a feature request at https:
                             firstParentClientId
                           );
                         }),
-                        children: (0, import_i18n158.__)("Move down")
+                        children: (0, import_i18n159.__)("Move down")
                       }
                     )
                   ] }),
@@ -104371,7 +104398,7 @@ If there's a particular need for this, please submit a feature request at https:
                     CopyMenuItem,
                     {
                       clientIds,
-                      label: (0, import_i18n158.__)("Cut"),
+                      label: (0, import_i18n159.__)("Cut"),
                       eventType: "cut",
                       shortcut: shortcuts.cut,
                       __experimentalUpdateSelection: !__experimentalSelectBlock
@@ -104386,7 +104413,7 @@ If there's a particular need for this, please submit a feature request at https:
                         updateSelectionAfterDuplicate
                       ),
                       shortcut: shortcuts.duplicate,
-                      children: (0, import_i18n158.__)("Duplicate")
+                      children: (0, import_i18n159.__)("Duplicate")
                     }
                   ),
                   canInsertBlock && !isZoomOut2 && /* @__PURE__ */ (0, import_jsx_runtime531.jsxs)(import_jsx_runtime531.Fragment, { children: [
@@ -104398,7 +104425,7 @@ If there's a particular need for this, please submit a feature request at https:
                           onInsertBefore
                         ),
                         shortcut: shortcuts.insertBefore,
-                        children: (0, import_i18n158.__)("Add before")
+                        children: (0, import_i18n159.__)("Add before")
                       }
                     ),
                     /* @__PURE__ */ (0, import_jsx_runtime531.jsx)(
@@ -104409,7 +104436,7 @@ If there's a particular need for this, please submit a feature request at https:
                           onInsertAfter
                         ),
                         shortcut: shortcuts.insertAfter,
-                        children: (0, import_i18n158.__)("Add after")
+                        children: (0, import_i18n159.__)("Add after")
                       }
                     )
                   ] }),
@@ -104429,11 +104456,11 @@ If there's a particular need for this, please submit a feature request at https:
                     {
                       clientIds,
                       onCopy,
-                      label: (0, import_i18n158.__)("Copy styles"),
+                      label: (0, import_i18n159.__)("Copy styles"),
                       eventType: "copyStyles"
                     }
                   ),
-                  canEdit && /* @__PURE__ */ (0, import_jsx_runtime531.jsx)(import_components149.MenuItem, { onClick: onPasteStyles, children: (0, import_i18n158.__)("Paste styles") })
+                  canEdit && /* @__PURE__ */ (0, import_jsx_runtime531.jsx)(import_components149.MenuItem, { onClick: onPasteStyles, children: (0, import_i18n159.__)("Paste styles") })
                 ] }),
                 !isContentOnly && /* @__PURE__ */ (0, import_jsx_runtime531.jsx)(
                   block_settings_menu_controls_default.Slot,
@@ -104458,7 +104485,7 @@ If there's a particular need for this, please submit a feature request at https:
                       updateSelectionAfterRemove
                     ),
                     shortcut: shortcuts.remove,
-                    children: (0, import_i18n158.__)("Delete")
+                    children: (0, import_i18n159.__)("Delete")
                   }
                 ) })
               ] })
@@ -104500,7 +104527,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/block-edit-visually-button/index.mjs
   var import_components152 = __toESM(require_components(), 1);
-  var import_i18n159 = __toESM(require_i18n(), 1);
+  var import_i18n160 = __toESM(require_i18n(), 1);
   var import_data117 = __toESM(require_data(), 1);
   var import_jsx_runtime533 = __toESM(require_jsx_runtime(), 1);
   function BlockEditVisuallyButton({
@@ -104521,7 +104548,7 @@ If there's a particular need for this, please submit a feature request at https:
         onClick: () => {
           toggleBlockMode2(clientId);
         },
-        children: (0, import_i18n159.__)("Edit visually")
+        children: (0, import_i18n160.__)("Edit visually")
       }
     ) });
   }
@@ -104541,7 +104568,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/block-toolbar/change-design.mjs
   var import_components153 = __toESM(require_components(), 1);
-  var import_i18n160 = __toESM(require_i18n(), 1);
+  var import_i18n161 = __toESM(require_i18n(), 1);
   var import_blocks70 = __toESM(require_blocks(), 1);
   var import_element345 = __toESM(require_element(), 1);
   var import_data119 = __toESM(require_data(), 1);
@@ -104613,7 +104640,7 @@ If there's a particular need for this, please submit a feature request at https:
             {
               onClick: () => onToggle(!isOpen),
               "aria-expanded": isOpen,
-              children: (0, import_i18n160.__)("Change design")
+              children: (0, import_i18n161.__)("Change design")
             }
           ) });
         },
@@ -104638,7 +104665,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/block-toolbar/switch-section-style.mjs
   var import_components154 = __toESM(require_components(), 1);
-  var import_i18n162 = __toESM(require_i18n(), 1);
+  var import_i18n163 = __toESM(require_i18n(), 1);
   var import_data121 = __toESM(require_data(), 1);
 
   // packages/block-editor/build-module/components/block-styles/use-styles-for-block.mjs
@@ -104648,7 +104675,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/block-styles/utils.mjs
   var import_token_list = __toESM(require_token_list(), 1);
-  var import_i18n161 = __toESM(require_i18n(), 1);
+  var import_i18n162 = __toESM(require_i18n(), 1);
   function getActiveStyle(styles, className) {
     for (const style of new import_token_list.default(className).values()) {
       if (style.indexOf("is-style-") === -1) {
@@ -104679,7 +104706,7 @@ If there's a particular need for this, please submit a feature request at https:
     return getDefaultStyle(styles) ? styles : [
       {
         name: "default",
-        label: (0, import_i18n161._x)("Default", "block style"),
+        label: (0, import_i18n162._x)("Default", "block style"),
         isDefault: true
       },
       ...styles
@@ -104820,7 +104847,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components154.ToolbarButton,
       {
         onClick: handleStyleSwitch,
-        label: (0, import_i18n162.__)("Shuffle styles"),
+        label: (0, import_i18n163.__)("Shuffle styles"),
         children: /* @__PURE__ */ (0, import_jsx_runtime535.jsx)(
           import_components154.Icon,
           {
@@ -104837,7 +104864,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/block-toolbar/edit-section-button.mjs
   var import_components155 = __toESM(require_components(), 1);
-  var import_i18n163 = __toESM(require_i18n(), 1);
+  var import_i18n164 = __toESM(require_i18n(), 1);
   var import_data123 = __toESM(require_data(), 1);
   var import_blocks72 = __toESM(require_blocks(), 1);
 
@@ -104917,28 +104944,28 @@ If there's a particular need for this, please submit a feature request at https:
     };
     return /* @__PURE__ */ (0, import_jsx_runtime536.jsx)(import_components155.ToolbarGroup, { children: /* @__PURE__ */ (0, import_jsx_runtime536.jsx)(import_components155.ToolbarButton, { onClick: handleClick, children: isEditing ? (
       /* translators: Button label to leave pattern editing mode. */
-      (0, import_i18n163.__)("Exit pattern")
+      (0, import_i18n164.__)("Exit pattern")
     ) : (
       /* translators: Button label to enter pattern editing mode. */
-      (0, import_i18n163.__)("Edit pattern")
+      (0, import_i18n164.__)("Edit pattern")
     ) }) });
   }
 
   // packages/block-editor/build-module/components/block-toolbar/block-toolbar-icon.mjs
   var import_components165 = __toESM(require_components(), 1);
-  var import_i18n170 = __toESM(require_i18n(), 1);
+  var import_i18n171 = __toESM(require_i18n(), 1);
   var import_data127 = __toESM(require_data(), 1);
   var import_blocks78 = __toESM(require_blocks(), 1);
   var import_preferences = __toESM(require_preferences(), 1);
 
   // packages/block-editor/build-module/components/block-switcher/index.mjs
-  var import_i18n167 = __toESM(require_i18n(), 1);
+  var import_i18n168 = __toESM(require_i18n(), 1);
   var import_components162 = __toESM(require_components(), 1);
   var import_blocks77 = __toESM(require_blocks(), 1);
   var import_data125 = __toESM(require_data(), 1);
 
   // packages/block-editor/build-module/components/block-switcher/block-transformations-menu.mjs
-  var import_i18n164 = __toESM(require_i18n(), 1);
+  var import_i18n165 = __toESM(require_i18n(), 1);
   var import_components158 = __toESM(require_components(), 1);
   var import_blocks74 = __toESM(require_blocks(), 1);
   var import_element348 = __toESM(require_element(), 1);
@@ -105121,7 +105148,7 @@ If there's a particular need for this, please submit a feature request at https:
       }
     );
     return /* @__PURE__ */ (0, import_jsx_runtime539.jsxs)(import_jsx_runtime539.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime539.jsxs)(import_components158.MenuGroup, { label: (0, import_i18n164.__)("Transform to"), className, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime539.jsxs)(import_components158.MenuGroup, { label: (0, import_i18n165.__)("Transform to"), className, children: [
         hoveredTransformItem && /* @__PURE__ */ (0, import_jsx_runtime539.jsx)(
           PreviewBlockPopover,
           {
@@ -105198,7 +105225,7 @@ If there's a particular need for this, please submit a feature request at https:
   var block_transformations_menu_default = BlockTransformationsMenu;
 
   // packages/block-editor/build-module/components/block-switcher/block-styles-menu.mjs
-  var import_i18n165 = __toESM(require_i18n(), 1);
+  var import_i18n166 = __toESM(require_i18n(), 1);
   var import_components160 = __toESM(require_components(), 1);
   var import_element349 = __toESM(require_element(), 1);
 
@@ -105283,7 +105310,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime541.jsxs)(
       import_components160.MenuGroup,
       {
-        label: (0, import_i18n165.__)("Styles"),
+        label: (0, import_i18n166.__)("Styles"),
         className: "block-editor-block-switcher__styles__menugroup",
         children: [
           previewBlocks && /* @__PURE__ */ (0, import_jsx_runtime541.jsx)(PreviewBlockPopover, { blocks: previewBlocks }),
@@ -105302,7 +105329,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/block-switcher/pattern-transformations-menu.mjs
-  var import_i18n166 = __toESM(require_i18n(), 1);
+  var import_i18n167 = __toESM(require_i18n(), 1);
   var import_element351 = __toESM(require_element(), 1);
   var import_compose113 = __toESM(require_compose(), 1);
   var import_components161 = __toESM(require_components(), 1);
@@ -105431,7 +105458,7 @@ If there's a particular need for this, please submit a feature request at https:
             setShowTransforms(!showTransforms);
           },
           icon: chevron_right_default,
-          children: (0, import_i18n166.__)("Patterns")
+          children: (0, import_i18n167.__)("Patterns")
         }
       )
     ] });
@@ -105460,7 +105487,7 @@ If there's a particular need for this, please submit a feature request at https:
       {
         role: "listbox",
         className: "block-editor-block-switcher__preview-patterns-container",
-        "aria-label": (0, import_i18n166.__)("Patterns list"),
+        "aria-label": (0, import_i18n167.__)("Patterns list"),
         children: patterns2.map((pattern) => /* @__PURE__ */ (0, import_jsx_runtime542.jsx)(
           BlockPattern2,
           {
@@ -105592,12 +105619,12 @@ If there's a particular need for this, please submit a feature request at https:
     const hasBlockOrBlockVariationTransforms = hasPossibleBlockTransformations || hasPossibleBlockVariationTransformations;
     const hasContents = hasBlockStyles || hasBlockOrBlockVariationTransforms || hasPatternTransformation;
     if (!hasContents) {
-      return /* @__PURE__ */ (0, import_jsx_runtime543.jsx)("p", { className: "block-editor-block-switcher__no-transforms", children: (0, import_i18n167.__)("No transforms.") });
+      return /* @__PURE__ */ (0, import_jsx_runtime543.jsx)("p", { className: "block-editor-block-switcher__no-transforms", children: (0, import_i18n168.__)("No transforms.") });
     }
-    const connectedBlockDescription = isSingleBlock ? (0, import_i18n167._x)(
+    const connectedBlockDescription = isSingleBlock ? (0, import_i18n168._x)(
       "This block is connected.",
       "block toolbar button label and description"
-    ) : (0, import_i18n167._x)(
+    ) : (0, import_i18n168._x)(
       "These blocks are connected.",
       "block toolbar button label and description"
     );
@@ -105642,9 +105669,9 @@ If there's a particular need for this, please submit a feature request at https:
   }
   var BlockSwitcher = ({ children, clientIds, label, text }) => {
     const isSingleBlock = clientIds.length === 1;
-    const blockSwitcherDescription = isSingleBlock ? (0, import_i18n167.__)("Change block type or style") : (0, import_i18n167.sprintf)(
+    const blockSwitcherDescription = isSingleBlock ? (0, import_i18n168.__)("Change block type or style") : (0, import_i18n168.sprintf)(
       /* translators: %d: number of blocks. */
-      (0, import_i18n167._n)(
+      (0, import_i18n168._n)(
         "Change type of %d block",
         "Change type of %d blocks",
         clientIds.length
@@ -105680,7 +105707,7 @@ If there's a particular need for this, please submit a feature request at https:
   var block_switcher_default = BlockSwitcher;
 
   // packages/block-editor/build-module/components/block-toolbar/block-styles-dropdown.mjs
-  var import_i18n168 = __toESM(require_i18n(), 1);
+  var import_i18n169 = __toESM(require_i18n(), 1);
   var import_components163 = __toESM(require_components(), 1);
   var import_jsx_runtime544 = __toESM(require_jsx_runtime(), 1);
   function BlockStylesDropdown({
@@ -105701,7 +105728,7 @@ If there's a particular need for this, please submit a feature request at https:
         icon: children,
         text,
         toggleProps: {
-          description: (0, import_i18n168.__)("Change block style"),
+          description: (0, import_i18n169.__)("Change block style"),
           ...toggleProps
         },
         menuProps: { orientation: "both" },
@@ -105720,7 +105747,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/block-toolbar/pattern-overrides-dropdown.mjs
   var import_components164 = __toESM(require_components(), 1);
-  var import_i18n169 = __toESM(require_i18n(), 1);
+  var import_i18n170 = __toESM(require_i18n(), 1);
   var import_element352 = __toESM(require_element(), 1);
   var import_data126 = __toESM(require_data(), 1);
   var import_jsx_runtime545 = __toESM(require_jsx_runtime(), 1);
@@ -105735,14 +105762,14 @@ If there's a particular need for this, please submit a feature request at https:
     const isSingleBlock = clientIds.length === 1;
     let description;
     if (isSingleBlock && blockMetaName) {
-      description = (0, import_i18n169.sprintf)(
+      description = (0, import_i18n170.sprintf)(
         /* translators: 1: The block type's name. 2: The block's user-provided name (the same as the override name). */
-        (0, import_i18n169.__)('This %1$s is editable using the "%2$s" override.'),
+        (0, import_i18n170.__)('This %1$s is editable using the "%2$s" override.'),
         blockTitle.toLowerCase(),
         blockMetaName
       );
     } else {
-      description = (0, import_i18n169.__)("These blocks are editable using overrides.");
+      description = (0, import_i18n170.__)("These blocks are editable using overrides.");
     }
     return /* @__PURE__ */ (0, import_jsx_runtime545.jsx)(Text, { children: description });
   }
@@ -105887,9 +105914,9 @@ If there's a particular need for this, please submit a feature request at https:
     });
     const isSingleBlock = clientIds.length === 1;
     const showBlockTitle = isSingleBlock && isSynced && !showIconLabels;
-    let label = isSingleBlock ? blockTitle : (0, import_i18n170.__)("Multiple blocks selected");
+    let label = isSingleBlock ? blockTitle : (0, import_i18n171.__)("Multiple blocks selected");
     if (!clientIds.length) {
-      label = (0, import_blocks78.getBlockType)((0, import_blocks78.getDefaultBlockName)())?.title ?? (0, import_i18n170.__)("Block");
+      label = (0, import_blocks78.getBlockType)((0, import_blocks78.getDefaultBlockName)())?.title ?? (0, import_i18n171.__)("Block");
     }
     const text = showBlockTitle && blockTitle ? blockTitle : void 0;
     const BlockIconElement = /* @__PURE__ */ (0, import_jsx_runtime546.jsx)(
@@ -106081,7 +106108,7 @@ If there's a particular need for this, please submit a feature request at https:
         focusEditorOnEscape: true,
         shouldUseKeyboardFocusShortcut: !isPlaceholder,
         className: classes,
-        "aria-label": (0, import_i18n171.__)("Block tools"),
+        "aria-label": (0, import_i18n172.__)("Block tools"),
         variant: variant === "toolbar" ? void 0 : variant,
         focusOnMount,
         __experimentalInitialIndex,
@@ -106246,7 +106273,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/block-tools/zoom-out-mode-inserter-button.mjs
   var import_components167 = __toESM(require_components(), 1);
-  var import_i18n172 = __toESM(require_i18n(), 1);
+  var import_i18n173 = __toESM(require_i18n(), 1);
   var import_jsx_runtime549 = __toESM(require_jsx_runtime(), 1);
   function ZoomOutModeInserterButton({ onClick }) {
     return /* @__PURE__ */ (0, import_jsx_runtime549.jsx)(
@@ -106260,7 +106287,7 @@ If there's a particular need for this, please submit a feature request at https:
           "block-editor-block-tools__zoom-out-mode-inserter-button"
         ),
         onClick,
-        label: (0, import_i18n172._x)(
+        label: (0, import_i18n173._x)(
           "Add pattern",
           "Generic label for pattern inserter button"
         )
@@ -106461,9 +106488,9 @@ If there's a particular need for this, please submit a feature request at https:
             moveBlocksDown2(clientIds, rootClientId);
           }
           const blockLength = Array.isArray(clientIds) ? clientIds.length : 1;
-          const message2 = (0, import_i18n173.sprintf)(
+          const message2 = (0, import_i18n174.sprintf)(
             // translators: %d: Number of blocks moved.
-            (0, import_i18n173._n)(
+            (0, import_i18n174._n)(
               "%d block moved.",
               "%d blocks moved.",
               clientIds.length
@@ -106528,7 +106555,7 @@ If there's a particular need for this, please submit a feature request at https:
           const groupingBlockName = getGroupingBlockName();
           const newBlocks = groupBlocks(blocks2, groupingBlockName);
           replaceBlocks2(clientIds, newBlocks);
-          (0, import_a11y17.speak)((0, import_i18n173.__)("Selected blocks are grouped."));
+          (0, import_a11y17.speak)((0, import_i18n174.__)("Selected blocks are grouped."));
         }
       } else if (isMatch("core/block-editor/rename", event)) {
         const clientIds = getSelectedBlockClientIds2();
@@ -106779,7 +106806,7 @@ If there's a particular need for this, please submit a feature request at https:
   var observe_typing_default = ObserveTyping;
 
   // packages/block-editor/build-module/components/use-block-commands/index.mjs
-  var import_i18n174 = __toESM(require_i18n(), 1);
+  var import_i18n175 = __toESM(require_i18n(), 1);
   var import_blocks82 = __toESM(require_blocks(), 1);
   var import_data134 = __toESM(require_data(), 1);
   var import_commands = __toESM(require_commands(), 1);
@@ -106857,7 +106884,7 @@ If there's a particular need for this, please submit a feature request at https:
         return {
           name: "core/block-editor/transform-to-" + (id || name).replace(/\//g, "-"),
           /* translators: %s: Block or block variation name. */
-          label: (0, import_i18n174.sprintf)((0, import_i18n174.__)("Transform to %s"), title),
+          label: (0, import_i18n175.sprintf)((0, import_i18n175.__)("Transform to %s"), title),
           // Transform items have a title.
           // Block icons are elements; see the note above.
           icon: blockIcon?.src,
@@ -106949,7 +106976,7 @@ If there's a particular need for this, please submit a feature request at https:
     if (canDuplicate) {
       commands.push({
         name: "duplicate",
-        label: (0, import_i18n174.__)("Duplicate"),
+        label: (0, import_i18n175.__)("Duplicate"),
         callback: () => duplicateBlocks2(clientIds, true),
         icon: copy_default
       });
@@ -106958,7 +106985,7 @@ If there's a particular need for this, please submit a feature request at https:
       commands.push(
         {
           name: "add-before",
-          label: (0, import_i18n174.__)("Add before"),
+          label: (0, import_i18n175.__)("Add before"),
           callback: () => {
             const clientId = Array.isArray(clientIds) ? clientIds[0] : (
               // @ts-expect-error The client IDs are always an array, so this is never read.
@@ -106970,7 +106997,7 @@ If there's a particular need for this, please submit a feature request at https:
         },
         {
           name: "add-after",
-          label: (0, import_i18n174.__)("Add after"),
+          label: (0, import_i18n175.__)("Add after"),
           callback: () => {
             const clientId = Array.isArray(clientIds) ? clientIds[clientIds.length - 1] : (
               // @ts-expect-error The client IDs are always an array, so this is never read.
@@ -106985,7 +107012,7 @@ If there's a particular need for this, please submit a feature request at https:
     if (isGroupable2) {
       commands.push({
         name: "Group",
-        label: (0, import_i18n174.__)("Group"),
+        label: (0, import_i18n175.__)("Group"),
         callback: onGroup,
         icon: group_default
       });
@@ -106993,7 +107020,7 @@ If there's a particular need for this, please submit a feature request at https:
     if (isUngroupable2) {
       commands.push({
         name: "ungroup",
-        label: (0, import_i18n174.__)("Ungroup"),
+        label: (0, import_i18n175.__)("Ungroup"),
         callback: onUngroup,
         icon: ungroup_default
       });
@@ -107001,7 +107028,7 @@ If there's a particular need for this, please submit a feature request at https:
     if (canRemove) {
       commands.push({
         name: "remove",
-        label: (0, import_i18n174.__)("Delete"),
+        label: (0, import_i18n175.__)("Delete"),
         callback: () => removeBlocks2(clientIds, true),
         icon: trash_default
       });
@@ -107018,7 +107045,7 @@ If there's a particular need for this, please submit a feature request at https:
       );
       commands.push({
         name: "toggle-visibility",
-        label: hasHiddenBlock ? (0, import_i18n174.__)("Show") : (0, import_i18n174.__)("Hide"),
+        label: hasHiddenBlock ? (0, import_i18n175.__)("Show") : (0, import_i18n175.__)("Hide"),
         callback: () => showViewportModal2(clientIds),
         icon: hasHiddenBlock ? seen_default : unseen_default
       });
@@ -107166,7 +107193,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/color-style-selector/index.mjs
   var import_components170 = __toESM(require_components(), 1);
-  var import_i18n175 = __toESM(require_i18n(), 1);
+  var import_i18n176 = __toESM(require_i18n(), 1);
   var import_keycodes17 = __toESM(require_keycodes(), 1);
   var import_deprecated13 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime554 = __toESM(require_jsx_runtime(), 1);
@@ -107198,7 +107225,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components170.ToolbarButton,
       {
         className: "components-toolbar__control block-library-colors-selector__toggle",
-        label: (0, import_i18n175.__)("Open Colors Selector"),
+        label: (0, import_i18n176.__)("Open Colors Selector"),
         onClick: onToggle,
         onKeyDown: openOnArrowDown,
         icon: /* @__PURE__ */ (0, import_jsx_runtime554.jsx)(BackgroundColor, { children: /* @__PURE__ */ (0, import_jsx_runtime554.jsx)(TextColor, { children: /* @__PURE__ */ (0, import_jsx_runtime554.jsx)(ColorSelectorIcon, {}) }) })
@@ -107230,7 +107257,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/block-navigation/dropdown.mjs
   var import_deprecated15 = __toESM(require_deprecated(), 1);
   var import_components177 = __toESM(require_components(), 1);
-  var import_i18n184 = __toESM(require_i18n(), 1);
+  var import_i18n185 = __toESM(require_i18n(), 1);
   var import_data148 = __toESM(require_data(), 1);
   var import_element374 = __toESM(require_element(), 1);
 
@@ -107241,7 +107268,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_data147 = __toESM(require_data(), 1);
   var import_deprecated14 = __toESM(require_deprecated(), 1);
   var import_element373 = __toESM(require_element(), 1);
-  var import_i18n183 = __toESM(require_i18n(), 1);
+  var import_i18n184 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/list-view/branch.mjs
   var import_components174 = __toESM(require_components(), 1);
@@ -107253,7 +107280,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_a11y18 = __toESM(require_a11y(), 1);
   var import_data136 = __toESM(require_data(), 1);
   var import_element359 = __toESM(require_element(), 1);
-  var import_i18n176 = __toESM(require_i18n(), 1);
+  var import_i18n177 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/list-view/context.mjs
   var import_element358 = __toESM(require_element(), 1);
@@ -107307,9 +107334,9 @@ If there's a particular need for this, please submit a feature request at https:
           return;
         }
         (0, import_a11y18.speak)(
-          (0, import_i18n176.sprintf)(
+          (0, import_i18n177.sprintf)(
             // translators: %s: name of block being inserted (i.e. Paragraph, Image, Group etc)
-            (0, import_i18n176.__)("%s block inserted"),
+            (0, import_i18n177.__)("%s block inserted"),
             insertedBlockTitle
           ),
           "assertive"
@@ -107319,9 +107346,9 @@ If there's a particular need for this, please submit a feature request at https:
         return null;
       }
       const descriptionId = `list-view-appender__${instanceId}`;
-      const description = (0, import_i18n176.sprintf)(
+      const description = (0, import_i18n177.sprintf)(
         /* translators: 1: The name of the block. 2: The numerical position of the block. 3: The level of nesting for the block. */
-        (0, import_i18n176.__)("Append to %1$s block at position %2$d, Level %3$d"),
+        (0, import_i18n177.__)("Append to %1$s block at position %2$d, Level %3$d"),
         blockTitle,
         blockCount + 1,
         nestingLevel
@@ -107359,7 +107386,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_compose119 = __toESM(require_compose(), 1);
   var import_element365 = __toESM(require_element(), 1);
   var import_data139 = __toESM(require_data(), 1);
-  var import_i18n179 = __toESM(require_i18n(), 1);
+  var import_i18n180 = __toESM(require_i18n(), 1);
   var import_keycodes19 = __toESM(require_keycodes(), 1);
   var import_is_shallow_equal2 = __toESM(require_is_shallow_equal(), 1);
   var import_keyboard_shortcuts12 = __toESM(require_keyboard_shortcuts(), 1);
@@ -107444,7 +107471,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_keycodes18 = __toESM(require_keycodes(), 1);
 
   // packages/block-editor/build-module/components/list-view/expander.mjs
-  var import_i18n177 = __toESM(require_i18n(), 1);
+  var import_i18n178 = __toESM(require_i18n(), 1);
   var import_jsx_runtime557 = __toESM(require_jsx_runtime(), 1);
   function ListViewExpander({ onClick }) {
     return (
@@ -107462,7 +107489,7 @@ If there's a particular need for this, please submit a feature request at https:
           onClick: onClick ? (event) => onClick(event, { forceToggle: true }) : void 0,
           "aria-hidden": "true",
           "data-testid": "list-view-expander",
-          children: /* @__PURE__ */ (0, import_jsx_runtime557.jsx)(icon_default, { icon: (0, import_i18n177.isRTL)() ? chevron_left_small_default : chevron_right_small_default })
+          children: /* @__PURE__ */ (0, import_jsx_runtime557.jsx)(icon_default, { icon: (0, import_i18n178.isRTL)() ? chevron_left_small_default : chevron_right_small_default })
         }
       )
     );
@@ -107763,23 +107790,23 @@ If there's a particular need for this, please submit a feature request at https:
   var block_contents_default = ListViewBlockContents;
 
   // packages/block-editor/build-module/components/list-view/utils.mjs
-  var import_i18n178 = __toESM(require_i18n(), 1);
+  var import_i18n179 = __toESM(require_i18n(), 1);
   var import_dom71 = __toESM(require_dom(), 1);
   var BLOCK_LIST_ITEM_HEIGHT = 32;
-  var getBlockPositionDescription = (position, siblingCount, level) => (0, import_i18n178.sprintf)(
+  var getBlockPositionDescription = (position, siblingCount, level) => (0, import_i18n179.sprintf)(
     /* translators: 1: The numerical position of the block. 2: The total number of blocks. 3. The level of nesting for the block. */
-    (0, import_i18n178.__)("Block %1$d of %2$d, Level %3$d."),
+    (0, import_i18n179.__)("Block %1$d of %2$d, Level %3$d."),
     position,
     siblingCount,
     level
   );
   var getBlockPropertiesDescription = (positionLabel, isLocked) => [
-    positionLabel ? `${(0, import_i18n178.sprintf)(
+    positionLabel ? `${(0, import_i18n179.sprintf)(
       // translators: %s: Position of selected block, e.g. "Sticky" or "Fixed".
-      (0, import_i18n178.__)("Position: %s"),
+      (0, import_i18n179.__)("Position: %s"),
       positionLabel
     )}.` : void 0,
-    isLocked ? (0, import_i18n178.__)("This block is locked.") : void 0
+    isLocked ? (0, import_i18n179.__)("This block is locked.") : void 0
   ].filter(Boolean).join(" ");
   var isClientIdSelected = (clientId, selectedBlockClientIds) => Array.isArray(selectedBlockClientIds) && selectedBlockClientIds.length ? selectedBlockClientIds.indexOf(clientId) !== -1 : selectedBlockClientIds === clientId;
   function getCommonDepthClientIds(startId, endId, startParents, endParents) {
@@ -108127,7 +108154,7 @@ If there's a particular need for this, please submit a feature request at https:
           const groupingBlockName = getGroupingBlockName();
           const newBlocks = groupBlocks(blocks2, groupingBlockName);
           replaceBlocks2(blocksToUpdate, newBlocks);
-          (0, import_a11y19.speak)((0, import_i18n179.__)("Selected blocks are grouped."));
+          (0, import_a11y19.speak)((0, import_i18n180.__)("Selected blocks are grouped."));
           const newlySelectedBlocks = getSelectedBlockClientIds2();
           updateFocusAndSelection(newlySelectedBlocks[0], false);
         }
@@ -108397,7 +108424,7 @@ If there's a particular need for this, please submit a feature request at https:
                   clientId,
                   clientIds: dropdownClientIds,
                   icon: more_vertical_default,
-                  label: (0, import_i18n179.__)("Options"),
+                  label: (0, import_i18n180.__)("Options"),
                   popoverProps: {
                     anchor: settingsPopoverAnchor
                     // Used to position the settings at the cursor on right-click.
@@ -108635,7 +108662,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_components175 = __toESM(require_components(), 1);
   var import_dom72 = __toESM(require_dom(), 1);
   var import_element367 = __toESM(require_element(), 1);
-  var import_i18n180 = __toESM(require_i18n(), 1);
+  var import_i18n181 = __toESM(require_i18n(), 1);
   var import_jsx_runtime562 = __toESM(require_jsx_runtime(), 1);
   function ListViewDropIndicatorPreview({
     draggedBlockClientId,
@@ -108661,7 +108688,7 @@ If there's a particular need for this, please submit a feature request at https:
       return [_rootBlockElement, _blockElement];
     }, [listViewRef, rootClientId, clientId]);
     const targetElement = blockElement || rootBlockElement;
-    const rtl = (0, import_i18n180.isRTL)();
+    const rtl = (0, import_i18n181.isRTL)();
     const getDropIndicatorWidth = (0, import_element367.useCallback)(
       (targetElementRect, indent) => {
         if (!targetElement) {
@@ -108676,7 +108703,7 @@ If there's a particular need for this, please submit a feature request at https:
         const windowScroll = scrollContainer === ownerDocument2.body || scrollContainer === ownerDocument2.documentElement;
         if (scrollContainer && !windowScroll) {
           const scrollContainerRect = scrollContainer.getBoundingClientRect();
-          const distanceBetweenContainerAndTarget = (0, import_i18n180.isRTL)() ? scrollContainerRect.right - targetElementRect.right : targetElementRect.left - scrollContainerRect.left;
+          const distanceBetweenContainerAndTarget = (0, import_i18n181.isRTL)() ? scrollContainerRect.right - targetElementRect.right : targetElementRect.left - scrollContainerRect.left;
           const scrollContainerWidth = scrollContainer.clientWidth;
           if (scrollContainerWidth < width + distanceBetweenContainerAndTarget) {
             width = scrollContainerWidth - distanceBetweenContainerAndTarget;
@@ -108851,7 +108878,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/list-view/use-block-selection.mjs
   var import_a11y20 = __toESM(require_a11y(), 1);
-  var import_i18n181 = __toESM(require_i18n(), 1);
+  var import_i18n182 = __toESM(require_i18n(), 1);
   var import_data141 = __toESM(require_data(), 1);
   var import_element368 = __toESM(require_element(), 1);
   var import_keycodes20 = __toESM(require_keycodes(), 1);
@@ -108924,16 +108951,16 @@ If there's a particular need for this, please submit a feature request at https:
             getBlockName2(selectionDiff[0])
           )?.title;
           if (title) {
-            label = (0, import_i18n181.sprintf)(
+            label = (0, import_i18n182.sprintf)(
               /* translators: %s: block name */
-              (0, import_i18n181.__)("%s deselected."),
+              (0, import_i18n182.__)("%s deselected."),
               title
             );
           }
         } else if (selectionDiff.length > 1) {
-          label = (0, import_i18n181.sprintf)(
+          label = (0, import_i18n182.sprintf)(
             /* translators: %s: number of deselected blocks */
-            (0, import_i18n181.__)("%s blocks deselected."),
+            (0, import_i18n182.__)("%s blocks deselected."),
             selectionDiff.length
           );
         }
@@ -109025,7 +109052,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_data144 = __toESM(require_data(), 1);
   var import_element371 = __toESM(require_element(), 1);
   var import_compose120 = __toESM(require_compose(), 1);
-  var import_i18n182 = __toESM(require_i18n(), 1);
+  var import_i18n183 = __toESM(require_i18n(), 1);
   var NESTING_LEVEL_INDENTATION = 24;
   function isUpGesture(point, rect, nestingLevel = 1, rtl = false) {
     const blockIndentPosition = rtl ? rect.right - nestingLevel * NESTING_LEVEL_INDENTATION : rect.left + nestingLevel * NESTING_LEVEL_INDENTATION;
@@ -109206,7 +109233,7 @@ If there's a particular need for this, please submit a feature request at https:
     const [target, setTarget] = (0, import_element371.useState)();
     const { rootClientId: targetRootClientId, blockIndex: targetBlockIndex } = target || {};
     const onBlockDrop2 = useOnBlockDrop(targetRootClientId, targetBlockIndex);
-    const rtl = (0, import_i18n182.isRTL)();
+    const rtl = (0, import_i18n183.isRTL)();
     const previousRootClientId = (0, import_compose120.usePrevious)(targetRootClientId);
     const maybeExpandBlock = (0, import_element371.useCallback)(
       (_target) => {
@@ -109730,12 +109757,12 @@ If there's a particular need for this, please submit a feature request at https:
           className: clsx_default("block-editor-list-view-tree", {
             "is-dragging": draggedClientIds?.length > 0 && blockDropTargetIndex !== void 0
           }),
-          "aria-label": (0, import_i18n183.__)("Block navigation structure"),
+          "aria-label": (0, import_i18n184.__)("Block navigation structure"),
           ref: treeGridRef,
           onCollapseRow: collapseRow,
           onExpandRow: expandRow,
           onFocusRow: focusRow,
-          applicationAriaLabel: (0, import_i18n183.__)("Block navigation structure"),
+          applicationAriaLabel: (0, import_i18n184.__)("Block navigation structure"),
           "aria-describedby": describedById,
           style: {
             "--wp-admin--list-view-dragged-items-height": draggedClientIds?.length ? `${BLOCK_LIST_ITEM_HEIGHT * (draggedClientIds.length - 1)}px` : null
@@ -109806,7 +109833,7 @@ If there's a particular need for this, please submit a feature request at https:
         "aria-expanded": isOpen,
         "aria-haspopup": "true",
         onClick: isEnabled ? onToggle : void 0,
-        label: (0, import_i18n184.__)("List view"),
+        label: (0, import_i18n185.__)("List view"),
         className: "block-editor-block-navigation",
         "aria-disabled": !isEnabled
       }
@@ -109838,7 +109865,7 @@ If there's a particular need for this, please submit a feature request at https:
           }
         ),
         renderContent: () => /* @__PURE__ */ (0, import_jsx_runtime564.jsxs)("div", { className: "block-editor-block-navigation__container", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime564.jsx)("p", { className: "block-editor-block-navigation__label", children: (0, import_i18n184.__)("List view") }),
+          /* @__PURE__ */ (0, import_jsx_runtime564.jsx)("p", { className: "block-editor-block-navigation__label", children: (0, import_i18n185.__)("List view") }),
           /* @__PURE__ */ (0, import_jsx_runtime564.jsx)(list_view_default2, {})
         ] })
       }
@@ -109851,7 +109878,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_data149 = __toESM(require_data(), 1);
   var import_compose123 = __toESM(require_compose(), 1);
   var import_components178 = __toESM(require_components(), 1);
-  var import_i18n185 = __toESM(require_i18n(), 1);
+  var import_i18n186 = __toESM(require_i18n(), 1);
   var import_jsx_runtime565 = __toESM(require_jsx_runtime(), 1);
   var noop15 = () => {
   };
@@ -109940,7 +109967,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime565.jsx)(
       import_components178.__experimentalToolsPanel,
       {
-        label: (0, import_i18n185.__)("Styles"),
+        label: (0, import_i18n186.__)("Styles"),
         resetAll: onDeselect,
         panelId: clientId,
         hasInnerWrapper: true,
@@ -109949,7 +109976,7 @@ If there's a particular need for this, please submit a feature request at https:
           import_components178.__experimentalToolsPanelItem,
           {
             hasValue: hasValue3,
-            label: (0, import_i18n185.__)("Variation"),
+            label: (0, import_i18n186.__)("Variation"),
             onDeselect,
             isShownByDefault: true,
             panelId: clientId,
@@ -109963,7 +109990,7 @@ If there's a particular need for this, please submit a feature request at https:
                     import_components178.Composite,
                     {
                       role: "radiogroup",
-                      "aria-label": (0, import_i18n185.__)("Styles"),
+                      "aria-label": (0, import_i18n186.__)("Styles"),
                       className: "block-editor-block-styles__variants",
                       activeId: getCompositeItemId(
                         instanceId,
@@ -109977,39 +110004,46 @@ If there's a particular need for this, please submit a feature request at https:
                         import_components178.Composite.Row,
                         {
                           className: "block-editor-block-styles__row",
-                          children: row.map((style) => /* @__PURE__ */ (0, import_jsx_runtime565.jsx)(
-                            import_components178.Composite.Item,
-                            {
-                              id: getCompositeItemId(
-                                instanceId,
-                                style
-                              ),
-                              render: /* @__PURE__ */ (0, import_jsx_runtime565.jsx)(
-                                Button5,
-                                {
-                                  className: "block-editor-block-styles__item",
-                                  tone: "neutral",
-                                  variant: activeStyle.name === style.name ? "solid" : "outline"
-                                }
-                              ),
-                              role: "radio",
-                              "aria-checked": activeStyle.name === style.name,
-                              onMouseEnter: () => styleItemHandler(style),
-                              onFocus: () => styleItemHandler(style),
-                              onMouseLeave: () => styleItemHandler(null),
-                              onBlur: () => styleItemHandler(null),
-                              onClick: () => onSelectStylePreview(style),
-                              children: /* @__PURE__ */ (0, import_jsx_runtime565.jsx)(
-                                import_components178.__experimentalTruncate,
-                                {
-                                  numberOfLines: 3,
-                                  className: "block-editor-block-styles__item-text",
-                                  children: style.label || style.name
-                                }
-                              )
-                            },
-                            style.name
-                          ))
+                          children: row.map((style) => /* @__PURE__ */ (0, import_jsx_runtime565.jsxs)(tooltip_exports.Root, { children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime565.jsx)(
+                              import_components178.Composite.Item,
+                              {
+                                id: getCompositeItemId(
+                                  instanceId,
+                                  style
+                                ),
+                                render: /* @__PURE__ */ (0, import_jsx_runtime565.jsx)(
+                                  tooltip_exports.Trigger,
+                                  {
+                                    render: /* @__PURE__ */ (0, import_jsx_runtime565.jsx)(
+                                      Button5,
+                                      {
+                                        className: "block-editor-block-styles__item",
+                                        tone: "neutral",
+                                        variant: activeStyle.name === style.name ? "solid" : "outline"
+                                      }
+                                    )
+                                  }
+                                ),
+                                role: "radio",
+                                "aria-checked": activeStyle.name === style.name,
+                                onMouseEnter: () => styleItemHandler(style),
+                                onFocus: () => styleItemHandler(style),
+                                onMouseLeave: () => styleItemHandler(null),
+                                onBlur: () => styleItemHandler(null),
+                                onClick: () => onSelectStylePreview(style),
+                                children: /* @__PURE__ */ (0, import_jsx_runtime565.jsx)(
+                                  import_components178.__experimentalTruncate,
+                                  {
+                                    numberOfLines: 2,
+                                    className: "block-editor-block-styles__item-text",
+                                    children: style.label || style.name
+                                  }
+                                )
+                              }
+                            ),
+                            /* @__PURE__ */ (0, import_jsx_runtime565.jsx)(tooltip_exports.Popup, { children: style.label || style.name })
+                          ] }, style.name))
                         },
                         rowIndex
                       ))
@@ -110036,7 +110070,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/block-heading-level-dropdown/index.mjs
   var import_components180 = __toESM(require_components(), 1);
-  var import_i18n186 = __toESM(require_i18n(), 1);
+  var import_i18n187 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/block-heading-level-dropdown/heading-level-icon.mjs
   var import_components179 = __toESM(require_components(), 1);
@@ -110076,14 +110110,14 @@ If there's a particular need for this, please submit a feature request at https:
       {
         popoverProps: POPOVER_PROPS7,
         icon: /* @__PURE__ */ (0, import_jsx_runtime567.jsx)(HeadingLevelIcon, { level: value }),
-        label: (0, import_i18n186.__)("Change level"),
+        label: (0, import_i18n187.__)("Change level"),
         controls: validOptions.map((targetLevel) => {
           const isActive = targetLevel === value;
           return {
             icon: /* @__PURE__ */ (0, import_jsx_runtime567.jsx)(HeadingLevelIcon, { level: targetLevel }),
-            title: targetLevel === 0 ? (0, import_i18n186.__)("Paragraph") : (0, import_i18n186.sprintf)(
+            title: targetLevel === 0 ? (0, import_i18n187.__)("Paragraph") : (0, import_i18n187.sprintf)(
               // translators: %d: heading level e.g: "1", "2", "3"
-              (0, import_i18n186.__)("Heading %d"),
+              (0, import_i18n187.__)("Heading %d"),
               targetLevel
             ),
             isActive,
@@ -110098,13 +110132,13 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/block-variation-picker/index.mjs
-  var import_i18n187 = __toESM(require_i18n(), 1);
+  var import_i18n188 = __toESM(require_i18n(), 1);
   var import_components181 = __toESM(require_components(), 1);
   var import_jsx_runtime568 = __toESM(require_jsx_runtime(), 1);
   function BlockVariationPicker({
     icon = layout_default,
-    label = (0, import_i18n187.__)("Choose variation"),
-    instructions = (0, import_i18n187.__)("Select a variation to start with:"),
+    label = (0, import_i18n188.__)("Choose variation"),
+    instructions = (0, import_i18n188.__)("Select a variation to start with:"),
     variations,
     onSelect,
     allowSkip
@@ -110125,7 +110159,7 @@ If there's a particular need for this, please submit a feature request at https:
             {
               className: "block-editor-block-variation-picker__variations",
               role: "list",
-              "aria-label": (0, import_i18n187.__)("Block variations"),
+              "aria-label": (0, import_i18n188.__)("Block variations"),
               children: variations.map((variation) => /* @__PURE__ */ (0, import_jsx_runtime568.jsxs)("li", { children: [
                 /* @__PURE__ */ (0, import_jsx_runtime568.jsx)(
                   import_components181.Button,
@@ -110149,7 +110183,7 @@ If there's a particular need for this, please submit a feature request at https:
               __next40pxDefaultSize: true,
               variant: "link",
               onClick: () => onSelect(),
-              children: (0, import_i18n187.__)("Skip")
+              children: (0, import_i18n188.__)("Skip")
             }
           ) })
         ]
@@ -110164,10 +110198,10 @@ If there's a particular need for this, please submit a feature request at https:
   var import_components183 = __toESM(require_components(), 1);
   var import_element376 = __toESM(require_element(), 1);
   var import_compose124 = __toESM(require_compose(), 1);
-  var import_i18n189 = __toESM(require_i18n(), 1);
+  var import_i18n190 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/block-pattern-setup/setup-toolbar.mjs
-  var import_i18n188 = __toESM(require_i18n(), 1);
+  var import_i18n189 = __toESM(require_i18n(), 1);
   var import_components182 = __toESM(require_components(), 1);
 
   // packages/block-editor/build-module/components/block-pattern-setup/constants.mjs
@@ -110184,7 +110218,7 @@ If there's a particular need for this, please submit a feature request at https:
       __next40pxDefaultSize: true,
       variant: "primary",
       onClick: onBlockPatternSelect,
-      children: (0, import_i18n188.__)("Choose")
+      children: (0, import_i18n189.__)("Choose")
     }
   ) });
   var CarouselNavigation = ({
@@ -110197,8 +110231,8 @@ If there's a particular need for this, please submit a feature request at https:
       import_components182.Button,
       {
         size: "compact",
-        icon: (0, import_i18n188.isRTL)() ? chevron_right_default : chevron_left_default,
-        label: (0, import_i18n188.__)("Previous pattern"),
+        icon: (0, import_i18n189.isRTL)() ? chevron_right_default : chevron_left_default,
+        label: (0, import_i18n189.__)("Previous pattern"),
         onClick: handlePrevious,
         disabled: activeSlide === 0,
         accessibleWhenDisabled: true
@@ -110208,8 +110242,8 @@ If there's a particular need for this, please submit a feature request at https:
       import_components182.Button,
       {
         size: "compact",
-        icon: (0, import_i18n188.isRTL)() ? chevron_left_default : chevron_right_default,
-        label: (0, import_i18n188.__)("Next pattern"),
+        icon: (0, import_i18n189.isRTL)() ? chevron_left_default : chevron_right_default,
+        label: (0, import_i18n189.__)("Next pattern"),
         onClick: handleNext,
         disabled: activeSlide === totalSlides - 1,
         accessibleWhenDisabled: true
@@ -110232,7 +110266,7 @@ If there's a particular need for this, please submit a feature request at https:
         {
           size: "compact",
           icon: stretch_full_width_default,
-          label: (0, import_i18n188.__)("Carousel view"),
+          label: (0, import_i18n189.__)("Carousel view"),
           onClick: () => setViewMode(VIEWMODES.carousel),
           isPressed: isCarouselView
         }
@@ -110242,7 +110276,7 @@ If there's a particular need for this, please submit a feature request at https:
         {
           size: "compact",
           icon: grid_default,
-          label: (0, import_i18n188.__)("Grid view"),
+          label: (0, import_i18n189.__)("Grid view"),
           onClick: () => setViewMode(VIEWMODES.grid),
           isPressed: viewMode === VIEWMODES.grid
         }
@@ -110318,7 +110352,7 @@ If there's a particular need for this, please submit a feature request at https:
       {
         role: "listbox",
         className: containerClass,
-        "aria-label": (0, import_i18n189.__)("Patterns list"),
+        "aria-label": (0, import_i18n190.__)("Patterns list"),
         children: patterns2.map((pattern) => /* @__PURE__ */ (0, import_jsx_runtime570.jsx)(
           BlockPattern3,
           {
@@ -110454,7 +110488,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/block-variation-transforms/index.mjs
   var import_blocks87 = __toESM(require_blocks(), 1);
-  var import_i18n190 = __toESM(require_i18n(), 1);
+  var import_i18n191 = __toESM(require_i18n(), 1);
   var import_components184 = __toESM(require_components(), 1);
   var import_data152 = __toESM(require_data(), 1);
   var import_element377 = __toESM(require_element(), 1);
@@ -110466,7 +110500,7 @@ If there's a particular need for this, please submit a feature request at https:
     variations
   }) {
     return /* @__PURE__ */ (0, import_jsx_runtime571.jsxs)("fieldset", { className, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime571.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime571.jsx)("legend", {}), children: (0, import_i18n190.__)("Transform to variation") }),
+      /* @__PURE__ */ (0, import_jsx_runtime571.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime571.jsx)("legend", {}), children: (0, import_i18n191.__)("Transform to variation") }),
       variations.map((variation) => /* @__PURE__ */ (0, import_jsx_runtime571.jsx)(
         import_components184.Button,
         {
@@ -110474,9 +110508,9 @@ If there's a particular need for this, please submit a feature request at https:
           size: "compact",
           icon: /* @__PURE__ */ (0, import_jsx_runtime571.jsx)(block_icon_default, { icon: variation.icon, showColors: true }),
           isPressed: selectedValue === variation.name,
-          label: selectedValue === variation.name ? variation.title : (0, import_i18n190.sprintf)(
+          label: selectedValue === variation.name ? variation.title : (0, import_i18n191.sprintf)(
             /* translators: %s: Block or block variation name. */
-            (0, import_i18n190.__)("Transform to %s"),
+            (0, import_i18n191.__)("Transform to %s"),
             variation.title
           ),
           onClick: () => onSelectVariation(variation.name),
@@ -110505,7 +110539,7 @@ If there's a particular need for this, please submit a feature request at https:
               variant: "secondary"
             }
           ),
-          children: (0, import_i18n190.__)("Transform to variation")
+          children: (0, import_i18n191.__)("Transform to variation")
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime571.jsx)(
@@ -110544,7 +110578,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime571.jsx)("div", { className, children: /* @__PURE__ */ (0, import_jsx_runtime571.jsx)(
       import_components184.__experimentalToggleGroupControl,
       {
-        label: (0, import_i18n190.__)("Transform to variation"),
+        label: (0, import_i18n191.__)("Transform to variation"),
         value: selectedValue,
         hideLabelFromVision: true,
         onChange: onSelectVariation,
@@ -110553,9 +110587,9 @@ If there's a particular need for this, please submit a feature request at https:
           {
             icon: /* @__PURE__ */ (0, import_jsx_runtime571.jsx)(block_icon_default, { icon: variation.icon, showColors: true }),
             value: variation.name,
-            label: selectedValue === variation.name ? variation.title : (0, import_i18n190.sprintf)(
+            label: selectedValue === variation.name ? variation.title : (0, import_i18n191.sprintf)(
               /* translators: %s: Block or block variation name. */
-              (0, import_i18n190.__)("Transform to %s"),
+              (0, import_i18n191.__)("Transform to %s"),
               variation.title
             )
           },
@@ -110645,29 +110679,29 @@ If there's a particular need for this, please submit a feature request at https:
   var block_variation_transforms_default = BlockVariationTransforms;
 
   // packages/block-editor/build-module/components/block-vertical-alignment-control/ui.mjs
-  var import_i18n191 = __toESM(require_i18n(), 1);
+  var import_i18n192 = __toESM(require_i18n(), 1);
   var import_components185 = __toESM(require_components(), 1);
   var import_jsx_runtime572 = __toESM(require_jsx_runtime(), 1);
   var BLOCK_ALIGNMENTS_CONTROLS2 = {
     top: {
       icon: justify_top_default,
-      title: (0, import_i18n191._x)("Align top", "Block vertical alignment setting")
+      title: (0, import_i18n192._x)("Align top", "Block vertical alignment setting")
     },
     center: {
       icon: justify_center_vertical_default,
-      title: (0, import_i18n191._x)("Align middle", "Block vertical alignment setting")
+      title: (0, import_i18n192._x)("Align middle", "Block vertical alignment setting")
     },
     bottom: {
       icon: justify_bottom_default,
-      title: (0, import_i18n191._x)("Align bottom", "Block vertical alignment setting")
+      title: (0, import_i18n192._x)("Align bottom", "Block vertical alignment setting")
     },
     stretch: {
       icon: justify_stretch_vertical_default,
-      title: (0, import_i18n191._x)("Stretch to fill", "Block vertical alignment setting")
+      title: (0, import_i18n192._x)("Stretch to fill", "Block vertical alignment setting")
     },
     "space-between": {
       icon: justify_space_between_vertical_default,
-      title: (0, import_i18n191._x)("Space between", "Block vertical alignment setting")
+      title: (0, import_i18n192._x)("Space between", "Block vertical alignment setting")
     }
   };
   var DEFAULT_CONTROLS2 = [
@@ -110682,7 +110716,7 @@ If there's a particular need for this, please submit a feature request at https:
     controls = DEFAULT_CONTROLS2,
     isCollapsed: isCollapsed4 = true,
     isToolbar,
-    label = (0, import_i18n191.__)("Align content vertically")
+    label = (0, import_i18n192.__)("Align content vertically")
   }) {
     function applyOrUnset(align) {
       return () => onChange(value === align ? void 0 : align);
@@ -110722,17 +110756,17 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/border-radius-control/index.mjs
   var import_components190 = __toESM(require_components(), 1);
   var import_element379 = __toESM(require_element(), 1);
-  var import_i18n195 = __toESM(require_i18n(), 1);
+  var import_i18n196 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/border-radius-control/linked-button.mjs
   var import_components186 = __toESM(require_components(), 1);
-  var import_i18n192 = __toESM(require_i18n(), 1);
+  var import_i18n193 = __toESM(require_i18n(), 1);
   var import_jsx_runtime574 = __toESM(require_jsx_runtime(), 1);
   function LinkedButton({
     isLinked,
     ...props
   }) {
-    const label = isLinked ? (0, import_i18n192.__)("Unlink radii") : (0, import_i18n192.__)("Link radii");
+    const label = isLinked ? (0, import_i18n193.__)("Unlink radii") : (0, import_i18n193.__)("Link radii");
     return /* @__PURE__ */ (0, import_jsx_runtime574.jsx)(
       import_components186.Button,
       {
@@ -110805,7 +110839,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/preset-input-control/index.mjs
   var import_components189 = __toESM(require_components(), 1);
   var import_compose125 = __toESM(require_compose(), 1);
-  var import_i18n193 = __toESM(require_i18n(), 1);
+  var import_i18n194 = __toESM(require_i18n(), 1);
   var import_element378 = __toESM(require_element(), 1);
 
   // packages/block-editor/build-module/components/preset-input-control/constants.mjs
@@ -110967,7 +111001,7 @@ If there's a particular need for this, please submit a feature request at https:
     }));
     const hasPresets = marks.length > 0;
     const showRangeControl = presets.length <= RANGE_CONTROL_MAX_SIZE2;
-    const allPlaceholder = isMixed ? (0, import_i18n193.__)("Mixed") : placeholder ?? null;
+    const allPlaceholder = isMixed ? (0, import_i18n194.__)("Mixed") : placeholder ?? null;
     const [minValue, setMinValue] = (0, import_element378.useState)(minimumCustomValue);
     const [showCustomValueControl, setShowCustomValueControl] = (0, import_element378.useState)(
       !disableCustomValues && value !== void 0 && !isValuePreset(value, presetType)
@@ -110987,8 +111021,8 @@ If there's a particular need for this, please submit a feature request at https:
         {
           name: !isMixed ? (
             // translators: %s: A custom measurement, e.g. a number followed by a unit like 12px.
-            (0, import_i18n193.sprintf)((0, import_i18n193.__)("Custom (%s)"), value)
-          ) : (0, import_i18n193.__)("Mixed"),
+            (0, import_i18n194.sprintf)((0, import_i18n194.__)("Custom (%s)"), value)
+          ) : (0, import_i18n194.__)("Mixed"),
           slug: "custom",
           size: value
         }
@@ -111147,7 +111181,7 @@ If there's a particular need for this, please submit a feature request at https:
               icon: settings_default,
               iconSize: ICON_SIZE,
               isPressed: showCustomValueControl,
-              label: showCustomValueControl ? (0, import_i18n193.__)("Use preset") : (0, import_i18n193.__)("Set custom value"),
+              label: showCustomValueControl ? (0, import_i18n194.__)("Use preset") : (0, import_i18n194.__)("Set custom value"),
               onClick: () => {
                 setShowCustomValueControl(!showCustomValueControl);
               },
@@ -111160,15 +111194,15 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/border-radius-control/constants.mjs
-  var import_i18n194 = __toESM(require_i18n(), 1);
+  var import_i18n195 = __toESM(require_i18n(), 1);
   var RANGE_CONTROL_MAX_SIZE3 = 8;
   var EMPTY_ARRAY15 = [];
   var CORNERS = {
-    all: (0, import_i18n194.__)("Border radius"),
-    topLeft: (0, import_i18n194.__)("Top left"),
-    topRight: (0, import_i18n194.__)("Top right"),
-    bottomLeft: (0, import_i18n194.__)("Bottom left"),
-    bottomRight: (0, import_i18n194.__)("Bottom right")
+    all: (0, import_i18n195.__)("Border radius"),
+    topLeft: (0, import_i18n195.__)("Top left"),
+    topRight: (0, import_i18n195.__)("Top right"),
+    bottomLeft: (0, import_i18n195.__)("Bottom left"),
+    bottomRight: (0, import_i18n195.__)("Bottom right")
   };
   var ICONS2 = {
     all: corner_all_default,
@@ -111187,14 +111221,14 @@ If there's a particular need for this, please submit a feature request at https:
     const themeSizes = presets?.theme ?? EMPTY_ARRAY15;
     return (0, import_element379.useMemo)(() => {
       const sizes = [
-        { name: (0, import_i18n195.__)("None"), slug: "0", size: 0 },
+        { name: (0, import_i18n196.__)("None"), slug: "0", size: 0 },
         ...customSizes,
         ...themeSizes,
         ...defaultSizes
       ];
       return sizes.length > RANGE_CONTROL_MAX_SIZE3 ? [
         {
-          name: (0, import_i18n195.__)("Default"),
+          name: (0, import_i18n196.__)("Default"),
           slug: "default",
           size: void 0
         },
@@ -111290,7 +111324,7 @@ If there's a particular need for this, please submit a feature request at https:
     const toggleLinked = () => setIsLinked(!isLinked);
     return /* @__PURE__ */ (0, import_jsx_runtime577.jsxs)("fieldset", { className: "components-border-radius-control", children: [
       /* @__PURE__ */ (0, import_jsx_runtime577.jsxs)(import_components190.__experimentalHStack, { className: "components-border-radius-control__header", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime577.jsx)(import_components190.BaseControl.VisualLabel, { as: "legend", children: (0, import_i18n195.__)("Radius") }),
+        /* @__PURE__ */ (0, import_jsx_runtime577.jsx)(import_components190.BaseControl.VisualLabel, { as: "legend", children: (0, import_i18n196.__)("Radius") }),
         /* @__PURE__ */ (0, import_jsx_runtime577.jsx)(LinkedButton, { onClick: toggleLinked, isLinked })
       ] }),
       isLinked ? /* @__PURE__ */ (0, import_jsx_runtime577.jsx)(
@@ -111405,7 +111439,7 @@ If there's a particular need for this, please submit a feature request at https:
   );
 
   // packages/block-editor/build-module/components/colors-gradients/control.mjs
-  var import_i18n196 = __toESM(require_i18n(), 1);
+  var import_i18n197 = __toESM(require_i18n(), 1);
   var import_components192 = __toESM(require_components(), 1);
   var import_jsx_runtime579 = __toESM(require_jsx_runtime(), 1);
   var { Tabs: Tabs3 } = unlock(import_components192.privateApis);
@@ -111501,8 +111535,8 @@ If there's a particular need for this, please submit a feature request at https:
               defaultTabId: gradientValue ? TAB_IDS.gradient : !!canChooseAColor && TAB_IDS.color,
               children: [
                 /* @__PURE__ */ (0, import_jsx_runtime579.jsxs)(Tabs3.TabList, { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime579.jsx)(Tabs3.Tab, { tabId: TAB_IDS.color, children: (0, import_i18n196.__)("Color") }),
-                  /* @__PURE__ */ (0, import_jsx_runtime579.jsx)(Tabs3.Tab, { tabId: TAB_IDS.gradient, children: (0, import_i18n196.__)("Gradient") })
+                  /* @__PURE__ */ (0, import_jsx_runtime579.jsx)(Tabs3.Tab, { tabId: TAB_IDS.color, children: (0, import_i18n197.__)("Color") }),
+                  /* @__PURE__ */ (0, import_jsx_runtime579.jsx)(Tabs3.Tab, { tabId: TAB_IDS.gradient, children: (0, import_i18n197.__)("Gradient") })
                 ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime579.jsx)(
                   Tabs3.TabPanel,
@@ -111577,7 +111611,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/contrast-checker/index.mjs
-  var import_i18n197 = __toESM(require_i18n(), 1);
+  var import_i18n198 = __toESM(require_i18n(), 1);
   var import_components193 = __toESM(require_components(), 1);
   var import_a11y22 = __toESM(require_a11y(), 1);
   var import_jsx_runtime581 = __toESM(require_jsx_runtime(), 1);
@@ -111607,11 +111641,11 @@ If there's a particular need for this, please submit a feature request at https:
     const textColors = [
       {
         color: currentTextColor,
-        description: (0, import_i18n197.__)("text color")
+        description: (0, import_i18n198.__)("text color")
       },
       {
         color: currentLinkColor,
-        description: (0, import_i18n197.__)("link color")
+        description: (0, import_i18n198.__)("link color")
       }
     ];
     const colordBackgroundColor = A(currentBackgroundColor);
@@ -111646,27 +111680,27 @@ If there's a particular need for this, please submit a feature request at https:
           speakMessage = messageOverride;
           break;
         }
-        message2 = backgroundColorBrightness < colordTextColor.brightness() ? (0, import_i18n197.sprintf)(
+        message2 = backgroundColorBrightness < colordTextColor.brightness() ? (0, import_i18n198.sprintf)(
           // translators: %s is a type of text color, e.g., "text color" or "link color".
-          (0, import_i18n197.__)(
+          (0, import_i18n198.__)(
             "This color combination may be hard for people to read. Try using a darker background color and/or a brighter %s."
           ),
           item.description
-        ) : (0, import_i18n197.sprintf)(
+        ) : (0, import_i18n198.sprintf)(
           // translators: %s is a type of text color, e.g., "text color" or "link color".
-          (0, import_i18n197.__)(
+          (0, import_i18n198.__)(
             "This color combination may be hard for people to read. Try using a brighter background color and/or a darker %s."
           ),
           item.description
         );
-        speakMessage = (0, import_i18n197.__)(
+        speakMessage = (0, import_i18n198.__)(
           "This color combination may be hard for people to read."
         );
         break;
       }
       if (textHasTransparency && enableAlphaChecker) {
-        message2 = (0, import_i18n197.__)("Transparent text may be hard for people to read.");
-        speakMessage = (0, import_i18n197.__)(
+        message2 = (0, import_i18n198.__)("Transparent text may be hard for people to read.");
+        speakMessage = (0, import_i18n198.__)(
           "Transparent text may be hard for people to read."
         );
       }
@@ -111695,7 +111729,7 @@ If there's a particular need for this, please submit a feature request at https:
   var contrast_checker_default = ContrastChecker;
 
   // packages/block-editor/build-module/components/date-format-picker/index.mjs
-  var import_i18n198 = __toESM(require_i18n(), 1);
+  var import_i18n199 = __toESM(require_i18n(), 1);
   var import_date13 = __toESM(require_date(), 1);
   var import_element380 = __toESM(require_element(), 1);
   var import_jsx_runtime582 = __toESM(require_jsx_runtime(), 1);
@@ -111718,12 +111752,12 @@ If there's a particular need for this, please submit a feature request at https:
         gap: "lg",
         className: "block-editor-date-format-picker",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime582.jsx)(fieldset_exports.Legend, { hideFromVision: true, children: (0, import_i18n198.__)("Date format") }),
+          /* @__PURE__ */ (0, import_jsx_runtime582.jsx)(fieldset_exports.Legend, { hideFromVision: true, children: (0, import_i18n199.__)("Date format") }),
           /* @__PURE__ */ (0, import_jsx_runtime582.jsx)(
             SwitchControl,
             {
-              label: (0, import_i18n198.__)("Default format"),
-              description: `${(0, import_i18n198.__)("Example:")}  ${(0, import_date13.dateI18n)(
+              label: (0, import_i18n199.__)("Default format"),
+              description: `${(0, import_i18n199.__)("Example:")}  ${(0, import_date13.dateI18n)(
                 defaultFormat,
                 exampleDate
               )}`,
@@ -111742,17 +111776,17 @@ If there's a particular need for this, please submit a feature request at https:
         /* translators: See https://www.php.net/manual/datetime.format.php */
         "Y-m-d",
         /* translators: See https://www.php.net/manual/datetime.format.php */
-        (0, import_i18n198._x)("n/j/Y", "short date format"),
+        (0, import_i18n199._x)("n/j/Y", "short date format"),
         /* translators: See https://www.php.net/manual/datetime.format.php */
-        (0, import_i18n198._x)("n/j/Y g:i A", "short date format with time"),
+        (0, import_i18n199._x)("n/j/Y g:i A", "short date format with time"),
         /* translators: See https://www.php.net/manual/datetime.format.php */
-        (0, import_i18n198._x)("M j, Y", "medium date format"),
+        (0, import_i18n199._x)("M j, Y", "medium date format"),
         /* translators: See https://www.php.net/manual/datetime.format.php */
-        (0, import_i18n198._x)("M j, Y g:i A", "medium date format with time"),
+        (0, import_i18n199._x)("M j, Y g:i A", "medium date format with time"),
         /* translators: See https://www.php.net/manual/datetime.format.php */
-        (0, import_i18n198._x)("F j, Y", "long date format"),
+        (0, import_i18n199._x)("F j, Y", "long date format"),
         /* translators: See https://www.php.net/manual/datetime.format.php */
-        (0, import_i18n198._x)("M j", "short date format without the year")
+        (0, import_i18n199._x)("M j", "short date format without the year")
       ])
     ];
     const suggestedOptions = [
@@ -111767,8 +111801,8 @@ If there's a particular need for this, please submit a feature request at https:
     ];
     const customOption = {
       value: "custom",
-      label: (0, import_i18n198.__)("Custom"),
-      description: (0, import_i18n198.__)("Enter your own date format")
+      label: (0, import_i18n199.__)("Custom"),
+      description: (0, import_i18n199.__)("Enter your own date format")
     };
     const [isCustom, setIsCustom] = (0, import_element380.useState)(
       () => !!format7 && !suggestedOptions.some((option) => option.value === format7)
@@ -111777,7 +111811,7 @@ If there's a particular need for this, please submit a feature request at https:
       /* @__PURE__ */ (0, import_jsx_runtime582.jsxs)(
         SelectControl2,
         {
-          label: (0, import_i18n198.__)("Choose a format"),
+          label: (0, import_i18n199.__)("Choose a format"),
           items: [...suggestedOptions, customOption],
           value: isCustom ? customOption : suggestedOptions.find(
             (option) => option.value === format7
@@ -111806,10 +111840,10 @@ If there's a particular need for this, please submit a feature request at https:
       isCustom && /* @__PURE__ */ (0, import_jsx_runtime582.jsx)(
         InputControl,
         {
-          label: (0, import_i18n198.__)("Custom format"),
+          label: (0, import_i18n199.__)("Custom format"),
           hideLabelFromVision: true,
           details: (0, import_element380.createInterpolateElement)(
-            (0, import_i18n198.__)(
+            (0, import_i18n199.__)(
               "Enter a date or time <Link>format string</Link>."
             ),
             {
@@ -111817,7 +111851,7 @@ If there's a particular need for this, please submit a feature request at https:
                 Link,
                 {
                   openInNewTab: true,
-                  href: (0, import_i18n198.__)(
+                  href: (0, import_i18n199.__)(
                     "https://wordpress.org/documentation/article/customize-date-and-time-format/"
                   )
                 }
@@ -111833,7 +111867,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/duotone-control/index.mjs
   var import_components194 = __toESM(require_components(), 1);
-  var import_i18n199 = __toESM(require_i18n(), 1);
+  var import_i18n200 = __toESM(require_i18n(), 1);
   var import_keycodes21 = __toESM(require_keycodes(), 1);
   var import_compose127 = __toESM(require_compose(), 1);
   var import_jsx_runtime583 = __toESM(require_jsx_runtime(), 1);
@@ -111855,7 +111889,7 @@ If there's a particular need for this, please submit a feature request at https:
     } else {
       toolbarIcon = /* @__PURE__ */ (0, import_jsx_runtime583.jsx)(icon_default, { icon: filter_default });
     }
-    const actionLabel = (0, import_i18n199.__)("Apply duotone filter");
+    const actionLabel = (0, import_i18n200.__)("Apply duotone filter");
     const id = (0, import_compose127.useInstanceId)(DuotoneControl, "duotone-control", idProp);
     const descriptionId = `${id}__description`;
     return /* @__PURE__ */ (0, import_jsx_runtime583.jsx)(
@@ -111863,7 +111897,7 @@ If there's a particular need for this, please submit a feature request at https:
       {
         popoverProps: {
           className: "block-editor-duotone-control__popover",
-          headerTitle: (0, import_i18n199.__)("Duotone")
+          headerTitle: (0, import_i18n200.__)("Duotone")
         },
         renderToggle: ({ isOpen, onToggle }) => {
           const openOnArrowDown = (event) => {
@@ -111885,8 +111919,8 @@ If there's a particular need for this, please submit a feature request at https:
             }
           );
         },
-        renderContent: () => /* @__PURE__ */ (0, import_jsx_runtime583.jsxs)(import_components194.MenuGroup, { label: (0, import_i18n199.__)("Duotone"), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime583.jsx)("p", { children: (0, import_i18n199.__)(
+        renderContent: () => /* @__PURE__ */ (0, import_jsx_runtime583.jsxs)(import_components194.MenuGroup, { label: (0, import_i18n200.__)("Duotone"), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime583.jsx)("p", { children: (0, import_i18n200.__)(
             "Create a two-tone color effect without losing your original image."
           ) }),
           /* @__PURE__ */ (0, import_jsx_runtime583.jsx)(
@@ -111910,13 +111944,13 @@ If there's a particular need for this, please submit a feature request at https:
   var duotone_control_default = DuotoneControl;
 
   // packages/block-editor/build-module/components/font-appearance-control/index.mjs
-  var import_i18n203 = __toESM(require_i18n(), 1);
+  var import_i18n204 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/utils/get-font-styles-and-weights.mjs
-  var import_i18n202 = __toESM(require_i18n(), 1);
+  var import_i18n203 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/utils/format-font-style.mjs
-  var import_i18n200 = __toESM(require_i18n(), 1);
+  var import_i18n201 = __toESM(require_i18n(), 1);
   function formatFontStyle(fontStyle) {
     if (!fontStyle) {
       return {};
@@ -111927,13 +111961,13 @@ If there's a particular need for this, please submit a feature request at https:
     let name;
     switch (fontStyle) {
       case "normal":
-        name = (0, import_i18n200._x)("Regular", "font style");
+        name = (0, import_i18n201._x)("Regular", "font style");
         break;
       case "italic":
-        name = (0, import_i18n200._x)("Italic", "font style");
+        name = (0, import_i18n201._x)("Italic", "font style");
         break;
       case "oblique":
-        name = (0, import_i18n200._x)("Oblique", "font style");
+        name = (0, import_i18n201._x)("Oblique", "font style");
         break;
       default:
         name = fontStyle;
@@ -111943,7 +111977,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/utils/format-font-weight.mjs
-  var import_i18n201 = __toESM(require_i18n(), 1);
+  var import_i18n202 = __toESM(require_i18n(), 1);
   function formatFontWeight(fontWeight) {
     if (!fontWeight) {
       return {};
@@ -111955,35 +111989,35 @@ If there's a particular need for this, please submit a feature request at https:
     switch (fontWeight) {
       case "normal":
       case "400":
-        name = (0, import_i18n201._x)("Regular", "font weight");
+        name = (0, import_i18n202._x)("Regular", "font weight");
         break;
       case "bold":
       case "700":
-        name = (0, import_i18n201._x)("Bold", "font weight");
+        name = (0, import_i18n202._x)("Bold", "font weight");
         break;
       case "100":
-        name = (0, import_i18n201._x)("Thin", "font weight");
+        name = (0, import_i18n202._x)("Thin", "font weight");
         break;
       case "200":
-        name = (0, import_i18n201._x)("Extra Light", "font weight");
+        name = (0, import_i18n202._x)("Extra Light", "font weight");
         break;
       case "300":
-        name = (0, import_i18n201._x)("Light", "font weight");
+        name = (0, import_i18n202._x)("Light", "font weight");
         break;
       case "500":
-        name = (0, import_i18n201._x)("Medium", "font weight");
+        name = (0, import_i18n202._x)("Medium", "font weight");
         break;
       case "600":
-        name = (0, import_i18n201._x)("Semi Bold", "font weight");
+        name = (0, import_i18n202._x)("Semi Bold", "font weight");
         break;
       case "800":
-        name = (0, import_i18n201._x)("Extra Bold", "font weight");
+        name = (0, import_i18n202._x)("Extra Bold", "font weight");
         break;
       case "900":
-        name = (0, import_i18n201._x)("Black", "font weight");
+        name = (0, import_i18n202._x)("Black", "font weight");
         break;
       case "1000":
-        name = (0, import_i18n201._x)("Extra Black", "font weight");
+        name = (0, import_i18n202._x)("Extra Black", "font weight");
         break;
       default:
         name = fontWeight;
@@ -112007,53 +112041,53 @@ If there's a particular need for this, please submit a feature request at https:
   }
   var FONT_STYLES = [
     {
-      name: (0, import_i18n202._x)("Regular", "font style"),
+      name: (0, import_i18n203._x)("Regular", "font style"),
       value: "normal"
     },
     {
-      name: (0, import_i18n202._x)("Italic", "font style"),
+      name: (0, import_i18n203._x)("Italic", "font style"),
       value: "italic"
     }
   ];
   var FONT_WEIGHTS = [
     {
-      name: (0, import_i18n202._x)("Thin", "font weight"),
+      name: (0, import_i18n203._x)("Thin", "font weight"),
       value: "100"
     },
     {
-      name: (0, import_i18n202._x)("Extra Light", "font weight"),
+      name: (0, import_i18n203._x)("Extra Light", "font weight"),
       value: "200"
     },
     {
-      name: (0, import_i18n202._x)("Light", "font weight"),
+      name: (0, import_i18n203._x)("Light", "font weight"),
       value: "300"
     },
     {
-      name: (0, import_i18n202._x)("Regular", "font weight"),
+      name: (0, import_i18n203._x)("Regular", "font weight"),
       value: "400"
     },
     {
-      name: (0, import_i18n202._x)("Medium", "font weight"),
+      name: (0, import_i18n203._x)("Medium", "font weight"),
       value: "500"
     },
     {
-      name: (0, import_i18n202._x)("Semi Bold", "font weight"),
+      name: (0, import_i18n203._x)("Semi Bold", "font weight"),
       value: "600"
     },
     {
-      name: (0, import_i18n202._x)("Bold", "font weight"),
+      name: (0, import_i18n203._x)("Bold", "font weight"),
       value: "700"
     },
     {
-      name: (0, import_i18n202._x)("Extra Bold", "font weight"),
+      name: (0, import_i18n203._x)("Extra Bold", "font weight"),
       value: "800"
     },
     {
-      name: (0, import_i18n202._x)("Black", "font weight"),
+      name: (0, import_i18n203._x)("Black", "font weight"),
       value: "900"
     },
     {
-      name: (0, import_i18n202._x)("Extra Black", "font weight"),
+      name: (0, import_i18n203._x)("Extra Black", "font weight"),
       value: "1000"
     }
   ];
@@ -112105,13 +112139,13 @@ If there's a particular need for this, please submit a feature request at https:
     });
     if (!fontWeights.some((weight) => (weight.value ?? "") >= "600")) {
       fontWeights.push({
-        name: (0, import_i18n202._x)("Bold", "font weight"),
+        name: (0, import_i18n203._x)("Bold", "font weight"),
         value: "700"
       });
     }
     if (!fontStyles.some((style) => style.value === "italic")) {
       fontStyles.push({
-        name: (0, import_i18n202._x)("Italic", "font style"),
+        name: (0, import_i18n203._x)("Italic", "font style"),
         value: "italic"
       });
     }
@@ -112123,9 +112157,9 @@ If there's a particular need for this, please submit a feature request at https:
     fontWeights = fontWeights.length === 0 ? FONT_WEIGHTS : fontWeights;
     fontStyles.forEach(({ name: styleName, value: styleValue }) => {
       fontWeights.forEach(({ name: weightName, value: weightValue }) => {
-        const optionName = styleValue === "normal" ? weightName : (0, import_i18n202.sprintf)(
+        const optionName = styleValue === "normal" ? weightName : (0, import_i18n203.sprintf)(
           /* translators: 1: Font weight name. 2: Font style name. */
-          (0, import_i18n202._x)("%1$s %2$s", "font"),
+          (0, import_i18n203._x)("%1$s %2$s", "font"),
           weightName ?? "",
           styleName ?? ""
         );
@@ -112152,12 +112186,12 @@ If there's a particular need for this, please submit a feature request at https:
   var import_jsx_runtime584 = __toESM(require_jsx_runtime(), 1);
   var getFontAppearanceLabel = (hasFontStyles, hasFontWeights) => {
     if (!hasFontStyles) {
-      return (0, import_i18n203.__)("Font weight");
+      return (0, import_i18n204.__)("Font weight");
     }
     if (!hasFontWeights) {
-      return (0, import_i18n203.__)("Font style");
+      return (0, import_i18n204.__)("Font style");
     }
-    return (0, import_i18n203.__)("Appearance");
+    return (0, import_i18n204.__)("Appearance");
   };
   function FontAppearanceControl(props) {
     const {
@@ -112189,7 +112223,7 @@ If there's a particular need for this, please submit a feature request at https:
     const label = getFontAppearanceLabel(hasFontStyles, hasFontWeights);
     const defaultOption = {
       key: "default",
-      name: (0, import_i18n203.__)("Default"),
+      name: (0, import_i18n204.__)("Default"),
       style: { fontStyle: void 0, fontWeight: void 0 }
     };
     const { fontStyles, fontWeights, combinedStyleAndWeightOptions } = getFontStylesAndWeights(fontFamilyFaces);
@@ -112278,7 +112312,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/font-family/index.mjs
-  var import_i18n204 = __toESM(require_i18n(), 1);
+  var import_i18n205 = __toESM(require_i18n(), 1);
   var import_jsx_runtime585 = __toESM(require_jsx_runtime(), 1);
   function FontFamilyControl({
     /**
@@ -112291,7 +112325,7 @@ If there's a particular need for this, please submit a feature request at https:
     onChange,
     fontFamilies,
     className,
-    label = (0, import_i18n204.__)("Font"),
+    label = (0, import_i18n205.__)("Font"),
     hideLabelFromVision,
     describedBy,
     size: size4,
@@ -112319,7 +112353,7 @@ If there's a particular need for this, please submit a feature request at https:
     })) : [
       {
         value: null,
-        label: (0, import_i18n204.__)("Default")
+        label: (0, import_i18n205.__)("Default")
       },
       ...fontFamilies.map(({ fontFamily, name }) => ({
         value: fontFamily,
@@ -112389,7 +112423,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/letter-spacing-control/index.mjs
   var import_components195 = __toESM(require_components(), 1);
-  var import_i18n205 = __toESM(require_i18n(), 1);
+  var import_i18n206 = __toESM(require_i18n(), 1);
   var import_jsx_runtime586 = __toESM(require_jsx_runtime(), 1);
   function LetterSpacingControl({
     value,
@@ -112411,7 +112445,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components195.__experimentalUnitControl,
       {
         ...otherProps,
-        label: (0, import_i18n205.__)("Letter spacing"),
+        label: (0, import_i18n206.__)("Letter spacing"),
         value,
         __unstableInputWidth,
         units: units2,
@@ -112421,22 +112455,22 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/text-decoration-control/index.mjs
-  var import_i18n206 = __toESM(require_i18n(), 1);
+  var import_i18n207 = __toESM(require_i18n(), 1);
   var import_components196 = __toESM(require_components(), 1);
   var import_jsx_runtime587 = __toESM(require_jsx_runtime(), 1);
   var TEXT_DECORATIONS = [
     {
-      label: (0, import_i18n206.__)("None"),
+      label: (0, import_i18n207.__)("None"),
       value: "none",
       icon: reset_default
     },
     {
-      label: (0, import_i18n206.__)("Underline"),
+      label: (0, import_i18n207.__)("Underline"),
       value: "underline",
       icon: format_underline_default
     },
     {
-      label: (0, import_i18n206.__)("Strikethrough"),
+      label: (0, import_i18n207.__)("Strikethrough"),
       value: "line-through",
       icon: format_strikethrough_default
     }
@@ -112450,7 +112484,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components196.__experimentalToggleGroupControl,
       {
         isDeselectable: true,
-        label: (0, import_i18n206.__)("Decoration"),
+        label: (0, import_i18n207.__)("Decoration"),
         className: clsx_default(
           "block-editor-text-decoration-control",
           className
@@ -112477,27 +112511,27 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/text-transform-control/index.mjs
-  var import_i18n207 = __toESM(require_i18n(), 1);
+  var import_i18n208 = __toESM(require_i18n(), 1);
   var import_components197 = __toESM(require_components(), 1);
   var import_jsx_runtime588 = __toESM(require_jsx_runtime(), 1);
   var TEXT_TRANSFORMS = [
     {
-      label: (0, import_i18n207.__)("None"),
+      label: (0, import_i18n208.__)("None"),
       value: "none",
       icon: reset_default
     },
     {
-      label: (0, import_i18n207.__)("Uppercase"),
+      label: (0, import_i18n208.__)("Uppercase"),
       value: "uppercase",
       icon: format_uppercase_default
     },
     {
-      label: (0, import_i18n207.__)("Lowercase"),
+      label: (0, import_i18n208.__)("Lowercase"),
       value: "lowercase",
       icon: format_lowercase_default
     },
     {
-      label: (0, import_i18n207.__)("Capitalize"),
+      label: (0, import_i18n208.__)("Capitalize"),
       value: "capitalize",
       icon: format_capitalize_default
     }
@@ -112511,7 +112545,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components197.__experimentalToggleGroupControl,
       {
         isDeselectable: true,
-        label: (0, import_i18n207.__)("Letter case"),
+        label: (0, import_i18n208.__)("Letter case"),
         className: clsx_default(
           "block-editor-text-transform-control",
           className
@@ -112538,18 +112572,18 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/writing-mode-control/index.mjs
-  var import_i18n208 = __toESM(require_i18n(), 1);
+  var import_i18n209 = __toESM(require_i18n(), 1);
   var import_components198 = __toESM(require_components(), 1);
   var import_jsx_runtime589 = __toESM(require_jsx_runtime(), 1);
   var WRITING_MODES = [
     {
-      label: (0, import_i18n208.__)("Horizontal"),
+      label: (0, import_i18n209.__)("Horizontal"),
       value: "horizontal-tb",
       icon: text_horizontal_default
     },
     {
-      label: (0, import_i18n208.__)("Vertical"),
-      value: (0, import_i18n208.isRTL)() ? "vertical-lr" : "vertical-rl",
+      label: (0, import_i18n209.__)("Vertical"),
+      value: (0, import_i18n209.isRTL)() ? "vertical-lr" : "vertical-rl",
       icon: text_vertical_default
     }
   ];
@@ -112562,7 +112596,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components198.__experimentalToggleGroupControl,
       {
         isDeselectable: true,
-        label: (0, import_i18n208.__)("Orientation"),
+        label: (0, import_i18n209.__)("Orientation"),
         className: clsx_default("block-editor-writing-mode-control", className),
         value,
         onChange: (newValue) => {
@@ -112588,7 +112622,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/colors-gradients/dropdown.mjs
   var import_components199 = __toESM(require_components(), 1);
   var import_element381 = __toESM(require_element(), 1);
-  var import_i18n209 = __toESM(require_i18n(), 1);
+  var import_i18n210 = __toESM(require_i18n(), 1);
   var import_jsx_runtime590 = __toESM(require_jsx_runtime(), 1);
   var WithToolsPanelItem = ({
     setting,
@@ -112685,7 +112719,7 @@ If there's a particular need for this, please submit a feature request at https:
         import_components199.Button,
         {
           __next40pxDefaultSize: true,
-          label: (0, import_i18n209.__)("Reset"),
+          label: (0, import_i18n210.__)("Reset"),
           className: "block-editor-panel-color-gradient-settings__reset",
           size: "small",
           icon: reset_default,
@@ -112777,7 +112811,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/colors-gradients/use-multiple-origin-colors-and-gradients.mjs
   var import_element382 = __toESM(require_element(), 1);
-  var import_i18n210 = __toESM(require_i18n(), 1);
+  var import_i18n211 = __toESM(require_i18n(), 1);
   function useMultipleOriginColorsAndGradients() {
     const [
       enableCustomColors,
@@ -112810,7 +112844,7 @@ If there's a particular need for this, please submit a feature request at https:
       const result = [];
       if (themeColors && themeColors.length) {
         result.push({
-          name: (0, import_i18n210._x)(
+          name: (0, import_i18n211._x)(
             "Theme",
             "Indicates this palette comes from the theme."
           ),
@@ -112820,7 +112854,7 @@ If there's a particular need for this, please submit a feature request at https:
       }
       if (shouldDisplayDefaultColors && defaultColors && defaultColors.length) {
         result.push({
-          name: (0, import_i18n210._x)(
+          name: (0, import_i18n211._x)(
             "Default",
             "Indicates this palette comes from WordPress."
           ),
@@ -112830,7 +112864,7 @@ If there's a particular need for this, please submit a feature request at https:
       }
       if (customColors && customColors.length) {
         result.push({
-          name: (0, import_i18n210._x)(
+          name: (0, import_i18n211._x)(
             "Custom",
             "Indicates this palette is created by the user."
           ),
@@ -112849,7 +112883,7 @@ If there's a particular need for this, please submit a feature request at https:
       const result = [];
       if (themeGradients && themeGradients.length) {
         result.push({
-          name: (0, import_i18n210._x)(
+          name: (0, import_i18n211._x)(
             "Theme",
             "Indicates this palette comes from the theme."
           ),
@@ -112859,7 +112893,7 @@ If there's a particular need for this, please submit a feature request at https:
       }
       if (shouldDisplayDefaultGradients && defaultGradients && defaultGradients.length) {
         result.push({
-          name: (0, import_i18n210._x)(
+          name: (0, import_i18n211._x)(
             "Default",
             "Indicates this palette comes from WordPress."
           ),
@@ -112869,7 +112903,7 @@ If there's a particular need for this, please submit a feature request at https:
       }
       if (customGradients && customGradients.length) {
         result.push({
-          name: (0, import_i18n210._x)(
+          name: (0, import_i18n211._x)(
             "Custom",
             "Indicates this palette is created by the user."
           ),
@@ -112992,7 +113026,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/dimension-control/index.mjs
   var import_element383 = __toESM(require_element(), 1);
   var import_components201 = __toESM(require_components(), 1);
-  var import_i18n211 = __toESM(require_i18n(), 1);
+  var import_i18n212 = __toESM(require_i18n(), 1);
   var import_jsx_runtime592 = __toESM(require_jsx_runtime(), 1);
   var EMPTY_ARRAY16 = [];
   var DIMENSION_CUSTOM_VALUE_SETTINGS = {
@@ -113007,7 +113041,7 @@ If there's a particular need for this, please submit a feature request at https:
     const themeSizes = presets?.theme ?? EMPTY_ARRAY16;
     return (0, import_element383.useMemo)(() => {
       const sizes = [
-        { name: (0, import_i18n211.__)("None"), slug: "0", size: 0 },
+        { name: (0, import_i18n212.__)("None"), slug: "0", size: 0 },
         ...customSizes,
         ...themeSizes,
         ...defaultSizes
@@ -113016,7 +113050,7 @@ If there's a particular need for this, please submit a feature request at https:
     }, [customSizes, themeSizes, defaultSizes]);
   }
   function DimensionControl({
-    label = (0, import_i18n211.__)("Dimension"),
+    label = (0, import_i18n212.__)("Dimension"),
     onChange,
     value,
     placeholder,
@@ -113118,7 +113152,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/height-control/index.mjs
   var import_element384 = __toESM(require_element(), 1);
   var import_components202 = __toESM(require_components(), 1);
-  var import_i18n212 = __toESM(require_i18n(), 1);
+  var import_i18n213 = __toESM(require_i18n(), 1);
   var import_deprecated16 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime593 = __toESM(require_jsx_runtime(), 1);
   var RANGE_CONTROL_CUSTOM_SETTINGS = {
@@ -113152,7 +113186,7 @@ If there's a particular need for this, please submit a feature request at https:
     dvmax: { max: 100, step: 1 }
   };
   function HeightControl({
-    label = (0, import_i18n212.__)("Height"),
+    label = (0, import_i18n213.__)("Height"),
     onChange,
     value
   }) {
@@ -114497,7 +114531,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/image-editor/aspect-ratio-dropdown.mjs
   var import_components203 = __toESM(require_components(), 1);
-  var import_i18n214 = __toESM(require_i18n(), 1);
+  var import_i18n215 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/image-editor/constants.mjs
   var MIN_ZOOM3 = 100;
@@ -114512,13 +114546,13 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/image-editor/use-save-image.mjs
   var import_data154 = __toESM(require_data(), 1);
   var import_element388 = __toESM(require_element(), 1);
-  var import_i18n213 = __toESM(require_i18n(), 1);
+  var import_i18n214 = __toESM(require_i18n(), 1);
   var import_notices9 = __toESM(require_notices(), 1);
   var import_dom73 = __toESM(require_dom(), 1);
   var messages = {
-    crop: (0, import_i18n213.__)("Image cropped."),
-    rotate: (0, import_i18n213.__)("Image rotated."),
-    cropAndRotate: (0, import_i18n213.__)("Image cropped and rotated.")
+    crop: (0, import_i18n214.__)("Image cropped."),
+    rotate: (0, import_i18n214.__)("Image rotated."),
+    cropAndRotate: (0, import_i18n214.__)("Image cropped and rotated.")
   };
   function useSaveImage({
     crop,
@@ -114545,7 +114579,7 @@ If there's a particular need for this, please submit a feature request at https:
       if (!editMediaEntity) {
         onFinishEditing();
         createErrorNotice(
-          (0, import_i18n213.__)("Sorry, you are not allowed to edit images on this site."),
+          (0, import_i18n214.__)("Sorry, you are not allowed to edit images on this site."),
           {
             id: "image-editing-error",
             type: "snackbar"
@@ -114600,7 +114634,7 @@ If there's a particular need for this, please submit a feature request at https:
               type: "snackbar",
               actions: [
                 {
-                  label: (0, import_i18n213.__)("Undo"),
+                  label: (0, import_i18n214.__)("Undo"),
                   onClick: () => {
                     onSaveImage({
                       id,
@@ -114614,9 +114648,9 @@ If there's a particular need for this, please submit a feature request at https:
         }
       } catch (error2) {
         createErrorNotice(
-          (0, import_i18n213.sprintf)(
+          (0, import_i18n214.sprintf)(
             /* translators: %s: Error message. */
-            (0, import_i18n213.__)("Could not edit image. %s"),
+            (0, import_i18n214.__)("Could not edit image. %s"),
             // Media edit rejections carry a message.
             (0, import_dom73.__unstableStripHTML)(error2.message)
           ),
@@ -114875,7 +114909,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components203.DropdownMenu,
       {
         icon: aspect_ratio_default,
-        label: (0, import_i18n214.__)("Aspect Ratio"),
+        label: (0, import_i18n215.__)("Aspect Ratio"),
         popoverProps: POPOVER_PROPS8,
         toggleProps,
         children: ({ onClose }) => /* @__PURE__ */ (0, import_jsx_runtime597.jsxs)(import_jsx_runtime597.Fragment, { children: [
@@ -114892,7 +114926,7 @@ If there's a particular need for this, please submit a feature request at https:
                 // All ratios should be mirrored in AspectRatioTool in @wordpress/block-editor.
                 {
                   slug: "original",
-                  name: (0, import_i18n214.__)("Original"),
+                  name: (0, import_i18n215.__)("Original"),
                   ratio: defaultAspect
                 },
                 ...showDefaultRatios ? defaultRatios.map(presetRatioAsNumber).filter(({ ratio }) => ratio === 1) : []
@@ -114902,7 +114936,7 @@ If there's a particular need for this, please submit a feature request at https:
           themeRatios?.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime597.jsx)(
             AspectRatioGroup,
             {
-              label: (0, import_i18n214.__)("Theme"),
+              label: (0, import_i18n215.__)("Theme"),
               isDisabled: isInProgress,
               onClick: (newAspect) => {
                 setAspect(newAspect);
@@ -114915,7 +114949,7 @@ If there's a particular need for this, please submit a feature request at https:
           showDefaultRatios && /* @__PURE__ */ (0, import_jsx_runtime597.jsx)(
             AspectRatioGroup,
             {
-              label: (0, import_i18n214.__)("Landscape"),
+              label: (0, import_i18n215.__)("Landscape"),
               isDisabled: isInProgress,
               onClick: (newAspect) => {
                 setAspect(newAspect);
@@ -114928,7 +114962,7 @@ If there's a particular need for this, please submit a feature request at https:
           showDefaultRatios && /* @__PURE__ */ (0, import_jsx_runtime597.jsx)(
             AspectRatioGroup,
             {
-              label: (0, import_i18n214.__)("Portrait"),
+              label: (0, import_i18n215.__)("Portrait"),
               isDisabled: isInProgress,
               onClick: (newAspect) => {
                 setAspect(newAspect);
@@ -114991,7 +115025,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/image-editor/zoom-dropdown.mjs
   var import_components205 = __toESM(require_components(), 1);
-  var import_i18n215 = __toESM(require_i18n(), 1);
+  var import_i18n216 = __toESM(require_i18n(), 1);
   var import_jsx_runtime599 = __toESM(require_jsx_runtime(), 1);
   function ZoomDropdown() {
     const { isInProgress, zoom, setZoom } = useImageEditingContext();
@@ -115004,7 +115038,7 @@ If there's a particular need for this, please submit a feature request at https:
           import_components205.ToolbarButton,
           {
             icon: search_default,
-            label: (0, import_i18n215.__)("Zoom"),
+            label: (0, import_i18n216.__)("Zoom"),
             onClick: onToggle,
             "aria-expanded": isOpen,
             disabled: isInProgress
@@ -115013,7 +115047,7 @@ If there's a particular need for this, please submit a feature request at https:
         renderContent: () => /* @__PURE__ */ (0, import_jsx_runtime599.jsx)(import_components205.__experimentalDropdownContentWrapper, { paddingSize: "medium", children: /* @__PURE__ */ (0, import_jsx_runtime599.jsx)(
           import_components205.RangeControl,
           {
-            label: (0, import_i18n215.__)("Zoom"),
+            label: (0, import_i18n216.__)("Zoom"),
             min: MIN_ZOOM3,
             max: MAX_ZOOM3,
             value: Math.round(zoom * 100),
@@ -115026,7 +115060,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/image-editor/rotation-button.mjs
   var import_components206 = __toESM(require_components(), 1);
-  var import_i18n216 = __toESM(require_i18n(), 1);
+  var import_i18n217 = __toESM(require_i18n(), 1);
   var import_jsx_runtime600 = __toESM(require_jsx_runtime(), 1);
   function RotationButton() {
     const { isInProgress, rotateClockwise } = useImageEditingContext();
@@ -115034,7 +115068,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components206.ToolbarButton,
       {
         icon: rotate_right_default,
-        label: (0, import_i18n216.__)("Rotate"),
+        label: (0, import_i18n217.__)("Rotate"),
         onClick: rotateClockwise,
         disabled: isInProgress
       }
@@ -115043,13 +115077,13 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/image-editor/form-controls.mjs
   var import_components207 = __toESM(require_components(), 1);
-  var import_i18n217 = __toESM(require_i18n(), 1);
+  var import_i18n218 = __toESM(require_i18n(), 1);
   var import_jsx_runtime601 = __toESM(require_jsx_runtime(), 1);
   function FormControls() {
     const { isInProgress, apply, cancel } = useImageEditingContext();
     return /* @__PURE__ */ (0, import_jsx_runtime601.jsxs)(import_jsx_runtime601.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime601.jsx)(import_components207.ToolbarButton, { onClick: apply, disabled: isInProgress, children: (0, import_i18n217.__)("Apply") }),
-      /* @__PURE__ */ (0, import_jsx_runtime601.jsx)(import_components207.ToolbarButton, { onClick: cancel, children: (0, import_i18n217.__)("Cancel") })
+      /* @__PURE__ */ (0, import_jsx_runtime601.jsx)(import_components207.ToolbarButton, { onClick: apply, disabled: isInProgress, children: (0, import_i18n218.__)("Apply") }),
+      /* @__PURE__ */ (0, import_jsx_runtime601.jsx)(import_components207.ToolbarButton, { onClick: cancel, children: (0, import_i18n218.__)("Cancel") })
     ] });
   }
 
@@ -115111,7 +115145,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/image-size-control/index.mjs
   var import_components209 = __toESM(require_components(), 1);
-  var import_i18n218 = __toESM(require_i18n(), 1);
+  var import_i18n219 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/image-size-control/use-dimension-handler.mjs
   var import_element391 = __toESM(require_element(), 1);
@@ -115217,7 +115251,7 @@ If there's a particular need for this, please submit a feature request at https:
       imageSizeOptions && imageSizeOptions.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime603.jsx)(
         SelectControl2,
         {
-          label: (0, import_i18n218.__)("Resolution"),
+          label: (0, import_i18n219.__)("Resolution"),
           value: imageSizeOptions.find(
             (item) => item.value === slug
           ) ?? imageSizeOptions.find((item) => !item.disabled) ?? null,
@@ -115239,7 +115273,7 @@ If there's a particular need for this, please submit a feature request at https:
               /* @__PURE__ */ (0, import_jsx_runtime603.jsx)(
                 import_components209.__experimentalNumberControl,
                 {
-                  label: (0, import_i18n218.__)("Width"),
+                  label: (0, import_i18n219.__)("Width"),
                   value: currentWidth,
                   min: 1,
                   onChange: (value) => updateDimension("width", value)
@@ -115248,7 +115282,7 @@ If there's a particular need for this, please submit a feature request at https:
               /* @__PURE__ */ (0, import_jsx_runtime603.jsx)(
                 import_components209.__experimentalNumberControl,
                 {
-                  label: (0, import_i18n218.__)("Height"),
+                  label: (0, import_i18n219.__)("Height"),
                   value: currentHeight,
                   min: 1,
                   onChange: (value) => updateDimension("height", value)
@@ -115260,7 +115294,7 @@ If there's a particular need for this, please submit a feature request at https:
         /* @__PURE__ */ (0, import_jsx_runtime603.jsx)(
           import_components209.__experimentalToggleGroupControl,
           {
-            label: (0, import_i18n218.__)("Image size presets"),
+            label: (0, import_i18n219.__)("Image size presets"),
             hideLabelFromVision: true,
             onChange: handleUpdateDimensions,
             value: selectedValue,
@@ -115270,9 +115304,9 @@ If there's a particular need for this, please submit a feature request at https:
                 import_components209.__experimentalToggleGroupControlOption,
                 {
                   value: scale,
-                  label: (0, import_i18n218.sprintf)(
+                  label: (0, import_i18n219.sprintf)(
                     /* translators: %d: Percentage value. */
-                    (0, import_i18n218.__)("%d%%"),
+                    (0, import_i18n219.__)("%d%%"),
                     scale
                   )
                 },
@@ -115287,7 +115321,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/justify-content-control/ui.mjs
   var import_components210 = __toESM(require_components(), 1);
-  var import_i18n219 = __toESM(require_i18n(), 1);
+  var import_i18n220 = __toESM(require_i18n(), 1);
   var import_jsx_runtime604 = __toESM(require_jsx_runtime(), 1);
   var icons2 = {
     left: justify_left_default,
@@ -115316,35 +115350,35 @@ If there's a particular need for this, please submit a feature request at https:
       {
         name: "left",
         icon: justify_left_default,
-        title: (0, import_i18n219.__)("Justify items left"),
+        title: (0, import_i18n220.__)("Justify items left"),
         isActive: "left" === value,
         onClick: () => handleClick("left")
       },
       {
         name: "center",
         icon: justify_center_default,
-        title: (0, import_i18n219.__)("Justify items center"),
+        title: (0, import_i18n220.__)("Justify items center"),
         isActive: "center" === value,
         onClick: () => handleClick("center")
       },
       {
         name: "right",
         icon: justify_right_default,
-        title: (0, import_i18n219.__)("Justify items right"),
+        title: (0, import_i18n220.__)("Justify items right"),
         isActive: "right" === value,
         onClick: () => handleClick("right")
       },
       {
         name: "space-between",
         icon: justify_space_between_default,
-        title: (0, import_i18n219.__)("Space between items"),
+        title: (0, import_i18n220.__)("Space between items"),
         isActive: "space-between" === value,
         onClick: () => handleClick("space-between")
       },
       {
         name: "stretch",
         icon: justify_stretch_default,
-        title: (0, import_i18n219.__)("Stretch items"),
+        title: (0, import_i18n220.__)("Stretch items"),
         isActive: "stretch" === value,
         onClick: () => handleClick("stretch")
       }
@@ -115356,7 +115390,7 @@ If there's a particular need for this, please submit a feature request at https:
       {
         icon,
         popoverProps,
-        label: (0, import_i18n219.__)("Change items justification"),
+        label: (0, import_i18n220.__)("Change items justification"),
         controls: allControls.filter(
           (elem) => (
             // Every control is named after a justification.
@@ -115380,7 +115414,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/link-control/index.mjs
   var import_components218 = __toESM(require_components(), 1);
-  var import_i18n229 = __toESM(require_i18n(), 1);
+  var import_i18n230 = __toESM(require_i18n(), 1);
   var import_element399 = __toESM(require_element(), 1);
   var import_compose133 = __toESM(require_compose(), 1);
   var import_dom76 = __toESM(require_dom(), 1);
@@ -115394,7 +115428,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/link-control/settings-drawer.mjs
   var import_components211 = __toESM(require_components(), 1);
   var import_compose130 = __toESM(require_compose(), 1);
-  var import_i18n220 = __toESM(require_i18n(), 1);
+  var import_i18n221 = __toESM(require_i18n(), 1);
   var import_element392 = __toESM(require_element(), 1);
   var import_jsx_runtime606 = __toESM(require_jsx_runtime(), 1);
   function LinkSettingsDrawer({
@@ -115415,9 +115449,9 @@ If there's a particular need for this, please submit a feature request at https:
           className: "block-editor-link-control__drawer-toggle",
           "aria-expanded": settingsOpen,
           onClick: () => setSettingsOpen(!settingsOpen),
-          icon: (0, import_i18n220.isRTL)() ? chevron_left_small_default : chevron_right_small_default,
+          icon: (0, import_i18n221.isRTL)() ? chevron_left_small_default : chevron_right_small_default,
           "aria-controls": settingsDrawerId,
-          children: (0, import_i18n220._x)("Advanced", "Additional link settings")
+          children: (0, import_i18n221._x)("Advanced", "Additional link settings")
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime606.jsx)(MaybeAnimatePresence, { children: settingsOpen && /* @__PURE__ */ (0, import_jsx_runtime606.jsx)(
@@ -115445,16 +115479,16 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/link-control/search-input.mjs
   var import_element395 = __toESM(require_element(), 1);
-  var import_i18n225 = __toESM(require_i18n(), 1);
+  var import_i18n226 = __toESM(require_i18n(), 1);
   var import_deprecated20 = __toESM(require_deprecated(), 1);
 
   // packages/block-editor/build-module/components/link-control/search-results.mjs
-  var import_i18n224 = __toESM(require_i18n(), 1);
+  var import_i18n225 = __toESM(require_i18n(), 1);
   var import_components214 = __toESM(require_components(), 1);
   var import_deprecated19 = __toESM(require_deprecated(), 1);
 
   // packages/block-editor/build-module/components/link-control/search-create-button.mjs
-  var import_i18n221 = __toESM(require_i18n(), 1);
+  var import_i18n222 = __toESM(require_i18n(), 1);
   var import_components212 = __toESM(require_components(), 1);
   var import_element393 = __toESM(require_element(), 1);
   var import_jsx_runtime607 = __toESM(require_jsx_runtime(), 1);
@@ -115472,9 +115506,9 @@ If there's a particular need for this, please submit a feature request at https:
       text = typeof buttonText === "function" ? buttonText(searchTerm) : buttonText;
     } else {
       text = (0, import_element393.createInterpolateElement)(
-        (0, import_i18n221.sprintf)(
+        (0, import_i18n222.sprintf)(
           /* translators: %s: search term. */
-          (0, import_i18n221.__)("Create: <mark>%s</mark>"),
+          (0, import_i18n222.__)("Create: <mark>%s</mark>"),
           searchTerm
         ),
         { mark: /* @__PURE__ */ (0, import_jsx_runtime607.jsx)("mark", {}) }
@@ -115495,7 +115529,7 @@ If there's a particular need for this, please submit a feature request at https:
   var search_create_button_default = LinkControlSearchCreate;
 
   // packages/block-editor/build-module/components/link-control/search-item.mjs
-  var import_i18n222 = __toESM(require_i18n(), 1);
+  var import_i18n223 = __toESM(require_i18n(), 1);
   var import_components213 = __toESM(require_components(), 1);
   var import_dom74 = __toESM(require_dom(), 1);
   var import_url6 = __toESM(require_url(), 1);
@@ -115505,23 +115539,23 @@ If there's a particular need for this, please submit a feature request at https:
   var TYPES = {
     post: {
       icon: post_list_default,
-      label: (0, import_i18n222.__)("Post")
+      label: (0, import_i18n223.__)("Post")
     },
     page: {
       icon: page_default,
-      label: (0, import_i18n222.__)("Page")
+      label: (0, import_i18n223.__)("Page")
     },
     post_tag: {
       icon: tag_default,
-      label: (0, import_i18n222.__)("Tag")
+      label: (0, import_i18n223.__)("Tag")
     },
     category: {
       icon: category_default,
-      label: (0, import_i18n222.__)("Category")
+      label: (0, import_i18n223.__)("Category")
     },
     attachment: {
       icon: file_default,
-      label: (0, import_i18n222.__)("Attachment")
+      label: (0, import_i18n223.__)("Attachment")
     }
   };
   function SearchItemIcon({
@@ -115597,7 +115631,7 @@ If there's a particular need for this, please submit a feature request at https:
     isURL: isURL4 = false,
     shouldShowType = false
   }) => {
-    const info = isURL4 ? (0, import_i18n222.__)("Press ENTER to add this link") : getURLForDisplay(suggestion.url);
+    const info = isURL4 ? (0, import_i18n223.__)("Press ENTER to add this link") : getURLForDisplay(suggestion.url);
     return /* @__PURE__ */ (0, import_jsx_runtime608.jsx)(
       import_components213.MenuItem,
       {
@@ -115620,10 +115654,10 @@ If there's a particular need for this, please submit a feature request at https:
   };
   function getVisualTypeName(suggestion) {
     if (suggestion.isFrontPage) {
-      return (0, import_i18n222.__)("Front page");
+      return (0, import_i18n223.__)("Front page");
     }
     if (suggestion.isBlogHome) {
-      return (0, import_i18n222.__)("Blog home");
+      return (0, import_i18n223.__)("Blog home");
     }
     if (suggestion.typeLabel) {
       return suggestion.typeLabel;
@@ -115642,7 +115676,7 @@ If there's a particular need for this, please submit a feature request at https:
   };
 
   // packages/block-editor/build-module/components/link-control/constants.mjs
-  var import_i18n223 = __toESM(require_i18n(), 1);
+  var import_i18n224 = __toESM(require_i18n(), 1);
   var CREATE_TYPE = "__CREATE__";
   var TEL_TYPE = "tel";
   var URL_TYPE = "link";
@@ -115657,7 +115691,7 @@ If there's a particular need for this, please submit a feature request at https:
   var DEFAULT_LINK_SETTINGS = [
     {
       id: "opensInNewTab",
-      title: (0, import_i18n223.__)("Open in new tab")
+      title: (0, import_i18n224.__)("Open in new tab")
     }
   ];
 
@@ -115686,9 +115720,9 @@ If there's a particular need for this, please submit a feature request at https:
     LINK_ENTRY_TYPES.includes(suggestions[0].type);
     const shouldShowCreateSuggestion = withCreateSuggestion && !isSingleDirectEntryResult && !isInitialSuggestions;
     const shouldShowSuggestionsTypes = !suggestionsQuery?.type;
-    const labelText = isInitialSuggestions ? (0, import_i18n224.__)("Suggestions") : (0, import_i18n224.sprintf)(
+    const labelText = isInitialSuggestions ? (0, import_i18n225.__)("Suggestions") : (0, import_i18n225.sprintf)(
       /* translators: %s: search term. */
-      (0, import_i18n224.__)('Search results for "%s"'),
+      (0, import_i18n225.__)('Search results for "%s"'),
       // A search sets the value before its results are shown.
       currentInputValue
     );
@@ -115941,8 +115975,8 @@ If there's a particular need for this, please submit a feature request at https:
           );
         }
       };
-      const _placeholder = placeholder ?? (0, import_i18n225.__)("Search or type URL");
-      const label = hideLabelFromVision && placeholder !== "" ? _placeholder : (0, import_i18n225.__)("Link");
+      const _placeholder = placeholder ?? (0, import_i18n226.__)("Search or type URL");
+      const label = hideLabelFromVision && placeholder !== "" ? _placeholder : (0, import_i18n226.__)("Link");
       return /* @__PURE__ */ (0, import_jsx_runtime610.jsxs)("div", { className: "block-editor-link-control__search-input-container", children: [
         /* @__PURE__ */ (0, import_jsx_runtime610.jsx)(
           URLInput,
@@ -115988,7 +116022,7 @@ If there's a particular need for this, please submit a feature request at https:
   };
 
   // packages/block-editor/build-module/components/link-control/link-preview.mjs
-  var import_i18n226 = __toESM(require_i18n(), 1);
+  var import_i18n227 = __toESM(require_i18n(), 1);
   var import_components216 = __toESM(require_components(), 1);
   var import_compose132 = __toESM(require_compose(), 1);
   var import_url8 = __toESM(require_url(), 1);
@@ -116104,7 +116138,7 @@ If there's a particular need for this, please submit a feature request at https:
     }
     const { createNotice } = (0, import_data157.useDispatch)(import_notices10.store);
     const ref = (0, import_compose132.useCopyToClipboard)(value.url, () => {
-      createNotice("info", (0, import_i18n226.__)("Link copied to clipboard."), {
+      createNotice("info", (0, import_i18n227.__)("Link copied to clipboard."), {
         isDismissible: true,
         type: "snackbar"
       });
@@ -116113,7 +116147,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components216.Flex,
       {
         role: "group",
-        "aria-label": (0, import_i18n226.__)("Manage link"),
+        "aria-label": (0, import_i18n227.__)("Manage link"),
         className: clsx_default("block-editor-link-control__preview", {
           "is-current": true,
           "is-rich": hasRichData,
@@ -116130,7 +116164,7 @@ If there's a particular need for this, please submit a feature request at https:
               role: "figure",
               "aria-label": (
                 /* translators: Accessibility text for the link preview when editing a link. */
-                (0, import_i18n226.__)("Link information")
+                (0, import_i18n227.__)("Link information")
               ),
               justify: "start",
               align: "flex-start",
@@ -116195,7 +116229,7 @@ If there's a particular need for this, please submit a feature request at https:
                           )
                         }
                       )
-                    ] }) : /* @__PURE__ */ (0, import_jsx_runtime611.jsx)("span", { className: "block-editor-link-control__preview-error-notice", children: (0, import_i18n226.__)("Link is empty") })
+                    ] }) : /* @__PURE__ */ (0, import_jsx_runtime611.jsx)("span", { className: "block-editor-link-control__preview-error-notice", children: (0, import_i18n227.__)("Link is empty") })
                   }
                 )
               ]
@@ -116205,7 +116239,7 @@ If there's a particular need for this, please submit a feature request at https:
             import_components216.Button,
             {
               icon: pencil_default,
-              label: (0, import_i18n226.__)("Edit link"),
+              label: (0, import_i18n227.__)("Edit link"),
               onClick: onEditClick,
               size: "compact",
               showTooltip: !showIconLabels
@@ -116215,7 +116249,7 @@ If there's a particular need for this, please submit a feature request at https:
             import_components216.Button,
             {
               icon: link_off_default,
-              label: (0, import_i18n226.__)("Remove link"),
+              label: (0, import_i18n227.__)("Remove link"),
               onClick: onRemove,
               size: "compact",
               showTooltip: !showIconLabels
@@ -116225,7 +116259,7 @@ If there's a particular need for this, please submit a feature request at https:
             import_components216.Button,
             {
               icon: copy_small_default,
-              label: (0, import_i18n226.__)("Copy link"),
+              label: (0, import_i18n227.__)("Copy link"),
               ref,
               accessibleWhenDisabled: true,
               disabled: isEmptyURL,
@@ -116240,7 +116274,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/link-control/settings.mjs
-  var import_i18n227 = __toESM(require_i18n(), 1);
+  var import_i18n228 = __toESM(require_i18n(), 1);
   var import_components217 = __toESM(require_components(), 1);
   var import_jsx_runtime612 = __toESM(require_jsx_runtime(), 1);
   var noop18 = () => {
@@ -116291,14 +116325,14 @@ If there's a particular need for this, please submit a feature request at https:
       );
     }).filter(Boolean);
     return /* @__PURE__ */ (0, import_jsx_runtime612.jsxs)("fieldset", { className: "block-editor-link-control__settings", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime612.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime612.jsx)("legend", {}), children: (0, import_i18n227.__)("Currently selected link settings") }),
+      /* @__PURE__ */ (0, import_jsx_runtime612.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime612.jsx)("legend", {}), children: (0, import_i18n228.__)("Currently selected link settings") }),
       theSettings
     ] });
   };
   var settings_default2 = LinkControlSettings;
 
   // packages/block-editor/build-module/components/link-control/use-create-page.mjs
-  var import_i18n228 = __toESM(require_i18n(), 1);
+  var import_i18n229 = __toESM(require_i18n(), 1);
   var import_element397 = __toESM(require_element(), 1);
   function useCreatePage(handleCreatePage) {
     const cancelableCreateSuggestion = (0, import_element397.useRef)(void 0);
@@ -116322,7 +116356,7 @@ If there's a particular need for this, please submit a feature request at https:
           return;
         }
         setErrorMessage(
-          error2.message || (0, import_i18n228.__)(
+          error2.message || (0, import_i18n229.__)(
             "An unknown error occurred during creation. Please try again."
           )
         );
@@ -116534,7 +116568,7 @@ If there's a particular need for this, please submit a feature request at https:
     const validateUrl = (urlToValidate) => {
       const invalidResult = {
         type: "invalid",
-        message: (0, import_i18n229.__)("Please enter a valid URL.")
+        message: (0, import_i18n230.__)("Please enter a valid URL.")
       };
       const validResult = {
         type: "valid"
@@ -116694,7 +116728,7 @@ If there's a particular need for this, please submit a feature request at https:
           isCreatingPage && /* @__PURE__ */ (0, import_jsx_runtime613.jsxs)("div", { className: "block-editor-link-control__loading", children: [
             /* @__PURE__ */ (0, import_jsx_runtime613.jsx)(import_components218.Spinner, {}),
             " ",
-            (0, import_i18n229.__)("Creating"),
+            (0, import_i18n230.__)("Creating"),
             "\u2026"
           ] }),
           isEditing && /* @__PURE__ */ (0, import_jsx_runtime613.jsxs)(import_jsx_runtime613.Fragment, { children: [
@@ -116712,7 +116746,7 @@ If there's a particular need for this, please submit a feature request at https:
                     {
                       ref: textInputRef,
                       className: "block-editor-link-control__field block-editor-link-control__text-content",
-                      label: (0, import_i18n229.__)("Text"),
+                      label: (0, import_i18n230.__)("Text"),
                       value: internalControlValue?.title,
                       onChange: setInternalTextInputValue,
                       onKeyDown: handleSubmitWithEnter
@@ -116758,9 +116792,9 @@ If there's a particular need for this, please submit a feature request at https:
                     {
                       id: helpTextId,
                       className: "block-editor-link-control__help",
-                      children: (0, import_i18n229.sprintf)(
+                      children: (0, import_i18n230.sprintf)(
                         /* translators: %s: entity type (e.g., page, post) */
-                        (0, import_i18n229.__)("Synced with the selected %s."),
+                        (0, import_i18n230.__)("Synced with the selected %s."),
                         internalControlValue?.type || "item"
                       )
                     }
@@ -116821,7 +116855,7 @@ If there's a particular need for this, please submit a feature request at https:
                     __next40pxDefaultSize: true,
                     variant: "tertiary",
                     onClick: handleCancel,
-                    children: (0, import_i18n229.__)("Cancel")
+                    children: (0, import_i18n230.__)("Cancel")
                   }
                 ),
                 /* @__PURE__ */ (0, import_jsx_runtime613.jsx)(
@@ -116832,7 +116866,7 @@ If there's a particular need for this, please submit a feature request at https:
                     onClick: isDisabled ? noop19 : handleSubmit,
                     className: "block-editor-link-control__search-submit",
                     "aria-disabled": isDisabled,
-                    children: (0, import_i18n229.__)("Apply")
+                    children: (0, import_i18n230.__)("Apply")
                   }
                 )
               ]
@@ -116859,7 +116893,7 @@ If there's a particular need for this, please submit a feature request at https:
           onClick: onUnlink,
           "aria-describedby": helpTextId,
           showTooltip: true,
-          label: (0, import_i18n229.__)("Unsync and edit"),
+          label: (0, import_i18n230.__)("Unsync and edit"),
           __next40pxDefaultSize: true
         }
       );
@@ -116871,7 +116905,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components218.Button,
       {
         onClick: isDisabled ? noop19 : onSubmit,
-        label: (0, import_i18n229.__)("Submit"),
+        label: (0, import_i18n230.__)("Submit"),
         icon: keyboard_return_default,
         className: "block-editor-link-control__search-submit",
         "aria-disabled": isDisabled,
@@ -116893,7 +116927,7 @@ If there's a particular need for this, please submit a feature request at https:
   var link_control_default = LinkControl;
 
   // packages/block-editor/build-module/components/line-height-control/index.mjs
-  var import_i18n230 = __toESM(require_i18n(), 1);
+  var import_i18n231 = __toESM(require_i18n(), 1);
   var import_components219 = __toESM(require_components(), 1);
 
   // packages/block-editor/build-module/components/line-height-control/utils.mjs
@@ -116968,7 +117002,7 @@ If there's a particular need for this, please submit a feature request at https:
         __unstableInputWidth,
         __unstableStateReducer: stateReducer,
         onChange: handleOnChange,
-        label: (0, import_i18n230.__)("Line height"),
+        label: (0, import_i18n231.__)("Line height"),
         step: STEP,
         spinFactor: SPIN_FACTOR,
         value,
@@ -116980,7 +117014,7 @@ If there's a particular need for this, please submit a feature request at https:
   var line_height_control_default = LineHeightControl;
 
   // packages/block-editor/build-module/components/media-replace-flow/index.mjs
-  var import_i18n231 = __toESM(require_i18n(), 1);
+  var import_i18n232 = __toESM(require_i18n(), 1);
   var import_a11y23 = __toESM(require_a11y(), 1);
   var import_components220 = __toESM(require_components(), 1);
   var import_data159 = __toESM(require_data(), 1);
@@ -117040,7 +117074,7 @@ If there's a particular need for this, please submit a feature request at https:
     onToggleFeaturedImage,
     useFeaturedImage,
     onFilesUpload = noop20,
-    name = (0, import_i18n231.__)("Replace"),
+    name = (0, import_i18n232.__)("Replace"),
     createNotice,
     removeNotice,
     children,
@@ -117091,7 +117125,7 @@ If there's a particular need for this, please submit a feature request at https:
       closeMenu();
       onSelect(media);
       (0, import_a11y23.speak)(
-        hasMedia ? (0, import_i18n231.__)("The media file has been replaced") : (0, import_i18n231.__)("The media file has been added")
+        hasMedia ? (0, import_i18n232.__)("The media file has been replaced") : (0, import_i18n232.__)("The media file has been added")
       );
       removeNotice(errorNoticeID);
     };
@@ -117177,7 +117211,7 @@ If there's a particular need for this, please submit a feature request at https:
                     {
                       icon: media_default,
                       onClick: open3,
-                      children: (0, import_i18n231.__)("Open Media Library")
+                      children: (0, import_i18n232.__)("Open Media Library")
                     }
                   )
                 }
@@ -117198,7 +117232,7 @@ If there's a particular need for this, please submit a feature request at https:
                         onClick: () => {
                           openFileDialog();
                         },
-                        children: (0, import_i18n231._x)("Upload", "verb")
+                        children: (0, import_i18n232._x)("Upload", "verb")
                       }
                     );
                   }
@@ -117214,7 +117248,7 @@ If there's a particular need for this, please submit a feature request at https:
                   onClose();
                 },
                 isPressed: useFeaturedImage,
-                children: (0, import_i18n231.__)("Use featured image")
+                children: (0, import_i18n232.__)("Use featured image")
               }
             ),
             typeof children === "function" ? children({ onClose }) : children,
@@ -117225,12 +117259,12 @@ If there's a particular need for this, please submit a feature request at https:
                   onReset();
                   onClose();
                 },
-                children: (0, import_i18n231.__)("Reset")
+                children: (0, import_i18n232.__)("Reset")
               }
             )
           ] }),
           onSelectURL && /* @__PURE__ */ (0, import_jsx_runtime615.jsxs)("form", { className: "block-editor-media-flow__url-input", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime615.jsx)("span", { className: "block-editor-media-replace-flow__image-url-label", children: (0, import_i18n231.__)("Current media URL:") }),
+            /* @__PURE__ */ (0, import_jsx_runtime615.jsx)("span", { className: "block-editor-media-replace-flow__image-url-label", children: (0, import_i18n232.__)("Current media URL:") }),
             /* @__PURE__ */ (0, import_jsx_runtime615.jsx)(
               link_control_default,
               {
@@ -117240,7 +117274,7 @@ If there's a particular need for this, please submit a feature request at https:
                 onChange: ({ url }) => {
                   onSelectURL(url);
                 },
-                searchInputPlaceholder: (0, import_i18n231.__)(
+                searchInputPlaceholder: (0, import_i18n232.__)(
                   "Paste or type URL"
                 )
               }
@@ -117263,19 +117297,19 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/media-placeholder/index.mjs
   var import_components226 = __toESM(require_components(), 1);
-  var import_i18n236 = __toESM(require_i18n(), 1);
+  var import_i18n237 = __toESM(require_i18n(), 1);
   var import_element403 = __toESM(require_element(), 1);
   var import_data161 = __toESM(require_data(), 1);
   var import_deprecated23 = __toESM(require_deprecated(), 1);
 
   // packages/block-editor/build-module/components/url-popover/index.mjs
-  var import_i18n235 = __toESM(require_i18n(), 1);
+  var import_i18n236 = __toESM(require_i18n(), 1);
   var import_element402 = __toESM(require_element(), 1);
   var import_components225 = __toESM(require_components(), 1);
   var import_deprecated22 = __toESM(require_deprecated(), 1);
 
   // packages/block-editor/build-module/components/url-popover/link-viewer.mjs
-  var import_i18n232 = __toESM(require_i18n(), 1);
+  var import_i18n233 = __toESM(require_i18n(), 1);
   var import_components222 = __toESM(require_components(), 1);
 
   // packages/block-editor/build-module/components/url-popover/link-viewer-url.mjs
@@ -117328,7 +117362,7 @@ If there's a particular need for this, please submit a feature request at https:
             import_components222.Button,
             {
               icon: pencil_default,
-              label: (0, import_i18n232.__)("Edit"),
+              label: (0, import_i18n233.__)("Edit"),
               onClick: onEditLinkClick,
               size: "compact"
             }
@@ -117339,12 +117373,12 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/url-popover/link-editor.mjs
-  var import_i18n234 = __toESM(require_i18n(), 1);
+  var import_i18n235 = __toESM(require_i18n(), 1);
   var import_components224 = __toESM(require_components(), 1);
 
   // packages/block-editor/build-module/components/url-input/index.mjs
   var import_a11y24 = __toESM(require_a11y(), 1);
-  var import_i18n233 = __toESM(require_i18n(), 1);
+  var import_i18n234 = __toESM(require_i18n(), 1);
   var import_element401 = __toESM(require_element(), 1);
   var import_keycodes24 = __toESM(require_keycodes(), 1);
   var import_components223 = __toESM(require_components(), 1);
@@ -117380,7 +117414,7 @@ If there's a particular need for this, please submit a feature request at https:
       onChange,
       onKeyDown,
       onSubmit,
-      placeholder = (0, import_i18n233.__)("Paste URL or type to search"),
+      placeholder = (0, import_i18n234.__)("Paste URL or type to search"),
       required = true,
       suffix,
       value = ""
@@ -117441,9 +117475,9 @@ If there's a particular need for this, please submit a feature request at https:
         setIsSuggestionsListOpen(!!nextSuggestions.length);
         if (nextSuggestions.length) {
           debouncedSpeak(
-            (0, import_i18n233.sprintf)(
+            (0, import_i18n234.sprintf)(
               /* translators: %d: number of results. */
-              (0, import_i18n233._n)(
+              (0, import_i18n234._n)(
                 "%d result found, use up and down arrow keys to navigate.",
                 "%d results found, use up and down arrow keys to navigate.",
                 nextSuggestions.length
@@ -117453,7 +117487,7 @@ If there's a particular need for this, please submit a feature request at https:
             "assertive"
           );
         } else {
-          debouncedSpeak((0, import_i18n233.__)("No results."), "assertive");
+          debouncedSpeak((0, import_i18n234.__)("No results."), "assertive");
         }
       }).catch(() => {
         if (suggestionsRequestRef.current !== request) {
@@ -117555,7 +117589,7 @@ If there's a particular need for this, please submit a feature request at https:
         case import_keycodes24.TAB: {
           if (suggestion) {
             selectLink(suggestion);
-            (0, import_a11y24.speak)((0, import_i18n233.__)("Link selected."));
+            (0, import_a11y24.speak)((0, import_i18n234.__)("Link selected."));
           }
           break;
         }
@@ -117592,7 +117626,7 @@ If there's a particular need for this, please submit a feature request at https:
       onKeyDown: disabled2 ? noop21 : handleKeyDown,
       placeholder,
       role: "combobox",
-      "aria-label": label ? void 0 : (0, import_i18n233.__)("URL"),
+      "aria-label": label ? void 0 : (0, import_i18n234.__)("URL"),
       // Ensure input always has an accessible label
       "aria-expanded": showSuggestions,
       "aria-autocomplete": "list",
@@ -117769,7 +117803,7 @@ If there's a particular need for this, please submit a feature request at https:
             import_components224.Button,
             {
               icon: keyboard_return_default,
-              label: (0, import_i18n234.__)("Apply"),
+              label: (0, import_i18n235.__)("Apply"),
               type: "submit",
               size: "compact"
             }
@@ -117822,7 +117856,7 @@ If there's a particular need for this, please submit a feature request at https:
           ref,
           role: "dialog",
           "aria-modal": "true",
-          "aria-label": (0, import_i18n235.__)("Edit URL"),
+          "aria-label": (0, import_i18n236.__)("Edit URL"),
           className: "block-editor-url-popover",
           focusOnMount,
           placement: computedPlacement,
@@ -117837,7 +117871,7 @@ If there's a particular need for this, please submit a feature request at https:
                 {
                   className: "block-editor-url-popover__settings-toggle",
                   icon: chevron_down_default,
-                  label: (0, import_i18n235.__)("Link settings"),
+                  label: (0, import_i18n236.__)("Link settings"),
                   onClick: toggleSettingsVisibility,
                   "aria-expanded": isSettingsExpanded,
                   size: "compact"
@@ -117873,10 +117907,10 @@ If there's a particular need for this, please submit a feature request at https:
       children: /* @__PURE__ */ (0, import_jsx_runtime621.jsx)(
         import_components226.__experimentalInputControl,
         {
-          label: (0, import_i18n236.__)("URL"),
+          label: (0, import_i18n237.__)("URL"),
           type: "text",
           hideLabelFromVision: true,
-          placeholder: (0, import_i18n236.__)("Paste or type URL"),
+          placeholder: (0, import_i18n237.__)("Paste or type URL"),
           onChange,
           value: src,
           suffix: /* @__PURE__ */ (0, import_jsx_runtime621.jsx)(import_components226.__experimentalInputControlSuffixWrapper, { variant: "control", children: /* @__PURE__ */ (0, import_jsx_runtime621.jsx)(
@@ -117884,7 +117918,7 @@ If there's a particular need for this, please submit a feature request at https:
             {
               size: "small",
               icon: keyboard_return_default,
-              label: (0, import_i18n236.__)("Apply"),
+              label: (0, import_i18n237.__)("Apply"),
               type: "submit"
             }
           ) })
@@ -117926,7 +117960,7 @@ If there's a particular need for this, please submit a feature request at https:
           variant: "secondary",
           "aria-haspopup": "dialog",
           ref: setPopoverAnchor,
-          children: (0, import_i18n236.__)("Insert from URL")
+          children: (0, import_i18n237.__)("Insert from URL")
         }
       ),
       isURLInputVisible && /* @__PURE__ */ (0, import_jsx_runtime621.jsx)(
@@ -118097,7 +118131,7 @@ If there's a particular need for this, please submit a feature request at https:
     const defaultRenderPlaceholder = (content) => {
       let { instructions, title } = labels;
       if (!mediaUpload2 && !onSelectURL) {
-        instructions = (0, import_i18n236.__)(
+        instructions = (0, import_i18n237.__)(
           "To edit this block, you need permission to upload media."
         );
       }
@@ -118109,31 +118143,31 @@ If there's a particular need for this, please submit a feature request at https:
         const isImage = isOneType && "image" === firstAllowedType;
         const isVideo = isOneType && "video" === firstAllowedType;
         if (instructions === void 0 && mediaUpload2) {
-          instructions = (0, import_i18n236.__)(
+          instructions = (0, import_i18n237.__)(
             "Drag and drop an image or video, upload, or choose from your library."
           );
           if (isAudio) {
-            instructions = (0, import_i18n236.__)(
+            instructions = (0, import_i18n237.__)(
               "Drag and drop an audio file, upload, or choose from your library."
             );
           } else if (isImage) {
-            instructions = (0, import_i18n236.__)(
+            instructions = (0, import_i18n237.__)(
               "Drag and drop an image, upload, or choose from your library."
             );
           } else if (isVideo) {
-            instructions = (0, import_i18n236.__)(
+            instructions = (0, import_i18n237.__)(
               "Drag and drop a video, upload, or choose from your library."
             );
           }
         }
         if (title === void 0) {
-          title = (0, import_i18n236.__)("Media");
+          title = (0, import_i18n237.__)("Media");
           if (isAudio) {
-            title = (0, import_i18n236.__)("Audio");
+            title = (0, import_i18n237.__)("Audio");
           } else if (isImage) {
-            title = (0, import_i18n236.__)("Image");
+            title = (0, import_i18n237.__)("Image");
           } else if (isVideo) {
-            title = (0, import_i18n236.__)("Video");
+            title = (0, import_i18n237.__)("Video");
           }
         }
       }
@@ -118196,10 +118230,10 @@ If there's a particular need for this, please submit a feature request at https:
         {
           __next40pxDefaultSize: true,
           className: "block-editor-media-placeholder__cancel-button",
-          title: (0, import_i18n236.__)("Cancel"),
+          title: (0, import_i18n237.__)("Cancel"),
           variant: "link",
           onClick: onCancel,
-          children: (0, import_i18n236.__)("Cancel")
+          children: (0, import_i18n237.__)("Cancel")
         }
       );
     };
@@ -118221,7 +118255,7 @@ If there's a particular need for this, please submit a feature request at https:
           className: "block-editor-media-placeholder__button",
           onClick: onToggleFeaturedImage,
           variant: "secondary",
-          children: (0, import_i18n236.__)("Use featured image")
+          children: (0, import_i18n237.__)("Use featured image")
         }
       ) });
     };
@@ -118235,7 +118269,7 @@ If there's a particular need for this, please submit a feature request at https:
             onClick: () => {
               open3();
             },
-            children: (0, import_i18n236.__)("Media Library")
+            children: (0, import_i18n237.__)("Media Library")
           }
         );
       };
@@ -118277,7 +118311,7 @@ If there's a particular need for this, please submit a feature request at https:
                         "block-editor-media-placeholder__upload-button"
                       ),
                       onClick: openFileDialog,
-                      children: (0, import_i18n236._x)("Upload", "verb")
+                      children: (0, import_i18n237._x)("Upload", "verb")
                     }
                   ),
                   uploadMediaLibraryButton,
@@ -118307,7 +118341,7 @@ If there's a particular need for this, please submit a feature request at https:
                     "block-editor-media-placeholder__button",
                     "block-editor-media-placeholder__upload-button"
                   ),
-                  children: (0, import_i18n236._x)("Upload", "verb")
+                  children: (0, import_i18n237._x)("Upload", "verb")
                 }
               ),
               onChange: onUpload,
@@ -118382,7 +118416,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_rich_text21 = __toESM(require_rich_text(), 1);
   var import_components228 = __toESM(require_components(), 1);
   var import_blocks92 = __toESM(require_blocks(), 1);
-  var import_i18n237 = __toESM(require_i18n(), 1);
+  var import_i18n238 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/rich-text/use-mark-persistent.mjs
   var import_element404 = __toESM(require_element(), 1);
@@ -119384,14 +119418,14 @@ If there's a particular need for this, please submit a feature request at https:
           )?.label;
         }
         const bindingKey = clientSideFieldLabel ?? blockBindingsSource?.label;
-        const _bindingsPlaceholder = _disableBoundBlock ? bindingKey : (0, import_i18n237.sprintf)(
+        const _bindingsPlaceholder = _disableBoundBlock ? bindingKey : (0, import_i18n238.sprintf)(
           /* translators: %s: connected field label or source label */
-          (0, import_i18n237.__)("Add %s"),
+          (0, import_i18n238.__)("Add %s"),
           bindingKey
         );
-        const _bindingsLabel = _disableBoundBlock ? relatedBinding?.args?.key || blockBindingsSource?.label : (0, import_i18n237.sprintf)(
+        const _bindingsLabel = _disableBoundBlock ? relatedBinding?.args?.key || blockBindingsSource?.label : (0, import_i18n238.sprintf)(
           /* translators: %s: source label or key */
-          (0, import_i18n237.__)("Empty %s; start writing to edit its value"),
+          (0, import_i18n238.__)("Empty %s; start writing to edit its value"),
           relatedBinding?.args?.key || blockBindingsSource?.label
         );
         return {
@@ -119802,13 +119836,13 @@ If there's a particular need for this, please submit a feature request at https:
   var plain_text_default = PlainText;
 
   // packages/block-editor/build-module/components/responsive-block-control/index.mjs
-  var import_i18n239 = __toESM(require_i18n(), 1);
+  var import_i18n240 = __toESM(require_i18n(), 1);
   var import_element412 = __toESM(require_element(), 1);
   var import_components229 = __toESM(require_components(), 1);
 
   // packages/block-editor/build-module/components/responsive-block-control/label.mjs
   var import_compose142 = __toESM(require_compose(), 1);
-  var import_i18n238 = __toESM(require_i18n(), 1);
+  var import_i18n239 = __toESM(require_i18n(), 1);
   var import_jsx_runtime630 = __toESM(require_jsx_runtime(), 1);
   function ResponsiveBlockControlLabel({
     property,
@@ -119816,9 +119850,9 @@ If there's a particular need for this, please submit a feature request at https:
     desc
   }) {
     const instanceId = (0, import_compose142.useInstanceId)(ResponsiveBlockControlLabel);
-    const accessibleLabel = desc || (0, import_i18n238.sprintf)(
+    const accessibleLabel = desc || (0, import_i18n239.sprintf)(
       /* translators: 1: property name. 2: viewport name. */
-      (0, import_i18n238._x)(
+      (0, import_i18n239._x)(
         "Controls the %1$s property for %2$s viewports.",
         "Text labelling a interface as controlling a given layout property (eg: margin) for a given screen size."
       ),
@@ -119851,32 +119885,32 @@ If there's a particular need for this, please submit a feature request at https:
       isResponsive = false,
       defaultLabel: defaultLabel2 = {
         id: "all",
-        label: (0, import_i18n239._x)("All", "screen sizes")
+        label: (0, import_i18n240._x)("All", "screen sizes")
       },
       viewports = [
         {
           id: "small",
-          label: (0, import_i18n239.__)("Small screens")
+          label: (0, import_i18n240.__)("Small screens")
         },
         {
           id: "medium",
-          label: (0, import_i18n239.__)("Medium screens")
+          label: (0, import_i18n240.__)("Medium screens")
         },
         {
           id: "large",
-          label: (0, import_i18n239.__)("Large screens")
+          label: (0, import_i18n240.__)("Large screens")
         }
       ]
     } = props;
     if (!title || !property || !renderDefaultControl) {
       return null;
     }
-    const toggleControlLabel = toggleLabel || (0, import_i18n239.sprintf)(
+    const toggleControlLabel = toggleLabel || (0, import_i18n240.sprintf)(
       /* translators: %s: Property value for the control (eg: margin, padding, etc.). */
-      (0, import_i18n239.__)("Use the same %s on all screen sizes."),
+      (0, import_i18n240.__)("Use the same %s on all screen sizes."),
       property
     );
-    const toggleHelpText = (0, import_i18n239.__)(
+    const toggleHelpText = (0, import_i18n240.__)(
       "Choose whether to use the same value for all screen sizes or a unique value for each screen size."
     );
     const defaultControl = renderDefaultControl(
@@ -119957,7 +119991,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/url-input/button.mjs
-  var import_i18n240 = __toESM(require_i18n(), 1);
+  var import_i18n241 = __toESM(require_i18n(), 1);
   var import_element413 = __toESM(require_element(), 1);
   var import_components231 = __toESM(require_components(), 1);
   var import_jsx_runtime633 = __toESM(require_jsx_runtime(), 1);
@@ -119976,7 +120010,7 @@ If there's a particular need for this, please submit a feature request at https:
         {
           size: "compact",
           icon: link_default,
-          label: url ? (0, import_i18n240.__)("Edit link") : (0, import_i18n240.__)("Insert link"),
+          label: url ? (0, import_i18n241.__)("Edit link") : (0, import_i18n241.__)("Insert link"),
           onClick: toggleExpanded,
           className: "components-toolbar__control",
           isPressed: !!url
@@ -119994,7 +120028,7 @@ If there's a particular need for this, please submit a feature request at https:
                 __next40pxDefaultSize: true,
                 className: "block-editor-url-input__back",
                 icon: arrow_left_default,
-                label: (0, import_i18n240.__)("Close"),
+                label: (0, import_i18n241.__)("Close"),
                 onClick: toggleExpanded
               }
             ),
@@ -120008,7 +120042,7 @@ If there's a particular need for this, please submit a feature request at https:
                   {
                     size: "small",
                     icon: keyboard_return_default,
-                    label: (0, import_i18n240.__)("Submit"),
+                    label: (0, import_i18n241.__)("Submit"),
                     type: "submit"
                   }
                 ) })
@@ -120022,7 +120056,7 @@ If there's a particular need for this, please submit a feature request at https:
   var button_default = URLInputButton;
 
   // packages/block-editor/build-module/components/url-popover/image-url-input-ui.mjs
-  var import_i18n241 = __toESM(require_i18n(), 1);
+  var import_i18n242 = __toESM(require_i18n(), 1);
   var import_element414 = __toESM(require_element(), 1);
   var import_dom78 = __toESM(require_dom(), 1);
   var import_components232 = __toESM(require_components(), 1);
@@ -120140,7 +120174,7 @@ If there's a particular need for this, please submit a feature request at https:
       const linkDestinations = [
         {
           linkDestination: LINK_DESTINATION_MEDIA,
-          title: (0, import_i18n241.__)("Link to image file"),
+          title: (0, import_i18n242.__)("Link to image file"),
           url: mediaType === "image" ? mediaUrl : void 0,
           icon: image_default
         }
@@ -120148,7 +120182,7 @@ If there's a particular need for this, please submit a feature request at https:
       if (mediaType === "image" && mediaLink) {
         linkDestinations.push({
           linkDestination: LINK_DESTINATION_ATTACHMENT,
-          title: (0, import_i18n241.__)("Link to attachment page"),
+          title: (0, import_i18n242.__)("Link to attachment page"),
           url: mediaType === "image" ? mediaLink : void 0,
           icon: page_default
         });
@@ -120184,7 +120218,7 @@ If there's a particular need for this, please submit a feature request at https:
       /* @__PURE__ */ (0, import_jsx_runtime634.jsx)(
         import_components232.ToggleControl,
         {
-          label: (0, import_i18n241.__)("Open in new tab"),
+          label: (0, import_i18n242.__)("Open in new tab"),
           onChange: onSetNewTab,
           checked: linkTarget === "_blank"
         }
@@ -120192,11 +120226,11 @@ If there's a particular need for this, please submit a feature request at https:
       /* @__PURE__ */ (0, import_jsx_runtime634.jsx)(
         import_components232.TextControl,
         {
-          label: (0, import_i18n241.__)("Link relation"),
+          label: (0, import_i18n242.__)("Link relation"),
           value: rel ?? "",
           onChange: onSetLinkRel,
           help: (0, import_element414.createInterpolateElement)(
-            (0, import_i18n241.__)(
+            (0, import_i18n242.__)(
               "The <a>Link Relation</a> attribute defines the relationship between a linked resource and the current document."
             ),
             {
@@ -120211,7 +120245,7 @@ If there's a particular need for this, please submit a feature request at https:
       /* @__PURE__ */ (0, import_jsx_runtime634.jsx)(
         import_components232.TextControl,
         {
-          label: (0, import_i18n241.__)("Link CSS class"),
+          label: (0, import_i18n242.__)("Link CSS class"),
           value: linkClass || "",
           onChange: onSetLinkClass
         }
@@ -120228,14 +120262,14 @@ If there's a particular need for this, please submit a feature request at https:
         return /* @__PURE__ */ (0, import_jsx_runtime634.jsxs)("div", { className: "block-editor-url-popover__expand-on-click", children: [
           /* @__PURE__ */ (0, import_jsx_runtime634.jsx)(icon_default, { icon: fullscreen_default }),
           /* @__PURE__ */ (0, import_jsx_runtime634.jsxs)("div", { className: "text", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime634.jsx)("p", { children: (0, import_i18n241.__)("Enlarge on click") }),
-            /* @__PURE__ */ (0, import_jsx_runtime634.jsx)("p", { className: "description", children: (0, import_i18n241.__)("Scales the image with a lightbox effect") })
+            /* @__PURE__ */ (0, import_jsx_runtime634.jsx)("p", { children: (0, import_i18n242.__)("Enlarge on click") }),
+            /* @__PURE__ */ (0, import_jsx_runtime634.jsx)("p", { className: "description", children: (0, import_i18n242.__)("Scales the image with a lightbox effect") })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime634.jsx)(
             import_components232.Button,
             {
               icon: link_off_default,
-              label: (0, import_i18n241.__)("Disable enlarge on click"),
+              label: (0, import_i18n242.__)("Disable enlarge on click"),
               onClick: () => {
                 onSetLightbox?.(false);
               },
@@ -120269,7 +120303,7 @@ If there's a particular need for this, please submit a feature request at https:
             import_components232.Button,
             {
               icon: link_off_default,
-              label: (0, import_i18n241.__)("Remove link"),
+              label: (0, import_i18n242.__)("Remove link"),
               onClick: () => {
                 onLinkRemove();
                 resetLightbox?.();
@@ -120287,7 +120321,7 @@ If there's a particular need for this, please submit a feature request at https:
         {
           icon: link_default,
           className: "components-toolbar__control",
-          label: (0, import_i18n241.__)("Link"),
+          label: (0, import_i18n242.__)("Link"),
           "aria-expanded": isOpen,
           onClick: openLinkUI,
           ref: setPopoverAnchor,
@@ -120322,7 +120356,7 @@ If there's a particular need for this, please submit a feature request at https:
               {
                 className: "block-editor-url-popover__expand-on-click",
                 icon: fullscreen_default,
-                info: (0, import_i18n241.__)(
+                info: (0, import_i18n242.__)(
                   "Scale the image with a lightbox effect."
                 ),
                 iconPosition: "left",
@@ -120335,7 +120369,7 @@ If there's a particular need for this, please submit a feature request at https:
                   onSetLightbox?.(true);
                   stopEditLink();
                 },
-                children: (0, import_i18n241.__)("Enlarge on click")
+                children: (0, import_i18n242.__)("Enlarge on click")
               },
               "expand-on-click"
             )
@@ -120350,11 +120384,11 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/spacing-sizes-control/index.mjs
   var import_components235 = __toESM(require_components(), 1);
   var import_element417 = __toESM(require_element(), 1);
-  var import_i18n245 = __toESM(require_i18n(), 1);
+  var import_i18n246 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/spacing-sizes-control/hooks/use-spacing-sizes.mjs
   var import_element415 = __toESM(require_element(), 1);
-  var import_i18n242 = __toESM(require_i18n(), 1);
+  var import_i18n243 = __toESM(require_i18n(), 1);
   var EMPTY_ARRAY17 = [];
   var compare = new Intl.Collator("und", { numeric: true }).compare;
   function useSpacingSizes() {
@@ -120374,7 +120408,7 @@ If there's a particular need for this, please submit a feature request at https:
     const defaultSizes = defaultSpacingSizes && defaultSpacingSizesEnabled !== false ? defaultSpacingSizes : EMPTY_ARRAY17;
     return (0, import_element415.useMemo)(() => {
       const sizes = [
-        { name: (0, import_i18n242.__)("None"), slug: "0", size: 0 },
+        { name: (0, import_i18n243.__)("None"), slug: "0", size: 0 },
         ...customSizes,
         ...themeSizes,
         ...defaultSizes
@@ -120386,7 +120420,7 @@ If there's a particular need for this, please submit a feature request at https:
       }
       return sizes.length > RANGE_CONTROL_MAX_SIZE ? [
         {
-          name: (0, import_i18n242.__)("Default"),
+          name: (0, import_i18n243.__)("Default"),
           slug: "default",
           size: void 0
         },
@@ -120398,7 +120432,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/spacing-sizes-control/input-controls/spacing-input-control.mjs
   var import_element416 = __toESM(require_element(), 1);
   var import_data164 = __toESM(require_data(), 1);
-  var import_i18n243 = __toESM(require_i18n(), 1);
+  var import_i18n244 = __toESM(require_i18n(), 1);
   var import_components233 = __toESM(require_components(), 1);
   var import_jsx_runtime635 = __toESM(require_jsx_runtime(), 1);
   var CUSTOM_VALUE_SETTINGS2 = {
@@ -120470,9 +120504,9 @@ If there's a particular need for this, please submit a feature request at https:
       LABELS[side]
     ) : "";
     const typeLabel = showSideInLabel ? type?.toLowerCase() : type;
-    const ariaLabel = (0, import_i18n243.sprintf)(
+    const ariaLabel = (0, import_i18n244.sprintf)(
       // translators: 1: The side of the block being modified (top, bottom, left etc.). 2. Type of spacing being modified (padding, margin, etc).
-      (0, import_i18n243._x)("%1$s %2$s", "spacing"),
+      (0, import_i18n244._x)("%1$s %2$s", "spacing"),
       sideLabel,
       typeLabel
     ).trim();
@@ -120656,13 +120690,13 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/spacing-sizes-control/linked-button.mjs
   var import_components234 = __toESM(require_components(), 1);
-  var import_i18n244 = __toESM(require_i18n(), 1);
+  var import_i18n245 = __toESM(require_i18n(), 1);
   var import_jsx_runtime639 = __toESM(require_jsx_runtime(), 1);
   function LinkedButton2({
     isLinked,
     ...props
   }) {
-    const label = isLinked ? (0, import_i18n244.__)("Unlink sides") : (0, import_i18n244.__)("Link sides");
+    const label = isLinked ? (0, import_i18n245.__)("Unlink sides") : (0, import_i18n245.__)("Link sides");
     return /* @__PURE__ */ (0, import_jsx_runtime639.jsx)(
       import_components234.Button,
       {
@@ -120733,9 +120767,9 @@ If there's a particular need for this, please submit a feature request at https:
       // A single side view is named after its side.
       ALL_SIDES.includes(view) && showSideInLabel ? LABELS[view] : ""
     );
-    const label = (0, import_i18n245.sprintf)(
+    const label = (0, import_i18n246.sprintf)(
       // translators: 1: Type of spacing being modified (Padding, Margin, etc.). 2: The side of the block being modified (Top, Bottom, Left, etc.).
-      (0, import_i18n245._x)("%1$s %2$s", "spacing control label"),
+      (0, import_i18n246._x)("%1$s %2$s", "spacing control label"),
       labelProp,
       sideLabel
     ).trim();
@@ -120781,7 +120815,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/block-inspector/index.mjs
-  var import_i18n274 = __toESM(require_i18n(), 1);
+  var import_i18n275 = __toESM(require_i18n(), 1);
   var import_blocks108 = __toESM(require_blocks(), 1);
   var import_components262 = __toESM(require_components(), 1);
   var import_data185 = __toESM(require_data(), 1);
@@ -120789,7 +120823,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/block-inspector/edit-contents.mjs
   var import_components236 = __toESM(require_components(), 1);
-  var import_i18n246 = __toESM(require_i18n(), 1);
+  var import_i18n247 = __toESM(require_i18n(), 1);
   var import_data165 = __toESM(require_data(), 1);
   var import_blocks93 = __toESM(require_blocks(), 1);
   var import_jsx_runtime641 = __toESM(require_jsx_runtime(), 1);
@@ -120823,10 +120857,10 @@ If there's a particular need for this, please submit a feature request at https:
             onClick: handleClick,
             children: editedContentOnlySection2 ? (
               /* translators: Button label to leave pattern editing mode. */
-              (0, import_i18n246.__)("Exit pattern")
+              (0, import_i18n247.__)("Exit pattern")
             ) : (
               /* translators: Button label to enter pattern editing mode. */
-              (0, import_i18n246.__)("Edit pattern")
+              (0, import_i18n247.__)("Edit pattern")
             )
           }
         )
@@ -120876,7 +120910,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/skip-to-selected-block/index.mjs
   var import_data166 = __toESM(require_data(), 1);
-  var import_i18n247 = __toESM(require_i18n(), 1);
+  var import_i18n248 = __toESM(require_i18n(), 1);
   var import_components238 = __toESM(require_components(), 1);
   var import_element418 = __toESM(require_element(), 1);
   var import_jsx_runtime642 = __toESM(require_jsx_runtime(), 1);
@@ -120902,13 +120936,13 @@ If there's a particular need for this, please submit a feature request at https:
         variant: "secondary",
         className: "block-editor-skip-to-selected-block",
         onClick,
-        children: (0, import_i18n247.__)("Skip to the selected block")
+        children: (0, import_i18n248.__)("Skip to the selected block")
       }
     ) : null;
   }
 
   // packages/block-editor/build-module/components/multi-selection-inspector/index.mjs
-  var import_i18n248 = __toESM(require_i18n(), 1);
+  var import_i18n249 = __toESM(require_i18n(), 1);
   var import_data167 = __toESM(require_data(), 1);
   var import_jsx_runtime643 = __toESM(require_jsx_runtime(), 1);
   function MultiSelectionInspector() {
@@ -120935,14 +120969,14 @@ If there's a particular need for this, please submit a feature request at https:
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime643.jsx)(block_icon_default, { icon: copy_default, showColors: true }),
           /* @__PURE__ */ (0, import_jsx_runtime643.jsxs)(Stack, { direction: "column", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime643.jsx)("div", { className: "block-editor-multi-selection-inspector__card-title", children: (0, import_i18n248.sprintf)(
+            /* @__PURE__ */ (0, import_jsx_runtime643.jsx)("div", { className: "block-editor-multi-selection-inspector__card-title", children: (0, import_i18n249.sprintf)(
               /* translators: %d: number of blocks */
-              (0, import_i18n248._n)("%d Block", "%d Blocks", selectedBlockCount),
+              (0, import_i18n249._n)("%d Block", "%d Blocks", selectedBlockCount),
               selectedBlockCount
             ) }),
-            totalBlockCount > selectedBlockCount && /* @__PURE__ */ (0, import_jsx_runtime643.jsx)("div", { className: "block-editor-multi-selection-inspector__card-description", children: (0, import_i18n248.sprintf)(
+            totalBlockCount > selectedBlockCount && /* @__PURE__ */ (0, import_jsx_runtime643.jsx)("div", { className: "block-editor-multi-selection-inspector__card-description", children: (0, import_i18n249.sprintf)(
               /* translators: %d: number of blocks including nested blocks */
-              (0, import_i18n248._n)(
+              (0, import_i18n249._n)(
                 "%d including nested block",
                 "%d including nested blocks",
                 totalBlockCount
@@ -120970,28 +121004,28 @@ If there's a particular need for this, please submit a feature request at https:
   var import_data182 = __toESM(require_data(), 1);
 
   // packages/block-editor/build-module/components/inspector-controls-tabs/utils.mjs
-  var import_i18n249 = __toESM(require_i18n(), 1);
+  var import_i18n250 = __toESM(require_i18n(), 1);
   var TAB_SETTINGS = {
     name: "settings",
-    title: (0, import_i18n249.__)("Settings"),
+    title: (0, import_i18n250.__)("Settings"),
     value: "settings",
     icon: cog_default
   };
   var TAB_STYLES = {
     name: "styles",
-    title: (0, import_i18n249.__)("Styles"),
+    title: (0, import_i18n250.__)("Styles"),
     value: "styles",
     icon: styles_default
   };
   var TAB_CONTENT = {
     name: "content",
-    title: (0, import_i18n249.__)("Content"),
+    title: (0, import_i18n250.__)("Content"),
     value: "content",
     icon: page_default
   };
   var TAB_LIST_VIEW = {
     name: "list",
-    title: (0, import_i18n249.__)("List View"),
+    title: (0, import_i18n250.__)("List View"),
     value: "list-view",
     icon: list_view_default
   };
@@ -121001,7 +121035,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/inspector-controls-tabs/advanced-controls-panel.mjs
   var import_components240 = __toESM(require_components(), 1);
-  var import_i18n250 = __toESM(require_i18n(), 1);
+  var import_i18n251 = __toESM(require_i18n(), 1);
   var import_jsx_runtime644 = __toESM(require_jsx_runtime(), 1);
   var AdvancedControls = ({ initialOpen = false }) => {
     const fills = (0, import_components240.__experimentalUseSlotFills)(InspectorAdvancedControls.slotName);
@@ -121017,7 +121051,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components240.PanelBody,
       {
         className: "block-editor-block-inspector__advanced",
-        title: (0, import_i18n250.__)("Advanced"),
+        title: (0, import_i18n251.__)("Advanced"),
         initialOpen,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime644.jsx)(inspector_controls_default.Slot, { group: "advanced" }),
@@ -121043,14 +121077,14 @@ If there's a particular need for this, please submit a feature request at https:
   var settings_tab_default = SettingsTab;
 
   // packages/block-editor/build-module/components/inspector-controls-tabs/styles-tab.mjs
-  var import_i18n269 = __toESM(require_i18n(), 1);
+  var import_i18n270 = __toESM(require_i18n(), 1);
   var import_data180 = __toESM(require_data(), 1);
   var import_element437 = __toESM(require_element(), 1);
 
   // packages/block-editor/build-module/components/inspector-controls-tabs/position-controls-panel.mjs
   var import_components242 = __toESM(require_components(), 1);
   var import_data168 = __toESM(require_data(), 1);
-  var import_i18n251 = __toESM(require_i18n(), 1);
+  var import_i18n252 = __toESM(require_i18n(), 1);
   var import_jsx_runtime646 = __toESM(require_jsx_runtime(), 1);
   var DEFAULT_STATE_VALUE3 = "default";
   var getPositionStateViewport = (selectedState) => selectedState?.viewport && selectedState.viewport !== DEFAULT_STATE_VALUE3 && (!selectedState.pseudo || selectedState.pseudo === DEFAULT_STATE_VALUE3) ? selectedState.viewport : null;
@@ -121123,14 +121157,14 @@ If there's a particular need for this, please submit a feature request at https:
       import_components242.__experimentalToolsPanel,
       {
         className: "block-editor-block-inspector__position",
-        label: (0, import_i18n251.__)("Position"),
+        label: (0, import_i18n252.__)("Position"),
         resetAll: resetPosition,
         dropdownMenuProps,
         children: /* @__PURE__ */ (0, import_jsx_runtime646.jsx)(
           import_components242.__experimentalToolsPanelItem,
           {
             isShownByDefault: hasPositionAttribute,
-            label: (0, import_i18n251.__)("Position"),
+            label: (0, import_i18n252.__)("Position"),
             hasValue: () => hasPositionAttribute,
             onDeselect: resetPosition,
             children: /* @__PURE__ */ (0, import_jsx_runtime646.jsx)(inspector_controls_default.Slot, { group: "position" })
@@ -121153,22 +121187,22 @@ If there's a particular need for this, please submit a feature request at https:
   var import_blocks100 = __toESM(require_blocks(), 1);
   var import_element429 = __toESM(require_element(), 1);
   var import_data175 = __toESM(require_data(), 1);
-  var import_i18n260 = __toESM(require_i18n(), 1);
+  var import_i18n261 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/global-styles/color-panel.mjs
   var import_components245 = __toESM(require_components(), 1);
   var import_element421 = __toESM(require_element(), 1);
-  var import_i18n255 = __toESM(require_i18n(), 1);
+  var import_i18n256 = __toESM(require_i18n(), 1);
   var import_style_engine4 = __toESM(require_style_engine(), 1);
 
   // packages/block-editor/build-module/components/global-styles/color-gradient-dropdown-item.mjs
   var import_components244 = __toESM(require_components(), 1);
   var import_element419 = __toESM(require_element(), 1);
-  var import_i18n253 = __toESM(require_i18n(), 1);
+  var import_i18n254 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/global-styles/inheritance/index.mjs
   var import_components243 = __toESM(require_components(), 1);
-  var import_i18n252 = __toESM(require_i18n(), 1);
+  var import_i18n253 = __toESM(require_i18n(), 1);
   var import_jsx_runtime647 = __toESM(require_jsx_runtime(), 1);
   var isGlobalStylesInheritanceIndicatorUIEnabled = () => !!window.__experimentalGlobalStylesInheritanceUI;
   function getInheritanceProps(isInherited, hasLocalOverride, baseClassName) {
@@ -121195,7 +121229,7 @@ If there's a particular need for this, please submit a feature request at https:
         import_components243.Button,
         {
           __next40pxDefaultSize: false,
-          label: (0, import_i18n252.__)("Reset to inherited value"),
+          label: (0, import_i18n253.__)("Reset to inherited value"),
           showTooltip: true,
           className: clsx_default(
             "has-local-override-from-global-styles__reset",
@@ -121441,7 +121475,7 @@ If there's a particular need for this, please submit a feature request at https:
                   import_components244.Button,
                   {
                     __next40pxDefaultSize: true,
-                    label: (0, import_i18n253.__)("Reset"),
+                    label: (0, import_i18n254.__)("Reset"),
                     className: "block-editor-panel-color-gradient-settings__reset",
                     size: "small",
                     icon: reset_default,
@@ -121465,7 +121499,7 @@ If there's a particular need for this, please submit a feature request at https:
                     __next40pxDefaultSize: true,
                     size: "small",
                     icon: caution_default,
-                    label: (0, import_i18n253.__)("Low contrast"),
+                    label: (0, import_i18n254.__)("Low contrast"),
                     className: "block-editor-panel-color-gradient-settings__contrast-warning",
                     "aria-expanded": isOpen,
                     onClick: onToggle
@@ -121491,7 +121525,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_element420 = __toESM(require_element(), 1);
   var import_data169 = __toESM(require_data(), 1);
   var import_blocks94 = __toESM(require_blocks(), 1);
-  var import_i18n254 = __toESM(require_i18n(), 1);
+  var import_i18n255 = __toESM(require_i18n(), 1);
   function useSettingsForBlockElement(parentSettings, blockName, element) {
     const { supportedStyles, supports } = (0, import_data169.useSelect)(
       (select3) => {
@@ -121649,7 +121683,7 @@ If there's a particular need for this, please submit a feature request at https:
       const result = [];
       if (themeColors && themeColors.length) {
         result.push({
-          name: (0, import_i18n254._x)(
+          name: (0, import_i18n255._x)(
             "Theme",
             "Indicates this palette comes from the theme."
           ),
@@ -121658,7 +121692,7 @@ If there's a particular need for this, please submit a feature request at https:
       }
       if (shouldDisplayDefaultColors && defaultColors && defaultColors.length) {
         result.push({
-          name: (0, import_i18n254._x)(
+          name: (0, import_i18n255._x)(
             "Default",
             "Indicates this palette comes from WordPress."
           ),
@@ -121667,7 +121701,7 @@ If there's a particular need for this, please submit a feature request at https:
       }
       if (customColors && customColors.length) {
         result.push({
-          name: (0, import_i18n254._x)(
+          name: (0, import_i18n255._x)(
             "Custom",
             "Indicates this palette is created by the user."
           ),
@@ -121691,7 +121725,7 @@ If there's a particular need for this, please submit a feature request at https:
       const result = [];
       if (themeGradients && themeGradients.length) {
         result.push({
-          name: (0, import_i18n254._x)(
+          name: (0, import_i18n255._x)(
             "Theme",
             "Indicates this palette comes from the theme."
           ),
@@ -121700,7 +121734,7 @@ If there's a particular need for this, please submit a feature request at https:
       }
       if (shouldDisplayDefaultGradients && defaultGradients && defaultGradients.length) {
         result.push({
-          name: (0, import_i18n254._x)(
+          name: (0, import_i18n255._x)(
             "Default",
             "Indicates this palette comes from WordPress."
           ),
@@ -121709,7 +121743,7 @@ If there's a particular need for this, please submit a feature request at https:
       }
       if (customGradients && customGradients.length) {
         result.push({
-          name: (0, import_i18n254._x)(
+          name: (0, import_i18n255._x)(
             "Custom",
             "Indicates this palette is created by the user."
           ),
@@ -121834,7 +121868,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime649.jsx)(
       import_components245.__experimentalToolsPanel,
       {
-        label: label || (0, import_i18n255.__)("Elements"),
+        label: label || (0, import_i18n256.__)("Elements"),
         resetAll,
         panelId,
         hasInnerWrapper: true,
@@ -121928,47 +121962,47 @@ If there's a particular need for this, please submit a feature request at https:
       () => [
         {
           name: "caption",
-          label: (0, import_i18n255.__)("Captions"),
+          label: (0, import_i18n256.__)("Captions"),
           showPanel: showCaptionPanel
         },
         {
           name: "button",
-          label: (0, import_i18n255.__)("Button"),
+          label: (0, import_i18n256.__)("Button"),
           showPanel: showButtonPanel
         },
         {
           name: "heading",
-          label: (0, import_i18n255.__)("Heading"),
+          label: (0, import_i18n256.__)("Heading"),
           showPanel: showHeadingPanel
         },
         {
           name: "h1",
-          label: (0, import_i18n255.__)("H1"),
+          label: (0, import_i18n256.__)("H1"),
           showPanel: showHeadingPanel
         },
         {
           name: "h2",
-          label: (0, import_i18n255.__)("H2"),
+          label: (0, import_i18n256.__)("H2"),
           showPanel: showHeadingPanel
         },
         {
           name: "h3",
-          label: (0, import_i18n255.__)("H3"),
+          label: (0, import_i18n256.__)("H3"),
           showPanel: showHeadingPanel
         },
         {
           name: "h4",
-          label: (0, import_i18n255.__)("H4"),
+          label: (0, import_i18n256.__)("H4"),
           showPanel: showHeadingPanel
         },
         {
           name: "h5",
-          label: (0, import_i18n255.__)("H5"),
+          label: (0, import_i18n256.__)("H5"),
           showPanel: showHeadingPanel
         },
         {
           name: "h6",
-          label: (0, import_i18n255.__)("H6"),
+          label: (0, import_i18n256.__)("H6"),
           showPanel: showHeadingPanel
         },
         ...additionalElements?.map((element) => ({
@@ -122015,7 +122049,7 @@ If there's a particular need for this, please submit a feature request at https:
     const items = [
       showLinkPanel && {
         key: "link",
-        label: (0, import_i18n255.__)("Link"),
+        label: (0, import_i18n256.__)("Link"),
         hasValue: hasLink,
         resetValue: resetLink,
         isShownByDefault: defaultControls.link,
@@ -122029,7 +122063,7 @@ If there's a particular need for this, please submit a feature request at https:
         tabs: [
           {
             key: "link",
-            label: (0, import_i18n255.__)("Default"),
+            label: (0, import_i18n256.__)("Default"),
             inheritedValue: linkColor,
             inheritedSlug: extractPresetSlug(
               inheritedValue?.elements?.link?.color?.text,
@@ -122045,7 +122079,7 @@ If there's a particular need for this, please submit a feature request at https:
           },
           {
             key: "hover",
-            label: (0, import_i18n255.__)("Hover"),
+            label: (0, import_i18n256.__)("Hover"),
             inheritedValue: hoverLinkColor,
             inheritedSlug: extractPresetSlug(
               inheritedValue?.elements?.link?.[":hover"]?.color?.text,
@@ -122151,7 +122185,7 @@ If there's a particular need for this, please submit a feature request at https:
         tabs: [
           hasSolidColors && {
             key: "text",
-            label: (0, import_i18n255.__)("Text"),
+            label: (0, import_i18n256.__)("Text"),
             inheritedValue: elementTextColor,
             inheritedSlug: extractPresetSlug(
               inheritedValue?.elements?.[name]?.color?.text,
@@ -122167,7 +122201,7 @@ If there's a particular need for this, please submit a feature request at https:
           },
           hasSolidColors && supportsBackground && {
             key: "background",
-            label: (0, import_i18n255.__)("Background"),
+            label: (0, import_i18n256.__)("Background"),
             inheritedValue: elementBackgroundColor,
             inheritedSlug: extractPresetSlug(
               inheritedValue?.elements?.[name]?.color?.background,
@@ -122183,7 +122217,7 @@ If there's a particular need for this, please submit a feature request at https:
           },
           hasGradientColors && supportsBackground && {
             key: "gradient",
-            label: (0, import_i18n255.__)("Gradient"),
+            label: (0, import_i18n256.__)("Gradient"),
             inheritedValue: elementGradient,
             inheritedSlug: extractPresetSlug(
               inheritedValue?.elements?.[name]?.color?.gradient,
@@ -122585,7 +122619,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_blocks98 = __toESM(require_blocks(), 1);
   var import_data174 = __toESM(require_data(), 1);
   var import_element427 = __toESM(require_element(), 1);
-  var import_i18n259 = __toESM(require_i18n(), 1);
+  var import_i18n260 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/hooks/contrast-checker.mjs
   var import_element424 = __toESM(require_element(), 1);
@@ -122697,18 +122731,18 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/global-styles/background-panel.mjs
   var import_components248 = __toESM(require_components(), 1);
   var import_element426 = __toESM(require_element(), 1);
-  var import_i18n258 = __toESM(require_i18n(), 1);
+  var import_i18n259 = __toESM(require_i18n(), 1);
   var import_style_engine5 = __toESM(require_style_engine(), 1);
 
   // packages/block-editor/build-module/components/background-clip-control/index.mjs
   var import_components246 = __toESM(require_components(), 1);
-  var import_i18n256 = __toESM(require_i18n(), 1);
+  var import_i18n257 = __toESM(require_i18n(), 1);
   var import_jsx_runtime651 = __toESM(require_jsx_runtime(), 1);
   var BACKGROUND_CLIP_OPTIONS = [
-    { key: "border-box", name: (0, import_i18n256.__)("Border box") },
-    { key: "padding-box", name: (0, import_i18n256.__)("Padding box") },
-    { key: "content-box", name: (0, import_i18n256.__)("Content box") },
-    { key: "text", name: (0, import_i18n256.__)("Text") }
+    { key: "border-box", name: (0, import_i18n257.__)("Border box") },
+    { key: "padding-box", name: (0, import_i18n257.__)("Padding box") },
+    { key: "content-box", name: (0, import_i18n257.__)("Content box") },
+    { key: "text", name: (0, import_i18n257.__)("Text") }
   ];
   function BackgroundClipControl({
     value,
@@ -122726,7 +122760,7 @@ If there's a particular need for this, please submit a feature request at https:
     }
     const defaultOption = {
       key: "default",
-      name: (0, import_i18n256.__)("Default"),
+      name: (0, import_i18n257.__)("Default"),
       className: "block-editor-background-clip-control__option is-default"
     };
     const selectedOption = options.find((option) => option.key === value) ?? defaultOption;
@@ -122734,7 +122768,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components246.CustomSelectControl,
       {
         className: "block-editor-background-clip-control",
-        label: (0, import_i18n256.__)("Clip"),
+        label: (0, import_i18n257.__)("Clip"),
         options: [defaultOption, ...options],
         value: selectedOption,
         onChange: ({ selectedItem }) => onChange(
@@ -122746,7 +122780,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/background-image-control/index.mjs
   var import_components247 = __toESM(require_components(), 1);
-  var import_i18n257 = __toESM(require_i18n(), 1);
+  var import_i18n258 = __toESM(require_i18n(), 1);
   var import_notices12 = __toESM(require_notices(), 1);
   var import_url14 = __toESM(require_url(), 1);
   var import_element425 = __toESM(require_element(), 1);
@@ -122768,12 +122802,12 @@ If there's a particular need for this, please submit a feature request at https:
   };
   function backgroundSizeHelpText(value) {
     if (value === "cover" || value === void 0) {
-      return (0, import_i18n257.__)("Image covers the space evenly.");
+      return (0, import_i18n258.__)("Image covers the space evenly.");
     }
     if (value === "contain") {
-      return (0, import_i18n257.__)("Image is contained without distortion.");
+      return (0, import_i18n258.__)("Image is contained without distortion.");
     }
-    return (0, import_i18n257.__)("Image has a fixed width.");
+    return (0, import_i18n258.__)("Image has a fixed width.");
   }
   var coordsToBackgroundPosition = (value) => {
     if (!value || isNaN(value.x) && isNaN(value.y)) {
@@ -122826,11 +122860,11 @@ If there's a particular need for this, please submit a feature request at https:
               children: label
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime652.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime652.jsx)("span", {}), children: imgUrl ? (0, import_i18n257.sprintf)(
+          /* @__PURE__ */ (0, import_jsx_runtime652.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime652.jsx)("span", {}), children: imgUrl ? (0, import_i18n258.sprintf)(
             /* translators: %s: file name */
-            (0, import_i18n257.__)("Background image: %s"),
+            (0, import_i18n258.__)("Background image: %s"),
             filename || label
-          ) : (0, import_i18n257.__)("No background image selected") })
+          ) : (0, import_i18n258.__)("No background image selected") })
         ] })
       ] });
     };
@@ -122854,7 +122888,7 @@ If there's a particular need for this, please submit a feature request at https:
     if (!hasImageValue) {
       return;
     }
-    const imgLabel = label || (0, import_url14.getFilename)(imgUrl) || (0, import_i18n257.__)("Image");
+    const imgLabel = label || (0, import_url14.getFilename)(imgUrl) || (0, import_i18n258.__)("Image");
     return /* @__PURE__ */ (0, import_jsx_runtime652.jsx)(
       import_components247.Dropdown,
       {
@@ -122864,7 +122898,7 @@ If there's a particular need for this, please submit a feature request at https:
             onClick: onToggle,
             className: "block-editor-global-styles-background-panel__dropdown-toggle",
             "aria-expanded": isOpen,
-            "aria-label": (0, import_i18n257.__)(
+            "aria-label": (0, import_i18n258.__)(
               "Background size, position and repeat options."
             ),
             isOpen
@@ -122897,7 +122931,7 @@ If there's a particular need for this, please submit a feature request at https:
               import_components247.Button,
               {
                 __next40pxDefaultSize: true,
-                label: (0, import_i18n257.__)("Reset"),
+                label: (0, import_i18n258.__)("Reset"),
                 className: "block-editor-global-styles-background-panel__reset",
                 size: "small",
                 icon: reset_default,
@@ -122965,7 +122999,7 @@ If there's a particular need for this, please submit a feature request at https:
       }
       if (media.media_type && media.media_type !== IMAGE_BACKGROUND_TYPE || !media.media_type && media.type && media.type !== IMAGE_BACKGROUND_TYPE) {
         onUploadError(
-          (0, import_i18n257.__)("Only images can be used as a background image.")
+          (0, import_i18n258.__)("Only images can be used as a background image.")
         );
         return;
       }
@@ -123029,7 +123063,7 @@ If there's a particular need for this, please submit a feature request at https:
     const canRemove = !hasValue3 && hasBackgroundImageValue(inheritedValue);
     const rawURL = typeof style?.background?.backgroundImage === "string" ? style.background.backgroundImage : url;
     const currentURL = /^https?:\/\//.test(rawURL ?? "") ? rawURL : void 0;
-    const imgLabel = title || (0, import_url14.getFilename)(url) || (0, import_i18n257.__)("Image");
+    const imgLabel = title || (0, import_url14.getFilename)(url) || (0, import_i18n258.__)("Image");
     return /* @__PURE__ */ (0, import_jsx_runtime652.jsxs)("div", { className: "block-editor-global-styles-background-panel__image-tools-panel-item", children: [
       isUploading && /* @__PURE__ */ (0, import_jsx_runtime652.jsx)(LoadingSpinner, {}),
       /* @__PURE__ */ (0, import_jsx_runtime652.jsx)(
@@ -123068,7 +123102,7 @@ If there's a particular need for this, please submit a feature request at https:
                 onRemove();
                 onRemoveImage();
               },
-              children: (0, import_i18n257.__)("Remove")
+              children: (0, import_i18n258.__)("Remove")
             }
           )
         }
@@ -123077,7 +123111,7 @@ If there's a particular need for this, please submit a feature request at https:
         import_components247.DropZone,
         {
           onFilesDrop: onFilesDrop2,
-          label: (0, import_i18n257.__)("Drop to upload")
+          label: (0, import_i18n258.__)("Drop to upload")
         }
       )
     ] });
@@ -123164,7 +123198,7 @@ If there's a particular need for this, please submit a feature request at https:
       /* @__PURE__ */ (0, import_jsx_runtime652.jsx)(
         import_components247.FocalPointPicker,
         {
-          label: (0, import_i18n257.__)("Focal point"),
+          label: (0, import_i18n258.__)("Focal point"),
           url: imageValue,
           value: backgroundPositionToCoords(backgroundPositionValue),
           onChange: updateBackgroundPosition
@@ -123173,7 +123207,7 @@ If there's a particular need for this, please submit a feature request at https:
       /* @__PURE__ */ (0, import_jsx_runtime652.jsx)(
         import_components247.ToggleControl,
         {
-          label: (0, import_i18n257.__)("Fixed background"),
+          label: (0, import_i18n258.__)("Fixed background"),
           checked: attachmentValue === "fixed",
           onChange: toggleScrollWithPage
         }
@@ -123181,7 +123215,7 @@ If there's a particular need for this, please submit a feature request at https:
       /* @__PURE__ */ (0, import_jsx_runtime652.jsxs)(
         import_components247.__experimentalToggleGroupControl,
         {
-          label: (0, import_i18n257.__)("Size"),
+          label: (0, import_i18n258.__)("Size"),
           value: currentValueForToggle,
           onChange: updateBackgroundSize,
           isBlock: true,
@@ -123193,7 +123227,7 @@ If there's a particular need for this, please submit a feature request at https:
               import_components247.__experimentalToggleGroupControlOption,
               {
                 value: "cover",
-                label: (0, import_i18n257._x)(
+                label: (0, import_i18n258._x)(
                   "Cover",
                   "Size option for background image control"
                 )
@@ -123204,7 +123238,7 @@ If there's a particular need for this, please submit a feature request at https:
               import_components247.__experimentalToggleGroupControlOption,
               {
                 value: "contain",
-                label: (0, import_i18n257._x)(
+                label: (0, import_i18n258._x)(
                   "Contain",
                   "Size option for background image control"
                 )
@@ -123215,7 +123249,7 @@ If there's a particular need for this, please submit a feature request at https:
               import_components247.__experimentalToggleGroupControlOption,
               {
                 value: "auto",
-                label: (0, import_i18n257._x)(
+                label: (0, import_i18n258._x)(
                   "Tile",
                   "Size option for background image control"
                 )
@@ -123229,19 +123263,19 @@ If there's a particular need for this, please submit a feature request at https:
         /* @__PURE__ */ (0, import_jsx_runtime652.jsx)(
           import_components247.__experimentalUnitControl,
           {
-            "aria-label": (0, import_i18n257.__)("Background image width"),
+            "aria-label": (0, import_i18n258.__)("Background image width"),
             onChange: updateBackgroundSize,
             value: sizeValue,
             __unstableInputWidth: "100px",
             min: 0,
-            placeholder: (0, import_i18n257.__)("Auto"),
+            placeholder: (0, import_i18n258.__)("Auto"),
             disabled: currentValueForToggle !== "auto" || currentValueForToggle === void 0
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime652.jsx)(
           import_components247.ToggleControl,
           {
-            label: (0, import_i18n257.__)("Repeat"),
+            label: (0, import_i18n258.__)("Repeat"),
             checked: repeatCheckedValue,
             onChange: toggleIsRepeated,
             disabled: currentValueForToggle === "cover"
@@ -123459,7 +123493,7 @@ If there's a particular need for this, please submit a feature request at https:
     panelId,
     defaultControls = DEFAULT_CONTROLS4,
     defaultValues = {},
-    headerLabel = (0, import_i18n258.__)("Background"),
+    headerLabel = (0, import_i18n259.__)("Background"),
     contrastWarning,
     showInheritanceLabelIndicators = isGlobalStylesInheritanceIndicatorUIEnabled()
   }) {
@@ -123499,9 +123533,9 @@ If there's a particular need for this, please submit a feature request at https:
       clipsToText
     } = getBackgroundClipState(value, baseValue, inheritedValue);
     const hasLocalClip = localClip !== void 0;
-    const clipsToTextNotice = isTextGradientFromBase ? (0, import_i18n258.__)(
+    const clipsToTextNotice = isTextGradientFromBase ? (0, import_i18n259.__)(
       "The gradient set in the Default state clips the background to the text, including any color or image."
-    ) : (0, import_i18n258.__)(
+    ) : (0, import_i18n259.__)(
       "The gradient clips the background to the text, including any color or image."
     );
     const resetAllFilter = (0, import_element426.useCallback)(
@@ -123637,7 +123671,7 @@ If there's a particular need for this, please submit a feature request at https:
               ),
               showLocalOverrideActionsInLabel: false,
               hasValue: () => hasBackgroundImageValue(value),
-              label: (0, import_i18n258.__)("Image"),
+              label: (0, import_i18n259.__)("Image"),
               onDeselect: resetBackground,
               isShownByDefault: defaultControls.backgroundImage,
               panelId,
@@ -123658,7 +123692,7 @@ If there's a particular need for this, please submit a feature request at https:
           showBackgroundColorControl && /* @__PURE__ */ (0, import_jsx_runtime653.jsx)(
             ColorGradientDropdownItem,
             {
-              label: (0, import_i18n258.__)("Color"),
+              label: (0, import_i18n259.__)("Color"),
               hasValue: () => hasBackgroundColorValue(value),
               resetValue: resetBackgroundColor,
               isShownByDefault: defaultControls.backgroundColor,
@@ -123670,7 +123704,7 @@ If there's a particular need for this, please submit a feature request at https:
               tabs: [
                 {
                   key: "background",
-                  label: (0, import_i18n258.__)("Color"),
+                  label: (0, import_i18n259.__)("Color"),
                   inheritedValue: backgroundColor,
                   // The picker selects by slug: `userSlug` when the
                   // block has its own value, otherwise
@@ -123699,7 +123733,7 @@ If there's a particular need for this, please submit a feature request at https:
           showBackgroundGradientControl && /* @__PURE__ */ (0, import_jsx_runtime653.jsx)(
             ColorGradientDropdownItem,
             {
-              label: (0, import_i18n258.__)("Gradient"),
+              label: (0, import_i18n259.__)("Gradient"),
               hasValue: () => hasBackgroundGradientValue(value) && !isTextGradient,
               resetValue: resetGradient,
               isShownByDefault: defaultControls.gradient,
@@ -123710,7 +123744,7 @@ If there's a particular need for this, please submit a feature request at https:
               tabs: [
                 {
                   key: "gradient",
-                  label: (0, import_i18n258.__)("Gradient"),
+                  label: (0, import_i18n259.__)("Gradient"),
                   inheritedValue: inheritedGradient,
                   inheritedSlug: extractPresetSlug(
                     inheritedGradientValue,
@@ -123736,7 +123770,7 @@ If there's a particular need for this, please submit a feature request at https:
           showLegacyColorGradientControl && /* @__PURE__ */ (0, import_jsx_runtime653.jsx)(
             ColorGradientDropdownItem,
             {
-              label: (0, import_i18n258.__)("Gradient"),
+              label: (0, import_i18n259.__)("Gradient"),
               hasValue: () => hasLegacyColorGradientValue(value),
               resetValue: resetLegacyColorGradient,
               isShownByDefault: defaultControls.gradient,
@@ -123749,7 +123783,7 @@ If there's a particular need for this, please submit a feature request at https:
               tabs: [
                 {
                   key: "gradient",
-                  label: (0, import_i18n258.__)("Gradient"),
+                  label: (0, import_i18n259.__)("Gradient"),
                   inheritedValue: legacyColorGradient,
                   inheritedSlug: extractPresetSlug(
                     inheritedValue?.color?.gradient,
@@ -123780,7 +123814,7 @@ If there's a particular need for this, please submit a feature request at https:
                 hasLocalClip && inheritedClip !== void 0,
                 "block-editor-background-panel__clip-item"
               ),
-              label: (0, import_i18n258.__)("Clip"),
+              label: (0, import_i18n259.__)("Clip"),
               hasValue: () => hasLocalClip && !isTextGradient,
               onDeselect: resetBackgroundClip,
               isShownByDefault: defaultControls.backgroundClip,
@@ -123963,7 +123997,7 @@ If there's a particular need for this, please submit a feature request at https:
       clientId,
       name,
       enabled: !!enableContrastChecking,
-      messageOverride: (0, import_i18n259.__)(
+      messageOverride: (0, import_i18n260.__)(
         "This color combination has poor contrast. Consider increasing contrast between background and foreground."
       )
     });
@@ -124333,7 +124367,7 @@ If there's a particular need for this, please submit a feature request at https:
       name,
       enabled: !!enableContrastChecking,
       checkTextColor: false,
-      messageOverride: (0, import_i18n260.__)(
+      messageOverride: (0, import_i18n261.__)(
         "This link color has poor contrast against the background. Consider increasing contrast."
       )
     });
@@ -124365,36 +124399,36 @@ If there's a particular need for this, please submit a feature request at https:
   var import_blocks106 = __toESM(require_blocks(), 1);
   var import_element436 = __toESM(require_element(), 1);
   var import_data179 = __toESM(require_data(), 1);
-  var import_i18n268 = __toESM(require_i18n(), 1);
+  var import_i18n269 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/global-styles/typography-panel.mjs
   var import_components252 = __toESM(require_components(), 1);
-  var import_i18n264 = __toESM(require_i18n(), 1);
+  var import_i18n265 = __toESM(require_i18n(), 1);
   var import_element432 = __toESM(require_element(), 1);
 
   // packages/block-editor/build-module/components/text-alignment-control/index.mjs
-  var import_i18n261 = __toESM(require_i18n(), 1);
+  var import_i18n262 = __toESM(require_i18n(), 1);
   var import_element430 = __toESM(require_element(), 1);
   var import_components249 = __toESM(require_components(), 1);
   var import_jsx_runtime656 = __toESM(require_jsx_runtime(), 1);
   var TEXT_ALIGNMENT_OPTIONS = [
     {
-      label: (0, import_i18n261.__)("Align text left"),
+      label: (0, import_i18n262.__)("Align text left"),
       value: "left",
       icon: align_left_default
     },
     {
-      label: (0, import_i18n261.__)("Align text center"),
+      label: (0, import_i18n262.__)("Align text center"),
       value: "center",
       icon: align_center_default
     },
     {
-      label: (0, import_i18n261.__)("Align text right"),
+      label: (0, import_i18n262.__)("Align text right"),
       value: "right",
       icon: align_right_default
     },
     {
-      label: (0, import_i18n261.__)("Justify text"),
+      label: (0, import_i18n262.__)("Justify text"),
       value: "justify",
       icon: align_justify_default
     }
@@ -124419,7 +124453,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components249.__experimentalToggleGroupControl,
       {
         isDeselectable: true,
-        label: (0, import_i18n261.__)("Text alignment"),
+        label: (0, import_i18n262.__)("Text alignment"),
         className: clsx_default(
           "block-editor-text-alignment-control",
           className
@@ -124447,7 +124481,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/text-indent-control/index.mjs
   var import_components250 = __toESM(require_components(), 1);
-  var import_i18n262 = __toESM(require_i18n(), 1);
+  var import_i18n263 = __toESM(require_i18n(), 1);
   var import_jsx_runtime657 = __toESM(require_jsx_runtime(), 1);
   function TextIndentControl({
     value,
@@ -124484,7 +124518,7 @@ If there's a particular need for this, please submit a feature request at https:
         import_components250.__experimentalUnitControl,
         {
           ...otherProps,
-          label: (0, import_i18n262.__)("Line indent"),
+          label: (0, import_i18n263.__)("Line indent"),
           value,
           __unstableInputWidth,
           units: units2,
@@ -124496,12 +124530,12 @@ If there's a particular need for this, please submit a feature request at https:
       );
     }
     return /* @__PURE__ */ (0, import_jsx_runtime657.jsxs)(import_components250.__experimentalView, { style: hasBottomMargin ? { marginBottom: 12 } : void 0, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime657.jsx)(import_components250.BaseControl.VisualLabel, { children: (0, import_i18n262.__)("Line indent") }),
+      /* @__PURE__ */ (0, import_jsx_runtime657.jsx)(import_components250.BaseControl.VisualLabel, { children: (0, import_i18n263.__)("Line indent") }),
       /* @__PURE__ */ (0, import_jsx_runtime657.jsxs)(import_components250.Flex, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime657.jsx)(import_components250.FlexItem, { isBlock: true, children: /* @__PURE__ */ (0, import_jsx_runtime657.jsx)(
           import_components250.__experimentalUnitControl,
           {
-            label: (0, import_i18n262.__)("Line indent"),
+            label: (0, import_i18n263.__)("Line indent"),
             labelPosition: "top",
             hideLabelFromVision: true,
             value,
@@ -124516,7 +124550,7 @@ If there's a particular need for this, please submit a feature request at https:
         withSlider && /* @__PURE__ */ (0, import_jsx_runtime657.jsx)(import_components250.FlexItem, { isBlock: true, children: /* @__PURE__ */ (0, import_jsx_runtime657.jsx)(import_components250.__experimentalSpacer, { marginX: 2, marginBottom: 0, children: /* @__PURE__ */ (0, import_jsx_runtime657.jsx)(
           import_components250.RangeControl,
           {
-            label: (0, import_i18n262.__)("Line indent"),
+            label: (0, import_i18n263.__)("Line indent"),
             hideLabelFromVision: true,
             value: valueQuantity,
             withInputField: false,
@@ -124541,7 +124575,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/global-styles/text-shadow-panel.mjs
-  var import_i18n263 = __toESM(require_i18n(), 1);
+  var import_i18n264 = __toESM(require_i18n(), 1);
   var import_components251 = __toESM(require_components(), 1);
   var import_element431 = __toESM(require_element(), 1);
   var import_jsx_runtime658 = __toESM(require_jsx_runtime(), 1);
@@ -124613,14 +124647,14 @@ If there's a particular need for this, please submit a feature request at https:
       [defaultPresetsEnabled, defaultPresets, themePresets, customPresets]
     );
     const choices = [
-      { value: "none", label: (0, import_i18n263.__)("None") },
+      { value: "none", label: (0, import_i18n264.__)("None") },
       ...presets.map((preset) => ({
         value: `var:preset|text-shadow|${preset.slug}`,
         label: preset.name
       }))
     ];
     const items = [
-      { value: DEFAULT_VALUE, label: (0, import_i18n263.__)("Default") },
+      { value: DEFAULT_VALUE, label: (0, import_i18n264.__)("Default") },
       ...choices
     ];
     const activeSlug = getTextShadowPresetSlug(textShadow);
@@ -124633,20 +124667,20 @@ If there's a particular need for this, please submit a feature request at https:
         direction: "column",
         gap: "sm",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime658.jsx)(Text, { variant: "heading-sm", render: /* @__PURE__ */ (0, import_jsx_runtime658.jsx)("h2", {}), children: (0, import_i18n263.__)("Text shadow") }),
+          /* @__PURE__ */ (0, import_jsx_runtime658.jsx)(Text, { variant: "heading-sm", render: /* @__PURE__ */ (0, import_jsx_runtime658.jsx)("h2", {}), children: (0, import_i18n264.__)("Text shadow") }),
           /* @__PURE__ */ (0, import_jsx_runtime658.jsx)(
             "div",
             {
               className: "block-editor-global-styles__text-shadow-preview",
               style: { textShadow: previewValue },
-              children: (0, import_i18n263.__)("Code is poetry")
+              children: (0, import_i18n264.__)("Code is poetry")
             }
           ),
           presets.length >= PRESETS_SELECT_THRESHOLD ? /* @__PURE__ */ (0, import_jsx_runtime658.jsx)(
             SelectControl2,
             {
               hideLabelFromVision: true,
-              label: (0, import_i18n263.__)("Text shadow preset"),
+              label: (0, import_i18n264.__)("Text shadow preset"),
               value: items.find(
                 (item) => item.value === (activeValue || DEFAULT_VALUE)
               ) ?? items[0],
@@ -124659,7 +124693,7 @@ If there's a particular need for this, please submit a feature request at https:
             import_components251.Composite,
             {
               role: "listbox",
-              "aria-label": (0, import_i18n263.__)("Text shadow presets"),
+              "aria-label": (0, import_i18n264.__)("Text shadow presets"),
               render: /* @__PURE__ */ (0, import_jsx_runtime658.jsx)(Stack, { direction: "column" }),
               children: choices.map(({ value, label }) => {
                 const isActive = value === activeValue;
@@ -124692,7 +124726,7 @@ If there's a particular need for this, please submit a feature request at https:
               onClick: () => onChange(void 0),
               disabled: !textShadow,
               accessibleWhenDisabled: true,
-              children: (0, import_i18n263.__)("Clear")
+              children: (0, import_i18n264.__)("Clear")
             }
           ) })
         ]
@@ -124727,7 +124761,7 @@ If there's a particular need for this, please submit a feature request at https:
               gap: "sm",
               children: [
                 /* @__PURE__ */ (0, import_jsx_runtime658.jsx)(icon_default, { icon: shadow_default, size: 24 }),
-                /* @__PURE__ */ (0, import_jsx_runtime658.jsx)("span", { children: (0, import_i18n263.__)("Text shadow") })
+                /* @__PURE__ */ (0, import_jsx_runtime658.jsx)("span", { children: (0, import_i18n264.__)("Text shadow") })
               ]
             }
           )
@@ -124750,7 +124784,7 @@ If there's a particular need for this, please submit a feature request at https:
             "block-editor-global-styles__text-shadow-remove-button",
             { "is-open": isOpen }
           ),
-          label: (0, import_i18n263.__)("Remove text shadow")
+          label: (0, import_i18n264.__)("Remove text shadow")
         }
       )
     ] });
@@ -124874,12 +124908,12 @@ If there's a particular need for this, please submit a feature request at https:
   }
   function useAppearanceControlLabel(settings3) {
     if (!settings3?.typography?.fontStyle) {
-      return (0, import_i18n264.__)("Font weight");
+      return (0, import_i18n265.__)("Font weight");
     }
     if (!settings3?.typography?.fontWeight) {
-      return (0, import_i18n264.__)("Font style");
+      return (0, import_i18n265.__)("Font style");
     }
-    return (0, import_i18n264.__)("Appearance");
+    return (0, import_i18n265.__)("Appearance");
   }
   function useHasLetterSpacingControl(settings3) {
     return settings3?.typography?.letterSpacing;
@@ -124929,7 +124963,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(
       import_components252.__experimentalToolsPanel,
       {
-        label: (0, import_i18n264.__)("Typography"),
+        label: (0, import_i18n265.__)("Typography"),
         resetAll,
         panelId,
         className: "block-editor-typography-panel--flush-color-items",
@@ -125036,10 +125070,10 @@ If there's a particular need for this, please submit a feature request at https:
     const isTextGradientPlaceholder = userTextGradient === void 0 && inheritedTextGradient !== void 0;
     const hasTextGradientValue = () => userTextGradient !== void 0;
     const showsTextGradientNotice = isTextGradient || isTextGradientFromBase && !value?.color?.text;
-    const textGradientNotice = isTextGradientFromBase ? (0, import_i18n264.__)("The gradient set in the Default state replaces the text color.") : (0, import_i18n264.__)("The gradient replaces the text color.");
+    const textGradientNotice = isTextGradientFromBase ? (0, import_i18n265.__)("The gradient set in the Default state replaces the text color.") : (0, import_i18n265.__)("The gradient replaces the text color.");
     const backgroundGradient = value?.background?.gradient;
     const hasBlockBackground = !clipsToText && !!(backgroundGradient || hasBackgroundImageValue(value) || value?.color?.background);
-    const backgroundOverrideNotice = backgroundGradient ? (0, import_i18n264.__)("Setting a text gradient replaces the background gradient.") : (0, import_i18n264.__)(
+    const backgroundOverrideNotice = backgroundGradient ? (0, import_i18n265.__)("Setting a text gradient replaces the background gradient.") : (0, import_i18n265.__)(
       "Setting a text gradient clips the background to the text, including any color or image."
     );
     const setTextGradient = (newGradient, newSlug) => {
@@ -125291,7 +125325,7 @@ If there's a particular need for this, please submit a feature request at https:
         setImmutably2(value, ["typography", "textIndent"], void 0)
       );
     };
-    const textIndentHelp = isTextIndentAll ? (0, import_i18n264.__)("Indents the first line of all paragraphs.") : (0, import_i18n264.__)("Indents the first line of each paragraph after the first one.");
+    const textIndentHelp = isTextIndentAll ? (0, import_i18n265.__)("Indents the first line of all paragraphs.") : (0, import_i18n265.__)("Indents the first line of each paragraph after the first one.");
     const hasTextColumnsControl = useHasTextColumnsControl(settings3);
     const localTextColumns = decodeValue(value?.typography?.textColumns);
     const inheritedTextColumns = decodeValue(
@@ -125459,7 +125493,7 @@ If there's a particular need for this, please submit a feature request at https:
           hasTextColorEnabled && /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(
             ColorGradientDropdownItem,
             {
-              label: (0, import_i18n264.__)("Color"),
+              label: (0, import_i18n265.__)("Color"),
               hasValue: hasTextColorValue,
               resetValue: resetTextColor,
               isShownByDefault: defaultControls.textColor,
@@ -125471,7 +125505,7 @@ If there's a particular need for this, please submit a feature request at https:
               tabs: [
                 {
                   key: "text",
-                  label: (0, import_i18n264.__)("Color"),
+                  label: (0, import_i18n265.__)("Color"),
                   inheritedValue: textColor,
                   inheritedSlug: extractPresetSlug(
                     inheritedValue?.color?.text,
@@ -125496,7 +125530,7 @@ If there's a particular need for this, please submit a feature request at https:
           hasTextGradientEnabled && /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(
             ColorGradientDropdownItem,
             {
-              label: (0, import_i18n264.__)("Gradient"),
+              label: (0, import_i18n265.__)("Gradient"),
               hasValue: hasTextGradientValue,
               resetValue: resetTextGradient,
               isShownByDefault: defaultControls.textGradient,
@@ -125507,7 +125541,7 @@ If there's a particular need for this, please submit a feature request at https:
               tabs: [
                 {
                   key: "text-gradient",
-                  label: (0, import_i18n264.__)("Gradient"),
+                  label: (0, import_i18n265.__)("Gradient"),
                   inheritedValue: inheritedTextGradient,
                   inheritedSlug: extractPresetSlug(
                     inheritedTextGradientValue,
@@ -125537,7 +125571,7 @@ If there's a particular need for this, please submit a feature request at https:
                 isFontFamilyPlaceholder,
                 hasFontFamily() && inheritedFontFamily !== void 0
               ),
-              label: (0, import_i18n264.__)("Font"),
+              label: (0, import_i18n265.__)("Font"),
               hasValue: hasFontFamily,
               onDeselect: resetFontFamily,
               isShownByDefault: defaultControls.fontFamily,
@@ -125559,7 +125593,7 @@ If there's a particular need for this, please submit a feature request at https:
                 isFontSizePlaceholder,
                 hasFontSize() && rawInheritedFontSize !== void 0
               ),
-              label: (0, import_i18n264.__)("Size"),
+              label: (0, import_i18n265.__)("Size"),
               hasValue: hasFontSize,
               hasInlineEndToggle: true,
               onDeselect: resetFontSize,
@@ -125614,7 +125648,7 @@ If there's a particular need for this, please submit a feature request at https:
                 hasLineHeight() && inheritedLineHeight !== void 0,
                 "single-column"
               ),
-              label: (0, import_i18n264.__)("Line height"),
+              label: (0, import_i18n265.__)("Line height"),
               hasValue: hasLineHeight,
               onDeselect: resetLineHeight,
               isShownByDefault: defaultControls.lineHeight,
@@ -125642,7 +125676,7 @@ If there's a particular need for this, please submit a feature request at https:
                 hasLetterSpacing() && inheritedLetterSpacing !== void 0,
                 "single-column"
               ),
-              label: (0, import_i18n264.__)("Letter spacing"),
+              label: (0, import_i18n265.__)("Letter spacing"),
               hasValue: hasLetterSpacing,
               onDeselect: resetLetterSpacing,
               isShownByDefault: defaultControls.letterSpacing,
@@ -125667,7 +125701,7 @@ If there's a particular need for this, please submit a feature request at https:
                 isTextIndentPlaceholder,
                 hasTextIndent() && inheritedTextIndent !== void 0
               ),
-              label: (0, import_i18n264.__)("Line indent"),
+              label: (0, import_i18n265.__)("Line indent"),
               hasValue: hasTextIndent,
               onDeselect: resetTextIndent,
               isShownByDefault: defaultControls.textIndent,
@@ -125687,7 +125721,7 @@ If there's a particular need for this, please submit a feature request at https:
                 isGlobalStyles && /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(
                   import_components252.ToggleControl,
                   {
-                    label: (0, import_i18n264.__)("Indent all paragraphs"),
+                    label: (0, import_i18n265.__)("Indent all paragraphs"),
                     checked: isTextIndentAll,
                     onChange: onToggleTextIndentAll,
                     help: textIndentHelp
@@ -125704,7 +125738,7 @@ If there's a particular need for this, please submit a feature request at https:
                 hasTextColumns() && inheritedTextColumns !== void 0,
                 "single-column"
               ),
-              label: (0, import_i18n264.__)("Columns"),
+              label: (0, import_i18n265.__)("Columns"),
               hasValue: hasTextColumns,
               onDeselect: resetTextColumns,
               isShownByDefault: defaultControls.textColumns,
@@ -125712,7 +125746,7 @@ If there's a particular need for this, please submit a feature request at https:
               children: /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(
                 import_components252.__experimentalNumberControl,
                 {
-                  label: (0, import_i18n264.__)("Columns"),
+                  label: (0, import_i18n265.__)("Columns"),
                   max: MAX_TEXT_COLUMNS,
                   min: MIN_TEXT_COLUMNS,
                   onChange: setTextColumns,
@@ -125732,7 +125766,7 @@ If there's a particular need for this, please submit a feature request at https:
                 hasTextDecoration() && inheritedTextDecoration !== void 0,
                 "single-column"
               ),
-              label: (0, import_i18n264.__)("Decoration"),
+              label: (0, import_i18n265.__)("Decoration"),
               hasValue: hasTextDecoration,
               onDeselect: resetTextDecoration,
               isShownByDefault: defaultControls.textDecoration,
@@ -125755,7 +125789,7 @@ If there's a particular need for this, please submit a feature request at https:
                 hasWritingMode() && inheritedWritingMode !== void 0,
                 "single-column"
               ),
-              label: (0, import_i18n264.__)("Orientation"),
+              label: (0, import_i18n265.__)("Orientation"),
               hasValue: hasWritingMode,
               onDeselect: resetWritingMode,
               isShownByDefault: defaultControls.writingMode,
@@ -125776,7 +125810,7 @@ If there's a particular need for this, please submit a feature request at https:
                 isTextTransformPlaceholder,
                 hasTextTransform() && inheritedTextTransform !== void 0
               ),
-              label: (0, import_i18n264.__)("Letter case"),
+              label: (0, import_i18n265.__)("Letter case"),
               hasValue: hasTextTransform,
               onDeselect: resetTextTransform,
               isShownByDefault: defaultControls.textTransform,
@@ -125799,7 +125833,7 @@ If there's a particular need for this, please submit a feature request at https:
                 isTextShadowPlaceholder,
                 hasTextShadow() && inheritedTextShadow !== void 0
               ),
-              label: (0, import_i18n264.__)("Text shadow"),
+              label: (0, import_i18n265.__)("Text shadow"),
               hasValue: hasTextShadow,
               onDeselect: resetTextShadow,
               isShownByDefault: defaultControls.textShadow,
@@ -125820,7 +125854,7 @@ If there's a particular need for this, please submit a feature request at https:
                 isTextAlignPlaceholder,
                 hasTextAlign() && inheritedTextAlign !== void 0
               ),
-              label: (0, import_i18n264.__)("Text alignment"),
+              label: (0, import_i18n265.__)("Text alignment"),
               hasValue: hasTextAlign,
               onDeselect: resetTextAlign,
               isShownByDefault: defaultControls.textAlign,
@@ -125834,7 +125868,7 @@ If there's a particular need for this, please submit a feature request at https:
                     options: ["left", "center", "right", "justify"]
                   }
                 ),
-                textAlign === "justify" && /* @__PURE__ */ (0, import_jsx_runtime659.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(notice_exports.Root, { intent: "warning", children: /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(notice_exports.Description, { children: (0, import_i18n264.__)(
+                textAlign === "justify" && /* @__PURE__ */ (0, import_jsx_runtime659.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(notice_exports.Root, { intent: "warning", children: /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(notice_exports.Description, { children: (0, import_i18n265.__)(
                   "Justified text can reduce readability. For better accessibility, use left-aligned text instead."
                 ) }) }) })
               ]
@@ -125843,7 +125877,7 @@ If there's a particular need for this, please submit a feature request at https:
           hasTextColorEnabled && showsTextGradientNotice && /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(
             NoticeForControl,
             {
-              label: (0, import_i18n264.__)("Color"),
+              label: (0, import_i18n265.__)("Color"),
               isShownByDefault: defaultControls.textColor,
               children: /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(
                 notice_exports.Root,
@@ -125858,7 +125892,7 @@ If there's a particular need for this, please submit a feature request at https:
           hasTextGradientEnabled && hasBlockBackground && /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(
             NoticeForControl,
             {
-              label: (0, import_i18n264.__)("Gradient"),
+              label: (0, import_i18n265.__)("Gradient"),
               isShownByDefault: defaultControls.textGradient,
               children: /* @__PURE__ */ (0, import_jsx_runtime659.jsx)(
                 notice_exports.Root,
@@ -126052,7 +126086,7 @@ If there's a particular need for this, please submit a feature request at https:
   );
 
   // packages/block-editor/build-module/hooks/text-align.mjs
-  var import_i18n265 = __toESM(require_i18n(), 1);
+  var import_i18n266 = __toESM(require_i18n(), 1);
   var import_blocks104 = __toESM(require_blocks(), 1);
   var import_data177 = __toESM(require_data(), 1);
 
@@ -126095,17 +126129,17 @@ If there's a particular need for this, please submit a feature request at https:
   var TEXT_ALIGNMENT_OPTIONS2 = [
     {
       icon: align_left_default,
-      title: (0, import_i18n265.__)("Align text left"),
+      title: (0, import_i18n266.__)("Align text left"),
       align: "left"
     },
     {
       icon: align_center_default,
-      title: (0, import_i18n265.__)("Align text center"),
+      title: (0, import_i18n266.__)("Align text center"),
       align: "center"
     },
     {
       icon: align_right_default,
-      title: (0, import_i18n265.__)("Align text right"),
+      title: (0, import_i18n266.__)("Align text right"),
       align: "right"
     }
   ];
@@ -126235,7 +126269,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_blocks105 = __toESM(require_blocks(), 1);
   var import_element435 = __toESM(require_element(), 1);
   var import_data178 = __toESM(require_data(), 1);
-  var import_i18n267 = __toESM(require_i18n(), 1);
+  var import_i18n268 = __toESM(require_i18n(), 1);
   var import_components255 = __toESM(require_components(), 1);
   var import_compose143 = __toESM(require_compose(), 1);
 
@@ -126293,12 +126327,12 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/fit-text-size-warning/index.mjs
   var import_element434 = __toESM(require_element(), 1);
-  var import_i18n266 = __toESM(require_i18n(), 1);
+  var import_i18n267 = __toESM(require_i18n(), 1);
   var import_components254 = __toESM(require_components(), 1);
   var import_a11y26 = __toESM(require_a11y(), 1);
   var import_jsx_runtime663 = __toESM(require_jsx_runtime(), 1);
   function FitTextSizeWarning() {
-    const message2 = (0, import_i18n266.__)(
+    const message2 = (0, import_i18n267.__)(
       "The text may be too small to read. Consider using a larger container or less text."
     );
     (0, import_element434.useEffect)(() => {
@@ -126469,14 +126503,14 @@ If there's a particular need for this, please submit a feature request at https:
       import_components255.__experimentalToolsPanelItem,
       {
         hasValue: () => fitText,
-        label: (0, import_i18n267.__)("Fit text"),
+        label: (0, import_i18n268.__)("Fit text"),
         onDeselect: () => setAttributes({ fitText: void 0 }),
         resetAllFilter: () => ({ fitText: void 0 }),
         panelId: clientId,
         children: /* @__PURE__ */ (0, import_jsx_runtime664.jsx)(
           import_components255.ToggleControl,
           {
-            label: (0, import_i18n267.__)("Fit text"),
+            label: (0, import_i18n268.__)("Fit text"),
             checked: fitText,
             onChange: () => {
               const newFitText = !fitText || void 0;
@@ -126497,7 +126531,7 @@ If there's a particular need for this, please submit a feature request at https:
               }
               setAttributes(updates);
             },
-            help: fitText ? (0, import_i18n267.__)("Text will resize to fit its container.") : (0, import_i18n267.__)(
+            help: fitText ? (0, import_i18n268.__)("Text will resize to fit its container.") : (0, import_i18n268.__)(
               "The text will resize to fit its container, resetting other font size settings."
             )
           }
@@ -126825,7 +126859,7 @@ If there's a particular need for this, please submit a feature request at https:
       name,
       enabled: !!enableContrastChecking,
       checkLinkColor: false,
-      messageOverride: (0, import_i18n268.__)(
+      messageOverride: (0, import_i18n269.__)(
         "This color has poor contrast against the background. Consider increasing contrast."
       )
     });
@@ -126929,7 +126963,7 @@ If there's a particular need for this, please submit a feature request at https:
           settings: settings3,
           setAttributes,
           asWrapper: ColorToolsPanel,
-          label: (0, import_i18n269.__)("Elements"),
+          label: (0, import_i18n270.__)("Elements"),
           defaultControls: {
             button: hasButtons,
             heading: hasHeading
@@ -126960,14 +126994,14 @@ If there's a particular need for this, please submit a feature request at https:
           inspector_controls_default.Slot,
           {
             group: "typography",
-            label: (0, import_i18n269.__)("Typography")
+            label: (0, import_i18n270.__)("Typography")
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime666.jsx)(
           inspector_controls_default.Slot,
           {
             group: "color",
-            label: (0, import_i18n269.__)("Color"),
+            label: (0, import_i18n270.__)("Color"),
             className: "color-block-support-panel__inner-wrapper"
           }
         ),
@@ -126975,7 +127009,7 @@ If there's a particular need for this, please submit a feature request at https:
           inspector_controls_default.Slot,
           {
             group: "background",
-            label: (0, import_i18n269.__)("Background"),
+            label: (0, import_i18n270.__)("Background"),
             className: "background-block-support-panel__inner-wrapper"
           }
         ),
@@ -126984,28 +127018,28 @@ If there's a particular need for this, please submit a feature request at https:
           inspector_controls_default.Slot,
           {
             group: "layout",
-            label: (0, import_i18n269.__)("Layout")
+            label: (0, import_i18n270.__)("Layout")
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime666.jsx)(
           inspector_controls_default.Slot,
           {
             group: "dimensions",
-            label: (0, import_i18n269.__)("Dimensions")
+            label: (0, import_i18n270.__)("Dimensions")
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime666.jsx)(
           inspector_controls_default.Slot,
           {
             group: "border",
-            label: (0, import_i18n269.__)("Borders")
+            label: (0, import_i18n270.__)("Borders")
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime666.jsx)(
           inspector_controls_default.Slot,
           {
             group: "elements",
-            label: (0, import_i18n269.__)("Elements"),
+            label: (0, import_i18n270.__)("Elements"),
             className: "elements-block-support-panel__inner-wrapper"
           }
         ),
@@ -127018,7 +127052,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/inspector-controls-tabs/content-tab.mjs
   var import_components257 = __toESM(require_components(), 1);
-  var import_i18n270 = __toESM(require_i18n(), 1);
+  var import_i18n271 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/block-quick-navigation/index.mjs
   var import_blocks107 = __toESM(require_blocks(), 1);
@@ -127142,7 +127176,7 @@ If there's a particular need for this, please submit a feature request at https:
     if (!contentClientIds || contentClientIds.length === 0) {
       return null;
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime668.jsx)(import_components257.PanelBody, { title: (0, import_i18n270.__)("Content"), children: /* @__PURE__ */ (0, import_jsx_runtime668.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime668.jsx)(import_components257.PanelBody, { title: (0, import_i18n271.__)("Content"), children: /* @__PURE__ */ (0, import_jsx_runtime668.jsx)(
       BlockQuickNavigation,
       {
         clientIds: contentClientIds,
@@ -127421,10 +127455,10 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/hooks/states.mjs
   var import_element440 = __toESM(require_element(), 1);
-  var import_i18n273 = __toESM(require_i18n(), 1);
+  var import_i18n274 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/global-styles/state-control.mjs
-  var import_i18n271 = __toESM(require_i18n(), 1);
+  var import_i18n272 = __toESM(require_i18n(), 1);
   var import_components261 = __toESM(require_components(), 1);
   var import_jsx_runtime671 = __toESM(require_jsx_runtime(), 1);
   function StateControl({
@@ -127442,14 +127476,14 @@ If there's a particular need for this, please submit a feature request at https:
       return null;
     }
     const viewportOptions = [
-      { label: (0, import_i18n271.__)("Default"), value: "default" },
+      { label: (0, import_i18n272.__)("Default"), value: "default" },
       ...viewportStates.map((state) => ({
         label: state.label,
         value: state.value
       }))
     ];
     const pseudoStateOptions = [
-      { label: (0, import_i18n271.__)("Default"), value: "default" },
+      { label: (0, import_i18n272.__)("Default"), value: "default" },
       ...pseudoStates.map((state) => ({
         label: state.label,
         value: state.value
@@ -127457,7 +127491,7 @@ If there's a particular need for this, please submit a feature request at https:
     ];
     const hasViewportOptions = viewportStates.length > 0;
     const hasPseudoStateOptions = pseudoStates.length > 0;
-    const triggerLabel = (0, import_i18n271.__)("States");
+    const triggerLabel = (0, import_i18n272.__)("States");
     const activeStates = [];
     if (hasViewportOptions && viewportValue !== "default") {
       const selectedViewport = viewportOptions.find(
@@ -127481,7 +127515,7 @@ If there's a particular need for this, please submit a feature request at https:
         });
       }
     }
-    const currentStateLabel = activeStates.length ? activeStates.map((state) => state.label).join(", ") : (0, import_i18n271.__)("Default");
+    const currentStateLabel = activeStates.length ? activeStates.map((state) => state.label).join(", ") : (0, import_i18n272.__)("Default");
     const icon = showText ? chevron_down_default : more_vertical_default;
     const toggleProps = showText ? { size: "compact", iconPosition: "right" } : { size: "small" };
     return /* @__PURE__ */ (0, import_jsx_runtime671.jsx)(
@@ -127495,9 +127529,9 @@ If there's a particular need for this, please submit a feature request at https:
           import_components261.DropdownMenu,
           {
             icon,
-            label: showText ? triggerLabel : (0, import_i18n271.sprintf)(
+            label: showText ? triggerLabel : (0, import_i18n272.sprintf)(
               /* translators: %s: Current state (e.g. "Hover", "Focus") */
-              (0, import_i18n271.__)("State: %s"),
+              (0, import_i18n272.__)("State: %s"),
               currentStateLabel
             ),
             popoverProps: {
@@ -127507,7 +127541,7 @@ If there's a particular need for this, please submit a feature request at https:
             text: showText ? triggerLabel : void 0,
             toggleProps,
             children: ({ onClose }) => /* @__PURE__ */ (0, import_jsx_runtime671.jsxs)(import_jsx_runtime671.Fragment, { children: [
-              hasViewportOptions && /* @__PURE__ */ (0, import_jsx_runtime671.jsx)(import_components261.MenuGroup, { label: (0, import_i18n271.__)("Viewport"), children: viewportOptions.map((option) => /* @__PURE__ */ (0, import_jsx_runtime671.jsx)(
+              hasViewportOptions && /* @__PURE__ */ (0, import_jsx_runtime671.jsx)(import_components261.MenuGroup, { label: (0, import_i18n272.__)("Viewport"), children: viewportOptions.map((option) => /* @__PURE__ */ (0, import_jsx_runtime671.jsx)(
                 import_components261.MenuItem,
                 {
                   onClick: () => {
@@ -127521,7 +127555,7 @@ If there's a particular need for this, please submit a feature request at https:
                 },
                 `viewport-${option.value}`
               )) }),
-              hasPseudoStateOptions && /* @__PURE__ */ (0, import_jsx_runtime671.jsx)(import_components261.MenuGroup, { label: (0, import_i18n271.__)("Pseudo state"), children: pseudoStateOptions.map((option) => /* @__PURE__ */ (0, import_jsx_runtime671.jsx)(
+              hasPseudoStateOptions && /* @__PURE__ */ (0, import_jsx_runtime671.jsx)(import_components261.MenuGroup, { label: (0, import_i18n272.__)("Pseudo state"), children: pseudoStateOptions.map((option) => /* @__PURE__ */ (0, import_jsx_runtime671.jsx)(
                 import_components261.MenuItem,
                 {
                   onClick: () => {
@@ -127546,13 +127580,13 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/global-styles/state-control-badges.mjs
-  var import_i18n272 = __toESM(require_i18n(), 1);
+  var import_i18n273 = __toESM(require_i18n(), 1);
   var import_jsx_runtime672 = __toESM(require_jsx_runtime(), 1);
   function getSummaryDescription(selectedViewport, selectedPseudoState) {
     if (selectedViewport && selectedPseudoState) {
-      return (0, import_i18n272.sprintf)(
+      return (0, import_i18n273.sprintf)(
         /* translators: 1: viewport name, e.g. "Tablet". 2: pseudo state name, e.g. "Hover". */
-        (0, import_i18n272.__)(
+        (0, import_i18n273.__)(
           "Style changes apply to the %1$s viewport and the %2$s state."
         ),
         selectedViewport.label,
@@ -127560,16 +127594,16 @@ If there's a particular need for this, please submit a feature request at https:
       );
     }
     if (selectedViewport) {
-      return (0, import_i18n272.sprintf)(
+      return (0, import_i18n273.sprintf)(
         /* translators: %s: viewport name, e.g. "Tablet". */
-        (0, import_i18n272.__)("Style changes apply to the %s viewport."),
+        (0, import_i18n273.__)("Style changes apply to the %s viewport."),
         selectedViewport.label
       );
     }
     if (selectedPseudoState) {
-      return (0, import_i18n272.sprintf)(
+      return (0, import_i18n273.sprintf)(
         /* translators: %s: pseudo state name, e.g. "Hover". */
-        (0, import_i18n272.__)("Style changes apply to the %s state."),
+        (0, import_i18n273.__)("Style changes apply to the %s state."),
         selectedPseudoState.label
       );
     }
@@ -127608,11 +127642,11 @@ If there's a particular need for this, please submit a feature request at https:
       selectedViewport,
       selectedPseudoState
     );
-    const moreInfoLabel = activeStates.length === 1 ? (0, import_i18n272.sprintf)(
+    const moreInfoLabel = activeStates.length === 1 ? (0, import_i18n273.sprintf)(
       /* translators: %s: state name, e.g. "Hover" or "Tablet". */
-      (0, import_i18n272.__)("More information about %s"),
+      (0, import_i18n273.__)("More information about %s"),
       activeStates[0].label
-    ) : (0, import_i18n272.__)("More information about style states");
+    ) : (0, import_i18n273.__)("More information about style states");
     return /* @__PURE__ */ (0, import_jsx_runtime672.jsxs)(
       Stack,
       {
@@ -127651,17 +127685,17 @@ If there's a particular need for this, please submit a feature request at https:
   var import_jsx_runtime673 = __toESM(require_jsx_runtime(), 1);
   var { getViewportBreakpoints: getViewportBreakpoints5 } = unlock(privateApis);
   var PSEUDO_STATE_LABELS = {
-    ":hover": (0, import_i18n273._x)("Hover", "Name for the CSS pseudo-class selector"),
-    ":focus": (0, import_i18n273._x)("Focus", "Name for the CSS pseudo-class selector"),
-    ":focus-visible": (0, import_i18n273._x)(
+    ":hover": (0, import_i18n274._x)("Hover", "Name for the CSS pseudo-class selector"),
+    ":focus": (0, import_i18n274._x)("Focus", "Name for the CSS pseudo-class selector"),
+    ":focus-visible": (0, import_i18n274._x)(
       "Focus-visible",
       "Name for the CSS pseudo-class selector"
     ),
-    ":active": (0, import_i18n273._x)("Active", "Name for the CSS pseudo-class selector")
+    ":active": (0, import_i18n274._x)("Active", "Name for the CSS pseudo-class selector")
   };
   var RESPONSIVE_STATE_LABELS = {
-    "@tablet": (0, import_i18n273.__)("Tablet"),
-    "@mobile": (0, import_i18n273.__)("Mobile")
+    "@tablet": (0, import_i18n274.__)("Tablet"),
+    "@mobile": (0, import_i18n274.__)("Mobile")
   };
   function getDeviceStateOptions(viewportSettings) {
     const breakpoints = getViewportBreakpoints5(viewportSettings);
@@ -127743,14 +127777,14 @@ If there's a particular need for this, please submit a feature request at https:
         inspector_controls_default.Slot,
         {
           group: "typography",
-          label: (0, import_i18n274.__)("Typography")
+          label: (0, import_i18n275.__)("Typography")
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(
         inspector_controls_default.Slot,
         {
           group: "color",
-          label: (0, import_i18n274.__)("Color"),
+          label: (0, import_i18n275.__)("Color"),
           className: "color-block-support-panel__inner-wrapper"
         }
       ),
@@ -127758,24 +127792,24 @@ If there's a particular need for this, please submit a feature request at https:
         inspector_controls_default.Slot,
         {
           group: "background",
-          label: (0, import_i18n274.__)("Background"),
+          label: (0, import_i18n275.__)("Background"),
           className: "background-block-support-panel__inner-wrapper"
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(inspector_controls_default.Slot, { group: "layout", label: (0, import_i18n274.__)("Layout") }),
+      /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(inspector_controls_default.Slot, { group: "layout", label: (0, import_i18n275.__)("Layout") }),
       /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(
         inspector_controls_default.Slot,
         {
           group: "dimensions",
-          label: (0, import_i18n274.__)("Dimensions")
+          label: (0, import_i18n275.__)("Dimensions")
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(inspector_controls_default.Slot, { group: "border", label: (0, import_i18n274.__)("Borders") }),
+      /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(inspector_controls_default.Slot, { group: "border", label: (0, import_i18n275.__)("Borders") }),
       /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(
         inspector_controls_default.Slot,
         {
           group: "elements",
-          label: (0, import_i18n274.__)("Elements"),
+          label: (0, import_i18n275.__)("Elements"),
           className: "elements-block-support-panel__inner-wrapper"
         }
       ),
@@ -127808,14 +127842,14 @@ If there's a particular need for this, please submit a feature request at https:
           inspector_controls_default.Slot,
           {
             group: "typography",
-            label: (0, import_i18n274.__)("Typography")
+            label: (0, import_i18n275.__)("Typography")
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(
           inspector_controls_default.Slot,
           {
             group: "color",
-            label: (0, import_i18n274.__)("Color"),
+            label: (0, import_i18n275.__)("Color"),
             className: "color-block-support-panel__inner-wrapper"
           }
         ),
@@ -127823,7 +127857,7 @@ If there's a particular need for this, please submit a feature request at https:
           inspector_controls_default.Slot,
           {
             group: "background",
-            label: (0, import_i18n274.__)("Background"),
+            label: (0, import_i18n275.__)("Background"),
             className: "background-block-support-panel__inner-wrapper"
           }
         ),
@@ -127831,28 +127865,28 @@ If there's a particular need for this, please submit a feature request at https:
           inspector_controls_default.Slot,
           {
             group: "layout",
-            label: (0, import_i18n274.__)("Layout")
+            label: (0, import_i18n275.__)("Layout")
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(
           inspector_controls_default.Slot,
           {
             group: "dimensions",
-            label: (0, import_i18n274.__)("Dimensions")
+            label: (0, import_i18n275.__)("Dimensions")
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(
           inspector_controls_default.Slot,
           {
             group: "border",
-            label: (0, import_i18n274.__)("Borders")
+            label: (0, import_i18n275.__)("Borders")
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(
           inspector_controls_default.Slot,
           {
             group: "elements",
-            label: (0, import_i18n274.__)("Elements"),
+            label: (0, import_i18n275.__)("Elements"),
             className: "elements-block-support-panel__inner-wrapper"
           }
         ),
@@ -127984,7 +128018,7 @@ If there's a particular need for this, please submit a feature request at https:
     const isRenderedBlockUnregistered = renderedBlockName === (0, import_blocks108.getUnregisteredTypeHandlerName)();
     const shouldShowWarning = !blockType || !renderedBlockClientId || isRenderedBlockUnregistered;
     if (shouldShowWarning) {
-      return /* @__PURE__ */ (0, import_jsx_runtime674.jsx)("span", { className: "block-editor-block-inspector__no-blocks", children: (0, import_i18n274.__)("No block selected.") });
+      return /* @__PURE__ */ (0, import_jsx_runtime674.jsx)("span", { className: "block-editor-block-inspector__no-blocks", children: (0, import_i18n275.__)("No block selected.") });
     }
     return /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(
       BlockInspectorSingleBlockWrapper,
@@ -128122,7 +128156,7 @@ If there's a particular need for this, please submit a feature request at https:
                   onClick: () => onShowStateOnCanvasChange(
                     !showStateOnCanvas
                   ),
-                  children: (0, import_i18n274.__)("Preview on canvas")
+                  children: (0, import_i18n275.__)("Preview on canvas")
                 }
               ) })
             }
@@ -128136,7 +128170,7 @@ If there's a particular need for this, please submit a feature request at https:
             variant: "body-sm",
             className: "block-editor-block-inspector__state-badges-text",
             /* translators: Instructive text shown before the style state badges in the block inspector; the badges indicate the style states the user is currently editing. */
-            children: (0, import_i18n274.__)("Editing:")
+            children: (0, import_i18n275.__)("Editing:")
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime674.jsx)(
@@ -128484,13 +128518,13 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/publish-date-time-picker/index.mjs
   var import_components264 = __toESM(require_components(), 1);
-  var import_i18n276 = __toESM(require_i18n(), 1);
+  var import_i18n277 = __toESM(require_i18n(), 1);
   var import_element444 = __toESM(require_element(), 1);
   var import_date14 = __toESM(require_date(), 1);
 
   // packages/block-editor/build-module/components/inspector-popover-header/index.mjs
   var import_components263 = __toESM(require_components(), 1);
-  var import_i18n275 = __toESM(require_i18n(), 1);
+  var import_i18n276 = __toESM(require_i18n(), 1);
   var import_jsx_runtime679 = __toESM(require_jsx_runtime(), 1);
   function InspectorPopoverHeader({
     title,
@@ -128528,7 +128562,7 @@ If there's a particular need for this, please submit a feature request at https:
           {
             size: "small",
             className: "block-editor-inspector-popover-header__action",
-            label: (0, import_i18n275.__)("Close"),
+            label: (0, import_i18n276.__)("Close"),
             icon: close_small_default,
             onClick: onClose
           }
@@ -128562,10 +128596,10 @@ If there's a particular need for this, please submit a feature request at https:
       showPopoverHeader && /* @__PURE__ */ (0, import_jsx_runtime680.jsx)(
         InspectorPopoverHeader,
         {
-          title: title || (0, import_i18n276.__)("Publish"),
+          title: title || (0, import_i18n277.__)("Publish"),
           actions: showPopoverHeaderActions ? [
             {
-              label: (0, import_i18n276.__)("Reset"),
+              label: (0, import_i18n277.__)("Reset"),
               onClick: () => onChange?.(null)
             }
           ] : void 0,
@@ -129389,7 +129423,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/block-allowed-blocks/allowed-blocks-control.mjs
   var import_components271 = __toESM(require_components(), 1);
-  var import_i18n279 = __toESM(require_i18n(), 1);
+  var import_i18n280 = __toESM(require_i18n(), 1);
   var import_element450 = __toESM(require_element(), 1);
   var import_data190 = __toESM(require_data(), 1);
   var import_blocks113 = __toESM(require_blocks(), 1);
@@ -129397,14 +129431,14 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/block-allowed-blocks/modal.mjs
   var import_components270 = __toESM(require_components(), 1);
   var import_element449 = __toESM(require_element(), 1);
-  var import_i18n278 = __toESM(require_i18n(), 1);
+  var import_i18n279 = __toESM(require_i18n(), 1);
   var import_data189 = __toESM(require_data(), 1);
 
   // packages/block-editor/build-module/components/block-manager/index.mjs
   var import_blocks112 = __toESM(require_blocks(), 1);
   var import_data188 = __toESM(require_data(), 1);
   var import_components269 = __toESM(require_components(), 1);
-  var import_i18n277 = __toESM(require_i18n(), 1);
+  var import_i18n278 = __toESM(require_i18n(), 1);
   var import_element448 = __toESM(require_element(), 1);
   var import_compose148 = __toESM(require_compose(), 1);
   var import_a11y27 = __toESM(require_a11y(), 1);
@@ -129557,9 +129591,9 @@ If there's a particular need for this, please submit a feature request at https:
         return;
       }
       const count = filteredBlockTypes.length;
-      const resultsFoundMessage = (0, import_i18n277.sprintf)(
+      const resultsFoundMessage = (0, import_i18n278.sprintf)(
         /* translators: %d: number of results. */
-        (0, import_i18n277._n)("%d result found.", "%d results found.", count),
+        (0, import_i18n278._n)("%d result found.", "%d results found.", count),
         count
       );
       debouncedSpeak(resultsFoundMessage);
@@ -129568,8 +129602,8 @@ If there's a particular need for this, please submit a feature request at https:
       /* @__PURE__ */ (0, import_jsx_runtime685.jsx)(
         import_components269.SearchControl,
         {
-          label: (0, import_i18n277.__)("Search for a block"),
-          placeholder: (0, import_i18n277.__)("Search for a block"),
+          label: (0, import_i18n278.__)("Search for a block"),
+          placeholder: (0, import_i18n278.__)("Search for a block"),
           value: search,
           onChange: (nextSearch) => setSearch(nextSearch),
           className: "block-editor-block-manager__search"
@@ -129579,7 +129613,7 @@ If there's a particular need for this, please submit a feature request at https:
         import_components269.CheckboxControl,
         {
           className: "block-editor-block-manager__select-all",
-          label: (0, import_i18n277.__)("Select all"),
+          label: (0, import_i18n278.__)("Select all"),
           checked: isAllChecked,
           onChange: () => {
             if (isAllChecked) {
@@ -129596,10 +129630,10 @@ If there's a particular need for this, please submit a feature request at https:
         {
           tabIndex: "0",
           role: "region",
-          "aria-label": (0, import_i18n277.__)("Available block types"),
+          "aria-label": (0, import_i18n278.__)("Available block types"),
           className: "block-editor-block-manager__results",
           children: [
-            filteredBlockTypes.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime685.jsx)("p", { className: "block-editor-block-manager__no-results", children: (0, import_i18n277.__)("No blocks found.") }),
+            filteredBlockTypes.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime685.jsx)("p", { className: "block-editor-block-manager__no-results", children: (0, import_i18n278.__)("No blocks found.") }),
             categories.map((category) => /* @__PURE__ */ (0, import_jsx_runtime685.jsx)(
               category_default2,
               {
@@ -129615,7 +129649,7 @@ If there's a particular need for this, please submit a feature request at https:
             /* @__PURE__ */ (0, import_jsx_runtime685.jsx)(
               category_default2,
               {
-                title: (0, import_i18n277.__)("Uncategorized"),
+                title: (0, import_i18n278.__)("Uncategorized"),
                 blockTypes: filteredBlockTypes.filter(
                   ({ category }) => !category
                 ),
@@ -129652,7 +129686,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime686.jsx)(
       import_components270.Modal,
       {
-        title: (0, import_i18n278._x)("Manage allowed blocks", "modal title"),
+        title: (0, import_i18n279._x)("Manage allowed blocks", "modal title"),
         onRequestClose: onClose,
         overlayClassName: "block-editor-block-allowed-blocks-modal",
         focusOnMount: "firstContentElement",
@@ -129667,7 +129701,7 @@ If there's a particular need for this, please submit a feature request at https:
             },
             spacing: "4",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime686.jsx)(Text, { children: (0, import_i18n278.__)(
+              /* @__PURE__ */ (0, import_jsx_runtime686.jsx)(Text, { children: (0, import_i18n279.__)(
                 "Select which blocks can be added inside this container."
               ) }),
               /* @__PURE__ */ (0, import_jsx_runtime686.jsx)(
@@ -129693,7 +129727,7 @@ If there's a particular need for this, please submit a feature request at https:
                         variant: "tertiary",
                         onClick: onClose,
                         __next40pxDefaultSize: true,
-                        children: (0, import_i18n278.__)("Cancel")
+                        children: (0, import_i18n279.__)("Cancel")
                       }
                     ) }),
                     /* @__PURE__ */ (0, import_jsx_runtime686.jsx)(import_components270.FlexItem, { children: /* @__PURE__ */ (0, import_jsx_runtime686.jsx)(
@@ -129702,7 +129736,7 @@ If there's a particular need for this, please submit a feature request at https:
                         variant: "primary",
                         type: "submit",
                         __next40pxDefaultSize: true,
-                        children: (0, import_i18n278.__)("Apply")
+                        children: (0, import_i18n279.__)("Apply")
                       }
                     ) })
                   ]
@@ -129742,11 +129776,11 @@ If there's a particular need for this, please submit a feature request at https:
       /* @__PURE__ */ (0, import_jsx_runtime687.jsxs)(
         import_components271.BaseControl,
         {
-          help: (0, import_i18n279.__)(
+          help: (0, import_i18n280.__)(
             "Specify which blocks are allowed inside this container."
           ),
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime687.jsx)(import_components271.BaseControl.VisualLabel, { children: (0, import_i18n279.__)("Allowed Blocks") }),
+            /* @__PURE__ */ (0, import_jsx_runtime687.jsx)(import_components271.BaseControl.VisualLabel, { children: (0, import_i18n280.__)("Allowed Blocks") }),
             /* @__PURE__ */ (0, import_jsx_runtime687.jsx)(
               import_components271.Button,
               {
@@ -129756,7 +129790,7 @@ If there's a particular need for this, please submit a feature request at https:
                   setIsBlockControlOpened(true);
                 },
                 className: "block-editor-block-allowed-blocks-control__button",
-                children: (0, import_i18n279.__)("Manage allowed blocks")
+                children: (0, import_i18n280.__)("Manage allowed blocks")
               }
             )
           ]
@@ -129866,7 +129900,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/hooks/anchor.mjs
   var import_hooks21 = __toESM(require_hooks(), 1);
   var import_components272 = __toESM(require_components(), 1);
-  var import_i18n280 = __toESM(require_i18n(), 1);
+  var import_i18n281 = __toESM(require_i18n(), 1);
   var import_blocks115 = __toESM(require_blocks(), 1);
   var import_jsx_runtime689 = __toESM(require_jsx_runtime(), 1);
   var ANCHOR_REGEX = /[\s#]/g;
@@ -129896,19 +129930,19 @@ If there's a particular need for this, please submit a feature request at https:
       import_components272.TextControl,
       {
         className: "html-anchor-control",
-        label: (0, import_i18n280.__)("HTML anchor"),
+        label: (0, import_i18n281.__)("HTML anchor"),
         help: /* @__PURE__ */ (0, import_jsx_runtime689.jsxs)(import_jsx_runtime689.Fragment, { children: [
-          (0, import_i18n280.__)(
+          (0, import_i18n281.__)(
             "Enter a word or two\u2014without spaces\u2014to make a unique web address just for this block, called an \u201Canchor\u201D. Then, you\u2019ll be able to link directly to this section of your page."
           ),
           " ",
           /* @__PURE__ */ (0, import_jsx_runtime689.jsx)(
             import_components272.ExternalLink,
             {
-              href: (0, import_i18n280.__)(
+              href: (0, import_i18n281.__)(
                 "https://wordpress.org/documentation/article/page-jumps/"
               ),
-              children: (0, import_i18n280.__)("Learn more about anchors")
+              children: (0, import_i18n281.__)("Learn more about anchors")
             }
           )
         ] }),
@@ -129980,7 +130014,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/hooks/custom-class-name.mjs
   var import_hooks23 = __toESM(require_hooks(), 1);
   var import_components274 = __toESM(require_components(), 1);
-  var import_i18n281 = __toESM(require_i18n(), 1);
+  var import_i18n282 = __toESM(require_i18n(), 1);
   var import_blocks117 = __toESM(require_blocks(), 1);
   var import_jsx_runtime690 = __toESM(require_jsx_runtime(), 1);
   function addAttribute6(settings3) {
@@ -130006,14 +130040,14 @@ If there's a particular need for this, please submit a feature request at https:
       import_components274.TextControl,
       {
         autoComplete: "off",
-        label: (0, import_i18n281.__)("Additional CSS class(es)"),
+        label: (0, import_i18n282.__)("Additional CSS class(es)"),
         value: className || "",
         onChange: (nextValue) => {
           setAttributes({
             className: nextValue !== "" ? nextValue : void 0
           });
         },
-        help: (0, import_i18n281.__)("Separate multiple classes with spaces.")
+        help: (0, import_i18n282.__)("Separate multiple classes with spaces.")
       }
     ) });
   }
@@ -130135,13 +130169,13 @@ If there's a particular need for this, please submit a feature request at https:
   });
 
   // packages/block-editor/build-module/components/global-styles/dimensions-panel.mjs
-  var import_i18n284 = __toESM(require_i18n(), 1);
+  var import_i18n285 = __toESM(require_i18n(), 1);
   var import_components277 = __toESM(require_components(), 1);
   var import_element452 = __toESM(require_element(), 1);
 
   // packages/block-editor/build-module/components/child-layout-control/index.mjs
   var import_components276 = __toESM(require_components(), 1);
-  var import_i18n282 = __toESM(require_i18n(), 1);
+  var import_i18n283 = __toESM(require_i18n(), 1);
   var import_element451 = __toESM(require_element(), 1);
   var import_data192 = __toESM(require_data(), 1);
 
@@ -130181,24 +130215,24 @@ If there's a particular need for this, please submit a feature request at https:
   }
   function maxSizeLabel(parentLayout) {
     const { orientation = "horizontal" } = parentLayout ?? {};
-    return orientation === "horizontal" ? (0, import_i18n282._x)("Max", "Block with maximum width in flex layout") : (0, import_i18n282._x)("Max", "Block with maximum height in flex layout");
+    return orientation === "horizontal" ? (0, import_i18n283._x)("Max", "Block with maximum width in flex layout") : (0, import_i18n283._x)("Max", "Block with maximum height in flex layout");
   }
   function helpText(flexControlValue, parentLayout) {
     const { orientation = "horizontal" } = parentLayout ?? {};
     if (flexControlValue === FLEX_CHILD_LAYOUT_VALUES.grow) {
-      return (0, import_i18n282.__)("Stretch to fill available space.");
+      return (0, import_i18n283.__)("Stretch to fill available space.");
     }
     if (flexControlValue === FLEX_CHILD_LAYOUT_VALUES.max && orientation === "horizontal") {
-      return (0, import_i18n282.__)("Specify a maximum width.");
+      return (0, import_i18n283.__)("Specify a maximum width.");
     } else if (flexControlValue === FLEX_CHILD_LAYOUT_VALUES.max) {
-      return (0, import_i18n282.__)("Specify a maximum height.");
+      return (0, import_i18n283.__)("Specify a maximum height.");
     }
     if (flexControlValue === FLEX_CHILD_LAYOUT_VALUES.fixed && orientation === "horizontal") {
-      return (0, import_i18n282.__)("Specify a fixed width.");
+      return (0, import_i18n283.__)("Specify a fixed width.");
     } else if (flexControlValue === FLEX_CHILD_LAYOUT_VALUES.fixed) {
-      return (0, import_i18n282.__)("Specify a fixed height.");
+      return (0, import_i18n283.__)("Specify a fixed height.");
     }
-    return (0, import_i18n282.__)("Fit contents.");
+    return (0, import_i18n283.__)("Fit contents.");
   }
   function ChildLayoutControl({
     value: childLayout = {},
@@ -130251,7 +130285,7 @@ If there's a particular need for this, please submit a feature request at https:
     const flexControlValue = selfStretch || FLEX_CHILD_LAYOUT_VALUES.fit;
     const hasFlexSizeValue = isFlexSizeValue(flexControlValue);
     const hasFlexValue = () => !!selfStretch;
-    const flexResetLabel = orientation === "horizontal" ? (0, import_i18n282.__)("Width") : (0, import_i18n282.__)("Height");
+    const flexResetLabel = orientation === "horizontal" ? (0, import_i18n283.__)("Width") : (0, import_i18n283.__)("Height");
     const [availableUnits] = useSettings("spacing.units");
     const units2 = (0, import_components276.__experimentalUseCustomUnits)({
       availableUnits: availableUnits || [
@@ -130307,7 +130341,7 @@ If there's a particular need for this, please submit a feature request at https:
                   import_components276.__experimentalToggleGroupControlOption,
                   {
                     value: FLEX_CHILD_LAYOUT_VALUES.fit,
-                    label: (0, import_i18n282._x)(
+                    label: (0, import_i18n283._x)(
                       "Fit",
                       "Intrinsic block width in flex layout"
                     )
@@ -130318,7 +130352,7 @@ If there's a particular need for this, please submit a feature request at https:
                   import_components276.__experimentalToggleGroupControlOption,
                   {
                     value: FLEX_CHILD_LAYOUT_VALUES.grow,
-                    label: (0, import_i18n282._x)(
+                    label: (0, import_i18n283._x)(
                       "Grow",
                       "Block with expanding width in flex layout"
                     )
@@ -130337,7 +130371,7 @@ If there's a particular need for this, please submit a feature request at https:
                   import_components276.__experimentalToggleGroupControlOption,
                   {
                     value: FLEX_CHILD_LAYOUT_VALUES.fixed,
-                    label: (0, import_i18n282._x)(
+                    label: (0, import_i18n283._x)(
                       "Fixed",
                       "Block with fixed width in flex layout"
                     )
@@ -130369,7 +130403,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
   function childLayoutOrientation(parentLayout) {
     const { orientation = "horizontal" } = parentLayout ?? {};
-    return orientation === "horizontal" ? (0, import_i18n282.__)("Width") : (0, import_i18n282.__)("Height");
+    return orientation === "horizontal" ? (0, import_i18n283.__)("Width") : (0, import_i18n283.__)("Height");
   }
   function GridControls({
     childLayout,
@@ -130413,7 +130447,7 @@ If there's a particular need for this, please submit a feature request at https:
         {
           as: import_components276.__experimentalToolsPanelItem,
           hasValue: hasSpanValue,
-          label: (0, import_i18n282.__)("Grid span"),
+          label: (0, import_i18n283.__)("Grid span"),
           onDeselect: resetGridSpans,
           isShownByDefault,
           panelId,
@@ -130421,7 +130455,7 @@ If there's a particular need for this, please submit a feature request at https:
             /* @__PURE__ */ (0, import_jsx_runtime691.jsx)(import_components276.FlexItem, { style: { width: "50%" }, children: /* @__PURE__ */ (0, import_jsx_runtime691.jsx)(
               import_components276.__experimentalInputControl,
               {
-                label: (0, import_i18n282.__)("Column span"),
+                label: (0, import_i18n283.__)("Column span"),
                 type: "number",
                 onChange: (value) => {
                   const newColumnSpan = value === "" ? 1 : parseInt(value, 10);
@@ -130441,7 +130475,7 @@ If there's a particular need for this, please submit a feature request at https:
             /* @__PURE__ */ (0, import_jsx_runtime691.jsx)(import_components276.FlexItem, { style: { width: "50%" }, children: /* @__PURE__ */ (0, import_jsx_runtime691.jsx)(
               import_components276.__experimentalInputControl,
               {
-                label: (0, import_i18n282.__)("Row span"),
+                label: (0, import_i18n283.__)("Row span"),
                 type: "number",
                 onChange: (value) => {
                   const newRowSpan = value === "" ? 1 : parseInt(value, 10);
@@ -130469,7 +130503,7 @@ If there's a particular need for this, please submit a feature request at https:
         {
           as: import_components276.__experimentalToolsPanelItem,
           hasValue: hasStartValue,
-          label: (0, import_i18n282.__)("Grid placement"),
+          label: (0, import_i18n283.__)("Grid placement"),
           onDeselect: resetGridStarts,
           isShownByDefault: false,
           panelId,
@@ -130477,7 +130511,7 @@ If there's a particular need for this, please submit a feature request at https:
             /* @__PURE__ */ (0, import_jsx_runtime691.jsx)(import_components276.FlexItem, { style: { width: "50%" }, children: /* @__PURE__ */ (0, import_jsx_runtime691.jsx)(
               import_components276.__experimentalInputControl,
               {
-                label: (0, import_i18n282.__)("Column"),
+                label: (0, import_i18n283.__)("Column"),
                 type: "number",
                 onChange: (value) => {
                   const newColumnStart = value === "" ? 1 : parseInt(value, 10);
@@ -130506,7 +130540,7 @@ If there's a particular need for this, please submit a feature request at https:
             /* @__PURE__ */ (0, import_jsx_runtime691.jsx)(import_components276.FlexItem, { style: { width: "50%" }, children: /* @__PURE__ */ (0, import_jsx_runtime691.jsx)(
               import_components276.__experimentalInputControl,
               {
-                label: (0, import_i18n282.__)("Row"),
+                label: (0, import_i18n283.__)("Row"),
                 type: "number",
                 onChange: (value) => {
                   const newRowStart = value === "" ? 1 : parseInt(value, 10);
@@ -130539,7 +130573,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/dimensions-tool/aspect-ratio-tool.mjs
-  var import_i18n283 = __toESM(require_i18n(), 1);
+  var import_i18n284 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/dimensions-tool/utils.mjs
   function parseAspectRatio(value) {
@@ -130602,7 +130636,7 @@ If there's a particular need for this, please submit a feature request at https:
     }));
     const aspectRatioOptions = [
       {
-        label: (0, import_i18n283._x)(
+        label: (0, import_i18n284._x)(
           "Original",
           "Aspect ratio option for dimensions control"
         ),
@@ -130612,7 +130646,7 @@ If there's a particular need for this, please submit a feature request at https:
       ...showDefaultRatios ? defaultOptions2 : [],
       ...themeOptions ? themeOptions : [],
       {
-        label: (0, import_i18n283._x)("Custom", "Aspect ratio option for dimensions control"),
+        label: (0, import_i18n284._x)("Custom", "Aspect ratio option for dimensions control"),
         value: "custom",
         disabled: true,
         hidden: true
@@ -130627,14 +130661,14 @@ If there's a particular need for this, please submit a feature request at https:
         isInherited,
         hasLocalOverride,
         hasValue: hasValue3 ? hasValue3 : () => displayValue !== defaultValue2,
-        label: (0, import_i18n283.__)("Aspect ratio"),
+        label: (0, import_i18n284.__)("Aspect ratio"),
         onDeselect: () => onChange(void 0),
         isShownByDefault,
         panelId,
         children: /* @__PURE__ */ (0, import_jsx_runtime692.jsx)(
           SelectControl2,
           {
-            label: (0, import_i18n283.__)("Aspect ratio"),
+            label: (0, import_i18n284.__)("Aspect ratio"),
             value: resolvedOptions.find(
               (item) => item.value === displayValue
             ) ?? resolvedOptions.find((item) => !item.disabled) ?? null,
@@ -130809,7 +130843,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime693.jsx)(
       import_components277.__experimentalToolsPanel,
       {
-        label: (0, import_i18n284.__)("Dimensions"),
+        label: (0, import_i18n285.__)("Dimensions"),
         resetAll,
         panelId,
         dropdownMenuProps,
@@ -131136,7 +131170,7 @@ If there's a particular need for this, please submit a feature request at https:
         onChange,
         panelId,
         children: [
-          (showContentSizeControl || showWideSizeControl) && /* @__PURE__ */ (0, import_jsx_runtime693.jsx)("span", { className: "span-columns", children: (0, import_i18n284.__)("Set the width of the main content area.") }),
+          (showContentSizeControl || showWideSizeControl) && /* @__PURE__ */ (0, import_jsx_runtime693.jsx)("span", { className: "span-columns", children: (0, import_i18n285.__)("Set the width of the main content area.") }),
           showContentSizeControl && /* @__PURE__ */ (0, import_jsx_runtime693.jsx)(
             InheritanceToolsPanelItem,
             {
@@ -131144,7 +131178,7 @@ If there's a particular need for this, please submit a feature request at https:
                 isContentSizePlaceholder,
                 hasUserSetContentSizeValue() && inheritedContentSizeValue !== void 0
               ),
-              label: (0, import_i18n284.__)("Content width"),
+              label: (0, import_i18n285.__)("Content width"),
               hasValue: hasUserSetContentSizeValue,
               onDeselect: resetContentSizeValue,
               isShownByDefault: defaultControls.contentSize ?? DEFAULT_CONTROLS6.contentSize,
@@ -131152,7 +131186,7 @@ If there's a particular need for this, please submit a feature request at https:
               children: /* @__PURE__ */ (0, import_jsx_runtime693.jsx)(
                 import_components277.__experimentalUnitControl,
                 {
-                  label: (0, import_i18n284.__)("Content width"),
+                  label: (0, import_i18n285.__)("Content width"),
                   labelPosition: "top",
                   value: localContentSizeValue ?? inheritedContentSizeValue,
                   placeholder: isContentSizePlaceholder ? getNumericPlaceholder2(
@@ -131174,7 +131208,7 @@ If there's a particular need for this, please submit a feature request at https:
                 isWideSizePlaceholder,
                 hasUserSetWideSizeValue() && inheritedWideSizeValue !== void 0
               ),
-              label: (0, import_i18n284.__)("Wide width"),
+              label: (0, import_i18n285.__)("Wide width"),
               hasValue: hasUserSetWideSizeValue,
               onDeselect: resetWideSizeValue,
               isShownByDefault: defaultControls.wideSize ?? DEFAULT_CONTROLS6.wideSize,
@@ -131182,7 +131216,7 @@ If there's a particular need for this, please submit a feature request at https:
               children: /* @__PURE__ */ (0, import_jsx_runtime693.jsx)(
                 import_components277.__experimentalUnitControl,
                 {
-                  label: (0, import_i18n284.__)("Wide width"),
+                  label: (0, import_i18n285.__)("Wide width"),
                   labelPosition: "top",
                   value: localWideSizeValue ?? inheritedWideSizeValue,
                   placeholder: isWideSizePlaceholder ? getNumericPlaceholder2(
@@ -131201,7 +131235,7 @@ If there's a particular need for this, please submit a feature request at https:
             InheritanceToolsPanelItem,
             {
               hasValue: hasPaddingValue,
-              label: (0, import_i18n284.__)("Padding"),
+              label: (0, import_i18n285.__)("Padding"),
               hasInlineEndToggle: hasSpacingToggle(
                 paddingSides,
                 showSpacingPresetsControl
@@ -131222,7 +131256,7 @@ If there's a particular need for this, please submit a feature request at https:
                   {
                     values: localPaddingValues,
                     onChange: setPaddingValues,
-                    label: (0, import_i18n284.__)("Padding"),
+                    label: (0, import_i18n285.__)("Padding"),
                     sides: paddingSides,
                     units: units2,
                     allowReset: false,
@@ -131239,7 +131273,7 @@ If there's a particular need for this, please submit a feature request at https:
                   {
                     values: paddingValues,
                     onChange: setPaddingValues,
-                    label: (0, import_i18n284.__)("Padding"),
+                    label: (0, import_i18n285.__)("Padding"),
                     sides: paddingSides,
                     units: units2,
                     allowReset: false,
@@ -131254,7 +131288,7 @@ If there's a particular need for this, please submit a feature request at https:
             InheritanceToolsPanelItem,
             {
               hasValue: hasMarginValue,
-              label: (0, import_i18n284.__)("Margin"),
+              label: (0, import_i18n285.__)("Margin"),
               hasInlineEndToggle: hasSpacingToggle(
                 marginSides,
                 showSpacingPresetsControl
@@ -131287,7 +131321,7 @@ If there's a particular need for this, please submit a feature request at https:
                       onMouseOut: onMouseLeaveControls,
                       placeholder: isMarginPlaceholder ? inheritedMarginPlaceholder : void 0
                     },
-                    label: (0, import_i18n284.__)("Margin"),
+                    label: (0, import_i18n285.__)("Margin"),
                     sides: marginSides,
                     units: units2,
                     allowReset: false,
@@ -131300,7 +131334,7 @@ If there's a particular need for this, please submit a feature request at https:
                     values: marginValues,
                     onChange: setMarginValues,
                     minimumCustomValue: -Infinity,
-                    label: (0, import_i18n284.__)("Margin"),
+                    label: (0, import_i18n285.__)("Margin"),
                     sides: marginSides,
                     units: units2,
                     allowReset: false,
@@ -131315,7 +131349,7 @@ If there's a particular need for this, please submit a feature request at https:
             InheritanceToolsPanelItem,
             {
               hasValue: hasGapValue,
-              label: (0, import_i18n284.__)("Block spacing"),
+              label: (0, import_i18n285.__)("Block spacing"),
               hasInlineEndToggle: isAxialGap,
               onDeselect: resetGapValue,
               isShownByDefault: defaultControls.blockGap ?? DEFAULT_CONTROLS6.blockGap,
@@ -131335,7 +131369,7 @@ If there's a particular need for this, please submit a feature request at https:
                 !showSpacingPresetsControl && (isAxialGap ? /* @__PURE__ */ (0, import_jsx_runtime693.jsx)(
                   import_components277.BoxControl,
                   {
-                    label: (0, import_i18n284.__)("Block spacing"),
+                    label: (0, import_i18n285.__)("Block spacing"),
                     min: 0,
                     onChange: setGapValues,
                     units: units2,
@@ -131347,7 +131381,7 @@ If there's a particular need for this, please submit a feature request at https:
                 ) : /* @__PURE__ */ (0, import_jsx_runtime693.jsx)(
                   import_components277.__experimentalUnitControl,
                   {
-                    label: (0, import_i18n284.__)("Block spacing"),
+                    label: (0, import_i18n285.__)("Block spacing"),
                     min: 0,
                     onChange: setGapValue,
                     units: units2,
@@ -131358,7 +131392,7 @@ If there's a particular need for this, please submit a feature request at https:
                 showSpacingPresetsControl && /* @__PURE__ */ (0, import_jsx_runtime693.jsx)(
                   SpacingSizesControl,
                   {
-                    label: (0, import_i18n284.__)("Block spacing"),
+                    label: (0, import_i18n285.__)("Block spacing"),
                     min: 0,
                     onChange: setGapValues,
                     showSideInLabel: false,
@@ -131390,14 +131424,14 @@ If there's a particular need for this, please submit a feature request at https:
                 hasMinHeightValue() && inheritedMinHeightValue !== void 0
               ),
               hasValue: hasMinHeightValue,
-              label: (0, import_i18n284.__)("Minimum height"),
+              label: (0, import_i18n285.__)("Minimum height"),
               onDeselect: resetMinHeightValue,
               isShownByDefault: defaultControls.minHeight ?? DEFAULT_CONTROLS6.minHeight,
               panelId,
               children: /* @__PURE__ */ (0, import_jsx_runtime693.jsx)(
                 DimensionControl,
                 {
-                  label: (0, import_i18n284.__)("Minimum height"),
+                  label: (0, import_i18n285.__)("Minimum height"),
                   value: localMinHeightValue ?? inheritedMinHeightValue,
                   onChange: setMinHeightValue,
                   placeholder: isMinHeightPlaceholder ? getNumericPlaceholder2(
@@ -131416,14 +131450,14 @@ If there's a particular need for this, please submit a feature request at https:
                 hasMinWidthValue() && inheritedMinWidthValue !== void 0
               ),
               hasValue: hasMinWidthValue,
-              label: (0, import_i18n284.__)("Minimum width"),
+              label: (0, import_i18n285.__)("Minimum width"),
               onDeselect: resetMinWidthValue,
               isShownByDefault: defaultControls.minWidth ?? DEFAULT_CONTROLS6.minWidth,
               panelId,
               children: /* @__PURE__ */ (0, import_jsx_runtime693.jsx)(
                 DimensionControl,
                 {
-                  label: (0, import_i18n284.__)("Minimum width"),
+                  label: (0, import_i18n285.__)("Minimum width"),
                   value: localMinWidthValue ?? inheritedMinWidthValue,
                   onChange: setMinWidthValue,
                   placeholder: isMinWidthPlaceholder ? getNumericPlaceholder2(
@@ -131442,14 +131476,14 @@ If there's a particular need for this, please submit a feature request at https:
                 hasHeightValue() && inheritedHeightValue !== void 0
               ),
               hasValue: hasHeightValue,
-              label: (0, import_i18n284.__)("Height"),
+              label: (0, import_i18n285.__)("Height"),
               onDeselect: resetHeightValue,
               isShownByDefault: defaultControls.height ?? DEFAULT_CONTROLS6.height,
               panelId,
               children: /* @__PURE__ */ (0, import_jsx_runtime693.jsx)(
                 DimensionControl,
                 {
-                  label: (0, import_i18n284.__)("Height"),
+                  label: (0, import_i18n285.__)("Height"),
                   value: localHeightValue,
                   onChange: setHeightValue,
                   placeholder: isHeightPlaceholder ? inheritedHeightValue : void 0,
@@ -131466,14 +131500,14 @@ If there's a particular need for this, please submit a feature request at https:
                 hasWidthValue() && inheritedWidthValue !== void 0
               ),
               hasValue: hasWidthValue,
-              label: (0, import_i18n284.__)("Width"),
+              label: (0, import_i18n285.__)("Width"),
               onDeselect: resetWidthValue,
               isShownByDefault: defaultControls.width ?? DEFAULT_CONTROLS6.width,
               panelId,
               children: /* @__PURE__ */ (0, import_jsx_runtime693.jsx)(
                 DimensionControl,
                 {
-                  label: (0, import_i18n284.__)("Width"),
+                  label: (0, import_i18n285.__)("Width"),
                   value: localWidthValue,
                   onChange: setWidthValue,
                   placeholder: isWidthPlaceholder ? inheritedWidthValue : void 0,
@@ -131504,10 +131538,10 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/global-styles/border-panel.mjs
   var import_components279 = __toESM(require_components(), 1);
   var import_element454 = __toESM(require_element(), 1);
-  var import_i18n286 = __toESM(require_i18n(), 1);
+  var import_i18n287 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/global-styles/shadow-panel-components.mjs
-  var import_i18n285 = __toESM(require_i18n(), 1);
+  var import_i18n286 = __toESM(require_i18n(), 1);
   var import_components278 = __toESM(require_components(), 1);
   var import_element453 = __toESM(require_element(), 1);
   var import_jsx_runtime694 = __toESM(require_jsx_runtime(), 1);
@@ -131519,12 +131553,12 @@ If there's a particular need for this, please submit a feature request at https:
         return shadows;
       }
       return [
-        { name: (0, import_i18n285.__)("Unset"), slug: "unset", shadow: "none" },
+        { name: (0, import_i18n286.__)("Unset"), slug: "unset", shadow: "none" },
         ...shadows
       ];
     }, [shadows]);
     return /* @__PURE__ */ (0, import_jsx_runtime694.jsx)("div", { className: "block-editor-global-styles__shadow-popover-container", children: /* @__PURE__ */ (0, import_jsx_runtime694.jsxs)(import_components278.__experimentalVStack, { spacing: 4, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime694.jsx)(import_components278.__experimentalHeading, { level: 5, children: (0, import_i18n285.__)("Drop shadow") }),
+      /* @__PURE__ */ (0, import_jsx_runtime694.jsx)(import_components278.__experimentalHeading, { level: 5, children: (0, import_i18n286.__)("Drop shadow") }),
       /* @__PURE__ */ (0, import_jsx_runtime694.jsx)(
         ShadowPresets,
         {
@@ -131541,7 +131575,7 @@ If there's a particular need for this, please submit a feature request at https:
           onClick: () => onShadowChange(void 0),
           disabled: !shadow,
           accessibleWhenDisabled: true,
-          children: (0, import_i18n285.__)("Clear")
+          children: (0, import_i18n286.__)("Clear")
         }
       ) })
     ] }) });
@@ -131552,7 +131586,7 @@ If there's a particular need for this, please submit a feature request at https:
       {
         role: "listbox",
         className: "block-editor-global-styles__shadow__list",
-        "aria-label": (0, import_i18n285.__)("Drop shadows"),
+        "aria-label": (0, import_i18n286.__)("Drop shadows"),
         children: presets.map(({ name, slug, shadow }) => /* @__PURE__ */ (0, import_jsx_runtime694.jsx)(
           ShadowIndicator,
           {
@@ -131670,7 +131704,7 @@ If there's a particular need for this, please submit a feature request at https:
               size: 24
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime694.jsx)(import_components278.FlexItem, { children: (0, import_i18n285.__)("Drop shadow") })
+          /* @__PURE__ */ (0, import_jsx_runtime694.jsx)(import_components278.FlexItem, { children: (0, import_i18n286.__)("Drop shadow") })
         ] }) }),
         hasLocalValue && (hasLocalOverride ? /* @__PURE__ */ (0, import_jsx_runtime694.jsx)(
           InheritanceResetButton,
@@ -131684,7 +131718,7 @@ If there's a particular need for this, please submit a feature request at https:
             __next40pxDefaultSize: true,
             size: "small",
             icon: reset_default,
-            label: (0, import_i18n285.__)("Remove"),
+            label: (0, import_i18n286.__)("Remove"),
             className: "block-editor-global-styles__shadow-editor__remove-button",
             onClick: handleReset
           }
@@ -131964,7 +131998,7 @@ If there's a particular need for this, please submit a feature request at https:
         value,
         onChange,
         panelId,
-        label: (0, import_i18n286.__)("Borders"),
+        label: (0, import_i18n287.__)("Borders"),
         children: [
           (showBorderWidth || showBorderColor) && /* @__PURE__ */ (0, import_jsx_runtime695.jsx)(
             InheritanceToolsPanelItem,
@@ -131974,7 +132008,7 @@ If there's a particular need for this, please submit a feature request at https:
                 (0, import_components279.__experimentalIsDefinedBorder)(value?.border) && !!inheritedBorder && (0, import_components279.__experimentalIsDefinedBorder)(inheritedBorder)
               ),
               hasValue: () => (0, import_components279.__experimentalIsDefinedBorder)(value?.border),
-              label: (0, import_i18n286.__)("Border"),
+              label: (0, import_i18n287.__)("Border"),
               hasInlineEndToggle: true,
               onDeselect: () => resetBorder(),
               isShownByDefault: showBorderByDefault,
@@ -131986,7 +132020,7 @@ If there's a particular need for this, please submit a feature request at https:
                   disableCustomColors: !areCustomSolidsEnabled,
                   enableAlpha: true,
                   enableStyle: showBorderStyle,
-                  label: (0, import_i18n286.__)("Border"),
+                  label: (0, import_i18n287.__)("Border"),
                   onChange: onBorderChange,
                   popoverOffset: itemPopoverProps.offset,
                   popoverPlacement: itemPopoverProps.placement,
@@ -132004,7 +132038,7 @@ If there's a particular need for this, please submit a feature request at https:
                 hasBorderRadius() && inheritedBorderRadius !== void 0
               ),
               hasValue: hasBorderRadius,
-              label: (0, import_i18n286.__)("Radius"),
+              label: (0, import_i18n287.__)("Radius"),
               hasInlineEndToggle: true,
               onDeselect: () => setBorderRadius(void 0),
               isShownByDefault: defaultControls.radius,
@@ -132028,14 +132062,14 @@ If there's a particular need for this, please submit a feature request at https:
                 isShadowPlaceholder,
                 hasShadow() && inheritedShadow !== void 0
               ),
-              label: (0, import_i18n286.__)("Shadow"),
+              label: (0, import_i18n287.__)("Shadow"),
               hasValue: hasShadow,
               onDeselect: resetShadow,
               isShownByDefault: defaultControls.shadow,
               showLocalOverrideActionsInLabel: false,
               panelId,
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime695.jsx)(import_components279.BaseControl.VisualLabel, { children: (0, import_i18n286.__)("Shadow") }),
+                /* @__PURE__ */ (0, import_jsx_runtime695.jsx)(import_components279.BaseControl.VisualLabel, { children: (0, import_i18n287.__)("Shadow") }),
                 /* @__PURE__ */ (0, import_jsx_runtime695.jsx)(
                   ShadowPopover,
                   {
@@ -132057,7 +132091,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/global-styles/filters-panel.mjs
   var import_components280 = __toESM(require_components(), 1);
-  var import_i18n287 = __toESM(require_i18n(), 1);
+  var import_i18n288 = __toESM(require_i18n(), 1);
   var import_element455 = __toESM(require_element(), 1);
   var import_jsx_runtime696 = __toESM(require_jsx_runtime(), 1);
   var EMPTY_ARRAY21 = [];
@@ -132096,7 +132130,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime696.jsx)(
       import_components280.__experimentalToolsPanel,
       {
-        label: (0, import_i18n287._x)("Filters", "Name for applying graphical effects"),
+        label: (0, import_i18n288._x)("Filters", "Name for applying graphical effects"),
         resetAll,
         panelId,
         dropdownMenuProps,
@@ -132152,7 +132186,7 @@ If there's a particular need for this, please submit a feature request at https:
         LabeledColorIndicator2,
         {
           indicator: duotone,
-          label: (0, import_i18n287.__)("Duotone")
+          label: (0, import_i18n288.__)("Duotone")
         }
       ) }),
       hasLocalValue && (hasLocalOverride ? /* @__PURE__ */ (0, import_jsx_runtime696.jsx)(
@@ -132166,7 +132200,7 @@ If there's a particular need for this, please submit a feature request at https:
         {
           size: "small",
           icon: reset_default,
-          label: (0, import_i18n287.__)("Reset"),
+          label: (0, import_i18n288.__)("Reset"),
           className: "block-editor-panel-duotone-settings__reset",
           onClick: handleReset
         }
@@ -132186,7 +132220,7 @@ If there's a particular need for this, please submit a feature request at https:
     const popoverProps = {
       ...useToolsPanelItemPopoverProps(),
       className: "block-editor-duotone-control__popover",
-      headerTitle: (0, import_i18n287.__)("Duotone")
+      headerTitle: (0, import_i18n288.__)("Duotone")
     };
     const decodeValue = (rawValue) => getValueFromVariable({ settings: settings3 }, "", rawValue);
     const inheritanceProps = (isInherited, hasLocalOverride, className) => getInheritanceProps(
@@ -132252,7 +132286,7 @@ If there's a particular need for this, please submit a feature request at https:
               isDuotonePlaceholder,
               localDuotone !== void 0 && inheritedDuotone !== void 0
             ),
-            label: (0, import_i18n287.__)("Duotone"),
+            label: (0, import_i18n288.__)("Duotone"),
             hasValue: hasDuotone,
             onDeselect: resetDuotone,
             isShownByDefault: defaultControls.duotone,
@@ -132268,8 +132302,8 @@ If there's a particular need for this, please submit a feature request at https:
                   hasLocalOverride: hasDuotoneLocalOverride,
                   onReset: resetDuotone
                 }),
-                renderContent: () => /* @__PURE__ */ (0, import_jsx_runtime696.jsx)(import_components280.__experimentalDropdownContentWrapper, { paddingSize: "small", children: /* @__PURE__ */ (0, import_jsx_runtime696.jsxs)(import_components280.MenuGroup, { label: (0, import_i18n287.__)("Duotone"), children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime696.jsx)("p", { children: (0, import_i18n287.__)(
+                renderContent: () => /* @__PURE__ */ (0, import_jsx_runtime696.jsx)(import_components280.__experimentalDropdownContentWrapper, { paddingSize: "small", children: /* @__PURE__ */ (0, import_jsx_runtime696.jsxs)(import_components280.MenuGroup, { label: (0, import_i18n288.__)("Duotone"), children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime696.jsx)("p", { children: (0, import_i18n288.__)(
                     "Create a two-tone color effect without losing your original image."
                   ) }),
                   /* @__PURE__ */ (0, import_jsx_runtime696.jsx)(
@@ -132295,7 +132329,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/global-styles/image-settings-panel.mjs
   var import_components281 = __toESM(require_components(), 1);
-  var import_i18n288 = __toESM(require_i18n(), 1);
+  var import_i18n289 = __toESM(require_i18n(), 1);
   var import_jsx_runtime697 = __toESM(require_jsx_runtime(), 1);
   function useHasImageSettingsPanel(name, value, inheritedValue) {
     return name === "core/image" && inheritedValue?.lightbox?.allowEditing || !!value?.lightbox;
@@ -132322,7 +132356,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime697.jsx)(import_jsx_runtime697.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime697.jsx)(
       import_components281.__experimentalToolsPanel,
       {
-        label: (0, import_i18n288._x)("Settings", "Image settings"),
+        label: (0, import_i18n289._x)("Settings", "Image settings"),
         resetAll: resetLightbox,
         panelId,
         dropdownMenuProps,
@@ -132330,14 +132364,14 @@ If there's a particular need for this, please submit a feature request at https:
           import_components281.__experimentalToolsPanelItem,
           {
             hasValue: () => !!value?.lightbox,
-            label: (0, import_i18n288.__)("Enlarge on click"),
+            label: (0, import_i18n289.__)("Enlarge on click"),
             onDeselect: resetLightbox,
             isShownByDefault: true,
             panelId,
             children: /* @__PURE__ */ (0, import_jsx_runtime697.jsx)(
               import_components281.ToggleControl,
               {
-                label: (0, import_i18n288.__)("Enlarge on click"),
+                label: (0, import_i18n289.__)("Enlarge on click"),
                 checked: lightboxChecked,
                 onChange: onChangeLightbox
               }
@@ -132351,7 +132385,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/global-styles/advanced-panel.mjs
   var import_components282 = __toESM(require_components(), 1);
   var import_element456 = __toESM(require_element(), 1);
-  var import_i18n289 = __toESM(require_i18n(), 1);
+  var import_i18n290 = __toESM(require_i18n(), 1);
   var import_jsx_runtime698 = __toESM(require_jsx_runtime(), 1);
   function validateCSS(css) {
     if (typeof css === "string" && /<\/?\w/.test(css)) {
@@ -132360,7 +132394,7 @@ If there's a particular need for this, please submit a feature request at https:
     return true;
   }
   function getMarkupValidationError(css) {
-    return validateCSS(css) ? null : (0, import_i18n289.__)("The custom CSS is invalid. Do not use <> markup.");
+    return validateCSS(css) ? null : (0, import_i18n290.__)("The custom CSS is invalid. Do not use <> markup.");
   }
   function getCSSValidationError(css) {
     if (!css) {
@@ -132374,7 +132408,7 @@ If there's a particular need for this, please submit a feature request at https:
       [{ css }],
       ".for-validation-only"
     );
-    return transformed === null ? (0, import_i18n289.__)("There is an error with your CSS structure.") : null;
+    return transformed === null ? (0, import_i18n290.__)("There is an error with your CSS structure.") : null;
   }
   function AdvancedPanel({
     value,
@@ -132419,7 +132453,7 @@ If there's a particular need for this, please submit a feature request at https:
           /* @__PURE__ */ (0, import_jsx_runtime698.jsx)(
             import_components282.TextareaControl,
             {
-              label: (0, import_i18n289.__)("Additional CSS"),
+              label: (0, import_i18n290.__)("Additional CSS"),
               value: customCSS,
               onChange: (newValue) => handleOnChange(newValue),
               onBlur: handleOnBlur,
@@ -134050,7 +134084,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_compose151 = __toESM(require_compose(), 1);
   var import_components285 = __toESM(require_components(), 1);
   var import_blocks126 = __toESM(require_blocks(), 1);
-  var import_i18n290 = __toESM(require_i18n(), 1);
+  var import_i18n291 = __toESM(require_i18n(), 1);
   var import_notices13 = __toESM(require_notices(), 1);
   var import_jsx_runtime704 = __toESM(require_jsx_runtime(), 1);
   var { getResponsiveMediaQueries: getResponsiveMediaQueries4 } = unlock(privateApis);
@@ -134128,9 +134162,9 @@ If there's a particular need for this, please submit a feature request at https:
         style: isStateSelected ? setStyleForState(style, selectedState, cleanedStyle) : cleanedStyle
       });
     }
-    const cssHelpText = (0, import_i18n290.sprintf)(
+    const cssHelpText = (0, import_i18n291.sprintf)(
       // translators: %s: is the name of a block e.g., 'Image' or 'Quote'.
-      (0, import_i18n290.__)(
+      (0, import_i18n291.__)(
         "Add your own CSS to customize the appearance of the %s block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;."
       ),
       blockType?.title
@@ -134144,7 +134178,7 @@ If there's a particular need for this, please submit a feature request at https:
       }
     );
     if (isStateSelected) {
-      return /* @__PURE__ */ (0, import_jsx_runtime704.jsx)(PrivateInspectorControlsStyleStateAdvanced.Fill, { children: /* @__PURE__ */ (0, import_jsx_runtime704.jsx)(import_components285.PanelBody, { title: (0, import_i18n290.__)("Advanced"), children: panel }) });
+      return /* @__PURE__ */ (0, import_jsx_runtime704.jsx)(PrivateInspectorControlsStyleStateAdvanced.Fill, { children: /* @__PURE__ */ (0, import_jsx_runtime704.jsx)(import_components285.PanelBody, { title: (0, import_i18n291.__)("Advanced"), children: panel }) });
     }
     return /* @__PURE__ */ (0, import_jsx_runtime704.jsx)(inspector_controls_default, { group: "advanced", children: panel });
   }
@@ -134190,7 +134224,7 @@ If there's a particular need for this, please submit a feature request at https:
     (0, import_element462.useEffect)(() => {
       if (!canEditCSS && hasCustomCSS) {
         createWarningNotice(
-          (0, import_i18n290.__)(
+          (0, import_i18n291.__)(
             "This post contains blocks with custom CSS. You do not have permission to edit CSS. If you save this post, the custom CSS will be removed."
           ),
           {
@@ -134261,7 +134295,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_blocks127 = __toESM(require_blocks(), 1);
   var import_data198 = __toESM(require_data(), 1);
   var import_components286 = __toESM(require_components(), 1);
-  var import_i18n291 = __toESM(require_i18n(), 1);
+  var import_i18n292 = __toESM(require_i18n(), 1);
   var import_jsx_runtime705 = __toESM(require_jsx_runtime(), 1);
   var VARIATION_PREFIX2 = "is-style-";
   var layoutBlockSupportKey = "layout";
@@ -134579,7 +134613,7 @@ If there's a particular need for this, please submit a feature request at https:
             showInheritToggle && /* @__PURE__ */ (0, import_jsx_runtime705.jsx)(
               import_components286.__experimentalToolsPanelItem,
               {
-                label: (0, import_i18n291.__)("Use content width"),
+                label: (0, import_i18n292.__)("Use content width"),
                 hasValue: hasInheritToggleValue,
                 onDeselect: resetInheritToggle,
                 isShownByDefault: true,
@@ -134587,14 +134621,14 @@ If there's a particular need for this, please submit a feature request at https:
                 children: /* @__PURE__ */ (0, import_jsx_runtime705.jsx)(
                   import_components286.ToggleControl,
                   {
-                    label: (0, import_i18n291.__)("Inner blocks use content width"),
+                    label: (0, import_i18n292.__)("Inner blocks use content width"),
                     checked: isUsingContentWidth(),
                     onChange: () => onChangeLayout({
                       type: isUsingContentWidth() ? "default" : "constrained"
                     }),
-                    help: isUsingContentWidth() ? (0, import_i18n291.__)(
+                    help: isUsingContentWidth() ? (0, import_i18n292.__)(
                       "Nested blocks use content width with options for full and wide widths."
-                    ) : (0, import_i18n291.__)(
+                    ) : (0, import_i18n292.__)(
                       "Nested blocks will fill the width of this container."
                     )
                   }
@@ -134604,7 +134638,7 @@ If there's a particular need for this, please submit a feature request at https:
             showLayoutTypeSwitcher && /* @__PURE__ */ (0, import_jsx_runtime705.jsx)(
               import_components286.__experimentalToolsPanelItem,
               {
-                label: (0, import_i18n291.__)("Layout type"),
+                label: (0, import_i18n292.__)("Layout type"),
                 hasValue: hasLayoutTypeValue,
                 onDeselect: resetLayout,
                 isShownByDefault: true,
@@ -134671,7 +134705,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components286.__experimentalToggleGroupControl,
       {
         isBlock: true,
-        label: (0, import_i18n291.__)("Layout type"),
+        label: (0, import_i18n292.__)("Layout type"),
         hideLabelFromVision: true,
         isAdaptiveWidth: true,
         value: type,
@@ -135523,7 +135557,7 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/grid/grid-item-movers.mjs
-  var import_i18n292 = __toESM(require_i18n(), 1);
+  var import_i18n293 = __toESM(require_i18n(), 1);
   var import_components289 = __toESM(require_components(), 1);
   var import_data200 = __toESM(require_data(), 1);
   var import_compose154 = __toESM(require_compose(), 1);
@@ -135552,9 +135586,9 @@ If there's a particular need for this, please submit a feature request at https:
       /* @__PURE__ */ (0, import_jsx_runtime708.jsx)("div", { className: "block-editor-grid-item-mover__move-horizontal-button-container is-left", children: /* @__PURE__ */ (0, import_jsx_runtime708.jsx)(
         GridItemMover,
         {
-          icon: (0, import_i18n292.isRTL)() ? chevron_right_default : chevron_left_default,
-          label: (0, import_i18n292.__)("Move left"),
-          description: (0, import_i18n292.__)("Move left"),
+          icon: (0, import_i18n293.isRTL)() ? chevron_right_default : chevron_left_default,
+          label: (0, import_i18n293.__)("Move left"),
+          description: (0, import_i18n293.__)("Move left"),
           isDisabled: columnStart <= 1,
           onClick: () => {
             onChange({
@@ -135579,8 +135613,8 @@ If there's a particular need for this, please submit a feature request at https:
           {
             className: "is-up-button",
             icon: chevron_up_default,
-            label: (0, import_i18n292.__)("Move up"),
-            description: (0, import_i18n292.__)("Move up"),
+            label: (0, import_i18n293.__)("Move up"),
+            description: (0, import_i18n293.__)("Move up"),
             isDisabled: rowStart <= 1,
             onClick: () => {
               onChange({
@@ -135604,8 +135638,8 @@ If there's a particular need for this, please submit a feature request at https:
           {
             className: "is-down-button",
             icon: chevron_down_default,
-            label: (0, import_i18n292.__)("Move down"),
-            description: (0, import_i18n292.__)("Move down"),
+            label: (0, import_i18n293.__)("Move down"),
+            description: (0, import_i18n293.__)("Move down"),
             isDisabled: rowCount && rowEnd >= rowCount,
             onClick: () => {
               onChange({
@@ -135628,9 +135662,9 @@ If there's a particular need for this, please submit a feature request at https:
       /* @__PURE__ */ (0, import_jsx_runtime708.jsx)("div", { className: "block-editor-grid-item-mover__move-horizontal-button-container is-right", children: /* @__PURE__ */ (0, import_jsx_runtime708.jsx)(
         GridItemMover,
         {
-          icon: (0, import_i18n292.isRTL)() ? chevron_left_default : chevron_right_default,
-          label: (0, import_i18n292.__)("Move right"),
-          description: (0, import_i18n292.__)("Move right"),
+          icon: (0, import_i18n293.isRTL)() ? chevron_left_default : chevron_right_default,
+          label: (0, import_i18n293.__)("Move right"),
+          description: (0, import_i18n293.__)("Move right"),
           isDisabled: columnCount && columnEnd >= columnCount,
           onClick: () => {
             onChange({
@@ -136344,7 +136378,7 @@ If there's a particular need for this, please submit a feature request at https:
   );
 
   // packages/block-editor/build-module/hooks/block-hooks.mjs
-  var import_i18n293 = __toESM(require_i18n(), 1);
+  var import_i18n294 = __toESM(require_i18n(), 1);
   var import_element468 = __toESM(require_element(), 1);
   var import_components290 = __toESM(require_components(), 1);
   var import_blocks129 = __toESM(require_blocks(), 1);
@@ -136470,10 +136504,10 @@ If there's a particular need for this, please submit a feature request at https:
       import_components290.PanelBody,
       {
         className: "block-editor-hooks__block-hooks",
-        title: (0, import_i18n293.__)("Plugins"),
+        title: (0, import_i18n294.__)("Plugins"),
         initialOpen: true,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime710.jsx)("p", { className: "block-editor-hooks__block-hooks-helptext", children: (0, import_i18n293.__)(
+          /* @__PURE__ */ (0, import_jsx_runtime710.jsx)("p", { className: "block-editor-hooks__block-hooks-helptext", children: (0, import_i18n294.__)(
             "Manage the inclusion of blocks added automatically by plugins."
           ) }),
           Object.keys(groupedHookedBlocks).map((vendor) => {
@@ -136519,7 +136553,7 @@ If there's a particular need for this, please submit a feature request at https:
   };
 
   // packages/block-editor/build-module/hooks/block-bindings.mjs
-  var import_i18n294 = __toESM(require_i18n(), 1);
+  var import_i18n295 = __toESM(require_i18n(), 1);
   var import_blocks130 = __toESM(require_blocks(), 1);
   var import_components292 = __toESM(require_components(), 1);
   var import_data204 = __toESM(require_data(), 1);
@@ -136572,7 +136606,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime711.jsx)(inspector_controls_default, { group: "bindings", children: /* @__PURE__ */ (0, import_jsx_runtime711.jsxs)(
       import_components292.__experimentalToolsPanel,
       {
-        label: (0, import_i18n294.__)("Attributes"),
+        label: (0, import_i18n295.__)("Attributes"),
         resetAll: () => {
           removeAllBlockBindings();
         },
@@ -136588,7 +136622,7 @@ If there's a particular need for this, please submit a feature request at https:
             },
             attribute
           )) }),
-          /* @__PURE__ */ (0, import_jsx_runtime711.jsx)(import_components292.__experimentalText, { as: "div", variant: "muted", children: /* @__PURE__ */ (0, import_jsx_runtime711.jsx)("p", { children: (0, import_i18n294.__)(
+          /* @__PURE__ */ (0, import_jsx_runtime711.jsx)(import_components292.__experimentalText, { as: "div", variant: "muted", children: /* @__PURE__ */ (0, import_jsx_runtime711.jsx)("p", { children: (0, import_i18n295.__)(
             "Attributes connected to custom fields or other dynamic data."
           ) }) })
         ]
@@ -136608,7 +136642,7 @@ If there's a particular need for this, please submit a feature request at https:
   };
 
   // packages/block-editor/build-module/hooks/list-view.mjs
-  var import_i18n295 = __toESM(require_i18n(), 1);
+  var import_i18n296 = __toESM(require_i18n(), 1);
   var import_components293 = __toESM(require_components(), 1);
   var import_data206 = __toESM(require_data(), 1);
   var import_blocks131 = __toESM(require_blocks(), 1);
@@ -136684,7 +136718,7 @@ If there's a particular need for this, please submit a feature request at https:
         opened: isOpened,
         onToggle: handleToggle,
         children: [
-          !hasChildren && /* @__PURE__ */ (0, import_jsx_runtime712.jsx)("p", { className: "block-editor-block-inspector__no-blocks", children: (0, import_i18n295.__)("No items yet.") }),
+          !hasChildren && /* @__PURE__ */ (0, import_jsx_runtime712.jsx)("p", { className: "block-editor-block-inspector__no-blocks", children: (0, import_i18n296.__)("No items yet.") }),
           /* @__PURE__ */ (0, import_jsx_runtime712.jsx)(
             PrivateListView,
             {
@@ -136832,7 +136866,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_components294 = __toESM(require_components(), 1);
   var import_data208 = __toESM(require_data(), 1);
   var import_element471 = __toESM(require_element(), 1);
-  var import_i18n296 = __toESM(require_i18n(), 1);
+  var import_i18n297 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/hooks/generate-fields-from-attributes.mjs
   function generateFieldsFromAttributes(attributes) {
@@ -136932,7 +136966,7 @@ If there's a particular need for this, please submit a feature request at https:
     if (!fields || fields.length === 0) {
       return null;
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime714.jsx)(inspector_controls_default, { children: /* @__PURE__ */ (0, import_jsx_runtime714.jsx)(import_components294.PanelBody, { title: (0, import_i18n296.__)("Settings"), children: /* @__PURE__ */ (0, import_jsx_runtime714.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime714.jsx)(inspector_controls_default, { children: /* @__PURE__ */ (0, import_jsx_runtime714.jsx)(import_components294.PanelBody, { title: (0, import_i18n297.__)("Settings"), children: /* @__PURE__ */ (0, import_jsx_runtime714.jsx)(
       DataForm,
       {
         data: attributes,
@@ -137305,7 +137339,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_element475 = __toESM(require_element(), 1);
   var import_data209 = __toESM(require_data(), 1);
   var import_components296 = __toESM(require_components(), 1);
-  var import_i18n297 = __toESM(require_i18n(), 1);
+  var import_i18n298 = __toESM(require_i18n(), 1);
   var import_jsx_runtime717 = __toESM(require_jsx_runtime(), 1);
   function BlockRemovalWarningModal({ rules }) {
     const [confirmed, setConfirmed] = (0, import_element475.useState)(false);
@@ -137345,7 +137379,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime717.jsx)(
       import_components296.Modal,
       {
-        title: (0, import_i18n297.__)("Confirm deletion"),
+        title: (0, import_i18n298.__)("Confirm deletion"),
         onRequestClose: clearBlockRemovalPrompt2,
         size: "medium",
         children: /* @__PURE__ */ (0, import_jsx_runtime717.jsxs)(import_components296.__experimentalVStack, { spacing: 4, children: [
@@ -137360,7 +137394,7 @@ If there's a particular need for this, please submit a feature request at https:
           requireConfirmation && /* @__PURE__ */ (0, import_jsx_runtime717.jsx)(
             import_components296.CheckboxControl,
             {
-              label: (0, import_i18n297.__)("I understand the consequences"),
+              label: (0, import_i18n298.__)("I understand the consequences"),
               checked: confirmed,
               onChange: setConfirmed
             }
@@ -137372,7 +137406,7 @@ If there's a particular need for this, please submit a feature request at https:
                 variant: "tertiary",
                 onClick: clearBlockRemovalPrompt2,
                 __next40pxDefaultSize: true,
-                children: (0, import_i18n297.__)("Cancel")
+                children: (0, import_i18n298.__)("Cancel")
               }
             ),
             /* @__PURE__ */ (0, import_jsx_runtime717.jsx)(
@@ -137383,7 +137417,7 @@ If there's a particular need for this, please submit a feature request at https:
                 disabled: isRemoveDisabled,
                 accessibleWhenDisabled: true,
                 __next40pxDefaultSize: true,
-                children: (0, import_i18n297.__)("Delete")
+                children: (0, import_i18n298.__)("Delete")
               }
             )
           ] })
@@ -137398,35 +137432,35 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/dimensions-tool/scale-tool.mjs
   var import_components297 = __toESM(require_components(), 1);
   var import_element476 = __toESM(require_element(), 1);
-  var import_i18n298 = __toESM(require_i18n(), 1);
+  var import_i18n299 = __toESM(require_i18n(), 1);
   var import_jsx_runtime718 = __toESM(require_jsx_runtime(), 1);
   var DEFAULT_SCALE_OPTIONS = [
     {
       value: "fill",
-      label: (0, import_i18n298._x)("Fill", "Scale option for dimensions control"),
-      help: (0, import_i18n298.__)("Fill the space by stretching the content.")
+      label: (0, import_i18n299._x)("Fill", "Scale option for dimensions control"),
+      help: (0, import_i18n299.__)("Fill the space by stretching the content.")
     },
     {
       value: "contain",
-      label: (0, import_i18n298._x)("Contain", "Scale option for dimensions control"),
-      help: (0, import_i18n298.__)("Fit the content to the space without clipping.")
+      label: (0, import_i18n299._x)("Contain", "Scale option for dimensions control"),
+      help: (0, import_i18n299.__)("Fit the content to the space without clipping.")
     },
     {
       value: "cover",
-      label: (0, import_i18n298._x)("Cover", "Scale option for dimensions control"),
-      help: (0, import_i18n298.__)("Fill the space by clipping what doesn't fit.")
+      label: (0, import_i18n299._x)("Cover", "Scale option for dimensions control"),
+      help: (0, import_i18n299.__)("Fill the space by clipping what doesn't fit.")
     },
     {
       value: "none",
-      label: (0, import_i18n298._x)("None", "Scale option for dimensions control"),
-      help: (0, import_i18n298.__)(
+      label: (0, import_i18n299._x)("None", "Scale option for dimensions control"),
+      help: (0, import_i18n299.__)(
         "Do not adjust the sizing of the content. Content that is too large will be clipped, and content that is too small will have additional padding."
       )
     },
     {
       value: "scale-down",
-      label: (0, import_i18n298._x)("Scale down", "Scale option for dimensions control"),
-      help: (0, import_i18n298.__)(
+      label: (0, import_i18n299._x)("Scale down", "Scale option for dimensions control"),
+      help: (0, import_i18n299.__)(
         "Scale down the content to fit the space if it is too big. Content that is too small will have additional padding."
       )
     }
@@ -137452,7 +137486,7 @@ If there's a particular need for this, please submit a feature request at https:
     return /* @__PURE__ */ (0, import_jsx_runtime718.jsx)(
       import_components297.__experimentalToolsPanelItem,
       {
-        label: (0, import_i18n298._x)("Scale", "Image scaling options"),
+        label: (0, import_i18n299._x)("Scale", "Image scaling options"),
         isShownByDefault,
         hasValue: () => displayValue !== defaultValue2,
         onDeselect: () => onChange(defaultValue2),
@@ -137460,7 +137494,7 @@ If there's a particular need for this, please submit a feature request at https:
         children: /* @__PURE__ */ (0, import_jsx_runtime718.jsx)(
           import_components297.__experimentalToggleGroupControl,
           {
-            label: (0, import_i18n298._x)("Scale", "Image scaling options"),
+            label: (0, import_i18n299._x)("Scale", "Image scaling options"),
             isBlock: true,
             help: scaleHelp[displayValue],
             value: displayValue,
@@ -137480,7 +137514,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/dimensions-tool/width-height-tool.mjs
   var import_components298 = __toESM(require_components(), 1);
-  var import_i18n299 = __toESM(require_i18n(), 1);
+  var import_i18n300 = __toESM(require_i18n(), 1);
   var import_jsx_runtime719 = __toESM(require_jsx_runtime(), 1);
   function WidthHeightTool({
     panelId,
@@ -137506,7 +137540,7 @@ If there's a particular need for this, please submit a feature request at https:
         import_components298.__experimentalToolsPanelItem,
         {
           style: { gridColumn: "span 1" },
-          label: (0, import_i18n299.__)("Width"),
+          label: (0, import_i18n300.__)("Width"),
           isShownByDefault,
           hasValue: () => width !== "",
           onDeselect: onDimensionChange("width"),
@@ -137514,8 +137548,8 @@ If there's a particular need for this, please submit a feature request at https:
           children: /* @__PURE__ */ (0, import_jsx_runtime719.jsx)(
             import_components298.__experimentalUnitControl,
             {
-              label: (0, import_i18n299.__)("Width"),
-              placeholder: (0, import_i18n299.__)("Auto"),
+              label: (0, import_i18n300.__)("Width"),
+              placeholder: (0, import_i18n300.__)("Auto"),
               labelPosition: "top",
               units: units2,
               min: 0,
@@ -137529,7 +137563,7 @@ If there's a particular need for this, please submit a feature request at https:
         import_components298.__experimentalToolsPanelItem,
         {
           style: { gridColumn: "span 1" },
-          label: (0, import_i18n299.__)("Height"),
+          label: (0, import_i18n300.__)("Height"),
           isShownByDefault,
           hasValue: () => height !== "",
           onDeselect: onDimensionChange("height"),
@@ -137537,8 +137571,8 @@ If there's a particular need for this, please submit a feature request at https:
           children: /* @__PURE__ */ (0, import_jsx_runtime719.jsx)(
             import_components298.__experimentalUnitControl,
             {
-              label: (0, import_i18n299.__)("Height"),
-              placeholder: (0, import_i18n299.__)("Auto"),
+              label: (0, import_i18n300.__)("Height"),
+              placeholder: (0, import_i18n300.__)("Auto"),
               labelPosition: "top",
               units: units2,
               min: 0,
@@ -137675,23 +137709,23 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/block-editor/build-module/components/resolution-tool/index.mjs
   var import_components299 = __toESM(require_components(), 1);
-  var import_i18n300 = __toESM(require_i18n(), 1);
+  var import_i18n301 = __toESM(require_i18n(), 1);
   var import_jsx_runtime721 = __toESM(require_jsx_runtime(), 1);
   var DEFAULT_SIZE_OPTIONS = [
     {
-      label: (0, import_i18n300._x)("Thumbnail", "Image size option for resolution control"),
+      label: (0, import_i18n301._x)("Thumbnail", "Image size option for resolution control"),
       value: "thumbnail"
     },
     {
-      label: (0, import_i18n300._x)("Medium", "Image size option for resolution control"),
+      label: (0, import_i18n301._x)("Medium", "Image size option for resolution control"),
       value: "medium"
     },
     {
-      label: (0, import_i18n300._x)("Large", "Image size option for resolution control"),
+      label: (0, import_i18n301._x)("Large", "Image size option for resolution control"),
       value: "large"
     },
     {
-      label: (0, import_i18n300._x)("Full Size", "Image size option for resolution control"),
+      label: (0, import_i18n301._x)("Full Size", "Image size option for resolution control"),
       value: "full"
     }
   ];
@@ -137709,7 +137743,7 @@ If there's a particular need for this, please submit a feature request at https:
       import_components299.__experimentalToolsPanelItem,
       {
         hasValue: () => displayValue !== defaultValue2,
-        label: (0, import_i18n300.__)("Resolution"),
+        label: (0, import_i18n301.__)("Resolution"),
         onDeselect: () => onChange(defaultValue2),
         isShownByDefault,
         panelId,
@@ -137717,11 +137751,11 @@ If there's a particular need for this, please submit a feature request at https:
         children: /* @__PURE__ */ (0, import_jsx_runtime721.jsx)(
           SelectControl2,
           {
-            label: (0, import_i18n300.__)("Resolution"),
+            label: (0, import_i18n301.__)("Resolution"),
             value: options.find((item) => item.value === displayValue) ?? options.find((item) => !item.disabled) ?? null,
             items: options,
             onValueChange: (item) => onChange(item?.value ?? ""),
-            description: (0, import_i18n300.__)("Select the size of the source image.")
+            description: (0, import_i18n301.__)("Select the size of the source image.")
           }
         )
       }
@@ -137729,41 +137763,41 @@ If there's a particular need for this, please submit a feature request at https:
   }
 
   // packages/block-editor/build-module/components/html-element-control/index.mjs
-  var import_i18n302 = __toESM(require_i18n(), 1);
+  var import_i18n303 = __toESM(require_i18n(), 1);
   var import_components300 = __toESM(require_components(), 1);
   var import_data210 = __toESM(require_data(), 1);
 
   // packages/block-editor/build-module/components/html-element-control/messages.mjs
-  var import_i18n301 = __toESM(require_i18n(), 1);
+  var import_i18n302 = __toESM(require_i18n(), 1);
   var htmlElementMessages = {
-    a: (0, import_i18n301.__)(
+    a: (0, import_i18n302.__)(
       "The <a> element should be used for links that navigate to a different page or to a different section within the same page."
     ),
-    article: (0, import_i18n301.__)(
+    article: (0, import_i18n302.__)(
       "The <article> element should represent a self-contained, syndicatable portion of the document."
     ),
-    aside: (0, import_i18n301.__)(
+    aside: (0, import_i18n302.__)(
       "The <aside> element should represent a portion of a document whose content is only indirectly related to the document's main content."
     ),
-    button: (0, import_i18n301.__)(
+    button: (0, import_i18n302.__)(
       "The <button> element should be used for interactive controls that perform an action on the current page, such as opening a modal or toggling content visibility."
     ),
-    div: (0, import_i18n301.__)(
+    div: (0, import_i18n302.__)(
       "The <div> element should only be used if the block is a design element with no semantic meaning."
     ),
-    footer: (0, import_i18n301.__)(
+    footer: (0, import_i18n302.__)(
       "The <footer> element should represent a footer for its nearest sectioning element (e.g.: <section>, <article>, <main> etc.)."
     ),
-    header: (0, import_i18n301.__)(
+    header: (0, import_i18n302.__)(
       "The <header> element should represent introductory content, typically a group of introductory or navigational aids."
     ),
-    main: (0, import_i18n301.__)(
+    main: (0, import_i18n302.__)(
       "The <main> element should be used for the primary content of your document only."
     ),
-    nav: (0, import_i18n301.__)(
+    nav: (0, import_i18n302.__)(
       "The <nav> element should be used to identify groups of links that are intended to be used for website or page content navigation."
     ),
-    section: (0, import_i18n301.__)(
+    section: (0, import_i18n302.__)(
       "The <section> element should represent a standalone portion of the document that can't be better represented by another element."
     )
   };
@@ -137775,7 +137809,7 @@ If there's a particular need for this, please submit a feature request at https:
     onChange,
     clientId,
     options = [
-      { label: (0, import_i18n302.__)("Default (<div>)"), value: "div" },
+      { label: (0, import_i18n303.__)("Default (<div>)"), value: "div" },
       { label: "<header>", value: "header" },
       { label: "<main>", value: "main" },
       { label: "<section>", value: "section" },
@@ -137805,9 +137839,9 @@ If there's a particular need for this, please submit a feature request at https:
         return {
           ...option,
           disabled: true,
-          label: (0, import_i18n302.sprintf)(
+          label: (0, import_i18n303.sprintf)(
             /* translators: %s: HTML element name */
-            (0, import_i18n302.__)("%s (Already in use)"),
+            (0, import_i18n303.__)("%s (Already in use)"),
             option.label
           )
         };
@@ -137818,7 +137852,7 @@ If there's a particular need for this, please submit a feature request at https:
       /* @__PURE__ */ (0, import_jsx_runtime722.jsx)(
         SelectControl2,
         {
-          label: (0, import_i18n302.__)("HTML element"),
+          label: (0, import_i18n303.__)("HTML element"),
           items: modifiedOptions,
           value: modifiedOptions.find(
             (item) => item.value === tagName
@@ -137827,7 +137861,7 @@ If there's a particular need for this, please submit a feature request at https:
           description: htmlElementMessages[tagName]
         }
       ),
-      tagName === "main" && hasMainElementElsewhere && /* @__PURE__ */ (0, import_jsx_runtime722.jsx)(import_components300.Notice, { status: "warning", isDismissible: false, children: (0, import_i18n302.__)(
+      tagName === "main" && hasMainElementElsewhere && /* @__PURE__ */ (0, import_jsx_runtime722.jsx)(import_components300.Notice, { status: "warning", isDismissible: false, children: (0, import_i18n303.__)(
         "Multiple <main> elements detected. The duplicate may be in your content or template. This is not valid HTML and may cause accessibility issues. Please change this HTML element."
       ) })
     ] });
@@ -137836,7 +137870,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/block-editor/build-module/components/link-picker/link-picker.mjs
   var import_components302 = __toESM(require_components(), 1);
   var import_element478 = __toESM(require_element(), 1);
-  var import_i18n303 = __toESM(require_i18n(), 1);
+  var import_i18n304 = __toESM(require_i18n(), 1);
 
   // packages/block-editor/build-module/components/link-picker/link-preview.mjs
   var import_components301 = __toESM(require_components(), 1);
@@ -137949,7 +137983,7 @@ If there's a particular need for this, please submit a feature request at https:
             /* @__PURE__ */ (0, import_jsx_runtime724.jsx)(
               LinkPreview2,
               {
-                title: preview.title || (0, import_i18n303.__)("Add link"),
+                title: preview.title || (0, import_i18n304.__)("Add link"),
                 url: preview.url,
                 image: preview.image,
                 badges: preview.badges
@@ -137974,8 +138008,8 @@ If there's a particular need for this, please submit a feature request at https:
               "aria-describedby": dialogDescriptionId,
               children: [
                 /* @__PURE__ */ (0, import_jsx_runtime724.jsxs)(VisuallyHidden, { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime724.jsx)("h2", { id: dialogTitleId, children: (0, import_i18n303.__)("Select a link") }),
-                  /* @__PURE__ */ (0, import_jsx_runtime724.jsx)("p", { id: dialogDescriptionId, children: (0, import_i18n303.__)(
+                  /* @__PURE__ */ (0, import_jsx_runtime724.jsx)("h2", { id: dialogTitleId, children: (0, import_i18n304.__)("Select a link") }),
+                  /* @__PURE__ */ (0, import_jsx_runtime724.jsx)("p", { id: dialogDescriptionId, children: (0, import_i18n304.__)(
                     "Search for and add a link to the navigation item."
                   ) })
                 ] }),

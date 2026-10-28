@@ -1280,8 +1280,9 @@ iframe[name=editor-canvas] {
   gap: 8px;
 }
 .block-editor-block-styles__variants .block-editor-block-styles__item-text {
-  text-align: start;
-  text-align-last: center;
+  text-align: center;
+  padding-inline: 4px;
+  margin-inline: -4px;
 }
 
 .components-popover.block-editor-block-switcher__popover .components-popover__content {

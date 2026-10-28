@@ -2386,7 +2386,7 @@ ul {
   min-width: 0;
 }
 
-:where(.wp-block-media-text > .wp-block-media-text__content) {
+:root :where(.wp-block-media-text > .wp-block-media-text__content) {
   padding: 0 8%;
 }
 
@@ -4214,15 +4214,15 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 .wp-block-post-template-is-layout-constrained > li > .alignright,
 .wp-block-post-template-is-layout-flow > li > .alignright {
   float: left;
-  margin-inline-start: 2em;
-  margin-inline-end: 0;
+  margin-right: 2em;
+  margin-left: 0;
 }
 
 .wp-block-post-template-is-layout-constrained > li > .alignleft,
 .wp-block-post-template-is-layout-flow > li > .alignleft {
   float: right;
-  margin-inline-start: 0;
-  margin-inline-end: 2em;
+  margin-right: 0;
+  margin-left: 2em;
 }
 
 .wp-block-post-template-is-layout-constrained > li > .aligncenter,

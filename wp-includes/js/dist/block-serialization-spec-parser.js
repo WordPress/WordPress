@@ -140,7 +140,7 @@ var wp;
           return "core/" + type;
         }, peg$c21 = /^[a-z]/, peg$c22 = peg$classExpectation([["a", "z"]], false, false), peg$c23 = /^[a-z0-9_\-]/, peg$c24 = peg$classExpectation([["a", "z"], ["0", "9"], "_", "-"], false, false), peg$c25 = peg$otherExpectation("JSON-encoded attributes embedded in a block's opening comment"), peg$c26 = "{", peg$c27 = peg$literalExpectation("{", false), peg$c28 = "}", peg$c29 = peg$literalExpectation("}", false), peg$c30 = "", peg$c31 = function(attrs) {
           return maybeJSON(attrs);
-        }, peg$c32 = /^[ \t\r\n]/, peg$c33 = peg$classExpectation([" ", "	", "\r", "\n"], false, false), peg$currPos = 0, peg$savedPos = 0, peg$posDetailsCache = [{ line: 1, column: 1 }], peg$maxFailPos = 0, peg$maxFailExpected = [], peg$silentFails = 0, peg$result;
+        }, peg$c32 = /^[ \t\f\r\n]/, peg$c33 = peg$classExpectation([" ", "	", "\f", "\r", "\n"], false, false), peg$currPos = 0, peg$savedPos = 0, peg$posDetailsCache = [{ line: 1, column: 1 }], peg$maxFailPos = 0, peg$maxFailExpected = [], peg$silentFails = 0, peg$result;
         if ("startRule" in options) {
           if (!(options.startRule in peg$startRuleFunctions)) {
             throw new Error(`Can't start parsing from rule "` + options.startRule + '".');

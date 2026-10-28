@@ -5355,6 +5355,8 @@ div.dataviews-view-list {
 }
 
 .editor-collab-sidebar-panel__user-avatar {
+  aspect-ratio: 1;
+  overflow: hidden;
   border-radius: 50%;
   flex-shrink: 0;
   border-width: var(--wp-admin-border-width-focus);

@@ -70,7 +70,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'b5457389a410156f7ef6'
+		'version' => '266101a88e5b01402a65'
 	),
 	'block-library/navigation/view.js' => array(
 		'dependencies' => array(
@@ -465,7 +465,7 @@
 		'dependencies' => array(
 			
 		),
-		'version' => '38309185015c9ca20405'
+		'version' => '6cd6345c25ad7329ab4f'
 	),
 	'interactivity-router/full-page.js' => array(
 		'dependencies' => array(
@@ -493,7 +493,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '3ee11de34faed693e7a5'
+		'version' => 'e9218417e1212e9055c6'
 	),
 	'latex-to-mathml/index.js' => array(
 		'dependencies' => array(
@@ -527,7 +527,7 @@
 			'wp-private-apis',
 			'wp-style-engine'
 		),
-		'version' => '5efb2019845bf8676150'
+		'version' => 'b2631e2d72714c2d1dfd'
 	),
 	'route/index.js' => array(
 		'dependencies' => array(
