@@ -988,12 +988,12 @@ final class WP_Abilities_Content {
 				'type'                 => 'object',
 				'additionalProperties' => false,
 				'properties'           => array(
-					'local' => array(
+					'site' => array(
 						'type'        => array( 'string', 'null' ),
 						'format'      => 'date-time',
 						'description' => __( "The publication date, in ISO 8601 format using the site's timezone. Null when the date cannot be resolved." ),
 					),
-					'gmt'   => array(
+					'gmt'  => array(
 						'type'        => array( 'string', 'null' ),
 						'format'      => 'date-time',
 						'description' => __( 'The publication date, in ISO 8601 format as GMT. Null when the date cannot be resolved.' ),
@@ -1005,12 +1005,12 @@ final class WP_Abilities_Content {
 				'type'                 => 'object',
 				'additionalProperties' => false,
 				'properties'           => array(
-					'local' => array(
+					'site' => array(
 						'type'        => array( 'string', 'null' ),
 						'format'      => 'date-time',
 						'description' => __( "The last modified date, in ISO 8601 format using the site's timezone. Null when the date cannot be resolved." ),
 					),
-					'gmt'   => array(
+					'gmt'  => array(
 						'type'        => array( 'string', 'null' ),
 						'format'      => 'date-time',
 						'description' => __( 'The last modified date, in ISO 8601 format as GMT. Null when the date cannot be resolved.' ),
@@ -1460,8 +1460,8 @@ final class WP_Abilities_Content {
 
 		foreach ( array( 'date', 'modified' ) as $field ) {
 			$dates = array();
-			if ( $this->is_field_requested( "{$field}.local", $fields ) ) {
-				$dates['local'] = $this->format_date( $post, $field, false );
+			if ( $this->is_field_requested( "{$field}.site", $fields ) ) {
+				$dates['site'] = $this->format_date( $post, $field, false );
 			}
 			if ( $this->is_field_requested( "{$field}.gmt", $fields ) ) {
 				$dates['gmt'] = $this->format_date( $post, $field, true );
