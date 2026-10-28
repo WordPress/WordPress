@@ -70,10 +70,15 @@ var deepsignal_module_a=new WeakMap,deepsignal_module_o=new WeakMap,deepsignal_m
  * Internal dependencies
  */
 
+
 const isObject = item => Boolean(item && typeof item === 'object' && item.constructor === Object);
 const deepMerge = (target, source) => {
   if (isObject(target) && isObject(source)) {
     for (const key in source) {
+      // Assigning `__proto__` would replace the prototype of `target`.
+      if (isReservedKey(key)) {
+        continue;
+      }
       const getter = Object.getOwnPropertyDescriptor(source, key)?.get;
       if (typeof getter === 'function') {
         Object.defineProperty(target, key, {
@@ -100,12 +105,22 @@ const rawStores = new Map();
 const storeLocks = new Map();
 const storeConfigs = new Map();
 const objToProxy = new WeakMap();
+const proxyToObj = new WeakMap();
 const proxyToNs = new WeakMap();
 const scopeToGetters = new WeakMap();
+
+/**
+ * Returns the object that a store proxy wraps.
+ *
+ * @param proxy The value to check.
+ * @return The wrapped object, or `undefined` if the value isn't a store proxy.
+ */
+const getObjectFromProxy = proxy => proxyToObj.get(proxy);
 const proxify = (obj, ns) => {
   if (!objToProxy.has(obj)) {
     const proxy = new Proxy(obj, handlers);
     objToProxy.set(obj, proxy);
+    proxyToObj.set(proxy, obj);
     proxyToNs.set(proxy, ns);
   }
   return objToProxy.get(obj);
@@ -284,6 +299,7 @@ function store(namespace, {
     const proxiedStore = new Proxy(rawStore, handlers);
     rawStores.set(namespace, rawStore);
     stores.set(namespace, proxiedStore);
+    proxyToObj.set(proxiedStore, rawStore);
     proxyToNs.set(proxiedStore, namespace);
   } else {
     // Lock the store if it wasn't locked yet and the passed lock is
@@ -309,14 +325,14 @@ function store(namespace, {
   return stores.get(namespace);
 }
 const parseInitialData = (dom = document) => {
-  var _dom$getElementById;
+  var _dom$querySelector;
   const jsonDataScriptTag = // Preferred Script Module data passing form
-  (_dom$getElementById = dom.getElementById('wp-script-module-data-@wordpress/interactivity')) !== null && _dom$getElementById !== void 0 ? _dom$getElementById :
+  (_dom$querySelector = dom.querySelector('script[id="wp-script-module-data-@wordpress/interactivity"]')) !== null && _dom$querySelector !== void 0 ? _dom$querySelector :
   // Legacy form
-  dom.getElementById('wp-interactivity-data');
-  if (jsonDataScriptTag?.textContent) {
+  dom.querySelector('script[id="wp-interactivity-data"]');
+  if (jsonDataScriptTag instanceof HTMLScriptElement) {
     try {
-      return JSON.parse(jsonDataScriptTag.textContent);
+      return JSON.parse(jsonDataScriptTag.text, jsonReviver);
     } catch {}
   }
   return {};
@@ -342,6 +358,210 @@ const populateInitialData = data => {
 const data = parseInitialData();
 populateInitialData(data);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/constants.js
+const directivePrefix = 'wp';
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/vdom.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+const ignoreAttr = `data-${directivePrefix}-ignore`;
+const islandAttr = `data-${directivePrefix}-interactive`;
+const fullPrefix = `data-${directivePrefix}-`;
+const namespaces = [];
+const currentNamespace = () => {
+  var _namespaces;
+  return (_namespaces = namespaces[namespaces.length - 1]) !== null && _namespaces !== void 0 ? _namespaces : null;
+};
+const vdom_isObject = item => Boolean(item && typeof item === 'object' && item.constructor === Object);
+
+// Regular expression for directive parsing.
+const directiveParser = new RegExp(`^data-${directivePrefix}-` +
+// ${p} must be a prefix string, like 'wp'.
+// Match alphanumeric characters including hyphen-separated
+// segments. It excludes underscore intentionally to prevent confusion.
+// E.g., "custom-directive".
+'([a-z0-9]+(?:-[a-z0-9]+)*)' +
+// (Optional) Match '--' followed by any alphanumeric charachters. It
+// excludes underscore intentionally to prevent confusion, but it can
+// contain multiple hyphens. E.g., "--custom-prefix--with-more-info".
+'(?:--([a-z0-9_-]+))?$', 'i' // Case insensitive.
+);
+
+// Regular expression for reference parsing. It can contain a namespace before
+// the reference, separated by `::`, like `some-namespace::state.somePath`.
+// Namespaces can contain any alphanumeric characters, hyphens, underscores or
+// forward slashes. References don't have any restrictions.
+const nsPathRegExp = /^([\w_\/-]+)::(.+)$/;
+
+/**
+ * Checks whether a directive name part is reserved after trimming hyphens and
+ * lowercasing it, as `kebabToCamelCase()` does: `data-wp-each--constructor-`
+ * names the item `constructor`.
+ *
+ * Directive names and suffixes become property keys: `data-wp-bind--[attribute]`,
+ * for example, assigns to the element's props.
+ *
+ * @param part Part of a directive name.
+ * @return Whether the part is reserved.
+ */
+const isReservedNamePart = part => isReservedKey(part.replace(/^-+|-+$/g, '').toLowerCase());
+const hydratedIslands = new WeakSet();
+const directiveMaps = new WeakSet();
+
+/**
+ * Checks whether the passed value is a directive map created by `toVdom()`.
+ *
+ * @param value The value to check.
+ * @return Whether the value is a directive map created by `toVdom()`.
+ */
+const isDirectiveMap = value => typeof value === 'object' && value !== null && directiveMaps.has(value);
+
+/**
+ * Recursive function that transforms a DOM tree into vDOM.
+ *
+ * @param root The root element or node to start traversing on.
+ * @return The resulting vDOM tree.
+ */
+function toVdom(root) {
+  const treeWalker = document.createTreeWalker(root, 205 // TEXT + CDATA_SECTION + COMMENT + PROCESSING_INSTRUCTION + ELEMENT
+  );
+  function walk(node) {
+    const {
+      nodeType
+    } = node;
+
+    // TEXT_NODE (3)
+    if (nodeType === 3) {
+      return [node.data];
+    }
+
+    // CDATA_SECTION_NODE (4)
+    if (nodeType === 4) {
+      var _nodeValue;
+      const next = treeWalker.nextSibling();
+      node.replaceWith(new window.Text((_nodeValue = node.nodeValue) !== null && _nodeValue !== void 0 ? _nodeValue : ''));
+      return [node.nodeValue, next];
+    }
+
+    // COMMENT_NODE (8) || PROCESSING_INSTRUCTION_NODE (7)
+    if (nodeType === 8 || nodeType === 7) {
+      const next = treeWalker.nextSibling();
+      node.remove();
+      return [null, next];
+    }
+    const elementNode = node;
+    const {
+      attributes
+    } = elementNode;
+    const localName = elementNode.localName;
+    const props = {};
+    const children = [];
+    const directives = [];
+    let ignore = false;
+    let island = false;
+    for (let i = 0; i < attributes.length; i++) {
+      const attributeName = attributes[i].name;
+      const attributeValue = attributes[i].value;
+      if (attributeName[fullPrefix.length] && attributeName.slice(0, fullPrefix.length) === fullPrefix) {
+        if (attributeName === ignoreAttr) {
+          ignore = true;
+        } else {
+          var _regexResult$, _regexResult$2;
+          const regexResult = nsPathRegExp.exec(attributeValue);
+          const namespace = (_regexResult$ = regexResult?.[1]) !== null && _regexResult$ !== void 0 ? _regexResult$ : null;
+          let value = (_regexResult$2 = regexResult?.[2]) !== null && _regexResult$2 !== void 0 ? _regexResult$2 : attributeValue;
+          try {
+            const parsedValue = JSON.parse(value, jsonReviver);
+            value = vdom_isObject(parsedValue) ? parsedValue : value;
+          } catch {}
+          if (attributeName === islandAttr) {
+            island = true;
+            const islandNamespace =
+            // eslint-disable-next-line no-nested-ternary
+            typeof value === 'string' ? value : typeof value?.namespace === 'string' ? value.namespace : null;
+            namespaces.push(isReservedKey(islandNamespace) ? null : islandNamespace);
+          } else if (isReservedKey(namespace)) {
+            if (true) {
+              warn(`Found reserved namespace "${namespace}" in directive: ${attributeName}.`);
+            }
+          } else {
+            directives.push([attributeName, namespace, value]);
+          }
+        }
+      } else if (attributeName === 'ref') {
+        continue;
+      }
+      props[attributeName] = attributeValue;
+    }
+    if (ignore && !island) {
+      // Keyed by directive names, so it has no prototype.
+      const ignoreDirectives = Object.assign(Object.create(null), {
+        ignore: true
+      });
+      directiveMaps.add(ignoreDirectives);
+      return [_(localName, {
+        ...props,
+        innerHTML: elementNode.innerHTML,
+        __directives: ignoreDirectives
+      })];
+    }
+    if (island) {
+      hydratedIslands.add(elementNode);
+    }
+    if (directives.length) {
+      // Keyed by directive names from the markup, so it has no prototype.
+      props.__directives = directives.reduce((obj, [name, ns, value]) => {
+        const directiveMatch = directiveParser.exec(name);
+        const prefix = directiveMatch?.[1] || '';
+        const suffix = directiveMatch?.[2] || 'default';
+        if (directiveMatch === null || isReservedNamePart(prefix) || suffix.split('--').some(isReservedNamePart)) {
+          warn(`Found malformed directive name: ${name}.`);
+          return obj;
+        }
+        obj[prefix] = obj[prefix] || [];
+        obj[prefix].push({
+          namespace: ns !== null && ns !== void 0 ? ns : currentNamespace(),
+          value,
+          suffix
+        });
+        return obj;
+      }, Object.create(null));
+      directiveMaps.add(props.__directives);
+    }
+
+    // @ts-expect-error Fixed in upcoming preact release https://github.com/preactjs/preact/pull/4334
+    if (localName === 'template') {
+      props.content = [...elementNode.content.childNodes].map(childNode => toVdom(childNode));
+    } else {
+      let child = treeWalker.firstChild();
+      if (child) {
+        while (child) {
+          const [vnode, nextChild] = walk(child);
+          if (vnode) {
+            children.push(vnode);
+          }
+          child = nextChild || treeWalker.nextSibling();
+        }
+        treeWalker.parentNode();
+      }
+    }
+
+    // Restore previous namespace.
+    if (island) {
+      namespaces.pop();
+    }
+    return [_(localName, props, children)];
+  }
+  return walk(treeWalker.currentNode);
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/hooks.js
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -354,6 +574,7 @@ populateInitialData(data);
 /**
  * Internal dependencies
  */
+
 
 
 // Main context.
@@ -431,8 +652,9 @@ const resetNamespace = () => {
 };
 
 // WordPress Directives.
-const directiveCallbacks = {};
-const directivePriorities = {};
+// Looked up by directive names from the markup, so they have no prototype.
+const directiveCallbacks = Object.create(null);
+const directivePriorities = Object.create(null);
 
 /**
  * Register a new directive type in the Interactivity API runtime.
@@ -513,10 +735,41 @@ const directive = (name, callback, {
   directivePriorities[name] = priority;
 };
 
+/*
+ * Checks whether `value`, read as `parent[ key ]`, is a method that `parent`
+ * inherits, such as `Array.prototype.push`. Store proxies return wrapped
+ * functions, so for a registered proxy the check reads its target.
+ */
+const isInheritedMethod = (parent, key, value) => {
+  if (typeof value !== 'function' || parent === null || parent === undefined) {
+    return false;
+  }
+  const obj = Object(parent);
+  const target = getObjectFromProxy(obj);
+  if (target && Object.prototype.hasOwnProperty.call(target, key)) {
+    return false;
+  }
+  for (let proto = Object.getPrototypeOf(target !== null && target !== void 0 ? target : obj); proto !== null; proto = Object.getPrototypeOf(proto)) {
+    const descriptor = Object.getOwnPropertyDescriptor(proto, key);
+    if (descriptor) {
+      return target ? typeof descriptor.value === 'function' : descriptor.value === value;
+    }
+  }
+  return false;
+};
+
 // Resolve the path to some property of the store object.
 const resolve = (path, namespace) => {
   if (!namespace) {
     warn(`Namespace missing for "${path}". The value for that path won't be resolved.`);
+    return;
+  }
+  const pathParts = path.split('.');
+  // Paths and namespaces come from the markup.
+  if (isReservedKey(namespace) || pathParts.some(isReservedKey)) {
+    if (true) {
+      warn(`The path "${path}" in the "${namespace}" namespace contains a reserved property name. The value for that path won't be resolved.`);
+    }
     return;
   }
   let resolvedStore = stores.get(namespace);
@@ -527,11 +780,23 @@ const resolve = (path, namespace) => {
   }
   const current = {
     ...resolvedStore,
-    context: getScope().context[namespace]
+    context: getOwnProperty(getScope().context, namespace)
   };
   try {
     // TODO: Support lazy/dynamically initialized stores
-    return path.split('.').reduce((acc, key) => acc[key], current);
+    let parent;
+    let value = current;
+    for (const key of pathParts) {
+      parent = value;
+      value = value[key];
+    }
+    if (isInheritedMethod(parent, pathParts[pathParts.length - 1], value)) {
+      if (true) {
+        warn(`The path "${path}" in the "${namespace}" namespace ends in an inherited method. The value for that path won't be resolved.`);
+      }
+      return;
+    }
+    return value;
   } catch (e) {}
 };
 
@@ -628,6 +893,11 @@ const Directives = ({
 // Preact Options Hook called each time a vnode is created.
 const old = preact_module_l.vnode;
 preact_module_l.vnode = vnode => {
+  // Only maps built by `toVdom()` passed its directive name checks. Delete any
+  // other `__directives` value so Preact doesn't set it on the element.
+  if (vnode.props.__directives && !isDirectiveMap(vnode.props.__directives)) {
+    delete vnode.props.__directives;
+  }
   if (vnode.props.__directives) {
     const props = vnode.props;
     const directives = props.__directives;
@@ -967,6 +1237,130 @@ const warn = message => {
   }
 };
 
+/**
+ * Checks whether a property key leads out of an object's own data:
+ * `__proto__` to its prototype, `constructor` to its constructor, and
+ * `prototype` to a function's prototype.
+ *
+ * @param key The property key.
+ * @return Whether the key is reserved.
+ */
+function isReservedKey(key) {
+  return key === '__proto__' || key === 'constructor' || key === 'prototype';
+}
+
+/**
+ * Reads a property that an object owns, ignoring inherited properties such
+ * as `Object.prototype.valueOf`.
+ *
+ * @param object The object to read.
+ * @param key    The property key.
+ * @return The value, or `undefined` if the object doesn't own the property.
+ */
+function getOwnProperty(object, key) {
+  return Object.prototype.hasOwnProperty.call(object, key) ? object[key] : undefined;
+}
+
+/**
+ * `JSON.parse()` reviver that removes keys named `__proto__`.
+ *
+ * `JSON.parse()` creates `__proto__` as an own property. Copying it by
+ * assignment, as in a `for...in` loop or `Object.assign()`, replaces the
+ * target's prototype instead.
+ *
+ * @param key   The property key.
+ * @param value The parsed value.
+ * @return The value, or `undefined` to remove the key.
+ */
+function jsonReviver(key, value) {
+  return key === '__proto__' ? undefined : value;
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/url.js
+/**
+ * Attributes whose value is a URL, and which therefore have to be checked
+ * before they are bound. Some of them, like `href` on an anchor or `action` on
+ * a form, execute a `javascript:` URL when the element is activated.
+ *
+ * This list mirrors wp_kses_uri_attributes() in PHP. It also includes some names
+ * that cannot be bound today, as hardening against future changes.
+ */
+const urlAttributes = new Set(['action', 'archive', 'background', 'cite', 'classid', 'codebase', 'data', 'formaction', 'href', 'icon', 'longdesc', 'manifest', 'poster', 'profile', 'src', 'usemap', 'xlink:href', 'xlinkhref', 'xmlns']);
+
+/**
+ * Matches a string whose URL scheme is `javascript`.
+ *
+ * @see https://url.spec.whatwg.org/#concept-basic-url-parser
+ *
+ * - Remove any leading and trailing C0 control or space from input.
+ * - Remove all ASCII tab or newline from input.
+ *
+ * Then check for a `javascript:` scheme.
+ *
+ * This check is inspired by React DOM's `sanitizeURL` function.
+ *
+ * @see https://github.com/react/react/blob/07dde64da1abd1525120b9ae49672386486e33c3/packages/react-dom-bindings/src/shared/sanitizeURL.js
+ */
+const isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*\:/i;
+
+/**
+ * Gets the value to bind to a URL attribute.
+ *
+ * Null, undefined and booleans are returned as they are. Any other value is
+ * converted to a string once, and that string is both checked and returned, so
+ * the URL that is checked is the URL that is bound.
+ *
+ * @param value Value to bind.
+ * @return The value to bind, or null if it is a `javascript:` URL or cannot be
+ *         converted to a string.
+ */
+function getSafeUrl(value) {
+  if (value === null || value === undefined || typeof value === 'boolean') {
+    return value;
+  }
+  try {
+    const url = String(value);
+    return isJavaScriptProtocol.test(url) ? null : url;
+  } catch {
+    return null;
+  }
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/restricted-bindings.js
+/**
+ * Attributes that can be bound on an `object` element, besides `aria-*`
+ * attributes and `data-*` attributes other than directives.
+ *
+ * WordPress only allows an `object` element in post content when it has
+ * checked the values of its `data` and `type` attributes, which the runtime
+ * cannot repeat. Binding is therefore limited to attributes that cannot change
+ * what the element loads: `width`, `height`, and the global attributes KSES
+ * allows on any element, except that every `aria-*` attribute is allowed where
+ * KSES lists only some. A `data-wp-*` attribute is refused because it is a
+ * directive, which could bind `data` or `type` once rendered.
+ *
+ * The server enforces the same set when it processes directives, in
+ * `WP_Interactivity_API::data_wp_bind_processor()`, so both refuse the same
+ * bindings.
+ */
+const objectAttributes = new Set(['class', 'dir', 'height', 'hidden', 'id', 'lang', 'role', 'style', 'tabindex', 'title', 'width']);
+
+/**
+ * Checks whether an attribute can be bound on an element. Only `object`
+ * elements limit their bindings.
+ *
+ * @param type      Element type, as in the vDOM.
+ * @param attribute Name of the bound attribute.
+ * @return Whether the attribute can be bound.
+ */
+const isBindingAllowed = (type, attribute) => {
+  if (typeof type !== 'string' || type.toLowerCase() !== 'object') {
+    return true;
+  }
+  const name = attribute.toLowerCase();
+  return objectAttributes.has(name) || name.startsWith('aria-') || name.startsWith('data-') && !name.startsWith('data-wp-');
+};
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/directives.js
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -981,6 +1375,8 @@ const warn = message => {
 /**
  * Internal dependencies
  */
+
+
 
 
 
@@ -1025,7 +1421,10 @@ const proxifyContext = (current, inherited = {}) => {
 
         // Proxify plain objects that were not directly assigned.
         if (k in target && !contextAssignedObjects.get(target)?.has(k) && isPlainObject(deepsignal_module_p(target, k))) {
-          return proxifyContext(currentProp, fallback[k]);
+          // Only use an inherited context that the fallback owns. It is
+          // read first so that the context still subscribes to it.
+          const inheritedProp = fallback[k];
+          return proxifyContext(currentProp, Object.prototype.hasOwnProperty.call(fallback, k) ? inheritedProp : undefined);
         }
 
         // Return the stored proxy for `currentProp` when it exists.
@@ -1085,6 +1484,10 @@ const proxifyContext = (current, inherited = {}) => {
  */
 const updateSignals = (target, source) => {
   for (const k in source) {
+    // Assigning `__proto__` would replace the prototype of `target`.
+    if (isReservedKey(k)) {
+      continue;
+    }
     if (isPlainObject(deepsignal_module_p(target, k)) && isPlainObject(deepsignal_module_p(source, k))) {
       updateSignals(target[`$${k}`].peek(), source[k]);
     } else {
@@ -1108,34 +1511,93 @@ function deepClone(source) {
   }
   return source;
 }
+
+// Lowercase names of internal properties that are not binding candidates.
+const internalProps = new Set(['__directives', 'children', 'dangerouslysetinnerhtml']);
+
+// Warns that event handler attributes cannot be bound.
+const warnEventHandlerBindNotSupported = attribute => {
+  if (true) {
+    warn(`Binding event handler attributes is not supported. Please use "data-wp-on--${attribute.slice(2)}" instead.`);
+  }
+};
+
+// Warns that the data-wp-bind directive doesn't set a given prop.
+const warnUnbindableProp = suffix => {
+  if (true) {
+    warn(`The data-wp-bind directive can't set the "${suffix}" prop. Ignoring data-wp-bind--${suffix}.`);
+  }
+};
 const newRule = /(?:([\u0080-\uFFFF\w-%@]+) *:? *([^{;]+?);|([^;}{]*?) *{)|(}\s*)/g;
 const ruleClean = /\/\*[^]*?\*\/|  +/g;
 const ruleNewline = /\n+/g;
 const empty = ' ';
 
 /**
- * Convert a css style string into a object.
+ * Converts a CSS declaration list, like the value of a `style` attribute, into
+ * an object that maps each property to its value.
  *
- * Made by Cristian Bote (@cristianbote) for Goober.
+ * Only top-level `property: value;` declarations are read. Nested blocks are
+ * skipped, because a `style` attribute can't contain them. The returned object
+ * doesn't inherit from `Object.prototype`, so a property name can't reach an
+ * inherited value.
+ *
+ * Based on the parser by Cristian Bote (@cristianbote) for Goober.
  * https://unpkg.com/browse/goober@2.1.13/src/core/astish.js
  *
  * @param val CSS string.
  * @return CSS object.
  */
 const cssStringToObject = val => {
-  const tree = [{}];
-  let block, left;
-  while (block = newRule.exec(val.replace(ruleClean, ''))) {
-    if (block[4]) {
-      tree.shift();
-    } else if (block[3]) {
-      left = block[3].replace(ruleNewline, empty).trim();
-      tree.unshift(tree[0][left] = tree[0][left] || {});
-    } else {
-      tree[0][block[1]] = block[2].replace(ruleNewline, empty).trim();
+  const result = Object.create(null);
+  const css = val.replace(ruleClean, '');
+  let depth = 0;
+  let block;
+  newRule.lastIndex = 0;
+  while (block = newRule.exec(css)) {
+    if (block[4] !== undefined) {
+      // End of a block.
+      depth = Math.max(0, depth - 1);
+    } else if (block[3] !== undefined) {
+      // Start of a nested block. Its content is skipped.
+      depth++;
+    } else if (depth === 0) {
+      result[block[1]] = block[2].replace(ruleNewline, empty).trim();
     }
   }
-  return tree[0];
+  return result;
+};
+
+/**
+ * Checks whether a value is an object that inherits from `Object.prototype` or
+ * has no prototype.
+ *
+ * @param value The value to check.
+ * @return Whether the value is such an object.
+ */
+const isStyleObject = value => {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+};
+
+/**
+ * Copies the own enumerable data properties of an object into an object
+ * without a prototype. Accessor properties are skipped, so no getter runs.
+ *
+ * @param object The object to copy.
+ * @return The copy.
+ */
+const copyDataProperties = object => {
+  const copy = Object.create(null);
+  for (const [key, desc] of Object.entries(Object.getOwnPropertyDescriptors(object))) {
+    if (desc.enumerable && 'value' in desc) {
+      copy[key] = desc.value;
+    }
+  }
+  return copy;
 };
 
 /**
@@ -1349,7 +1811,8 @@ const getGlobalAsyncEventDirective = type => {
     }) => suffix !== 'default').forEach(entry => {
       const className = entry.suffix;
       const result = evaluate(entry);
-      const currentClass = element.props.class || '';
+      // `data-wp-bind--class` can set a value that isn't a string.
+      const currentClass = typeof element.props.class === 'string' ? element.props.class : '';
       const classFinder = new RegExp(`(^|\\s)${className}(\\s|$)`, 'g');
       if (!result) {
         element.props.class = currentClass.replace(classFinder, ' ').trim();
@@ -1384,9 +1847,14 @@ const getGlobalAsyncEventDirective = type => {
     }) => suffix !== 'default').forEach(entry => {
       const styleProp = entry.suffix;
       const result = evaluate(entry);
-      element.props.style = element.props.style || {};
       if (typeof element.props.style === 'string') {
         element.props.style = cssStringToObject(element.props.style);
+      } else if (isStyleObject(element.props.style)) {
+        // Only write into a style object that `data-wp-style` created.
+        element.props.style = copyDataProperties(element.props.style);
+      } else {
+        // `data-wp-bind--style` can set a value that isn't a style.
+        element.props.style = Object.create(null);
       }
       if (!result) {
         delete element.props.style[styleProp];
@@ -1420,7 +1888,53 @@ const getGlobalAsyncEventDirective = type => {
       suffix
     }) => suffix !== 'default').forEach(entry => {
       const attribute = entry.suffix;
-      const result = evaluate(entry);
+      const name = attribute.toLowerCase();
+      if (internalProps.has(name) ||
+      // `toVdom()` stores a `<template>`'s markup in its `content` prop.
+      name === 'content' && element.type === 'template' || isReservedKey(attribute)) {
+        if (true) {
+          warnUnbindableProp(attribute);
+        }
+        return;
+      }
+
+      // Binding event handler attributes is not supported. Use the
+      // `data-wp-on` directive instead.
+      if (/^on/i.test(attribute)) {
+        if (true) {
+          warnEventHandlerBindNotSupported(attribute);
+        }
+        return;
+      }
+
+      /*
+       * A binding that is not allowed leaves the attribute as it was rendered,
+       * both during hydration and on elements created on the client.
+       */
+      if (!isBindingAllowed(element.type, attribute)) {
+        if (true) {
+          warn(`The "${attribute}" attribute cannot be bound on an "object" element. The directive data-wp-bind--${attribute} was ignored.`);
+        }
+        return;
+      }
+      if (attribute === 'protocol' && (element.type === 'a' || element.type === 'area')) {
+        /*
+         * The server renders the attribute, so it is removed from the props
+         * too. Otherwise Preact sets it when the router updates the element.
+         */
+        delete element.props[attribute];
+        return;
+      }
+      let result = evaluate(entry);
+
+      /*
+       * URLs are checked before the value reaches the props, because Preact
+       * writes the attribute itself on every render after the hydration, and
+       * on elements mounted on the client.
+       */
+      if (urlAttributes.has(attribute.toLowerCase())) {
+        result = getSafeUrl(result);
+      }
       element.props[attribute] = result;
 
       /*
@@ -1578,179 +2092,6 @@ const getGlobalAsyncEventDirective = type => {
     priority: 1
   });
 });
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/constants.js
-const directivePrefix = 'wp';
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/vdom.js
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-const ignoreAttr = `data-${directivePrefix}-ignore`;
-const islandAttr = `data-${directivePrefix}-interactive`;
-const fullPrefix = `data-${directivePrefix}-`;
-const namespaces = [];
-const currentNamespace = () => {
-  var _namespaces;
-  return (_namespaces = namespaces[namespaces.length - 1]) !== null && _namespaces !== void 0 ? _namespaces : null;
-};
-const vdom_isObject = item => Boolean(item && typeof item === 'object' && item.constructor === Object);
-
-// Regular expression for directive parsing.
-const directiveParser = new RegExp(`^data-${directivePrefix}-` +
-// ${p} must be a prefix string, like 'wp'.
-// Match alphanumeric characters including hyphen-separated
-// segments. It excludes underscore intentionally to prevent confusion.
-// E.g., "custom-directive".
-'([a-z0-9]+(?:-[a-z0-9]+)*)' +
-// (Optional) Match '--' followed by any alphanumeric charachters. It
-// excludes underscore intentionally to prevent confusion, but it can
-// contain multiple hyphens. E.g., "--custom-prefix--with-more-info".
-'(?:--([a-z0-9_-]+))?$', 'i' // Case insensitive.
-);
-
-// Regular expression for reference parsing. It can contain a namespace before
-// the reference, separated by `::`, like `some-namespace::state.somePath`.
-// Namespaces can contain any alphanumeric characters, hyphens, underscores or
-// forward slashes. References don't have any restrictions.
-const nsPathRegExp = /^([\w_\/-]+)::(.+)$/;
-const hydratedIslands = new WeakSet();
-
-/**
- * Recursive function that transforms a DOM tree into vDOM.
- *
- * @param root The root element or node to start traversing on.
- * @return The resulting vDOM tree.
- */
-function toVdom(root) {
-  const treeWalker = document.createTreeWalker(root, 205 // TEXT + CDATA_SECTION + COMMENT + PROCESSING_INSTRUCTION + ELEMENT
-  );
-  function walk(node) {
-    const {
-      nodeType
-    } = node;
-
-    // TEXT_NODE (3)
-    if (nodeType === 3) {
-      return [node.data];
-    }
-
-    // CDATA_SECTION_NODE (4)
-    if (nodeType === 4) {
-      var _nodeValue;
-      const next = treeWalker.nextSibling();
-      node.replaceWith(new window.Text((_nodeValue = node.nodeValue) !== null && _nodeValue !== void 0 ? _nodeValue : ''));
-      return [node.nodeValue, next];
-    }
-
-    // COMMENT_NODE (8) || PROCESSING_INSTRUCTION_NODE (7)
-    if (nodeType === 8 || nodeType === 7) {
-      const next = treeWalker.nextSibling();
-      node.remove();
-      return [null, next];
-    }
-    const elementNode = node;
-    const {
-      attributes
-    } = elementNode;
-    const localName = elementNode.localName;
-    const props = {};
-    const children = [];
-    const directives = [];
-    let ignore = false;
-    let island = false;
-    for (let i = 0; i < attributes.length; i++) {
-      const attributeName = attributes[i].name;
-      const attributeValue = attributes[i].value;
-      if (attributeName[fullPrefix.length] && attributeName.slice(0, fullPrefix.length) === fullPrefix) {
-        if (attributeName === ignoreAttr) {
-          ignore = true;
-        } else {
-          var _regexResult$, _regexResult$2;
-          const regexResult = nsPathRegExp.exec(attributeValue);
-          const namespace = (_regexResult$ = regexResult?.[1]) !== null && _regexResult$ !== void 0 ? _regexResult$ : null;
-          let value = (_regexResult$2 = regexResult?.[2]) !== null && _regexResult$2 !== void 0 ? _regexResult$2 : attributeValue;
-          try {
-            const parsedValue = JSON.parse(value);
-            value = vdom_isObject(parsedValue) ? parsedValue : value;
-          } catch {}
-          if (attributeName === islandAttr) {
-            island = true;
-            const islandNamespace =
-            // eslint-disable-next-line no-nested-ternary
-            typeof value === 'string' ? value : typeof value?.namespace === 'string' ? value.namespace : null;
-            namespaces.push(islandNamespace);
-          } else {
-            directives.push([attributeName, namespace, value]);
-          }
-        }
-      } else if (attributeName === 'ref') {
-        continue;
-      }
-      props[attributeName] = attributeValue;
-    }
-    if (ignore && !island) {
-      return [_(localName, {
-        ...props,
-        innerHTML: elementNode.innerHTML,
-        __directives: {
-          ignore: true
-        }
-      })];
-    }
-    if (island) {
-      hydratedIslands.add(elementNode);
-    }
-    if (directives.length) {
-      props.__directives = directives.reduce((obj, [name, ns, value]) => {
-        const directiveMatch = directiveParser.exec(name);
-        if (directiveMatch === null) {
-          warn(`Found malformed directive name: ${name}.`);
-          return obj;
-        }
-        const prefix = directiveMatch[1] || '';
-        const suffix = directiveMatch[2] || 'default';
-        obj[prefix] = obj[prefix] || [];
-        obj[prefix].push({
-          namespace: ns !== null && ns !== void 0 ? ns : currentNamespace(),
-          value,
-          suffix
-        });
-        return obj;
-      }, {});
-    }
-
-    // @ts-expect-error Fixed in upcoming preact release https://github.com/preactjs/preact/pull/4334
-    if (localName === 'template') {
-      props.content = [...elementNode.content.childNodes].map(childNode => toVdom(childNode));
-    } else {
-      let child = treeWalker.firstChild();
-      if (child) {
-        while (child) {
-          const [vnode, nextChild] = walk(child);
-          if (vnode) {
-            children.push(vnode);
-          }
-          child = nextChild || treeWalker.nextSibling();
-        }
-        treeWalker.parentNode();
-      }
-    }
-
-    // Restore previous namespace.
-    if (island) {
-      namespaces.pop();
-    }
-    return [_(localName, props, children)];
-  }
-  return walk(treeWalker.currentNode);
-}
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/init.js
 /**

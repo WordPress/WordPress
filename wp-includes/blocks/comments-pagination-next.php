@@ -25,7 +25,7 @@ function render_block_core_comments_pagination_next( $attributes, $content, $blo
 	$comment_vars     = build_comment_query_vars_from_block( $block );
 	$max_page         = ( new WP_Comment_Query( $comment_vars ) )->max_num_pages;
 	$default_label    = __( 'Newer Comments' );
-	$label            = isset( $attributes['label'] ) && ! empty( $attributes['label'] ) ? $attributes['label'] : $default_label;
+	$label            = ! empty( $attributes['label'] ) ? $attributes['label'] : $default_label;
 	$pagination_arrow = get_comments_pagination_arrow( $block, 'next' );
 
 	$filter_link_attributes = static function () {
@@ -33,6 +33,8 @@ function render_block_core_comments_pagination_next( $attributes, $content, $blo
 	};
 	add_filter( 'next_comments_link_attributes', $filter_link_attributes );
 
+	// Escaping early as the pagination arrow usually returns HTML and shouldn't be escaped.
+	$label = esc_html( $label );
 	if ( $pagination_arrow ) {
 		$label .= $pagination_arrow;
 	}

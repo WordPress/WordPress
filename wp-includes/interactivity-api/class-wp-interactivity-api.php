@@ -786,7 +786,25 @@ final class WP_Interactivity_API {
 			foreach ( $all_bind_directives as $attribute_name ) {
 				list( , $bound_attribute ) = $this->extract_prefix_and_suffix( $attribute_name );
 				if ( empty( $bound_attribute ) ) {
-					return;
+					continue;
+				}
+
+				/*
+				 * Remove a binding that would change an `object` attribute whose value KSES checks,
+				 * so that a client runtime without this check does not apply it either.
+				 */
+				if ( 'OBJECT' === $p->get_tag() && ! self::is_bindable_object_attribute( $bound_attribute ) ) {
+					$p->remove_attribute( $attribute_name );
+					_doing_it_wrong(
+						__METHOD__,
+						sprintf(
+							/* translators: %s: The attribute name. */
+							__( 'The "%s" attribute cannot be bound on an "object" element, so the binding was ignored.' ),
+							esc_html( $bound_attribute )
+						),
+						'6.6.11'
+					);
+					continue;
 				}
 
 				// Skip if the bound attribute is an event handler.
@@ -832,6 +850,33 @@ final class WP_Interactivity_API {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Determines whether a binding may set or remove an attribute of an `object` element.
+	 *
+	 * KSES only allows an `object` element in post content after checking the values of its
+	 * `data` and `type` attributes. Neither the server nor the client can repeat that check for
+	 * a bound value, so a binding on an `object` element may only change attributes that cannot
+	 * change what it loads: `aria-*` attributes, `data-*` attributes other than directives,
+	 * `width`, `height`, and the global attributes KSES allows on any element. Any `aria-*`
+	 * attribute is allowed, where KSES lists only some. A `data-wp-*` attribute is refused
+	 * because it is a directive, which could bind `data` or `type` once rendered. The client
+	 * runtime enforces the same set.
+	 *
+	 * @since 6.6.11
+	 *
+	 * @param string $attribute_name The name of the bound attribute.
+	 * @return bool Whether the attribute may be bound on an `object` element.
+	 */
+	private static function is_bindable_object_attribute( string $attribute_name ): bool {
+		$attribute_name = strtolower( $attribute_name );
+
+		return (
+			str_starts_with( $attribute_name, 'aria-' ) ||
+			( str_starts_with( $attribute_name, 'data-' ) && ! str_starts_with( $attribute_name, 'data-wp-' ) ) ||
+			in_array( $attribute_name, array( 'class', 'dir', 'height', 'hidden', 'id', 'lang', 'role', 'style', 'tabindex', 'title', 'width' ), true )
+		);
 	}
 
 	/**
