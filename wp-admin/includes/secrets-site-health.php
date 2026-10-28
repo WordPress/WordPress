@@ -67,7 +67,7 @@ function wp_secrets_site_health_result( string $test, string $label, string $sta
 		'status'      => $status,
 		'badge'       => array(
 			'label' => __( 'Security' ),
-			'color' => isset( $colors[ $status ] ) ? $colors[ $status ] : 'blue',
+			'color' => $colors[ $status ] ?? 'blue',
 		),
 		'description' => $description,
 	);

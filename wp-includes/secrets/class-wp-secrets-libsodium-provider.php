@@ -437,7 +437,7 @@ final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
 		do_action(
 			'wp_secret_changed',
 			$name,
-			null !== $action ? $action : ( $is_update ? 'updated' : 'created' ),
+			$action ?? ( $is_update ? 'updated' : 'created' ),
 			get_current_user_id(),
 			$new_slot['created'],
 			$old_fingerprint,

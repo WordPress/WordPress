@@ -158,7 +158,7 @@ final class WP_Secrets_Key_Manager {
 			$subkey_id = self::NETWORK_SUBKEY_ID;
 			$context   = self::NETWORK_KDF_CONTEXT;
 		} else {
-			$subkey_id = null === $site_id ? get_current_blog_id() : $site_id;
+			$subkey_id = $site_id ?? get_current_blog_id();
 
 			if ( $subkey_id < 1 ) {
 				$message = __( 'The site id must be a positive integer.' );
