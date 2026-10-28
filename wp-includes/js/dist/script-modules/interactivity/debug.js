@@ -1,6 +1,6 @@
 /******/ var __webpack_modules__ = ({
 
-/***/ 434:
+/***/ 553:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -275,6 +275,9 @@ const warn = (message) => {
     logged.add(message);
   }
 };
+const isReservedKey = (key) => key === "__proto__" || key === "constructor" || key === "prototype";
+const getOwnProperty = (object, key) => Object.prototype.hasOwnProperty.call(object, key) ? object[key] : void 0;
+const jsonReviver = (key, value) => key === "__proto__" ? void 0 : value;
 const isPlainObject = (candidate) => Boolean(
   candidate && typeof candidate === "object" && candidate.constructor === Object
 );
@@ -532,7 +535,7 @@ let peeking = false;
 const PENDING_GETTER = Symbol("PENDING_GETTER");
 const stateHandlers = {
   get(target, key, receiver) {
-    if (peeking || !target.hasOwnProperty(key) && key in target || typeof key === "symbol" && wellKnownSymbols.has(key)) {
+    if (peeking || !Object.prototype.hasOwnProperty.call(target, key) && key in target || typeof key === "symbol" && wellKnownSymbols.has(key)) {
       return Reflect.get(target, key, receiver);
     }
     const desc = Object.getOwnPropertyDescriptor(target, key);
@@ -623,6 +626,9 @@ const deepMergeRecursive = (target, source, override = true) => {
   }
   let hasNewKeys = false;
   for (const key in source) {
+    if (isReservedKey(key)) {
+      continue;
+    }
     const isNew = !(key in target);
     hasNewKeys = hasNewKeys || isNew;
     const desc = Object.getOwnPropertyDescriptor(source, key);
@@ -819,14 +825,14 @@ function store(namespace, { state = {}, ...block } = {}, { lock = false } = {}) 
 const parseServerData = (dom = document) => {
   const jsonDataScriptTag = (
     // Preferred Script Module data passing form
-    dom.getElementById(
-      "wp-script-module-data-@wordpress/interactivity"
+    dom.querySelector(
+      'script[id="wp-script-module-data-@wordpress/interactivity"]'
     ) ?? // Legacy form
-    dom.getElementById("wp-interactivity-data")
+    dom.querySelector('script[id="wp-interactivity-data"]')
   );
-  if (jsonDataScriptTag?.textContent) {
+  if (jsonDataScriptTag instanceof HTMLScriptElement) {
     try {
-      return JSON.parse(jsonDataScriptTag.textContent);
+      return JSON.parse(jsonDataScriptTag.text, jsonReviver);
     } catch {
     }
   }
@@ -876,7 +882,214 @@ const populateServerData = (data) => {
 };
 
 
+;// ./node_modules/@wordpress/interactivity/build-module/vdom.js
+
+
+const directivePrefix = `data-wp-`;
+const namespaces = [];
+const currentNamespace = () => namespaces[namespaces.length - 1] ?? null;
+const isObject = (item) => Boolean(item && typeof item === "object" && item.constructor === Object);
+const invalidCharsRegex = /[^a-z0-9-_]/i;
+const isReservedNamePart = (part) => isReservedKey(part.replace(/^-+|-+$/g, "").toLowerCase());
+function parseDirectiveName(directiveName) {
+  const parsed = splitDirectiveName(directiveName);
+  if (parsed && (isReservedNamePart(parsed.prefix) || parsed.suffix !== null && parsed.suffix.split("--").some(isReservedNamePart) || parsed.uniqueId !== null && isReservedNamePart(parsed.uniqueId))) {
+    return null;
+  }
+  return parsed;
+}
+function splitDirectiveName(directiveName) {
+  const name = directiveName.substring(8);
+  if (invalidCharsRegex.test(name)) {
+    return null;
+  }
+  const suffixIndex = name.indexOf("--");
+  if (suffixIndex === -1) {
+    return { prefix: name, suffix: null, uniqueId: null };
+  }
+  const prefix = name.substring(0, suffixIndex);
+  const remaining = name.substring(suffixIndex);
+  if (remaining.startsWith("---") && remaining[3] !== "-") {
+    return {
+      prefix,
+      suffix: null,
+      uniqueId: remaining.substring(3) || null
+    };
+  }
+  let suffix = remaining.substring(2);
+  const uniqueIdIndex = suffix.indexOf("---");
+  if (uniqueIdIndex !== -1 && suffix.substring(uniqueIdIndex)[3] !== "-") {
+    const uniqueId = suffix.substring(uniqueIdIndex + 3) || null;
+    suffix = suffix.substring(0, uniqueIdIndex) || null;
+    return { prefix, suffix, uniqueId };
+  }
+  return { prefix, suffix: suffix || null, uniqueId: null };
+}
+const nsPathRegExp = /^([\w_\/-]+)::(.+)$/;
+const hydratedIslands = /* @__PURE__ */ new WeakSet();
+const directiveMaps = /* @__PURE__ */ new WeakSet();
+const isDirectiveMap = (value) => typeof value === "object" && value !== null && directiveMaps.has(value);
+function toVdom(root) {
+  const nodesToRemove = /* @__PURE__ */ new Set();
+  const nodesToReplace = /* @__PURE__ */ new Set();
+  const treeWalker = document.createTreeWalker(
+    root,
+    205
+    // TEXT + CDATA_SECTION + COMMENT + PROCESSING_INSTRUCTION + ELEMENT
+  );
+  function walk(node) {
+    const { nodeType } = node;
+    if (nodeType === 3) {
+      return node.data;
+    }
+    if (nodeType === 4) {
+      nodesToReplace.add(node);
+      return node.nodeValue;
+    }
+    if (nodeType === 8 || nodeType === 7) {
+      nodesToRemove.add(node);
+      return null;
+    }
+    const elementNode = node;
+    const { attributes } = elementNode;
+    const localName = elementNode.localName;
+    const props = {};
+    const children = [];
+    const directives = [];
+    let ignore = false;
+    let island = false;
+    for (let i = 0; i < attributes.length; i++) {
+      const attributeName = attributes[i].name;
+      const attributeValue = attributes[i].value;
+      if (attributeName[directivePrefix.length] && attributeName.slice(0, directivePrefix.length) === directivePrefix) {
+        if (attributeName === "data-wp-ignore") {
+          ignore = true;
+        } else {
+          const regexResult = nsPathRegExp.exec(attributeValue);
+          const namespace = regexResult?.[1] ?? null;
+          let value = regexResult?.[2] ?? attributeValue;
+          try {
+            const parsedValue = JSON.parse(value, jsonReviver);
+            value = isObject(parsedValue) ? parsedValue : value;
+          } catch {
+          }
+          if (attributeName === "data-wp-interactive") {
+            island = true;
+            const islandNamespace = (
+              // eslint-disable-next-line no-nested-ternary
+              typeof value === "string" ? value : typeof value?.namespace === "string" ? value.namespace : null
+            );
+            namespaces.push(
+              isReservedKey(islandNamespace) ? null : islandNamespace
+            );
+          } else if (isReservedKey(namespace)) {
+            if (true) {
+              warn(
+                `Found reserved namespace "${namespace}" in directive: ${attributeName}.`
+              );
+            }
+          } else {
+            directives.push([attributeName, namespace, value]);
+          }
+        }
+      } else if (attributeName === "ref") {
+        continue;
+      }
+      props[attributeName] = attributeValue;
+    }
+    if (ignore && !island) {
+      const ignoreDirectives = Object.assign(/* @__PURE__ */ Object.create(null), {
+        ignore: true
+      });
+      directiveMaps.add(ignoreDirectives);
+      return [
+        (0,preact_module.h)(localName, {
+          ...props,
+          innerHTML: elementNode.innerHTML,
+          __directives: ignoreDirectives
+        })
+      ];
+    }
+    if (island) {
+      hydratedIslands.add(elementNode);
+    }
+    if (directives.length) {
+      props.__directives = directives.reduce((obj, [name, ns, value]) => {
+        const directiveParsed = parseDirectiveName(name);
+        if (directiveParsed === null) {
+          if (true) {
+            warn(`Found malformed directive name: ${name}.`);
+          }
+          return obj;
+        }
+        const { prefix, suffix, uniqueId } = directiveParsed;
+        obj[prefix] = obj[prefix] || [];
+        obj[prefix].push({
+          namespace: ns ?? currentNamespace(),
+          value,
+          suffix,
+          uniqueId
+        });
+        return obj;
+      }, /* @__PURE__ */ Object.create(null));
+      directiveMaps.add(props.__directives);
+      for (const prefix in props.__directives) {
+        props.__directives[prefix].sort(
+          (a, b) => {
+            const aSuffix = a.suffix ?? "";
+            const bSuffix = b.suffix ?? "";
+            if (aSuffix !== bSuffix) {
+              return aSuffix < bSuffix ? -1 : 1;
+            }
+            const aId = a.uniqueId ?? "";
+            const bId = b.uniqueId ?? "";
+            return +(aId > bId) - +(aId < bId);
+          }
+        );
+      }
+    }
+    if (props.__directives?.["each-child"]) {
+      props.dangerouslySetInnerHTML = {
+        __html: elementNode.innerHTML
+      };
+    } else if (localName === "template") {
+      props.content = [
+        ...elementNode.content.childNodes
+      ].map((childNode) => toVdom(childNode));
+    } else {
+      let child = treeWalker.firstChild();
+      if (child) {
+        while (child) {
+          const vnode = walk(child);
+          if (vnode) {
+            children.push(vnode);
+          }
+          child = treeWalker.nextSibling();
+        }
+        treeWalker.parentNode();
+      }
+    }
+    if (island) {
+      namespaces.pop();
+    }
+    return (0,preact_module.h)(localName, props, children);
+  }
+  const vdom = walk(treeWalker.currentNode);
+  nodesToRemove.forEach(
+    (node) => node.remove()
+  );
+  nodesToReplace.forEach(
+    (node) => node.replaceWith(
+      new window.Text(node.nodeValue ?? "")
+    )
+  );
+  return vdom;
+}
+
+
 ;// ./node_modules/@wordpress/interactivity/build-module/hooks.js
+
+
 
 
 
@@ -889,18 +1102,47 @@ function isNonDefaultDirectiveSuffix(entry) {
 function isDefaultDirectiveSuffix(entry) {
   return entry.suffix === null;
 }
-const context = (0,preact_module/* createContext */.q6)({ client: {}, server: {} });
-const directiveCallbacks = {};
-const directivePriorities = {};
+const context = (0,preact_module/* createContext */.q6)({
+  client: /* @__PURE__ */ Object.create(null),
+  server: /* @__PURE__ */ Object.create(null)
+});
+const directiveCallbacks = /* @__PURE__ */ Object.create(null);
+const directivePriorities = /* @__PURE__ */ Object.create(null);
 const directive = (name, callback, { priority = 10 } = {}) => {
   directiveCallbacks[name] = callback;
   directivePriorities[name] = priority;
+};
+const isInheritedMethod = (parent, key, value) => {
+  if (typeof value !== "function" || parent === null || parent === void 0) {
+    return false;
+  }
+  const obj = Object(parent);
+  const target = getObjectFromProxy(obj);
+  if (target && Object.prototype.hasOwnProperty.call(target, key)) {
+    return false;
+  }
+  for (let proto = Object.getPrototypeOf(target ?? obj); proto !== null; proto = Object.getPrototypeOf(proto)) {
+    const descriptor = Object.getOwnPropertyDescriptor(proto, key);
+    if (descriptor) {
+      return target ? typeof descriptor.value === "function" : descriptor.value === value;
+    }
+  }
+  return false;
 };
 const resolve = (path, namespace) => {
   if (!namespace) {
     warn(
       `Namespace missing for "${path}". The value for that path won't be resolved.`
     );
+    return;
+  }
+  const pathParts = path.split(".");
+  if (isReservedKey(namespace) || pathParts.some(isReservedKey)) {
+    if (true) {
+      warn(
+        `The path "${path}" in the "${namespace}" namespace contains a reserved property name. The value for that path won't be resolved.`
+      );
+    }
     return;
   }
   let resolvedStore = stores.get(namespace);
@@ -915,11 +1157,28 @@ const resolve = (path, namespace) => {
   }
   const current = {
     ...resolvedStore,
-    context: getScope().context[namespace]
+    context: getOwnProperty(getScope().context, namespace)
   };
   try {
-    const pathParts = path.split(".");
-    return pathParts.reduce((acc, key) => acc[key], current);
+    let parent;
+    let value = current;
+    for (const key of pathParts) {
+      parent = value;
+      value = value[key];
+    }
+    if (isInheritedMethod(
+      parent,
+      pathParts[pathParts.length - 1],
+      value
+    )) {
+      if (true) {
+        warn(
+          `The path "${path}" in the "${namespace}" namespace ends in an inherited method. The value for that path won't be resolved.`
+        );
+      }
+      return;
+    }
+    return value;
   } catch (e) {
     if (e === PENDING_GETTER) {
       return PENDING_GETTER;
@@ -1015,6 +1274,9 @@ const Directives = ({
 };
 const old = preact_module/* options */.fF.vnode;
 preact_module/* options */.fF.vnode = (vnode) => {
+  if (vnode.props.__directives && !isDirectiveMap(vnode.props.__directives)) {
+    delete vnode.props.__directives;
+  }
   if (vnode.props.__directives) {
     const props = vnode.props;
     const directives = props.__directives;
@@ -1041,7 +1303,68 @@ preact_module/* options */.fF.vnode = (vnode) => {
 };
 
 
+;// ./node_modules/@wordpress/interactivity/build-module/url.js
+const urlAttributes = /* @__PURE__ */ new Set([
+  "action",
+  "archive",
+  "background",
+  "cite",
+  "classid",
+  "codebase",
+  "data",
+  "formaction",
+  "href",
+  "icon",
+  "longdesc",
+  "manifest",
+  "poster",
+  "profile",
+  "src",
+  "usemap",
+  "xlink:href",
+  "xlinkhref",
+  "xmlns"
+]);
+const isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*\:/i;
+function getSafeUrl(value) {
+  if (value === null || value === void 0 || typeof value === "boolean") {
+    return value;
+  }
+  try {
+    const url = String(value);
+    return isJavaScriptProtocol.test(url) ? null : url;
+  } catch {
+    return null;
+  }
+}
+
+
+;// ./node_modules/@wordpress/interactivity/build-module/restricted-bindings.js
+const objectAttributes = /* @__PURE__ */ new Set([
+  "class",
+  "dir",
+  "height",
+  "hidden",
+  "id",
+  "lang",
+  "role",
+  "style",
+  "tabindex",
+  "title",
+  "width"
+]);
+const isBindingAllowed = (type, attribute) => {
+  if (typeof type !== "string" || type.toLowerCase() !== "object") {
+    return true;
+  }
+  const name = attribute.toLowerCase();
+  return objectAttributes.has(name) || name.startsWith("aria-") || name.startsWith("data-") && !name.startsWith("data-wp-");
+};
+
+
 ;// ./node_modules/@wordpress/interactivity/build-module/directives.js
+
+
 
 
 
@@ -1061,6 +1384,22 @@ const warnUniqueIdNotSupported = (prefix, uniqueId) => {
   if (true) {
     warn(
       `Unique IDs are not supported for the data-wp-${prefix} directive. Ignoring the directive with unique ID "${uniqueId}".`
+    );
+  }
+};
+const warnUnbindableProp = (suffix) => {
+  if (true) {
+    warn(
+      `The data-wp-bind directive can't set the "${suffix}" prop. Ignoring data-wp-bind--${suffix}.`
+    );
+  }
+};
+const warnEventHandlerBindNotSupported = (attribute) => {
+  if (true) {
+    warn(
+      `Binding event handler attributes is not supported. Please use "data-wp-on--${attribute.slice(
+        2
+      )}" instead.`
     );
   }
 };
@@ -1111,20 +1450,45 @@ const ruleClean = /\/\*[^]*?\*\/|  +/g;
 const ruleNewline = /\n+/g;
 const empty = " ";
 const cssStringToObject = (val) => {
-  const tree = [{}];
-  let block, left;
-  while (block = newRule.exec(val.replace(ruleClean, ""))) {
-    if (block[4]) {
-      tree.shift();
-    } else if (block[3]) {
-      left = block[3].replace(ruleNewline, empty).trim();
-      tree.unshift(tree[0][left] = tree[0][left] || {});
-    } else {
-      tree[0][block[1]] = block[2].replace(ruleNewline, empty).trim();
+  const result = /* @__PURE__ */ Object.create(null);
+  const css = val.replace(ruleClean, "");
+  let depth = 0;
+  let block;
+  newRule.lastIndex = 0;
+  while (block = newRule.exec(css)) {
+    if (block[4] !== void 0) {
+      depth = Math.max(0, depth - 1);
+    } else if (block[3] !== void 0) {
+      depth++;
+    } else if (depth === 0) {
+      result[block[1]] = block[2].replace(ruleNewline, empty).trim();
     }
   }
-  return tree[0];
+  return result;
 };
+const isStyleObject = (value) => {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+};
+const copyDataProperties = (object) => {
+  const copy = /* @__PURE__ */ Object.create(null);
+  for (const [key, desc] of Object.entries(
+    Object.getOwnPropertyDescriptors(object)
+  )) {
+    if (desc.enumerable && "value" in desc) {
+      copy[key] = desc.value;
+    }
+  }
+  return copy;
+};
+const internalProps = /* @__PURE__ */ new Set([
+  "__directives",
+  "children",
+  "dangerouslysetinnerhtml"
+]);
 const getGlobalEventDirective = (type) => {
   return ({ directives, evaluate }) => {
     directives[`on-${type}`].filter(isNonDefaultDirectiveSuffix).forEach((entry) => {
@@ -1157,13 +1521,16 @@ const getGlobalEventDirective = (type) => {
   };
 };
 const evaluateItemKey = (inheritedValue, namespace, item, itemProp, eachKey) => {
-  const clientContextWithItem = {
-    ...inheritedValue.client,
-    [namespace]: {
-      ...inheritedValue.client[namespace],
-      [itemProp]: item
+  const clientContextWithItem = Object.assign(
+    /* @__PURE__ */ Object.create(null),
+    inheritedValue.client,
+    {
+      [namespace]: {
+        ...getOwnProperty(inheritedValue.client, namespace),
+        [itemProp]: item
+      }
     }
-  };
+  );
   const scope = {
     ...getScope(),
     context: clientContextWithItem,
@@ -1191,7 +1558,7 @@ const useItemContexts = function* (inheritedValue, namespace, items, itemProp, e
             // value is set in the `wp-each` directive later on.
             [itemProp]: void 0
           }),
-          inheritedValue.client[namespace]
+          getOwnProperty(inheritedValue.client, namespace)
         )
       );
     }
@@ -1242,11 +1609,13 @@ var directives_default = () => {
       }
       const { Provider } = inheritedContext;
       const { client: inheritedClient, server: inheritedServer } = x(inheritedContext);
-      const client = A({});
-      const server = {};
+      const client = A(
+        /* @__PURE__ */ Object.create(null)
+      );
+      const server = /* @__PURE__ */ Object.create(null);
       const result = {
-        client: { ...inheritedClient },
-        server: { ...inheritedServer }
+        client: Object.assign(/* @__PURE__ */ Object.create(null), inheritedClient),
+        server: Object.assign(/* @__PURE__ */ Object.create(null), inheritedServer)
       };
       const namespaces = /* @__PURE__ */ new Set();
       entries.forEach(({ value, namespace, uniqueId }) => {
@@ -1258,7 +1627,7 @@ var directives_default = () => {
           }
           return;
         }
-        if (!client.current[namespace]) {
+        if (!getOwnProperty(client.current, namespace)) {
           client.current[namespace] = proxifyState(namespace, {});
         }
         deepMerge(
@@ -1272,11 +1641,11 @@ var directives_default = () => {
       namespaces.forEach((namespace) => {
         result.client[namespace] = proxifyContext(
           client.current[namespace],
-          inheritedClient[namespace]
+          getOwnProperty(inheritedClient, namespace)
         );
         result.server[namespace] = proxifyContext(
           server[namespace],
-          inheritedServer[namespace]
+          getOwnProperty(inheritedServer, namespace)
         );
       });
       return (0,preact_module.h)(Provider, { value: result }, children);
@@ -1410,7 +1779,7 @@ var directives_default = () => {
         if (typeof result === "function") {
           result = result();
         }
-        const currentClass = element.props.class || "";
+        const currentClass = typeof element.props.class === "string" ? element.props.class : "";
         const classFinder = new RegExp(
           `(^|\\s)${className}(\\s|$)`,
           "g"
@@ -1446,9 +1815,12 @@ var directives_default = () => {
       if (typeof result === "function") {
         result = result();
       }
-      element.props.style = element.props.style || {};
       if (typeof element.props.style === "string") {
         element.props.style = cssStringToObject(element.props.style);
+      } else if (isStyleObject(element.props.style)) {
+        element.props.style = copyDataProperties(element.props.style);
+      } else {
+        element.props.style = /* @__PURE__ */ Object.create(null);
       }
       if (!result) {
         delete element.props.style[styleProp];
@@ -1473,12 +1845,41 @@ var directives_default = () => {
         return;
       }
       const attribute = entry.suffix;
+      const name = attribute.toLowerCase();
+      if (internalProps.has(name) || // `toVdom()` stores a `<template>`'s markup in its `content` prop.
+      name === "content" && element.type === "template" || isReservedKey(attribute)) {
+        if (true) {
+          warnUnbindableProp(attribute);
+        }
+        return;
+      }
+      if (/^on/i.test(attribute)) {
+        if (true) {
+          warnEventHandlerBindNotSupported(attribute);
+        }
+        return;
+      }
+      if (!isBindingAllowed(element.type, attribute)) {
+        if (true) {
+          warn(
+            `The "${attribute}" attribute cannot be bound on an "object" element. The directive data-wp-bind--${attribute} was ignored.`
+          );
+        }
+        return;
+      }
+      if (attribute === "protocol" && (element.type === "a" || element.type === "area")) {
+        delete element.props[attribute];
+        return;
+      }
       let result = evaluate(entry);
       if (result === PENDING_GETTER) {
         return;
       }
       if (typeof result === "function") {
         result = result();
+      }
+      if (urlAttributes.has(attribute.toLowerCase())) {
+        result = getSafeUrl(result);
       }
       element.props[attribute] = result;
       useInit(() => {
@@ -1634,11 +2035,15 @@ var directives_default = () => {
       );
       for (const [item, itemContext, key] of itemContexts) {
         const mergedContext = {
-          client: {
-            ...inheritedValue.client,
-            [namespace]: itemContext
-          },
-          server: { ...inheritedValue.server }
+          client: Object.assign(
+            /* @__PURE__ */ Object.create(null),
+            inheritedValue.client,
+            { [namespace]: itemContext }
+          ),
+          server: Object.assign(
+            /* @__PURE__ */ Object.create(null),
+            inheritedValue.server
+          )
         };
         mergedContext.client[namespace][itemProp] = item;
         result.push(
@@ -1705,188 +2110,6 @@ var directives_default = () => {
     { priority: 1 }
   );
 };
-
-
-;// ./node_modules/@wordpress/interactivity/build-module/vdom.js
-
-
-const directivePrefix = `data-wp-`;
-const namespaces = [];
-const currentNamespace = () => namespaces[namespaces.length - 1] ?? null;
-const isObject = (item) => Boolean(item && typeof item === "object" && item.constructor === Object);
-const invalidCharsRegex = /[^a-z0-9-_]/i;
-function parseDirectiveName(directiveName) {
-  const name = directiveName.substring(8);
-  if (invalidCharsRegex.test(name)) {
-    return null;
-  }
-  const suffixIndex = name.indexOf("--");
-  if (suffixIndex === -1) {
-    return { prefix: name, suffix: null, uniqueId: null };
-  }
-  const prefix = name.substring(0, suffixIndex);
-  const remaining = name.substring(suffixIndex);
-  if (remaining.startsWith("---") && remaining[3] !== "-") {
-    return {
-      prefix,
-      suffix: null,
-      uniqueId: remaining.substring(3) || null
-    };
-  }
-  let suffix = remaining.substring(2);
-  const uniqueIdIndex = suffix.indexOf("---");
-  if (uniqueIdIndex !== -1 && suffix.substring(uniqueIdIndex)[3] !== "-") {
-    const uniqueId = suffix.substring(uniqueIdIndex + 3) || null;
-    suffix = suffix.substring(0, uniqueIdIndex) || null;
-    return { prefix, suffix, uniqueId };
-  }
-  return { prefix, suffix: suffix || null, uniqueId: null };
-}
-const nsPathRegExp = /^([\w_\/-]+)::(.+)$/;
-const hydratedIslands = /* @__PURE__ */ new WeakSet();
-function toVdom(root) {
-  const nodesToRemove = /* @__PURE__ */ new Set();
-  const nodesToReplace = /* @__PURE__ */ new Set();
-  const treeWalker = document.createTreeWalker(
-    root,
-    205
-    // TEXT + CDATA_SECTION + COMMENT + PROCESSING_INSTRUCTION + ELEMENT
-  );
-  function walk(node) {
-    const { nodeType } = node;
-    if (nodeType === 3) {
-      return node.data;
-    }
-    if (nodeType === 4) {
-      nodesToReplace.add(node);
-      return node.nodeValue;
-    }
-    if (nodeType === 8 || nodeType === 7) {
-      nodesToRemove.add(node);
-      return null;
-    }
-    const elementNode = node;
-    const { attributes } = elementNode;
-    const localName = elementNode.localName;
-    const props = {};
-    const children = [];
-    const directives = [];
-    let ignore = false;
-    let island = false;
-    for (let i = 0; i < attributes.length; i++) {
-      const attributeName = attributes[i].name;
-      const attributeValue = attributes[i].value;
-      if (attributeName[directivePrefix.length] && attributeName.slice(0, directivePrefix.length) === directivePrefix) {
-        if (attributeName === "data-wp-ignore") {
-          ignore = true;
-        } else {
-          const regexResult = nsPathRegExp.exec(attributeValue);
-          const namespace = regexResult?.[1] ?? null;
-          let value = regexResult?.[2] ?? attributeValue;
-          try {
-            const parsedValue = JSON.parse(value);
-            value = isObject(parsedValue) ? parsedValue : value;
-          } catch {
-          }
-          if (attributeName === "data-wp-interactive") {
-            island = true;
-            const islandNamespace = (
-              // eslint-disable-next-line no-nested-ternary
-              typeof value === "string" ? value : typeof value?.namespace === "string" ? value.namespace : null
-            );
-            namespaces.push(islandNamespace);
-          } else {
-            directives.push([attributeName, namespace, value]);
-          }
-        }
-      } else if (attributeName === "ref") {
-        continue;
-      }
-      props[attributeName] = attributeValue;
-    }
-    if (ignore && !island) {
-      return [
-        (0,preact_module.h)(localName, {
-          ...props,
-          innerHTML: elementNode.innerHTML,
-          __directives: { ignore: true }
-        })
-      ];
-    }
-    if (island) {
-      hydratedIslands.add(elementNode);
-    }
-    if (directives.length) {
-      props.__directives = directives.reduce((obj, [name, ns, value]) => {
-        const directiveParsed = parseDirectiveName(name);
-        if (directiveParsed === null) {
-          if (true) {
-            warn(`Found malformed directive name: ${name}.`);
-          }
-          return obj;
-        }
-        const { prefix, suffix, uniqueId } = directiveParsed;
-        obj[prefix] = obj[prefix] || [];
-        obj[prefix].push({
-          namespace: ns ?? currentNamespace(),
-          value,
-          suffix,
-          uniqueId
-        });
-        return obj;
-      }, {});
-      for (const prefix in props.__directives) {
-        props.__directives[prefix].sort(
-          (a, b) => {
-            const aSuffix = a.suffix ?? "";
-            const bSuffix = b.suffix ?? "";
-            if (aSuffix !== bSuffix) {
-              return aSuffix < bSuffix ? -1 : 1;
-            }
-            const aId = a.uniqueId ?? "";
-            const bId = b.uniqueId ?? "";
-            return +(aId > bId) - +(aId < bId);
-          }
-        );
-      }
-    }
-    if (props.__directives?.["each-child"]) {
-      props.dangerouslySetInnerHTML = {
-        __html: elementNode.innerHTML
-      };
-    } else if (localName === "template") {
-      props.content = [
-        ...elementNode.content.childNodes
-      ].map((childNode) => toVdom(childNode));
-    } else {
-      let child = treeWalker.firstChild();
-      if (child) {
-        while (child) {
-          const vnode = walk(child);
-          if (vnode) {
-            children.push(vnode);
-          }
-          child = treeWalker.nextSibling();
-        }
-        treeWalker.parentNode();
-      }
-    }
-    if (island) {
-      namespaces.pop();
-    }
-    return (0,preact_module.h)(localName, props, children);
-  }
-  const vdom = walk(treeWalker.currentNode);
-  nodesToRemove.forEach(
-    (node) => node.remove()
-  );
-  nodesToReplace.forEach(
-    (node) => node.replaceWith(
-      new window.Text(node.nodeValue ?? "")
-    )
-  );
-  return vdom;
-}
 
 
 ;// ./node_modules/@wordpress/interactivity/build-module/hydration.js
@@ -2066,8 +2289,8 @@ var debug_i;function debug_t(o,e){return n.__a&&n.__a(e),o}null!=(debug_i="undef
 ;// ./node_modules/preact/debug/dist/debug.module.js
 var debug_debug_module_t={};function debug_r(){debug_debug_module_t={}}function debug_a(e){return e.type===debug_preact_module/* Fragment */.FK?"Fragment":"function"==typeof e.type?e.type.displayName||e.type.name:"string"==typeof e.type?e.type:"#text"}var debug_debug_module_i=[],debug_s=[];function debug_c(){return debug_debug_module_i.length>0?debug_debug_module_i[debug_debug_module_i.length-1]:null}var debug_l=!0;function debug_u(e){return"function"==typeof e.type&&e.type!=debug_preact_module/* Fragment */.FK}function debug_f(n){for(var e=[n],o=n;null!=o.__o;)e.push(o.__o),o=o.__o;return e.reduce(function(n,e){n+="  in "+debug_a(e);var o=e.__source;return o?n+=" (at "+o.fileName+":"+o.lineNumber+")":debug_l&&console.warn("Add @babel/plugin-transform-react-jsx-source to get a more detailed component stack. Note that you should not add it to production builds of your App for bundle size reasons."),debug_l=!1,n+"\n"},"")}var debug_d="function"==typeof WeakMap;function debug_p(n){var e=[];return n.__k?(n.__k.forEach(function(n){n&&"function"==typeof n.type?e.push.apply(e,debug_p(n)):n&&"string"==typeof n.type&&e.push(n.type)}),e):e}function debug_h(n){return n?"function"==typeof n.type?null==n.__?null!=n.__e&&null!=n.__e.parentNode?n.__e.parentNode.localName:"":debug_h(n.__):n.type:""}var debug_v=debug_preact_module/* Component */.uA.prototype.setState;function debug_y(n){return"table"===n||"tfoot"===n||"tbody"===n||"thead"===n||"td"===n||"tr"===n||"th"===n}debug_preact_module/* Component */.uA.prototype.setState=function(n,e){return null==this.__v&&null==this.state&&console.warn('Calling "this.setState" inside the constructor of a component is a no-op and might be a bug in your application. Instead, set "this.state = {}" directly.\n\n'+debug_f(debug_c())),debug_v.call(this,n,e)};var debug_m=/^(address|article|aside|blockquote|details|div|dl|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup|hr|main|menu|nav|ol|p|pre|search|section|table|ul)$/,debug_b=debug_preact_module/* Component */.uA.prototype.forceUpdate;function debug_w(n){var e=n.props,o=debug_a(n),t="";for(var r in e)if(e.hasOwnProperty(r)&&"children"!==r){var i=e[r];"function"==typeof i&&(i="function "+(i.displayName||i.name)+"() {}"),i=Object(i)!==i||i.toString?i+"":Object.prototype.toString.call(i),t+=" "+r+"="+JSON.stringify(i)}var s=e.children;return"<"+o+t+(s&&s.length?">..</"+o+">":" />")}debug_preact_module/* Component */.uA.prototype.forceUpdate=function(n){return null==this.__v?console.warn('Calling "this.forceUpdate" inside the constructor of a component is a no-op and might be a bug in your application.\n\n'+debug_f(debug_c())):null==this.__P&&console.warn('Can\'t call "this.forceUpdate" on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method.\n\n'+debug_f(this.__v)),debug_b.call(this,n)},debug_preact_module/* options */.fF.__m=function(n,e){var o=n.type,t=e.map(function(n){return n&&n.localName}).filter(Boolean);console.error('Expected a DOM node of type "'+o+'" but found "'+t.join(", ")+"\" as available DOM-node(s), this is caused by the SSR'd HTML containing different DOM-nodes compared to the hydrated one.\n\n"+debug_f(n))},function(){!function(){var n=debug_preact_module/* options */.fF.__b,o=debug_preact_module/* options */.fF.diffed,t=debug_preact_module/* options */.fF.__,r=debug_preact_module/* options */.fF.vnode,a=debug_preact_module/* options */.fF.__r;debug_preact_module/* options */.fF.diffed=function(n){debug_u(n)&&debug_s.pop(),debug_debug_module_i.pop(),o&&o(n)},debug_preact_module/* options */.fF.__b=function(e){debug_u(e)&&debug_debug_module_i.push(e),n&&n(e)},debug_preact_module/* options */.fF.__=function(n,e){debug_s=[],t&&t(n,e)},debug_preact_module/* options */.fF.vnode=function(n){n.__o=debug_s.length>0?debug_s[debug_s.length-1]:null,r&&r(n)},debug_preact_module/* options */.fF.__r=function(n){debug_u(n)&&debug_s.push(n),a&&a(n)}}();var n=!1,o=debug_preact_module/* options */.fF.__b,r=debug_preact_module/* options */.fF.diffed,c=debug_preact_module/* options */.fF.vnode,l=debug_preact_module/* options */.fF.__r,v=debug_preact_module/* options */.fF.__e,b=debug_preact_module/* options */.fF.__,g=debug_preact_module/* options */.fF.__h,E=debug_d?{useEffect:new WeakMap,useLayoutEffect:new WeakMap,lazyPropTypes:new WeakMap}:null,k=[];debug_preact_module/* options */.fF.__e=function(n,e,o,t){if(e&&e.__c&&"function"==typeof n.then){var r=n;n=new Error("Missing Suspense. The throwing component was: "+debug_a(e));for(var i=e;i;i=i.__)if(i.__c&&i.__c.__c){n=r;break}if(n instanceof Error)throw n}try{(t=t||{}).componentStack=debug_f(e),v(n,e,o,t),"function"!=typeof n.then&&setTimeout(function(){throw n})}catch(n){throw n}},debug_preact_module/* options */.fF.__=function(n,e){if(!e)throw new Error("Undefined parent passed to render(), this is the second argument.\nCheck if the element is available in the DOM/has the correct id.");var o;switch(e.nodeType){case 1:case 11:case 9:o=!0;break;default:o=!1}if(!o){var t=debug_a(n);throw new Error("Expected a valid HTML node as a second argument to render.\tReceived "+e+" instead: render(<"+t+" />, "+e+");")}b&&b(n,e)},debug_preact_module/* options */.fF.__b=function(e){var r=e.type;if(n=!0,void 0===r)throw new Error("Undefined component passed to createElement()\n\nYou likely forgot to export your component or might have mixed up default and named imports"+debug_w(e)+"\n\n"+debug_f(e));if(null!=r&&"object"==typeof r){if(void 0!==r.__k&&void 0!==r.__e)throw new Error("Invalid type passed to createElement(): "+r+"\n\nDid you accidentally pass a JSX literal as JSX twice?\n\n  let My"+debug_a(e)+" = "+debug_w(r)+";\n  let vnode = <My"+debug_a(e)+" />;\n\nThis usually happens when you export a JSX literal and not the component.\n\n"+debug_f(e));throw new Error("Invalid type passed to createElement(): "+(Array.isArray(r)?"array":r))}if(void 0!==e.ref&&"function"!=typeof e.ref&&"object"!=typeof e.ref&&!("$$typeof"in e))throw new Error('Component\'s "ref" property should be a function, or an object created by createRef(), but got ['+typeof e.ref+"] instead\n"+debug_w(e)+"\n\n"+debug_f(e));if("string"==typeof e.type)for(var i in e.props)if("o"===i[0]&&"n"===i[1]&&"function"!=typeof e.props[i]&&null!=e.props[i])throw new Error("Component's \""+i+'" property should be a function, but got ['+typeof e.props[i]+"] instead\n"+debug_w(e)+"\n\n"+debug_f(e));if("function"==typeof e.type&&e.type.propTypes){if("Lazy"===e.type.displayName&&E&&!E.lazyPropTypes.has(e.type)){var s="PropTypes are not supported on lazy(). Use propTypes on the wrapped component itself. ";try{var c=e.type();E.lazyPropTypes.set(e.type,!0),console.warn(s+"Component wrapped in lazy() is "+debug_a(c))}catch(n){console.warn(s+"We will log the wrapped component's name once it is loaded.")}}var l=e.props;e.type.__f&&delete(l=function(n,e){for(var o in e)n[o]=e[o];return n}({},l)).ref,function(n,e,o,r,a){Object.keys(n).forEach(function(o){var i;try{i=n[o](e,o,r,"prop",null,"SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED")}catch(n){i=n}i&&!(i.message in debug_debug_module_t)&&(debug_debug_module_t[i.message]=!0,console.error("Failed prop type: "+i.message+(a&&"\n"+a()||"")))})}(e.type.propTypes,l,0,debug_a(e),function(){return debug_f(e)})}o&&o(e)};var T,_=0;debug_preact_module/* options */.fF.__r=function(e){l&&l(e),n=!0;var o=e.__c;if(o===T?_++:_=1,_>=25)throw new Error("Too many re-renders. This is limited to prevent an infinite loop which may lock up your browser. The component causing this is: "+debug_a(e));T=o},debug_preact_module/* options */.fF.__h=function(e,o,t){if(!e||!n)throw new Error("Hook can only be invoked from render methods.");g&&g(e,o,t)};var O=function(n,e){return{get:function(){var o="get"+n+e;k&&k.indexOf(o)<0&&(k.push(o),console.warn("getting vnode."+n+" is deprecated, "+e))},set:function(){var o="set"+n+e;k&&k.indexOf(o)<0&&(k.push(o),console.warn("setting vnode."+n+" is not allowed, "+e))}}},I={nodeName:O("nodeName","use vnode.type"),attributes:O("attributes","use vnode.props"),children:O("children","use vnode.props.children")},M=Object.create({},I);debug_preact_module/* options */.fF.vnode=function(n){var e=n.props;if(null!==n.type&&null!=e&&("__source"in e||"__self"in e)){var o=n.props={};for(var t in e){var r=e[t];"__source"===t?n.__source=r:"__self"===t?n.__self=r:o[t]=r}}n.__proto__=M,c&&c(n)},debug_preact_module/* options */.fF.diffed=function(e){var o,t=e.type,i=e.__;if(e.__k&&e.__k.forEach(function(n){if("object"==typeof n&&n&&void 0===n.type){var o=Object.keys(n).join(",");throw new Error("Objects are not valid as a child. Encountered an object with the keys {"+o+"}.\n\n"+debug_f(e))}}),e.__c===T&&(_=0),"string"==typeof t&&(debug_y(t)||"p"===t||"a"===t||"button"===t)){var s=debug_h(i);if(""!==s&&debug_y(t))"table"===t&&"td"!==s&&debug_y(s)?console.error("Improper nesting of table. Your <table> should not have a table-node parent."+debug_w(e)+"\n\n"+debug_f(e)):"thead"!==t&&"tfoot"!==t&&"tbody"!==t||"table"===s?"tr"===t&&"thead"!==s&&"tfoot"!==s&&"tbody"!==s?console.error("Improper nesting of table. Your <tr> should have a <thead/tbody/tfoot> parent."+debug_w(e)+"\n\n"+debug_f(e)):"td"===t&&"tr"!==s?console.error("Improper nesting of table. Your <td> should have a <tr> parent."+debug_w(e)+"\n\n"+debug_f(e)):"th"===t&&"tr"!==s&&console.error("Improper nesting of table. Your <th> should have a <tr>."+debug_w(e)+"\n\n"+debug_f(e)):console.error("Improper nesting of table. Your <thead/tbody/tfoot> should have a <table> parent."+debug_w(e)+"\n\n"+debug_f(e));else if("p"===t){var c=debug_p(e).filter(function(n){return debug_m.test(n)});c.length&&console.error("Improper nesting of paragraph. Your <p> should not have "+c.join(", ")+" as child-elements."+debug_w(e)+"\n\n"+debug_f(e))}else"a"!==t&&"button"!==t||-1!==debug_p(e).indexOf(t)&&console.error("Improper nesting of interactive content. Your <"+t+"> should not have other "+("a"===t?"anchor":"button")+" tags as child-elements."+debug_w(e)+"\n\n"+debug_f(e))}if(n=!1,r&&r(e),null!=e.__k)for(var l=[],u=0;u<e.__k.length;u++){var d=e.__k[u];if(d&&null!=d.key){var v=d.key;if(-1!==l.indexOf(v)){console.error('Following component has two or more children with the same key attribute: "'+v+'". This may cause glitches and misbehavior in rendering process. Component: \n\n'+debug_w(e)+"\n\n"+debug_f(e));break}l.push(v)}}if(null!=e.__c&&null!=e.__c.__H){var b=e.__c.__H.__;if(b)for(var g=0;g<b.length;g+=1){var E=b[g];if(E.__H)for(var k=0;k<E.__H.length;k++)if((o=E.__H[k])!=o){var O=debug_a(e);console.warn("Invalid argument passed to hook. Hooks should not be called with NaN in the dependency array. Hook index "+g+" in component "+O+" was called with NaN.")}}}}}();
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/interactivity/build-module/index.js + 17 modules
-var debug_build_module = __webpack_require__(434);
+// EXTERNAL MODULE: ./node_modules/@wordpress/interactivity/build-module/index.js + 19 modules
+var debug_build_module = __webpack_require__(553);
 ;// ./node_modules/@wordpress/interactivity/build-module/debug.js
 
 

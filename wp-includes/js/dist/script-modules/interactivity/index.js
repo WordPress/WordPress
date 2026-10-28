@@ -337,6 +337,9 @@ const warn = (message) => {
     logged.add(message);
   }
 };
+const isReservedKey = (key) => key === "__proto__" || key === "constructor" || key === "prototype";
+const getOwnProperty = (object, key) => Object.prototype.hasOwnProperty.call(object, key) ? object[key] : void 0;
+const jsonReviver = (key, value) => key === "__proto__" ? void 0 : value;
 const isPlainObject = (candidate) => Boolean(
   candidate && typeof candidate === "object" && candidate.constructor === Object
 );
@@ -594,7 +597,7 @@ let peeking = false;
 const PENDING_GETTER = Symbol("PENDING_GETTER");
 const stateHandlers = {
   get(target, key, receiver) {
-    if (peeking || !target.hasOwnProperty(key) && key in target || typeof key === "symbol" && wellKnownSymbols.has(key)) {
+    if (peeking || !Object.prototype.hasOwnProperty.call(target, key) && key in target || typeof key === "symbol" && wellKnownSymbols.has(key)) {
       return Reflect.get(target, key, receiver);
     }
     const desc = Object.getOwnPropertyDescriptor(target, key);
@@ -685,6 +688,9 @@ const deepMergeRecursive = (target, source, override = true) => {
   }
   let hasNewKeys = false;
   for (const key in source) {
+    if (isReservedKey(key)) {
+      continue;
+    }
     const isNew = !(key in target);
     hasNewKeys = hasNewKeys || isNew;
     const desc = Object.getOwnPropertyDescriptor(source, key);
@@ -881,14 +887,14 @@ function store(namespace, { state = {}, ...block } = {}, { lock = false } = {}) 
 const parseServerData = (dom = document) => {
   const jsonDataScriptTag = (
     // Preferred Script Module data passing form
-    dom.getElementById(
-      "wp-script-module-data-@wordpress/interactivity"
+    dom.querySelector(
+      'script[id="wp-script-module-data-@wordpress/interactivity"]'
     ) ?? // Legacy form
-    dom.getElementById("wp-interactivity-data")
+    dom.querySelector('script[id="wp-interactivity-data"]')
   );
-  if (jsonDataScriptTag?.textContent) {
+  if (jsonDataScriptTag instanceof HTMLScriptElement) {
     try {
-      return JSON.parse(jsonDataScriptTag.textContent);
+      return JSON.parse(jsonDataScriptTag.text, jsonReviver);
     } catch {
     }
   }
@@ -938,7 +944,214 @@ const populateServerData = (data) => {
 };
 
 
+;// ./node_modules/@wordpress/interactivity/build-module/vdom.js
+
+
+const directivePrefix = `data-wp-`;
+const namespaces = [];
+const currentNamespace = () => namespaces[namespaces.length - 1] ?? null;
+const isObject = (item) => Boolean(item && typeof item === "object" && item.constructor === Object);
+const invalidCharsRegex = /[^a-z0-9-_]/i;
+const isReservedNamePart = (part) => isReservedKey(part.replace(/^-+|-+$/g, "").toLowerCase());
+function parseDirectiveName(directiveName) {
+  const parsed = splitDirectiveName(directiveName);
+  if (parsed && (isReservedNamePart(parsed.prefix) || parsed.suffix !== null && parsed.suffix.split("--").some(isReservedNamePart) || parsed.uniqueId !== null && isReservedNamePart(parsed.uniqueId))) {
+    return null;
+  }
+  return parsed;
+}
+function splitDirectiveName(directiveName) {
+  const name = directiveName.substring(8);
+  if (invalidCharsRegex.test(name)) {
+    return null;
+  }
+  const suffixIndex = name.indexOf("--");
+  if (suffixIndex === -1) {
+    return { prefix: name, suffix: null, uniqueId: null };
+  }
+  const prefix = name.substring(0, suffixIndex);
+  const remaining = name.substring(suffixIndex);
+  if (remaining.startsWith("---") && remaining[3] !== "-") {
+    return {
+      prefix,
+      suffix: null,
+      uniqueId: remaining.substring(3) || null
+    };
+  }
+  let suffix = remaining.substring(2);
+  const uniqueIdIndex = suffix.indexOf("---");
+  if (uniqueIdIndex !== -1 && suffix.substring(uniqueIdIndex)[3] !== "-") {
+    const uniqueId = suffix.substring(uniqueIdIndex + 3) || null;
+    suffix = suffix.substring(0, uniqueIdIndex) || null;
+    return { prefix, suffix, uniqueId };
+  }
+  return { prefix, suffix: suffix || null, uniqueId: null };
+}
+const nsPathRegExp = /^([\w_\/-]+)::(.+)$/;
+const hydratedIslands = /* @__PURE__ */ new WeakSet();
+const directiveMaps = /* @__PURE__ */ new WeakSet();
+const isDirectiveMap = (value) => typeof value === "object" && value !== null && directiveMaps.has(value);
+function toVdom(root) {
+  const nodesToRemove = /* @__PURE__ */ new Set();
+  const nodesToReplace = /* @__PURE__ */ new Set();
+  const treeWalker = document.createTreeWalker(
+    root,
+    205
+    // TEXT + CDATA_SECTION + COMMENT + PROCESSING_INSTRUCTION + ELEMENT
+  );
+  function walk(node) {
+    const { nodeType } = node;
+    if (nodeType === 3) {
+      return node.data;
+    }
+    if (nodeType === 4) {
+      nodesToReplace.add(node);
+      return node.nodeValue;
+    }
+    if (nodeType === 8 || nodeType === 7) {
+      nodesToRemove.add(node);
+      return null;
+    }
+    const elementNode = node;
+    const { attributes } = elementNode;
+    const localName = elementNode.localName;
+    const props = {};
+    const children = [];
+    const directives = [];
+    let ignore = false;
+    let island = false;
+    for (let i = 0; i < attributes.length; i++) {
+      const attributeName = attributes[i].name;
+      const attributeValue = attributes[i].value;
+      if (attributeName[directivePrefix.length] && attributeName.slice(0, directivePrefix.length) === directivePrefix) {
+        if (attributeName === "data-wp-ignore") {
+          ignore = true;
+        } else {
+          const regexResult = nsPathRegExp.exec(attributeValue);
+          const namespace = regexResult?.[1] ?? null;
+          let value = regexResult?.[2] ?? attributeValue;
+          try {
+            const parsedValue = JSON.parse(value, jsonReviver);
+            value = isObject(parsedValue) ? parsedValue : value;
+          } catch {
+          }
+          if (attributeName === "data-wp-interactive") {
+            island = true;
+            const islandNamespace = (
+              // eslint-disable-next-line no-nested-ternary
+              typeof value === "string" ? value : typeof value?.namespace === "string" ? value.namespace : null
+            );
+            namespaces.push(
+              isReservedKey(islandNamespace) ? null : islandNamespace
+            );
+          } else if (isReservedKey(namespace)) {
+            if (true) {
+              warn(
+                `Found reserved namespace "${namespace}" in directive: ${attributeName}.`
+              );
+            }
+          } else {
+            directives.push([attributeName, namespace, value]);
+          }
+        }
+      } else if (attributeName === "ref") {
+        continue;
+      }
+      props[attributeName] = attributeValue;
+    }
+    if (ignore && !island) {
+      const ignoreDirectives = Object.assign(/* @__PURE__ */ Object.create(null), {
+        ignore: true
+      });
+      directiveMaps.add(ignoreDirectives);
+      return [
+        (0,preact_module.h)(localName, {
+          ...props,
+          innerHTML: elementNode.innerHTML,
+          __directives: ignoreDirectives
+        })
+      ];
+    }
+    if (island) {
+      hydratedIslands.add(elementNode);
+    }
+    if (directives.length) {
+      props.__directives = directives.reduce((obj, [name, ns, value]) => {
+        const directiveParsed = parseDirectiveName(name);
+        if (directiveParsed === null) {
+          if (true) {
+            warn(`Found malformed directive name: ${name}.`);
+          }
+          return obj;
+        }
+        const { prefix, suffix, uniqueId } = directiveParsed;
+        obj[prefix] = obj[prefix] || [];
+        obj[prefix].push({
+          namespace: ns ?? currentNamespace(),
+          value,
+          suffix,
+          uniqueId
+        });
+        return obj;
+      }, /* @__PURE__ */ Object.create(null));
+      directiveMaps.add(props.__directives);
+      for (const prefix in props.__directives) {
+        props.__directives[prefix].sort(
+          (a, b) => {
+            const aSuffix = a.suffix ?? "";
+            const bSuffix = b.suffix ?? "";
+            if (aSuffix !== bSuffix) {
+              return aSuffix < bSuffix ? -1 : 1;
+            }
+            const aId = a.uniqueId ?? "";
+            const bId = b.uniqueId ?? "";
+            return +(aId > bId) - +(aId < bId);
+          }
+        );
+      }
+    }
+    if (props.__directives?.["each-child"]) {
+      props.dangerouslySetInnerHTML = {
+        __html: elementNode.innerHTML
+      };
+    } else if (localName === "template") {
+      props.content = [
+        ...elementNode.content.childNodes
+      ].map((childNode) => toVdom(childNode));
+    } else {
+      let child = treeWalker.firstChild();
+      if (child) {
+        while (child) {
+          const vnode = walk(child);
+          if (vnode) {
+            children.push(vnode);
+          }
+          child = treeWalker.nextSibling();
+        }
+        treeWalker.parentNode();
+      }
+    }
+    if (island) {
+      namespaces.pop();
+    }
+    return (0,preact_module.h)(localName, props, children);
+  }
+  const vdom = walk(treeWalker.currentNode);
+  nodesToRemove.forEach(
+    (node) => node.remove()
+  );
+  nodesToReplace.forEach(
+    (node) => node.replaceWith(
+      new window.Text(node.nodeValue ?? "")
+    )
+  );
+  return vdom;
+}
+
+
 ;// ./node_modules/@wordpress/interactivity/build-module/hooks.js
+
+
 
 
 
@@ -951,18 +1164,47 @@ function isNonDefaultDirectiveSuffix(entry) {
 function isDefaultDirectiveSuffix(entry) {
   return entry.suffix === null;
 }
-const context = (0,preact_module/* createContext */.q6)({ client: {}, server: {} });
-const directiveCallbacks = {};
-const directivePriorities = {};
+const context = (0,preact_module/* createContext */.q6)({
+  client: /* @__PURE__ */ Object.create(null),
+  server: /* @__PURE__ */ Object.create(null)
+});
+const directiveCallbacks = /* @__PURE__ */ Object.create(null);
+const directivePriorities = /* @__PURE__ */ Object.create(null);
 const directive = (name, callback, { priority = 10 } = {}) => {
   directiveCallbacks[name] = callback;
   directivePriorities[name] = priority;
+};
+const isInheritedMethod = (parent, key, value) => {
+  if (typeof value !== "function" || parent === null || parent === void 0) {
+    return false;
+  }
+  const obj = Object(parent);
+  const target = getObjectFromProxy(obj);
+  if (target && Object.prototype.hasOwnProperty.call(target, key)) {
+    return false;
+  }
+  for (let proto = Object.getPrototypeOf(target ?? obj); proto !== null; proto = Object.getPrototypeOf(proto)) {
+    const descriptor = Object.getOwnPropertyDescriptor(proto, key);
+    if (descriptor) {
+      return target ? typeof descriptor.value === "function" : descriptor.value === value;
+    }
+  }
+  return false;
 };
 const resolve = (path, namespace) => {
   if (!namespace) {
     warn(
       `Namespace missing for "${path}". The value for that path won't be resolved.`
     );
+    return;
+  }
+  const pathParts = path.split(".");
+  if (isReservedKey(namespace) || pathParts.some(isReservedKey)) {
+    if (true) {
+      warn(
+        `The path "${path}" in the "${namespace}" namespace contains a reserved property name. The value for that path won't be resolved.`
+      );
+    }
     return;
   }
   let resolvedStore = stores.get(namespace);
@@ -977,11 +1219,28 @@ const resolve = (path, namespace) => {
   }
   const current = {
     ...resolvedStore,
-    context: getScope().context[namespace]
+    context: getOwnProperty(getScope().context, namespace)
   };
   try {
-    const pathParts = path.split(".");
-    return pathParts.reduce((acc, key) => acc[key], current);
+    let parent;
+    let value = current;
+    for (const key of pathParts) {
+      parent = value;
+      value = value[key];
+    }
+    if (isInheritedMethod(
+      parent,
+      pathParts[pathParts.length - 1],
+      value
+    )) {
+      if (true) {
+        warn(
+          `The path "${path}" in the "${namespace}" namespace ends in an inherited method. The value for that path won't be resolved.`
+        );
+      }
+      return;
+    }
+    return value;
   } catch (e) {
     if (e === PENDING_GETTER) {
       return PENDING_GETTER;
@@ -1077,6 +1336,9 @@ const Directives = ({
 };
 const old = preact_module/* options */.fF.vnode;
 preact_module/* options */.fF.vnode = (vnode) => {
+  if (vnode.props.__directives && !isDirectiveMap(vnode.props.__directives)) {
+    delete vnode.props.__directives;
+  }
   if (vnode.props.__directives) {
     const props = vnode.props;
     const directives = props.__directives;
@@ -1103,7 +1365,68 @@ preact_module/* options */.fF.vnode = (vnode) => {
 };
 
 
+;// ./node_modules/@wordpress/interactivity/build-module/url.js
+const urlAttributes = /* @__PURE__ */ new Set([
+  "action",
+  "archive",
+  "background",
+  "cite",
+  "classid",
+  "codebase",
+  "data",
+  "formaction",
+  "href",
+  "icon",
+  "longdesc",
+  "manifest",
+  "poster",
+  "profile",
+  "src",
+  "usemap",
+  "xlink:href",
+  "xlinkhref",
+  "xmlns"
+]);
+const isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*\:/i;
+function getSafeUrl(value) {
+  if (value === null || value === void 0 || typeof value === "boolean") {
+    return value;
+  }
+  try {
+    const url = String(value);
+    return isJavaScriptProtocol.test(url) ? null : url;
+  } catch {
+    return null;
+  }
+}
+
+
+;// ./node_modules/@wordpress/interactivity/build-module/restricted-bindings.js
+const objectAttributes = /* @__PURE__ */ new Set([
+  "class",
+  "dir",
+  "height",
+  "hidden",
+  "id",
+  "lang",
+  "role",
+  "style",
+  "tabindex",
+  "title",
+  "width"
+]);
+const isBindingAllowed = (type, attribute) => {
+  if (typeof type !== "string" || type.toLowerCase() !== "object") {
+    return true;
+  }
+  const name = attribute.toLowerCase();
+  return objectAttributes.has(name) || name.startsWith("aria-") || name.startsWith("data-") && !name.startsWith("data-wp-");
+};
+
+
 ;// ./node_modules/@wordpress/interactivity/build-module/directives.js
+
+
 
 
 
@@ -1123,6 +1446,22 @@ const warnUniqueIdNotSupported = (prefix, uniqueId) => {
   if (true) {
     warn(
       `Unique IDs are not supported for the data-wp-${prefix} directive. Ignoring the directive with unique ID "${uniqueId}".`
+    );
+  }
+};
+const warnUnbindableProp = (suffix) => {
+  if (true) {
+    warn(
+      `The data-wp-bind directive can't set the "${suffix}" prop. Ignoring data-wp-bind--${suffix}.`
+    );
+  }
+};
+const warnEventHandlerBindNotSupported = (attribute) => {
+  if (true) {
+    warn(
+      `Binding event handler attributes is not supported. Please use "data-wp-on--${attribute.slice(
+        2
+      )}" instead.`
     );
   }
 };
@@ -1173,20 +1512,45 @@ const ruleClean = /\/\*[^]*?\*\/|  +/g;
 const ruleNewline = /\n+/g;
 const empty = " ";
 const cssStringToObject = (val) => {
-  const tree = [{}];
-  let block, left;
-  while (block = newRule.exec(val.replace(ruleClean, ""))) {
-    if (block[4]) {
-      tree.shift();
-    } else if (block[3]) {
-      left = block[3].replace(ruleNewline, empty).trim();
-      tree.unshift(tree[0][left] = tree[0][left] || {});
-    } else {
-      tree[0][block[1]] = block[2].replace(ruleNewline, empty).trim();
+  const result = /* @__PURE__ */ Object.create(null);
+  const css = val.replace(ruleClean, "");
+  let depth = 0;
+  let block;
+  newRule.lastIndex = 0;
+  while (block = newRule.exec(css)) {
+    if (block[4] !== void 0) {
+      depth = Math.max(0, depth - 1);
+    } else if (block[3] !== void 0) {
+      depth++;
+    } else if (depth === 0) {
+      result[block[1]] = block[2].replace(ruleNewline, empty).trim();
     }
   }
-  return tree[0];
+  return result;
 };
+const isStyleObject = (value) => {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+};
+const copyDataProperties = (object) => {
+  const copy = /* @__PURE__ */ Object.create(null);
+  for (const [key, desc] of Object.entries(
+    Object.getOwnPropertyDescriptors(object)
+  )) {
+    if (desc.enumerable && "value" in desc) {
+      copy[key] = desc.value;
+    }
+  }
+  return copy;
+};
+const internalProps = /* @__PURE__ */ new Set([
+  "__directives",
+  "children",
+  "dangerouslysetinnerhtml"
+]);
 const getGlobalEventDirective = (type) => {
   return ({ directives, evaluate }) => {
     directives[`on-${type}`].filter(isNonDefaultDirectiveSuffix).forEach((entry) => {
@@ -1219,13 +1583,16 @@ const getGlobalEventDirective = (type) => {
   };
 };
 const evaluateItemKey = (inheritedValue, namespace, item, itemProp, eachKey) => {
-  const clientContextWithItem = {
-    ...inheritedValue.client,
-    [namespace]: {
-      ...inheritedValue.client[namespace],
-      [itemProp]: item
+  const clientContextWithItem = Object.assign(
+    /* @__PURE__ */ Object.create(null),
+    inheritedValue.client,
+    {
+      [namespace]: {
+        ...getOwnProperty(inheritedValue.client, namespace),
+        [itemProp]: item
+      }
     }
-  };
+  );
   const scope = {
     ...getScope(),
     context: clientContextWithItem,
@@ -1253,7 +1620,7 @@ const useItemContexts = function* (inheritedValue, namespace, items, itemProp, e
             // value is set in the `wp-each` directive later on.
             [itemProp]: void 0
           }),
-          inheritedValue.client[namespace]
+          getOwnProperty(inheritedValue.client, namespace)
         )
       );
     }
@@ -1304,11 +1671,13 @@ var directives_default = () => {
       }
       const { Provider } = inheritedContext;
       const { client: inheritedClient, server: inheritedServer } = x(inheritedContext);
-      const client = A({});
-      const server = {};
+      const client = A(
+        /* @__PURE__ */ Object.create(null)
+      );
+      const server = /* @__PURE__ */ Object.create(null);
       const result = {
-        client: { ...inheritedClient },
-        server: { ...inheritedServer }
+        client: Object.assign(/* @__PURE__ */ Object.create(null), inheritedClient),
+        server: Object.assign(/* @__PURE__ */ Object.create(null), inheritedServer)
       };
       const namespaces = /* @__PURE__ */ new Set();
       entries.forEach(({ value, namespace, uniqueId }) => {
@@ -1320,7 +1689,7 @@ var directives_default = () => {
           }
           return;
         }
-        if (!client.current[namespace]) {
+        if (!getOwnProperty(client.current, namespace)) {
           client.current[namespace] = proxifyState(namespace, {});
         }
         deepMerge(
@@ -1334,11 +1703,11 @@ var directives_default = () => {
       namespaces.forEach((namespace) => {
         result.client[namespace] = proxifyContext(
           client.current[namespace],
-          inheritedClient[namespace]
+          getOwnProperty(inheritedClient, namespace)
         );
         result.server[namespace] = proxifyContext(
           server[namespace],
-          inheritedServer[namespace]
+          getOwnProperty(inheritedServer, namespace)
         );
       });
       return (0,preact_module.h)(Provider, { value: result }, children);
@@ -1472,7 +1841,7 @@ var directives_default = () => {
         if (typeof result === "function") {
           result = result();
         }
-        const currentClass = element.props.class || "";
+        const currentClass = typeof element.props.class === "string" ? element.props.class : "";
         const classFinder = new RegExp(
           `(^|\\s)${className}(\\s|$)`,
           "g"
@@ -1508,9 +1877,12 @@ var directives_default = () => {
       if (typeof result === "function") {
         result = result();
       }
-      element.props.style = element.props.style || {};
       if (typeof element.props.style === "string") {
         element.props.style = cssStringToObject(element.props.style);
+      } else if (isStyleObject(element.props.style)) {
+        element.props.style = copyDataProperties(element.props.style);
+      } else {
+        element.props.style = /* @__PURE__ */ Object.create(null);
       }
       if (!result) {
         delete element.props.style[styleProp];
@@ -1535,12 +1907,41 @@ var directives_default = () => {
         return;
       }
       const attribute = entry.suffix;
+      const name = attribute.toLowerCase();
+      if (internalProps.has(name) || // `toVdom()` stores a `<template>`'s markup in its `content` prop.
+      name === "content" && element.type === "template" || isReservedKey(attribute)) {
+        if (true) {
+          warnUnbindableProp(attribute);
+        }
+        return;
+      }
+      if (/^on/i.test(attribute)) {
+        if (true) {
+          warnEventHandlerBindNotSupported(attribute);
+        }
+        return;
+      }
+      if (!isBindingAllowed(element.type, attribute)) {
+        if (true) {
+          warn(
+            `The "${attribute}" attribute cannot be bound on an "object" element. The directive data-wp-bind--${attribute} was ignored.`
+          );
+        }
+        return;
+      }
+      if (attribute === "protocol" && (element.type === "a" || element.type === "area")) {
+        delete element.props[attribute];
+        return;
+      }
       let result = evaluate(entry);
       if (result === PENDING_GETTER) {
         return;
       }
       if (typeof result === "function") {
         result = result();
+      }
+      if (urlAttributes.has(attribute.toLowerCase())) {
+        result = getSafeUrl(result);
       }
       element.props[attribute] = result;
       useInit(() => {
@@ -1696,11 +2097,15 @@ var directives_default = () => {
       );
       for (const [item, itemContext, key] of itemContexts) {
         const mergedContext = {
-          client: {
-            ...inheritedValue.client,
-            [namespace]: itemContext
-          },
-          server: { ...inheritedValue.server }
+          client: Object.assign(
+            /* @__PURE__ */ Object.create(null),
+            inheritedValue.client,
+            { [namespace]: itemContext }
+          ),
+          server: Object.assign(
+            /* @__PURE__ */ Object.create(null),
+            inheritedValue.server
+          )
         };
         mergedContext.client[namespace][itemProp] = item;
         result.push(
@@ -1767,188 +2172,6 @@ var directives_default = () => {
     { priority: 1 }
   );
 };
-
-
-;// ./node_modules/@wordpress/interactivity/build-module/vdom.js
-
-
-const directivePrefix = `data-wp-`;
-const namespaces = [];
-const currentNamespace = () => namespaces[namespaces.length - 1] ?? null;
-const isObject = (item) => Boolean(item && typeof item === "object" && item.constructor === Object);
-const invalidCharsRegex = /[^a-z0-9-_]/i;
-function parseDirectiveName(directiveName) {
-  const name = directiveName.substring(8);
-  if (invalidCharsRegex.test(name)) {
-    return null;
-  }
-  const suffixIndex = name.indexOf("--");
-  if (suffixIndex === -1) {
-    return { prefix: name, suffix: null, uniqueId: null };
-  }
-  const prefix = name.substring(0, suffixIndex);
-  const remaining = name.substring(suffixIndex);
-  if (remaining.startsWith("---") && remaining[3] !== "-") {
-    return {
-      prefix,
-      suffix: null,
-      uniqueId: remaining.substring(3) || null
-    };
-  }
-  let suffix = remaining.substring(2);
-  const uniqueIdIndex = suffix.indexOf("---");
-  if (uniqueIdIndex !== -1 && suffix.substring(uniqueIdIndex)[3] !== "-") {
-    const uniqueId = suffix.substring(uniqueIdIndex + 3) || null;
-    suffix = suffix.substring(0, uniqueIdIndex) || null;
-    return { prefix, suffix, uniqueId };
-  }
-  return { prefix, suffix: suffix || null, uniqueId: null };
-}
-const nsPathRegExp = /^([\w_\/-]+)::(.+)$/;
-const hydratedIslands = /* @__PURE__ */ new WeakSet();
-function toVdom(root) {
-  const nodesToRemove = /* @__PURE__ */ new Set();
-  const nodesToReplace = /* @__PURE__ */ new Set();
-  const treeWalker = document.createTreeWalker(
-    root,
-    205
-    // TEXT + CDATA_SECTION + COMMENT + PROCESSING_INSTRUCTION + ELEMENT
-  );
-  function walk(node) {
-    const { nodeType } = node;
-    if (nodeType === 3) {
-      return node.data;
-    }
-    if (nodeType === 4) {
-      nodesToReplace.add(node);
-      return node.nodeValue;
-    }
-    if (nodeType === 8 || nodeType === 7) {
-      nodesToRemove.add(node);
-      return null;
-    }
-    const elementNode = node;
-    const { attributes } = elementNode;
-    const localName = elementNode.localName;
-    const props = {};
-    const children = [];
-    const directives = [];
-    let ignore = false;
-    let island = false;
-    for (let i = 0; i < attributes.length; i++) {
-      const attributeName = attributes[i].name;
-      const attributeValue = attributes[i].value;
-      if (attributeName[directivePrefix.length] && attributeName.slice(0, directivePrefix.length) === directivePrefix) {
-        if (attributeName === "data-wp-ignore") {
-          ignore = true;
-        } else {
-          const regexResult = nsPathRegExp.exec(attributeValue);
-          const namespace = regexResult?.[1] ?? null;
-          let value = regexResult?.[2] ?? attributeValue;
-          try {
-            const parsedValue = JSON.parse(value);
-            value = isObject(parsedValue) ? parsedValue : value;
-          } catch {
-          }
-          if (attributeName === "data-wp-interactive") {
-            island = true;
-            const islandNamespace = (
-              // eslint-disable-next-line no-nested-ternary
-              typeof value === "string" ? value : typeof value?.namespace === "string" ? value.namespace : null
-            );
-            namespaces.push(islandNamespace);
-          } else {
-            directives.push([attributeName, namespace, value]);
-          }
-        }
-      } else if (attributeName === "ref") {
-        continue;
-      }
-      props[attributeName] = attributeValue;
-    }
-    if (ignore && !island) {
-      return [
-        (0,preact_module.h)(localName, {
-          ...props,
-          innerHTML: elementNode.innerHTML,
-          __directives: { ignore: true }
-        })
-      ];
-    }
-    if (island) {
-      hydratedIslands.add(elementNode);
-    }
-    if (directives.length) {
-      props.__directives = directives.reduce((obj, [name, ns, value]) => {
-        const directiveParsed = parseDirectiveName(name);
-        if (directiveParsed === null) {
-          if (true) {
-            warn(`Found malformed directive name: ${name}.`);
-          }
-          return obj;
-        }
-        const { prefix, suffix, uniqueId } = directiveParsed;
-        obj[prefix] = obj[prefix] || [];
-        obj[prefix].push({
-          namespace: ns ?? currentNamespace(),
-          value,
-          suffix,
-          uniqueId
-        });
-        return obj;
-      }, {});
-      for (const prefix in props.__directives) {
-        props.__directives[prefix].sort(
-          (a, b) => {
-            const aSuffix = a.suffix ?? "";
-            const bSuffix = b.suffix ?? "";
-            if (aSuffix !== bSuffix) {
-              return aSuffix < bSuffix ? -1 : 1;
-            }
-            const aId = a.uniqueId ?? "";
-            const bId = b.uniqueId ?? "";
-            return +(aId > bId) - +(aId < bId);
-          }
-        );
-      }
-    }
-    if (props.__directives?.["each-child"]) {
-      props.dangerouslySetInnerHTML = {
-        __html: elementNode.innerHTML
-      };
-    } else if (localName === "template") {
-      props.content = [
-        ...elementNode.content.childNodes
-      ].map((childNode) => toVdom(childNode));
-    } else {
-      let child = treeWalker.firstChild();
-      if (child) {
-        while (child) {
-          const vnode = walk(child);
-          if (vnode) {
-            children.push(vnode);
-          }
-          child = treeWalker.nextSibling();
-        }
-        treeWalker.parentNode();
-      }
-    }
-    if (island) {
-      namespaces.pop();
-    }
-    return (0,preact_module.h)(localName, props, children);
-  }
-  const vdom = walk(treeWalker.currentNode);
-  nodesToRemove.forEach(
-    (node) => node.remove()
-  );
-  nodesToReplace.forEach(
-    (node) => node.replaceWith(
-      new window.Text(node.nodeValue ?? "")
-    )
-  );
-  return vdom;
-}
 
 
 ;// ./node_modules/@wordpress/interactivity/build-module/hydration.js

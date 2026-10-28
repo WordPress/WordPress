@@ -1979,6 +1979,14 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return false;
 		}
 
+		/*
+		 * Notes are editorial content, so require edit access to the note's post
+		 * rather than the moderate_comments capability.
+		 */
+		if ( 'note' === strtolower( $comment->comment_type ) ) {
+			return current_user_can( 'edit_comment', $comment->comment_ID );
+		}
+
 		if ( current_user_can( 'moderate_comments' ) ) {
 			return true;
 		}

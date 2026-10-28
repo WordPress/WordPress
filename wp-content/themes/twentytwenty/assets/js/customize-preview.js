@@ -42,7 +42,7 @@
 
 			partial = this;
 			params = partial.params;
-			cover = $( params.selector );
+			cover = $( document ).find( params.selector );
 
 			if ( cover.length && cover.hasClass( 'bg-image' ) ) {
 				cover.toggleClass( 'bg-attachment-fixed' );
@@ -79,7 +79,7 @@
 			ranges = _.range( attrs.min, attrs.max + attrs.step, attrs.step );
 			params = partial.params;
 			setting = api( params.primarySetting );
-			cover = $( params.selector );
+			cover = $( document ).find( params.selector );
 
 			if ( cover.length ) {
 				classNames = _.map( ranges, function( val ) {

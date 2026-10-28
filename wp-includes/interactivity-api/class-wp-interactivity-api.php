@@ -877,7 +877,7 @@ final class WP_Interactivity_API {
 	 *
 	 * @param WP_Interactivity_API_Directives_Processor $p      The directives processor instance.
 	 * @param string                                    $prefix The directive prefix to filter by.
-	 * @return array An array of entries containing the directive namespace, value, suffix, and unique ID.
+	 * @return array An array of entries containing the directive namespace, value, suffix, unique ID, and attribute name.
 	 */
 	private function get_directive_entries( WP_Interactivity_API_Directives_Processor $p, string $prefix ) {
 		$directive_attributes = $p->get_attribute_names_with_prefix( 'data-wp-' . $prefix );
@@ -890,10 +890,11 @@ final class WP_Interactivity_API {
 			}
 			list( $namespace, $value ) = $this->extract_directive_value( $p->get_attribute( $attribute_name ), end( $this->namespace_stack ) );
 			$entries[]                 = array(
-				'namespace' => $namespace,
-				'value'     => $value,
-				'suffix'    => $suffix,
-				'unique_id' => $unique_id,
+				'namespace'      => $namespace,
+				'value'          => $value,
+				'suffix'         => $suffix,
+				'unique_id'      => $unique_id,
+				'attribute_name' => $attribute_name,
 			);
 		}
 		// Sort directive entries to ensure stable ordering with the client.
@@ -1029,7 +1030,25 @@ final class WP_Interactivity_API {
 			$entries = $this->get_directive_entries( $p, 'bind' );
 			foreach ( $entries as $entry ) {
 				if ( empty( $entry['suffix'] ) || null !== $entry['unique_id'] ) {
-						return;
+						continue;
+				}
+
+				/*
+				 * Remove a binding that would change an `object` attribute whose value KSES checks,
+				 * so that a client runtime without this check does not apply it either.
+				 */
+				if ( 'OBJECT' === $p->get_tag() && ! self::is_bindable_object_attribute( $entry['suffix'] ) ) {
+					$p->remove_attribute( $entry['attribute_name'] );
+					_doing_it_wrong(
+						__METHOD__,
+						sprintf(
+							/* translators: %s: The attribute name. */
+							__( 'The "%s" attribute cannot be bound on an "object" element, so the binding was ignored.' ),
+							esc_html( $entry['suffix'] )
+						),
+						'6.9.11'
+					);
+					continue;
 				}
 
 				// Skip if the suffix is an event handler.
@@ -1068,12 +1087,40 @@ final class WP_Interactivity_API {
 					) {
 						$result = $result ? 'true' : 'false';
 					}
+
 					$p->set_attribute( $entry['suffix'], $result );
 				} else {
 					$p->remove_attribute( $entry['suffix'] );
 				}
 			}
 		}
+	}
+
+	/**
+	 * Determines whether a binding may set or remove an attribute of an `object` element.
+	 *
+	 * KSES only allows an `object` element in post content after checking the values of its
+	 * `data` and `type` attributes. Neither the server nor the client can repeat that check for
+	 * a bound value, so a binding on an `object` element may only change attributes that cannot
+	 * change what it loads: `aria-*` attributes, `data-*` attributes other than directives,
+	 * `width`, `height`, and the global attributes KSES allows on any element. Any `aria-*`
+	 * attribute is allowed, where KSES lists only some. A `data-wp-*` attribute is refused
+	 * because it is a directive, which could bind `data` or `type` once rendered. The client
+	 * runtime enforces the same set.
+	 *
+	 * @since 6.9.11
+	 *
+	 * @param string $attribute_name The name of the bound attribute.
+	 * @return bool Whether the attribute may be bound on an `object` element.
+	 */
+	private static function is_bindable_object_attribute( string $attribute_name ): bool {
+		$attribute_name = strtolower( $attribute_name );
+
+		return (
+			str_starts_with( $attribute_name, 'aria-' ) ||
+			( str_starts_with( $attribute_name, 'data-' ) && ! str_starts_with( $attribute_name, 'data-wp-' ) ) ||
+			in_array( $attribute_name, array( 'class', 'dir', 'height', 'hidden', 'id', 'lang', 'role', 'style', 'tabindex', 'title', 'width' ), true )
+		);
 	}
 
 	/**

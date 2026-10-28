@@ -33,13 +33,17 @@ const interactivity_namespaceObject = x({ ["getContext"]: () => (__WEBPACK_EXTER
 
 let isTouching = false;
 let lastTouchTime = 0;
+function getImageMetadata(imageId) {
+  const metadata = state.metadata[imageId];
+  return Object.hasOwn(state.metadata, imageId) ? metadata : void 0;
+}
 const { state, actions, callbacks } = (0,interactivity_namespaceObject.store)(
   "core/image",
   {
     state: {
       currentImageId: null,
       get currentImage() {
-        return state.metadata[state.currentImageId];
+        return getImageMetadata(state.currentImageId);
       },
       get overlayOpened() {
         return state.currentImageId !== null;
@@ -67,11 +71,11 @@ const { state, actions, callbacks } = (0,interactivity_namespaceObject.store)(
       },
       get imageButtonRight() {
         const { imageId } = (0,interactivity_namespaceObject.getContext)();
-        return state.metadata[imageId].imageButtonRight;
+        return getImageMetadata(imageId)?.imageButtonRight;
       },
       get imageButtonTop() {
         const { imageId } = (0,interactivity_namespaceObject.getContext)();
-        return state.metadata[imageId].imageButtonTop;
+        return getImageMetadata(imageId)?.imageButtonTop;
       },
       get isContentHidden() {
         const ctx = (0,interactivity_namespaceObject.getContext)();
@@ -85,7 +89,7 @@ const { state, actions, callbacks } = (0,interactivity_namespaceObject.store)(
     actions: {
       showLightbox() {
         const { imageId } = (0,interactivity_namespaceObject.getContext)();
-        if (!state.metadata[imageId].imageRef?.complete) {
+        if (!getImageMetadata(imageId)?.imageRef?.complete) {
           return;
         }
         state.scrollTopReset = document.documentElement.scrollTop;
@@ -253,8 +257,12 @@ const { state, actions, callbacks } = (0,interactivity_namespaceObject.store)(
           return;
         }
         const { imageId } = (0,interactivity_namespaceObject.getContext)();
-        state.metadata[imageId].imageRef = ref;
-        state.metadata[imageId].currentSrc = ref.currentSrc;
+        const imageMetadata = getImageMetadata(imageId);
+        if (!imageMetadata) {
+          return;
+        }
+        imageMetadata.imageRef = ref;
+        imageMetadata.currentSrc = ref.currentSrc;
         const {
           naturalWidth,
           naturalHeight,
@@ -280,7 +288,7 @@ const { state, actions, callbacks } = (0,interactivity_namespaceObject.store)(
         const buttonOffsetRight = figureWidth - offsetWidth;
         let imageButtonTop = buttonOffsetTop + 16;
         let imageButtonRight = buttonOffsetRight + 16;
-        if (state.metadata[imageId].scaleAttr === "contain") {
+        if (imageMetadata.scaleAttr === "contain") {
           const naturalRatio = naturalWidth / naturalHeight;
           const offsetRatio = offsetWidth / offsetHeight;
           if (naturalRatio >= offsetRatio) {
@@ -293,8 +301,8 @@ const { state, actions, callbacks } = (0,interactivity_namespaceObject.store)(
             imageButtonRight = (offsetWidth - referenceWidth) / 2 + buttonOffsetRight + 16;
           }
         }
-        state.metadata[imageId].imageButtonTop = imageButtonTop;
-        state.metadata[imageId].imageButtonRight = imageButtonRight;
+        imageMetadata.imageButtonTop = imageButtonTop;
+        imageMetadata.imageButtonRight = imageButtonRight;
       },
       setOverlayFocus() {
         if (state.overlayEnabled) {
@@ -305,7 +313,10 @@ const { state, actions, callbacks } = (0,interactivity_namespaceObject.store)(
       initTriggerButton() {
         const { imageId } = (0,interactivity_namespaceObject.getContext)();
         const { ref } = (0,interactivity_namespaceObject.getElement)();
-        state.metadata[imageId].buttonRef = ref;
+        const imageMetadata = getImageMetadata(imageId);
+        if (imageMetadata) {
+          imageMetadata.buttonRef = ref;
+        }
       }
     }
   },
