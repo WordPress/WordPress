@@ -412,7 +412,7 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 		 * @return {wp.customize.selectiveRefresh.Partial} The widget instance partial.
 		 */
 		ensureWidgetPlacementContainers: function( widgetId ) {
-			var sidebarPartial = this, widgetPartial, wasInserted = false, partialId = 'widget[' + widgetId + ']';
+			var sidebarPartial = this, sidebarArgs, widgetPartial, wasInserted = false, partialId = 'widget[' + widgetId + ']';
 			widgetPartial = api.selectiveRefresh.partial( partialId );
 			if ( ! widgetPartial ) {
 				widgetPartial = new self.WidgetPartial( partialId, {
@@ -420,9 +420,16 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 				} );
 			}
 
+			// Build containers from the registered sidebar, since partial params can be declared in post content.
+			sidebarArgs = _.findWhere( self.registeredSidebars, { id: sidebarPartial.sidebarId } );
+
 			// Make sure that there is a container element for the widget in the sidebar, if at least a placeholder.
 			_.each( sidebarPartial.placements(), function( sidebarPlacement ) {
 				var foundWidgetPlacement, widgetContainerElement;
+
+				if ( ! sidebarArgs ) {
+					return;
+				}
 
 				foundWidgetPlacement = _.find( widgetPartial.placements(), function( widgetPlacement ) {
 					return ( widgetPlacement.context.sidebar_instance_number === sidebarPlacement.context.instanceNumber );
@@ -432,8 +439,8 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 				}
 
 				widgetContainerElement = $(
-					sidebarPartial.params.sidebarArgs.before_widget.replace( /%1\$s/g, widgetId ).replace( /%2\$s/g, 'widget' ) +
-					sidebarPartial.params.sidebarArgs.after_widget
+					sidebarArgs.before_widget.replace( /%1\$s/g, widgetId ).replace( /%2\$s/g, 'widget' ) +
+					sidebarArgs.after_widget
 				);
 
 				// Handle rare case where before_widget and after_widget are empty.
