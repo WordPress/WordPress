@@ -20,6 +20,8 @@
  * exists, then this file will not be included.
  *
  * @since 2.0.0
+ *
+ * @property array<string, true> $global_groups Global cache groups, keyed by group name.
  */
 #[AllowDynamicProperties]
 class WP_Object_Cache {
@@ -49,10 +51,10 @@ class WP_Object_Cache {
 	public $cache_misses = 0;
 
 	/**
-	 * List of global cache groups.
+	 * Global cache groups, keyed by group name.
 	 *
 	 * @since 3.0.0
-	 * @var string[]
+	 * @var array<string, true>
 	 */
 	protected $global_groups = array();
 

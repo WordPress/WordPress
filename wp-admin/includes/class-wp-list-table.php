@@ -11,6 +11,9 @@
  * Base class for displaying a list of items in an ajaxified HTML table.
  *
  * @since 3.1.0
+ *
+ * @property array<string, mixed> $_pagination_args Various information needed for displaying the pagination.
+ * @property WP_Screen            $screen           The current screen.
  */
 #[AllowDynamicProperties]
 class WP_List_Table {
