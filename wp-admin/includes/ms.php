@@ -889,7 +889,7 @@ function confirm_delete_users( $users ) {
 					sprintf(
 						/* translators: %s: User login. */
 						__( 'Warning! User %s cannot be deleted.' ),
-						$delete_user->user_login
+						esc_html( $delete_user->user_login )
 					)
 				);
 			}
@@ -899,14 +899,14 @@ function confirm_delete_users( $users ) {
 					sprintf(
 						/* translators: %s: User login. */
 						__( 'Warning! User cannot be deleted. The user %s is a network administrator.' ),
-						'<em>' . $delete_user->user_login . '</em>'
+						'<em>' . esc_html( $delete_user->user_login ) . '</em>'
 					)
 				);
 			}
 
 			?>
 			<tr>
-				<th scope="row"><?php echo $delete_user->user_login; ?>
+				<th scope="row"><?php echo esc_html( $delete_user->user_login ); ?>
 					<?php echo '<input type="hidden" name="user[]" value="' . esc_attr( $user_id ) . '" />' . "\n"; ?>
 				</th>
 			<?php
@@ -919,7 +919,7 @@ function confirm_delete_users( $users ) {
 				printf(
 					/* translators: 1: User login, 2: User ID. */
 					__( '%1$s (ID #%2$s): What should be done with the content owned by this user?' ),
-					'<strong>' . $delete_user->user_login . '</strong>',
+					'<strong>' . esc_html( $delete_user->user_login ) . '</strong>',
 					$user_id
 				);
 				?>
