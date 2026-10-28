@@ -369,7 +369,7 @@ switch ( $wp_list_table->current_action() ) {
 					/* translators: 1: User ID, 2: User login. */
 					__( 'ID #%1$s: %2$s <strong>The current user will not be deleted.</strong>' ),
 					$id,
-					$user->user_login
+					esc_html( $user->user_login )
 				);
 				echo "</li>\n";
 			} else {
@@ -382,7 +382,7 @@ switch ( $wp_list_table->current_action() ) {
 					/* translators: 1: User ID, 2: User login. */
 					__( 'ID #%1$s: %2$s' ),
 					$id,
-					$user->user_login
+					esc_html( $user->user_login )
 				);
 				echo "</li>\n";
 
@@ -536,7 +536,7 @@ switch ( $wp_list_table->current_action() ) {
 					/* translators: 1: User ID, 2: User login. */
 					__( 'ID #%1$s: %2$s <strong>Sorry, you are not allowed to remove this user.</strong>' ),
 					$id,
-					$user->user_login
+					esc_html( $user->user_login )
 				);
 				echo "</li>\n";
 			} else {
@@ -549,7 +549,7 @@ switch ( $wp_list_table->current_action() ) {
 					/* translators: 1: User ID, 2: User login. */
 					__( 'ID #%1$s: %2$s' ),
 					$id,
-					$user->user_login
+					esc_html( $user->user_login )
 				);
 				echo "</li>\n";
 

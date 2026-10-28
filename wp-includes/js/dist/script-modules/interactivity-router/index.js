@@ -205,14 +205,60 @@ const getPagePath = url => {
   return u.pathname + u.search;
 };
 
-// Fetch a new page and convert it to a static virtual DOM.
+/**
+ * Checks whether a fetched response can be processed as a page.
+ *
+ * Only a successful, same-origin response that the browser would display as
+ * an HTML page is accepted. Any other response, such as an uploaded file
+ * served with a non-HTML content type, is rejected so that none of its content
+ * is processed.
+ *
+ * @param response The fetched response.
+ * @return Whether the response can be processed as a page.
+ */
+const isValidPageResponse = response => {
+  var _response$headers$get;
+  if (response.status !== 200) {
+    return false;
+  }
+
+  // The final URL, after redirects, must be in the same origin.
+  try {
+    if (new URL(response.url).origin !== window.location.origin) {
+      return false;
+    }
+  } catch {
+    return false;
+  }
+
+  // The browser parses only `text/html` with the HTML parser, which is the
+  // parser the router uses. `DOMParser` parses with scripting disabled, so
+  // its result can still differ from the browser's. A `,` means that the
+  // response has more than one content type header.
+  const contentType = (_response$headers$get = response.headers.get('content-type')) !== null && _response$headers$get !== void 0 ? _response$headers$get : '';
+  if (contentType.includes(',') || contentType.split(';')[0].trim().toLowerCase() !== 'text/html') {
+    return false;
+  }
+  return true;
+};
+
+// Fetch a new page and convert it to a static virtual DOM. The URL is the
+// path and query of the page to fetch. It returns false if there was an error
+// during fetching or preparation, or if the fetched response is not a valid
+// page.
 const fetchPage = async (url, {
   html
 }) => {
   try {
     if (!html) {
-      const res = await window.fetch(url);
-      if (res.status !== 200) {
+      // Only a same-origin URL can be fetched.
+      const requestUrl = new URL(url, window.location.href);
+      if (requestUrl.origin !== window.location.origin) {
+        return false;
+      }
+      // Some `window.fetch` wrappers call string methods on the input.
+      const res = await window.fetch(requestUrl.href);
+      if (!isValidPageResponse(res)) {
         return false;
       }
       html = await res.text();
@@ -229,9 +275,11 @@ const fetchPage = async (url, {
 const regionsToVdom = async (dom, {
   vdom
 } = {}) => {
-  const regions = {
+  // Keyed by router region IDs found in the markup, so it doesn't inherit
+  // from `Object.prototype`.
+  const regions = Object.assign(Object.create(null), {
     body: undefined
-  };
+  });
   let head;
   if (false) {}
   if (navigationMode === 'regionBased') {
@@ -359,6 +407,8 @@ const {
      * @return  Promise that resolves once the navigation is completed or aborted.
      */
     *navigate(href, options = {}) {
+      // Only read the options passed as own properties.
+      options = Object.assign(Object.create(null), options);
       const {
         clientNavigationDisabled
       } = (0,interactivity_namespaceObject.getConfig)();
@@ -445,6 +495,8 @@ const {
      * @param [options.html]  HTML string to be used instead of fetching the requested URL.
      */
     prefetch(url, options = {}) {
+      // Only read the options passed as own properties.
+      options = Object.assign(Object.create(null), options);
       const {
         clientNavigationDisabled
       } = (0,interactivity_namespaceObject.getConfig)();
@@ -472,10 +524,10 @@ const {
 function a11ySpeak(messageKey) {
   if (!hasLoadedNavigationTextsData) {
     hasLoadedNavigationTextsData = true;
-    const content = document.getElementById('wp-script-module-data-@wordpress/interactivity-router')?.textContent;
-    if (content) {
+    const script = document.querySelector('script[id="wp-script-module-data-@wordpress/interactivity-router"]');
+    if (script instanceof HTMLScriptElement) {
       try {
-        const parsed = JSON.parse(content);
+        const parsed = JSON.parse(script.text);
         if (typeof parsed?.i18n?.loading === 'string') {
           navigationTexts.loading = parsed.i18n.loading;
         }
