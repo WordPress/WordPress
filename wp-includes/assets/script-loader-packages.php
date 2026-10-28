@@ -148,13 +148,13 @@
 		'dependencies' => array(
 			
 		),
-		'version' => 'bff55bd3f1ce9df0c99c'
+		'version' => '1b83993ae875be4beb48'
 	),
 	'block-serialization-spec-parser.js' => array(
 		'dependencies' => array(
 			
 		),
-		'version' => '9ebc5e95e1de1cabd1e6'
+		'version' => 'aa0ad1206f5923f2c884'
 	),
 	'blocks.js' => array(
 		'dependencies' => array(

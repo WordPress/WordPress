@@ -1363,14 +1363,15 @@ var GeminiLogo = () => /* @__PURE__ */ React.createElement(
 var { store: connectorsStore } = unlock(connectorsPrivateApis);
 function getConnectorScriptModuleData() {
   try {
-    return JSON.parse(
-      document.getElementById(
-        "wp-script-module-data-options-connectors-wp-admin"
-      )?.textContent ?? "{}"
+    const script = document.querySelector(
+      'script[id="wp-script-module-data-options-connectors-wp-admin"]'
     );
+    if (script instanceof HTMLScriptElement) {
+      return JSON.parse(script.text);
+    }
   } catch {
-    return {};
   }
+  return {};
 }
 function getConnectorData() {
   return getConnectorScriptModuleData().connectors ?? {};

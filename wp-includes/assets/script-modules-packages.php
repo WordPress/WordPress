@@ -64,7 +64,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '25ee935fd6c67371d0f3'
+		'version' => '5c654520c1a772c03bf8'
 	),
 	'block-library/navigation/view.js' => array(
 		'dependencies' => array(
@@ -211,7 +211,7 @@
 		'dependencies' => array(
 			
 		),
-		'version' => 'efaa5193bbad9c60ffd1'
+		'version' => '6a43cba92ed701f32cd9'
 	),
 	'interactivity-router/full-page.js' => array(
 		'dependencies' => array(
@@ -239,7 +239,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '71aa17bac91628a0f874'
+		'version' => 'def73b65b44e7c792641'
 	),
 	'latex-to-mathml/index.js' => array(
 		'dependencies' => array(
