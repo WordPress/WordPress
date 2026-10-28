@@ -290,12 +290,8 @@ function block_core_image_render_lightbox( $block_content, array $block, WP_Bloc
 	$body_content = $processor->get_updated_html();
 
 	// Adds a button alongside image in the body content.
-	$img = null;
-	preg_match( '/<img[^>]+>/', $body_content, $img );
-
 	$button =
-		$img[0]
-		. '<button
+		'<button
 			class="lightbox-trigger"
 			type="button"
 			aria-haspopup="dialog"
@@ -310,7 +306,26 @@ function block_core_image_render_lightbox( $block_content, array $block, WP_Bloc
 			</svg>
 		</button>';
 
-	$body_content = preg_replace( '/<img[^>]+>/', $button, $body_content );
+	$button_processor = new class( $body_content ) extends WP_HTML_Tag_Processor {
+		/**
+		 * Inserts HTML immediately after the current token.
+		 *
+		 * @since 7.1.4
+		 *
+		 * @param string $html HTML to insert.
+		 */
+		public function block_core_image_insert_after( string $html ) {
+			$this->set_bookmark( 'here' );
+			$span = $this->bookmarks['here'];
+
+			$this->lexical_updates[] = new WP_HTML_Text_Replacement( $span->start + $span->length, 0, $html );
+		}
+	};
+
+	if ( $button_processor->next_tag( 'img' ) ) {
+		$button_processor->block_core_image_insert_after( $button );
+	}
+	$body_content = $button_processor->get_updated_html();
 
 	add_action( 'wp_footer', 'block_core_image_print_lightbox_overlay' );
 
