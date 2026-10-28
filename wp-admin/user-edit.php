@@ -487,7 +487,7 @@ endif; //!IS_PROFILE_PAGE
 
 		foreach ( $public_display as $id => $item ) {
 			?>
-		<option <?php selected( $profileuser->display_name, $item ); ?>><?php echo $item; ?></option>
+		<option <?php selected( $profileuser->display_name, $item ); ?>><?php echo esc_html( $item ); ?></option>
 			<?php
 		}
 		?>
@@ -694,7 +694,7 @@ endif; //!IS_PROFILE_PAGE
 			<p class="description">
 				<?php
 				/* translators: %s: User's display name. */
-				printf( __( 'Log %s out of all locations.' ), $profileuser->display_name );
+				printf( __( 'Log %s out of all locations.' ), esc_html( $profileuser->display_name ) );
 				?>
 			</p>
 		</td>
