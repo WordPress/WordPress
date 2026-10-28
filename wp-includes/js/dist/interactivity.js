@@ -52,6 +52,40 @@ var signals_core_module_i=Symbol.for("preact-signals");function signals_core_mod
 var signals_module_v,signals_module_s;function signals_module_l(n,i){l[n]=i.bind(null,l[n]||function(){})}function signals_module_d(n){if(signals_module_s)signals_module_s();signals_module_s=n&&n.S()}function signals_module_p(n){var r=this,f=n.data,o=useSignal(f);o.value=f;var e=hooks_module_q(function(){var n=r.__v;while(n=n.__)if(n.__c){n.__c.__$f|=4;break}r.__$u.c=function(){var n;if(!preact_module_t(e.peek())&&3===(null==(n=r.base)?void 0:n.nodeType))r.base.data=e.peek();else{r.__$f|=1;r.setState({})}};return signals_core_module_w(function(){var n=o.value.value;return 0===n?0:!0===n?"":n||""})},[]);return e.value}signals_module_p.displayName="_st";Object.defineProperties(signals_core_module_u.prototype,{constructor:{configurable:!0,value:void 0},type:{configurable:!0,value:signals_module_p},props:{configurable:!0,get:function(){return{data:this}}},__b:{configurable:!0,value:1}});signals_module_l("__b",function(n,r){if("string"==typeof r.type){var i,t=r.props;for(var f in t)if("children"!==f){var o=t[f];if(o instanceof signals_core_module_u){if(!i)r.__np=i={};i[f]=o;t[f]=o.peek()}}}n(r)});signals_module_l("__r",function(n,r){signals_module_d();var i,t=r.__c;if(t){t.__$f&=-2;if(void 0===(i=t.__$u))t.__$u=i=function(n){var r;signals_core_module_E(function(){r=this});r.c=function(){t.__$f|=1;t.setState({})};return r}()}signals_module_v=t;signals_module_d(i);n(r)});signals_module_l("__e",function(n,r,i,t){signals_module_d();signals_module_v=void 0;n(r,i,t)});signals_module_l("diffed",function(n,r){signals_module_d();signals_module_v=void 0;var i;if("string"==typeof r.type&&(i=r.__e)){var t=r.__np,f=r.props;if(t){var o=i.U;if(o)for(var e in o){var u=o[e];if(void 0!==u&&!(e in t)){u.d();o[e]=void 0}}else i.U=o={};for(var a in t){var c=o[a],s=t[a];if(void 0===c){c=signals_module_(i,a,s,f);o[a]=c}else c.o(s,f)}}}n(r)});function signals_module_(n,r,i,t){var f=r in n&&void 0===n.ownerSVGElement,o=signals_core_module_d(i);return{o:function(n,r){o.value=n;t=r},d:signals_core_module_E(function(){var i=o.value.value;if(t[r]!==i){t[r]=i;if(f)n[r]=i;else if(i)n.setAttribute(r,i);else n.removeAttribute(r)}})}}signals_module_l("unmount",function(n,r){if("string"==typeof r.type){var i=r.__e;if(i){var t=i.U;if(t){i.U=void 0;for(var f in t){var o=t[f];if(o)o.d()}}}}else{var e=r.__c;if(e){var u=e.__$u;if(u){e.__$u=void 0;u.d()}}}n(r)});signals_module_l("__h",function(n,r,i,t){if(t<3||9===t)r.__$f|=2;n(r,i,t)});w.prototype.shouldComponentUpdate=function(n,r){var i=this.__$u;if(!(i&&void 0!==i.s||4&this.__$f))return!0;if(3&this.__$f)return!0;for(var t in r)return!0;for(var f in n)if("__source"!==f&&n[f]!==this.props[f])return!0;for(var o in this.props)if(!(o in n))return!0;return!1};function useSignal(n){return hooks_module_q(function(){return signals_core_module_d(n)},[])}function useComputed(n){var r=f(n);r.current=n;signals_module_v.__$f|=4;return t(function(){return u(function(){return r.current()})},[])}function useSignalEffect(n){var r=f(n);r.current=n;o(function(){return c(function(){return r.current()})},[])}
 ;// CONCATENATED MODULE: ./node_modules/deepsignal/dist/deepsignal.module.js
 var deepsignal_module_a=new WeakMap,deepsignal_module_o=new WeakMap,deepsignal_module_s=new WeakMap,deepsignal_module_u=new WeakSet,deepsignal_module_c=new WeakMap,deepsignal_module_f=/^\$/,deepsignal_module_i=Object.getOwnPropertyDescriptor,deepsignal_module_l=!1,deepsignal_module_g=function(e){if(!deepsignal_module_k(e))throw new Error("This object can't be observed.");return deepsignal_module_o.has(e)||deepsignal_module_o.set(e,deepsignal_module_v(e,deepsignal_module_d)),deepsignal_module_o.get(e)},deepsignal_module_p=function(e,t){deepsignal_module_l=!0;var r=e[t];try{deepsignal_module_l=!1}catch(e){}return r};function deepsignal_module_h(e){return deepsignal_module_u.add(e),e}var deepsignal_module_v=function(e,t){var r=new Proxy(e,t);return deepsignal_module_u.add(r),r},deepsignal_module_y=function(){throw new Error("Don't mutate the signals directly.")},deepsignal_module_w=function(e){return function(t,u,c){var g;if(deepsignal_module_l)return Reflect.get(t,u,c);var p=e||"$"===u[0];if(!e&&p&&Array.isArray(t)){if("$"===u)return deepsignal_module_s.has(t)||deepsignal_module_s.set(t,deepsignal_module_v(t,deepsignal_module_m)),deepsignal_module_s.get(t);p="$length"===u}deepsignal_module_a.has(c)||deepsignal_module_a.set(c,new Map);var h=deepsignal_module_a.get(c),y=p?u.replace(deepsignal_module_f,""):u;if(h.has(y)||"function"!=typeof(null==(g=deepsignal_module_i(t,y))?void 0:g.get)){var w=Reflect.get(t,y,c);if(p&&"function"==typeof w)return;if("symbol"==typeof y&&deepsignal_module_b.has(y))return w;h.has(y)||(deepsignal_module_k(w)&&(deepsignal_module_o.has(w)||deepsignal_module_o.set(w,deepsignal_module_v(w,deepsignal_module_d)),w=deepsignal_module_o.get(w)),h.set(y,signals_core_module_d(w)))}else h.set(y,signals_core_module_w(function(){return Reflect.get(t,y,c)}));return p?h.get(y):h.get(y).value}},deepsignal_module_d={get:deepsignal_module_w(!1),set:function(e,n,s,u){var l;if("function"==typeof(null==(l=deepsignal_module_i(e,n))?void 0:l.set))return Reflect.set(e,n,s,u);deepsignal_module_a.has(u)||deepsignal_module_a.set(u,new Map);var g=deepsignal_module_a.get(u);if("$"===n[0]){s instanceof signals_core_module_u||deepsignal_module_y();var p=n.replace(deepsignal_module_f,"");return g.set(p,s),Reflect.set(e,p,s.peek(),u)}var h=s;deepsignal_module_k(s)&&(deepsignal_module_o.has(s)||deepsignal_module_o.set(s,deepsignal_module_v(s,deepsignal_module_d)),h=deepsignal_module_o.get(s));var w=!(n in e),m=Reflect.set(e,n,s,u);return g.has(n)?g.get(n).value=h:g.set(n,signals_core_module_d(h)),w&&deepsignal_module_c.has(e)&&deepsignal_module_c.get(e).value++,Array.isArray(e)&&g.has("length")&&(g.get("length").value=e.length),m},deleteProperty:function(e,t){"$"===t[0]&&deepsignal_module_y();var r=deepsignal_module_a.get(deepsignal_module_o.get(e)),n=Reflect.deleteProperty(e,t);return r&&r.has(t)&&(r.get(t).value=void 0),deepsignal_module_c.has(e)&&deepsignal_module_c.get(e).value++,n},ownKeys:function(e){return deepsignal_module_c.has(e)||deepsignal_module_c.set(e,signals_core_module_d(0)),deepsignal_module_c._=deepsignal_module_c.get(e).value,Reflect.ownKeys(e)}},deepsignal_module_m={get:deepsignal_module_w(!0),set:deepsignal_module_y,deleteProperty:deepsignal_module_y},deepsignal_module_b=new Set(Object.getOwnPropertyNames(Symbol).map(function(e){return Symbol[e]}).filter(function(e){return"symbol"==typeof e})),R=new Set([Object,Array]),deepsignal_module_k=function(e){return"object"==typeof e&&null!==e&&R.has(e.constructor)&&!deepsignal_module_u.has(e)},deepsignal_module_M=function(t){return e(function(){return deepsignal_module_g(t)},[])};
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/utils/prototype-chain.js
+/**
+ * Checks whether a property key leads out of an object's own data:
+ * `__proto__` to its prototype, `constructor` to its constructor, and
+ * `prototype` to a function's prototype.
+ *
+ * @param {unknown} key The property key.
+ * @return {boolean} Whether the key is reserved.
+ */
+const isReservedKey = key => key === '__proto__' || key === 'constructor' || key === 'prototype';
+
+/**
+ * `JSON.parse()` reviver that removes keys named `__proto__`.
+ *
+ * `JSON.parse()` creates `__proto__` as an own property. Copying it by
+ * assignment, as in a `for...in` loop or `Object.assign()`, replaces the
+ * target's prototype instead.
+ *
+ * @param {string}  key   The property key.
+ * @param {unknown} value The parsed value.
+ * @return {unknown} The value, or `undefined` to remove the key.
+ */
+const jsonReviver = (key, value) => key === '__proto__' ? undefined : value;
+
+/**
+ * Reads a property that an object owns, ignoring inherited properties such
+ * as `Object.prototype.valueOf`.
+ *
+ * @param {Object} object The object to read.
+ * @param {string} key    The property key.
+ * @return {any} The value, or `undefined` if the object doesn't own the property.
+ */
+const getOwnProperty = (object, key) => Object.prototype.hasOwnProperty.call(object, key) ? object[key] : undefined;
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/store.js
 /**
  * External dependencies
@@ -63,10 +97,15 @@ var deepsignal_module_a=new WeakMap,deepsignal_module_o=new WeakMap,deepsignal_m
  * Internal dependencies
  */
 
+
 const isObject = item => item && typeof item === 'object' && item.constructor === Object;
 const deepMerge = (target, source) => {
   if (isObject(target) && isObject(source)) {
     for (const key in source) {
+      // Assigning `__proto__` would replace the prototype of `target`.
+      if (isReservedKey(key)) {
+        continue;
+      }
       const getter = Object.getOwnPropertyDescriptor(source, key)?.get;
       if (typeof getter === 'function') {
         Object.defineProperty(target, key, {
@@ -91,16 +130,26 @@ const rawStores = new Map();
 const storeLocks = new Map();
 const storeConfigs = new Map();
 const objToProxy = new WeakMap();
+const proxyToObj = new WeakMap();
 const proxyToNs = new WeakMap();
 const scopeToGetters = new WeakMap();
 const proxify = (obj, ns) => {
   if (!objToProxy.has(obj)) {
     const proxy = new Proxy(obj, handlers);
     objToProxy.set(obj, proxy);
+    proxyToObj.set(proxy, obj);
     proxyToNs.set(proxy, ns);
   }
   return objToProxy.get(obj);
 };
+
+/**
+ * Returns the object wrapped by the passed store proxy.
+ *
+ * @param proxy Store proxy.
+ * @return The wrapped object, or `undefined` if `proxy` isn't a store proxy.
+ */
+const getObjectFromProxy = proxy => proxyToObj.get(proxy);
 const handlers = {
   get: (target, key, receiver) => {
     const ns = proxyToNs.get(receiver);
@@ -271,6 +320,7 @@ function store(namespace, {
     const proxiedStore = new Proxy(rawStore, handlers);
     rawStores.set(namespace, rawStore);
     stores.set(namespace, proxiedStore);
+    proxyToObj.set(proxiedStore, rawStore);
     proxyToNs.set(proxiedStore, namespace);
   } else {
     // Lock the store if it wasn't locked yet and the passed lock is
@@ -299,7 +349,7 @@ const parseInitialData = (dom = document) => {
   const storeTag = dom.querySelector(`script[type="application/json"]#wp-interactivity-data`);
   if (storeTag?.textContent) {
     try {
-      return JSON.parse(storeTag.textContent);
+      return JSON.parse(storeTag.textContent, jsonReviver);
     } catch (e) {
       // Do nothing.
     }
@@ -327,6 +377,212 @@ const populateInitialData = data => {
 const data = parseInitialData();
 populateInitialData(data);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/utils/warn.js
+const logged = new Set();
+
+/**
+ * Shows a warning with `message` if environment is not `production`.
+ *
+ * Based on the `@wordpress/warning` package.
+ *
+ * @param {string} message Message to show in the warning.
+ */
+const warn = message => {
+  if (true) {
+    if (logged.has(message)) {
+      return;
+    }
+
+    // eslint-disable-next-line no-console
+    console.warn(message);
+
+    // Throwing an error and catching it immediately to improve debugging
+    // A consumer can use 'pause on caught exceptions'
+    try {
+      throw Error(message);
+    } catch (e) {
+      // Do nothing.
+    }
+    logged.add(message);
+  }
+};
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/constants.js
+const directivePrefix = 'wp';
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/vdom.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+const ignoreAttr = `data-${directivePrefix}-ignore`;
+const islandAttr = `data-${directivePrefix}-interactive`;
+const fullPrefix = `data-${directivePrefix}-`;
+const namespaces = [];
+const currentNamespace = () => {
+  var _namespaces;
+  return (_namespaces = namespaces[namespaces.length - 1]) !== null && _namespaces !== void 0 ? _namespaces : null;
+};
+
+// Regular expression for directive parsing.
+const directiveParser = new RegExp(`^data-${directivePrefix}-` +
+// ${p} must be a prefix string, like 'wp'.
+// Match alphanumeric characters including hyphen-separated
+// segments. It excludes underscore intentionally to prevent confusion.
+// E.g., "custom-directive".
+'([a-z0-9]+(?:-[a-z0-9]+)*)' +
+// (Optional) Match '--' followed by any alphanumeric charachters. It
+// excludes underscore intentionally to prevent confusion, but it can
+// contain multiple hyphens. E.g., "--custom-prefix--with-more-info".
+'(?:--([a-z0-9_-]+))?$', 'i' // Case insensitive.
+);
+
+// Regular expression for reference parsing. It can contain a namespace before
+// the reference, separated by `::`, like `some-namespace::state.somePath`.
+// Namespaces can contain any alphanumeric characters, hyphens, underscores or
+// forward slashes. References don't have any restrictions.
+const nsPathRegExp = /^([\w-_\/]+)::(.+)$/;
+
+/**
+ * Checks whether a directive name part is reserved after trimming hyphens and
+ * lowercasing it, as `kebabToCamelCase()` does: `data-wp-each--constructor-`
+ * names the item `constructor`.
+ *
+ * Directive names and suffixes become property keys: `data-wp-bind--[attribute]`,
+ * for example, assigns to the element's props.
+ *
+ * @param part Part of a directive name.
+ * @return Whether the part is reserved.
+ */
+const isReservedNamePart = part => isReservedKey(part.replace(/^-+|-+$/g, '').toLowerCase());
+const hydratedIslands = new WeakSet();
+const directiveMaps = new WeakSet();
+
+/**
+ * Checks whether the passed value is a directive map created by `toVdom()`.
+ *
+ * @param value The value to check.
+ * @return Whether the value is a directive map created by `toVdom()`.
+ */
+const isDirectiveMap = value => typeof value === 'object' && value !== null && directiveMaps.has(value);
+
+/**
+ * Recursive function that transforms a DOM tree into vDOM.
+ *
+ * @param {Node} root The root element or node to start traversing on.
+ * @return {import('preact').VNode[]} The resulting vDOM tree.
+ */
+function toVdom(root) {
+  const treeWalker = document.createTreeWalker(root, 205 // ELEMENT + TEXT + COMMENT + CDATA_SECTION + PROCESSING_INSTRUCTION
+  );
+  function walk(node) {
+    const {
+      attributes,
+      nodeType,
+      localName
+    } = node;
+    if (nodeType === 3) return [node.data];
+    if (nodeType === 4) {
+      const next = treeWalker.nextSibling();
+      node.replaceWith(new window.Text(node.nodeValue));
+      return [node.nodeValue, next];
+    }
+    if (nodeType === 8 || nodeType === 7) {
+      const next = treeWalker.nextSibling();
+      node.remove();
+      return [null, next];
+    }
+    const props = {};
+    const children = [];
+    const directives = [];
+    let ignore = false;
+    let island = false;
+    for (let i = 0; i < attributes.length; i++) {
+      const n = attributes[i].name;
+      if (n[fullPrefix.length] && n.slice(0, fullPrefix.length) === fullPrefix) {
+        if (n === ignoreAttr) {
+          ignore = true;
+        } else {
+          var _nsPathRegExp$exec$sl;
+          let [ns, value] = (_nsPathRegExp$exec$sl = nsPathRegExp.exec(attributes[i].value)?.slice(1)) !== null && _nsPathRegExp$exec$sl !== void 0 ? _nsPathRegExp$exec$sl : [null, attributes[i].value];
+          try {
+            value = JSON.parse(value, jsonReviver);
+          } catch (e) {}
+          if (n === islandAttr) {
+            island = true;
+            const islandNamespace =
+            // eslint-disable-next-line no-nested-ternary
+            typeof value === 'string' ? value : typeof value?.namespace === 'string' ? value.namespace : null;
+            namespaces.push(isReservedKey(islandNamespace) ? null : islandNamespace);
+          } else if (isReservedKey(ns)) {
+            warn(`Found reserved namespace "${ns}" in directive: ${n}.`);
+          } else {
+            directives.push([n, ns, value]);
+          }
+        }
+      } else if (n === 'ref') {
+        continue;
+      }
+      props[n] = attributes[i].value;
+    }
+    if (ignore && !island) {
+      // Keyed by directive names, so it has no prototype.
+      const ignoreDirectives = Object.assign(Object.create(null), {
+        ignore: true
+      });
+      directiveMaps.add(ignoreDirectives);
+      return [g(localName, {
+        ...props,
+        innerHTML: node.innerHTML,
+        __directives: ignoreDirectives
+      })];
+    }
+    if (island) hydratedIslands.add(node);
+    if (directives.length) {
+      // Keyed by directive names from the markup, so it has no prototype.
+      props.__directives = directives.reduce((obj, [name, ns, value]) => {
+        const [, prefix, suffix = 'default'] = directiveParser.exec(name);
+        if (isReservedNamePart(prefix) || suffix.split('--').some(isReservedNamePart)) {
+          warn(`Found malformed directive name: ${name}.`);
+          return obj;
+        }
+        if (!obj[prefix]) obj[prefix] = [];
+        obj[prefix].push({
+          namespace: ns !== null && ns !== void 0 ? ns : currentNamespace(),
+          value,
+          suffix
+        });
+        return obj;
+      }, Object.create(null));
+      directiveMaps.add(props.__directives);
+    }
+    if (localName === 'template') {
+      props.content = [...node.content.childNodes].map(childNode => toVdom(childNode));
+    } else {
+      let child = treeWalker.firstChild();
+      if (child) {
+        while (child) {
+          const [vnode, nextChild] = walk(child);
+          if (vnode) children.push(vnode);
+          child = nextChild || treeWalker.nextSibling();
+        }
+        treeWalker.parentNode();
+      }
+    }
+
+    // Restore previous namespace.
+    if (island) namespaces.pop();
+    return [g(localName, props, children)];
+  }
+  return walk(treeWalker.currentNode);
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/hooks.js
 /* @jsx createElement */
 
@@ -338,6 +594,9 @@ populateInitialData(data);
 /**
  * Internal dependencies
  */
+
+
+
 
 // Main context.
 const context = G({});
@@ -412,8 +671,9 @@ const resetNamespace = () => {
 };
 
 // WordPress Directives.
-const directiveCallbacks = {};
-const directivePriorities = {};
+// Looked up by directive names from the markup, so they have no prototype.
+const directiveCallbacks = Object.create(null);
+const directivePriorities = Object.create(null);
 
 /**
  * Register a new directive type in the Interactivity API runtime.
@@ -494,20 +754,58 @@ const directive = (name, callback, {
   directivePriorities[name] = priority;
 };
 
+/*
+ * Checks whether `value`, read as `parent[ key ]`, is a method that `parent`
+ * inherits, such as `Array.prototype.push`. Store proxies return wrapped
+ * functions, so for a registered proxy the check reads its target.
+ */
+const isInheritedMethod = (parent, key, value) => {
+  if (typeof value !== 'function' || parent === null || parent === undefined) {
+    return false;
+  }
+  const obj = Object(parent);
+  const target = getObjectFromProxy(obj);
+  if (target && Object.prototype.hasOwnProperty.call(target, key)) {
+    return false;
+  }
+  for (let proto = Object.getPrototypeOf(target !== null && target !== void 0 ? target : obj); proto !== null; proto = Object.getPrototypeOf(proto)) {
+    const descriptor = Object.getOwnPropertyDescriptor(proto, key);
+    if (descriptor) {
+      return target ? typeof descriptor.value === 'function' : descriptor.value === value;
+    }
+  }
+  return false;
+};
+
 // Resolve the path to some property of the store object.
 const resolve = (path, namespace) => {
+  const pathParts = path.split('.');
+  // Paths and namespaces come from the markup.
+  if (isReservedKey(namespace) || pathParts.some(isReservedKey)) {
+    warn(`The path "${path}" in the "${namespace}" namespace contains a reserved property name. The value for that path won't be resolved.`);
+    return;
+  }
   let resolvedStore = stores.get(namespace);
   if (typeof resolvedStore === 'undefined') {
     resolvedStore = store(namespace, undefined, {
       lock: universalUnlock
     });
   }
-  let current = {
+  const current = {
     ...resolvedStore,
-    context: getScope().context[namespace]
+    context: getOwnProperty(getScope().context, namespace)
   };
-  path.split('.').forEach(p => current = current[p]);
-  return current;
+  let parent;
+  let value = current;
+  for (const key of pathParts) {
+    parent = value;
+    value = value[key];
+  }
+  if (isInheritedMethod(parent, pathParts[pathParts.length - 1], value)) {
+    warn(`The path "${path}" in the "${namespace}" namespace ends in an inherited method. The value for that path won't be resolved.`);
+    return;
+  }
+  return value;
 };
 
 // Generate the evaluate function.
@@ -601,6 +899,11 @@ const Directives = ({
 // Preact Options Hook called each time a vnode is created.
 const old = l.vnode;
 l.vnode = vnode => {
+  // Only maps built by `toVdom()` passed its directive name checks. Delete any
+  // other `__directives` value so Preact doesn't set it on the element.
+  if (vnode.props.__directives && !isDirectiveMap(vnode.props.__directives)) {
+    delete vnode.props.__directives;
+  }
   if (vnode.props.__directives) {
     const props = vnode.props;
     const directives = props.__directives;
@@ -863,6 +1166,56 @@ function kebabToCamelCase(str) {
   });
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/url.js
+/**
+ * Attributes whose value is a URL, and which therefore have to be checked
+ * before they are bound. Some of them, like `href` on an anchor or `action` on
+ * a form, execute a `javascript:` URL when the element is activated.
+ *
+ * This list mirrors wp_kses_uri_attributes() in PHP. It also includes some names
+ * that cannot be bound today, as hardening against future changes.
+ */
+const urlAttributes = new Set(['action', 'archive', 'background', 'cite', 'classid', 'codebase', 'data', 'formaction', 'href', 'icon', 'longdesc', 'manifest', 'poster', 'profile', 'src', 'usemap', 'xlink:href', 'xlinkhref', 'xmlns']);
+
+/**
+ * Matches a string whose URL scheme is `javascript`.
+ *
+ * @see https://url.spec.whatwg.org/#concept-basic-url-parser
+ *
+ * - Remove any leading and trailing C0 control or space from input.
+ * - Remove all ASCII tab or newline from input.
+ *
+ * Then check for a `javascript:` scheme.
+ *
+ * This check is inspired by React DOM's `sanitizeURL` function.
+ *
+ * @see https://github.com/react/react/blob/07dde64da1abd1525120b9ae49672386486e33c3/packages/react-dom-bindings/src/shared/sanitizeURL.js
+ */
+const isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*\:/i;
+
+/**
+ * Gets the value to bind to a URL attribute.
+ *
+ * Null, undefined and booleans are returned as they are. Any other value is
+ * converted to a string once, and that string is both checked and returned, so
+ * the URL that is checked is the URL that is bound.
+ *
+ * @param value Value to bind.
+ * @return The value to bind, or null if it is a `javascript:` URL or cannot be
+ *         converted to a string.
+ */
+function getSafeUrl(value) {
+  if (value === null || value === undefined || typeof value === 'boolean') {
+    return value;
+  }
+  try {
+    const url = String(value);
+    return isJavaScriptProtocol.test(url) ? null : url;
+  } catch {
+    return null;
+  }
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/directives.js
 /* @jsx createElement */
 
@@ -876,6 +1229,9 @@ function kebabToCamelCase(str) {
 /**
  * Internal dependencies
  */
+
+
+
 
 
 
@@ -921,7 +1277,10 @@ const proxifyContext = (current, inherited = {}) => {
 
         // Proxify plain objects that were not directly assigned.
         if (k in target && !contextAssignedObjects.get(target)?.has(k) && isPlainObject(deepsignal_module_p(target, k))) {
-          return proxifyContext(currentProp, fallback[k]);
+          // Only use an inherited context that the fallback owns. It is
+          // read first so that the context still subscribes to it.
+          const inheritedProp = fallback[k];
+          return proxifyContext(currentProp, Object.prototype.hasOwnProperty.call(fallback, k) ? inheritedProp : undefined);
         }
 
         // Return the stored proxy for `currentProp` when it exists.
@@ -981,6 +1340,10 @@ const proxifyContext = (current, inherited = {}) => {
  */
 const updateSignals = (target, source) => {
   for (const k in source) {
+    // Assigning `__proto__` would replace the prototype of `target`.
+    if (isReservedKey(k)) {
+      continue;
+    }
     if (isPlainObject(deepsignal_module_p(target, k)) && isPlainObject(deepsignal_module_p(source, k))) {
       updateSignals(target[`$${k}`].peek(), source[k]);
     } else {
@@ -1003,6 +1366,19 @@ const deepClone = source => {
     return source.map(i => deepClone(i));
   }
   return source;
+};
+
+// Lowercase names of internal properties that are not binding candidates.
+const internalProps = new Set(['__directives', 'children', 'dangerouslysetinnerhtml']);
+
+// Warns that event handler attributes cannot be bound.
+const warnEventHandlerBindNotSupported = attribute => {
+  warn(`Binding event handler attributes is not supported. Please use "data-wp-on--${attribute.slice(2)}" instead.`);
+};
+
+// Warns that the data-wp-bind directive doesn't set a given prop.
+const warnUnbindableProp = suffix => {
+  warn(`The data-wp-bind directive can't set the "${suffix}" prop. Ignoring data-wp-bind--${suffix}.`);
 };
 const newRule = /(?:([\u0080-\uFFFF\w-%@]+) *:? *([^{;]+?);|([^;}{]*?) *{)|(}\s*)/g;
 const ruleClean = /\/\*[^]*?\*\/|  +/g;
@@ -1032,6 +1408,38 @@ const cssStringToObject = val => {
     }
   }
   return tree[0];
+};
+
+/**
+ * Checks whether a value is an object that inherits from `Object.prototype` or
+ * has no prototype.
+ *
+ * @param {unknown} value The value to check.
+ * @return {boolean} Whether the value is such an object.
+ */
+const isStyleObject = value => {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+};
+
+/**
+ * Copies the own enumerable data properties of an object into an object
+ * without a prototype. Accessor properties are skipped, so no getter runs.
+ *
+ * @param {Object} object The object to copy.
+ * @return {Object} The copy.
+ */
+const copyDataProperties = object => {
+  const copy = Object.create(null);
+  for (const [key, desc] of Object.entries(Object.getOwnPropertyDescriptors(object))) {
+    if (desc.enumerable && 'value' in desc) {
+      copy[key] = desc.value;
+    }
+  }
+  return copy;
 };
 
 /**
@@ -1164,7 +1572,8 @@ const getGlobalEventDirective = type => ({
     }) => suffix !== 'default').forEach(entry => {
       const className = entry.suffix;
       const result = evaluate(entry);
-      const currentClass = element.props.class || '';
+      // `data-wp-bind--class` can set a value that isn't a string.
+      const currentClass = typeof element.props.class === 'string' ? element.props.class : '';
       const classFinder = new RegExp(`(^|\\s)${className}(\\s|$)`, 'g');
       if (!result) element.props.class = currentClass.replace(classFinder, ' ').trim();else if (!classFinder.test(currentClass)) element.props.class = currentClass ? `${currentClass} ${className}` : className;
       useInit(() => {
@@ -1195,8 +1604,15 @@ const getGlobalEventDirective = type => ({
     }) => suffix !== 'default').forEach(entry => {
       const styleProp = entry.suffix;
       const result = evaluate(entry);
-      element.props.style = element.props.style || {};
-      if (typeof element.props.style === 'string') element.props.style = cssStringToObject(element.props.style);
+      if (typeof element.props.style === 'string') {
+        element.props.style = cssStringToObject(element.props.style);
+      } else if (isStyleObject(element.props.style)) {
+        // Only write into a style object that `data-wp-style` created.
+        element.props.style = copyDataProperties(element.props.style);
+      } else {
+        // `data-wp-bind--style` can set a value that isn't a style.
+        element.props.style = Object.create(null);
+      }
       if (!result) delete element.props.style[styleProp];else element.props.style[styleProp] = result;
       useInit(() => {
         /*
@@ -1225,7 +1641,38 @@ const getGlobalEventDirective = type => ({
       suffix
     }) => suffix !== 'default').forEach(entry => {
       const attribute = entry.suffix;
-      const result = evaluate(entry);
+      const name = attribute.toLowerCase();
+      if (internalProps.has(name) ||
+      // `toVdom()` stores a `<template>`'s markup in its `content` prop.
+      name === 'content' && element.type === 'template' || isReservedKey(attribute)) {
+        warnUnbindableProp(attribute);
+        return;
+      }
+
+      // Binding event handler attributes is not supported. Use the
+      // `data-wp-on` directive instead.
+      if (/^on/i.test(attribute)) {
+        warnEventHandlerBindNotSupported(attribute);
+        return;
+      }
+      if (attribute === 'protocol' && (element.type === 'a' || element.type === 'area')) {
+        /*
+         * The server renders the attribute, so it is removed from the props
+         * too. Otherwise Preact sets it when the router updates the element.
+         */
+        delete element.props[attribute];
+        return;
+      }
+      let result = evaluate(entry);
+
+      /*
+       * URLs are checked before the value reaches the props, because Preact
+       * writes the attribute itself on every render after the hydration, and
+       * on elements mounted on the client.
+       */
+      if (urlAttributes.has(attribute.toLowerCase())) {
+        result = getSafeUrl(result);
+      }
       element.props[attribute] = result;
 
       /*
@@ -1373,143 +1820,6 @@ const getGlobalEventDirective = type => ({
   });
   directive('each-child', () => null);
 });
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/constants.js
-const directivePrefix = 'wp';
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/vdom.js
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-const ignoreAttr = `data-${directivePrefix}-ignore`;
-const islandAttr = `data-${directivePrefix}-interactive`;
-const fullPrefix = `data-${directivePrefix}-`;
-const namespaces = [];
-const currentNamespace = () => {
-  var _namespaces;
-  return (_namespaces = namespaces[namespaces.length - 1]) !== null && _namespaces !== void 0 ? _namespaces : null;
-};
-
-// Regular expression for directive parsing.
-const directiveParser = new RegExp(`^data-${directivePrefix}-` +
-// ${p} must be a prefix string, like 'wp'.
-// Match alphanumeric characters including hyphen-separated
-// segments. It excludes underscore intentionally to prevent confusion.
-// E.g., "custom-directive".
-'([a-z0-9]+(?:-[a-z0-9]+)*)' +
-// (Optional) Match '--' followed by any alphanumeric charachters. It
-// excludes underscore intentionally to prevent confusion, but it can
-// contain multiple hyphens. E.g., "--custom-prefix--with-more-info".
-'(?:--([a-z0-9_-]+))?$', 'i' // Case insensitive.
-);
-
-// Regular expression for reference parsing. It can contain a namespace before
-// the reference, separated by `::`, like `some-namespace::state.somePath`.
-// Namespaces can contain any alphanumeric characters, hyphens, underscores or
-// forward slashes. References don't have any restrictions.
-const nsPathRegExp = /^([\w-_\/]+)::(.+)$/;
-const hydratedIslands = new WeakSet();
-
-/**
- * Recursive function that transforms a DOM tree into vDOM.
- *
- * @param {Node} root The root element or node to start traversing on.
- * @return {import('preact').VNode[]} The resulting vDOM tree.
- */
-function toVdom(root) {
-  const treeWalker = document.createTreeWalker(root, 205 // ELEMENT + TEXT + COMMENT + CDATA_SECTION + PROCESSING_INSTRUCTION
-  );
-  function walk(node) {
-    const {
-      attributes,
-      nodeType,
-      localName
-    } = node;
-    if (nodeType === 3) return [node.data];
-    if (nodeType === 4) {
-      const next = treeWalker.nextSibling();
-      node.replaceWith(new window.Text(node.nodeValue));
-      return [node.nodeValue, next];
-    }
-    if (nodeType === 8 || nodeType === 7) {
-      const next = treeWalker.nextSibling();
-      node.remove();
-      return [null, next];
-    }
-    const props = {};
-    const children = [];
-    const directives = [];
-    let ignore = false;
-    let island = false;
-    for (let i = 0; i < attributes.length; i++) {
-      const n = attributes[i].name;
-      if (n[fullPrefix.length] && n.slice(0, fullPrefix.length) === fullPrefix) {
-        if (n === ignoreAttr) {
-          ignore = true;
-        } else {
-          var _nsPathRegExp$exec$sl;
-          let [ns, value] = (_nsPathRegExp$exec$sl = nsPathRegExp.exec(attributes[i].value)?.slice(1)) !== null && _nsPathRegExp$exec$sl !== void 0 ? _nsPathRegExp$exec$sl : [null, attributes[i].value];
-          try {
-            value = JSON.parse(value);
-          } catch (e) {}
-          if (n === islandAttr) {
-            var _value$namespace;
-            island = true;
-            namespaces.push(typeof value === 'string' ? value : (_value$namespace = value?.namespace) !== null && _value$namespace !== void 0 ? _value$namespace : null);
-          } else {
-            directives.push([n, ns, value]);
-          }
-        }
-      } else if (n === 'ref') {
-        continue;
-      }
-      props[n] = attributes[i].value;
-    }
-    if (ignore && !island) return [g(localName, {
-      ...props,
-      innerHTML: node.innerHTML,
-      __directives: {
-        ignore: true
-      }
-    })];
-    if (island) hydratedIslands.add(node);
-    if (directives.length) {
-      props.__directives = directives.reduce((obj, [name, ns, value]) => {
-        const [, prefix, suffix = 'default'] = directiveParser.exec(name);
-        if (!obj[prefix]) obj[prefix] = [];
-        obj[prefix].push({
-          namespace: ns !== null && ns !== void 0 ? ns : currentNamespace(),
-          value,
-          suffix
-        });
-        return obj;
-      }, {});
-    }
-    if (localName === 'template') {
-      props.content = [...node.content.childNodes].map(childNode => toVdom(childNode));
-    } else {
-      let child = treeWalker.firstChild();
-      if (child) {
-        while (child) {
-          const [vnode, nextChild] = walk(child);
-          if (vnode) children.push(vnode);
-          child = nextChild || treeWalker.nextSibling();
-        }
-        treeWalker.parentNode();
-      }
-    }
-
-    // Restore previous namespace.
-    if (island) namespaces.pop();
-    return [g(localName, props, children)];
-  }
-  return walk(treeWalker.currentNode);
-}
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/init.js
 /**

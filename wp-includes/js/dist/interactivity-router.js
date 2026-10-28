@@ -83,7 +83,9 @@ const fetchPage = async (url, {
 const regionsToVdom = (dom, {
   vdom
 } = {}) => {
-  const regions = {};
+  // Keyed by router region IDs found in the markup, so it doesn't inherit
+  // from `Object.prototype`.
+  const regions = Object.create(null);
   const attrName = `data-${directivePrefix}-router-region`;
   dom.querySelectorAll(`[${attrName}]`).forEach(region => {
     const id = region.getAttribute(attrName);
@@ -182,6 +184,8 @@ const {
      * @return {Promise} Promise that resolves once the navigation is completed or aborted.
      */
     *navigate(href, options = {}) {
+      // Only read the options passed as own properties.
+      options = Object.assign(Object.create(null), options);
       const {
         clientNavigationDisabled
       } = (0,interactivity_namespaceObject.getConfig)();
@@ -260,6 +264,8 @@ const {
      *                                  fetching the requested URL.
      */
     prefetch(url, options = {}) {
+      // Only read the options passed as own properties.
+      options = Object.assign(Object.create(null), options);
       const {
         clientNavigationDisabled
       } = (0,interactivity_namespaceObject.getConfig)();
