@@ -628,7 +628,13 @@ final class WP_Customize_Manager {
 		if ( empty( $this->_changeset_uuid ) ) {
 			$changeset_uuid = null;
 
-			if ( ! $this->branching() && $this->is_theme_active() ) {
+			/**
+			 * Only users who can customize may have the latest unpublished changeset auto-loaded. Otherwise, an
+			 * unauthenticated preview request lacking a UUID could adopt another user's unpublished changeset and
+			 * disclose its state, since the UUID serves as the secret key for previewing. Unauthorized requests
+			 * get a fresh UUID instead, which matches no changeset and is rejected in {@see self::setup_theme()}.
+			 */
+			if ( ! $this->branching() && $this->is_theme_active() && current_user_can( 'customize' ) ) {
 				$unpublished_changeset_posts = $this->get_changeset_posts(
 					array(
 						'post_status'               => array_diff( get_post_stati(), array( 'auto-draft', 'publish', 'trash', 'inherit', 'private' ) ),
