@@ -1804,7 +1804,7 @@ function wp_ajax_add_user( $action ) {
 				'show-link' => sprintf(
 					/* translators: %s: The new user. */
 					__( 'User %s added' ),
-					'<a href="#user-' . $user_id . '">' . $user_object->user_login . '</a>'
+					'<a href="#user-' . $user_id . '">' . esc_html( $user_object->user_login ) . '</a>'
 				),
 				'role'      => $role,
 			),

@@ -468,10 +468,10 @@ class WP_Users_List_Table extends WP_List_Table {
 			);
 
 			if ( current_user_can( 'edit_user', $user_object->ID ) ) {
-				$edit            = "<strong><a href=\"{$edit_link}\">{$user_object->user_login}</a>{$super_admin}</strong><br />";
+				$edit            = '<strong><a href="' . $edit_link . '">' . esc_html( $user_object->user_login ) . "</a>{$super_admin}</strong><br />";
 				$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
 			} else {
-				$edit = "<strong>{$user_object->user_login}{$super_admin}</strong><br />";
+				$edit = '<strong>' . esc_html( $user_object->user_login ) . "{$super_admin}</strong><br />";
 			}
 
 			if ( ! is_multisite()
@@ -529,11 +529,11 @@ class WP_Users_List_Table extends WP_List_Table {
 				$user_object->ID,
 				$role_classes,
 				/* translators: Hidden accessibility text. %s: User login. */
-				sprintf( __( 'Select %s' ), $user_object->user_login )
+				sprintf( __( 'Select %s' ), esc_html( $user_object->user_login ) )
 			);
 
 		} else {
-			$edit = "<strong>{$user_object->user_login}{$super_admin}</strong>";
+			$edit = '<strong>' . esc_html( $user_object->user_login ) . "{$super_admin}</strong>";
 		}
 
 		$avatar = get_avatar( $user_object->ID, 32 );

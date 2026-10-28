@@ -557,7 +557,7 @@ switch ( $action ) {
 
 								?>
 								<?php foreach ( $public_display as $id => $item ) : ?>
-									<option <?php selected( $profile_user->display_name, $item ); ?>><?php echo $item; ?></option>
+									<option <?php selected( $profile_user->display_name, $item ); ?>><?php echo esc_html( $item ); ?></option>
 								<?php endforeach; ?>
 							</select>
 						</td>
@@ -790,7 +790,7 @@ switch ( $action ) {
 										<p class="description">
 											<?php
 											/* translators: %s: User's display name. */
-											printf( __( 'Log %s out of all locations.' ), $profile_user->display_name );
+											printf( __( 'Log %s out of all locations.' ), esc_html( $profile_user->display_name ) );
 											?>
 										</p>
 									</td>
