@@ -252,15 +252,17 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 		 * @return {Array.<Placement>}
 		 */
 		placements: function() {
-			var partial = this, selector;
+			var partial = this, containers;
 
-			selector = partial.params.selector || '';
-			if ( selector ) {
-				selector += ', ';
+			// Match the attribute value directly without requiring a selector escaper.
+			containers = $( document ).find( '[data-customize-partial-id]' ).filter( function() {
+				return this.getAttribute( 'data-customize-partial-id' ) === String( partial.id );
+			} );
+			if ( partial.params.selector ) {
+				containers = containers.add( $( document ).find( partial.params.selector ) );
 			}
-			selector += '[data-customize-partial-id="' + partial.id + '"]'; // @todo Consider injecting customize-partial-id-${id} classnames instead.
 
-			return $( selector ).map( function() {
+			return containers.map( function() {
 				var container = $( this ), context;
 
 				context = container.data( 'customize-partial-placement-context' );

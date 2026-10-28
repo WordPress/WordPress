@@ -445,7 +445,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 
 			foreach ( $public_display as $id => $item ) {
 		?>
-			<option <?php selected( $profileuser->display_name, $item ); ?>><?php echo $item; ?></option>
+			<option <?php selected( $profileuser->display_name, $item ); ?>><?php echo esc_html( $item ); ?></option>
 		<?php
 			}
 		?>
@@ -635,7 +635,7 @@ if ( IS_PROFILE_PAGE && count( $sessions->get_all() ) === 1 ) : ?>
 			<p class="description">
 				<?php
 				/* translators: 1: User's display name. */
-				printf( __( 'Log %s out of all locations.' ), $profileuser->display_name );
+				printf( __( 'Log %s out of all locations.' ), esc_html( $profileuser->display_name ) );
 				?>
 			</p>
 		</td>
