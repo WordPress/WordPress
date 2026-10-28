@@ -208,7 +208,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			return;
 		}
 		?>
-		<label class="screen-reader-text" for="blog_<?php echo $user->ID; ?>"><?php echo sprintf( __( 'Select %s' ), $user->user_login ); ?></label>
+		<label class="screen-reader-text" for="blog_<?php echo $user->ID; ?>"><?php echo sprintf( __( 'Select %s' ), esc_html( $user->user_login ) ); ?></label>
 		<input type="checkbox" id="blog_<?php echo $user->ID; ?>" name="allusers[]" value="<?php echo esc_attr( $user->ID ); ?>" />
 		<?php
 	}
@@ -239,9 +239,9 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 		if ( current_user_can( 'edit_user', $user->ID ) ) {
 			$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user->ID ) ) );
-			$edit      = "<a href=\"{$edit_link}\">{$user->user_login}</a>";
+			$edit      = "<a href=\"{$edit_link}\">" . esc_html( $user->user_login ) . '</a>';
 		} else {
-			$edit = $user->user_login;
+			$edit = esc_html( $user->user_login );
 		}
 
 		?>
