@@ -209,7 +209,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			return;
 		}
 		?>
-		<label class="screen-reader-text" for="blog_<?php echo $user->ID; ?>"><?php echo sprintf( __( 'Select %s' ), $user->user_login ); ?></label>
+		<label class="screen-reader-text" for="blog_<?php echo $user->ID; ?>"><?php echo sprintf( __( 'Select %s' ), esc_html( $user->user_login ) ); ?></label>
 		<input type="checkbox" id="blog_<?php echo $user->ID ?>" name="allusers[]" value="<?php echo esc_attr( $user->ID ) ?>" />
 		<?php
 	}
@@ -241,7 +241,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 		echo $avatar;
 
-		?><strong><a href="<?php echo $edit_link; ?>" class="edit"><?php echo $user->user_login; ?></a><?php
+		?><strong><a href="<?php echo $edit_link; ?>" class="edit"><?php echo esc_html( $user->user_login ); ?></a><?php
 		if ( in_array( $user->user_login, $super_admins ) ) {
 			echo ' - ' . __( 'Super Admin' );
 		}
