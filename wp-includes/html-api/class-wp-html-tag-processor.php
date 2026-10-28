@@ -1677,7 +1677,7 @@ class WP_HTML_Tag_Processor {
 			}
 
 			if ( $is_closing ) {
-				$this->bytes_already_parsed = $closer_potentially_starts_at;
+				$this->bytes_already_parsed = $at;
 				$this->tag_name_starts_at   = $closer_potentially_starts_at;
 				if ( $this->bytes_already_parsed >= $doc_length ) {
 					return false;
