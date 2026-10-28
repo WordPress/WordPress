@@ -1314,6 +1314,10 @@ class WP_Block_Processor {
 			'innerContent' => array(),
 		);
 
+		if ( self::VOID === $this->get_delimiter_type() ) {
+			return $block;
+		}
+
 		$depth = $this->get_depth();
 		while ( $this->next_token() && $this->get_depth() > $depth ) {
 			if ( $this->is_html() ) {
@@ -1333,17 +1337,6 @@ class WP_Block_Processor {
 				$inner_block             = $this->extract_full_block_and_advance();
 				$block['innerBlocks'][]  = $inner_block;
 				$block['innerContent'][] = null;
-			}
-
-			/*
-			 * Because the parser has advanced past the closing block token, it
-			 * may be matched on an HTML span. This needs to be processed before
-			 * moving on to the next token at the start of the next loop iteration.
-			 */
-			if ( $this->is_html() ) {
-				$chunk                   = $this->get_html_content();
-				$block['innerHTML']     .= $chunk;
-				$block['innerContent'][] = $chunk;
 			}
 		}
 
@@ -1650,6 +1643,8 @@ class WP_Block_Processor {
 	 * @see self::is_non_whitespace_html()
 	 *
 	 * @return bool Whether the processor is matched on an HTML span.
+	 *
+	 * @phpstan-impure
 	 */
 	public function is_html(): bool {
 		return self::HTML_SPAN === $this->state;
