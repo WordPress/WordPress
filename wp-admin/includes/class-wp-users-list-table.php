@@ -402,10 +402,10 @@ class WP_Users_List_Table extends WP_List_Table {
 			$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user_object->ID ) ) );
 
 			if ( current_user_can( 'edit_user',  $user_object->ID ) ) {
-				$edit = "<strong><a href=\"$edit_link\">$user_object->user_login</a></strong><br />";
+				$edit = '<strong><a href="' . $edit_link . '">' . esc_html( $user_object->user_login ) . '</a></strong><br />';
 				$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
 			} else {
-				$edit = "<strong>$user_object->user_login</strong><br />";
+				$edit = '<strong>' . esc_html( $user_object->user_login ) . '</strong><br />';
 			}
 
 			if ( !is_multisite() && get_current_user_id() != $user_object->ID && current_user_can( 'delete_user', $user_object->ID ) )
@@ -429,11 +429,11 @@ class WP_Users_List_Table extends WP_List_Table {
 			$role_classes = esc_attr( implode( ' ', array_keys( $user_roles ) ) );
 
 			// Set up the checkbox ( because the user is editable, otherwise it's empty )
-			$checkbox = '<label class="screen-reader-text" for="user_' . $user_object->ID . '">' . sprintf( __( 'Select %s' ), $user_object->user_login ) . '</label>'
+			$checkbox = '<label class="screen-reader-text" for="user_' . $user_object->ID . '">' . sprintf( __( 'Select %s' ), esc_html( $user_object->user_login ) ) . '</label>'
 						. "<input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='{$role_classes}' value='{$user_object->ID}' />";
 
 		} else {
-			$edit = '<strong>' . $user_object->user_login . '</strong>';
+			$edit = '<strong>' . esc_html( $user_object->user_login ) . '</strong>';
 		}
 		$avatar = get_avatar( $user_object->ID, 32 );
 
