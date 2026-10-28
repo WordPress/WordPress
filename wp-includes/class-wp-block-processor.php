@@ -1277,20 +1277,16 @@ class WP_Block_Processor {
 	 *
 	 * @since 6.9.0
 	 *
-	 * @return array[]|null {
-	 *     Array of block structures.
+	 * @return array|null {
+	 *     An associative array of a single parsed block object. See WP_Block_Parser_Block.
 	 *
-	 *     @type array ...$0 {
-	 *         An associative array of a single parsed block object. See WP_Block_Parser_Block.
-	 *
-	 *         @type string|null $blockName    Name of block.
-	 *         @type array       $attrs        Attributes from block comment delimiters.
-	 *         @type array[]     $innerBlocks  List of inner blocks. An array of arrays that
-	 *                                         have the same structure as this one.
-	 *         @type string      $innerHTML    HTML from inside block comment delimiters.
-	 *         @type array       $innerContent List of string fragments and null markers where
-	 *                                         inner blocks were found.
-	 *     }
+	 *     @type string|null $blockName    Name of block.
+	 *     @type array       $attrs        Attributes from block comment delimiters.
+	 *     @type array[]     $innerBlocks  List of inner blocks. An array of arrays that
+	 *                                     have the same structure as this one.
+	 *     @type string      $innerHTML    HTML from inside block comment delimiters.
+	 *     @type array       $innerContent List of string fragments and null markers where
+	 *                                     inner blocks were found.
 	 * }
 	 */
 	public function extract_full_block_and_advance(): ?array {
