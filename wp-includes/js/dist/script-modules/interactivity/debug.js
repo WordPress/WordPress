@@ -1,6 +1,6 @@
 /******/ var __webpack_modules__ = ({
 
-/***/ 380:
+/***/ 394:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -486,6 +486,39 @@ const warn = message => {
 };
 
 /**
+ * Checks whether a property key leads out of an object's own data:
+ * `__proto__` to its prototype, `constructor` to its constructor, and
+ * `prototype` to a function's prototype.
+ *
+ * @param key The property key.
+ * @return Whether the key is reserved.
+ */
+const isReservedKey = key => key === '__proto__' || key === 'constructor' || key === 'prototype';
+
+/**
+ * Reads a property that an object owns, ignoring inherited properties such
+ * as `Object.prototype.valueOf`.
+ *
+ * @param object The object to read.
+ * @param key    The property key.
+ * @return The value, or `undefined` if the object doesn't own the property.
+ */
+const getOwnProperty = (object, key) => Object.prototype.hasOwnProperty.call(object, key) ? object[key] : undefined;
+
+/**
+ * `JSON.parse()` reviver that removes keys named `__proto__`.
+ *
+ * `JSON.parse()` creates `__proto__` as an own property. Copying it by
+ * assignment, as in a `for...in` loop or `Object.assign()`, replaces the
+ * target's prototype instead.
+ *
+ * @param key   The property key.
+ * @param value The parsed value.
+ * @return The value, or `undefined` to remove the key.
+ */
+const jsonReviver = (key, value) => key === '__proto__' ? undefined : value;
+
+/**
  * Checks if the passed `candidate` is a plain object with just the `Object`
  * prototype.
  *
@@ -810,7 +843,7 @@ const stateHandlers = {
      * 2. The property exists but comes from the Object or Array prototypes.
      * 3. The property key is a known symbol.
      */
-    if (peeking || !target.hasOwnProperty(key) && key in target || typeof key === 'symbol' && wellKnownSymbols.has(key)) {
+    if (peeking || !Object.prototype.hasOwnProperty.call(target, key) && key in target || typeof key === 'symbol' && wellKnownSymbols.has(key)) {
       return Reflect.get(target, key, receiver);
     }
 
@@ -962,6 +995,10 @@ const deepMergeRecursive = (target, source, override = true) => {
   }
   let hasNewKeys = false;
   for (const key in source) {
+    // Assigning `__proto__` would replace the prototype of `target`.
+    if (isReservedKey(key)) {
+      continue;
+    }
     const isNew = !(key in target);
     hasNewKeys = hasNewKeys || isNew;
     const desc = Object.getOwnPropertyDescriptor(source, key);
@@ -1320,14 +1357,14 @@ function store(namespace, {
   return stores.get(namespace);
 }
 const parseServerData = (dom = document) => {
-  var _dom$getElementById;
+  var _dom$querySelector;
   const jsonDataScriptTag = // Preferred Script Module data passing form
-  (_dom$getElementById = dom.getElementById('wp-script-module-data-@wordpress/interactivity')) !== null && _dom$getElementById !== void 0 ? _dom$getElementById :
+  (_dom$querySelector = dom.querySelector('script[id="wp-script-module-data-@wordpress/interactivity"]')) !== null && _dom$querySelector !== void 0 ? _dom$querySelector :
   // Legacy form
-  dom.getElementById('wp-interactivity-data');
-  if (jsonDataScriptTag?.textContent) {
+  dom.querySelector('script[id="wp-interactivity-data"]');
+  if (jsonDataScriptTag instanceof HTMLScriptElement) {
     try {
-      return JSON.parse(jsonDataScriptTag.textContent);
+      return JSON.parse(jsonDataScriptTag.text, jsonReviver);
     } catch {}
   }
   return {};
@@ -1353,6 +1390,210 @@ const populateServerData = data => {
 const data = parseServerData();
 populateServerData(data);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/constants.js
+const directivePrefix = 'wp';
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/vdom.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+const ignoreAttr = `data-${directivePrefix}-ignore`;
+const islandAttr = `data-${directivePrefix}-interactive`;
+const fullPrefix = `data-${directivePrefix}-`;
+const namespaces = [];
+const currentNamespace = () => {
+  var _namespaces;
+  return (_namespaces = namespaces[namespaces.length - 1]) !== null && _namespaces !== void 0 ? _namespaces : null;
+};
+const isObject = item => Boolean(item && typeof item === 'object' && item.constructor === Object);
+
+// Regular expression for directive parsing.
+const directiveParser = new RegExp(`^data-${directivePrefix}-` +
+// ${p} must be a prefix string, like 'wp'.
+// Match alphanumeric characters including hyphen-separated
+// segments. It excludes underscore intentionally to prevent confusion.
+// E.g., "custom-directive".
+'([a-z0-9]+(?:-[a-z0-9]+)*)' +
+// (Optional) Match '--' followed by any alphanumeric charachters. It
+// excludes underscore intentionally to prevent confusion, but it can
+// contain multiple hyphens. E.g., "--custom-prefix--with-more-info".
+'(?:--([a-z0-9_-]+))?$', 'i' // Case insensitive.
+);
+
+// Regular expression for reference parsing. It can contain a namespace before
+// the reference, separated by `::`, like `some-namespace::state.somePath`.
+// Namespaces can contain any alphanumeric characters, hyphens, underscores or
+// forward slashes. References don't have any restrictions.
+const nsPathRegExp = /^([\w_\/-]+)::(.+)$/;
+
+/**
+ * Checks whether a directive name part is reserved after trimming hyphens and
+ * lowercasing it, as `kebabToCamelCase()` does: `data-wp-each--constructor-`
+ * names the item `constructor`.
+ *
+ * Directive names and suffixes become property keys: `data-wp-bind--[attribute]`,
+ * for example, assigns to the element's props.
+ *
+ * @param part Part of a directive name.
+ * @return Whether the part is reserved.
+ */
+const isReservedNamePart = part => isReservedKey(part.replace(/^-+|-+$/g, '').toLowerCase());
+const hydratedIslands = new WeakSet();
+const directiveMaps = new WeakSet();
+
+/**
+ * Checks whether the passed value is a directive map created by `toVdom()`.
+ *
+ * @param value The value to check.
+ * @return Whether the value is a directive map created by `toVdom()`.
+ */
+const isDirectiveMap = value => typeof value === 'object' && value !== null && directiveMaps.has(value);
+
+/**
+ * Recursive function that transforms a DOM tree into vDOM.
+ *
+ * @param root The root element or node to start traversing on.
+ * @return The resulting vDOM tree.
+ */
+function toVdom(root) {
+  const treeWalker = document.createTreeWalker(root, 205 // TEXT + CDATA_SECTION + COMMENT + PROCESSING_INSTRUCTION + ELEMENT
+  );
+  function walk(node) {
+    const {
+      nodeType
+    } = node;
+
+    // TEXT_NODE (3)
+    if (nodeType === 3) {
+      return [node.data];
+    }
+
+    // CDATA_SECTION_NODE (4)
+    if (nodeType === 4) {
+      var _nodeValue;
+      const next = treeWalker.nextSibling();
+      node.replaceWith(new window.Text((_nodeValue = node.nodeValue) !== null && _nodeValue !== void 0 ? _nodeValue : ''));
+      return [node.nodeValue, next];
+    }
+
+    // COMMENT_NODE (8) || PROCESSING_INSTRUCTION_NODE (7)
+    if (nodeType === 8 || nodeType === 7) {
+      const next = treeWalker.nextSibling();
+      node.remove();
+      return [null, next];
+    }
+    const elementNode = node;
+    const {
+      attributes
+    } = elementNode;
+    const localName = elementNode.localName;
+    const props = {};
+    const children = [];
+    const directives = [];
+    let ignore = false;
+    let island = false;
+    for (let i = 0; i < attributes.length; i++) {
+      const attributeName = attributes[i].name;
+      const attributeValue = attributes[i].value;
+      if (attributeName[fullPrefix.length] && attributeName.slice(0, fullPrefix.length) === fullPrefix) {
+        if (attributeName === ignoreAttr) {
+          ignore = true;
+        } else {
+          var _regexResult$, _regexResult$2;
+          const regexResult = nsPathRegExp.exec(attributeValue);
+          const namespace = (_regexResult$ = regexResult?.[1]) !== null && _regexResult$ !== void 0 ? _regexResult$ : null;
+          let value = (_regexResult$2 = regexResult?.[2]) !== null && _regexResult$2 !== void 0 ? _regexResult$2 : attributeValue;
+          try {
+            const parsedValue = JSON.parse(value, jsonReviver);
+            value = isObject(parsedValue) ? parsedValue : value;
+          } catch {}
+          if (attributeName === islandAttr) {
+            island = true;
+            const islandNamespace =
+            // eslint-disable-next-line no-nested-ternary
+            typeof value === 'string' ? value : typeof value?.namespace === 'string' ? value.namespace : null;
+            namespaces.push(isReservedKey(islandNamespace) ? null : islandNamespace);
+          } else if (isReservedKey(namespace)) {
+            if (true) {
+              warn(`Found reserved namespace "${namespace}" in directive: ${attributeName}.`);
+            }
+          } else {
+            directives.push([attributeName, namespace, value]);
+          }
+        }
+      } else if (attributeName === 'ref') {
+        continue;
+      }
+      props[attributeName] = attributeValue;
+    }
+    if (ignore && !island) {
+      // Keyed by directive names, so it has no prototype.
+      const ignoreDirectives = Object.assign(Object.create(null), {
+        ignore: true
+      });
+      directiveMaps.add(ignoreDirectives);
+      return [(0,preact_module.h)(localName, {
+        ...props,
+        innerHTML: elementNode.innerHTML,
+        __directives: ignoreDirectives
+      })];
+    }
+    if (island) {
+      hydratedIslands.add(elementNode);
+    }
+    if (directives.length) {
+      // Keyed by directive names from the markup, so it has no prototype.
+      props.__directives = directives.reduce((obj, [name, ns, value]) => {
+        const directiveMatch = directiveParser.exec(name);
+        const prefix = directiveMatch?.[1] || '';
+        const suffix = directiveMatch?.[2] || null;
+        if (directiveMatch === null || isReservedNamePart(prefix) || suffix !== null && suffix.split('--').some(isReservedNamePart)) {
+          warn(`Found malformed directive name: ${name}.`);
+          return obj;
+        }
+        obj[prefix] = obj[prefix] || [];
+        obj[prefix].push({
+          namespace: ns !== null && ns !== void 0 ? ns : currentNamespace(),
+          value: value,
+          suffix
+        });
+        return obj;
+      }, Object.create(null));
+      directiveMaps.add(props.__directives);
+    }
+
+    // @ts-expect-error Fixed in upcoming preact release https://github.com/preactjs/preact/pull/4334
+    if (localName === 'template') {
+      props.content = [...elementNode.content.childNodes].map(childNode => toVdom(childNode));
+    } else {
+      let child = treeWalker.firstChild();
+      if (child) {
+        while (child) {
+          const [vnode, nextChild] = walk(child);
+          if (vnode) {
+            children.push(vnode);
+          }
+          child = nextChild || treeWalker.nextSibling();
+        }
+        treeWalker.parentNode();
+      }
+    }
+
+    // Restore previous namespace.
+    if (island) {
+      namespaces.pop();
+    }
+    return [(0,preact_module.h)(localName, props, children)];
+  }
+  return walk(treeWalker.currentNode);
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/hooks.js
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -1365,6 +1606,8 @@ populateServerData(data);
 /**
  * Internal dependencies
  */
+
+
 
 
 
@@ -1381,8 +1624,9 @@ const context = (0,preact_module/* createContext */.q6)({
 });
 
 // WordPress Directives.
-const directiveCallbacks = {};
-const directivePriorities = {};
+// Looked up by directive names from the markup, so they have no prototype.
+const directiveCallbacks = Object.create(null);
+const directivePriorities = Object.create(null);
 
 /**
  * Register a new directive type in the Interactivity API runtime.
@@ -1463,10 +1707,41 @@ const directive = (name, callback, {
   directivePriorities[name] = priority;
 };
 
+/*
+ * Checks whether `value`, read as `parent[ key ]`, is a method that `parent`
+ * inherits, such as `Array.prototype.push`. Store proxies return wrapped
+ * functions, so for a registered proxy the check reads its target.
+ */
+const isInheritedMethod = (parent, key, value) => {
+  if (typeof value !== 'function' || parent === null || parent === undefined) {
+    return false;
+  }
+  const obj = Object(parent);
+  const target = getObjectFromProxy(obj);
+  if (target && Object.prototype.hasOwnProperty.call(target, key)) {
+    return false;
+  }
+  for (let proto = Object.getPrototypeOf(target !== null && target !== void 0 ? target : obj); proto !== null; proto = Object.getPrototypeOf(proto)) {
+    const descriptor = Object.getOwnPropertyDescriptor(proto, key);
+    if (descriptor) {
+      return target ? typeof descriptor.value === 'function' : descriptor.value === value;
+    }
+  }
+  return false;
+};
+
 // Resolve the path to some property of the store object.
 const resolve = (path, namespace) => {
   if (!namespace) {
     warn(`Namespace missing for "${path}". The value for that path won't be resolved.`);
+    return;
+  }
+  const pathParts = path.split('.');
+  // Paths and namespaces come from the markup.
+  if (isReservedKey(namespace) || pathParts.some(isReservedKey)) {
+    if (true) {
+      warn(`The path "${path}" in the "${namespace}" namespace contains a reserved property name. The value for that path won't be resolved.`);
+    }
     return;
   }
   let resolvedStore = stores.get(namespace);
@@ -1477,11 +1752,23 @@ const resolve = (path, namespace) => {
   }
   const current = {
     ...resolvedStore,
-    context: getScope().context[namespace]
+    context: getOwnProperty(getScope().context, namespace)
   };
   try {
     // TODO: Support lazy/dynamically initialized stores
-    return path.split('.').reduce((acc, key) => acc[key], current);
+    let parent;
+    let value = current;
+    for (const key of pathParts) {
+      parent = value;
+      value = value[key];
+    }
+    if (isInheritedMethod(parent, pathParts[pathParts.length - 1], value)) {
+      if (true) {
+        warn(`The path "${path}" in the "${namespace}" namespace ends in an inherited method. The value for that path won't be resolved.`);
+      }
+      return;
+    }
+    return value;
   } catch (e) {}
 };
 
@@ -1583,6 +1870,11 @@ const Directives = ({
 // Preact Options Hook called each time a vnode is created.
 const old = preact_module/* options */.fF.vnode;
 preact_module/* options */.fF.vnode = vnode => {
+  // Only maps built by `toVdom()` passed its directive name checks. Delete any
+  // other `__directives` value so Preact doesn't set it on the element.
+  if (vnode.props.__directives && !isDirectiveMap(vnode.props.__directives)) {
+    delete vnode.props.__directives;
+  }
   if (vnode.props.__directives) {
     const props = vnode.props;
     const directives = props.__directives;
@@ -1608,6 +1900,93 @@ preact_module/* options */.fF.vnode = vnode => {
   }
 };
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/url.js
+/* wp:polyfill */
+/**
+ * Attributes whose value is a URL, and which therefore have to be checked
+ * before they are bound. Some of them, like `href` on an anchor or `action` on
+ * a form, execute a `javascript:` URL when the element is activated.
+ *
+ * This list mirrors wp_kses_uri_attributes() in PHP. It also includes some names
+ * that cannot be bound today, as hardening against future changes.
+ */
+const urlAttributes = new Set(['action', 'archive', 'background', 'cite', 'classid', 'codebase', 'data', 'formaction', 'href', 'icon', 'longdesc', 'manifest', 'poster', 'profile', 'src', 'usemap', 'xlink:href', 'xlinkhref', 'xmlns']);
+
+/**
+ * Matches a string whose URL scheme is `javascript`.
+ *
+ * @see https://url.spec.whatwg.org/#concept-basic-url-parser
+ *
+ * - Remove any leading and trailing C0 control or space from input.
+ * - Remove all ASCII tab or newline from input.
+ *
+ * Then check for a `javascript:` scheme.
+ *
+ * This check is inspired by React DOM's `sanitizeURL` function.
+ *
+ * @see https://github.com/react/react/blob/07dde64da1abd1525120b9ae49672386486e33c3/packages/react-dom-bindings/src/shared/sanitizeURL.js
+ */
+const isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*\:/i;
+
+/**
+ * Gets the value to bind to a URL attribute.
+ *
+ * Null, undefined and booleans are returned as they are. Any other value is
+ * converted to a string once, and that string is both checked and returned, so
+ * the URL that is checked is the URL that is bound.
+ *
+ * @param value Value to bind.
+ * @return The value to bind, or null if it is a `javascript:` URL or cannot be
+ *         converted to a string.
+ */
+function getSafeUrl(value) {
+  if (value === null || value === undefined || typeof value === 'boolean') {
+    return value;
+  }
+  try {
+    const url = String(value);
+    return isJavaScriptProtocol.test(url) ? null : url;
+  } catch {
+    return null;
+  }
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/restricted-bindings.js
+/* wp:polyfill */
+/**
+ * Attributes that can be bound on an `object` element, besides `aria-*`
+ * attributes and `data-*` attributes other than directives.
+ *
+ * WordPress only allows an `object` element in post content when it has
+ * checked the values of its `data` and `type` attributes, which the runtime
+ * cannot repeat. Binding is therefore limited to attributes that cannot change
+ * what the element loads: `width`, `height`, and the global attributes KSES
+ * allows on any element, except that every `aria-*` attribute is allowed where
+ * KSES lists only some. A `data-wp-*` attribute is refused because it is a
+ * directive, which could bind `data` or `type` once rendered.
+ *
+ * The server enforces the same set when it processes directives, in
+ * `WP_Interactivity_API::data_wp_bind_processor()`, so both refuse the same
+ * bindings.
+ */
+const objectAttributes = new Set(['class', 'dir', 'height', 'hidden', 'id', 'lang', 'role', 'style', 'tabindex', 'title', 'width']);
+
+/**
+ * Checks whether an attribute can be bound on an element. Only `object`
+ * elements limit their bindings.
+ *
+ * @param type      Element type, as in the vDOM.
+ * @param attribute Name of the bound attribute.
+ * @return Whether the attribute can be bound.
+ */
+const isBindingAllowed = (type, attribute) => {
+  if (typeof type !== 'string' || type.toLowerCase() !== 'object') {
+    return true;
+  }
+  const name = attribute.toLowerCase();
+  return objectAttributes.has(name) || name.startsWith('aria-') || name.startsWith('data-') && !name.startsWith('data-wp-');
+};
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/directives.js
 /* wp:polyfill */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
@@ -1622,6 +2001,8 @@ preact_module/* options */.fF.vnode = vnode => {
 /**
  * Internal dependencies
  */
+
+
 
 
 
@@ -1642,34 +2023,93 @@ function deepClone(source) {
   }
   return source;
 }
+
+// Lowercase names of internal properties that are not binding candidates.
+const internalProps = new Set(['__directives', 'children', 'dangerouslysetinnerhtml']);
+
+// Warns that event handler attributes cannot be bound.
+const warnEventHandlerBindNotSupported = attribute => {
+  if (true) {
+    warn(`Binding event handler attributes is not supported. Please use "data-wp-on--${attribute.slice(2)}" instead.`);
+  }
+};
+
+// Warns that the data-wp-bind directive doesn't set a given prop.
+const warnUnbindableProp = suffix => {
+  if (true) {
+    warn(`The data-wp-bind directive can't set the "${suffix}" prop. Ignoring data-wp-bind--${suffix}.`);
+  }
+};
 const newRule = /(?:([\u0080-\uFFFF\w-%@]+) *:? *([^{;]+?);|([^;}{]*?) *{)|(}\s*)/g;
 const ruleClean = /\/\*[^]*?\*\/|  +/g;
 const ruleNewline = /\n+/g;
 const empty = ' ';
 
 /**
- * Convert a css style string into a object.
+ * Converts a CSS declaration list, like the value of a `style` attribute, into
+ * an object that maps each property to its value.
  *
- * Made by Cristian Bote (@cristianbote) for Goober.
+ * Only top-level `property: value;` declarations are read. Nested blocks are
+ * skipped, because a `style` attribute can't contain them. The returned object
+ * doesn't inherit from `Object.prototype`, so a property name can't reach an
+ * inherited value.
+ *
+ * Based on the parser by Cristian Bote (@cristianbote) for Goober.
  * https://unpkg.com/browse/goober@2.1.13/src/core/astish.js
  *
  * @param val CSS string.
  * @return CSS object.
  */
 const cssStringToObject = val => {
-  const tree = [{}];
-  let block, left;
-  while (block = newRule.exec(val.replace(ruleClean, ''))) {
-    if (block[4]) {
-      tree.shift();
-    } else if (block[3]) {
-      left = block[3].replace(ruleNewline, empty).trim();
-      tree.unshift(tree[0][left] = tree[0][left] || {});
-    } else {
-      tree[0][block[1]] = block[2].replace(ruleNewline, empty).trim();
+  const result = Object.create(null);
+  const css = val.replace(ruleClean, '');
+  let depth = 0;
+  let block;
+  newRule.lastIndex = 0;
+  while (block = newRule.exec(css)) {
+    if (block[4] !== undefined) {
+      // End of a block.
+      depth = Math.max(0, depth - 1);
+    } else if (block[3] !== undefined) {
+      // Start of a nested block. Its content is skipped.
+      depth++;
+    } else if (depth === 0) {
+      result[block[1]] = block[2].replace(ruleNewline, empty).trim();
     }
   }
-  return tree[0];
+  return result;
+};
+
+/**
+ * Checks whether a value is an object that inherits from `Object.prototype` or
+ * has no prototype.
+ *
+ * @param value The value to check.
+ * @return Whether the value is such an object.
+ */
+const isStyleObject = value => {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+};
+
+/**
+ * Copies the own enumerable data properties of an object into an object
+ * without a prototype. Accessor properties are skipped, so no getter runs.
+ *
+ * @param object The object to copy.
+ * @return The copy.
+ */
+const copyDataProperties = object => {
+  const copy = Object.create(null);
+  for (const [key, desc] of Object.entries(Object.getOwnPropertyDescriptors(object))) {
+    if (desc.enumerable && 'value' in desc) {
+      copy[key] = desc.value;
+    }
+  }
+  return copy;
 };
 
 /**
@@ -1768,8 +2208,8 @@ const getGlobalAsyncEventDirective = type => {
         }
         deepMerge(client.current, deepClone(value), false);
         deepMerge(server.current, deepClone(value));
-        result.client[namespace] = proxifyContext(client.current, inheritedClient[namespace]);
-        result.server[namespace] = proxifyContext(server.current, inheritedServer[namespace]);
+        result.client[namespace] = proxifyContext(client.current, getOwnProperty(inheritedClient, namespace));
+        result.server[namespace] = proxifyContext(server.current, getOwnProperty(inheritedServer, namespace));
       }
       return result;
     }, [defaultEntry, inheritedClient, inheritedServer]);
@@ -1900,7 +2340,8 @@ const getGlobalAsyncEventDirective = type => {
     classNames.filter(isNonDefaultDirectiveSuffix).forEach(entry => {
       const className = entry.suffix;
       const result = evaluate(entry);
-      const currentClass = element.props.class || '';
+      // `data-wp-bind--class` can set a value that isn't a string.
+      const currentClass = typeof element.props.class === 'string' ? element.props.class : '';
       const classFinder = new RegExp(`(^|\\s)${className}(\\s|$)`, 'g');
       if (!result) {
         element.props.class = currentClass.replace(classFinder, ' ').trim();
@@ -1933,9 +2374,14 @@ const getGlobalAsyncEventDirective = type => {
     style.filter(isNonDefaultDirectiveSuffix).forEach(entry => {
       const styleProp = entry.suffix;
       const result = evaluate(entry);
-      element.props.style = element.props.style || {};
       if (typeof element.props.style === 'string') {
         element.props.style = cssStringToObject(element.props.style);
+      } else if (isStyleObject(element.props.style)) {
+        // Only write into a style object that `data-wp-style` created.
+        element.props.style = copyDataProperties(element.props.style);
+      } else {
+        // `data-wp-bind--style` can set a value that isn't a style.
+        element.props.style = Object.create(null);
       }
       if (!result) {
         delete element.props.style[styleProp];
@@ -1967,7 +2413,53 @@ const getGlobalAsyncEventDirective = type => {
   }) => {
     bind.filter(isNonDefaultDirectiveSuffix).forEach(entry => {
       const attribute = entry.suffix;
-      const result = evaluate(entry);
+      const name = attribute.toLowerCase();
+      if (internalProps.has(name) ||
+      // `toVdom()` stores a `<template>`'s markup in its `content` prop.
+      name === 'content' && element.type === 'template' || isReservedKey(attribute)) {
+        if (true) {
+          warnUnbindableProp(attribute);
+        }
+        return;
+      }
+
+      // Binding event handler attributes is not supported. Use the
+      // `data-wp-on` directive instead.
+      if (/^on/i.test(attribute)) {
+        if (true) {
+          warnEventHandlerBindNotSupported(attribute);
+        }
+        return;
+      }
+
+      /*
+       * A binding that is not allowed leaves the attribute as it was rendered,
+       * both during hydration and on elements created on the client.
+       */
+      if (!isBindingAllowed(element.type, attribute)) {
+        if (true) {
+          warn(`The "${attribute}" attribute cannot be bound on an "object" element. The directive data-wp-bind--${attribute} was ignored.`);
+        }
+        return;
+      }
+      if (attribute === 'protocol' && (element.type === 'a' || element.type === 'area')) {
+        /*
+         * The server renders the attribute, so it is removed from the props
+         * too. Otherwise Preact sets it when the router updates the element.
+         */
+        delete element.props[attribute];
+        return;
+      }
+      let result = evaluate(entry);
+
+      /*
+       * URLs are checked before the value reaches the props, because Preact
+       * writes the attribute itself on every render after the hydration, and
+       * on elements mounted on the client.
+       */
+      if (urlAttributes.has(attribute.toLowerCase())) {
+        result = getSafeUrl(result);
+      }
       element.props[attribute] = result;
 
       /*
@@ -2096,7 +2588,7 @@ const getGlobalAsyncEventDirective = type => {
     const list = evaluate(entry);
     const itemProp = isNonDefaultDirectiveSuffix(entry) ? kebabToCamelCase(entry.suffix) : 'item';
     return list.map(item => {
-      const itemContext = proxifyContext(proxifyState(namespace, {}), inheritedValue.client[namespace]);
+      const itemContext = proxifyContext(proxifyState(namespace, {}), getOwnProperty(inheritedValue.client, namespace));
       const mergedContext = {
         client: {
           ...inheritedValue.client,
@@ -2129,179 +2621,6 @@ const getGlobalAsyncEventDirective = type => {
     priority: 1
   });
 });
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/constants.js
-const directivePrefix = 'wp';
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/vdom.js
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-const ignoreAttr = `data-${directivePrefix}-ignore`;
-const islandAttr = `data-${directivePrefix}-interactive`;
-const fullPrefix = `data-${directivePrefix}-`;
-const namespaces = [];
-const currentNamespace = () => {
-  var _namespaces;
-  return (_namespaces = namespaces[namespaces.length - 1]) !== null && _namespaces !== void 0 ? _namespaces : null;
-};
-const isObject = item => Boolean(item && typeof item === 'object' && item.constructor === Object);
-
-// Regular expression for directive parsing.
-const directiveParser = new RegExp(`^data-${directivePrefix}-` +
-// ${p} must be a prefix string, like 'wp'.
-// Match alphanumeric characters including hyphen-separated
-// segments. It excludes underscore intentionally to prevent confusion.
-// E.g., "custom-directive".
-'([a-z0-9]+(?:-[a-z0-9]+)*)' +
-// (Optional) Match '--' followed by any alphanumeric charachters. It
-// excludes underscore intentionally to prevent confusion, but it can
-// contain multiple hyphens. E.g., "--custom-prefix--with-more-info".
-'(?:--([a-z0-9_-]+))?$', 'i' // Case insensitive.
-);
-
-// Regular expression for reference parsing. It can contain a namespace before
-// the reference, separated by `::`, like `some-namespace::state.somePath`.
-// Namespaces can contain any alphanumeric characters, hyphens, underscores or
-// forward slashes. References don't have any restrictions.
-const nsPathRegExp = /^([\w_\/-]+)::(.+)$/;
-const hydratedIslands = new WeakSet();
-
-/**
- * Recursive function that transforms a DOM tree into vDOM.
- *
- * @param root The root element or node to start traversing on.
- * @return The resulting vDOM tree.
- */
-function toVdom(root) {
-  const treeWalker = document.createTreeWalker(root, 205 // TEXT + CDATA_SECTION + COMMENT + PROCESSING_INSTRUCTION + ELEMENT
-  );
-  function walk(node) {
-    const {
-      nodeType
-    } = node;
-
-    // TEXT_NODE (3)
-    if (nodeType === 3) {
-      return [node.data];
-    }
-
-    // CDATA_SECTION_NODE (4)
-    if (nodeType === 4) {
-      var _nodeValue;
-      const next = treeWalker.nextSibling();
-      node.replaceWith(new window.Text((_nodeValue = node.nodeValue) !== null && _nodeValue !== void 0 ? _nodeValue : ''));
-      return [node.nodeValue, next];
-    }
-
-    // COMMENT_NODE (8) || PROCESSING_INSTRUCTION_NODE (7)
-    if (nodeType === 8 || nodeType === 7) {
-      const next = treeWalker.nextSibling();
-      node.remove();
-      return [null, next];
-    }
-    const elementNode = node;
-    const {
-      attributes
-    } = elementNode;
-    const localName = elementNode.localName;
-    const props = {};
-    const children = [];
-    const directives = [];
-    let ignore = false;
-    let island = false;
-    for (let i = 0; i < attributes.length; i++) {
-      const attributeName = attributes[i].name;
-      const attributeValue = attributes[i].value;
-      if (attributeName[fullPrefix.length] && attributeName.slice(0, fullPrefix.length) === fullPrefix) {
-        if (attributeName === ignoreAttr) {
-          ignore = true;
-        } else {
-          var _regexResult$, _regexResult$2;
-          const regexResult = nsPathRegExp.exec(attributeValue);
-          const namespace = (_regexResult$ = regexResult?.[1]) !== null && _regexResult$ !== void 0 ? _regexResult$ : null;
-          let value = (_regexResult$2 = regexResult?.[2]) !== null && _regexResult$2 !== void 0 ? _regexResult$2 : attributeValue;
-          try {
-            const parsedValue = JSON.parse(value);
-            value = isObject(parsedValue) ? parsedValue : value;
-          } catch {}
-          if (attributeName === islandAttr) {
-            island = true;
-            const islandNamespace =
-            // eslint-disable-next-line no-nested-ternary
-            typeof value === 'string' ? value : typeof value?.namespace === 'string' ? value.namespace : null;
-            namespaces.push(islandNamespace);
-          } else {
-            directives.push([attributeName, namespace, value]);
-          }
-        }
-      } else if (attributeName === 'ref') {
-        continue;
-      }
-      props[attributeName] = attributeValue;
-    }
-    if (ignore && !island) {
-      return [(0,preact_module.h)(localName, {
-        ...props,
-        innerHTML: elementNode.innerHTML,
-        __directives: {
-          ignore: true
-        }
-      })];
-    }
-    if (island) {
-      hydratedIslands.add(elementNode);
-    }
-    if (directives.length) {
-      props.__directives = directives.reduce((obj, [name, ns, value]) => {
-        const directiveMatch = directiveParser.exec(name);
-        if (directiveMatch === null) {
-          warn(`Found malformed directive name: ${name}.`);
-          return obj;
-        }
-        const prefix = directiveMatch[1] || '';
-        const suffix = directiveMatch[2] || null;
-        obj[prefix] = obj[prefix] || [];
-        obj[prefix].push({
-          namespace: ns !== null && ns !== void 0 ? ns : currentNamespace(),
-          value: value,
-          suffix
-        });
-        return obj;
-      }, {});
-    }
-
-    // @ts-expect-error Fixed in upcoming preact release https://github.com/preactjs/preact/pull/4334
-    if (localName === 'template') {
-      props.content = [...elementNode.content.childNodes].map(childNode => toVdom(childNode));
-    } else {
-      let child = treeWalker.firstChild();
-      if (child) {
-        while (child) {
-          const [vnode, nextChild] = walk(child);
-          if (vnode) {
-            children.push(vnode);
-          }
-          child = nextChild || treeWalker.nextSibling();
-        }
-        treeWalker.parentNode();
-      }
-    }
-
-    // Restore previous namespace.
-    if (island) {
-      namespaces.pop();
-    }
-    return [(0,preact_module.h)(localName, props, children)];
-  }
-  return walk(treeWalker.currentNode);
-}
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/init.js
 /**
@@ -2492,8 +2811,8 @@ var i;function t(o,e){return n.__a&&n.__a(e),o}null!=(i="undefined"!=typeof glob
 ;// CONCATENATED MODULE: ./node_modules/preact/debug/dist/debug.module.js
 var debug_module_t={};function r(){debug_module_t={}}function a(e){return e.type===preact_module/* Fragment */.FK?"Fragment":"function"==typeof e.type?e.type.displayName||e.type.name:"string"==typeof e.type?e.type:"#text"}var debug_module_i=[],s=[];function c(){return debug_module_i.length>0?debug_module_i[debug_module_i.length-1]:null}var l=!0;function u(e){return"function"==typeof e.type&&e.type!=preact_module/* Fragment */.FK}function f(n){for(var e=[n],o=n;null!=o.__o;)e.push(o.__o),o=o.__o;return e.reduce(function(n,e){n+="  in "+a(e);var o=e.__source;return o?n+=" (at "+o.fileName+":"+o.lineNumber+")":l&&console.warn("Add @babel/plugin-transform-react-jsx-source to get a more detailed component stack. Note that you should not add it to production builds of your App for bundle size reasons."),l=!1,n+"\n"},"")}var d="function"==typeof WeakMap;function p(n){var e=[];return n.__k?(n.__k.forEach(function(n){n&&"function"==typeof n.type?e.push.apply(e,p(n)):n&&"string"==typeof n.type&&e.push(n.type)}),e):e}function h(n){return n?"function"==typeof n.type?null==n.__?null!=n.__e&&null!=n.__e.parentNode?n.__e.parentNode.localName:"":h(n.__):n.type:""}var v=preact_module/* Component */.uA.prototype.setState;function y(n){return"table"===n||"tfoot"===n||"tbody"===n||"thead"===n||"td"===n||"tr"===n||"th"===n}preact_module/* Component */.uA.prototype.setState=function(n,e){return null==this.__v&&null==this.state&&console.warn('Calling "this.setState" inside the constructor of a component is a no-op and might be a bug in your application. Instead, set "this.state = {}" directly.\n\n'+f(c())),v.call(this,n,e)};var m=/^(address|article|aside|blockquote|details|div|dl|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup|hr|main|menu|nav|ol|p|pre|search|section|table|ul)$/,b=preact_module/* Component */.uA.prototype.forceUpdate;function w(n){var e=n.props,o=a(n),t="";for(var r in e)if(e.hasOwnProperty(r)&&"children"!==r){var i=e[r];"function"==typeof i&&(i="function "+(i.displayName||i.name)+"() {}"),i=Object(i)!==i||i.toString?i+"":Object.prototype.toString.call(i),t+=" "+r+"="+JSON.stringify(i)}var s=e.children;return"<"+o+t+(s&&s.length?">..</"+o+">":" />")}preact_module/* Component */.uA.prototype.forceUpdate=function(n){return null==this.__v?console.warn('Calling "this.forceUpdate" inside the constructor of a component is a no-op and might be a bug in your application.\n\n'+f(c())):null==this.__P&&console.warn('Can\'t call "this.forceUpdate" on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method.\n\n'+f(this.__v)),b.call(this,n)},preact_module/* options */.fF.__m=function(n,e){var o=n.type,t=e.map(function(n){return n&&n.localName}).filter(Boolean);console.error('Expected a DOM node of type "'+o+'" but found "'+t.join(", ")+"\" as available DOM-node(s), this is caused by the SSR'd HTML containing different DOM-nodes compared to the hydrated one.\n\n"+f(n))},function(){!function(){var n=preact_module/* options */.fF.__b,o=preact_module/* options */.fF.diffed,t=preact_module/* options */.fF.__,r=preact_module/* options */.fF.vnode,a=preact_module/* options */.fF.__r;preact_module/* options */.fF.diffed=function(n){u(n)&&s.pop(),debug_module_i.pop(),o&&o(n)},preact_module/* options */.fF.__b=function(e){u(e)&&debug_module_i.push(e),n&&n(e)},preact_module/* options */.fF.__=function(n,e){s=[],t&&t(n,e)},preact_module/* options */.fF.vnode=function(n){n.__o=s.length>0?s[s.length-1]:null,r&&r(n)},preact_module/* options */.fF.__r=function(n){u(n)&&s.push(n),a&&a(n)}}();var n=!1,o=preact_module/* options */.fF.__b,r=preact_module/* options */.fF.diffed,c=preact_module/* options */.fF.vnode,l=preact_module/* options */.fF.__r,v=preact_module/* options */.fF.__e,b=preact_module/* options */.fF.__,g=preact_module/* options */.fF.__h,E=d?{useEffect:new WeakMap,useLayoutEffect:new WeakMap,lazyPropTypes:new WeakMap}:null,k=[];preact_module/* options */.fF.__e=function(n,e,o,t){if(e&&e.__c&&"function"==typeof n.then){var r=n;n=new Error("Missing Suspense. The throwing component was: "+a(e));for(var i=e;i;i=i.__)if(i.__c&&i.__c.__c){n=r;break}if(n instanceof Error)throw n}try{(t=t||{}).componentStack=f(e),v(n,e,o,t),"function"!=typeof n.then&&setTimeout(function(){throw n})}catch(n){throw n}},preact_module/* options */.fF.__=function(n,e){if(!e)throw new Error("Undefined parent passed to render(), this is the second argument.\nCheck if the element is available in the DOM/has the correct id.");var o;switch(e.nodeType){case 1:case 11:case 9:o=!0;break;default:o=!1}if(!o){var t=a(n);throw new Error("Expected a valid HTML node as a second argument to render.\tReceived "+e+" instead: render(<"+t+" />, "+e+");")}b&&b(n,e)},preact_module/* options */.fF.__b=function(e){var r=e.type;if(n=!0,void 0===r)throw new Error("Undefined component passed to createElement()\n\nYou likely forgot to export your component or might have mixed up default and named imports"+w(e)+"\n\n"+f(e));if(null!=r&&"object"==typeof r){if(void 0!==r.__k&&void 0!==r.__e)throw new Error("Invalid type passed to createElement(): "+r+"\n\nDid you accidentally pass a JSX literal as JSX twice?\n\n  let My"+a(e)+" = "+w(r)+";\n  let vnode = <My"+a(e)+" />;\n\nThis usually happens when you export a JSX literal and not the component.\n\n"+f(e));throw new Error("Invalid type passed to createElement(): "+(Array.isArray(r)?"array":r))}if(void 0!==e.ref&&"function"!=typeof e.ref&&"object"!=typeof e.ref&&!("$$typeof"in e))throw new Error('Component\'s "ref" property should be a function, or an object created by createRef(), but got ['+typeof e.ref+"] instead\n"+w(e)+"\n\n"+f(e));if("string"==typeof e.type)for(var i in e.props)if("o"===i[0]&&"n"===i[1]&&"function"!=typeof e.props[i]&&null!=e.props[i])throw new Error("Component's \""+i+'" property should be a function, but got ['+typeof e.props[i]+"] instead\n"+w(e)+"\n\n"+f(e));if("function"==typeof e.type&&e.type.propTypes){if("Lazy"===e.type.displayName&&E&&!E.lazyPropTypes.has(e.type)){var s="PropTypes are not supported on lazy(). Use propTypes on the wrapped component itself. ";try{var c=e.type();E.lazyPropTypes.set(e.type,!0),console.warn(s+"Component wrapped in lazy() is "+a(c))}catch(n){console.warn(s+"We will log the wrapped component's name once it is loaded.")}}var l=e.props;e.type.__f&&delete(l=function(n,e){for(var o in e)n[o]=e[o];return n}({},l)).ref,function(n,e,o,r,a){Object.keys(n).forEach(function(o){var i;try{i=n[o](e,o,r,"prop",null,"SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED")}catch(n){i=n}i&&!(i.message in debug_module_t)&&(debug_module_t[i.message]=!0,console.error("Failed prop type: "+i.message+(a&&"\n"+a()||"")))})}(e.type.propTypes,l,0,a(e),function(){return f(e)})}o&&o(e)};var T,_=0;preact_module/* options */.fF.__r=function(e){l&&l(e),n=!0;var o=e.__c;if(o===T?_++:_=1,_>=25)throw new Error("Too many re-renders. This is limited to prevent an infinite loop which may lock up your browser. The component causing this is: "+a(e));T=o},preact_module/* options */.fF.__h=function(e,o,t){if(!e||!n)throw new Error("Hook can only be invoked from render methods.");g&&g(e,o,t)};var O=function(n,e){return{get:function(){var o="get"+n+e;k&&k.indexOf(o)<0&&(k.push(o),console.warn("getting vnode."+n+" is deprecated, "+e))},set:function(){var o="set"+n+e;k&&k.indexOf(o)<0&&(k.push(o),console.warn("setting vnode."+n+" is not allowed, "+e))}}},I={nodeName:O("nodeName","use vnode.type"),attributes:O("attributes","use vnode.props"),children:O("children","use vnode.props.children")},M=Object.create({},I);preact_module/* options */.fF.vnode=function(n){var e=n.props;if(null!==n.type&&null!=e&&("__source"in e||"__self"in e)){var o=n.props={};for(var t in e){var r=e[t];"__source"===t?n.__source=r:"__self"===t?n.__self=r:o[t]=r}}n.__proto__=M,c&&c(n)},preact_module/* options */.fF.diffed=function(e){var o,t=e.type,i=e.__;if(e.__k&&e.__k.forEach(function(n){if("object"==typeof n&&n&&void 0===n.type){var o=Object.keys(n).join(",");throw new Error("Objects are not valid as a child. Encountered an object with the keys {"+o+"}.\n\n"+f(e))}}),e.__c===T&&(_=0),"string"==typeof t&&(y(t)||"p"===t||"a"===t||"button"===t)){var s=h(i);if(""!==s&&y(t))"table"===t&&"td"!==s&&y(s)?(console.log(s,i.__e),console.error("Improper nesting of table. Your <table> should not have a table-node parent."+w(e)+"\n\n"+f(e))):"thead"!==t&&"tfoot"!==t&&"tbody"!==t||"table"===s?"tr"===t&&"thead"!==s&&"tfoot"!==s&&"tbody"!==s?console.error("Improper nesting of table. Your <tr> should have a <thead/tbody/tfoot> parent."+w(e)+"\n\n"+f(e)):"td"===t&&"tr"!==s?console.error("Improper nesting of table. Your <td> should have a <tr> parent."+w(e)+"\n\n"+f(e)):"th"===t&&"tr"!==s&&console.error("Improper nesting of table. Your <th> should have a <tr>."+w(e)+"\n\n"+f(e)):console.error("Improper nesting of table. Your <thead/tbody/tfoot> should have a <table> parent."+w(e)+"\n\n"+f(e));else if("p"===t){var c=p(e).filter(function(n){return m.test(n)});c.length&&console.error("Improper nesting of paragraph. Your <p> should not have "+c.join(", ")+" as child-elements."+w(e)+"\n\n"+f(e))}else"a"!==t&&"button"!==t||-1!==p(e).indexOf(t)&&console.error("Improper nesting of interactive content. Your <"+t+"> should not have other "+("a"===t?"anchor":"button")+" tags as child-elements."+w(e)+"\n\n"+f(e))}if(n=!1,r&&r(e),null!=e.__k)for(var l=[],u=0;u<e.__k.length;u++){var d=e.__k[u];if(d&&null!=d.key){var v=d.key;if(-1!==l.indexOf(v)){console.error('Following component has two or more children with the same key attribute: "'+v+'". This may cause glitches and misbehavior in rendering process. Component: \n\n'+w(e)+"\n\n"+f(e));break}l.push(v)}}if(null!=e.__c&&null!=e.__c.__H){var b=e.__c.__H.__;if(b)for(var g=0;g<b.length;g+=1){var E=b[g];if(E.__H)for(var k=0;k<E.__H.length;k++)if((o=E.__H[k])!=o){var O=a(e);console.warn("Invalid argument passed to hook. Hooks should not be called with NaN in the dependency array. Hook index "+g+" in component "+O+" was called with NaN.")}}}}}();
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/interactivity/build-module/index.js + 18 modules
-var build_module = __webpack_require__(380);
+// EXTERNAL MODULE: ./node_modules/@wordpress/interactivity/build-module/index.js + 20 modules
+var build_module = __webpack_require__(394);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/debug.js
 /**
  * External dependencies

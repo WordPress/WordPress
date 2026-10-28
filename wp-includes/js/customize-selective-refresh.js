@@ -262,9 +262,9 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			if ( selector ) {
 				selector += ', ';
 			}
-			selector += '[data-customize-partial-id="' + partial.id + '"]'; // @todo Consider injecting customize-partial-id-${id} classnames instead.
+			selector += '[data-customize-partial-id="' + CSS.escape( partial.id ) + '"]';
 
-			return $( selector ).map( function() {
+			return $( document ).find( selector ).map( function() {
 				var container = $( this ), context;
 
 				context = container.data( 'customize-partial-placement-context' );

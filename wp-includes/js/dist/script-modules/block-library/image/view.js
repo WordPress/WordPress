@@ -50,6 +50,20 @@ let isTouching = false;
  * @type {number}
  */
 let lastTouchTime = 0;
+
+/**
+ * Returns the metadata of the image with the passed ID. The ID comes from the
+ * context, so only own properties of `state.metadata` are returned, never an
+ * inherited one.
+ *
+ * @param {string} imageId Image ID.
+ * @return {Object|undefined} The image metadata, if it exists.
+ */
+function getImageMetadata(imageId) {
+  // Reads the property before the check so that the caller subscribes to it.
+  const metadata = state.metadata[imageId];
+  return Object.hasOwn(state.metadata, imageId) ? metadata : undefined;
+}
 const {
   state,
   actions,
@@ -58,7 +72,7 @@ const {
   state: {
     currentImageId: null,
     get currentImage() {
-      return state.metadata[state.currentImageId];
+      return getImageMetadata(state.currentImageId);
     },
     get overlayOpened() {
       return state.currentImageId !== null;
@@ -82,13 +96,13 @@ const {
       const {
         imageId
       } = (0,interactivity_namespaceObject.getContext)();
-      return state.metadata[imageId].imageButtonRight;
+      return getImageMetadata(imageId)?.imageButtonRight;
     },
     get imageButtonTop() {
       const {
         imageId
       } = (0,interactivity_namespaceObject.getContext)();
-      return state.metadata[imageId].imageButtonTop;
+      return getImageMetadata(imageId)?.imageButtonTop;
     },
     get isContentHidden() {
       const ctx = (0,interactivity_namespaceObject.getContext)();
@@ -106,7 +120,7 @@ const {
       } = (0,interactivity_namespaceObject.getContext)();
 
       // Bails out if the image has not loaded yet.
-      if (!state.metadata[imageId].imageRef?.complete) {
+      if (!getImageMetadata(imageId)?.imageRef?.complete) {
         return;
       }
 
@@ -353,11 +367,15 @@ const {
       const {
         imageId
       } = (0,interactivity_namespaceObject.getContext)();
+      const imageMetadata = getImageMetadata(imageId);
+      if (!imageMetadata) {
+        return;
+      }
       const {
         ref
       } = (0,interactivity_namespaceObject.getElement)();
-      state.metadata[imageId].imageRef = ref;
-      state.metadata[imageId].currentSrc = ref.currentSrc;
+      imageMetadata.imageRef = ref;
+      imageMetadata.currentSrc = ref.currentSrc;
       const {
         naturalWidth,
         naturalHeight,
@@ -393,7 +411,7 @@ const {
       // In the case of an image with object-fit: contain, the size of the
       // <img> element can be larger than the image itself, so it needs to
       // calculate where to place the button.
-      if (state.metadata[imageId].scaleAttr === 'contain') {
+      if (imageMetadata.scaleAttr === 'contain') {
         // Natural ratio of the image.
         const naturalRatio = naturalWidth / naturalHeight;
         // Offset ratio of the image.
@@ -412,8 +430,8 @@ const {
           imageButtonRight = (offsetWidth - referenceWidth) / 2 + buttonOffsetRight + 16;
         }
       }
-      state.metadata[imageId].imageButtonTop = imageButtonTop;
-      state.metadata[imageId].imageButtonRight = imageButtonRight;
+      imageMetadata.imageButtonTop = imageButtonTop;
+      imageMetadata.imageButtonRight = imageButtonRight;
     },
     setOverlayFocus() {
       if (state.overlayEnabled) {
@@ -431,7 +449,10 @@ const {
       const {
         ref
       } = (0,interactivity_namespaceObject.getElement)();
-      state.metadata[imageId].buttonRef = ref;
+      const imageMetadata = getImageMetadata(imageId);
+      if (imageMetadata) {
+        imageMetadata.buttonRef = ref;
+      }
     }
   }
 }, {
