@@ -5,8 +5,8 @@
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/interactivity/src/index.js + 15 modules
-var src = __webpack_require__(754);
+// EXTERNAL MODULE: ./node_modules/@wordpress/interactivity/src/index.js + 18 modules
+var src = __webpack_require__(894);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/file/utils/index.js
 /**
  * Uses a combination of user agent matching and feature detection to determine whether

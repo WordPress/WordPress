@@ -229,12 +229,8 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 	$body_content = $w->get_updated_html();
 
 	// Add a button alongside image in the body content.
-	$img = null;
-	preg_match( '/<img[^>]+>/', $body_content, $img );
-
 	$button =
-		$img[0]
-		. '<button
+		'<button
 			class="lightbox-trigger"
 			type="button"
 			aria-haspopup="dialog"
@@ -248,7 +244,26 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 			</svg>
 		</button>';
 
-	$body_content = preg_replace( '/<img[^>]+>/', $button, $body_content );
+	$button_processor = new class( $body_content ) extends WP_HTML_Tag_Processor {
+		/**
+		 * Inserts HTML immediately after the current token.
+		 *
+		 * @since 7.1.4
+		 *
+		 * @param string $html HTML to insert.
+		 */
+		public function block_core_image_insert_after( string $html ) {
+			$this->set_bookmark( 'here' );
+			$span = $this->bookmarks['here'];
+
+			$this->lexical_updates[] = new WP_HTML_Text_Replacement( $span->end + 1, $span->end + 1, $html );
+		}
+	};
+
+	if ( $button_processor->next_tag( 'img' ) ) {
+		$button_processor->block_core_image_insert_after( $button );
+	}
+	$body_content = $button_processor->get_updated_html();
 
 	// We need both a responsive image and an enlarged image to animate
 	// the zoom seamlessly on slow internet connections; the responsive

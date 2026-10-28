@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 754:
+/***/ 894:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 
@@ -1401,15 +1401,47 @@ const createRootFragment = (parent, replaceNode) => {
     }
   };
 };
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/src/utils/prototype-chain.js
+/**
+ * Checks whether a property key leads out of an object's own data:
+ * `__proto__` to its prototype, `constructor` to its constructor, and
+ * `prototype` to a function's prototype.
+ *
+ * @param {unknown} key The property key.
+ * @return {boolean} Whether the key is reserved.
+ */
+const isReservedKey = key => key === '__proto__' || key === 'constructor' || key === 'prototype';
+
+/**
+ * `JSON.parse()` reviver that removes keys named `__proto__`.
+ *
+ * `JSON.parse()` creates `__proto__` as an own property. Copying it by
+ * assignment, as in a `for...in` loop or `Object.assign()`, replaces the
+ * target's prototype instead.
+ *
+ * @param {string}  key   The property key.
+ * @param {unknown} value The parsed value.
+ * @return {unknown} The value, or `undefined` to remove the key.
+ */
+const jsonReviver = (key, value) => key === '__proto__' ? undefined : value;
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/src/store.js
 /**
  * External dependencies
+ */
+
+
+/**
+ * Internal dependencies
  */
 
 const isObject = item => item && typeof item === 'object' && !Array.isArray(item);
 const deepMerge = (target, source) => {
   if (isObject(target) && isObject(source)) {
     for (const key in source) {
+      // Assigning `__proto__` would replace the prototype of `target`.
+      if (isReservedKey(key)) {
+        continue;
+      }
       if (isObject(source[key])) {
         if (!target[key]) Object.assign(target, {
           [key]: {}
@@ -1429,7 +1461,7 @@ const getSerializedState = () => {
   try {
     const {
       state
-    } = JSON.parse(storeTag.textContent);
+    } = JSON.parse(storeTag.textContent, jsonReviver);
     if (isObject(state)) return state;
     throw Error('Parsed state is not an object');
   } catch (e) {
@@ -1509,6 +1541,172 @@ const store = ({
   deepMerge(rawState, state);
   if (afterLoad) afterLoads.add(afterLoad);
 };
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/src/utils/warn.js
+const logged = new Set();
+
+/**
+ * Shows a warning with `message` if environment is not `production`.
+ *
+ * Based on the `@wordpress/warning` package.
+ *
+ * @param {string} message Message to show in the warning.
+ */
+const warn = message => {
+  if (true) {
+    if (logged.has(message)) {
+      return;
+    }
+
+    // eslint-disable-next-line no-console
+    console.warn(message);
+
+    // Throwing an error and catching it immediately to improve debugging
+    // A consumer can use 'pause on caught exceptions'
+    try {
+      throw Error(message);
+    } catch (e) {
+      // Do nothing.
+    }
+    logged.add(message);
+  }
+};
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/src/constants.js
+const directivePrefix = 'wp';
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/src/vdom.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+const ignoreAttr = `data-${directivePrefix}-ignore`;
+const islandAttr = `data-${directivePrefix}-interactive`;
+const fullPrefix = `data-${directivePrefix}-`;
+
+// Regular expression for directive parsing.
+const directiveParser = new RegExp(`^data-${directivePrefix}-` +
+// ${p} must be a prefix string, like 'wp'.
+// Match alphanumeric characters including hyphen-separated
+// segments. It excludes underscore intentionally to prevent confusion.
+// E.g., "custom-directive".
+'([a-z0-9]+(?:-[a-z0-9]+)*)' +
+// (Optional) Match '--' followed by any alphanumeric charachters. It
+// excludes underscore intentionally to prevent confusion, but it can
+// contain multiple hyphens. E.g., "--custom-prefix--with-more-info".
+'(?:--([a-z0-9_-]+))?$', 'i' // Case insensitive.
+);
+
+/**
+ * Checks whether a directive name part is reserved after trimming hyphens and
+ * lowercasing it, as `kebabToCamelCase()` does on newer branches, where
+ * `data-wp-each--constructor-` names the item `constructor`.
+ *
+ * Directive names and suffixes become property keys: `data-wp-bind--[attribute]`,
+ * for example, assigns to the element's props.
+ *
+ * @param {string} part Part of a directive name.
+ * @return {boolean} Whether the part is reserved.
+ */
+const isReservedNamePart = part => isReservedKey(part.replace(/^-+|-+$/g, '').toLowerCase());
+const hydratedIslands = new WeakSet();
+const directiveMaps = new WeakSet();
+
+/**
+ * Checks whether the passed value is a directive map created by `toVdom()`.
+ *
+ * @param {unknown} value The value to check.
+ * @return {boolean} Whether the value is a directive map created by `toVdom()`.
+ */
+const isDirectiveMap = value => typeof value === 'object' && value !== null && directiveMaps.has(value);
+
+// Recursive function that transforms a DOM tree into vDOM.
+function toVdom(root) {
+  const treeWalker = document.createTreeWalker(root, 205 // ELEMENT + TEXT + COMMENT + CDATA_SECTION + PROCESSING_INSTRUCTION
+  );
+
+  function walk(node) {
+    const {
+      attributes,
+      nodeType
+    } = node;
+    if (nodeType === 3) return [node.data];
+    if (nodeType === 4) {
+      const next = treeWalker.nextSibling();
+      node.replaceWith(new window.Text(node.nodeValue));
+      return [node.nodeValue, next];
+    }
+    if (nodeType === 8 || nodeType === 7) {
+      const next = treeWalker.nextSibling();
+      node.remove();
+      return [null, next];
+    }
+    const props = {};
+    const children = [];
+    // Keyed by directive names from the markup, so it has no prototype.
+    const directives = Object.create(null);
+    let hasDirectives = false;
+    let ignore = false;
+    let island = false;
+    for (let i = 0; i < attributes.length; i++) {
+      const n = attributes[i].name;
+      if (n[fullPrefix.length] && n.slice(0, fullPrefix.length) === fullPrefix) {
+        if (n === ignoreAttr) {
+          ignore = true;
+        } else if (n === islandAttr) {
+          island = true;
+        } else {
+          hasDirectives = true;
+          let val = attributes[i].value;
+          try {
+            val = JSON.parse(val, jsonReviver);
+          } catch (e) {}
+          const [, prefix, suffix = 'default'] = directiveParser.exec(n);
+          if (isReservedNamePart(prefix) || suffix.split('--').some(isReservedNamePart)) {
+            warn(`Found malformed directive name: ${n}.`);
+          } else {
+            directives[prefix] = directives[prefix] || {};
+            directives[prefix][suffix] = val;
+          }
+        }
+      } else if (n === 'ref') {
+        continue;
+      }
+      props[n] = attributes[i].value;
+    }
+    if (ignore && !island) {
+      // Keyed by directive names, so it has no prototype.
+      const ignoreDirectives = Object.assign(Object.create(null), {
+        ignore: true
+      });
+      directiveMaps.add(ignoreDirectives);
+      return [y(node.localName, {
+        ...props,
+        innerHTML: node.innerHTML,
+        __directives: ignoreDirectives
+      })];
+    }
+    if (island) hydratedIslands.add(node);
+    if (hasDirectives) {
+      props.__directives = directives;
+      directiveMaps.add(directives);
+    }
+    let child = treeWalker.firstChild();
+    if (child) {
+      while (child) {
+        const [vnode, nextChild] = walk(child);
+        if (vnode) children.push(vnode);
+        child = nextChild || treeWalker.nextSibling();
+      }
+      treeWalker.parentNode();
+    }
+    return [y(node.localName, props, children)];
+  }
+  return walk(treeWalker.currentNode);
+}
 ;// CONCATENATED MODULE: ./node_modules/preact/jsx-runtime/dist/jsxRuntime.module.js
 
 
@@ -1614,6 +1812,9 @@ function jsxRuntime_module_(r) {
  */
 
 
+
+
+
 /** @typedef {import('preact').VNode} VNode */
 /** @typedef {typeof context} Context */
 /** @typedef {ReturnType<typeof getEvaluate>} Evaluate */
@@ -1645,8 +1846,9 @@ function jsxRuntime_module_(r) {
 const context = F({});
 
 // WordPress Directives.
-const directiveCallbacks = {};
-const directivePriorities = {};
+// Looked up by directive names from the markup, so they have no prototype.
+const directiveCallbacks = Object.create(null);
+const directivePriorities = Object.create(null);
 
 /**
  * Register a new directive type in the Interactivity API runtime.
@@ -1722,11 +1924,17 @@ const directive = (name, callback, {
 
 // Resolve the path to some property of the store object.
 const resolve = (path, ctx) => {
+  const pathParts = path.split('.');
+  // Paths come from the markup.
+  if (pathParts.some(isReservedKey)) {
+    warn(`The path "${path}" contains a reserved property name. The value for that path won't be resolved.`);
+    return;
+  }
   let current = {
     ...rawStore,
     context: ctx
   };
-  path.split('.').forEach(p => current = current[p]);
+  pathParts.forEach(p => current = current[p]);
   return current;
 };
 
@@ -1812,6 +2020,11 @@ const Directives = ({
 // Preact Options Hook called each time a vnode is created.
 const old = preact_module_l.vnode;
 preact_module_l.vnode = vnode => {
+  // Only maps built by `toVdom()` passed its directive name checks. Delete any
+  // other `__directives` value so Preact doesn't set it on the element.
+  if (vnode.props.__directives && !isDirectiveMap(vnode.props.__directives)) {
+    delete vnode.props.__directives;
+  }
   if (vnode.props.__directives) {
     const props = vnode.props;
     const directives = props.__directives;
@@ -1848,15 +2061,13 @@ const Fill = ({
   const slots = hooks_module_q(slotsContext);
   hooks_module_p(() => {
     if (slot) {
-      slots.value = {
-        ...slots.value,
+      slots.value = Object.assign(Object.create(null), slots.value, {
         [slot]: children
-      };
+      });
       return () => {
-        slots.value = {
-          ...slots.value,
+        slots.value = Object.assign(Object.create(null), slots.value, {
           [slot]: null
-        };
+        });
       };
     }
   }, [slots, slot, children]);
@@ -1868,8 +2079,9 @@ const SlotProvider = ({
   return (
     // TODO: We can change this to use deepsignal once this PR is merged.
     // https://github.com/luisherranz/deepsignal/pull/38
+    // Keyed by slot names from the markup, so it has no prototype.
     jsxRuntime_module_u(slotsContext.Provider, {
-      value: signals_core_module_a({}),
+      value: signals_core_module_a(Object.create(null)),
       children: children
     })
   );
@@ -1881,6 +2093,56 @@ const Slot = ({
   const slots = hooks_module_q(slotsContext);
   return slots.value[name] || children;
 };
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/src/url.js
+/**
+ * Attributes whose value is a URL, and which therefore have to be checked
+ * before they are bound. Some of them, like `href` on an anchor or `action` on
+ * a form, execute a `javascript:` URL when the element is activated.
+ *
+ * This list mirrors wp_kses_uri_attributes() in PHP. It also includes some names
+ * that cannot be bound today, as hardening against future changes.
+ */
+const urlAttributes = new Set(['action', 'archive', 'background', 'cite', 'classid', 'codebase', 'data', 'formaction', 'href', 'icon', 'longdesc', 'manifest', 'poster', 'profile', 'src', 'usemap', 'xlink:href', 'xlinkhref', 'xmlns']);
+
+/**
+ * Matches a string whose URL scheme is `javascript`.
+ *
+ * @see https://url.spec.whatwg.org/#concept-basic-url-parser
+ *
+ * - Remove any leading and trailing C0 control or space from input.
+ * - Remove all ASCII tab or newline from input.
+ *
+ * Then check for a `javascript:` scheme.
+ *
+ * This check is inspired by React DOM's `sanitizeURL` function.
+ *
+ * @see https://github.com/react/react/blob/07dde64da1abd1525120b9ae49672386486e33c3/packages/react-dom-bindings/src/shared/sanitizeURL.js
+ */
+const isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*\:/i;
+
+/**
+ * Gets the value to bind to a URL attribute.
+ *
+ * Null, undefined and booleans are returned as they are. Any other value is
+ * converted to a string once, and that string is both checked and returned, so
+ * the URL that is checked is the URL that is bound.
+ *
+ * @param {unknown} value Value to bind.
+ * @return {null|undefined|boolean|string} The value to bind, or null if it is a
+ *                                         `javascript:` URL or cannot be
+ *                                         converted to a string.
+ */
+function getSafeUrl(value) {
+  if (value === null || value === undefined || typeof value === 'boolean') {
+    return value;
+  }
+  try {
+    const url = String(value);
+    return isJavaScriptProtocol.test(url) ? null : url;
+  } catch {
+    return null;
+  }
+}
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/src/directives.js
 /**
  * External dependencies
@@ -1898,15 +2160,27 @@ const Slot = ({
 
 
 
+
+
+
 const directives_isObject = item => item && typeof item === 'object' && !Array.isArray(item);
 const mergeDeepSignals = (target, source, overwrite) => {
   for (const k in source) {
+    // Assigning `__proto__` would replace the prototype of `target`.
+    if (isReservedKey(k)) {
+      continue;
+    }
     if (directives_isObject(deepsignal_module_g(target, k)) && directives_isObject(deepsignal_module_g(source, k))) {
       mergeDeepSignals(target[`$${k}`].peek(), source[`$${k}`].peek(), overwrite);
     } else if (overwrite || typeof deepsignal_module_g(target, k) === 'undefined') {
       target[`$${k}`] = source[`$${k}`];
     }
   }
+};
+
+// Warns that the data-wp-bind directive doesn't set a given prop.
+const warnUnbindableProp = suffix => {
+  warn(`The data-wp-bind directive can't set the "${suffix}" prop. Ignoring data-wp-bind--${suffix}.`);
 };
 /* harmony default export */ var directives = (() => {
   // data-wp-context
@@ -2041,28 +2315,38 @@ const mergeDeepSignals = (target, source, overwrite) => {
   const empty = ' ';
 
   /**
-   * Convert a css style string into a object.
+   * Converts a CSS declaration list, like the value of a `style` attribute,
+   * into an object that maps each property to its value.
    *
-   * Made by Cristian Bote (@cristianbote) for Goober.
+   * Only top-level `property: value;` declarations are read. Nested blocks
+   * are skipped, because a `style` attribute can't contain them. The returned
+   * object doesn't inherit from `Object.prototype`, so a property name can't
+   * reach an inherited value.
+   *
+   * Based on the parser by Cristian Bote (@cristianbote) for Goober.
    * https://unpkg.com/browse/goober@2.1.13/src/core/astish.js
    *
    * @param {string} val CSS string.
    * @return {Object} CSS object.
    */
   const cssStringToObject = val => {
-    const tree = [{}];
-    let block, left;
-    while (block = newRule.exec(val.replace(ruleClean, ''))) {
-      if (block[4]) {
-        tree.shift();
-      } else if (block[3]) {
-        left = block[3].replace(ruleNewline, empty).trim();
-        tree.unshift(tree[0][left] = tree[0][left] || {});
-      } else {
-        tree[0][block[1]] = block[2].replace(ruleNewline, empty).trim();
+    const result = Object.create(null);
+    const css = val.replace(ruleClean, '');
+    let depth = 0;
+    let block;
+    newRule.lastIndex = 0;
+    while (block = newRule.exec(css)) {
+      if (block[4] !== undefined) {
+        // End of a block.
+        depth = Math.max(0, depth - 1);
+      } else if (block[3] !== undefined) {
+        // Start of a nested block. Its content is skipped.
+        depth++;
+      } else if (depth === 0) {
+        result[block[1]] = block[2].replace(ruleNewline, empty).trim();
       }
     }
-    return tree[0];
+    return result;
   };
 
   // data-wp-style--[style-key]
@@ -2107,9 +2391,30 @@ const mergeDeepSignals = (target, source, overwrite) => {
   }) => {
     const contextValue = hooks_module_q(context);
     Object.entries(bind).filter(n => n !== 'default').forEach(([attribute, path]) => {
-      const result = evaluate(path, {
+      if (attribute === '__directives' || isReservedKey(attribute)) {
+        warnUnbindableProp(attribute);
+        return;
+      }
+      if (attribute === 'protocol' && (element.type === 'a' || element.type === 'area')) {
+        /*
+         * The server renders the attribute, so it is removed from the props
+         * too. Otherwise Preact sets it when the router updates the element.
+         */
+        delete element.props[attribute];
+        return;
+      }
+      let result = evaluate(path, {
         context: contextValue
       });
+
+      /*
+       * URLs are checked before the value reaches the props, because Preact
+       * writes the attribute itself on every render after the hydration, and
+       * on elements mounted on the client.
+       */
+      if (urlAttributes.has(attribute.toLowerCase())) {
+        result = getSafeUrl(result);
+      }
       element.props[attribute] = result;
       // Preact doesn't handle the `role` attribute properly, as it doesn't remove it when `null`.
       // We need this workaround until the following issue is solved:
@@ -2269,107 +2574,6 @@ const mergeDeepSignals = (target, source, overwrite) => {
     priority: 4
   });
 });
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/src/constants.js
-const directivePrefix = 'wp';
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/src/vdom.js
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-const ignoreAttr = `data-${directivePrefix}-ignore`;
-const islandAttr = `data-${directivePrefix}-interactive`;
-const fullPrefix = `data-${directivePrefix}-`;
-
-// Regular expression for directive parsing.
-const directiveParser = new RegExp(`^data-${directivePrefix}-` +
-// ${p} must be a prefix string, like 'wp'.
-// Match alphanumeric characters including hyphen-separated
-// segments. It excludes underscore intentionally to prevent confusion.
-// E.g., "custom-directive".
-'([a-z0-9]+(?:-[a-z0-9]+)*)' +
-// (Optional) Match '--' followed by any alphanumeric charachters. It
-// excludes underscore intentionally to prevent confusion, but it can
-// contain multiple hyphens. E.g., "--custom-prefix--with-more-info".
-'(?:--([a-z0-9_-]+))?$', 'i' // Case insensitive.
-);
-
-const hydratedIslands = new WeakSet();
-
-// Recursive function that transforms a DOM tree into vDOM.
-function toVdom(root) {
-  const treeWalker = document.createTreeWalker(root, 205 // ELEMENT + TEXT + COMMENT + CDATA_SECTION + PROCESSING_INSTRUCTION
-  );
-
-  function walk(node) {
-    const {
-      attributes,
-      nodeType
-    } = node;
-    if (nodeType === 3) return [node.data];
-    if (nodeType === 4) {
-      const next = treeWalker.nextSibling();
-      node.replaceWith(new window.Text(node.nodeValue));
-      return [node.nodeValue, next];
-    }
-    if (nodeType === 8 || nodeType === 7) {
-      const next = treeWalker.nextSibling();
-      node.remove();
-      return [null, next];
-    }
-    const props = {};
-    const children = [];
-    const directives = {};
-    let hasDirectives = false;
-    let ignore = false;
-    let island = false;
-    for (let i = 0; i < attributes.length; i++) {
-      const n = attributes[i].name;
-      if (n[fullPrefix.length] && n.slice(0, fullPrefix.length) === fullPrefix) {
-        if (n === ignoreAttr) {
-          ignore = true;
-        } else if (n === islandAttr) {
-          island = true;
-        } else {
-          hasDirectives = true;
-          let val = attributes[i].value;
-          try {
-            val = JSON.parse(val);
-          } catch (e) {}
-          const [, prefix, suffix] = directiveParser.exec(n);
-          directives[prefix] = directives[prefix] || {};
-          directives[prefix][suffix || 'default'] = val;
-        }
-      } else if (n === 'ref') {
-        continue;
-      }
-      props[n] = attributes[i].value;
-    }
-    if (ignore && !island) return [y(node.localName, {
-      ...props,
-      innerHTML: node.innerHTML,
-      __directives: {
-        ignore: true
-      }
-    })];
-    if (island) hydratedIslands.add(node);
-    if (hasDirectives) props.__directives = directives;
-    let child = treeWalker.firstChild();
-    if (child) {
-      while (child) {
-        const [vnode, nextChild] = walk(child);
-        if (vnode) children.push(vnode);
-        child = nextChild || treeWalker.nextSibling();
-      }
-      treeWalker.parentNode();
-    }
-    return [y(node.localName, props, children)];
-  }
-  return walk(treeWalker.currentNode);
-}
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/src/router.js
 /**
  * External dependencies
@@ -2421,7 +2625,9 @@ const fetchPage = async (url, {
 // Return an object with VDOM trees of those HTML regions marked with a
 // `navigation-id` directive.
 const regionsToVdom = dom => {
-  const regions = {};
+  // Keyed by navigation IDs found in the markup, so it doesn't inherit from
+  // `Object.prototype`.
+  const regions = Object.create(null);
   const attrName = `data-${directivePrefix}-navigation-id`;
   dom.querySelectorAll(`[${attrName}]`).forEach(region => {
     const id = region.getAttribute(attrName);
@@ -2437,6 +2643,8 @@ const regionsToVdom = dom => {
 // Prefetch a page. We store the promise to avoid triggering a second fetch for
 // a page if a fetching has already started.
 const prefetch = (url, options = {}) => {
+  // Only read the options passed as own properties.
+  options = Object.assign(Object.create(null), options);
   url = cleanUrl(url);
   if (options.force || !pages.has(url)) {
     pages.set(url, fetchPage(url, options));
@@ -2461,6 +2669,8 @@ let navigatingTo = '';
 
 // Navigate to a new page.
 const router_navigate = async (href, options = {}) => {
+  // Only read the options passed as own properties.
+  options = Object.assign(Object.create(null), options);
   const url = cleanUrl(href);
   navigatingTo = href;
   prefetch(url, options);
