@@ -395,11 +395,12 @@ final class WP_Abilities_Users {
 	}
 
 	/**
-	 * Returns the requested fields, or a lean default set when none are given.
+	 * Returns the requested field paths, or a lean default set when none are given.
 	 *
 	 * An empty or absent `fields` value selects a lean set of common read fields.
-	 * Otherwise the requested fields are returned. The input schema has already
-	 * validated the names against the supported set before the ability executes.
+	 * Otherwise the requested paths are returned. The input schema has already
+	 * validated them against the paths from {@see self::get_field_paths()} before the
+	 * ability executes, and {@see self::format_user()} ignores any other path.
 	 *
 	 * The `id` field is always included, matching the REST users controller
 	 * where `id` is present in every context. This also guarantees the result
@@ -408,7 +409,7 @@ final class WP_Abilities_Users {
 	 * @since 7.2.0
 	 *
 	 * @param array<mixed> $input The ability input.
-	 * @return string[] List of requested field names.
+	 * @return string[] List of requested field paths.
 	 */
 	private function normalize_fields( array $input ): array {
 		$fields = isset( $input['fields'] ) ? $this->normalize_string_list( $input['fields'] ) : array();
@@ -427,8 +428,9 @@ final class WP_Abilities_Users {
 	 * Returns the user field definitions, keyed by field name in output order.
 	 *
 	 * This is the single source of truth for the ability's user fields: the output
-	 * schema uses the definitions directly, while the input schema and field
-	 * normalization use the keys. The field set is deliberately unconditional:
+	 * schema uses the definitions directly, while the input schema `fields` enum lists
+	 * each field, followed by the path of each of its sub-fields, such as
+	 * `registered.gmt`. The field set is deliberately unconditional:
 	 * the registered schemas are a registration-time snapshot, so conditional
 	 * availability (such as `avatar_urls` honoring the `show_avatars` option) is
 	 * enforced per call in {@see self::format_user()} instead of here, where the
@@ -440,19 +442,19 @@ final class WP_Abilities_Users {
 	 */
 	private function get_user_properties(): array {
 		return array(
-			'id'              => array(
+			'id'          => array(
 				'type'        => 'integer',
 				'description' => __( 'The user ID.' ),
 			),
-			'name'            => array(
+			'name'        => array(
 				'type'        => 'string',
 				'description' => __( 'The display name for the user.' ),
 			),
-			'description'     => array(
+			'description' => array(
 				'type'        => 'string',
 				'description' => __( 'Description of the user. Present when the current user can view it.' ),
 			),
-			'url'             => array(
+			'url'         => array(
 				/*
 				 * Unlike the REST users controller, `url` declares no `uri` format. It is
 				 * empty for users without a website, and clients that check formats,
@@ -462,16 +464,16 @@ final class WP_Abilities_Users {
 				'type'        => 'string',
 				'description' => __( 'URL of the user. Present when the current user can view it.' ),
 			),
-			'link'            => array(
+			'link'        => array(
 				'type'        => 'string',
 				'format'      => 'uri',
 				'description' => __( 'Author archive URL for the user.' ),
 			),
-			'slug'            => array(
+			'slug'        => array(
 				'type'        => 'string',
 				'description' => __( 'An alphanumeric identifier for the user.' ),
 			),
-			'avatar_urls'     => array(
+			'avatar_urls' => array(
 				'type'                 => 'object',
 				'description'          => __( 'Avatar URLs for the user, keyed by image size in pixels. A size is null when no avatar URL can be resolved for it. Present when the show_avatars option is enabled.' ),
 				'additionalProperties' => array(
@@ -479,37 +481,49 @@ final class WP_Abilities_Users {
 					'format' => 'uri',
 				),
 			),
-			'username'        => array(
+			'username'    => array(
 				'type'        => 'string',
 				'description' => __( 'Login name for the user. Present when the current user can view it.' ),
 			),
-			'email'           => array(
+			'email'       => array(
 				'type'        => array( 'string', 'null' ),
 				'format'      => 'email',
 				'description' => __( 'The email address for the user. Null when the user has no stored address, or when the stored address is not a valid email. Present when the current user can view it.' ),
 			),
-			'first_name'      => array(
+			'first_name'  => array(
 				'type'        => 'string',
 				'description' => __( 'First name for the user. Present when the current user can view it.' ),
 			),
-			'last_name'       => array(
+			'last_name'   => array(
 				'type'        => 'string',
 				'description' => __( 'Last name for the user. Present when the current user can view it.' ),
 			),
-			'nickname'        => array(
+			'nickname'    => array(
 				'type'        => 'string',
 				'description' => __( 'The nickname for the user. Present when the current user can view it.' ),
 			),
-			'locale'          => array(
+			'locale'      => array(
 				'type'        => 'string',
 				'description' => __( 'Locale for the user. Present when the current user can view it.' ),
 			),
-			'registered_date' => array(
-				'type'        => array( 'string', 'null' ),
-				'format'      => 'date-time',
-				'description' => __( 'Registration date for the user. Null when the stored date is not a valid date. Present when the current user can view it.' ),
+			'registered'  => array(
+				'type'                 => 'object',
+				'additionalProperties' => false,
+				'properties'           => array(
+					'site' => array(
+						'type'        => array( 'string', 'null' ),
+						'format'      => 'date-time',
+						'description' => __( "The registration date, in ISO 8601 format using the site's timezone. Null when the stored date is not a valid date." ),
+					),
+					'gmt'  => array(
+						'type'        => array( 'string', 'null' ),
+						'format'      => 'date-time',
+						'description' => __( 'The registration date, in ISO 8601 format as GMT. Null when the stored date is not a valid date.' ),
+					),
+				),
+				'description'          => __( 'The registration date for the user. Present when the current user can view it.' ),
 			),
-			'roles'           => array(
+			'roles'       => array(
 				'type'        => 'array',
 				'description' => __( 'Roles assigned to the user. Present when the current user can view them.' ),
 				/*
@@ -525,6 +539,47 @@ final class WP_Abilities_Users {
 				),
 			),
 		);
+	}
+
+	/**
+	 * Returns the field paths the `fields` input accepts, in output order.
+	 *
+	 * Each user field is followed by the path of each sub-field its definition declares,
+	 * such as `registered`, `registered.site` and `registered.gmt`. Requesting a field
+	 * returns all of its sub-fields, while a sub-field path returns only that sub-field.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @return string[] The field paths.
+	 */
+	private function get_field_paths(): array {
+		$paths = array();
+		foreach ( $this->get_user_properties() as $name => $schema ) {
+			$paths[] = $name;
+
+			foreach ( array_keys( $schema['properties'] ?? array() ) as $sub_field ) {
+				$paths[] = "{$name}.{$sub_field}";
+			}
+		}
+
+		return $paths;
+	}
+
+	/**
+	 * Checks whether a field path is requested.
+	 *
+	 * A field such as `registered` is requested when it or one of its paths, such as
+	 * `registered.gmt`, is requested, and a path such as `registered.gmt` is requested
+	 * when it or its whole field is.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param string   $path   The field path, such as `registered` or `registered.gmt`.
+	 * @param string[] $fields The requested field paths.
+	 * @return bool Whether the field path is requested.
+	 */
+	private function is_field_requested( string $path, array $fields ): bool {
+		return rest_is_field_included( $path, $fields );
 	}
 
 	/**
@@ -700,9 +755,9 @@ final class WP_Abilities_Users {
 					'uniqueItems' => true,
 					'items'       => array(
 						'type' => 'string',
-						'enum' => array_keys( $this->get_user_properties() ),
+						'enum' => $this->get_field_paths(),
 					),
-					'description' => __( 'Limit each returned user to these fields. If omitted or empty, a lean set of common read fields is returned. The `id` field is always included, and fields the current user cannot view are omitted rather than causing an error.' ),
+					'description' => __( 'Limit each returned user to these fields. A field such as `registered` returns all of its sub-fields, while a path such as `registered.gmt` returns only that sub-field. If omitted or empty, a lean set of common read fields is returned. The `id` field is always included, and fields the current user cannot view are omitted rather than causing an error.' ),
 				),
 				'pagination' => array(
 					'type'                 => 'object',
@@ -779,47 +834,45 @@ final class WP_Abilities_Users {
 	/**
 	 * Formats a user into the ability output shape.
 	 *
-	 * Only the requested fields the current user can see are included, except
-	 * `id`, which {@see self::normalize_fields()} always requests.
+	 * Fields are selected with {@see self::is_field_requested()}, so `registered` returns
+	 * both of its sub-fields, while `registered.site` or `registered.gmt` returns only that
+	 * one. Only the requested fields the current user can see are included, except `id`,
+	 * which {@see self::normalize_fields()} always requests.
 	 *
 	 * @since 7.2.0
 	 *
 	 * @param WP_User  $user   The user object.
-	 * @param string[] $fields The requested field names.
+	 * @param string[] $fields The requested field paths.
 	 * @return array<string, mixed> The formatted user data.
 	 */
 	private function format_user( WP_User $user, array $fields ): array {
-		$fields_requested = static function ( string $field ) use ( $fields ): bool {
-			return in_array( $field, $fields, true );
-		};
-
 		$can_view_sensitive = get_current_user_id() === $user->ID || current_user_can( 'edit_user', $user->ID );
 
 		$data = array();
 
-		if ( $fields_requested( 'id' ) ) {
+		if ( $this->is_field_requested( 'id', $fields ) ) {
 			$data['id'] = $user->ID;
 		}
-		if ( $fields_requested( 'name' ) ) {
+		if ( $this->is_field_requested( 'name', $fields ) ) {
 			$data['name'] = (string) $user->display_name;
 		}
-		if ( $fields_requested( 'description' ) ) {
+		if ( $this->is_field_requested( 'description', $fields ) ) {
 			$data['description'] = (string) $user->description;
 		}
-		if ( $fields_requested( 'url' ) ) {
+		if ( $this->is_field_requested( 'url', $fields ) ) {
 			$data['url'] = (string) $user->user_url;
 		}
-		if ( $fields_requested( 'link' ) ) {
+		if ( $this->is_field_requested( 'link', $fields ) ) {
 			$data['link'] = (string) get_author_posts_url( $user->ID, $user->user_nicename );
 		}
-		if ( $fields_requested( 'slug' ) ) {
+		if ( $this->is_field_requested( 'slug', $fields ) ) {
 			$data['slug'] = (string) $user->user_nicename;
 		}
 		/*
 		 * The schemas always declare avatar_urls; availability is enforced here,
 		 * since the option can change after the schemas are registered.
 		 */
-		if ( $fields_requested( 'avatar_urls' ) && get_option( 'show_avatars' ) ) {
+		if ( $this->is_field_requested( 'avatar_urls', $fields ) && get_option( 'show_avatars' ) ) {
 			$data['avatar_urls'] = array_map(
 				static function ( $url ) {
 					return is_string( $url ) ? $url : null;
@@ -829,32 +882,34 @@ final class WP_Abilities_Users {
 		}
 
 		if ( $can_view_sensitive ) {
-			if ( $fields_requested( 'username' ) ) {
+			if ( $this->is_field_requested( 'username', $fields ) ) {
 				$data['username'] = (string) $user->user_login;
 			}
-			if ( $fields_requested( 'email' ) ) {
+			if ( $this->is_field_requested( 'email', $fields ) ) {
 				$data['email'] = is_email( $user->user_email ) ? (string) $user->user_email : null;
 			}
-			if ( $fields_requested( 'first_name' ) ) {
+			if ( $this->is_field_requested( 'first_name', $fields ) ) {
 				$data['first_name'] = (string) $user->first_name;
 			}
-			if ( $fields_requested( 'last_name' ) ) {
+			if ( $this->is_field_requested( 'last_name', $fields ) ) {
 				$data['last_name'] = (string) $user->last_name;
 			}
-			if ( $fields_requested( 'nickname' ) ) {
+			if ( $this->is_field_requested( 'nickname', $fields ) ) {
 				$data['nickname'] = (string) $user->nickname;
 			}
-			if ( $fields_requested( 'locale' ) ) {
+			if ( $this->is_field_requested( 'locale', $fields ) ) {
 				$data['locale'] = (string) get_user_locale( $user );
 			}
-			if ( $fields_requested( 'registered_date' ) ) {
-				/*
-				 * The zero date, the column default, formats with a negative year that the
-				 * `date-time` format rejects, so it is reported as null, like an unusable email.
-				 */
-				$registered_timestamp    = strtotime( $user->user_registered );
-				$registered_date         = false !== $registered_timestamp ? gmdate( 'c', $registered_timestamp ) : '';
-				$data['registered_date'] = rest_parse_date( $registered_date ) ? $registered_date : null;
+
+			$registered = array();
+			if ( $this->is_field_requested( 'registered.site', $fields ) ) {
+				$registered['site'] = $this->format_registered_date( $user, wp_timezone() );
+			}
+			if ( $this->is_field_requested( 'registered.gmt', $fields ) ) {
+				$registered['gmt'] = $this->format_registered_date( $user, new DateTimeZone( 'UTC' ) );
+			}
+			if ( ! empty( $registered ) ) {
+				$data['registered'] = $registered;
 			}
 		}
 
@@ -865,11 +920,41 @@ final class WP_Abilities_Users {
 		 * matching the REST users controller, where `roles` is an edit-context
 		 * field and rows the caller cannot edit are dropped from collections.
 		 */
-		if ( $fields_requested( 'roles' ) && $can_view_sensitive ) {
+		if ( $this->is_field_requested( 'roles', $fields ) && $can_view_sensitive ) {
 			$data['roles'] = array_values( $user->roles );
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Formats the user's registration date as an ISO 8601 string in a timezone.
+	 *
+	 * The `user_registered` column holds the date in GMT, so it is parsed as UTC
+	 * whatever the PHP default timezone is, then converted to the given timezone.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param WP_User      $user     The user object.
+	 * @param DateTimeZone $timezone The timezone to format the date in.
+	 * @return string|null The ISO 8601 date, or null when the stored date is not a valid date.
+	 */
+	private function format_registered_date( WP_User $user, DateTimeZone $timezone ): ?string {
+		$datetime = date_create_immutable_from_format( 'Y-m-d H:i:s', (string) $user->user_registered, new DateTimeZone( 'UTC' ) );
+		if ( ! $datetime ) {
+			return null;
+		}
+
+		/*
+		 * A malformed stored date can still parse, since out-of-range parts roll over: the
+		 * zero date, the column default, formats with a negative year, and converting a
+		 * date at either end of the range can push its year outside four digits. The
+		 * `date-time` format rejects these, which would fail output validation for the
+		 * whole call, so they are reported as null too, like an unusable email.
+		 */
+		$date = $datetime->setTimezone( $timezone )->format( 'c' );
+
+		return false !== rest_parse_date( $date ) ? $date : null;
 	}
 
 	/**
