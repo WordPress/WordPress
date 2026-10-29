@@ -2437,10 +2437,10 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		/*
-		 * Notes are editorial content, so require edit access to the note's post
-		 * rather than the moderate_comments capability.
+		 * Notes and their reactions are editorial content, so require edit access
+		 * to the note's post rather than the moderate_comments capability.
 		 */
-		if ( 'note' === strtolower( $comment->comment_type ) ) {
+		if ( in_array( strtolower( $comment->comment_type ), array( 'note', 'reaction' ), true ) ) {
 			return current_user_can( 'edit_comment', $comment->comment_ID );
 		}
 
