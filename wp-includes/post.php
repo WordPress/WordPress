@@ -1556,9 +1556,12 @@ function get_post_status_object( $post_status ) {
  *                               properties of the global `$wp_post_statuses objects`. Default empty array.
  * @param string       $output   Optional. The type of output to return, either 'names' or 'objects'. Default 'names'.
  * @param string       $operator Optional. The logical operation to perform. 'or' means only one element
- *                               from the array needs to match; 'and' means all elements must match.
+ *                               from the array needs to match; 'and' means all elements must match;
+ *                               'not' means no elements may match. The value is case-insensitive.
  *                               Default 'and'.
  * @return string[]|stdClass[] A list of post status names or objects.
+ *
+ * @phpstan-param 'and'|'AND'|'or'|'OR'|'not'|'NOT' $operator
  * @phpstan-return ( $output is 'names' ? array<non-falsy-string, non-falsy-string> : array<non-falsy-string, stdClass> )
  */
 function get_post_stati( $args = array(), $output = 'names', $operator = 'and' ) {
@@ -1663,8 +1666,11 @@ function get_post_type_object( $post_type ) {
  *                               or 'objects'. Default 'names'.
  * @param string       $operator Optional. The logical operation to perform. 'or' means only one
  *                               element from the array needs to match; 'and' means all elements
- *                               must match; 'not' means no elements may match. Default 'and'.
+ *                               must match; 'not' means no elements may match. The value is
+ *                               case-insensitive. Default 'and'.
  * @return string[]|WP_Post_Type[] An array of post type names or objects.
+ *
+ * @phpstan-param 'and'|'AND'|'or'|'OR'|'not'|'NOT' $operator
  * @phpstan-return ( $output is 'names' ? string[] : WP_Post_Type[] )
  */
 function get_post_types( $args = array(), $output = 'names', $operator = 'and' ) {
@@ -2435,8 +2441,10 @@ function post_type_supports( $post_type, $feature ) {
  * @param string       $operator Optional. The logical operation to perform. 'or' means
  *                               only one element from the array needs to match; 'and'
  *                               means all elements must match; 'not' means no elements may
- *                               match. Default 'and'.
+ *                               match. The value is case-insensitive. Default 'and'.
  * @return string[] A list of post type names.
+ *
+ * @phpstan-param 'and'|'AND'|'or'|'OR'|'not'|'NOT' $operator
  */
 function get_post_types_by_support( $feature, $operator = 'and' ) {
 	global $_wp_post_type_features;

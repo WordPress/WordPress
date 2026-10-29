@@ -274,10 +274,13 @@ function create_initial_taxonomies() {
  *                         Default empty array.
  * @param string $output   Optional. The type of output to return in the array. Either 'names'
  *                         or 'objects'. Default 'names'.
- * @param string $operator Optional. The logical operation to perform. Accepts 'and' or 'or'. 'or' means only
- *                         one element from the array needs to match; 'and' means all elements must match.
+ * @param string $operator Optional. The logical operation to perform. Accepts 'and', 'or', or 'not'. 'or'
+ *                         means only one element from the array needs to match; 'and' means all elements
+ *                         must match; 'not' means no elements may match. The value is case-insensitive.
  *                         Default 'and'.
  * @return string[]|WP_Taxonomy[] An array of taxonomy names or objects.
+ *
+ * @phpstan-param 'and'|'AND'|'or'|'OR'|'not'|'NOT' $operator
  * @phpstan-return ( $output is 'names' ? array<non-falsy-string, non-falsy-string> : array<non-falsy-string, WP_Taxonomy> )
  */
 function get_taxonomies( $args = array(), $output = 'names', $operator = 'and' ) {

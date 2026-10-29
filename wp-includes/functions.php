@@ -5461,7 +5461,7 @@ function wp_is_numeric_array( $data ): bool {
  * Key represents property name, and value represents property value.
  *
  * If an object has more properties than those specified in arguments,
- * that will not disqualify it. When using the 'AND' operator,
+ * that will not disqualify it. When using the 'and' operator,
  * any missing properties will disqualify it.
  *
  * When using the `$field` argument, this function can also retrieve
@@ -5474,13 +5474,15 @@ function wp_is_numeric_array( $data ): bool {
  * @param array       $input_list An array of objects to filter.
  * @param array       $args       Optional. An array of key => value arguments to match
  *                                against each object. Default empty array.
- * @param string      $operator   Optional. The logical operation to perform. 'AND' means
- *                                all elements from the array must match. 'OR' means only
- *                                one element needs to match. 'NOT' means no elements may
- *                                match. Default 'AND'.
+ * @param string      $operator   Optional. The logical operation to perform. 'and' means
+ *                                all elements from the array must match. 'or' means only
+ *                                one element needs to match. 'not' means no elements may
+ *                                match. The value is case-insensitive. Default 'and'.
  * @param bool|string $field      Optional. A field from the object to place instead
  *                                of the entire object. Default false.
  * @return array A list of objects or object fields.
+ *
+ * @phpstan-param 'and'|'AND'|'or'|'OR'|'not'|'NOT' $operator
  */
 function wp_filter_object_list( $input_list, $args = array(), $operator = 'and', $field = false ) {
 	if ( ! is_array( $input_list ) ) {
@@ -5505,7 +5507,7 @@ function wp_filter_object_list( $input_list, $args = array(), $operator = 'and',
  * Key represents property name, and value represents property value.
  *
  * If an object has more properties than those specified in arguments,
- * that will not disqualify it. When using the 'AND' operator,
+ * that will not disqualify it. When using the 'and' operator,
  * any missing properties will disqualify it.
  *
  * If you want to retrieve a particular field from all matching objects,
@@ -5518,13 +5520,15 @@ function wp_filter_object_list( $input_list, $args = array(), $operator = 'and',
  * @param array  $input_list An array of objects to filter.
  * @param array  $args       Optional. An array of key => value arguments to match
  *                           against each object. Default empty array.
- * @param string $operator   Optional. The logical operation to perform. 'AND' means
- *                           all elements from the array must match. 'OR' means only
- *                           one element needs to match. 'NOT' means no elements may
- *                           match. Default 'AND'.
+ * @param string $operator   Optional. The logical operation to perform. 'and' means
+ *                           all elements from the array must match. 'or' means only
+ *                           one element needs to match. 'not' means no elements may
+ *                           match. The value is case-insensitive. Default 'and'.
  * @return array Array of found values.
+ *
+ * @phpstan-param 'and'|'AND'|'or'|'OR'|'not'|'NOT' $operator
  */
-function wp_list_filter( $input_list, $args = array(), $operator = 'AND' ) {
+function wp_list_filter( $input_list, $args = array(), $operator = 'and' ) {
 	return wp_filter_object_list( $input_list, $args, $operator );
 }
 
