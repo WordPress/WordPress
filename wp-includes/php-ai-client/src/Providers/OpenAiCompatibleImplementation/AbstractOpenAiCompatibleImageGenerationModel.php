@@ -4,7 +4,6 @@ declare (strict_types=1);
 namespace WordPress\AiClient\Providers\OpenAiCompatibleImplementation;
 
 use WordPress\AiClient\Common\Exception\InvalidArgumentException;
-use WordPress\AiClient\Common\Exception\RuntimeException;
 use WordPress\AiClient\Files\DTO\File;
 use WordPress\AiClient\Files\Enums\MediaOrientationEnum;
 use WordPress\AiClient\Messages\DTO\Message;
@@ -268,16 +267,21 @@ abstract class AbstractOpenAiCompatibleImageGenerationModel extends AbstractApiB
      * @param int $index The index of the choice in the choices array.
      * @param string   $expectedMimeType The expected MIME type the response is in.
      * @return Candidate The parsed candidate.
-     * @throws RuntimeException If the choice data is invalid.
+     * @throws ResponseException If the choice data is invalid.
      */
     protected function parseResponseChoiceToCandidate(array $choiceData, int $index, string $expectedMimeType = 'image/png'): Candidate
     {
-        if (isset($choiceData['url']) && is_string($choiceData['url'])) {
-            $imageFile = new File($choiceData['url'], $expectedMimeType);
-        } elseif (isset($choiceData['b64_json']) && is_string($choiceData['b64_json'])) {
-            $imageFile = new File($choiceData['b64_json'], $expectedMimeType);
-        } else {
-            throw ResponseException::fromInvalidData($this->providerMetadata()->getName(), "choices[{$index}]", 'The value must contain either a url or b64_json key with a string value.');
+        // Provider-supplied values are untrusted: only accept http(s) URLs or base64 data, never local paths.
+        try {
+            if (isset($choiceData['url']) && is_string($choiceData['url'])) {
+                $imageFile = File::fromUrl($choiceData['url'], $expectedMimeType);
+            } elseif (isset($choiceData['b64_json']) && is_string($choiceData['b64_json'])) {
+                $imageFile = File::fromBase64($choiceData['b64_json'], $expectedMimeType);
+            } else {
+                throw ResponseException::fromInvalidData($this->providerMetadata()->getName(), "data[{$index}]", 'The value must contain either a url or b64_json key with a string value.');
+            }
+        } catch (InvalidArgumentException $e) {
+            throw ResponseException::fromInvalidData($this->providerMetadata()->getName(), "data[{$index}]", $e->getMessage());
         }
         $parts = [new MessagePart($imageFile)];
         $message = new Message(MessageRoleEnum::model(), $parts);

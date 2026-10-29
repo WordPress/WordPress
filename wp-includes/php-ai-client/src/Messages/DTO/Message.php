@@ -132,6 +132,41 @@ class Message extends AbstractDataTransferObject
     /**
      * {@inheritDoc}
      *
+     * This check is purely structural: it does not construct the message or its parts, so it has no
+     * side effects (in particular, no filesystem access for file parts).
+     *
+     * @since 1.5.1
+     */
+    public static function isArrayShape(array $array): bool
+    {
+        if (!isset($array[self::KEY_ROLE]) || !is_string($array[self::KEY_ROLE]) || !MessageRoleEnum::isValidValue($array[self::KEY_ROLE])) {
+            return \false;
+        }
+        if (!isset($array[self::KEY_PARTS]) || !is_array($array[self::KEY_PARTS])) {
+            return \false;
+        }
+        $role = MessageRoleEnum::from($array[self::KEY_ROLE]);
+        if (!$role->isUser() && !$role->isModel()) {
+            return \false;
+        }
+        // Keys are intentionally not required to be consecutive, matching fromArray() (e.g. after array_filter()).
+        foreach ($array[self::KEY_PARTS] as $partData) {
+            if (!is_array($partData) || !\WordPress\AiClient\Messages\DTO\MessagePart::isArrayShape($partData)) {
+                return \false;
+            }
+            // Mirror the role/part rules enforced by the constructor (validateParts()).
+            if ($role->isUser() && isset($partData[\WordPress\AiClient\Messages\DTO\MessagePart::KEY_FUNCTION_CALL])) {
+                return \false;
+            }
+            if ($role->isModel() && isset($partData[\WordPress\AiClient\Messages\DTO\MessagePart::KEY_FUNCTION_RESPONSE])) {
+                return \false;
+            }
+        }
+        return \true;
+    }
+    /**
+     * {@inheritDoc}
+     *
      * @since 0.1.0
      *
      * @return self The specific message class based on the role.

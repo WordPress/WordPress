@@ -51,6 +51,9 @@ abstract class AbstractDataTransferObject implements WithArrayTransformationInte
     /**
      * {@inheritDoc}
      *
+     * The default implementation attempts to construct the object. Subclasses whose fromArray() has side
+     * effects, is expensive, or handles untrusted input should override this with a structural check.
+     *
      * @since 0.1.0
      */
     public static function isArrayShape(array $array): bool

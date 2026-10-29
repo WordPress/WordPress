@@ -11,10 +11,19 @@ use WordPress\AiClient\Files\ValueObjects\MimeType;
 /**
  * Represents a file in the AI client.
  *
- * This DTO automatically detects whether a file is a URL, base64 data, or local file path
- * and handles them appropriately.
+ * A file is either remote (an http(s) URL that the provider fetches) or inline (base64-encoded data).
+ *
+ * The constructor accepts an http(s) URL, a data URI, or plain base64 data with a MIME type. For backward
+ * compatibility it still detects an existing local file path and reads it, but this is deprecated and will be
+ * removed in the next major version: load local files explicitly via {@see File::fromLocalPath()} instead.
+ * The named constructors {@see File::fromUrl()}, {@see File::fromDataUri()} and {@see File::fromBase64()}
+ * never access the filesystem and should be preferred whenever the kind of input is known, especially for
+ * data that comes from an untrusted source such as an API response or user input. {@see File::fromArray()}
+ * never accesses the filesystem.
  *
  * @since 0.1.0
+ * @since 1.5.1 Implicit local file path detection in the constructor is deprecated; non-http(s) URL schemes
+ *                are rejected before any filesystem access.
  *
  * @phpstan-type FileArrayShape array{
  *     fileType: string,
@@ -31,6 +40,20 @@ class File extends AbstractDataTransferObject
     public const KEY_MIME_TYPE = 'mimeType';
     public const KEY_URL = 'url';
     public const KEY_BASE64_DATA = 'base64Data';
+    /**
+     * Pattern matching a data URI with base64 payload.
+     *
+     * Group 1 is the optional MIME type (with parameters), group 2 is the base64 payload.
+     *
+     * @since 1.5.1
+     */
+    private const DATA_URI_PATTERN = '/^data:(?:([a-zA-Z0-9][a-zA-Z0-9!#$&\-\^_+.]*\/[a-zA-Z0-9][a-zA-Z0-9!#$&\-\^_+.]*' . '(?:;[a-zA-Z0-9\-]+=[a-zA-Z0-9\-]+)*)?;)?base64,([A-Za-z0-9+\/]*={0,2})\z/';
+    /**
+     * Pattern matching plain base64 data (an empty payload is allowed, e.g. for an empty file).
+     *
+     * @since 1.5.1
+     */
+    private const BASE64_PATTERN = '/^[A-Za-z0-9+\/]*={0,2}\z/';
     /**
      * @var MimeType The MIME type of the file.
      */
@@ -50,21 +73,124 @@ class File extends AbstractDataTransferObject
     /**
      * Constructor.
      *
-     * @since 0.1.0
+     * Passing a local file path is deprecated; use {@see File::fromLocalPath()} instead. When a local path is
+     * detected, an E_USER_DEPRECATED notice is emitted and the file is read.
      *
-     * @param string $file The file string (URL, base64 data, or local path).
-     * @param string|null $mimeType The MIME type of the file (optional).
+     * @since 0.1.0
+     * @since 1.5.1 Local file path detection is deprecated. Non-http(s) URL schemes are rejected.
+     *
+     * @param string $file The file string (http(s) URL, data URI, plain base64 data, or deprecated local path).
+     * @param string|null $mimeType The MIME type of the file (optional, required for plain base64 data).
      * @throws InvalidArgumentException If the file format is invalid or MIME type cannot be determined.
      */
     public function __construct(string $file, ?string $mimeType = null)
     {
-        // Detect and process the file type (will set MIME type if possible)
         $this->detectAndProcessFile($file, $mimeType);
+    }
+    /**
+     * Creates a remote file from an http(s) URL.
+     *
+     * The URL is not fetched by the client; it is passed on to the provider.
+     *
+     * @since 1.5.1
+     *
+     * @param string $url The http(s) URL.
+     * @param string|null $mimeType The MIME type (optional, otherwise inferred from the URL path extension).
+     * @return self The remote file.
+     * @throws InvalidArgumentException If the URL is not an http(s) URL or the MIME type cannot be determined.
+     */
+    public static function fromUrl(string $url, ?string $mimeType = null): self
+    {
+        if (!self::isHttpUrl($url)) {
+            throw new InvalidArgumentException('Invalid URL. Only http:// and https:// URLs are supported.');
+        }
+        return new self($url, $mimeType);
+    }
+    /**
+     * Creates an inline file from a data URI (data:[mime/type];base64,[data]).
+     *
+     * @since 1.5.1
+     *
+     * @param string $dataUri The data URI.
+     * @param string|null $mimeType The MIME type (optional, overrides the MIME type embedded in the data URI).
+     * @return self The inline file.
+     * @throws InvalidArgumentException If the data URI is invalid or the MIME type cannot be determined.
+     */
+    public static function fromDataUri(string $dataUri, ?string $mimeType = null): self
+    {
+        if (!preg_match(self::DATA_URI_PATTERN, $dataUri)) {
+            throw new InvalidArgumentException('Invalid data URI. Expected the format data:[mime/type];base64,[data].');
+        }
+        return new self($dataUri, $mimeType);
+    }
+    /**
+     * Creates an inline file from plain base64-encoded data.
+     *
+     * @since 1.5.1
+     *
+     * @param string $base64 The base64-encoded data (without data URI prefix).
+     * @param string $mimeType The MIME type of the data.
+     * @return self The inline file.
+     * @throws InvalidArgumentException If the data is not valid base64 or the MIME type is invalid.
+     */
+    public static function fromBase64(string $base64, string $mimeType): self
+    {
+        if (str_starts_with($base64, 'data:')) {
+            throw new InvalidArgumentException('Expected raw base64 data; use File::fromDataUri() for data URIs.');
+        }
+        if (!self::isBase64($base64)) {
+            throw new InvalidArgumentException('Invalid base64 data provided.');
+        }
+        if (!MimeType::isValid($mimeType)) {
+            throw new InvalidArgumentException(sprintf('Invalid MIME type: %s', $mimeType));
+        }
+        /*
+         * Build an empty inline file through the data URI path (deterministic, filesystem-free), then attach the
+         * payload directly. Embedding the payload in a data URI and parsing it again would create several
+         * additional copies of a potentially large string.
+         */
+        $instance = new self(sprintf('data:%s;base64,', $mimeType));
+        $instance->base64Data = $base64;
+        return $instance;
+    }
+    /**
+     * Creates an inline file by reading a file from the local filesystem.
+     *
+     * Never pass untrusted input (such as user input or API response data) to this method.
+     *
+     * @since 1.5.1
+     *
+     * @param string $path The path to the local file. Stream wrappers (e.g. ftp://, phar://) are not supported.
+     * @param string|null $mimeType The MIME type (optional, otherwise inferred from the file extension).
+     * @return self The inline file.
+     * @throws InvalidArgumentException If the path is empty, uses a stream wrapper, is not a regular file,
+     *                                  or the MIME type cannot be determined.
+     * @throws RuntimeException If the file cannot be read.
+     */
+    public static function fromLocalPath(string $path, ?string $mimeType = null): self
+    {
+        if ($path === '') {
+            throw new InvalidArgumentException('Local file path must not be empty.');
+        }
+        // Reject stream wrappers before touching the filesystem, so no wrapper can open a connection.
+        if (str_contains($path, '://')) {
+            throw new InvalidArgumentException('Stream wrappers are not supported in local file paths.');
+        }
+        if (!is_file($path)) {
+            throw new InvalidArgumentException(sprintf('Local file not found or not a regular file: %s', $path));
+        }
+        $resolvedMimeType = $mimeType !== null ? new MimeType($mimeType) : self::determineMimeType(null, null, $path);
+        $fileContent = @file_get_contents($path);
+        if ($fileContent === \false) {
+            throw new RuntimeException(sprintf('Unable to read file: %s', $path));
+        }
+        return self::fromBase64(base64_encode($fileContent), (string) $resolvedMimeType);
     }
     /**
      * Detects the file type and processes it accordingly.
      *
      * @since 0.1.0
+     * @since 1.5.1 Rejects non-http(s) URL schemes before any filesystem access; local path detection deprecated.
      *
      * @param string $file The file string to process.
      * @param string|null $providedMimeType The explicitly provided MIME type.
@@ -72,33 +198,38 @@ class File extends AbstractDataTransferObject
      */
     private function detectAndProcessFile(string $file, ?string $providedMimeType): void
     {
-        // Check if it's a URL
-        if ($this->isUrl($file)) {
+        // Check if it's an http(s) URL.
+        if (self::isHttpUrl($file)) {
             $this->fileType = FileTypeEnum::remote();
             $this->url = $file;
-            $this->mimeType = $this->determineMimeType($providedMimeType, null, $file);
+            $this->mimeType = self::determineMimeType($providedMimeType, null, $file);
             return;
         }
-        // Data URI pattern.
-        $dataUriPattern = '/^data:(?:([a-zA-Z0-9][a-zA-Z0-9!#$&\-\^_+.]*\/[a-zA-Z0-9][a-zA-Z0-9!#$&\-\^_+.]*' . '(?:;[a-zA-Z0-9\-]+=[a-zA-Z0-9\-]+)*)?;)?base64,([A-Za-z0-9+\/]*={0,2})$/';
+        // Any other URL scheme (file://, ftp://, phar://, ...) is rejected before anything else runs.
+        if (str_contains($file, '://')) {
+            throw new InvalidArgumentException('Unsupported URL scheme. Only http:// and https:// URLs are supported.');
+        }
         // Check if it's a data URI.
-        if (preg_match($dataUriPattern, $file, $matches)) {
+        if (preg_match(self::DATA_URI_PATTERN, $file, $matches)) {
             $this->fileType = FileTypeEnum::inline();
             $this->base64Data = $matches[2];
             // Extract just the base64 data
             $extractedMimeType = empty($matches[1]) ? null : $matches[1];
-            $this->mimeType = $this->determineMimeType($providedMimeType, $extractedMimeType, null);
+            $this->mimeType = self::determineMimeType($providedMimeType, $extractedMimeType, null);
             return;
         }
-        // Check if it's a local file path (before base64 check)
-        if (file_exists($file) && is_file($file)) {
-            $this->fileType = FileTypeEnum::inline();
-            $this->base64Data = $this->convertFileToBase64($file);
-            $this->mimeType = $this->determineMimeType($providedMimeType, null, $file);
+        // Deprecated: local file path detection (kept for backward compatibility, before the base64 check).
+        // Stream wrappers were rejected above, so this cannot open a network connection.
+        if (strpos($file, "\x00") === \false && is_file($file)) {
+            @trigger_error('Passing a local file path to ' . self::class . '::__construct() is deprecated since 1.5.1; ' . 'use File::fromLocalPath() instead.', \E_USER_DEPRECATED);
+            $local = self::fromLocalPath($file, $providedMimeType);
+            $this->fileType = $local->fileType;
+            $this->base64Data = $local->base64Data;
+            $this->mimeType = $local->mimeType;
             return;
         }
-        // Check if it's plain base64
-        if (preg_match('/^[A-Za-z0-9+\/]*={0,2}$/', $file)) {
+        // Check if it's plain base64.
+        if (self::isBase64($file)) {
             if ($providedMimeType === null) {
                 throw new InvalidArgumentException('MIME type is required when providing plain base64 data without data URI format.');
             }
@@ -107,36 +238,32 @@ class File extends AbstractDataTransferObject
             $this->mimeType = new MimeType($providedMimeType);
             return;
         }
-        throw new InvalidArgumentException('Invalid file provided. Expected URL, base64 data, or valid local file path.');
+        throw new InvalidArgumentException('Invalid file provided. Expected an http(s) URL, a data URI, base64 data with a MIME type, ' . 'or a valid local file path.');
     }
     /**
-     * Checks if a string is a valid URL.
+     * Checks if a string is an http(s) URL.
      *
      * @since 0.1.0
+     * @since 1.5.1 Made static.
      *
      * @param string $string The string to check.
-     * @return bool True if the string is a URL.
+     * @return bool True if the string is an http(s) URL.
      */
-    private function isUrl(string $string): bool
+    private static function isHttpUrl(string $string): bool
     {
-        return filter_var($string, \FILTER_VALIDATE_URL) !== \false && preg_match('/^https?:\/\//i', $string);
+        return filter_var($string, \FILTER_VALIDATE_URL) !== \false && preg_match('/^https?:\/\//i', $string) === 1;
     }
     /**
-     * Converts a local file to base64.
+     * Checks if a string is plain base64 data (possibly empty).
      *
-     * @since 0.1.0
+     * @since 1.5.1
      *
-     * @param string $filePath The path to the local file.
-     * @return string The base64-encoded file data.
-     * @throws RuntimeException If the file cannot be read.
+     * @param string $string The string to check.
+     * @return bool True if the string is plain base64 data.
      */
-    private function convertFileToBase64(string $filePath): string
+    private static function isBase64(string $string): bool
     {
-        $fileContent = @file_get_contents($filePath);
-        if ($fileContent === \false) {
-            throw new RuntimeException(sprintf('Unable to read file: %s', $filePath));
-        }
-        return base64_encode($fileContent);
+        return preg_match(self::BASE64_PATTERN, $string) === 1;
     }
     /**
      * Gets the file type.
@@ -301,6 +428,7 @@ class File extends AbstractDataTransferObject
      * Determines the MIME type from various sources.
      *
      * @since 0.1.0
+     * @since 1.5.1 Made static.
      *
      * @param string|null $providedMimeType The explicitly provided MIME type.
      * @param string|null $extractedMimeType The MIME type extracted from data URI.
@@ -308,7 +436,7 @@ class File extends AbstractDataTransferObject
      * @return MimeType The determined MIME type.
      * @throws InvalidArgumentException If MIME type cannot be determined.
      */
-    private function determineMimeType(?string $providedMimeType, ?string $extractedMimeType, ?string $pathOrUrl): MimeType
+    private static function determineMimeType(?string $providedMimeType, ?string $extractedMimeType, ?string $pathOrUrl): MimeType
     {
         // Prefer explicitly provided MIME type
         if ($providedMimeType !== null) {
@@ -370,19 +498,84 @@ class File extends AbstractDataTransferObject
     /**
      * {@inheritDoc}
      *
+     * This check is purely structural and never accesses the filesystem.
+     *
+     * @since 1.5.1
+     */
+    public static function isArrayShape(array $array): bool
+    {
+        try {
+            self::assertArrayShape($array);
+            return \true;
+        } catch (InvalidArgumentException $e) {
+            return \false;
+        }
+    }
+    /**
+     * {@inheritDoc}
+     *
      * @since 0.1.0
+     * @since 1.5.1 The fileType key is authoritative: remote files require an http(s) url, inline files
+     *                require base64Data and mimeType. Local file paths are rejected.
      */
     public static function fromArray(array $array): self
     {
-        static::validateFromArrayData($array, [self::KEY_FILE_TYPE]);
-        // Check which properties are set to determine how to construct the File
+        self::assertArrayShape($array);
         $mimeType = $array[self::KEY_MIME_TYPE] ?? null;
-        if (isset($array[self::KEY_URL])) {
-            return new self($array[self::KEY_URL], $mimeType);
-        } elseif (isset($array[self::KEY_BASE64_DATA])) {
-            return new self($array[self::KEY_BASE64_DATA], $mimeType);
-        } else {
-            throw new InvalidArgumentException('File requires either url or base64Data.');
+        if ($array[self::KEY_FILE_TYPE] === FileTypeEnum::REMOTE) {
+            return self::fromUrl($array[self::KEY_URL] ?? '', $mimeType);
+        }
+        return self::fromBase64($array[self::KEY_BASE64_DATA] ?? '', $mimeType ?? '');
+    }
+    /**
+     * Asserts that an array has a valid file array shape, without constructing the file.
+     *
+     * @since 1.5.1
+     *
+     * @param array<mixed> $array The array to check.
+     * @throws InvalidArgumentException If the array is not a valid file array shape.
+     */
+    private static function assertArrayShape(array $array): void
+    {
+        static::validateFromArrayData($array, [self::KEY_FILE_TYPE]);
+        $fileType = $array[self::KEY_FILE_TYPE];
+        if ($fileType !== FileTypeEnum::REMOTE && $fileType !== FileTypeEnum::INLINE) {
+            throw new InvalidArgumentException(sprintf('Invalid file type. Expected "%s" or "%s".', FileTypeEnum::REMOTE, FileTypeEnum::INLINE));
+        }
+        // A null mimeType is treated like an absent one (for remote files it is then inferred from the URL).
+        $mimeType = $array[self::KEY_MIME_TYPE] ?? null;
+        if ($mimeType !== null && (!is_string($mimeType) || !MimeType::isValid($mimeType))) {
+            throw new InvalidArgumentException('Invalid MIME type provided in file array.');
+        }
+        if ($fileType === FileTypeEnum::REMOTE) {
+            if (array_key_exists(self::KEY_BASE64_DATA, $array)) {
+                throw new InvalidArgumentException('Remote files must not contain base64Data.');
+            }
+            $url = $array[self::KEY_URL] ?? null;
+            if (!is_string($url) || !self::isHttpUrl($url)) {
+                throw new InvalidArgumentException('Remote files require a url with an http:// or https:// scheme.');
+            }
+            if ($mimeType === null) {
+                // Without an explicit MIME type it must be inferable from the URL (no I/O involved).
+                self::determineMimeType(null, null, $url);
+            }
+            return;
+        }
+        if (array_key_exists(self::KEY_URL, $array)) {
+            throw new InvalidArgumentException('Inline files must not contain url.');
+        }
+        $base64Data = $array[self::KEY_BASE64_DATA] ?? null;
+        if (!is_string($base64Data)) {
+            throw new InvalidArgumentException('Inline files require base64Data.');
+        }
+        if (str_starts_with($base64Data, 'data:')) {
+            throw new InvalidArgumentException('Inline files require raw base64 data in base64Data, not a data URI.');
+        }
+        if (!self::isBase64($base64Data)) {
+            throw new InvalidArgumentException('Inline files require valid base64 data in base64Data. Local file paths are not supported.');
+        }
+        if ($mimeType === null) {
+            throw new InvalidArgumentException('Inline files require a mimeType.');
         }
     }
     /**

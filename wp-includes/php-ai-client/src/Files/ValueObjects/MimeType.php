@@ -150,7 +150,7 @@ final class MimeType
     public static function isValid(string $mimeType): bool
     {
         // Basic MIME type validation: type/subtype
-        return (bool) preg_match('/^[a-zA-Z0-9][a-zA-Z0-9!#$&\-\^_+.]*\/[a-zA-Z0-9][a-zA-Z0-9!#$&\-\^_+.]*$/', $mimeType);
+        return (bool) preg_match('/^[a-zA-Z0-9][a-zA-Z0-9!#$&\-\^_+.]*\/[a-zA-Z0-9][a-zA-Z0-9!#$&\-\^_+.]*$/D', $mimeType);
     }
     /**
      * Checks if this MIME type is a specific type.

@@ -12,6 +12,7 @@ use WordPress\AiClient\Events\BeforeGenerateResultEvent;
 use WordPress\AiClient\Files\DTO\File;
 use WordPress\AiClient\Files\Enums\FileTypeEnum;
 use WordPress\AiClient\Files\Enums\MediaOrientationEnum;
+use WordPress\AiClient\Files\Util\FileInputUtil;
 use WordPress\AiClient\Messages\DTO\Message;
 use WordPress\AiClient\Messages\DTO\MessagePart;
 use WordPress\AiClient\Messages\DTO\UserMessage;
@@ -133,6 +134,9 @@ class PromptBuilder
      * - Data URI string (data:mime/type;base64,data)
      * - Local file path string
      *
+     * Resolving a local file path reads from the filesystem. Only pass strings you control; for untrusted
+     * input, construct a File via File::fromUrl(), File::fromDataUri() or File::fromBase64() instead.
+     *
      * @since 0.1.0
      *
      * @param string|File $file The file (File object or string representation).
@@ -142,7 +146,7 @@ class PromptBuilder
      */
     public function withFile($file, ?string $mimeType = null): self
     {
-        $file = $file instanceof File ? $file : new File($file, $mimeType);
+        $file = $file instanceof File ? $file : FileInputUtil::fromString($file, $mimeType);
         $part = new MessagePart($file);
         $this->appendPartToMessages($part);
         return $this;

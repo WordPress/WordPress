@@ -220,24 +220,84 @@ class MessagePart extends AbstractDataTransferObject
     /**
      * {@inheritDoc}
      *
+     * This check is purely structural: it does not construct the part or any nested object, so it has no
+     * side effects (in particular, no filesystem access for file parts).
+     *
+     * @since 1.5.1
+     */
+    public static function isArrayShape(array $array): bool
+    {
+        if (isset($array[self::KEY_CHANNEL])) {
+            if (!is_string($array[self::KEY_CHANNEL]) || !MessagePartChannelEnum::isValidValue($array[self::KEY_CHANNEL])) {
+                return \false;
+            }
+        }
+        if (isset($array[self::KEY_TYPE])) {
+            if (!is_string($array[self::KEY_TYPE]) || !MessagePartTypeEnum::isValidValue($array[self::KEY_TYPE])) {
+                return \false;
+            }
+        }
+        if (isset($array[self::KEY_THOUGHT_SIGNATURE]) && !is_string($array[self::KEY_THOUGHT_SIGNATURE])) {
+            return \false;
+        }
+        $contentKeys = [self::KEY_TEXT, self::KEY_FILE, self::KEY_FUNCTION_CALL, self::KEY_FUNCTION_RESPONSE];
+        $presentKeys = array_values(array_filter($contentKeys, static function (string $key) use ($array): bool {
+            return isset($array[$key]);
+        }));
+        if (count($presentKeys) !== 1) {
+            return \false;
+        }
+        switch ($presentKeys[0]) {
+            case self::KEY_TEXT:
+                return is_string($array[self::KEY_TEXT]);
+            case self::KEY_FILE:
+                return is_array($array[self::KEY_FILE]) && File::isArrayShape($array[self::KEY_FILE]);
+            case self::KEY_FUNCTION_CALL:
+                return is_array($array[self::KEY_FUNCTION_CALL]) && FunctionCall::isArrayShape($array[self::KEY_FUNCTION_CALL]);
+            default:
+                return is_array($array[self::KEY_FUNCTION_RESPONSE]) && FunctionResponse::isArrayShape($array[self::KEY_FUNCTION_RESPONSE]);
+        }
+    }
+    /**
+     * {@inheritDoc}
+     *
      * @since 0.1.0
+     * @since 1.5.1 Values of the wrong type are rejected with an InvalidArgumentException.
      */
     public static function fromArray(array $array): self
     {
         if (isset($array[self::KEY_CHANNEL])) {
+            if (!is_string($array[self::KEY_CHANNEL])) {
+                throw new InvalidArgumentException('MessagePart channel must be a string.');
+            }
             $channel = MessagePartChannelEnum::from($array[self::KEY_CHANNEL]);
         } else {
             $channel = null;
         }
         $thoughtSignature = $array[self::KEY_THOUGHT_SIGNATURE] ?? null;
+        if ($thoughtSignature !== null && !is_string($thoughtSignature)) {
+            throw new InvalidArgumentException('MessagePart thoughtSignature must be a string.');
+        }
         // Check which properties are set to determine how to construct the MessagePart
         if (isset($array[self::KEY_TEXT])) {
+            if (!is_string($array[self::KEY_TEXT])) {
+                throw new InvalidArgumentException('MessagePart text must be a string.');
+            }
             return new self($array[self::KEY_TEXT], $channel, $thoughtSignature);
         } elseif (isset($array[self::KEY_FILE])) {
+            if (!is_array($array[self::KEY_FILE])) {
+                throw new InvalidArgumentException('MessagePart file must be an array.');
+            }
             return new self(File::fromArray($array[self::KEY_FILE]), $channel, $thoughtSignature);
         } elseif (isset($array[self::KEY_FUNCTION_CALL])) {
+            if (!is_array($array[self::KEY_FUNCTION_CALL])) {
+                throw new InvalidArgumentException('MessagePart functionCall must be an array.');
+            }
             return new self(FunctionCall::fromArray($array[self::KEY_FUNCTION_CALL]), $channel, $thoughtSignature);
         } elseif (isset($array[self::KEY_FUNCTION_RESPONSE])) {
+            if (!is_array($array[self::KEY_FUNCTION_RESPONSE])) {
+                throw new InvalidArgumentException('MessagePart functionResponse must be an array.');
+            }
             return new self(FunctionResponse::fromArray($array[self::KEY_FUNCTION_RESPONSE]), $channel, $thoughtSignature);
         } else {
             throw new InvalidArgumentException('MessagePart requires one of: text, file, functionCall, or functionResponse.');
