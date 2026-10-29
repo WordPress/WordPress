@@ -289,9 +289,12 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 2.8.0
 	 * @since 7.2.0 Returns an error if the `$username` or `$password` argument is not a scalar.
 	 *
-	 * @param string $username User's username.
-	 * @param string $password User's password.
+	 * @param mixed $username User's username.
+	 * @param mixed $password User's password.
 	 * @return WP_User|false WP_User object if authentication passed, false otherwise.
+	 *
+	 * @phpstan-assert-if-true =scalar $username
+	 * @phpstan-assert-if-true =scalar $password
 	 */
 	public function login(
 		$username,
@@ -305,8 +308,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		/*
 		 * Arrays and objects sent by the client would cause a fatal error in
-		 * wp_authenticate(). Other scalar types are tolerated because PHP
-		 * coerces them to strings, which preserves backward compatibility.
+		 * wp_authenticate(). Other scalar types are tolerated and cast to
+		 * strings, which preserves backward compatibility.
 		 */
 		if ( ! is_scalar( $username ) || ! is_scalar( $password ) ) {
 			$this->error = new IXR_Error( 400, __( 'The username and password arguments should be strings.' ) );
@@ -316,7 +319,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( $this->auth_failed ) {
 			$user = new WP_Error( 'login_prevented' );
 		} else {
-			$user = wp_authenticate( $username, $password );
+			$user = wp_authenticate( (string) $username, (string) $password );
 		}
 
 		if ( is_wp_error( $user ) ) {
@@ -348,9 +351,12 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @deprecated 2.8.0 Use wp_xmlrpc_server::login()
 	 * @see wp_xmlrpc_server::login()
 	 *
-	 * @param string $username User's username.
-	 * @param string $password User's password.
+	 * @param mixed $username User's username.
+	 * @param mixed $password User's password.
 	 * @return bool Whether authentication passed.
+	 *
+	 * @phpstan-assert-if-true =scalar $username
+	 * @phpstan-assert-if-true =scalar $password
 	 */
 	public function login_pass_ok(
 		$username,
