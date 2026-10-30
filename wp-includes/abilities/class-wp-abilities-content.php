@@ -1336,10 +1336,10 @@ final class WP_Abilities_Content {
 	 * Returns a user when the current user may see them as an author.
 	 *
 	 * The current user may see themselves, the users they can edit, every user when they can
-	 * list users, and otherwise the authors of posts they can read in a post type exposed to
-	 * abilities: this ability returns those posts with their author, so the author is already
-	 * in view. Which post types the REST API exposes plays no part. A user the current user
-	 * may not see is reported like a missing one.
+	 * list users, and otherwise the authors of posts they can read in a publicly viewable post
+	 * type exposed to abilities: this ability returns those posts with their author, so the
+	 * author is already in view. Which post types the REST API exposes plays no part. A user
+	 * the current user may not see is reported like a missing one.
 	 *
 	 * The `author` field and the `author` slug filter share this rule, so the filter never
 	 * confirms a slug the field withholds. The post count is kept per author for the query,
@@ -1361,7 +1361,7 @@ final class WP_Abilities_Content {
 		}
 
 		if ( ! isset( $this->visible_authors[ $user_id ] ) ) {
-			$post_types                        = get_post_types( array( 'show_in_abilities' => true ), 'names' );
+			$post_types                        = array_values( array_filter( get_post_types( array( 'show_in_abilities' => true ), 'names' ), 'is_post_type_viewable' ) );
 			$this->visible_authors[ $user_id ] = (int) count_user_posts( $user_id, $post_types ) > 0;
 		}
 
