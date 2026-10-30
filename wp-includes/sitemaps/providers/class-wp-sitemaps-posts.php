@@ -31,7 +31,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return WP_Post_Type[] Array of registered post type objects keyed by their name.
+	 * @return array<string, WP_Post_Type> Array of registered post type objects keyed by their name.
 	 */
 	public function get_object_subtypes() {
 		$post_types = get_post_types( array( 'public' => true ), 'objects' );
@@ -44,7 +44,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param WP_Post_Type[] $post_types Array of registered post type objects keyed by their name.
+		 * @param array<string, WP_Post_Type> $post_types Array of registered post type objects keyed by their name.
 		 */
 		return apply_filters( 'wp_sitemaps_post_types', $post_types );
 	}
