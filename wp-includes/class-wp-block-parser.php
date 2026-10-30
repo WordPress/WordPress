@@ -395,40 +395,55 @@ class WP_Block_Parser {
 	 * @since 7.2.0
 	 */
 	public function implicitly_close_and_add_all_open_blocks(): void {
-		$implicitly_closed = null;
-		$last_freeform     = null;
+		$last_closed_block = null;
+		$last_opener_at    = strlen( $this->document );
+		$last_leading_html = null;
 
+		/**
+		 * There is a stack of open blocks, starting with a top-level block,
+		 * and where each successive item in the stack is a child of that block.
+		 * There are also spans of HTML content between the block delimiters.
+		 *
+		 * As the stack is collapsed, any HTML segments within that block must
+		 * be collected into it, before closing and appending to its parent’s
+		 * inner blocks array.
+		 */
 		while ( null !== ( $stack_top = array_pop( $this->stack ) ) ) {
-			if ( isset( $last_freeform ) ) {
-				$html = substr( $this->document, $stack_top->prev_offset, $last_freeform[1] - $stack_top->prev_offset );
-			} else {
-				$html = substr( $this->document, $stack_top->prev_offset );
-			}
+			/*
+			 * Since there is no open inner block on the top-most block on the stack,
+			 * the first iteration’s remaining HTML span will be from the last `prev_offset`
+			 * until the end of the document. For each containing parent, it will run from
+			 * the `prev_offset` until the opening of the block that was just closed.
+			 */
+			$html_length = $last_opener_at - $stack_top->prev_offset;
+			if ( 0 !== $html_length ) {
+				$html = substr( $this->document, $stack_top->prev_offset, $html_length );
 
-			if ( '' !== $html ) {
 				$stack_top->block->innerHTML     .= $html;
 				$stack_top->block->innerContent[] = $html;
 			}
 
-			// Trap potential leading freeform content for the final output.
-			$last_freeform = array( $stack_top->leading_html_start ?? 0, $stack_top->token_start );
-
-			if ( isset( $implicitly_closed ) ) {
+			if ( isset( $last_closed_block ) ) {
 				$stack_top->block->innerContent[] = null;
-				$stack_top->block->innerBlocks[]  = (array) $implicitly_closed;
+				$stack_top->block->innerBlocks[]  = (array) $last_closed_block;
 			}
 
-			$implicitly_closed = $stack_top->block;
+			$last_closed_block = $stack_top->block;
+			$last_opener_at    = $stack_top->token_start;
+			$last_leading_html = $stack_top->leading_html_start;
 		}
 
-		if ( isset( $last_freeform ) && $last_freeform[1] > $last_freeform[0] ) {
-			$html           = substr( $this->document, $last_freeform[0], $last_freeform[1] - $last_freeform[0] );
+		// Collect any HTML preceding the outermost open block.
+		if ( isset( $last_leading_html ) && $last_opener_at > $last_leading_html ) {
+			$html           = substr( $this->document, $last_leading_html, $last_opener_at - $last_leading_html );
 			$this->output[] = (array) $this->freeform( $html );
 		}
 
-		if ( isset( $implicitly_closed ) ) {
-			$this->output[] = (array) $implicitly_closed;
+		if ( isset( $last_closed_block ) ) {
+			$this->output[] = (array) $last_closed_block;
 		}
+
+		$this->offset = strlen( $this->document );
 	}
 }
 
