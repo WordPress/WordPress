@@ -1861,12 +1861,6 @@ class WP_REST_Server {
 				$endpoint_data['allow_batch'] = $callback_batch;
 			}
 
-			$data_processing = self::resolve_data_processing( $callback, $route_options );
-
-			if ( in_array( false, $data_processing, true ) ) {
-				$endpoint_data['data_processing'] = $data_processing;
-			}
-
 			if ( isset( $callback['args'] ) ) {
 				$endpoint_data['args'] = array();
 
