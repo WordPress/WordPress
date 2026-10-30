@@ -1462,27 +1462,6 @@ function wp_random_content_post_limits( $limits, WP_Query $query ): string {
 }
 
 /**
- * Prevents the random content query from being split into multiple database queries.
- *
- * Randomly ordered queries are not cached, so there is no benefit to querying the post
- * IDs separately to the post objects. Disabling the split allows the random post to be
- * retrieved in a single database query.
- *
- * @since 7.2.0
- *
- * @param bool     $split_the_query Whether or not to split the query.
- * @param WP_Query $query           The WP_Query instance.
- * @return bool Whether or not to split the query.
- */
-function wp_random_content_split_the_query( $split_the_query, WP_Query $query ): bool {
-	if ( wp_is_random_content_query( $query ) ) {
-		return false;
-	}
-
-	return (bool) $split_the_query;
-}
-
-/**
  * Redirects random content requests to the randomly selected post.
  *
  * Called by {@see WP::handle_random()} immediately after the main query selects the
