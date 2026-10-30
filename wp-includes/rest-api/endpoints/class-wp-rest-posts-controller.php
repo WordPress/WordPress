@@ -181,8 +181,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.7.1
 	 *
-	 * @param bool    $required Whether the post requires a password check.
-	 * @param WP_Post $post     The post been password checked.
+	 * @param bool         $required Whether the post requires a password check.
+	 * @param WP_Post|null $post     The post being password checked, or null if no post is found.
 	 * @return bool Result of password check taking into account REST API considerations.
 	 */
 	public function check_password_required( $required, $post ) {

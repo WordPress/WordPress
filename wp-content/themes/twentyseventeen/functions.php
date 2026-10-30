@@ -609,7 +609,7 @@ add_filter( 'get_header_image_tag', 'twentyseventeen_header_image_tag', 10, 3 );
  *
  * @param string[]     $attr       Array of attribute values for the image markup, keyed by attribute name.
  *                                 See wp_get_attachment_image().
- * @param WP_Post      $attachment Image attachment post.
+ * @param WP_Post|null $attachment Image attachment post, or null if no post is found.
  * @param string|int[] $size       Requested image size. Can be any registered image size name, or
  *                                 an array of width and height values in pixels (in that order).
  * @return string[] The filtered attributes for the image markup.
