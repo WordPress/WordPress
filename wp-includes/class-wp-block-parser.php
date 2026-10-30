@@ -415,7 +415,7 @@ class WP_Block_Parser {
 
 			if ( isset( $implicitly_closed ) ) {
 				$stack_top->block->innerContent[] = null;
-				$stack_top->block->innerBlocks[]  = $implicitly_closed;
+				$stack_top->block->innerBlocks[]  = (array) $implicitly_closed;
 			}
 
 			$implicitly_closed = $stack_top->block;
