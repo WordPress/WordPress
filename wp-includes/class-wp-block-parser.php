@@ -319,7 +319,7 @@ class WP_Block_Parser {
 	 * @param null|int $length How many bytes of document text to output.
 	 */
 	public function add_freeform( $length = null ) {
-		$length = $length ?? strlen( $this->document ) - $this->offset;
+		$length ??= strlen( $this->document ) - $this->offset;
 
 		if ( 0 === $length ) {
 			return;
