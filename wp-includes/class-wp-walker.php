@@ -230,11 +230,23 @@ class Walker {
 
 		/*
 		 * When none of the elements is top level.
-		 * Assume the first one must be root of the sub elements.
+		 * Find an element whose parent is not in the list to use as the root.
 		 */
 		if ( empty( $top_level_elements ) ) {
+			$id_field    = $this->db_fields['id'];
+			$element_ids = array();
+			foreach ( $elements as $e ) {
+				$element_ids[ $e->$id_field ] = true;
+			}
 
+			// Fall back to the first element when all parents are included, as with a cycle.
 			$root = array_first( $elements );
+			foreach ( $elements as $e ) {
+				if ( ! isset( $element_ids[ $e->$parent_field ] ) ) {
+					$root = $e;
+					break;
+				}
+			}
 
 			$top_level_elements = array();
 			$children_elements  = array();
