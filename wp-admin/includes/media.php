@@ -3677,6 +3677,7 @@ function wp_read_video_metadata( $file ) {
 		return false;
 	}
 
+	/** @var array<string, mixed> $metadata */
 	$metadata = array();
 
 	if ( ! defined( 'GETID3_TEMP_DIR' ) ) {

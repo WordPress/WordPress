@@ -41,7 +41,7 @@
 					<?php
 						twentynineteen_post_thumbnail();
 						the_post();
-						$discussion = ! is_page() && twentynineteen_can_show_post_thumbnail() ? twentynineteen_get_discussion_data() : null;
+						$discussion = ! is_page() && twentynineteen_can_show_post_thumbnail() ? twentynineteen_get_discussion_data() : null; // @phpstan-ignore booleanAnd.rightAlwaysTrue (Re-checked after the_post(); the filter may return a different value.)
 
 						$classes = 'entry-header';
 					if ( ! empty( $discussion ) && absint( $discussion->responses ) > 0 ) {

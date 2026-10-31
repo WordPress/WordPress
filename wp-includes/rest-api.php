@@ -1072,6 +1072,7 @@ function rest_filter_response_fields( $response, $server, $request ) {
 	$fields = array_map( 'trim', $fields );
 
 	// Create nested array of accepted field hierarchy.
+	/** @var array<string, mixed> $fields_as_keyed */
 	$fields_as_keyed = array();
 	foreach ( $fields as $field ) {
 		$parts = explode( '.', $field );

@@ -80,9 +80,7 @@ class File_Upload_Upgrader {
 							__( 'Return to the Plugin Installer' )
 						);
 						wp_die( __( 'Incompatible Archive.' ) . '<br />' . $plugins_page );
-					}
-
-					if ( 'themezip' === $form ) {
+					} else {
 						$themes_page = sprintf(
 							'<a href="%s" target="_parent">%s</a>',
 							self_admin_url( 'theme-install.php' ),

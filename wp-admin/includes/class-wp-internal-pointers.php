@@ -48,6 +48,7 @@ final class WP_Internal_Pointers {
 		 *         'themes.php' => 'wp390_widgets'
 		 *     )
 		 */
+		/** @var array<string, string|string[]> $registered_pointers */
 		$registered_pointers = array(
 			// None currently.
 		);
@@ -72,6 +73,7 @@ final class WP_Internal_Pointers {
 		 *         'wp390_widgets' => array( 'edit_theme_options' )
 		 *     )
 		 */
+		/** @var array<string, string[]> $caps_required */
 		$caps_required = array(
 			// None currently.
 		);

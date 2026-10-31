@@ -6880,9 +6880,9 @@ function wp_timezone_choice( $selected_zone, $locale = null ) {
 
 		// This determines what gets set and translated - we don't translate Etc/* strings here, they are done later.
 		$exists    = array(
-			0 => ( isset( $zone[0] ) && $zone[0] ),
-			1 => ( isset( $zone[1] ) && $zone[1] ),
-			2 => ( isset( $zone[2] ) && $zone[2] ),
+			0 => ! empty( $zone[0] ),
+			1 => ! empty( $zone[1] ),
+			2 => ! empty( $zone[2] ),
 		);
 		$exists[3] = ( $exists[0] && 'Etc' !== $zone[0] );
 		$exists[4] = ( $exists[1] && $exists[3] );

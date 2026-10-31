@@ -528,7 +528,6 @@ class WP_Site_Health {
 
 		$has_default_theme   = false;
 		$has_unused_themes   = false;
-		$show_unused_themes  = true;
 		$using_default_theme = false;
 
 		// Populate a list of all themes available in the install.
@@ -622,7 +621,7 @@ class WP_Site_Health {
 			}
 		}
 
-		if ( $has_unused_themes && $show_unused_themes && ! is_multisite() ) {
+		if ( $has_unused_themes && ! is_multisite() ) {
 
 			// This is a child theme, so we want to be a bit more explicit in our messages.
 			if ( $active_theme->parent() ) {
