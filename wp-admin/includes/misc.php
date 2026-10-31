@@ -833,7 +833,6 @@ function iis7_rewrite_rule_exists( $filename ) {
 	}
 
 	$doc = new DOMDocument();
-
 	if ( $doc->load( $filename ) === false ) {
 		return false;
 	}
