@@ -35,7 +35,7 @@ final class WP_Internal_Pointers {
 	 * @param string $hook_suffix The current admin page.
 	 */
 	public static function enqueue_scripts( $hook_suffix ) {
-		/*
+		/**
 		 * Register feature pointers
 		 *
 		 * Format:
@@ -47,8 +47,9 @@ final class WP_Internal_Pointers {
 		 *     array(
 		 *         'themes.php' => 'wp390_widgets'
 		 *     )
+		 *
+		 * @var array<string, string|string[]> $registered_pointers
 		 */
-		/** @var array<string, string|string[]> $registered_pointers */
 		$registered_pointers = array(
 			// None currently.
 		);
@@ -60,7 +61,7 @@ final class WP_Internal_Pointers {
 
 		$pointers = (array) $registered_pointers[ $hook_suffix ];
 
-		/*
+		/**
 		 * Specify required capabilities for feature pointers
 		 *
 		 * Format:
@@ -72,8 +73,9 @@ final class WP_Internal_Pointers {
 		 *     array(
 		 *         'wp390_widgets' => array( 'edit_theme_options' )
 		 *     )
+		 *
+		 * @var array<string, string[]> $caps_required
 		 */
-		/** @var array<string, string[]> $caps_required */
 		$caps_required = array(
 			// None currently.
 		);

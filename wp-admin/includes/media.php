@@ -3677,7 +3677,6 @@ function wp_read_video_metadata( $file ) {
 		return false;
 	}
 
-	/** @var array<string, mixed> $metadata */
 	$metadata = array();
 
 	if ( ! defined( 'GETID3_TEMP_DIR' ) ) {
@@ -3751,12 +3750,9 @@ function wp_read_video_metadata( $file ) {
 		$metadata['audio'] = $data['audio'];
 	}
 
-	if ( empty( $metadata['created_timestamp'] ) ) {
-		$created_timestamp = wp_get_media_creation_timestamp( $data );
-
-		if ( false !== $created_timestamp ) {
-			$metadata['created_timestamp'] = $created_timestamp;
-		}
+	$created_timestamp = wp_get_media_creation_timestamp( $data );
+	if ( false !== $created_timestamp ) {
+		$metadata['created_timestamp'] = $created_timestamp;
 	}
 
 	wp_add_id3_tag_data( $metadata, $data );
