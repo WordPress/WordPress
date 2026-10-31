@@ -374,7 +374,7 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 		return (int) $_menu['term_id'];
 	}
 
-	if ( ! $_menu || ! isset( $_menu->term_id ) ) {
+	if ( ! isset( $_menu->term_id ) ) {
 		return 0;
 	}
 
@@ -458,11 +458,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	if ( 0 === $menu_id ) {
 		$args['menu-item-position'] = 1;
 	} elseif ( 0 === (int) $args['menu-item-position'] ) {
-		$menu_items = array();
-
-		if ( 0 !== $menu_id ) {
-			$menu_items = (array) wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'publish,draft' ) );
-		}
+		$menu_items = (array) wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'publish,draft' ) );
 
 		$last_item = array_pop( $menu_items );
 
@@ -1281,7 +1277,7 @@ function wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locat
 				// ...actually match!
 				if ( is_string( $new_location ) && false === stripos( $new_location, $slug ) && false === stripos( $slug, $new_location ) ) {
 					continue;
-				} elseif ( is_numeric( $new_location ) && $new_location !== $slug ) {
+				} elseif ( ! is_string( $new_location ) ) {
 					continue;
 				}
 
@@ -1294,7 +1290,7 @@ function wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locat
 						// ... have a match as well.
 						if ( is_string( $location ) && false === stripos( $location, $slug ) && false === stripos( $slug, $location ) ) {
 							continue;
-						} elseif ( is_numeric( $location ) && $location !== $slug ) {
+						} elseif ( ! is_string( $location ) ) {
 							continue;
 						}
 
