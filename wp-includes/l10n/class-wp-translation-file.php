@@ -158,7 +158,7 @@ abstract class WP_Translation_File {
 	 *
 	 * @since 6.5.0
 	 *
-	 * @return array<string, string[]> Entries.
+	 * @return array<string, string> Entries.
 	 */
 	public function entries(): array {
 		if ( ! $this->parsed ) {
