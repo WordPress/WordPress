@@ -716,6 +716,10 @@ a:focus {
 	margin-top: 0.5em;
 }
 
+.no-js .secondary-toggle {
+	display: none;
+}
+
 .no-js .main-navigation ul ul {
 	display: block;
 }
