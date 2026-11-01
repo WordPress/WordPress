@@ -197,7 +197,6 @@ switch ( $action ) {
 					// If this menu item is a child of the previous.
 					if ( ! empty( $menu_item_data['menu_item_parent'] )
 						&& isset( $dbids_to_orders[ (int) $menu_item_data['menu_item_parent'] ] )
-						&& isset( $orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] - 1 ] )
 						&& ( (int) $menu_item_data['menu_item_parent'] === $orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] - 1 ] )
 					) {
 						if ( in_array( (int) $menu_item_data['menu_item_parent'], $orders_to_dbids, true ) ) {

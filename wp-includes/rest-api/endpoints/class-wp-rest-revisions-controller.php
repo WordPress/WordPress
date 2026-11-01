@@ -288,7 +288,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 			}
 
 			// For backward-compatibility, 'date' needs to resolve to 'date ID'.
-			if ( isset( $args['orderby'] ) && 'date' === $args['orderby'] ) {
+			if ( 'date' === $args['orderby'] ) {
 				$args['orderby'] = 'date ID';
 			}
 
