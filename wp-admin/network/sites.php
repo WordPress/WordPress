@@ -29,7 +29,7 @@ get_current_screen()->add_help_tab(
 		'title'   => __( 'Overview' ),
 		'content' =>
 		'<p>' . __( 'Add Site takes you to the screen for adding a new site to the network. You can search for a site by Name, ID number, or IP address. Screen Options allows you to choose how many sites to display on one page.' ) . '</p>' .
-		'<p>' . __( 'This is the main table of all sites on this network. Switch between list and excerpt views by using the icons above the right side of the table.' ) . '</p>' .
+		'<p>' . __( 'This is the main table of all sites on this network.' ) . '</p>' .
 			'<p>' . __( 'Hovering over each site reveals seven options (three for the primary site):' ) . '</p>' .
 			'<ul><li>' . __( 'An Edit link to a separate Edit Site screen.' ) . '</li>' .
 			'<li>' . __( 'Dashboard leads to the Dashboard for that site.' ) . '</li>' .

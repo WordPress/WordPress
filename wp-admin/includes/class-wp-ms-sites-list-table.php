@@ -65,19 +65,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @global string $mode List table view mode.
 	 * @global string $s    Search string.
 	 * @global wpdb   $wpdb WordPress database abstraction object.
 	 */
 	public function prepare_items() {
-		global $mode, $s, $wpdb;
-
-		if ( ! empty( $_REQUEST['mode'] ) ) {
-			$mode = 'excerpt' === $_REQUEST['mode'] ? 'excerpt' : 'list';
-			set_user_setting( 'sites_list_mode', $mode );
-		} else {
-			$mode = get_user_setting( 'sites_list_mode', 'list' );
-		}
+		global $s, $wpdb;
 
 		$per_page = $this->get_items_per_page( 'sites_network_per_page' );
 
@@ -311,27 +303,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Displays the pagination.
-	 *
-	 * @since 3.1.0
-	 *
-	 * @global string $mode List table view mode.
-	 *
-	 * @param string $which The location of the pagination nav markup: Either 'top' or 'bottom'.
-	 *
-	 * @phpstan-param 'top'|'bottom' $which
-	 */
-	protected function pagination( $which ) {
-		global $mode;
-
-		parent::pagination( $which );
-
-		if ( 'top' === $which ) {
-			$this->view_switcher( $mode );
-		}
-	}
-
-	/**
 	 * Displays extra controls between bulk actions and pagination.
 	 *
 	 * @since 5.3.0
@@ -474,13 +445,9 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @global string $mode List table view mode.
-	 *
 	 * @param array $blog Current site.
 	 */
 	public function column_blogname( $blog ) {
-		global $mode;
-
 		$blogname = untrailingslashit( $blog['domain'] . $blog['path'] );
 
 		?>
@@ -496,18 +463,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			?>
 		</strong>
 		<?php
-		if ( 'list' !== $mode ) {
-			switch_to_blog( $blog['blog_id'] );
-			echo '<p>';
-			printf(
-				/* translators: 1: Site title, 2: Site tagline. */
-				__( '%1$s &#8211; %2$s' ),
-				get_option( 'blogname' ),
-				'<em>' . get_option( 'blogdescription' ) . '</em>'
-			);
-			echo '</p>';
-			restore_current_blog();
-		}
 	}
 
 	/**
@@ -515,18 +470,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @global string $mode List table view mode.
-	 *
 	 * @param array $blog Current site.
 	 */
 	public function column_lastupdated( $blog ) {
-		global $mode;
-
-		if ( 'list' === $mode ) {
-			$date = __( 'Y/m/d' );
-		} else {
-			$date = __( 'Y/m/d g:i:s a' );
-		}
+		$date = __( 'Y/m/d g:i:s a' );
 
 		if ( '0000-00-00 00:00:00' === $blog['last_updated'] ) {
 			_e( 'Never' );
@@ -540,18 +487,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @global string $mode List table view mode.
-	 *
 	 * @param array $blog Current site.
 	 */
 	public function column_registered( $blog ) {
-		global $mode;
-
-		if ( 'list' === $mode ) {
-			$date = __( 'Y/m/d' );
-		} else {
-			$date = __( 'Y/m/d g:i:s a' );
-		}
+		$date = __( 'Y/m/d g:i:s a' );
 
 		if ( '0000-00-00 00:00:00' === $blog['registered'] ) {
 			echo '&#x2014;';
