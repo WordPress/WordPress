@@ -112,6 +112,11 @@ function wp_sanitize_block_gap_value( $gap_value ) {
 		return null;
 	}
 
+	// Allow valid CSS custom property references, e.g. var(--wp--preset--spacing--32).
+	if ( preg_match( '/^var\(--[a-zA-Z0-9_-]+\)$/', $gap_value ) ) {
+		return $gap_value;
+	}
+
 	return $gap_value && preg_match( '%[\\\(&=}]|/\*%', $gap_value ) ? null : $gap_value;
 }
 
