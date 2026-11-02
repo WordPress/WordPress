@@ -305,7 +305,7 @@ final class WP_Post_Type {
 	 * @link https://developer.wordpress.org/block-editor/developers/block-api/block-templates/
 	 *
 	 * @since 5.0.0
-	 * @var array[] $template
+	 * @var array[]|null $template
 	 */
 	public $template = array();
 

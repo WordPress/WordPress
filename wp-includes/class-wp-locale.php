@@ -118,7 +118,7 @@ class WP_Locale {
 	 * Default is 'words'.
 	 *
 	 * @since 6.2.0
-	 * @var string
+	 * @var string|null
 	 */
 	public $word_count_type;
 
