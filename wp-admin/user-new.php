@@ -9,6 +9,12 @@
 /** WordPress Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
+/**
+ * @global wpdb $wpdb    WordPress database abstraction object.
+ * @global int  $blog_id The current site (blog) ID on multisite.
+ */
+global $wpdb, $blog_id;
+
 if ( is_multisite() ) {
 	if ( ! current_user_can( 'create_users' ) && ! current_user_can( 'promote_users' ) ) {
 		wp_die(
@@ -240,11 +246,6 @@ Please click the following link to confirm the invite:
 			);
 
 			if ( isset( $_POST['noconfirmation'] ) && current_user_can( 'manage_network_users' ) ) {
-				/**
-				 * @global wpdb $wpdb WordPress database abstraction object.
-				 */
-				global $wpdb;
-
 				$key      = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $new_user_login, $new_user_email ) );
 				$new_user = wpmu_activate_signup( $key );
 				if ( is_wp_error( $new_user ) ) {

@@ -9,6 +9,14 @@
 /** WordPress Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
+/**
+ * @global string $status   Current plugin status view, set by WP_Plugins_List_Table.
+ * @global int    $page     Current page number, set by WP_Plugins_List_Table.
+ * @global array  $plugins  Set by WP_Plugins_List_Table::prepare_items().
+ * @global int    $user_ID  ID of the current user, set during authentication.
+ */
+global $status, $page, $plugins, $user_ID;
+
 if ( ! current_user_can( 'activate_plugins' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to manage plugins for this site.' ) );
 }

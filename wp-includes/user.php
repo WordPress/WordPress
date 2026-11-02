@@ -2428,7 +2428,7 @@ function wp_insert_user( $userdata ) {
 	 * check if current email and new email are the same, and check `email_exists`
 	 * accordingly.
 	 */
-	if ( ( ! $update || ( ! empty( $old_user_data ) && 0 !== strcasecmp( $user_email, $old_user_data->user_email ) ) )
+	if ( ( ! $update || 0 !== strcasecmp( $user_email, $old_user_data->user_email ) )
 		&& ! defined( 'WP_IMPORTING' )
 		&& email_exists( $user_email )
 	) {
@@ -4326,6 +4326,7 @@ function _wp_privacy_send_request_confirmation_notification( $request_id ) {
 		return;
 	}
 
+	$manage_url = '';
 	if ( 'export_personal_data' === $request->action_name ) {
 		$manage_url = admin_url( 'export-personal-data.php' );
 	} elseif ( 'remove_personal_data' === $request->action_name ) {

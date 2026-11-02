@@ -10,6 +10,15 @@
 /** WordPress Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
+/**
+ * @global WP_User    $current_user The current user, set during authentication.
+ * @global WP_Roles   $wp_roles     The roles object.
+ * @global wpdb       $wpdb         WordPress database abstraction object.
+ * @global string     $usersearch   User search query, set by WP_Users_List_Table.
+ * @global int        $blog_id      The current site (blog) ID on multisite.
+ */
+global $current_user, $wp_roles, $wpdb, $usersearch, $blog_id;
+
 if ( ! current_user_can( 'list_users' ) ) {
 	wp_die(
 		'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
@@ -93,7 +102,8 @@ get_current_screen()->set_screen_reader_content(
 );
 
 if ( empty( $_REQUEST ) ) {
-	$referer = '<input type="hidden" name="wp_http_referer" value="' . esc_attr( wp_unslash( $_SERVER['REQUEST_URI'] ) ) . '" />';
+	$redirect = '';
+	$referer  = '<input type="hidden" name="wp_http_referer" value="' . esc_attr( wp_unslash( $_SERVER['REQUEST_URI'] ) ) . '" />';
 } elseif ( isset( $_REQUEST['wp_http_referer'] ) ) {
 	$redirect = remove_query_arg( array( 'wp_http_referer', 'updated', 'delete_count' ), wp_unslash( $_REQUEST['wp_http_referer'] ) );
 	$referer  = '<input type="hidden" name="wp_http_referer" value="' . esc_attr( $redirect ) . '" />';

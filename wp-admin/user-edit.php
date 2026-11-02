@@ -12,6 +12,13 @@ require_once __DIR__ . '/admin.php';
 /** WordPress Translation Installation API */
 require_once ABSPATH . 'wp-admin/includes/translation-install.php';
 
+/**
+ * @global wpdb    $wpdb                  WordPress database abstraction object.
+ * @global array   $_wp_admin_css_colors  Registered admin color schemes.
+ * @global WP_Roles $wp_roles             The roles object.
+ */
+global $wpdb, $_wp_admin_css_colors, $wp_roles;
+
 $action          = ! empty( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : '';
 $user_id         = ! empty( $_REQUEST['user_id'] ) ? absint( $_REQUEST['user_id'] ) : 0;
 $wp_http_referer = ! empty( $_REQUEST['wp_http_referer'] ) ? sanitize_url( $_REQUEST['wp_http_referer'] ) : '';
