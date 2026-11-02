@@ -502,6 +502,11 @@ ul#adminmenu > li.current > a.current::after {
   color: #fff;
 }
 
+#wpadminbar a:focus,
+#wpadminbar .ab-item[tabindex="0"]:focus {
+  outline-color: #fff;
+}
+
 #wpadminbar .ab-icon,
 #wpadminbar .ab-item::before,
 #wpadminbar .ab-item::after {
@@ -514,12 +519,11 @@ ul#adminmenu > li.current > a.current::after {
 #wpadminbar.nojs .ab-top-menu > li.menupop:hover > .ab-item,
 #wpadminbar .ab-top-menu > li.menupop.hover > .ab-item {
   color: #fff;
-  background: rgb(35.4384615385, 41.6923076923, 45.8615384615);
 }
 
-#wpadminbar:not(.mobile) > #wp-toolbar li:hover span.ab-label,
-#wpadminbar:not(.mobile) > #wp-toolbar li.hover span.ab-label,
-#wpadminbar:not(.mobile) > #wp-toolbar a:focus span.ab-label {
+#wpadminbar > #wp-toolbar li:hover span.ab-label,
+#wpadminbar > #wp-toolbar li.hover span.ab-label,
+#wpadminbar > #wp-toolbar :focus span.ab-label {
   color: #fff;
 }
 
@@ -567,7 +571,10 @@ ul#adminmenu > li.current > a.current::after {
 #wpadminbar li .ab-item:focus .ab-icon,
 #wpadminbar li.hover .ab-icon,
 #wpadminbar li.hover .ab-item::before,
-#wpadminbar li #adminbarsearch.adminbar-focused .ab-icon {
+#wpadminbar li #adminbarsearch.adminbar-focused .ab-icon,
+#wpadminbar.mobile .quicklinks .ab-item:focus::before,
+#wpadminbar.mobile .quicklinks .ab-item:hover::before,
+#wpadminbar.mobile .quicklinks a:hover .ab-icon {
   color: #fff;
 }
 
@@ -607,7 +614,7 @@ ul#adminmenu > li.current > a.current::after {
 #wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode:hover > .ab-item,
 #wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode > .ab-item:focus {
   color: #1e1e1e;
-  background-color: rgb(94.5, 151.2, 168.3);
+  outline-color: currentColor;
 }
 
 /* Admin Bar: my account */
@@ -620,13 +627,17 @@ ul#adminmenu > li.current > a.current::after {
   color: #fff;
 }
 
-#wpadminbar #wp-admin-bar-user-info a:hover .display-name,
-#wpadminbar #wp-admin-bar-user-info a:focus .display-name {
-  color: #fff;
-}
-
 #wpadminbar #wp-admin-bar-user-info .username {
   color: rgb(193.8, 196.5, 198.3);
+}
+
+#wpadminbar #wp-admin-bar-user-info a:hover .howdy,
+#wpadminbar #wp-admin-bar-user-info a:focus .howdy,
+#wpadminbar #wp-admin-bar-user-info a:hover .display-name,
+#wpadminbar #wp-admin-bar-user-info a:focus .display-name,
+#wpadminbar #wp-admin-bar-user-info a:hover .username,
+#wpadminbar #wp-admin-bar-user-info a:focus .username {
+  color: #fff;
 }
 
 /* Pointers */

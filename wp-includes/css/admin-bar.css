@@ -97,10 +97,16 @@ html:lang(he-il) .rtl #wpadminbar * {
 	box-shadow: none;
 }
 
-#wpadminbar a:focus {
-	outline-offset: -1px;
-	/* Only visible in Windows High Contrast mode */
-	outline: 2px solid transparent;
+#wpadminbar a,
+#wpadminbar .ab-item[tabindex="0"] {
+	border-radius: 5px;
+}
+
+#wpadminbar a:focus,
+#wpadminbar .ab-item[tabindex="0"]:focus {
+	outline-offset: -4px;
+	/* Always visible, also in Windows High Contrast mode */
+	outline: var(--wp-admin-border-width-focus, 1.5px) solid #72aee6;
 }
 
 #wpadminbar {
@@ -235,13 +241,14 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar.nojq .quicklinks .ab-top-menu > li > .ab-item:focus,
 #wpadminbar:not(.mobile) .ab-top-menu > li:hover > .ab-item,
 #wpadminbar .ab-top-menu > li.hover > .ab-item {
-	background: #2c3338;
 	color: #72aee6;
 }
 
-#wpadminbar:not(.mobile) > #wp-toolbar li:hover span.ab-label,
+#wpadminbar > #wp-toolbar li:hover span.ab-label,
 #wpadminbar > #wp-toolbar li.hover span.ab-label,
-#wpadminbar:not(.mobile) > #wp-toolbar a:focus span.ab-label {
+/* The adminbar menu may output either links or focusable div elements. */
+/* As such, we target the focus state without specifying the element type. */
+#wpadminbar > #wp-toolbar :focus span.ab-label {
 	color: #72aee6;
 }
 
@@ -335,7 +342,8 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar li .ab-item:focus .ab-icon,
 #wpadminbar li.hover .ab-icon,
 #wpadminbar li.hover .ab-item::before,
-#wpadminbar li #adminbarsearch.adminbar-focused .ab-icon {
+#wpadminbar li #adminbarsearch.adminbar-focused .ab-icon,
+#wpadminbar.mobile .quicklinks .ab-item:focus::before {
 	color: #72aee6;
 }
 
@@ -429,11 +437,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 	float: right;
 }
 
-#wpadminbar ul li:last-child,
-#wpadminbar ul li:last-child .ab-item {
-	box-shadow: none;
-}
-
 /**
  * Recovery Mode
  */
@@ -447,7 +450,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode:hover > .ab-item,
 #wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode > .ab-item:focus {
 	color: #fff;
-	background-color: #d63638;
+	outline-color: currentColor;
 }
 
 /**
@@ -485,8 +488,8 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wpadminbar #wp-admin-bar-user-info {
-	margin-top: 6px;
-	margin-bottom: 15px;
+	margin-top: 2px;
+	margin-bottom: 10px;
 	height: auto;
 	background: none;
 }
@@ -494,7 +497,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wp-admin-bar-user-info .avatar {
 	position: absolute;
 	left: -72px;
-	top: 4px;
+	top: 0;
 	width: 64px;
 	height: 64px;
 	border-radius: 50%;
@@ -503,12 +506,13 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar #wp-admin-bar-user-info a {
 	background: none;
 	height: auto;
+	padding: 4px 10px;
 }
 
 #wpadminbar #wp-admin-bar-user-info span {
 	background: none;
 	padding: 0;
-	height: 18px;
+	line-height: 1.38461538;
 }
 
 #wpadminbar #wp-admin-bar-user-info .display-name,
@@ -525,7 +529,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wpadminbar #wp-admin-bar-user-info .username {
-	color: #a7aaad;
 	font-size: 11px;
 }
 
@@ -900,7 +903,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 		overflow: hidden;
 		width: 52px;
 		padding: 0;
-		color: #a7aaad; /* @todo not needed? this text is hidden */
 		position: relative;
 	}
 

@@ -811,12 +811,10 @@ li#wp-admin-bar-menu-toggle {
 		display: block;
 		padding: 0;
 		overflow: hidden;
-		outline: none;
 		text-decoration: none;
-		border: 1px solid transparent;
 		background: none;
-		height: 44px;
-		margin-left: -1px;
+		height: 46px;
+		box-sizing: border-box;
 	}
 
 	.wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle a {
@@ -827,17 +825,13 @@ li#wp-admin-bar-menu-toggle {
 		display: block;
 	}
 
-	#wpadminbar #wp-admin-bar-menu-toggle a:hover {
-		border: 1px solid transparent;
-	}
-
 	#wpadminbar #wp-admin-bar-menu-toggle .ab-icon {
 		display: flex;
 		align-items: center;
 		float: left;
 		margin: 0;
-		height: 44px;
-		width: 50px;
+		height: 46px;
+		width: 52px;
 		padding: 0;
 		border: none;
 		box-sizing: border-box;
