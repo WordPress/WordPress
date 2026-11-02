@@ -472,6 +472,7 @@ body.trashing #publish-settings {
 }
 
 #customize-controls .customize-section-title span.customize-action {
+	line-height: 2;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
