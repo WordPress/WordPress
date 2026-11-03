@@ -41,10 +41,10 @@ class WP_Widget_Categories extends WP_Widget {
 	 * @param array $args {
 	 *     Display arguments.
 	 *
-	 *     @type string $before_widget HTML markup to prepend to each widget in the sidebar.
-	 *     @type string $after_widget  HTML markup to append to each widget in the sidebar.
-	 *     @type string $before_title  HTML markup to prepend to the widget title when displayed.
-	 *     @type string $after_title   HTML markup to append to the widget title when displayed.
+	 *     @type string $before_widget Required. HTML markup to prepend to each widget in the sidebar.
+	 *     @type string $after_widget  Required. HTML markup to append to each widget in the sidebar.
+	 *     @type string $before_title  Required. HTML markup to prepend to the widget title when displayed.
+	 *     @type string $after_title   Required. HTML markup to append to the widget title when displayed.
 	 * }
 	 * @param array $instance {
 	 *     Settings for the current Categories widget instance.
