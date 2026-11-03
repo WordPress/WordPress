@@ -1282,6 +1282,7 @@ function wp_removable_query_args() {
 		'ids',
 		'locked',
 		'message',
+		'network_admin_email_updated',
 		'same',
 		'saved',
 		'settings-updated',
