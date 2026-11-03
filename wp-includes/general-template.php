@@ -4107,9 +4107,7 @@ function wp_preload_resources() {
 			}
 			$unique_resources[ $href ] = $attributes;
 			// Media can use imagesrcset and not href.
-		} elseif ( ( 'image' === $resource['as'] ) &&
-			( isset( $resource['imagesrcset'] ) || isset( $resource['imagesizes'] ) )
-		) {
+		} elseif ( isset( $resource['as'], $resource['imagesrcset'] ) && 'image' === $resource['as'] ) {
 			if ( isset( $unique_resources[ $resource['imagesrcset'] ] ) ) {
 				continue;
 			}
