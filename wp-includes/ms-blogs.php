@@ -889,12 +889,13 @@ function _update_blog_date_on_post_delete( $post_id ) {
  *
  * @since 4.0.0
  * @since 6.2.0 Added the `$post` parameter.
+ * @since 7.2.0 The `$post` parameter isn't always guaranteed to be provided.
  *
- * @param int     $post_id Post ID.
- * @param WP_Post $post    Post object.
+ * @param int          $post_id Post ID.
+ * @param WP_Post|null $post    Optional. Post object. Default null.
  */
-function _update_posts_count_on_delete( $post_id, $post ) {
-	if ( ! $post || 'publish' !== $post->post_status || 'post' !== $post->post_type ) {
+function _update_posts_count_on_delete( $post_id, $post = null ) {
+	if ( ! $post instanceof WP_Post || 'publish' !== $post->post_status || 'post' !== $post->post_type ) {
 		return;
 	}
 

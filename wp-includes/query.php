@@ -1513,6 +1513,12 @@ function wp_random_content_redirect(): void {
  * unpublished, renamed, moved or deleted.
  *
  * Runs on the {@see 'wp_after_insert_post'} and {@see 'after_delete_post'} actions.
+ * Third-party code may fire these actions with unexpected values, so the parameters are
+ * not type declared. When `$post` is omitted it is looked up from `$post_id`. Passing
+ * anything other than a `WP_Post` as `$post`, or a post that cannot be looked up, is
+ * incorrect usage and nothing is flushed. `$post_before` is only considered on
+ * `wp_after_insert_post`, where passing anything other than a `WP_Post` or null is
+ * incorrect usage and the value is ignored.
  *
  * @since 7.2.0
  *
@@ -1520,21 +1526,59 @@ function wp_random_content_redirect(): void {
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param int          $post_id     Post ID.
- * @param WP_Post      $post        Post object.
+ * @param WP_Post|null $post        Optional. Post object. Looked up from `$post_id` when null. Default null.
  * @param bool         $update      Optional. Whether this is an existing post being updated. Default false.
  * @param WP_Post|null $post_before Optional. Post object before the update, null for new posts. Default null.
  */
-function wp_random_content_flush_rewrite_rules_for_post( int $post_id, WP_Post $post, bool $update = false, ?WP_Post $post_before = null ): void {
+function wp_random_content_flush_rewrite_rules_for_post( $post_id, $post = null, $update = false, $post_before = null ): void {
 	global $wp_rewrite;
+
+	// Only look up a real ID: get_post() falls back to the global post for an empty value.
+	if ( null === $post && (int) $post_id > 0 ) {
+		$post = get_post( (int) $post_id );
+	}
+
+	if ( ! $post instanceof WP_Post ) {
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: 1: $post, 2: WP_Post */
+				__( 'The %1$s argument must be a %2$s object.' ),
+				'<code>$post</code>',
+				'<code>WP_Post</code>'
+			),
+			'7.2.0'
+		);
+		return;
+	}
+
+	$posts = array( $post );
+
+	// Only wp_after_insert_post passes the previous post object, which matters when it was renamed or moved.
+	if ( 'wp_after_insert_post' === current_action() ) {
+		if ( $post_before instanceof WP_Post ) {
+			$posts[] = $post_before;
+		} elseif ( null !== $post_before ) {
+			_doing_it_wrong(
+				__FUNCTION__,
+				sprintf(
+					/* translators: 1: $post_before, 2: WP_Post */
+					__( 'The %1$s argument must be a %2$s object or null.' ),
+					'<code>$post_before</code>',
+					'<code>WP_Post</code>'
+				),
+				'7.2.0'
+			);
+		}
+	}
 
 	if ( ! $wp_rewrite->using_permalinks() || ! wp_is_random_content_redirect_enabled() ) {
 		return;
 	}
 
-	foreach ( array( $post, $post_before ) as $page ) {
+	foreach ( $posts as $page ) {
 		if (
-			$page instanceof WP_Post
-			&& $wp_rewrite->get_random_base() === $page->post_name
+			$wp_rewrite->get_random_base() === $page->post_name
 			&& (
 				( 'page' === $page->post_type && 0 === (int) $page->post_parent )
 				|| ( 'post' === $page->post_type && $wp_rewrite->post_permalinks_share_random_base() )
