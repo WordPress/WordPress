@@ -303,8 +303,7 @@ div.wp-menu-image::before {
 }
 
 #adminmenu div.wp-menu-image {
-	color: #a7aaad;
-	color: rgba(240, 246, 252, 0.6);
+	color: #c3c4c7;
 	transition: color 0.1s ease-in-out;
 }
 
@@ -482,7 +481,7 @@ ul#adminmenu > li.current > a.current::after {
 	position: relative;
 	overflow: visible;
 	background: none;
-	color: #a7aaad;
+	color: #c3c4c7;
 	cursor: pointer;
 }
 

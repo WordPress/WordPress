@@ -5244,7 +5244,7 @@ function register_admin_color_schemes() {
 		false,
 		array( '#1d2327', '#2c3338', '#2271b1', '#72aee6' ),
 		array(
-			'base'    => '#a7aaad',
+			'base'    => '#c3c4c7',
 			'focus'   => '#72aee6',
 			'current' => '#fff',
 		)
