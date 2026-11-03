@@ -921,6 +921,145 @@ function wp_get_translation_updates() {
 }
 
 /**
+ * Gets a stable identifier for a translation update.
+ *
+ * @since 7.2.0
+ *
+ * @param array|object $update Translation update data.
+ * @return string Translation update identifier.
+ */
+function wp_get_translation_update_id( $update ) {
+	$update = (object) $update;
+
+	return md5(
+		wp_json_encode(
+			array(
+				'type'     => $update->type ?? '',
+				'slug'     => $update->slug ?? '',
+				'language' => $update->language ?? '',
+				'version'  => $update->version ?? '',
+			)
+		)
+	);
+}
+
+/**
+ * Gets translation updates keyed by their stable identifiers.
+ *
+ * @since 7.2.0
+ *
+ * @param object[]|null $updates Optional. Translation update objects. Default null.
+ * @return object[] Translation updates keyed by identifier.
+ */
+function wp_get_translation_updates_by_id( $updates = null ) {
+	if ( null === $updates ) {
+		$updates = wp_get_translation_updates();
+	}
+
+	$translation_updates = array();
+
+	foreach ( (array) $updates as $update ) {
+		$translation_updates[ wp_get_translation_update_id( $update ) ] = (object) $update;
+	}
+
+	return $translation_updates;
+}
+
+/**
+ * Gets deferred translation updates.
+ *
+ * Deferred updates remain available but are skipped by background updates by default.
+ * Explicit updates, including WP-CLI, can still install them. Successful installation
+ * through Language_Pack_Upgrader clears the matching deferral; failure leaves it unchanged.
+ *
+ * @since 7.2.0
+ *
+ * @param object[]|null $updates Optional. Translation update objects used to filter deferred updates
+ *                               to currently available updates. Default null.
+ * @return array[] Deferred translation updates keyed by identifier.
+ */
+function wp_get_deferred_translation_updates( $updates = null ) {
+	$stored_updates = get_site_option( 'deferred_translation_updates', array() );
+
+	if ( ! is_array( $stored_updates ) ) {
+		return array();
+	}
+
+	$deferred_updates = array();
+
+	foreach ( $stored_updates as $stored_update ) {
+		if ( ! is_array( $stored_update ) ) {
+			continue;
+		}
+
+		$stored_update = (object) array(
+			'type'     => $stored_update['type'] ?? '',
+			'slug'     => $stored_update['slug'] ?? '',
+			'language' => $stored_update['language'] ?? '',
+			'version'  => $stored_update['version'] ?? '',
+		);
+
+		$deferred_updates[ wp_get_translation_update_id( $stored_update ) ] = (array) $stored_update;
+	}
+
+	if ( null !== $updates ) {
+		$deferred_updates = array_intersect_key( $deferred_updates, wp_get_translation_updates_by_id( $updates ) );
+	}
+
+	return $deferred_updates;
+}
+
+/**
+ * Determines whether a translation update has been deferred.
+ *
+ * @since 7.2.0
+ *
+ * @param array|object $update           Translation update data.
+ * @param array[]|null $deferred_updates Optional. Deferred translation updates keyed by identifier.
+ *                                       Default null.
+ * @return bool Whether the translation update has been deferred.
+ */
+function wp_is_translation_update_deferred( $update, $deferred_updates = null ) {
+	if ( null === $deferred_updates ) {
+		$deferred_updates = wp_get_deferred_translation_updates();
+	}
+
+	return isset( $deferred_updates[ wp_get_translation_update_id( $update ) ] );
+}
+
+/**
+ * Stores deferred translation updates.
+ *
+ * @since 7.2.0
+ *
+ * @param object[]|array[] $updates Translation updates to defer.
+ * @return void
+ */
+function wp_set_deferred_translation_updates( $updates ) {
+	$deferred_updates = array();
+
+	foreach ( (array) $updates as $update ) {
+		$update = (object) $update;
+
+		$translation_update = array(
+			'type'     => $update->type ?? '',
+			'slug'     => $update->slug ?? '',
+			'language' => $update->language ?? '',
+			'version'  => $update->version ?? '',
+		);
+
+		$deferred_updates[ wp_get_translation_update_id( $translation_update ) ] = $translation_update;
+	}
+
+	if ( empty( $deferred_updates ) ) {
+		delete_site_option( 'deferred_translation_updates' );
+		return;
+	}
+
+	update_site_option( 'deferred_translation_updates', $deferred_updates );
+}
+
+/**
  * Collects counts and UI strings for available updates.
  *
  * @since 3.3.0
