@@ -116,28 +116,28 @@ footer.wp-block-template-part {
  * table) — edit or remove any rule below independently.
  *
  * Strokes: every table line — outer border, cell grid, and the rule under
- * the header — draws in the ink wash, matching the calendar and form fields.
+ * the header — draws in the Border color, matching the calendar.
  */
 .wp-block-table table,
 .wp-block-table th,
 .wp-block-table td {
-	border-color: var(--wp--preset--color--theme-4);
+	border-color: var(--wp--preset--color--accent-6);
 }
 
 /*
- * Header row: the palette wash as ground, a single hairline underneath
+ * Header row: the Surface color as ground, a single hairline underneath
  * (!important beats core's `thead { border-bottom: 3px solid }`, whose color
  * would otherwise resolve to currentColor), and the theme's meta voice —
  * Manrope, small, bold — for the labels.
  */
 .wp-block-table thead {
-	background-color: var(--wp--preset--color--theme-5);
+	background-color: var(--wp--preset--color--accent-5);
 	border-bottom-width: 1px !important;
-	border-bottom-color: var(--wp--preset--color--theme-4);
+	border-bottom-color: var(--wp--preset--color--accent-6);
 }
 
 .wp-block-table thead th {
-	text-align: left;
+	text-align: start;
 	font-family: var(--wp--preset--font-family--manrope);
 	font-size: var(--wp--preset--font-size--small);
 	font-style: normal;
@@ -145,15 +145,15 @@ footer.wp-block-template-part {
 }
 
 /*
- * Striped tables: tint rows and rule with the palette wash instead of core's
+ * Striped tables: tint rows and rule with the Surface color instead of core's
  * fixed gray, so stripes stay legible under every color variation.
  */
 .wp-block-table.is-style-stripes tbody tr:nth-child(odd) {
-	background-color: var(--wp--preset--color--theme-5);
+	background-color: var(--wp--preset--color--accent-5);
 }
 
 .wp-block-table.is-style-stripes {
-	border-bottom-color: var(--wp--preset--color--theme-5);
+	border-bottom-color: var(--wp--preset--color--accent-5);
 }
 
 /*
@@ -162,12 +162,35 @@ footer.wp-block-template-part {
  * users who can edit), so the dot appears and disappears with its element
  * instead of leaving orphan separators. The padding carries the breathing
  * room — literal spaces in generated content can collapse — so rows using
- * this class need no block gap of their own.
+ * this class need no block gap of their own. The empty alternative text after
+ * the slash keeps screen readers from announcing the dot, which is decorative.
  */
 .dot-before::before {
-	content: "·";
+	content: "·" / "";
 	font-weight: 600;
 	padding-inline: 0.5em;
+}
+
+/*
+ * Author cards: core hides the Author Name block for post types that do not
+ * support authors, but the hand-written "Written by" byline would remain.
+ * Hide the card when the Author Name block renders nothing, so the avatar and
+ * the byline disappear together.
+ * https://github.com/WordPress/ipsum/issues/166
+ */
+.author-card:not(:has(.wp-block-post-author-name)) {
+	display: none;
+}
+
+/*
+ * Comments rows in post lists: core renders nothing for the Comments Link
+ * block when comments are closed, but the hand-written "·" and "›" would
+ * remain. Hide the row when the Comments Link block renders nothing, so the
+ * separators disappear with it.
+ * https://github.com/WordPress/ipsum/issues/173
+ */
+.comments-meta:not(:has(.wp-block-post-comments-link)) {
+	display: none;
 }
 
 /*
@@ -189,6 +212,14 @@ header.wp-block-template-part:has(> .is-position-sticky) {
  */
 .admin-bar header.wp-block-template-part:has(> .is-position-sticky) {
 	inset-block-start: var(--wp-admin--admin-bar--height, 32px);
+}
+
+/*
+ * While the navigation overlay is open, lift the sticky header above the
+ * admin bar and the pinned Search Bar, matching the non-sticky headers.
+ */
+header.wp-block-template-part:has(> .is-position-sticky):has(.wp-block-navigation__responsive-container.is-menu-open) {
+	z-index: 100000;
 }
 
 /*
@@ -217,13 +248,13 @@ header.wp-block-template-part:has(> .is-position-sticky) {
 }
 
 /*
- * Quiet search button inside the pinned Search Bar part only: light ground,
+ * Quiet search button inside the pinned Search Bar part only: Base ground,
  * outlined; global button states take back over on hover/focus/active.
  */
 .sticky-bottom .wp-block-search__button.wp-element-button:not(:hover):not(:focus):not(:active) {
-	background-color: var(--wp--preset--color--theme-1);
-	border: 1px dotted var(--wp--preset--color--theme-2);
-	color: var(--wp--preset--color--theme-2);
+	background-color: var(--wp--preset--color--base);
+	border: 1px dotted var(--wp--preset--color--contrast);
+	color: var(--wp--preset--color--contrast);
 }
 
 /*
@@ -238,7 +269,7 @@ header.wp-block-template-part:has(> .is-position-sticky) {
 
 .hover-together .wp-block-post > .wp-block-group:has(> :hover),
 .hover-together .wp-block-post > .wp-block-group:has(> :hover) a {
-	color: var(--wp--preset--color--theme-6);
+	color: var(--wp--preset--color--accent-3);
 }
 
 /*
@@ -258,7 +289,7 @@ header.wp-block-template-part:has(> .is-position-sticky) {
 		inset-inline-start: 0;
 		block-size: 3px;
 		inline-size: 100%;
-		background-color: var(--wp--preset--color--theme-3);
+		background-color: var(--wp--preset--color--accent-1);
 		z-index: 99;
 		pointer-events: none;
 		transform-origin: left;

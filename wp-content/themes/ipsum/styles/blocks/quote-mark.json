@@ -5,6 +5,6 @@
 	"slug": "text-quote-mark",
 	"blockTypes": ["core/heading", "core/paragraph"],
 	"styles": {
-		"css": "&::before{content:\"❝\" / \"\";display:block;color:var(--wp--preset--color--theme-4);font-size:var(--wp--preset--font-size--2-x-large);line-height:1;}"
+		"css": "&::before{content:\"❝\" / \"\";display:block;color:var(--wp--preset--color--accent-6);font-size:var(--wp--preset--font-size--2-x-large);line-height:1;}"
 	}
 }

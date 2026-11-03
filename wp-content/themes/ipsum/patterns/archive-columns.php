@@ -20,7 +20,7 @@
 <!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Title and Meta', 'Name of the group holding the post title and meta', 'ipsum' ); ?>"},"style":{"layout":{"selfStretch":"fill"},"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","orientation":"vertical"}} -->
 <div class="wp-block-group"><!-- wp:post-title {"isLink":true,"fontSize":"large"} /-->
 
-<!-- wp:post-date {"isLink":true,"style":{"typography":{"fontStyle":"normal","fontWeight":"400"}}} /--></div>
+<!-- wp:post-date {"style":{"typography":{"fontStyle":"normal","fontWeight":"400"}}} /--></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
 <!-- /wp:post-template -->

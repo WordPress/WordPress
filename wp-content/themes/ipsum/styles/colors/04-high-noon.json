@@ -20,33 +20,33 @@
 			"palette": [
 				{
 					"color": "#FFFF66",
-					"name": "Color 1",
-					"slug": "theme-1"
+					"name": "Base",
+					"slug": "base"
 				},
 				{
 					"color": "#000000bf",
-					"name": "Color 2",
-					"slug": "theme-2"
+					"name": "Contrast",
+					"slug": "contrast"
 				},
 				{
 					"color": "#465800",
-					"name": "Color 3",
-					"slug": "theme-3"
-				},
-				{
-					"color": "#00000033",
-					"name": "Color 4",
-					"slug": "theme-4"
-				},
-				{
-					"color": "#00000008",
-					"name": "Color 5",
-					"slug": "theme-5"
+					"name": "Accent",
+					"slug": "accent-1"
 				},
 				{
 					"color": "#000000",
-					"name": "Color 6",
-					"slug": "theme-6"
+					"name": "Strong Contrast",
+					"slug": "accent-3"
+				},
+				{
+					"color": "#00000008",
+					"name": "Surface",
+					"slug": "accent-5"
+				},
+				{
+					"color": "#00000033",
+					"name": "Border",
+					"slug": "accent-6"
 				}
 			]
 		}

@@ -9,8 +9,8 @@
  */
 
 ?>
-<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Keep Reading', 'Name of the keep reading group', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
-<div class="wp-block-group"><!-- wp:heading {"metadata":{"name":"<?php echo esc_html_x( 'Keep Reading Label', 'Name of the keep reading heading', 'ipsum' ); ?>"},"style":{"typography":{"letterSpacing":"0rem"}},"fontSize":"small"} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Keep Reading', 'Name of the keep reading group', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|30","padding":{"top":"var:preset|spacing|60"}},"border":{"top":{"color":"var:preset|color|accent-6","style":"solid","width":"1px"}}},"layout":{"type":"default"}} -->
+<div class="wp-block-group" style="border-top-color:var(--wp--preset--color--accent-6);border-top-style:solid;border-top-width:1px;padding-top:var(--wp--preset--spacing--60)"><!-- wp:heading {"metadata":{"name":"<?php echo esc_html_x( 'Keep Reading Label', 'Name of the keep reading heading', 'ipsum' ); ?>"},"style":{"typography":{"letterSpacing":"0rem"}},"fontSize":"small"} -->
 <h2 class="wp-block-heading has-small-font-size" style="letter-spacing:0rem"><?php esc_html_e( 'Keep Reading', 'ipsum' ); ?></h2>
 <!-- /wp:heading -->
 
@@ -19,7 +19,7 @@
 <!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Recent Post', 'Name of the group holding one recent post', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":{"top":"0"}}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch"}} -->
 <div class="wp-block-group"><!-- wp:post-title {"level":3,"isLink":true,"style":{"typography":{"fontStyle":"normal","fontWeight":"500","letterSpacing":"0rem"}},"fontSize":"medium"} /-->
 
-<!-- wp:post-date {"format":"human-diff","isLink":true,"style":{"typography":{"fontStyle":"normal","fontWeight":"400","letterSpacing":"0rem"}}} /--></div>
+<!-- wp:post-date {"format":"human-diff","style":{"typography":{"fontStyle":"normal","fontWeight":"400","letterSpacing":"0rem"}}} /--></div>
 <!-- /wp:group -->
 <!-- /wp:post-template --></div>
 <!-- /wp:query --></div>

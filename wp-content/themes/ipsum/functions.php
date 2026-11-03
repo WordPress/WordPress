@@ -64,7 +64,8 @@ add_action( 'wp_enqueue_scripts', 'ipsum_enqueue_styles' );
 
 if ( ! function_exists( 'ipsum_comments_cta_binding' ) ) :
 	/**
-	 * Returns the comments call to action for the current post.
+	 * Returns the comments call to action for the current post, or nothing when
+	 * comments are closed, since readers can no longer comment.
 	 *
 	 * @since Ipsum 1.0
 	 *
@@ -75,13 +76,32 @@ if ( ! function_exists( 'ipsum_comments_cta_binding' ) ) :
 	function ipsum_comments_cta_binding( $source_args, $block_instance ) {
 		$post_id = $block_instance->context['postId'] ?? get_the_ID();
 
-		if ( get_comments_number( $post_id ) > 0 ) {
-			$text = __( 'Join the conversation', 'ipsum' );
-		} else {
-			$text = __( 'Be the first to comment', 'ipsum' );
+		if ( ! comments_open( $post_id ) ) {
+			return '';
 		}
 
-		return '<a href="' . esc_url( get_comments_link( $post_id ) ) . '">' . esc_html( $text ) . '</a>';
+		$post_title = wp_strip_all_tags( get_the_title( $post_id ) );
+		$has_title  = ! empty( $post_title );
+
+		if ( get_comments_number( $post_id ) > 0 ) {
+			$text = $has_title
+				? sprintf(
+					/* translators: %s: Post title. */
+					__( 'Join the conversation<span class="screen-reader-text"> on %s</span>', 'ipsum' ),
+					esc_html( $post_title )
+				)
+				: __( 'Join the conversation', 'ipsum' );
+		} else {
+			$text = $has_title
+				? sprintf(
+					/* translators: %s: Post title. */
+					__( 'Be the first to comment<span class="screen-reader-text"> on %s</span>', 'ipsum' ),
+					esc_html( $post_title )
+				)
+				: __( 'Be the first to comment', 'ipsum' );
+		}
+
+		return '<a href="' . esc_url( get_comments_link( $post_id ) ) . '">' . wp_kses_post( $text ) . '</a>';
 	}
 endif;
 
@@ -206,3 +226,6 @@ if ( ! function_exists( 'ipsum_register_block_styles' ) ) :
 	}
 endif;
 add_action( 'init', 'ipsum_register_block_styles' );
+
+// Registers the design guide ability for agents.
+require get_parent_theme_file_path( 'inc/abilities.php' );

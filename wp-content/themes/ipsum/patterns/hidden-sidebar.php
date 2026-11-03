@@ -1,6 +1,6 @@
 <?php
 /**
- * Title: sidebar
+ * Title: Sidebar
  * Slug: ipsum/hidden-sidebar
  * Inserter: no
  *
@@ -28,7 +28,7 @@
 <!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Recent Post', 'Name of the group holding one recent post', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":{"top":"0"},"margin":{"bottom":"var:preset|spacing|40"}}},"layout":{"type":"flex","orientation":"vertical"}} -->
 <div class="wp-block-group" style="margin-bottom:var(--wp--preset--spacing--40)"><!-- wp:post-title {"level":3,"isLink":true,"style":{"typography":{"fontStyle":"normal","fontWeight":"600","letterSpacing":"0rem"}},"fontSize":"small"} /-->
 
-<!-- wp:post-date {"format":"human-diff","isLink":true,"style":{"typography":{"fontStyle":"normal","fontWeight":"400","letterSpacing":"0rem"}}} /--></div>
+<!-- wp:post-date {"format":"human-diff","style":{"typography":{"fontStyle":"normal","fontWeight":"400","letterSpacing":"0rem"}}} /--></div>
 <!-- /wp:group -->
 <!-- /wp:post-template --></div>
 <!-- /wp:query --></div>

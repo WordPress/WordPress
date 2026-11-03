@@ -21,8 +21,8 @@
 
 <!-- wp:column {"verticalAlignment":"center"} -->
 <div class="wp-block-column is-vertically-aligned-center"><!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Title and Paragraph', 'Name of the Title and Paragraph element', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":{"top":"var:preset|spacing|30"}}},"layout":{"type":"flex","orientation":"vertical"}} -->
-<div class="wp-block-group"><!-- wp:heading {"style":{"border":{"bottom":{"color":"var:preset|color|theme-5","width":"5px"}}},"fontSize":"x-large"} -->
-<h2 class="wp-block-heading has-x-large-font-size" style="border-bottom-color:var(--wp--preset--color--theme-5);border-bottom-width:5px"><?php esc_html_e( 'Essays', 'ipsum' ); ?></h2>
+<div class="wp-block-group"><!-- wp:heading {"style":{"border":{"bottom":{"color":"var:preset|color|accent-5","width":"5px"}}},"fontSize":"x-large"} -->
+<h2 class="wp-block-heading has-x-large-font-size" style="border-bottom-color:var(--wp--preset--color--accent-5);border-bottom-width:5px"><?php esc_html_e( 'Essays', 'ipsum' ); ?></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"fontSize":"small"} -->
@@ -35,8 +35,8 @@
 <!-- wp:columns {"verticalAlignment":"center","align":"wide"} -->
 <div class="wp-block-columns alignwide are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center"} -->
 <div class="wp-block-column is-vertically-aligned-center"><!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Title and Paragraph', 'Name of the Title and Paragraph element', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":{"top":"var:preset|spacing|30"}}},"layout":{"type":"flex","orientation":"vertical"}} -->
-<div class="wp-block-group"><!-- wp:heading {"style":{"border":{"bottom":{"color":"var:preset|color|theme-5","width":"5px"}}},"fontSize":"x-large"} -->
-<h2 class="wp-block-heading has-x-large-font-size" style="border-bottom-color:var(--wp--preset--color--theme-5);border-bottom-width:5px"><?php esc_html_e( 'Pictures', 'ipsum' ); ?></h2>
+<div class="wp-block-group"><!-- wp:heading {"style":{"border":{"bottom":{"color":"var:preset|color|accent-5","width":"5px"}}},"fontSize":"x-large"} -->
+<h2 class="wp-block-heading has-x-large-font-size" style="border-bottom-color:var(--wp--preset--color--accent-5);border-bottom-width:5px"><?php esc_html_e( 'Pictures', 'ipsum' ); ?></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"fontSize":"small"} -->
@@ -61,8 +61,8 @@
 
 <!-- wp:column {"verticalAlignment":"center"} -->
 <div class="wp-block-column is-vertically-aligned-center"><!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Title and Paragraph', 'Name of the Title and Paragraph element', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":{"top":"var:preset|spacing|30"}}},"layout":{"type":"flex","orientation":"vertical"}} -->
-<div class="wp-block-group"><!-- wp:heading {"style":{"border":{"bottom":{"color":"var:preset|color|theme-5","width":"5px"}}},"fontSize":"x-large"} -->
-<h2 class="wp-block-heading has-x-large-font-size" style="border-bottom-color:var(--wp--preset--color--theme-5);border-bottom-width:5px"><?php esc_html_e( 'Sounds', 'ipsum' ); ?></h2>
+<div class="wp-block-group"><!-- wp:heading {"style":{"border":{"bottom":{"color":"var:preset|color|accent-5","width":"5px"}}},"fontSize":"x-large"} -->
+<h2 class="wp-block-heading has-x-large-font-size" style="border-bottom-color:var(--wp--preset--color--accent-5);border-bottom-width:5px"><?php esc_html_e( 'Sounds', 'ipsum' ); ?></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"fontSize":"small"} -->
