@@ -122,10 +122,16 @@ function wp_admin_bar_render() {
  * @access private
  *
  * @param string $icon_name Namespaced icon name, e.g. 'core-admin/wordpress'.
- * @return string Admin bar icon markup. The wrapper is empty if the icon is not found.
+ * @return string Admin bar icon markup, or empty string if the icon is not found.
  */
 function _wp_admin_bar_icon( $icon_name ) {
-	return '<span class="ab-icon svg-icon" aria-hidden="true">' . wp_get_icon( $icon_name ) . '</span>';
+	$icon = wp_get_icon( $icon_name );
+
+	if ( '' === $icon ) {
+		return '';
+	}
+
+	return '<span class="ab-icon svg-icon" aria-hidden="true">' . $icon . '</span>';
 }
 
 /**
@@ -149,7 +155,11 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 
 	$wp_logo_menu_args = array(
 		'id'    => 'wp-logo',
-		'title' => '<span class="ab-icon" aria-hidden="true"></span><span class="screen-reader-text">' .
+		/*
+		 * Dashicons back-compat: the icon is part of the title, so that a plugin that replaces
+		 * the title with its own logo does not also get the WordPress logo.
+		 */
+		'title' => _wp_admin_bar_icon( 'core-admin/wordpress' ) . '<span class="screen-reader-text">' .
 				/* translators: Hidden accessibility text. */
 				__( 'About WordPress' ) .
 			'</span>',
@@ -255,7 +265,8 @@ function wp_admin_bar_sidebar_toggle( $wp_admin_bar ) {
 		$wp_admin_bar->add_node(
 			array(
 				'id'    => 'menu-toggle',
-				'title' => '<span class="ab-icon" aria-hidden="true"></span><span class="screen-reader-text">' .
+				'icon'  => 'core-admin/menu',
+				'title' => '<span class="screen-reader-text">' .
 						/* translators: Hidden accessibility text. */
 						__( 'Menu' ) .
 					'</span>',
@@ -1016,7 +1027,7 @@ function wp_admin_bar_command_palette_menu( WP_Admin_Bar $wp_admin_bar ): void {
 	$is_apple_os     = (bool) preg_match( "/{$apple_pattern}/i", $_SERVER['HTTP_USER_AGENT'] ?? '' );
 	$shortcut_label  = $is_apple_os ? $shortcut_labels['appleOS'] : $shortcut_labels['default'];
 	$title           = sprintf(
-		'<span class="ab-icon" aria-hidden="true"></span><span class="ab-label"><kbd>%s</kbd><span class="screen-reader-text"> %s</span></span>',
+		'<span class="ab-label"><kbd>%s</kbd><span class="screen-reader-text"> %s</span></span>',
 		$shortcut_label,
 		/* translators: Hidden accessibility text. */
 		__( 'Open command palette' ),
@@ -1049,6 +1060,7 @@ function wp_admin_bar_command_palette_menu( WP_Admin_Bar $wp_admin_bar ): void {
 	$wp_admin_bar->add_node(
 		array(
 			'id'    => 'command-palette',
+			'icon'  => 'core-admin/search',
 			'title' => $title,
 			'href'  => '#',
 			'meta'  => array(
@@ -1113,11 +1125,12 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 		return;
 	}
 
-	$title = '<span class="ab-icon" aria-hidden="true"></span><span class="ab-label">' . _x( 'New', 'admin bar menu group label' ) . '</span>';
+	$title = '<span class="ab-label">' . _x( 'New', 'admin bar menu group label' ) . '</span>';
 
 	$wp_admin_bar->add_node(
 		array(
 			'id'    => 'new-content',
+			'icon'  => 'core-admin/plus',
 			'title' => $title,
 			'href'  => admin_url( array_key_first( $actions ) ),
 			'meta'  => array(
@@ -1171,14 +1184,14 @@ function wp_admin_bar_comments_menu( $wp_admin_bar ) {
 		number_format_i18n( $awaiting_mod )
 	);
 
-	$icon   = '<span class="ab-icon" aria-hidden="true"></span>';
 	$title  = '<span class="ab-label awaiting-mod pending-count count-' . $awaiting_mod . '" aria-hidden="true">' . number_format_i18n( $awaiting_mod ) . '</span>';
 	$title .= '<span class="screen-reader-text comments-in-moderation-text">' . $awaiting_text . '</span>';
 
 	$wp_admin_bar->add_node(
 		array(
 			'id'    => 'comments',
-			'title' => $icon . $title,
+			'icon'  => 'core-admin/comment',
+			'title' => $title,
 			'href'  => admin_url( 'edit-comments.php' ),
 		)
 	);
@@ -1286,14 +1299,14 @@ function wp_admin_bar_updates_menu( $wp_admin_bar ) {
 		number_format_i18n( $update_data['counts']['total'] )
 	);
 
-	$icon   = '<span class="ab-icon" aria-hidden="true"></span>';
 	$title  = '<span class="ab-label" aria-hidden="true">' . number_format_i18n( $update_data['counts']['total'] ) . '</span>';
 	$title .= '<span class="screen-reader-text updates-available-text">' . $updates_text . '</span>';
 
 	$wp_admin_bar->add_node(
 		array(
 			'id'    => 'updates',
-			'title' => $icon . $title,
+			'icon'  => 'core-admin/update',
+			'title' => $title,
 			'href'  => network_admin_url( 'update-core.php' ),
 		)
 	);

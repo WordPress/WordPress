@@ -117,7 +117,9 @@ class WP_Admin_Bar {
 	 *     @type string $id     ID of the item.
 	 *     @type string $title  Title of the node.
 	 *     @type string $icon   Optional. Namespaced icon name in the form "collection/icon-name",
-	 *                          e.g. 'core-admin/pin'. Rendered before the title.
+	 *                          e.g. 'core-admin/pin'. Rendered before the title, and hides a
+	 *                          Dashicon that the node draws in an empty `<span class="ab-icon">`
+	 *                          or on `.ab-item::before`. Ignored if the icon is not registered.
 	 *     @type string $parent Optional. ID of the parent node.
 	 *     @type string $href   Optional. Link for the item.
 	 *     @type bool   $group  Optional. Whether or not the node is a group. Default false.
@@ -181,68 +183,6 @@ class WP_Admin_Bar {
 		}
 
 		$this->_set_node( $args );
-	}
-
-	/**
-	 * Dashicons back-compat: returns the default icon for a node ID that core registers.
-	 *
-	 * The icons of these nodes used to be added with CSS rules for the node ID,
-	 * in one of two ways. A node that has no icon of its own gets the icon under
-	 * the same condition as before:
-	 *
-	 * - On `.ab-item::before`: the node gets the icon whatever its title is. The
-	 *   `my-account` node only gets it without the `with-avatar` class.
-	 * - On `.ab-icon::before`: the node gets the icon in place of the empty
-	 *   `<span class="ab-icon">` of its title, and no icon without that element.
-	 *
-	 * @since 7.2.0
-	 *
-	 * @param object $node The node.
-	 * @return array|false {
-	 *     Default icon, or false if the node has none.
-	 *
-	 *     @type string $icon     Namespaced icon name.
-	 *     @type bool   $in_title Whether the icon takes the place of the empty icon element of the title.
-	 * }
-	 */
-	private static function get_default_icon( $node ) {
-		$id            = $node->id;
-		$default_icons = array(
-			// On `.ab-item::before`.
-			'site-name'       => array( 'core-admin/dashboard', false ),
-			'my-sites'        => array( 'core-admin/sites', false ),
-			'site-editor'     => array( 'core-admin/brush', false ),
-			'customize'       => array( 'core-admin/brush', false ),
-			'edit'            => array( 'core-admin/pencil', false ),
-			'my-account'      => array( 'core-admin/people', false ),
-			// On `.ab-icon::before`, in the title.
-			'wp-logo'         => array( 'core-admin/wordpress', true ),
-			'menu-toggle'     => array( 'core-admin/menu', true ),
-			'command-palette' => array( 'core-admin/search', true ),
-			'new-content'     => array( 'core-admin/plus', true ),
-			'comments'        => array( 'core-admin/comment', true ),
-			'updates'         => array( 'core-admin/update', true ),
-		);
-
-		if ( ! isset( $default_icons[ $id ] ) ) {
-			return false;
-		}
-
-		// The account icon is only for a node without an avatar.
-		if ( 'my-account' === $id && in_array( 'with-avatar', explode( ' ', $node->meta['class'] ?? '' ), true ) ) {
-			return false;
-		}
-
-		$icon = $default_icons[ $id ][0];
-
-		if ( 'site-name' === $id && ( is_admin() || ! current_user_can( 'read' ) ) ) {
-			$icon = 'core-admin/home';
-		}
-
-		return array(
-			'icon'     => $icon,
-			'in_title' => $default_icons[ $id ][1],
-		);
 	}
 
 	/**
@@ -641,23 +581,7 @@ class WP_Admin_Bar {
 			$menuclass = ' class="' . esc_attr( trim( $menuclass ) ) . '"';
 		}
 
-		$title     = $node->title;
 		$icon_name = $node->icon;
-
-		// Dashicons back-compat: a core node that was given no icon gets its default icon.
-		$default_icon = self::get_default_icon( $node );
-
-		// Dashicons back-compat: the icon replaces the first empty `<span class="ab-icon">` in the title; without one, the node gets no default icon.
-		if ( $default_icon && $default_icon['in_title'] ) {
-			$title = preg_replace( '/<span\b[^>]*\bclass=(["\'])(?:[^"\']*\s)?ab-icon(?:\s[^"\']*)?\1[^>]*>\s*<\/span>/', '', (string) $title, 1, $count );
-			if ( ! $count ) {
-				$default_icon = false;
-			}
-		}
-
-		if ( ! $icon_name && $default_icon ) {
-			$icon_name = $default_icon['icon'];
-		}
 
 		$icon = '';
 		if ( wp_is_valid_icon_name( $icon_name ) ) {
@@ -699,7 +623,7 @@ class WP_Admin_Bar {
 			}
 		}
 
-		echo ">{$arrow}{$icon}{$title}";
+		echo ">{$arrow}{$icon}{$node->title}";
 
 		if ( $has_link ) {
 			echo '</a>';

@@ -285,6 +285,17 @@ html:lang(he-il) .rtl #wpadminbar * {
 	text-indent: 0;
 }
 
+/*
+ * Dashicons back-compat: hide a Dashicon next to the SVG icon, except `.ab-icon::before` on core nodes,
+ * and the icon in the title of the `wp-logo` node when the node is given an icon.
+ */
+#wpadminbar .ab-item:has(> .ab-icon.svg-icon)::before,
+#wpadminbar .ab-item:has(> .ab-icon.svg-icon) .ab-icon:not(.svg-icon):empty,
+#wpadminbar li:not(#wp-admin-bar-site-name, #wp-admin-bar-my-sites, #wp-admin-bar-site-editor, #wp-admin-bar-customize, #wp-admin-bar-edit, #wp-admin-bar-my-account, #wp-admin-bar-wp-logo, #wp-admin-bar-menu-toggle, #wp-admin-bar-command-palette, #wp-admin-bar-new-content, #wp-admin-bar-comments, #wp-admin-bar-updates) > .ab-item > .ab-icon.svg-icon::before,
+#wpadminbar .ab-item > .ab-icon.svg-icon ~ .ab-icon.svg-icon {
+	display: none;
+}
+
 #wpadminbar .ab-icon.svg-icon svg {
 	flex: none;
 	width: 24px;
