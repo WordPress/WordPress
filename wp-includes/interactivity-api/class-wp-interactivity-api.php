@@ -1153,14 +1153,31 @@ final class WP_Interactivity_API {
 	 * @since 7.1.0 An object is resolved to whatever it serializes to for the client, a number is formatted by the
 	 *              JSON encoder, and a value which cannot be sent to the client is rejected rather than passed to
 	 *              WP_HTML_Tag_Processor::set_attribute().
+	 * @since 7.2.0 Event handler bind directives are removed.
 	 *
 	 * @param WP_Interactivity_API_Directives_Processor $p    The directives processor instance.
 	 * @param string                                    $mode Whether the processing is entering or exiting the tag.
 	 */
 	private function data_wp_bind_processor( WP_Interactivity_API_Directives_Processor $p, string $mode ): void {
 		if ( 'enter' === $mode ) {
-			$entries = $this->get_directive_entries( $p, 'bind' );
+			$event_handler_prefix = 'data-wp-bind--on';
+			$entries              = $this->get_directive_entries( $p, 'bind' );
 			foreach ( $entries as $entry ) {
+				// Binding event handler attributes is not supported.
+				if ( str_starts_with( $entry['attribute_name'], $event_handler_prefix ) ) {
+					$p->remove_attribute( $entry['attribute_name'] );
+					_doing_it_wrong(
+						__METHOD__,
+						sprintf(
+							/* translators: %s: The directive, e.g. data-wp-on--click. */
+							__( 'Binding event handler attributes is not supported. Please use "%s" instead.' ),
+							esc_attr( 'data-wp-on--' . substr( $entry['attribute_name'], strlen( $event_handler_prefix ) ) )
+						),
+						'6.9.2'
+					);
+					continue;
+				}
+
 				if ( empty( $entry['suffix'] ) || null !== $entry['unique_id'] ) {
 					continue;
 				}
@@ -1179,20 +1196,6 @@ final class WP_Interactivity_API {
 							esc_html( $entry['suffix'] )
 						),
 						'7.1.4'
-					);
-					continue;
-				}
-
-				// Skip if the suffix is an event handler.
-				if ( str_starts_with( $entry['suffix'], 'on' ) ) {
-					_doing_it_wrong(
-						__METHOD__,
-						sprintf(
-							/* translators: %s: The directive, e.g. data-wp-on--click. */
-							__( 'Binding event handler attributes is not supported. Please use "%s" instead.' ),
-							esc_attr( 'data-wp-on--' . substr( $entry['suffix'], 2 ) )
-						),
-						'6.9.2'
 					);
 					continue;
 				}
