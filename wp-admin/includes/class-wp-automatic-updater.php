@@ -316,7 +316,6 @@ class WP_Automatic_Updater {
 			if ( $update && wp_is_translation_update_deferred( $item ) ) {
 				$update = false;
 			}
-
 		}
 
 		// If the `disable_autoupdate` flag is set, override any user-choice, but allow filters.
