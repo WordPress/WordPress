@@ -47,7 +47,7 @@ class WP_Theme_JSON_Resolver {
 	 * Container for data coming from core.
 	 *
 	 * @since 5.8.0
-	 * @var WP_Theme_JSON
+	 * @var WP_Theme_JSON|null
 	 */
 	protected static $core = null;
 
@@ -55,7 +55,7 @@ class WP_Theme_JSON_Resolver {
 	 * Container for data coming from the blocks.
 	 *
 	 * @since 6.1.0
-	 * @var WP_Theme_JSON
+	 * @var WP_Theme_JSON|null
 	 */
 	protected static $blocks = null;
 
@@ -63,7 +63,7 @@ class WP_Theme_JSON_Resolver {
 	 * Container for data coming from the theme.
 	 *
 	 * @since 5.8.0
-	 * @var WP_Theme_JSON
+	 * @var WP_Theme_JSON|null
 	 */
 	protected static $theme = null;
 
@@ -71,7 +71,7 @@ class WP_Theme_JSON_Resolver {
 	 * Container for data coming from the user.
 	 *
 	 * @since 5.9.0
-	 * @var WP_Theme_JSON
+	 * @var WP_Theme_JSON|null
 	 */
 	protected static $user = null;
 
@@ -80,7 +80,7 @@ class WP_Theme_JSON_Resolver {
 	 * that holds the user data.
 	 *
 	 * @since 5.9.0
-	 * @var int
+	 * @var int|null
 	 */
 	protected static $user_custom_post_type_id = null;
 
@@ -89,7 +89,7 @@ class WP_Theme_JSON_Resolver {
 	 *
 	 * @since 5.8.0 As `$theme_json_i18n`.
 	 * @since 5.9.0 Renamed from `$theme_json_i18n` to `$i18n_schema`.
-	 * @var array
+	 * @var array|null
 	 */
 	protected static $i18n_schema = null;
 
