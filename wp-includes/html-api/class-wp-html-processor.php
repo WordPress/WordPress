@@ -143,6 +143,14 @@
  * @see WP_HTML_Tag_Processor
  * @link https://html.spec.whatwg.org/
  * @phpstan-consistent-constructor
+ *
+ * @phpstan-type Query array{
+ *     tag_name?: non-empty-string|null,
+ *     match_offset?: int<1, max>|null,
+ *     class_name?: non-empty-string|null,
+ *     tag_closers?: 'visit'|'skip'|null,
+ *     breadcrumbs?: array<non-empty-string>,
+ * }|non-empty-string|null
  */
 class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	/**
@@ -237,6 +245,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @since 6.7.0
 	 *
 	 * @var string[]
+	 * @phpstan-var list<non-falsy-string>
 	 */
 	private $breadcrumbs = array();
 
@@ -687,6 +696,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *                                     May also contain the wildcard `*` which matches a single element, e.g. `array( 'SECTION', '*' )`.
 	 * }
 	 * @return bool Whether a tag was matched.
+	 *
+	 * @phpstan-param Query $query
 	 */
 	public function next_tag( $query = null ): bool {
 		$visit_closers = isset( $query['tag_closers'] ) && 'visit' === $query['tag_closers'];
@@ -930,6 +941,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @param string[] $breadcrumbs DOM sub-path at which element is found, e.g. `array( 'FIGURE', 'IMG' )`.
 	 *                              May also contain the wildcard `*` which matches a single element, e.g. `array( 'SECTION', '*' )`.
 	 * @return bool Whether the currently-matched tag is found at the given nested structure.
+	 *
+	 * @phpstan-param array<non-empty-string> $breadcrumbs
 	 */
 	public function matches_breadcrumbs( $breadcrumbs ): bool {
 		// Everything matches when there are zero constraints.
@@ -1201,6 +1214,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @since 6.4.0
 	 *
 	 * @return string[] Array of tag names representing path to matched node.
+	 *
+	 * @phpstan-return list<non-falsy-string>
 	 */
 	public function get_breadcrumbs(): array {
 		return $this->breadcrumbs;
@@ -5154,6 +5169,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @since 6.4.0
 	 *
 	 * @return string|null Name of currently matched tag in input HTML, or `null` if none found.
+	 *
+	 * @phpstan-return non-falsy-string|null
 	 */
 	public function get_tag(): ?string {
 		if ( null !== $this->last_error ) {
@@ -5219,6 +5236,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @since 6.6.0 Subclassed for the HTML Processor.
 	 *
 	 * @return string|null Name of the matched token.
+	 *
+	 * @phpstan-return non-falsy-string|null
 	 */
 	public function get_token_name(): ?string {
 		return $this->is_virtual()
@@ -6276,6 +6295,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @param string|null $bookmark_name Optional. Name to give bookmark for created virtual node.
 	 *                                   Defaults to auto-creating a bookmark name.
 	 * @return WP_HTML_Token Newly-created virtual token.
+	 *
+	 * @phpstan-param non-falsy-string $token_name
 	 */
 	private function insert_virtual_node( $token_name, $bookmark_name = null ): WP_HTML_Token {
 		$here = $this->bookmarks[ $this->state->current_token->bookmark_name ];

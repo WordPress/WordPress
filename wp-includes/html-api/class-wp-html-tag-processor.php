@@ -407,6 +407,13 @@
  * @since 6.5.0 Pauses processor when input ends in an incomplete syntax token.
  *              Introduces "special" elements which act like void elements, e.g. TITLE, STYLE.
  *              Allows scanning through all tokens and processing modifiable text, where applicable.
+ *
+ * @phpstan-type Query array{
+ *     tag_name?: non-empty-string|null,
+ *     match_offset?: int<1, max>|null,
+ *     class_name?: non-empty-string|null,
+ *     tag_closers?: 'visit'|'skip'|null,
+ * }|non-empty-string|null
  */
 class WP_HTML_Tag_Processor {
 	/**
@@ -443,7 +450,8 @@ class WP_HTML_Tag_Processor {
 	 * The last query passed to next_tag().
 	 *
 	 * @since 6.2.0
-	 * @var array|null
+	 * @var array|string|null
+	 * @phpstan-var Query
 	 */
 	private $last_query;
 
@@ -452,6 +460,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.2.0
 	 * @var string|null
+	 * @phpstan-var non-empty-string|null
 	 */
 	private $sought_tag_name;
 
@@ -460,6 +469,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.2.0
 	 * @var string|null
+	 * @phpstan-var non-empty-string|null
 	 */
 	private $sought_class_name;
 
@@ -468,6 +478,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.2.0
 	 * @var int|null
+	 * @phpstan-var int<1, max>|null
 	 */
 	private $sought_match_offset;
 
@@ -895,6 +906,7 @@ class WP_HTML_Tag_Processor {
 	 * }
 	 * @return bool Whether a tag was matched.
 	 *
+	 * @phpstan-param Query $query
 	 * @phpstan-impure
 	 */
 	public function next_tag( $query = null ): bool {
@@ -3034,12 +3046,22 @@ class WP_HTML_Tag_Processor {
 	 * @since 6.2.0
 	 *
 	 * @return string|null Name of currently matched tag in input HTML, or `null` if none found.
+	 *
+	 * @phpstan-return non-falsy-string|null
 	 */
 	public function get_tag(): ?string {
 		if ( null === $this->tag_name_starts_at ) {
 			return null;
 		}
 
+		/**
+		 * The name is never empty and never "0": a tag name starts with an ASCII
+		 * letter, a processing instruction target with a letter or "_", and the
+		 * target of a comment which looks like a processing instruction with a
+		 * letter, ":", or "_".
+		 *
+		 * @var non-falsy-string $tag_name
+		 */
 		$tag_name = str_replace( "\x00", "\u{FFFD}", substr( $this->html, $this->tag_name_starts_at, $this->tag_name_length ) );
 
 		if ( self::STATE_MATCHED_TAG === $this->parser_state ) {
@@ -3071,6 +3093,8 @@ class WP_HTML_Tag_Processor {
 	 * @since 6.7.0
 	 *
 	 * @return string|null Name of current tag name.
+	 *
+	 * @phpstan-return non-falsy-string|null
 	 */
 	public function get_qualified_tag_name(): ?string {
 		$tag_name = $this->get_tag();
@@ -3569,6 +3593,8 @@ class WP_HTML_Tag_Processor {
 	 * @since 6.5.0
 	 *
 	 * @return string|null Name of the matched token.
+	 *
+	 * @phpstan-return non-falsy-string|null
 	 */
 	public function get_token_name(): ?string {
 		switch ( $this->parser_state ) {
@@ -4988,6 +5014,7 @@ class WP_HTML_Tag_Processor {
 	 *     @type string|null $class_name   Tag must contain this class name to match.
 	 *     @type string      $tag_closers  "visit" or "skip": whether to stop on tag closers, e.g. </div>.
 	 * }
+	 * @phpstan-param Query $query
 	 */
 	private function parse_query( $query ) {
 		if ( null !== $query && $query === $this->last_query ) {
