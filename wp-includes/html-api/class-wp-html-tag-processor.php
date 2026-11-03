@@ -1732,8 +1732,6 @@ class WP_HTML_Tag_Processor {
 	 * @phpstan-impure
 	 */
 	private function parse_next_tag(): bool {
-		$this->after_tag();
-
 		$html       = $this->html;
 		$doc_length = strlen( $html );
 		$was_at     = $this->bytes_already_parsed;
