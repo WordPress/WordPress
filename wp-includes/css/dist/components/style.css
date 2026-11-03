@@ -170,9 +170,23 @@
   font-weight: var(--wpds-typography-font-weight-default, 400);
   position: relative;
 }
-.components-autocomplete__result.components-button:focus:not(:disabled):not(:active) {
-  box-shadow: 0 0 0 calc(2 * var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) + 2px) var(--wpds-color-background-surface-neutral-strong, #fff);
-  z-index: 1;
+.components-autocomplete__result.components-button:is(:focus, .is-selected):not(:disabled, [aria-disabled=true]) {
+  background-color: var(--wpds-color-background-interactive-brand-strong-active, color-mix(in oklch, var(--wp-admin-theme-color, #3858e9) 93%, black));
+  color: var(--wpds-color-foreground-interactive-brand-strong-active, #fff);
+  outline: none;
+  box-shadow: none;
+}
+@media (forced-colors: active) {
+  .components-autocomplete__result.components-button:is(:focus, .is-selected):not(:disabled, [aria-disabled=true]) {
+    forced-color-adjust: none;
+    background-color: Highlight;
+    color: HighlightText;
+  }
+}
+.components-autocomplete__result.components-button[aria-disabled=true]:is(:focus, .is-selected) {
+  outline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) solid var(--focus-color, var(--wpds-color-stroke-focus, var(--wp-admin-theme-color, #3858e9)));
+  outline-offset: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px));
+  outline-offset: 0;
 }
 
 .components-badge {
@@ -293,7 +307,7 @@
 .components-button.is-next-40px-default-size {
   height: 40px;
 }
-.components-button[aria-expanded=true], .components-button:hover:not(:disabled, [aria-disabled=true]) {
+.components-button[aria-expanded=true], .components-button:hover:not(:disabled, [aria-disabled=true], [role^=menuitem], [role=option]) {
   color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
 }
 .components-button {
@@ -1118,6 +1132,37 @@ input.components-combobox-control__input[type=text]:focus {
   display: inline-block;
 }
 
+.components-dropdown__content .components-button[role^=menuitem]:is(:focus, [aria-selected=true]):not(:disabled, [aria-disabled=true]) {
+  background-color: var(--wpds-color-background-interactive-brand-strong-active, color-mix(in oklch, var(--wp-admin-theme-color, #3858e9) 93%, black)) !important;
+  color: var(--wpds-color-foreground-interactive-brand-strong-active, #fff) !important;
+  outline: none;
+  box-shadow: none;
+}
+@media (forced-colors: active) {
+  .components-dropdown__content .components-button[role^=menuitem]:is(:focus, [aria-selected=true]):not(:disabled, [aria-disabled=true]) {
+    forced-color-adjust: none;
+    background-color: Highlight !important;
+    color: HighlightText !important;
+  }
+}
+.components-dropdown__content .components-button[role^=menuitem]:is(:focus, [aria-selected=true]):not(:disabled, [aria-disabled=true]) .components-menu-item__info {
+  color: inherit;
+}
+.components-dropdown__content .components-button[role^=menuitem][aria-expanded=true]:not(:focus, [aria-selected=true], :disabled, [aria-disabled=true]) {
+  background-color: var(--wpds-color-background-interactive-neutral-weak-active, #ededed) !important;
+  color: var(--wpds-color-foreground-interactive-neutral-active, #1e1e1e) !important;
+  outline: none;
+  box-shadow: none;
+}
+@media (forced-colors: active) {
+  .components-dropdown__content .components-button[role^=menuitem][aria-expanded=true]:not(:focus, [aria-selected=true], :disabled, [aria-disabled=true]) {
+    outline: var(--wpds-border-width-xs, 1px) solid GrayText;
+    outline-offset: 0;
+  }
+}
+.components-dropdown__content .components-button[role^=menuitem][aria-expanded=true]:not(:focus, [aria-selected=true], :disabled, [aria-disabled=true]) .components-menu-item__info {
+  color: inherit;
+}
 .components-dropdown__content .components-popover__content {
   padding: 8px;
 }
@@ -1579,7 +1624,7 @@ input.components-combobox-control__input[type=text]:focus {
 }
 
 .components-form-token-field__suggestion {
-  color: var(--wp-components-color-foreground, var(--wpds-color-foreground-content-neutral, #1e1e1e));
+  color: var(--wpds-color-foreground-interactive-neutral, #1e1e1e);
   display: block;
   font-size: 13px;
   padding: 8px 12px;
@@ -1587,16 +1632,28 @@ input.components-combobox-control__input[type=text]:focus {
   margin: 0;
   box-sizing: border-box;
 }
-.components-form-token-field__suggestion.is-selected {
-  background: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
-  color: var(--wp-components-color-foreground-inverted, var(--wpds-color-background-surface-neutral, #fcfcfc));
+.components-form-token-field__suggestion.is-selected:not([aria-disabled=true], .is-empty) {
+  background-color: var(--wpds-color-background-interactive-brand-strong-active, color-mix(in oklch, var(--wp-admin-theme-color, #3858e9) 93%, black));
+  color: var(--wpds-color-foreground-interactive-brand-strong-active, #fff);
+  outline: none;
+  box-shadow: none;
+}
+@media (forced-colors: active) {
+  .components-form-token-field__suggestion.is-selected:not([aria-disabled=true], .is-empty) {
+    forced-color-adjust: none;
+    background-color: Highlight;
+    color: HighlightText;
+  }
 }
 .components-form-token-field__suggestion[aria-disabled=true] {
   pointer-events: none;
-  color: #949494;
+  color: var(--wpds-color-foreground-interactive-neutral-disabled, #8d8d8d);
 }
 .components-form-token-field__suggestion[aria-disabled=true].is-selected {
-  background: color-mix(in srgb, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)) 4%, transparent);
+  background: var(--wpds-color-background-interactive-neutral-weak-disabled, #0000);
+  outline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) solid var(--focus-color, var(--wpds-color-stroke-focus, var(--wp-admin-theme-color, #3858e9)));
+  outline-offset: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px));
+  outline-offset: calc(-1 * var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)));
 }
 .components-form-token-field__suggestion:not(.is-empty) {
   cursor: var(--wpds-cursor-control, pointer);
@@ -1767,6 +1824,43 @@ input.components-combobox-control__input[type=text]:focus {
   white-space: nowrap;
 }
 
+.components-menu-item__button:is(:focus, [aria-selected=true]):not(:disabled, [aria-disabled=true]),
+.components-menu-item__button.components-button:is(:focus, [aria-selected=true]):not(:disabled, [aria-disabled=true]) {
+  background-color: var(--wpds-color-background-interactive-brand-strong-active, color-mix(in oklch, var(--wp-admin-theme-color, #3858e9) 93%, black)) !important;
+  color: var(--wpds-color-foreground-interactive-brand-strong-active, #fff) !important;
+  outline: none;
+  box-shadow: none;
+}
+@media (forced-colors: active) {
+  .components-menu-item__button:is(:focus, [aria-selected=true]):not(:disabled, [aria-disabled=true]),
+  .components-menu-item__button.components-button:is(:focus, [aria-selected=true]):not(:disabled, [aria-disabled=true]) {
+    forced-color-adjust: none;
+    background-color: Highlight !important;
+    color: HighlightText !important;
+  }
+}
+.components-menu-item__button:is(:focus, [aria-selected=true]):not(:disabled, [aria-disabled=true]) .components-menu-item__info,
+.components-menu-item__button.components-button:is(:focus, [aria-selected=true]):not(:disabled, [aria-disabled=true]) .components-menu-item__info {
+  color: inherit;
+}
+.components-menu-item__button[aria-expanded=true]:not(:focus, [aria-selected=true], :disabled, [aria-disabled=true]),
+.components-menu-item__button.components-button[aria-expanded=true]:not(:focus, [aria-selected=true], :disabled, [aria-disabled=true]) {
+  background-color: var(--wpds-color-background-interactive-neutral-weak-active, #ededed) !important;
+  color: var(--wpds-color-foreground-interactive-neutral-active, #1e1e1e) !important;
+  outline: none;
+  box-shadow: none;
+}
+@media (forced-colors: active) {
+  .components-menu-item__button[aria-expanded=true]:not(:focus, [aria-selected=true], :disabled, [aria-disabled=true]),
+  .components-menu-item__button.components-button[aria-expanded=true]:not(:focus, [aria-selected=true], :disabled, [aria-disabled=true]) {
+    outline: var(--wpds-border-width-xs, 1px) solid GrayText;
+    outline-offset: 0;
+  }
+}
+.components-menu-item__button[aria-expanded=true]:not(:focus, [aria-selected=true], :disabled, [aria-disabled=true]) .components-menu-item__info,
+.components-menu-item__button.components-button[aria-expanded=true]:not(:focus, [aria-selected=true], :disabled, [aria-disabled=true]) .components-menu-item__info {
+  color: inherit;
+}
 .components-menu-item__button,
 .components-menu-item__button.components-button {
   width: 100%;
@@ -1822,7 +1916,7 @@ input.components-combobox-control__input[type=text]:focus {
 .components-menu-item__info {
   margin-top: 4px;
   font-size: 12px;
-  color: #757575;
+  color: var(--wpds-color-foreground-content-neutral-weak, #707070);
   white-space: normal;
 }
 

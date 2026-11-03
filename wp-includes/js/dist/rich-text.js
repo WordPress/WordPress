@@ -2953,6 +2953,8 @@ var wp;
       sentSelectionRef.current = [];
       if (isSelected && (selectionStart !== sentStart || selectionEnd !== sentEnd) && hasFocus(ref.current)) {
         applyRecord(recordRef.current);
+      } else if (recordRef.current.start === void 0 && ref.current.querySelector("[data-rich-text-format-boundary]")) {
+        applyRecord(recordRef.current);
       }
     }, [selectionStart, selectionEnd, isSelected]);
     const mergedRefs = (0, import_compose8.useMergeRefs)([

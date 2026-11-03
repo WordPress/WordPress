@@ -586,19 +586,6 @@ var wp;
     return range;
   }
 
-  // packages/dom/build-module/dom/scroll-if-no-range.mjs
-  function scrollIfNoRange(container, alignToTop, callback) {
-    let range = callback();
-    if (!range || !range.startContainer || !container.contains(range.startContainer)) {
-      container.scrollIntoView(alignToTop);
-      range = callback();
-      if (!range || !range.startContainer || !container.contains(range.startContainer)) {
-        return null;
-      }
-    }
-    return range;
-  }
-
   // packages/dom/build-module/dom/is-edge.mjs
   function isEdge(container, isReverse, onlyVertical = false) {
     if (isInputOrTextArea(container) && typeof container.selectionStart === "number") {
@@ -636,21 +623,28 @@ var wp;
     if (!isCollapsed && rangeHeight && rangeHeight > collapsedRangeRect.height && isForward === isReverse) {
       return false;
     }
+    const contentRange = ownerDocument.createRange();
+    contentRange.selectNodeContents(container);
+    const hasLineBeyond = Array.from(contentRange.getClientRects()).some(
+      (rect) => rect.height > 0 && (isReverse ? rect.bottom <= rangeRect.top + 1 : rect.top >= rangeRect.bottom - 1)
+    );
+    if (hasLineBeyond) {
+      return false;
+    }
+    if (onlyVertical) {
+      return true;
+    }
     const isReverseDir = isRTL(container) ? !isReverse : isReverse;
     const containerRect = container.getBoundingClientRect();
     const x = isReverseDir ? containerRect.left + 1 : containerRect.right - 1;
-    const y = isReverse ? containerRect.top + 1 : containerRect.bottom - 1;
-    const isFarFromVerticalEdge = (y < 0 || y > defaultView.innerHeight) && rangeRect.top >= 0 && rangeRect.bottom <= defaultView.innerHeight;
-    const isFarFromHorizontalEdge = (x < 0 || x > defaultView.innerWidth) && rangeRect.left >= 0 && rangeRect.right <= defaultView.innerWidth;
-    if (isFarFromVerticalEdge || !onlyVertical && isFarFromHorizontalEdge) {
-      return false;
-    }
-    const testRange = scrollIfNoRange(
-      container,
-      isReverse,
-      () => hiddenCaretRangeFromPoint(ownerDocument, x, y, container)
+    const y = isReverse ? rangeRect.top + 1 : rangeRect.bottom - 1;
+    const testRange = hiddenCaretRangeFromPoint(
+      ownerDocument,
+      x,
+      y,
+      container
     );
-    if (!testRange) {
+    if (!testRange || !container.contains(testRange.startContainer)) {
       return false;
     }
     const testRect = getRectangleFromRange(testRange);
@@ -663,7 +657,7 @@ var wp;
     const horizontalDiff = testRect[horizontalSide] - collapsedRangeRect[horizontalSide];
     const hasVerticalDiff = Math.abs(verticalDiff) <= 1;
     const hasHorizontalDiff = Math.abs(horizontalDiff) <= 1;
-    return onlyVertical ? hasVerticalDiff : hasVerticalDiff && hasHorizontalDiff;
+    return hasVerticalDiff && hasHorizontalDiff;
   }
 
   // packages/dom/build-module/dom/is-horizontal-edge.mjs
@@ -684,6 +678,19 @@ var wp;
   // packages/dom/build-module/dom/is-vertical-edge.mjs
   function isVerticalEdge(container, isReverse) {
     return isEdge(container, isReverse, true);
+  }
+
+  // packages/dom/build-module/dom/scroll-if-no-range.mjs
+  function scrollIfNoRange(container, alignToTop, callback) {
+    let range = callback();
+    if (!range || !range.startContainer || !container.contains(range.startContainer)) {
+      container.scrollIntoView(alignToTop);
+      range = callback();
+      if (!range || !range.startContainer || !container.contains(range.startContainer)) {
+        return null;
+      }
+    }
+    return range;
   }
 
   // packages/dom/build-module/dom/place-caret-at-edge.mjs

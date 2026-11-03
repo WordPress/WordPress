@@ -1,5 +1,41 @@
 // packages/interactivity-router/build-module/index.mjs
-import { store, privateApis, getConfig } from "@wordpress/interactivity";
+import { store, privateApis as privateApis2, getConfig } from "@wordpress/interactivity";
+
+// packages/interactivity-router/build-module/html-directive-element.mjs
+import { privateApis } from "@wordpress/interactivity";
+var { parseDirectiveName } = privateApis(
+  "I acknowledge that using private APIs means my theme or plugin will inevitably break in the next version of WordPress."
+);
+var directivePrefix = "data-wp-";
+function closestHtmlDirectiveElement(element) {
+  for (let current = element; current; current = current.parentElement) {
+    if (!current.closest("[data-wp-interactive]")) {
+      return null;
+    }
+    let hasDefaultHtmlDirective = false;
+    let hasConflict = false;
+    for (const { name } of current.attributes) {
+      if (!name[directivePrefix.length] || !name.startsWith(directivePrefix)) {
+        continue;
+      }
+      const parsed = parseDirectiveName(name);
+      if (!parsed) {
+        continue;
+      }
+      const { prefix, suffix } = parsed;
+      if (prefix === "html" && suffix === null) {
+        hasDefaultHtmlDirective = true;
+      }
+      if (["text", "each", "router-region"].includes(prefix)) {
+        hasConflict = true;
+      }
+    }
+    if (hasDefaultHtmlDirective && !hasConflict) {
+      return current;
+    }
+  }
+  return null;
+}
 
 // packages/interactivity-router/build-module/assets/scs.mjs
 function shortestCommonSupersequence(X, Y, isEqual = (a, b) => a === b) {
@@ -681,12 +717,15 @@ var {
   warn,
   afterNextFrame,
   getScope
-} = privateApis(
+} = privateApis2(
   "I acknowledge that using private APIs means my theme or plugin will inevitably break in the next version of WordPress."
 );
 var regionAttr = `data-wp-router-region`;
 var interactiveAttr = `data-wp-interactive`;
 var regionsSelector = `[${interactiveAttr}][${regionAttr}], [${interactiveAttr}] [${interactiveAttr}][${regionAttr}]`;
+var discoverRegions = (dom) => Array.from(dom.querySelectorAll(regionsSelector)).filter(
+  (region) => !closestHtmlDirectiveElement(region.parentElement)
+);
 var pages = /* @__PURE__ */ new Map();
 var getPagePath = (url) => {
   const u = new URL(url, window.location.href);
@@ -769,7 +808,7 @@ var preparePage = async (url, dom, { vdom } = {}) => {
   dom.querySelectorAll("noscript").forEach((el) => el.remove());
   const regions = /* @__PURE__ */ Object.create(null);
   const regionsToAttach = /* @__PURE__ */ Object.create(null);
-  dom.querySelectorAll(regionsSelector).forEach((region) => {
+  discoverRegions(dom).forEach((region) => {
     const { id, attachTo } = parseRegionAttribute(region);
     if (region.parentElement.closest(`[${regionAttr}]`)) {
       regions[id] = void 0;
@@ -796,11 +835,22 @@ var preparePage = async (url, dom, { vdom } = {}) => {
     url
   };
 };
+var resolveAttachTarget = (selector) => {
+  try {
+    for (const element of document.querySelectorAll(selector)) {
+      if (!closestHtmlDirectiveElement(element)) {
+        return element;
+      }
+    }
+  } catch {
+  }
+  return null;
+};
 var renderPage = (page) => {
   applyStyles(page.styles);
-  const regionsToAttach = Object.assign(
+  const regions = Object.assign(
     /* @__PURE__ */ Object.create(null),
-    page.regionsToAttach
+    page.regions
   );
   batch(() => {
     populateServerData(page.initialData);
@@ -809,29 +859,33 @@ var renderPage = (page) => {
       signal.value = null;
     });
     const parentsToUpdate = /* @__PURE__ */ new Set();
-    for (const id in regionsToAttach) {
-      const parent = document.querySelector(regionsToAttach[id]);
+    for (const id in page.regionsToAttach) {
+      const parent = resolveAttachTarget(page.regionsToAttach[id]);
+      if (!parent) {
+        delete regions[id];
+        continue;
+      }
       if (!regionsToAttachByParent.has(parent)) {
         regionsToAttachByParent.set(parent, []);
       }
-      const regions = regionsToAttachByParent.get(parent);
-      if (!regions.includes(id)) {
-        regions.push(id);
+      const ids = regionsToAttachByParent.get(parent);
+      if (!ids.includes(id)) {
+        ids.push(id);
         parentsToUpdate.add(parent);
       }
     }
-    for (const id in page.regions) {
+    for (const id in regions) {
       if (routerRegions.has(id)) {
         routerRegions.get(id).value = cloneRouterRegionContent(
-          page.regions[id]
+          regions[id]
         );
       }
     }
     parentsToUpdate.forEach((parent) => {
       const ids = regionsToAttachByParent.get(parent);
-      const vdoms = ids.map((id) => page.regions[id]);
+      const vdoms = ids.map((id) => regions[id]);
       if (!rootFragmentsByParent.has(parent)) {
-        const regions = vdoms.map(({ props, type }) => {
+        const roots = vdoms.map(({ props, type }) => {
           const elementType = typeof type === "function" ? props.type : type;
           const region = document.createElement(elementType);
           parent.appendChild(region);
@@ -839,7 +893,7 @@ var renderPage = (page) => {
         });
         rootFragmentsByParent.set(
           parent,
-          getRegionRootFragment(regions)
+          getRegionRootFragment(roots)
         );
       }
       const fragment = rootFragmentsByParent.get(parent);
@@ -922,7 +976,7 @@ window.addEventListener("popstate", async () => {
     throw error;
   }
 });
-document.querySelectorAll(regionsSelector).forEach((region) => {
+discoverRegions(document).forEach((region) => {
   const { id, attachTo } = parseRegionAttribute(region);
   if (attachTo) {
     initialRegionsToAttach.add(id);

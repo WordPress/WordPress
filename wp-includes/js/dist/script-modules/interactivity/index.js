@@ -3463,6 +3463,8 @@ var privateApis = (lock) => {
       getRegionRootFragment,
       initialVdomPromise,
       toVdom,
+      // Parses directive attribute names for internal consumers.
+      parseDirectiveName,
       // Shares the directive-value interpretation with internal consumers.
       parseDirectiveValue,
       directive,

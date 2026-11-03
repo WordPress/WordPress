@@ -953,7 +953,7 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 }
 
 .is-selected .non-breaking-space {
-  background: radial-gradient(circle, #cc1818 2px, transparent 2.5px) center/100% 100% no-repeat;
+  background: radial-gradient(circle, var(--wp-admin-theme-color) 2px, transparent 2.5px) center/100% 100% no-repeat;
 }
 
 .block-editor-warning {

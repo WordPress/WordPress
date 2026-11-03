@@ -3575,9 +3575,17 @@ var wp;
         {
           const { bigImageSizeThreshold } = settings;
           if (bigImageSizeThreshold && attachment.id) {
-            const bitmap = await createImageBitmap(thumbnailSource);
-            const needsScaling = bitmap.width > bigImageSizeThreshold || bitmap.height > bigImageSizeThreshold;
-            bitmap.close();
+            let needsScaling = false;
+            try {
+              const bitmap = await createImageBitmap(thumbnailSource);
+              needsScaling = bitmap.width > bigImageSizeThreshold || bitmap.height > bigImageSizeThreshold;
+              bitmap.close();
+            } catch (err) {
+              console.warn(
+                "Could not determine whether the image exceeds the big image size threshold; skipping the scaled version.",
+                err
+              );
+            }
             if (needsScaling) {
               const sourceForScaled = attachment.filename ? renameFile(thumbnailSource, attachment.filename) : thumbnailSource;
               const scaledOperations = [

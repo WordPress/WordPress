@@ -6047,8 +6047,8 @@ var wp;
   // packages/blocks/build-module/api/raw-handling/shortcode-converter.mjs
   var import_shortcode = __toESM(require_shortcode(), 1);
   var castArray = (maybeArray) => Array.isArray(maybeArray) ? maybeArray : [maybeArray];
-  var beforeLineRegexp = /(\n|<p>|<br\s*\/?>)\s*$/;
-  var afterLineRegexp = /^\s*(\n|<\/p>|<br\s*\/?>)/;
+  var beforeLineRegexp = /(^|\n|<p>|<br\s*\/?>)\s*$/;
+  var afterLineRegexp = /^\s*($|\n|<\/p>|<br\s*\/?>)/;
   function segmentHTMLToShortcodeBlock(HTML, lastIndex = 0, excludedBlockNames = []) {
     const transformsFrom = getBlockTransforms("from").filter(
       (transform) => transform.type === "shortcode"
@@ -6074,7 +6074,9 @@ var wp;
     lastIndex = match.index + match.content.length;
     const beforeHTML = HTML.substr(0, match.index);
     const afterHTML = HTML.substr(lastIndex);
-    if (!match.shortcode.content?.includes("<") && !(beforeLineRegexp.test(beforeHTML) && afterLineRegexp.test(afterHTML))) {
+    const isLineStart = beforeLineRegexp.test(beforeHTML);
+    const isLineEnd = afterLineRegexp.test(afterHTML);
+    if (!isLineStart && !isLineEnd) {
       return segmentHTMLToShortcodeBlock(HTML, lastIndex);
     }
     if (transformation.isMatch && !transformation.isMatch(match.shortcode.attrs)) {
@@ -6123,10 +6125,36 @@ var wp;
       block = applyBuiltInValidationFixes(block, transformationBlockType);
       blocks = [block];
     }
+    if (isLineStart && isLineEnd) {
+      return [
+        ...segmentHTMLToShortcodeBlock(
+          beforeHTML.replace(beforeLineRegexp, "")
+        ),
+        ...blocks,
+        ...segmentHTMLToShortcodeBlock(
+          afterHTML.replace(afterLineRegexp, "")
+        )
+      ];
+    }
+    if (!blocks.every(
+      (block) => ["left", "center", "right"].includes(
+        block.attributes.align
+      )
+    )) {
+      return segmentHTMLToShortcodeBlock(HTML, lastIndex);
+    }
+    if (isLineStart) {
+      const lineStart = beforeHTML.search(beforeLineRegexp);
+      return [
+        ...segmentHTMLToShortcodeBlock(beforeHTML.slice(0, lineStart)),
+        ...blocks,
+        ...segmentHTMLToShortcodeBlock(
+          beforeHTML.slice(lineStart) + afterHTML
+        )
+      ];
+    }
     return [
-      ...segmentHTMLToShortcodeBlock(
-        beforeHTML.replace(beforeLineRegexp, "")
-      ),
+      ...segmentHTMLToShortcodeBlock(beforeHTML),
       ...blocks,
       ...segmentHTMLToShortcodeBlock(
         afterHTML.replace(afterLineRegexp, "")

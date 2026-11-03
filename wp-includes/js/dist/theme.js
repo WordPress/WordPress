@@ -5023,9 +5023,9 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle("8d074a190c", "._0ebd6d9bf8b95794__wrapper{display:contents}");
+    registerStyle("a4c4016022", "._469c5f47eb2ba16a__wrapper{display:contents}");
   }
-  var style_default = { "wrapper": "_0ebd6d9bf8b95794__wrapper" };
+  var style_default = { "wrapper": "_469c5f47eb2ba16a__wrapper" };
   var rootProviderCountByDocument = /* @__PURE__ */ new WeakMap();
   var ThemeProvider = ({
     children,

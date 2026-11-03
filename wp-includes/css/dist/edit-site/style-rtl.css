@@ -2903,7 +2903,9 @@ div.dataviews-view-list {
 .dataforms-layouts-panel__field-label {
   width: 38%;
   flex-shrink: 0;
+  box-sizing: border-box;
   min-height: var(--wpds-dimension-size-sm, 24px);
+  padding-block: calc((var(--wpds-dimension-size-sm, 24px) - 1lh) / 2);
   display: flex;
   align-items: center;
   line-height: var(--wpds-typography-line-height-sm, 20px);
@@ -2933,8 +2935,10 @@ div.dataviews-view-list {
 .dataforms-layouts-panel__field-control {
   flex-grow: 1;
   min-width: 0;
+  box-sizing: border-box;
   min-height: var(--wpds-dimension-size-sm, 24px);
-  line-height: var(--wpds-typography-line-height-md, 24px);
+  line-height: var(--wpds-typography-line-height-sm, 20px);
+  padding-block: calc((var(--wpds-dimension-size-sm, 24px) - 1lh) / 2);
   display: flex;
   align-items: center;
   overflow: clip;
