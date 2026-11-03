@@ -3955,6 +3955,8 @@ function wp_post_mime_type_where( $post_mime_types, $table_alias = '' ) {
 	$wildcards = array( '', '%', '%/%' );
 	if ( is_string( $post_mime_types ) ) {
 		$post_mime_types = array_map( 'trim', explode( ',', $post_mime_types ) );
+		// Skip empty items left by extra commas, so they do not match the '' wildcard.
+		$post_mime_types = array_diff( $post_mime_types, array( '' ) );
 	}
 
 	$where_clauses = array();
