@@ -840,9 +840,9 @@ function metadata_exists( $meta_type, $object_id, $meta_key ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $meta_type Type of object metadata is for. Accepts 'blog', 'post', 'comment', 'term',
- *                          'user', or any other object type with an associated meta table.
- * @param int    $meta_id   ID for a specific meta row.
+ * @param string     $meta_type Type of object metadata is for. Accepts 'blog', 'post', 'comment', 'term',
+ *                              'user', or any other object type with an associated meta table.
+ * @param int|string $meta_id   ID for a specific meta row.
  * @return stdClass|false {
  *     Metadata object, or boolean `false` if the metadata doesn't exist.
  *
@@ -856,6 +856,8 @@ function metadata_exists( $meta_type, $object_id, $meta_key ) {
  *     @type string $term_id    Optional. The object ID when the meta type is 'term'.
  *     @type string $user_id    Optional. The object ID when the meta type is 'user'.
  * }
+ *
+ * @phpstan-param int|numeric-string $meta_id
  */
 function get_metadata_by_mid( $meta_type, $meta_id ) {
 	global $wpdb;
@@ -923,10 +925,12 @@ function get_metadata_by_mid( $meta_type, $meta_id ) {
  *
  * @param string       $meta_type  Type of object metadata is for. Accepts 'blog', 'post', 'comment', 'term',
  *                                 'user', or any other object type with an associated meta table.
- * @param int          $meta_id    ID for a specific meta row.
+ * @param int|string   $meta_id    ID for a specific meta row.
  * @param string       $meta_value Metadata value. Must be serializable if non-scalar.
  * @param string|false $meta_key   Optional. You can provide a meta key to update it. Default false.
  * @return bool True on successful update, false on failure.
+ *
+ * @phpstan-param int|numeric-string $meta_id
  */
 function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = false ) {
 	global $wpdb;
@@ -1048,10 +1052,12 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $meta_type Type of object metadata is for. Accepts 'blog', 'post', 'comment', 'term',
- *                          'user', or any other object type with an associated meta table.
- * @param int    $meta_id   ID for a specific meta row.
+ * @param string     $meta_type Type of object metadata is for. Accepts 'blog', 'post', 'comment', 'term',
+ *                              'user', or any other object type with an associated meta table.
+ * @param int|string $meta_id   ID for a specific meta row.
  * @return bool True on successful delete, false on failure.
+ *
+ * @phpstan-param int|numeric-string $meta_id
  */
 function delete_metadata_by_mid( $meta_type, $meta_id ) {
 	global $wpdb;
