@@ -210,6 +210,7 @@ class WP_Site_Health_Auto_Updates {
 	 * Checks if WordPress is controlled by a VCS (Git, Subversion etc).
 	 *
 	 * @since 5.2.0
+	 * @since 7.2.0 Detects a `.git` file, as used by Git worktrees and submodules.
 	 *
 	 * @return array The test results.
 	 */
@@ -243,7 +244,8 @@ class WP_Site_Health_Auto_Updates {
 					continue;
 				}
 
-				$checkout = is_dir( rtrim( $check_dir, '\\/' ) . "/$vcs_dir" );
+				// In a Git worktree or submodule, `.git` is a file rather than a directory.
+				$checkout = file_exists( rtrim( $check_dir, '\\/' ) . "/$vcs_dir" );
 				if ( $checkout ) {
 					break 2;
 				}

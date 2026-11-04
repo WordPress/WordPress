@@ -192,6 +192,7 @@ class WP_Automatic_Updater {
 	 * how things get updated.
 	 *
 	 * @since 3.7.0
+	 * @since 7.2.0 Detects a `.git` file, as used by Git worktrees and submodules.
 	 *
 	 * @param string $context The filesystem path to check, in addition to ABSPATH.
 	 * @return bool True if a VCS checkout was discovered at `$context` or ABSPATH,
@@ -230,7 +231,8 @@ class WP_Automatic_Updater {
 					continue;
 				}
 
-				$checkout = is_dir( rtrim( $check_dir, '\\/' ) . "/$vcs_dir" );
+				// In a Git worktree or submodule, `.git` is a file rather than a directory.
+				$checkout = file_exists( rtrim( $check_dir, '\\/' ) . "/$vcs_dir" );
 				if ( $checkout ) {
 					break 2;
 				}
