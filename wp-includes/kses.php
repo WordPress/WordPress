@@ -3403,9 +3403,15 @@ function wp_kses_normalize_entities3( $matches ) {
 }
 
 /**
- * Determines if a Unicode codepoint is valid.
+ * Determines whether a code point is allowed by the XML Char production.
  *
- * The definition of a valid Unicode codepoint is taken from the XML definition:
+ * Despite its name, this helper does not report whether a code point is valid
+ * Unicode. It follows the XML Char production: C0 controls other than
+ * HT/LF/CR are rejected even though they are valid Unicode (for example
+ * U+0008 BACKSPACE), as are surrogates and U+FFFE/U+FFFF.
+ *
+ * Prefer the newer Unicode/UTF-8 helpers (for example {@see wp_is_valid_utf8()})
+ * rather than extending call sites here.
  *
  * > Characters
  * >
@@ -3419,8 +3425,8 @@ function wp_kses_normalize_entities3( $matches ) {
  *
  * @link https://www.w3.org/TR/xml/#charsets
  *
- * @param int $i Unicode codepoint.
- * @return bool Whether or not the codepoint is a valid Unicode codepoint.
+ * @param int $i Code point to check.
+ * @return bool Whether the code point is allowed by the XML Char production.
  */
 function valid_unicode( $i ) {
 	$i = (int) $i;
