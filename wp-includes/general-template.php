@@ -4983,7 +4983,7 @@ function paginate_links( $args = '' ) {
 	$url_parts    = explode( '?', $pagenum_link );
 
 	// Get max pages and current page out of the current query, if available.
-	$total   = $wp_query->max_num_pages ?? 1;
+	$total   = $wp_query->max_num_pages;
 	$current = get_query_var( 'paged' ) ? (int) get_query_var( 'paged' ) : 1;
 
 	/*
