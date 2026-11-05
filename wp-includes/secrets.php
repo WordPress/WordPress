@@ -50,7 +50,7 @@ define( 'WP_SECRETS_ERROR_INVALID_VALUE', 'secret_invalid_value' );
 /**
  * A caller passed an argument this API cannot act on.
  *
- * An unrecognized version constant, or an invalid scope, slot, or site id.
+ * An unrecognized version constant, or an invalid scope, slot, or site ID.
  *
  * Distinct from the codes above in cause rather than in severity: those describe
  * a runtime condition a correct caller can still hit (a name that failed
@@ -86,9 +86,9 @@ define( 'WP_SECRETS_ERROR_RECORD_MALFORMED', 'secret_record_malformed' );
  *
  * Distinct from WP_SECRETS_ERROR_RECORD_MALFORMED so that an operator, or Site
  * Health, can tell a corrupt record apart from one written by a newer version of
- * this plugin than is currently active. See
- * docs/decisions/0006-record-format-v2-not-read-compatible.md. The upgrade path for a future v2 is not
- * designed, so an unrecognized version is rejected outright rather than guessed at.
+ * WordPress than is currently running. The upgrade path for a future record format
+ * is not designed, so an unrecognized version is rejected outright rather than
+ * guessed at.
  *
  * @since 7.2.0
  */
@@ -184,15 +184,19 @@ function wp_secrets_memzero( &$value ): void {
 			$alias =& $value;
 			sodium_memzero( $alias );
 		} catch ( \Throwable $e ) {
-			// A value this function doesn't exclusively own (a shared,
-			// copy-on-write buffer) can legitimately refuse. The unconditional
-			// reassignment below still runs regardless of what happened here.
+			/*
+			 * A value this function doesn't exclusively own (a shared,
+			 * copy-on-write buffer) can legitimately refuse. The unconditional
+			 * reassignment below still runs regardless of what happened here.
+			 */
 			unset( $e );
 		}
 	}
 
-	// Reached on every path, including sodium_memzero() success (it leaves the
-	// variable null, not an empty string) so callers see one consistent contract.
+	/*
+	 * Reached on every path, including sodium_memzero() success (it leaves the
+	 * variable null, not an empty string) so callers see one consistent contract.
+	 */
 	$value = '';
 }
 
@@ -208,9 +212,9 @@ function wp_secrets_memzero( &$value ): void {
  * plugin that can run PHP can read any secret, namespaced or not.
  *
  * An unnamespaced name ('secret-name', no '/') is accepted, but reports through
- * _doing_it_wrong(). It exists for one reason: code written against the earlier
- * prototype used a flat keyspace, and refusing those names outright would mean
- * every such call site has to be rewritten before it can be ported at all.
+ * _doing_it_wrong(). It exists for one reason: existing code may already use a flat
+ * keyspace, and refusing those names outright would mean every such call site has
+ * to be rewritten before it can be ported at all.
  * Accepting them keeps that migration incremental. Nothing else should use one.
  * Two plugins that both choose 'api-key' collide silently, which is a real problem
  * even though it is not a security one.
@@ -268,7 +272,7 @@ function wp_secrets_validate_name( string $name ) {
 			__FUNCTION__,
 			sprintf(
 				/* translators: %s: The unnamespaced secret name. */
-				__( 'The secret name "%s" has no namespace. Namespaced names ("plugin-slug/secret-name") group secrets by owner so that listings and admin screens can be organized; unnamespaced names are supported only so that code written against the Displace prototype can be ported incrementally.' ),
+				__( 'The secret name "%s" has no namespace. Namespaced names ("plugin-slug/secret-name") group secrets by owner so that listings and admin screens can be organized; unnamespaced names are supported only so that existing code using flat names can be ported incrementally.' ),
 				$name
 			),
 			'7.2.0'
@@ -301,10 +305,10 @@ function wp_secrets_validate_name( string $name ) {
 /**
  * Returns the active secret store.
  *
- * No filter is applied here, or anywhere on the retrieval path. See
- * docs/spec/extension-points.md. A secrets.php drop-in overrides the store by setting
- * $GLOBALS['wp_secrets_store'] to an instance before this is first called, and
- * that global is checked here directly, not through a hook.
+ * No filter is applied here, or anywhere on the retrieval path. A secrets.php
+ * drop-in overrides the store by setting $GLOBALS['wp_secrets_store'] to an
+ * instance before this is first called, and that global is checked here directly,
+ * not through a hook.
  *
  * If the global was set but is not a valid WP_Secrets_Store, or if the drop-in
  * itself failed to load cleanly, this returns WP_Secrets_Broken_Store rather than
@@ -313,6 +317,9 @@ function wp_secrets_validate_name( string $name ) {
  * be the exact silent downgrade this API refuses to make.
  *
  * @since 7.2.0
+ *
+ * @global bool             $wp_secrets_dropin_broken Whether the secrets.php drop-in failed to load cleanly.
+ * @global WP_Secrets_Store $wp_secrets_store         Optional. Store override set by the drop-in.
  *
  * @return WP_Secrets_Store
  */
@@ -350,6 +357,9 @@ function _wp_secrets_get_store(): WP_Secrets_Store {
  *
  * @since 7.2.0
  *
+ * @global bool               $wp_secrets_dropin_broken Whether the secrets.php drop-in failed to load cleanly.
+ * @global WP_Secrets_Keyring $wp_secrets_keyring       Optional. Keyring override set by the drop-in.
+ *
  * @return WP_Secrets_Key_Manager
  */
 function _wp_secrets_get_key_manager(): WP_Secrets_Key_Manager {
@@ -385,29 +395,13 @@ function _wp_secrets_get_key_manager(): WP_Secrets_Key_Manager {
  *
  * @since 7.2.0
  *
+ * @global bool $wp_secrets_dropin_loaded Whether a secrets.php drop-in file was found.
+ *
  * @return bool
  */
 function wp_using_secrets_dropin(): bool {
 	return ! empty( $GLOBALS['wp_secrets_dropin_loaded'] );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Encrypts and stores a secret.
@@ -430,10 +424,9 @@ function wp_set_secret( string $name, $value ) {
 /**
  * Imports an existing option's value as a secret.
  *
- * For an explicit migration, "on their own explicit upgrade schedule,"
- * in the proposal's words, because "core cannot reliably tell which options are
- * credentials, and guessing would break sites." The source option is left
- * untouched: this reads it, it does not move or delete it.
+ * For an explicit migration on the caller's own schedule, because core cannot
+ * reliably tell which options are credentials, and guessing would break sites. The
+ * source option is left untouched: this reads it, it does not move or delete it.
  *
  * The imported secret is flagged needs_rotation, unconditionally. A credential that
  * sat in a plain option has already been through however many backups and
@@ -474,8 +467,6 @@ function wp_import_option_as_secret( string $option, string $name ) {
 	return _wp_secrets_set( $name, $value, false, true, 'imported' );
 }
 
-
-
 /**
  * Retrieves a secret.
  *
@@ -514,8 +505,6 @@ function wp_delete_secret( string $name ) {
  * that has never been rotated, or that does not exist, is a successful no-op:
  * the previous slot is already absent either way.
  *
- * Beyond the API surface the proposal names.
- *
  * @since 7.2.0
  *
  * @param string $name The secret's namespaced name.
@@ -528,10 +517,6 @@ function wp_retire_secret_version( string $name ) {
 /**
  * Lists secrets by name and metadata. Never a value.
  *
- * Beyond the API surface the proposal names, and justified by its statement that
- * the hooks and accessors a future admin screen needs are in scope now, even though
- * the screen itself is not.
- *
  * @since 7.2.0
  *
  * @param string $namespace Only secrets whose name starts with "{$namespace}/" are
@@ -542,7 +527,7 @@ function wp_retire_secret_version( string $name ) {
  *
  * @phpstan-return list<array{name: string, fingerprint: string, created: int, has_previous: bool, needs_rotation: bool}>|WP_Error
  */
-function wp_list_secrets( string $namespace = '' ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.namespaceFound -- $namespace is the parameter name the proposal specifies.
+function wp_list_secrets( string $namespace = '' ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.namespaceFound -- $namespace is the public parameter name; renaming it would break named-argument callers.
 	return _wp_secrets_list( $namespace, false );
 }
 
@@ -551,8 +536,7 @@ function wp_list_secrets( string $namespace = '' ) { // phpcs:ignore Universal.N
  *
  * Site secrets and network secrets are separate functions with separate
  * capabilities and separate storage prefixes, with no implicit fallback from one
- * scope to the other. The proposal describes network scope but does not name these
- * functions; these are this implementation's names for them.
+ * scope to the other.
  *
  * @since 7.2.0
  *
@@ -640,6 +624,9 @@ function wp_list_network_secrets( string $namespace = '' ) { // phpcs:ignore Uni
  * to be empty.
  *
  * @since 7.2.0
+ *
+ * @global bool                $wp_secrets_dropin_broken Whether the secrets.php drop-in failed to load cleanly.
+ * @global WP_Secrets_Provider $wp_secrets_provider      Optional. Provider override set by the drop-in.
  *
  * @return WP_Secrets_Provider
  */

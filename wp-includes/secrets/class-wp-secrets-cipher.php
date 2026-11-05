@@ -256,7 +256,7 @@ final class WP_Secrets_Cipher {
 	 *
 	 * @param string $purpose One of the AAD_* class constants.
 	 * @param string $scope   'site' or 'network'.
-	 * @param int    $site_id Blog id for site scope, 0 for network scope.
+	 * @param int    $site_id Blog ID for site scope, 0 for network scope.
 	 * @param string $name    Validated secret name.
 	 * @param string $slot    A WP_Secret_Version constant.
 	 * @return string
@@ -284,7 +284,7 @@ final class WP_Secrets_Cipher {
 	 *
 	 * @param string $master_key Candidate master key.
 	 * @param string $scope      Candidate scope.
-	 * @param int    $site_id    Candidate site id.
+	 * @param int    $site_id    Candidate site ID.
 	 * @param string $name       Candidate secret name.
 	 * @param string $slot       Candidate slot.
 	 * @return true|WP_Error

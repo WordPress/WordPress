@@ -22,7 +22,7 @@
  * - Site scope, blog N: sodium_crypto_kdf_derive_from_key( 32, N, 'wpsecsit', $root ).
  *   Distinct per blog, which shared network-wide salts otherwise cannot provide.
  * - Network scope: sodium_crypto_kdf_derive_from_key( 32, 0, 'wpsecnet', $root ).
- *   Subkey id 0 is reserved for this (blog ids start at 1) and the context string
+ *   Subkey ID 0 is reserved for this (blog IDs start at 1) and the context string
  *   differs from the site path, so there is no collision between the two. Identical
  *   on every blog, so a network secret written on one blog reads on every other.
  *
@@ -66,9 +66,9 @@ final class WP_Secrets_Key_Manager {
 	const NETWORK_KDF_CONTEXT = 'wpsecnet';
 
 	/**
-	 * Reserved KDF subkey id for network scope.
+	 * Reserved KDF subkey ID for network scope.
 	 *
-	 * Blog ids start at 1, so this can never collide with a site-scope subkey id.
+	 * Blog IDs start at 1, so this can never collide with a site-scope subkey ID.
 	 *
 	 * @since 7.2.0
 	 * @var int
@@ -136,11 +136,11 @@ final class WP_Secrets_Key_Manager {
 	 * @since 7.2.0
 	 *
 	 * @param string   $scope   'site' or 'network'.
-	 * @param int|null $site_id Blog id for site scope. Defaults to the current blog.
+	 * @param int|null $site_id Blog ID for site scope. Defaults to the current blog.
 	 *                          Ignored for network scope.
 	 * @return string|WP_Error 32-byte master key on success. WP_Error on failure,
 	 *                         including when a caller passes an invalid scope or
-	 *                         site id – see WP_Secrets_Cipher::validate_common()
+	 *                         site ID – see WP_Secrets_Cipher::validate_common()
 	 *                         for why that is a WP_Error and not an exception.
 	 *
 	 * @phpstan-param 'site'|'network' $scope

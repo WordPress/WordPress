@@ -233,7 +233,7 @@ final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
 	 * @param WP_Secrets_Cipher $cipher       A cipher instance.
 	 * @param string            $master_key   32-byte master key.
 	 * @param string            $scope        'site' or 'network'.
-	 * @param int               $site_id      Blog id for site scope, 0 for network scope.
+	 * @param int               $site_id      Blog ID for site scope, 0 for network scope.
 	 * @param string            $name         The secret's namespaced name.
 	 * @param array<mixed>      $current_slot The outgoing current slot, as stored.
 	 * @return array|WP_Error The same value, re-encrypted and bound to
@@ -419,15 +419,15 @@ final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
 		/**
 		 * Fires whenever a secret is created, updated, deleted, imported, or retired.
 		 *
-		 * The only hook in the core-bound Secrets API code, and it does not fire on the
-		 * retrieval path. Fingerprints are readable; values are never passed.
+		 * This hook does not fire on the retrieval path. Fingerprints are passed;
+		 * values never are.
 		 *
 		 * @since 7.2.0
 		 *
 		 * @param string $name            The secret's namespaced name.
 		 * @param string $action          One of 'created', 'updated', 'deleted',
 		 *                                'imported', 'retired'.
-		 * @param int    $actor_id        The current user id, or 0.
+		 * @param int    $actor_id        The current user ID, or 0.
 		 * @param int    $timestamp       Unix timestamp of the change.
 		 * @param string $old_fingerprint The previous fingerprint, or '' if none.
 		 * @param string $new_fingerprint The new fingerprint, or '' if the secret was deleted.
@@ -485,8 +485,10 @@ final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
 		}
 
 		if ( ! isset( $record[ $version ] ) || ! is_array( $record[ $version ] ) ) {
-			// The secret exists, but this slot does not. Absence, not an error –
-			// this matters most for PREVIOUS on a secret that has never been rotated.
+			/*
+			 * The secret exists, but this slot does not. Absence, not an error –
+			 * this matters most for PREVIOUS on a secret that has never been rotated.
+			 */
 			return null;
 		}
 
@@ -587,10 +589,6 @@ final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
 	 *
 	 * Backs wp_retire_secret_version() and wp_retire_network_secret_version().
 	 *
-	 * Beyond the API surface the proposal names. It states that retirement is "an
-	 * explicit operator action" but names no function; this is this implementation's
-	 * name for it, pending confirmation in the comments thread.
-	 *
 	 * @since 7.2.0
 	 *
 	 * @param string $name    The secret's namespaced name.
@@ -650,10 +648,6 @@ final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
 
 	/**
 	 * Shared implementation behind wp_list_secrets() and wp_list_network_secrets().
-	 *
-	 * Beyond the API surface the proposal names, and justified by its statement that
-	 * "the hooks and accessors an admin screen would need are in scope now; the screen
-	 * itself is not."
 	 *
 	 * Fingerprints returned here come directly from the stored record field, not
 	 * recomputed by decrypting each secret. That is a deliberate difference from

@@ -849,6 +849,12 @@ function wp_using_ext_object_cache( $using = null ) {
  *
  * @since 7.2.0
  * @access private
+ *
+ * @global bool                $wp_secrets_dropin_loaded Whether a secrets.php drop-in file was found.
+ * @global bool                $wp_secrets_dropin_broken Whether the drop-in failed to load or left an invalid override.
+ * @global WP_Secrets_Provider $wp_secrets_provider      Optional. Provider override set by the drop-in.
+ * @global WP_Secrets_Store    $wp_secrets_store         Optional. Store override set by the drop-in.
+ * @global WP_Secrets_Keyring  $wp_secrets_keyring       Optional. Keyring override set by the drop-in.
  */
 function wp_load_secrets_dropin(): void {
 	static $loaded = false;
