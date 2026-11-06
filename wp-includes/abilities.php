@@ -17,7 +17,7 @@ require_once __DIR__ . '/abilities/class-wp-abilities-users.php';
  * Registers the core ability categories.
  *
  * @since 6.9.0
- * @since 7.2.0 Added the `content` and `uncategorized` categories.
+ * @since 7.2.0 Added the `content` category.
  */
 function wp_register_core_ability_categories(): void {
 	wp_register_ability_category(
@@ -41,14 +41,6 @@ function wp_register_core_ability_categories(): void {
 		array(
 			'label'       => __( 'Content' ),
 			'description' => __( 'Abilities that retrieve or manage posts and other content.' ),
-		)
-	);
-
-	wp_register_ability_category(
-		'uncategorized',
-		array(
-			'label'       => __( 'Uncategorized' ),
-			'description' => __( 'Abilities that have not been assigned to a specific category.' ),
 		)
 	);
 }
