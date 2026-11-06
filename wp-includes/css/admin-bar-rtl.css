@@ -245,6 +245,12 @@ html:lang(he-il) .rtl #wpadminbar * {
 	color: #72aee6;
 }
 
+/* Painted on the list item, as the item's border-radius (for its focus outline) would round the background. */
+#wpadminbar:not(.mobile) .ab-top-menu > li:hover,
+#wpadminbar .ab-top-menu > li.hover {
+	background: #2c3338;
+}
+
 #wpadminbar > #wp-toolbar li:hover span.ab-label,
 #wpadminbar > #wp-toolbar li.hover span.ab-label,
 /* The adminbar menu may output either links or focusable div elements. */
@@ -643,6 +649,10 @@ html:lang(he-il) .rtl #wpadminbar * {
 /**
  * Search
  */
+#wpadminbar #wp-admin-bar-search {
+	background: none;
+}
+
 #wpadminbar #wp-admin-bar-search .ab-item {
 	padding: 0;
 	background: transparent;

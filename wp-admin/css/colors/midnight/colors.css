@@ -521,6 +521,12 @@ ul#adminmenu > li.current > a.current::after {
   color: #fff;
 }
 
+#wpadminbar:not(.mobile) .ab-top-menu > li:hover,
+#wpadminbar.nojs .ab-top-menu > li.menupop:hover,
+#wpadminbar .ab-top-menu > li.menupop.hover {
+  background: rgb(35.4384615385, 41.6923076923, 45.8615384615);
+}
+
 #wpadminbar > #wp-toolbar li:hover span.ab-label,
 #wpadminbar > #wp-toolbar li.hover span.ab-label,
 #wpadminbar > #wp-toolbar :focus span.ab-label {
@@ -615,6 +621,10 @@ ul#adminmenu > li.current > a.current::after {
 #wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode > .ab-item:focus {
   color: #1e1e1e;
   outline-color: currentColor;
+}
+
+#wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode:hover {
+  background-color: rgb(94.5, 151.2, 168.3);
 }
 
 /* Admin Bar: my account */
