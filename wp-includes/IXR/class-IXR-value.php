@@ -52,10 +52,10 @@ class IXR_Value {
         }
 
         // Deal with IXR object types base64 and date
-        if (is_object($this->data) && is_a($this->data, 'IXR_Date')) {
+        if ($this->data instanceof IXR_Date) {
             return 'date';
         }
-        if (is_object($this->data) && is_a($this->data, 'IXR_Base64')) {
+        if ($this->data instanceof IXR_Base64) {
             return 'base64';
         }
 

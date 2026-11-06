@@ -59,7 +59,7 @@ class IXR_Server
         $result = $this->call($this->message->methodName, $this->message->params);
 
         // Is the result an error?
-        if (is_a($result, 'IXR_Error')) {
+        if ($result instanceof IXR_Error) {
             $this->error($result);
         }
 
@@ -234,7 +234,7 @@ EOD;
             } else {
                 $result = $this->call($method, $params);
             }
-            if (is_a($result, 'IXR_Error')) {
+            if ($result instanceof IXR_Error) {
                 $return[] = array(
                     'faultCode' => $result->code,
                     'faultString' => $result->message
