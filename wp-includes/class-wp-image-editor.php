@@ -559,6 +559,7 @@ abstract class WP_Image_Editor {
 	 * Either calls editor's save function or handles file as a stream.
 	 *
 	 * @since 3.5.0
+	 * @since 7.2.0 Returns false when the image cannot be fully written to a stream.
 	 *
 	 * @param string   $filename
 	 * @param callable $callback
@@ -579,15 +580,17 @@ abstract class WP_Image_Editor {
 		if ( $result && $stream ) {
 			$contents = ob_get_contents();
 
-			$fp = fopen( $filename, 'w' );
-
-			if ( ! $fp ) {
-				ob_end_clean();
-				return false;
+			/*
+			 * file_put_contents() returns false if the stream cannot be opened, or if fewer
+			 * bytes are written than the image contains.
+			 *
+			 * As of PHP 8.6, false is also returned when flushing or closing the stream fails.
+			 * For stream wrappers that only send data on flush or close, such a failure means
+			 * the image was never saved.
+			 */
+			if ( false === file_put_contents( $filename, $contents ) ) {
+				$result = false;
 			}
-
-			fwrite( $fp, $contents );
-			fclose( $fp );
 		}
 
 		if ( $stream ) {
