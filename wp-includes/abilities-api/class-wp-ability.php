@@ -566,9 +566,9 @@ class WP_Ability {
 	 * Coerces validated input to the types declared in the input schema.
 	 *
 	 * Also applies schema format sanitization, such as stripping tags for
-	 * `text-field` and sanitizing URLs for `uri`, using rest_sanitize_value_from_schema().
+	 * `text-field` and sanitizing URLs for `uri`, using `rest_sanitize_value_from_schema()`.
 	 *
-	 * Call validate_input() before this method. Coercing unvalidated input can
+	 * Call `validate_input()` before this method. Coercing unvalidated input can
 	 * remove unknown properties or cast invalid values, hiding validation errors.
 	 * This method does not apply defaults or run input validation filters.
 	 *
@@ -577,10 +577,10 @@ class WP_Ability {
 	 *
 	 * @since 7.2.0
 	 *
-	 * @see validate_input()
+	 * @see WP_Ability::validate_input()
 	 *
 	 * @param mixed $input Validated ability input.
-	 * @return mixed|WP_Error Coerced input, or WP_Error when it cannot be safely coerced.
+	 * @return mixed|WP_Error Coerced input, or `WP_Error` when it cannot be safely coerced.
 	 */
 	public function coerce_input( $input ) {
 		$schema = $this->get_input_schema();
@@ -751,8 +751,20 @@ class WP_Ability {
 	/**
 	 * Checks whether the ability has the necessary permissions.
 	 *
-	 * Please note that input is not automatically validated against the input schema.
-	 * Use `validate_input()` method to validate input before calling this method if needed.
+	 * This method does not prepare the input. Use `execute()` to run the full ability
+	 * lifecycle, which prepares the input before calling this method.
+	 *
+	 * When calling this method directly, prepare the input in the same order as
+	 * `execute()`, and stop if any step returns a `WP_Error`:
+	 *
+	 *  1. `normalize_input()` applies the schema default and returns the input.
+	 *  2. `validate_input()` checks the input against the schema and returns `true`.
+	 *  3. `coerce_input()` converts values to the schema types and returns the input
+	 *     to pass to this method.
+	 *
+	 * Skipping these steps means the permission callback may receive different input
+	 * than it does during `execute()`, such as a missing schema default or a string
+	 * instead of an integer.
 	 *
 	 * The checks run in this order:
 	 *
@@ -768,9 +780,13 @@ class WP_Ability {
 	 * @since 7.1.0 Added the `wp_ability_permission_result` filter.
 	 * @since 7.2.0 Added the `required_capabilities` check.
 	 *
-	 * @see validate_input()
+	 * @see WP_Ability::normalize_input()
+	 * @see WP_Ability::validate_input()
+	 * @see WP_Ability::coerce_input()
+	 * @see WP_Ability::execute()
 	 *
-	 * @param mixed $input Optional. The valid input data for permission checking. Default `null`.
+	 * @param mixed $input Optional. The normalized, validated, and coerced input data for permission checking.
+	 *                     Default `null`.
 	 * @return bool|WP_Error Whether the ability has the necessary permission.
 	 */
 	public function check_permissions( $input = null ) {
