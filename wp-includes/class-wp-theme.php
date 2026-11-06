@@ -1394,10 +1394,8 @@ final class WP_Theme implements ArrayAccess {
 				}
 
 				foreach ( $types as $type ) {
-					$type = sanitize_key( $type );
-					if ( ! isset( $post_templates[ $type ] ) ) {
-						$post_templates[ $type ] = array();
-					}
+					$type                      = sanitize_key( $type );
+					$post_templates[ $type ] ??= array();
 
 					$post_templates[ $type ][ $file ] = $headers['TemplateName'];
 				}

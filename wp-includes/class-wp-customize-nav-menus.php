@@ -977,9 +977,6 @@ final class WP_Customize_Nav_Menus {
 		if ( empty( $postarr['post_name'] ) ) {
 			$postarr['post_name'] = sanitize_title( $postarr['post_title'] );
 		}
-		if ( ! isset( $postarr['meta_input'] ) ) {
-			$postarr['meta_input'] = array();
-		}
 		$postarr['meta_input']['_customize_draft_post_name'] = $postarr['post_name'];
 		$postarr['meta_input']['_customize_changeset_uuid']  = $this->manager->changeset_uuid();
 		unset( $postarr['post_name'] );

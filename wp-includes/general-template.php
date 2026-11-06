@@ -5200,9 +5200,7 @@ function paginate_links( $args = '' ) {
 function wp_admin_css_color( $key, $name, $url, $colors = array(), $icons = array() ) {
 	global $_wp_admin_css_colors;
 
-	if ( ! isset( $_wp_admin_css_colors ) ) {
-		$_wp_admin_css_colors = array();
-	}
+	$_wp_admin_css_colors ??= array();
 
 	$_wp_admin_css_colors[ $key ] = (object) array(
 		'name'        => $name,

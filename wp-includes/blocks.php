@@ -979,12 +979,6 @@ function get_hooked_blocks() {
 			continue;
 		}
 		foreach ( $block_type->block_hooks as $anchor_block_type => $relative_position ) {
-			if ( ! isset( $hooked_blocks[ $anchor_block_type ] ) ) {
-				$hooked_blocks[ $anchor_block_type ] = array();
-			}
-			if ( ! isset( $hooked_blocks[ $anchor_block_type ][ $relative_position ] ) ) {
-				$hooked_blocks[ $anchor_block_type ][ $relative_position ] = array();
-			}
 			$hooked_blocks[ $anchor_block_type ][ $relative_position ][] = $block_type->name;
 		}
 	}
@@ -1490,9 +1484,6 @@ function update_ignored_hooked_blocks_postmeta( $post ) {
 			$ignored_hooked_blocks          = array_unique( array_merge( $ignored_hooked_blocks, $existing_ignored_hooked_blocks ) );
 		}
 
-		if ( ! isset( $post->meta_input ) ) {
-			$post->meta_input = array();
-		}
 		$post->meta_input['_wp_ignored_hooked_blocks'] = json_encode( $ignored_hooked_blocks );
 	}
 

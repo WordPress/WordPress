@@ -204,9 +204,7 @@ final class WP_Speculation_Rules implements JsonSerializable {
 			}
 		}
 
-		if ( ! isset( $this->rules_by_mode[ $mode ] ) ) {
-			$this->rules_by_mode[ $mode ] = array();
-		}
+		$this->rules_by_mode[ $mode ] ??= array();
 
 		$this->rules_by_mode[ $mode ][ $id ] = $rule;
 		return true;

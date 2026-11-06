@@ -43,17 +43,11 @@ if ( $wp_filter ) {
 	$wp_filter = array();
 }
 
-if ( ! isset( $wp_actions ) ) {
-	$wp_actions = array();
-}
+$wp_actions ??= array();
 
-if ( ! isset( $wp_filters ) ) {
-	$wp_filters = array();
-}
+$wp_filters ??= array();
 
-if ( ! isset( $wp_current_filter ) ) {
-	$wp_current_filter = array();
-}
+$wp_current_filter ??= array();
 
 /**
  * Adds a callback function to a filter hook.

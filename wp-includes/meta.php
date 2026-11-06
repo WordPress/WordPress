@@ -1288,10 +1288,8 @@ function update_meta_cache( $meta_type, $object_ids ) {
 
 	$data = array();
 	foreach ( $non_cached_ids as $id ) {
-		if ( ! isset( $cache[ $id ] ) ) {
-			$cache[ $id ] = array();
-		}
-		$data[ $id ] = $cache[ $id ];
+		$cache[ $id ] ??= array();
+		$data[ $id ]    = $cache[ $id ];
 	}
 
 	wp_cache_add_multiple( $data, $cache_group );

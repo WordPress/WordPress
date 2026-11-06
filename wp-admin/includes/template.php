@@ -1098,15 +1098,7 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
 
 	$page = $screen->id;
 
-	if ( ! isset( $wp_meta_boxes ) ) {
-		$wp_meta_boxes = array();
-	}
-	if ( ! isset( $wp_meta_boxes[ $page ] ) ) {
-		$wp_meta_boxes[ $page ] = array();
-	}
-	if ( ! isset( $wp_meta_boxes[ $page ][ $context ] ) ) {
-		$wp_meta_boxes[ $page ][ $context ] = array();
-	}
+	$wp_meta_boxes[ $page ][ $context ] ??= array();
 
 	foreach ( array_keys( $wp_meta_boxes[ $page ] ) as $a_context ) {
 		foreach ( array( 'high', 'core', 'default', 'low' ) as $a_priority ) {
@@ -1156,10 +1148,6 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
 
 	if ( empty( $priority ) ) {
 		$priority = 'low';
-	}
-
-	if ( ! isset( $wp_meta_boxes[ $page ][ $context ][ $priority ] ) ) {
-		$wp_meta_boxes[ $page ][ $context ][ $priority ] = array();
 	}
 
 	$wp_meta_boxes[ $page ][ $context ][ $priority ][ $id ] = array(
@@ -1502,15 +1490,7 @@ function remove_meta_box( $id, $screen, $context ) {
 
 	$page = $screen->id;
 
-	if ( ! isset( $wp_meta_boxes ) ) {
-		$wp_meta_boxes = array();
-	}
-	if ( ! isset( $wp_meta_boxes[ $page ] ) ) {
-		$wp_meta_boxes[ $page ] = array();
-	}
-	if ( ! isset( $wp_meta_boxes[ $page ][ $context ] ) ) {
-		$wp_meta_boxes[ $page ][ $context ] = array();
-	}
+	$wp_meta_boxes[ $page ][ $context ] ??= array();
 
 	foreach ( array( 'high', 'core', 'default', 'low' ) as $priority ) {
 		$wp_meta_boxes[ $page ][ $context ][ $priority ][ $id ] = false;

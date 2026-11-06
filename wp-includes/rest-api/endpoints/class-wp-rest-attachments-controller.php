@@ -2253,9 +2253,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		foreach ( get_allowed_mime_types() as $mime_type ) {
 			$parts = explode( '/', $mime_type );
 
-			if ( ! isset( $media_types[ $parts[0] ] ) ) {
-				$media_types[ $parts[0] ] = array();
-			}
+			$media_types[ $parts[0] ] ??= array();
 
 			$media_types[ $parts[0] ][] = $mime_type;
 		}

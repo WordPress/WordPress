@@ -98,10 +98,8 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 		// Get the widget_control and widget_content.
 		require_once ABSPATH . 'wp-admin/includes/widgets.php';
 
-		$widget = $wp_registered_widgets[ $this->widget_id ];
-		if ( ! isset( $widget['params'][0] ) ) {
-			$widget['params'][0] = array();
-		}
+		$widget                = $wp_registered_widgets[ $this->widget_id ];
+		$widget['params'][0] ??= array();
 
 		$args = array(
 			'widget_id'   => $widget['id'],

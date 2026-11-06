@@ -1082,9 +1082,7 @@ final class WP_Customize_Widgets {
 			$sidebar = is_active_widget( $widget['callback'], $widget['id'], false, false );
 			$done[]  = $widget['callback'];
 
-			if ( ! isset( $widget['params'][0] ) ) {
-				$widget['params'][0] = array();
-			}
+			$widget['params'][0] ??= array();
 
 			$available_widget = $widget;
 			unset( $available_widget['callback'] ); // Not serializable to JSON.
@@ -1887,11 +1885,8 @@ final class WP_Customize_Widgets {
 	 */
 	public function filter_wp_kses_allowed_data_attributes( $allowed_html ) {
 		foreach ( array_keys( $this->before_widget_tags_seen ) as $tag_name ) {
-			if ( ! isset( $allowed_html[ $tag_name ] ) ) {
-				$allowed_html[ $tag_name ] = array();
-			}
 			$allowed_html[ $tag_name ] = array_merge(
-				$allowed_html[ $tag_name ],
+				$allowed_html[ $tag_name ] ?? array(),
 				array_fill_keys(
 					array(
 						'data-customize-partial-id',

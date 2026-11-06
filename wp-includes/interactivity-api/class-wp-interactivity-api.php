@@ -218,9 +218,7 @@ final class WP_Interactivity_API {
 
 			$store_namespace = end( $this->namespace_stack );
 		}
-		if ( ! isset( $this->state_data[ $store_namespace ] ) ) {
-			$this->state_data[ $store_namespace ] = array();
-		}
+		$this->state_data[ $store_namespace ] ??= array();
 		if ( is_array( $state ) ) {
 			$this->state_data[ $store_namespace ] = array_replace_recursive(
 				$this->state_data[ $store_namespace ],
@@ -246,9 +244,7 @@ final class WP_Interactivity_API {
 	 *               $config argument was provided.
 	 */
 	public function config( string $store_namespace, array $config = array() ): array {
-		if ( ! isset( $this->config_data[ $store_namespace ] ) ) {
-			$this->config_data[ $store_namespace ] = array();
-		}
+		$this->config_data[ $store_namespace ] ??= array();
 		if ( is_array( $config ) ) {
 			$this->config_data[ $store_namespace ] = array_replace_recursive(
 				$this->config_data[ $store_namespace ],
@@ -286,9 +282,6 @@ final class WP_Interactivity_API {
 	 * @return array Data for the Interactivity Router script module.
 	 */
 	public function filter_script_module_interactivity_router_data( array $data ): array {
-		if ( ! isset( $data['i18n'] ) ) {
-			$data['i18n'] = array();
-		}
 		$data['i18n']['loading'] = __( 'Loading page, please wait.' );
 		$data['i18n']['loaded']  = __( 'Page Loaded.' );
 		return $data;

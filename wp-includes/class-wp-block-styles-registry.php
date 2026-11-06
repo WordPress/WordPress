@@ -116,9 +116,6 @@ final class WP_Block_Styles_Registry {
 		}
 
 		foreach ( $block_names as $name ) {
-			if ( ! isset( $this->registered_block_styles[ $name ] ) ) {
-				$this->registered_block_styles[ $name ] = array();
-			}
 			$this->registered_block_styles[ $name ][ $block_style_name ] = $style_properties;
 		}
 

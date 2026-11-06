@@ -2693,9 +2693,7 @@ class WP_Theme_JSON {
 
 				$target = self::get_feature_selector( $feature_selectors, $preset_metadata['path'][0], $selector );
 
-				if ( ! isset( $vars_by_selector[ $target ] ) ) {
-					$vars_by_selector[ $target ] = array();
-				}
+				$vars_by_selector[ $target ] ??= array();
 
 				foreach ( $values_by_slug as $slug => $value ) {
 					$vars_by_selector[ $target ][] = array(

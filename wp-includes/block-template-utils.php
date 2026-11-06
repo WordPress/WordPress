@@ -1802,9 +1802,6 @@ function inject_ignored_hooked_blocks_metadata_attributes( $changes, $deprecated
 		$wrapper_block         = parse_blocks( $wrapper_block_markup )[0];
 		$ignored_hooked_blocks = $wrapper_block['attrs']['metadata']['ignoredHookedBlocks'] ?? array();
 		if ( ! empty( $ignored_hooked_blocks ) ) {
-			if ( ! isset( $changes->meta_input ) ) {
-				$changes->meta_input = array();
-			}
 			$changes->meta_input['_wp_ignored_hooked_blocks'] = wp_json_encode( $ignored_hooked_blocks );
 		}
 	} else {

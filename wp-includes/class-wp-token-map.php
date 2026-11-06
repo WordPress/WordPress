@@ -314,9 +314,7 @@ class WP_Token_Map {
 			} else {
 				$group = substr( $word, 0, $key_length );
 
-				if ( ! isset( $groups[ $group ] ) ) {
-					$groups[ $group ] = array();
-				}
+				$groups[ $group ] ??= array();
 
 				$groups[ $group ][] = array( substr( $word, $key_length ), $mapping );
 			}

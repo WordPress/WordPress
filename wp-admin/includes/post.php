@@ -2364,9 +2364,7 @@ function get_block_editor_server_block_settings() {
 				continue;
 			}
 
-			if ( ! isset( $blocks[ $block_name ] ) ) {
-				$blocks[ $block_name ] = array();
-			}
+			$blocks[ $block_name ] ??= array();
 
 			$blocks[ $block_name ][ $key ] = $block_type->{ $field };
 		}

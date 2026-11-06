@@ -3731,10 +3731,7 @@ function wp_update_term_count( $terms, $taxonomy, $do_deferred = false ) {
 	}
 
 	if ( wp_defer_term_counting() ) {
-		if ( ! isset( $_deferred[ $taxonomy ] ) ) {
-			$_deferred[ $taxonomy ] = array();
-		}
-		$_deferred[ $taxonomy ] = array_unique( array_merge( $_deferred[ $taxonomy ], $terms ) );
+		$_deferred[ $taxonomy ] = array_unique( array_merge( $_deferred[ $taxonomy ] ?? array(), $terms ) );
 		return true;
 	}
 
@@ -4037,9 +4034,6 @@ function update_object_term_cache( $object_ids, $object_type ) {
 	foreach ( $non_cached_ids as $id ) {
 		foreach ( $taxonomies as $taxonomy ) {
 			if ( ! isset( $object_terms[ $id ][ $taxonomy ] ) ) {
-				if ( ! isset( $object_terms[ $id ] ) ) {
-					$object_terms[ $id ] = array();
-				}
 				$object_terms[ $id ][ $taxonomy ] = array();
 			}
 		}
@@ -4529,10 +4523,8 @@ function _split_shared_term( $term_id, $term_taxonomy_id, $record = true ) {
 
 	// Keep a record of term_ids that have been split, keyed by old term_id. See wp_get_split_term().
 	if ( $record ) {
-		$split_term_data = get_option( '_split_terms', array() );
-		if ( ! isset( $split_term_data[ $term_id ] ) ) {
-			$split_term_data[ $term_id ] = array();
-		}
+		$split_term_data               = get_option( '_split_terms', array() );
+		$split_term_data[ $term_id ] ??= array();
 
 		$split_term_data[ $term_id ][ $term_taxonomy->taxonomy ] = $new_term_id;
 		update_option( '_split_terms', $split_term_data );
@@ -4637,9 +4629,7 @@ function _wp_batch_split_terms() {
 			continue;
 		}
 
-		if ( ! isset( $split_term_data[ $term_id ] ) ) {
-			$split_term_data[ $term_id ] = array();
-		}
+		$split_term_data[ $term_id ] ??= array();
 
 		// Keep track of taxonomies whose hierarchies need flushing.
 		if ( ! isset( $taxonomies[ $shared_tt->taxonomy ] ) ) {

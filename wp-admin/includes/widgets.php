@@ -29,9 +29,7 @@ function wp_list_widgets() {
 		$sidebar = is_active_widget( $widget['callback'], $widget['id'], false, false );
 		$done[]  = $widget['callback'];
 
-		if ( ! isset( $widget['params'][0] ) ) {
-			$widget['params'][0] = array();
-		}
+		$widget['params'][0] ??= array();
 
 		$args = array(
 			'widget_id'   => $widget['id'],

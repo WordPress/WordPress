@@ -248,9 +248,7 @@ class WP_Customize_Setting {
 	 */
 	protected function aggregate_multidimensional() {
 		$id_base = $this->id_data['base'];
-		if ( ! isset( self::$aggregated_multidimensionals[ $this->type ] ) ) {
-			self::$aggregated_multidimensionals[ $this->type ] = array();
-		}
+		self::$aggregated_multidimensionals[ $this->type ] ??= array();
 		if ( ! isset( self::$aggregated_multidimensionals[ $this->type ][ $id_base ] ) ) {
 			self::$aggregated_multidimensionals[ $this->type ][ $id_base ] = array(
 				'previewed_instances'       => array(), // Calling preview() will add the $setting to the array.
@@ -887,9 +885,7 @@ class WP_Customize_Setting {
 				// Account for an array overriding a string or object value.
 				$node = array();
 			}
-			if ( ! isset( $node[ $last ] ) ) {
-				$node[ $last ] = array();
-			}
+			$node[ $last ] ??= array();
 		}
 
 		if ( ! isset( $node[ $last ] ) ) {

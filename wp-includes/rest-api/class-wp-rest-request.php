@@ -325,11 +325,7 @@ class WP_REST_Request implements ArrayAccess {
 		$key   = static::canonicalize_header_name( $key );
 		$value = (array) $value;
 
-		if ( ! isset( $this->headers[ $key ] ) ) {
-			$this->headers[ $key ] = array();
-		}
-
-		$this->headers[ $key ] = array_merge( $this->headers[ $key ], $value );
+		$this->headers[ $key ] = array_merge( $this->headers[ $key ] ?? array(), $value );
 	}
 
 	/**

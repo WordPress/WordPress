@@ -1502,9 +1502,7 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 		$widget_options = array();
 	}
 
-	if ( ! isset( $widget_options[ $widget_id ] ) ) {
-		$widget_options[ $widget_id ] = array();
-	}
+	$widget_options[ $widget_id ] ??= array();
 
 	$number = 1; // Hack to use wp_widget_rss_form().
 

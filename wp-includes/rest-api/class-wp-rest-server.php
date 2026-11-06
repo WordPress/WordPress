@@ -1066,9 +1066,7 @@ class WP_REST_Server {
 				$handlers = array( $handlers );
 			}
 
-			if ( ! isset( $this->route_options[ $route ] ) ) {
-				$this->route_options[ $route ] = array();
-			}
+			$this->route_options[ $route ] ??= array();
 
 			foreach ( $handlers as $key => &$handler ) {
 

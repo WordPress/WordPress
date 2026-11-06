@@ -1483,9 +1483,7 @@ function wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selecte
 	$auto_add        = ! empty( $_POST['auto-add-pages'] );
 	$nav_menu_option = (array) get_option( 'nav_menu_options' );
 
-	if ( ! isset( $nav_menu_option['auto_add'] ) ) {
-		$nav_menu_option['auto_add'] = array();
-	}
+	$nav_menu_option['auto_add'] ??= array();
 
 	if ( $auto_add ) {
 		if ( ! in_array( $nav_menu_selected_id, $nav_menu_option['auto_add'], true ) ) {

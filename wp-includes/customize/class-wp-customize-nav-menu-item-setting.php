@@ -902,9 +902,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * @return array Save response data.
 	 */
 	public function amend_customize_save_response( $data ) {
-		if ( ! isset( $data['nav_menu_item_updates'] ) ) {
-			$data['nav_menu_item_updates'] = array();
-		}
+		$data['nav_menu_item_updates'] ??= array();
 
 		$data['nav_menu_item_updates'][] = array(
 			'post_id'          => $this->post_id,

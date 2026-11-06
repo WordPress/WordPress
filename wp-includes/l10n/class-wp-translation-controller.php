@@ -130,9 +130,7 @@ final class WP_Translation_Controller {
 			return false;
 		}
 
-		if ( ! isset( $this->loaded_translations[ $locale ][ $textdomain ] ) ) {
-			$this->loaded_translations[ $locale ][ $textdomain ] = array();
-		}
+		$this->loaded_translations[ $locale ][ $textdomain ] ??= array();
 
 		$this->loaded_translations[ $locale ][ $textdomain ][] = $moe;
 

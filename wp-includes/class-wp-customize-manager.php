@@ -2823,9 +2823,7 @@ final class WP_Customize_Manager {
 
 		// Ensure that all post values are included in the changeset data.
 		foreach ( $post_values as $setting_id => $post_value ) {
-			if ( ! isset( $args['data'][ $setting_id ] ) ) {
-				$args['data'][ $setting_id ] = array();
-			}
+			$args['data'][ $setting_id ] ??= array();
 			if ( ! isset( $args['data'][ $setting_id ]['value'] ) ) {
 				$args['data'][ $setting_id ]['value'] = $post_value;
 			}
@@ -2852,9 +2850,7 @@ final class WP_Customize_Manager {
 				unset( $data[ $changeset_setting_id ] );
 			} else {
 
-				if ( ! isset( $data[ $changeset_setting_id ] ) ) {
-					$data[ $changeset_setting_id ] = array();
-				}
+				$data[ $changeset_setting_id ] ??= array();
 
 				// Merge any additional setting params that have been supplied with the existing params.
 				$merged_setting_params = array_merge( $data[ $changeset_setting_id ], $setting_params );
@@ -3522,9 +3518,6 @@ final class WP_Customize_Manager {
 				preg_match( $namespace_pattern, $raw_setting_id, $matches )
 			);
 			if ( $is_theme_mod_setting ) {
-				if ( ! isset( $theme_mod_settings[ $matches['stylesheet'] ] ) ) {
-					$theme_mod_settings[ $matches['stylesheet'] ] = array();
-				}
 				$theme_mod_settings[ $matches['stylesheet'] ][ $matches['setting_id'] ] = $setting_params;
 
 				if ( $this->get_stylesheet() === $matches['stylesheet'] ) {
@@ -3671,9 +3664,7 @@ final class WP_Customize_Manager {
 
 		// Merge inactive theme mods with the stashed theme mod settings.
 		foreach ( $inactive_theme_mod_settings as $stylesheet => $theme_mod_settings ) {
-			if ( ! isset( $stashed_theme_mod_settings[ $stylesheet ] ) ) {
-				$stashed_theme_mod_settings[ $stylesheet ] = array();
-			}
+			$stashed_theme_mod_settings[ $stylesheet ] ??= array();
 
 			$stashed_theme_mod_settings[ $stylesheet ] = array_merge(
 				$stashed_theme_mod_settings[ $stylesheet ],
