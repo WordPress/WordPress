@@ -236,11 +236,16 @@ class WP_Font_Utils {
 	/**
 	 * Returns the expected mime-type values for font files, depending on PHP version.
 	 *
-	 * This is needed because font mime types vary by PHP version, so checking the PHP version
-	 * is necessary until a list of valid mime-types for each file extension can be provided to
-	 * the 'upload_mimes' filter.
+	 * This is needed because the mime types detected for WOFF and WOFF2 files vary by PHP version,
+	 * so checking the PHP version is necessary until a list of valid mime-types for each file
+	 * extension can be provided to the 'upload_mimes' filter.
+	 *
+	 * TrueType fonts can be detected as either font/ttf or font/sfnt depending on the libmagic
+	 * version, and both are accepted by wp_check_filetype_and_ext(). The canonical font/ttf
+	 * is returned for them on all PHP versions.
 	 *
 	 * @since 6.5.0
+	 * @since 7.2.0 TrueType fonts now use the font/ttf mime type on all PHP versions.
 	 *
 	 * @access private
 	 *
@@ -249,7 +254,7 @@ class WP_Font_Utils {
 	public static function get_allowed_font_mime_types() {
 		return array(
 			'otf'   => 'application/vnd.ms-opentype',
-			'ttf'   => 'font/sfnt',
+			'ttf'   => 'font/ttf',
 			'woff'  => PHP_VERSION_ID >= 80112 ? 'font/woff' : 'application/font-woff',
 			'woff2' => PHP_VERSION_ID >= 80112 ? 'font/woff2' : 'application/font-woff2',
 		);

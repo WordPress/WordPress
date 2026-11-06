@@ -3357,6 +3357,19 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 				$type = false;
 				$ext  = false;
 			}
+		} elseif ( in_array( $real_mime, array( 'font/ttf', 'font/sfnt' ), true ) ) {
+			/*
+			 * libmagic 5.47 changed the type reported for TrueType fonts from font/sfnt to the
+			 * canonical font/ttf. PHP 8.6 bundles a libmagic version with this change, but PHP
+			 * builds that use the system libmagic can report either type, so both are accepted
+			 * for TrueType fonts.
+			 *
+			 * @link https://github.com/file/file/commit/6481672a8eb64c2758bf6429d9a76ee5a22174e9
+			 */
+			if ( ! in_array( $type, array( 'font/ttf', 'font/sfnt' ), true ) ) {
+				$type = false;
+				$ext  = false;
+			}
 		} else {
 			if ( $type !== $real_mime ) {
 				/*
