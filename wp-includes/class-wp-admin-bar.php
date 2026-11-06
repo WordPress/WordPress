@@ -460,6 +460,7 @@ class WP_Admin_Bar {
 
 	/**
 	 * @since 3.3.0
+	 * @since 7.2.0 Added a link to skip the toolbar when it is rendered at the start of the page.
 	 *
 	 * @param object $root
 	 */
@@ -473,10 +474,19 @@ class WP_Admin_Bar {
 			$class .= ' mobile';
 		}
 
+		/*
+		 * On the front end, add a link to reach the toolbar when it is rendered in the footer
+		 * by themes without 'wp_body_open' support, or to skip it when it precedes the content.
+		 */
+		$skip_to_toolbar   = ! is_admin() && ! did_action( 'wp_body_open' );
+		$skip_past_toolbar = ! is_admin() && did_action( 'wp_body_open' ) && ! doing_action( 'wp_footer' );
+
 		?>
 		<div id="wpadminbar" class="<?php echo $class; ?>">
-			<?php if ( ! is_admin() && ! did_action( 'wp_body_open' ) ) { ?>
+			<?php if ( $skip_to_toolbar ) { ?>
 				<a class="screen-reader-shortcut" href="#wp-toolbar" tabindex="1"><?php _e( 'Skip to toolbar' ); ?></a>
+			<?php } elseif ( $skip_past_toolbar ) { ?>
+				<a class="screen-reader-shortcut" href="#wp-toolbar-skip-target"><?php _e( 'Skip toolbar' ); ?></a>
 			<?php } ?>
 			<div class="quicklinks" id="wp-toolbar" role="navigation" aria-label="<?php esc_attr_e( 'Toolbar' ); ?>">
 				<?php
@@ -485,6 +495,9 @@ class WP_Admin_Bar {
 				}
 				?>
 			</div>
+			<?php if ( $skip_past_toolbar ) { ?>
+				<div id="wp-toolbar-skip-target"></div>
+			<?php } ?>
 		</div>
 
 		<?php
