@@ -1903,7 +1903,7 @@ class WP_Site_Health {
 		$default_role       = get_option( 'default_role' );
 
 		$result = array(
-			'label'       => __( 'Open Registration with privileged default role' ),
+			'label'       => __( 'New users are not given a privileged role' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Security' ),
@@ -1915,7 +1915,8 @@ class WP_Site_Health {
 		);
 
 		if ( $users_can_register && in_array( $default_role, array( 'editor', 'administrator' ), true ) ) {
-			$result['description'] = __( 'Registration is open to anyone, and the default role is set to a privileged role.' );
+			$result['label']       = __( 'Open registration with a privileged default role' );
+			$result['description'] = '<p>' . __( 'Registration is open to anyone, and the default role is set to a privileged role.' ) . '</p>';
 			$result['status']      = 'critical';
 			$result['actions']     = sprintf(
 				'<p><a href="%s">%s</a></p>',
