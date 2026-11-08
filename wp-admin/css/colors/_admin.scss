@@ -270,7 +270,7 @@ input[type="radio"]:focus {
 #adminmenu a:hover,
 #adminmenu li.menu-top:hover,
 #adminmenu li.opensub > a.menu-top,
-#adminmenu li > a.menu-top:focus {
+#adminmenu li > a.menu-top:focus-visible {
 	color: variables.$menu-highlight-text;
 	background-color: variables.$menu-highlight-background;
 }

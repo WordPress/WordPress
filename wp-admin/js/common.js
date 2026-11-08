@@ -1825,14 +1825,32 @@ $( function() {
 
 			// Add menu events.
 			$adminmenu.on( 'click.wp-responsive', 'li.wp-has-submenu > a', function( event ) {
+				var $link, $menuItem, state;
+
 				if ( ! $adminmenu.data('wp-responsive') ) {
 					return;
 				}
-				let state = ( 'false' === $( this ).attr( 'aria-expanded' ) ) ? 'true' : 'false';
-				$( this ).parent( 'li' ).toggleClass( 'selected' );
-				$( this ).attr( 'aria-expanded', state );
-				$( this ).trigger( 'focus' );
+
+				$link      = $( this );
+				$menuItem  = $link.parent( 'li' );
+				state      = ( 'false' === $link.attr( 'aria-expanded' ) ) ? 'true' : 'false';
+
+				$adminmenu.find( 'li.selected' ).not( $menuItem ).removeClass( 'selected' )
+					.children( 'a' ).attr( 'aria-expanded', 'false' );
+
+				$menuItem.toggleClass( 'selected' );
+				$link.attr( 'aria-expanded', state );
+				$link.trigger( 'focus' );
 				event.preventDefault();
+			});
+
+			$adminmenu.on( 'click.wp-responsive', '.wp-submenu a', function() {
+				if ( ! $adminmenu.data( 'wp-responsive' ) ) {
+					return;
+				}
+
+				$adminmenu.find( 'li.selected' ).removeClass( 'selected' )
+					.children( 'a' ).attr( 'aria-expanded', 'false' );
 			});
 
 			self.trigger();
@@ -1885,6 +1903,8 @@ $( function() {
 			}
 
 			$adminmenu.data( 'wp-responsive', 1 );
+			$adminmenu.find( 'li.selected' ).not( '.wp-has-current-submenu' ).removeClass( 'selected' )
+				.children( 'a' ).attr( 'aria-expanded', 'false' );
 			this.disableSortables();
 		},
 

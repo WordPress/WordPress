@@ -94,14 +94,14 @@
 }
 
 #adminmenu a:hover,
-#adminmenu li.menu-top > a:focus,
+#adminmenu li.menu-top > a:focus-visible,
 #adminmenu .wp-submenu a:hover,
-#adminmenu .wp-submenu a:focus {
+#adminmenu .wp-submenu a:focus-visible {
 	color: #72aee6;
 }
 
 #adminmenu a:hover,
-#adminmenu a:focus,
+#adminmenu a:focus-visible,
 .folded #adminmenu .wp-submenu-head:hover {
 	box-shadow: inset -4px 0 0 0 currentColor;
 	transition: box-shadow 0.1s linear;
@@ -160,7 +160,7 @@
 /* ensure that wp-submenu's box shadow doesn't appear on top of the focused menu item's background. */
 #adminmenu li.menu-top:hover,
 #adminmenu li.opensub > a.menu-top,
-#adminmenu li > a.menu-top:focus {
+#adminmenu li > a.menu-top:focus-visible {
 	position: relative;
 	background-color: #1d2327;
 	color: #72aee6;
@@ -168,7 +168,7 @@
 
 .folded #adminmenu li.menu-top:hover,
 .folded #adminmenu li.opensub > a.menu-top,
-.folded #adminmenu li > a.menu-top:focus {
+.folded #adminmenu li > a.menu-top:focus-visible {
 	z-index: 10000;
 }
 
@@ -657,7 +657,7 @@ li#wp-admin-bar-menu-toggle {
 
 	.auto-fold #adminmenu li.menu-top:hover,
 	.auto-fold #adminmenu li.opensub > a.menu-top,
-	.auto-fold #adminmenu li > a.menu-top:focus {
+	.auto-fold #adminmenu li > a.menu-top:focus-visible {
 		z-index: 10000;
 	}
 
