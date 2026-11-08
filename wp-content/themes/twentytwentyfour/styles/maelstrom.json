@@ -32,6 +32,9 @@
 				}
 			]
 		},
+		"custom": {
+			"inputBorderColor": "var(--wp--preset--color--contrast-3)"
+		},
 		"typography": {
 			"fontFamilies": [
 				{

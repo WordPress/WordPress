@@ -153,6 +153,9 @@
 				}
 			]
 		},
+		"custom": {
+			"inputBorderColor": "#757575"
+		},
 		"layout": {
 			"contentSize": "620px",
 			"wideSize": "1280px"
@@ -520,7 +523,7 @@
 				}
 			},
 			"core/loginout": {
-				"css": "& input{border-radius:.33rem;padding:calc(0.667em + 2px);border:1px solid #949494;}"
+				"css": "& input{border-radius:.33rem;padding:calc(0.667em + 2px);border:1px solid var(--wp--custom--input-border-color);}"
 			},
 			"core/navigation": {
 				"elements": {
@@ -724,7 +727,7 @@
 				}
 			},
 			"core/search": {
-				"css": "& .wp-block-search__input{border-radius:.33rem}",
+				"css": "& .wp-block-search__input{border-radius:.33rem}&.wp-block-search__button-inside .wp-block-search__inside-wrapper{border-color:var(--wp--custom--input-border-color)}",
 				"typography": {
 					"fontSize": "var(--wp--preset--font-size--small)"
 				},
@@ -890,6 +893,11 @@
 				},
 				"color": {
 					"text": "var(--wp--preset--color--contrast)"
+				}
+			},
+			"textInput": {
+				"border": {
+					"color": "var(--wp--custom--input-border-color)"
 				}
 			}
 		},
