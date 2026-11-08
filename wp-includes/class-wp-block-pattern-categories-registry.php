@@ -40,14 +40,16 @@ final class WP_Block_Pattern_Categories_Registry {
 	 * Registers a pattern category.
 	 *
 	 * @since 5.5.0
+	 * @since 6.2.0 Added support for the `description` property.
 	 *
 	 * @param string $category_name       Pattern category name including namespace.
 	 * @param array  $category_properties {
 	 *     List of properties for the block pattern category.
 	 *
-	 *     @type string $label Required. A human-readable label for the pattern category.
+	 *     @type string $label       Required. A human-readable label for the pattern category.
+	 *     @type string $description Optional. A human-readable description of the pattern category.
 	 * }
-	 * @return bool True if the pattern was registered with success and false otherwise.
+	 * @return bool True if the pattern category was registered with success and false otherwise.
 	 */
 	public function register( $category_name, $category_properties ) {
 		if ( ! isset( $category_name ) || ! is_string( $category_name ) ) {
