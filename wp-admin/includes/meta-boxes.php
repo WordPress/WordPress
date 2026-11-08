@@ -96,7 +96,6 @@ function post_submit_meta_box( $post, $args = array() ) {
 		 */
 		do_action( 'post_submitbox_minor_actions', $post );
 		?>
-		<div class="clear"></div>
 	</div>
 
 	<div id="misc-publishing-actions">
@@ -1114,7 +1113,6 @@ function link_submit_meta_box( $link ) {
 	<a class="preview button" href="<?php echo $link->link_url; ?>" target="_blank"><?php _e( 'Visit Link' ); ?></a>
 <?php } ?>
 </div>
-<div class="clear"></div>
 </div>
 
 <div id="misc-publishing-actions">

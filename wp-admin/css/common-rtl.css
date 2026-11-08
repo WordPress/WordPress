@@ -999,15 +999,32 @@ a#remove-post-thumbnail:hover,
 
 #minor-publishing-actions {
 	padding: 10px 10px 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+/* Prevent any legacy clearfix elements added by plugins from becoming active flex items. */
+#minor-publishing-actions .clear {
+	display: none;
+}
+
+#save-action {
+	display: flex;
+	align-items: center;
+}
+
+#save-action .spinner {
+	float: none;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+#preview-action {
 	text-align: left;
-}
-
-#save-post {
-	float: right;
-}
-
-.preview {
-	float: left;
+	margin-right: auto;
 }
 
 #sticky-span {
