@@ -53,6 +53,15 @@ final class WP_Interactivity_API {
 	);
 
 	/**
+	 * Matches a directive value that names its namespace, as in
+	 * `myPlugin::state.foo`, capturing the namespace and the rest of the value.
+	 *
+	 * @since 7.2.0
+	 * @var string
+	 */
+	private const NAMESPACED_VALUE_REGEX = '/^([\w\/-]+)::(.+)$/D';
+
+	/**
 	 * Holds the initial state of the different Interactivity API stores.
 	 *
 	 * This state is used during the server directive processing. Then, it is
@@ -131,6 +140,27 @@ final class WP_Interactivity_API {
 	private $namespace_stack = null;
 
 	/**
+	 * Stack of the namespaces that `data-wp-interactive` directives name, in
+	 * step with the namespace stack, as the client reads them.
+	 *
+	 * This is only available during directive processing, otherwise it is `null`.
+	 *
+	 * Unlike the namespace stack, the entry of an element that carries the
+	 * attribute named exactly `data-wp-interactive` never falls back to an
+	 * enclosing namespace. It is `null` when the attribute names none: it has no
+	 * value or an empty one, its JSON object holds no string `namespace`, or the
+	 * namespace is `__proto__`, `constructor` or `prototype`. An element with
+	 * only suffixed or unique-ID entries is no island, so its entry repeats the
+	 * enclosing one. Only `data-wp-html` reads it, as the client resolves every
+	 * directive.
+	 *
+	 * @since 7.2.0
+	 * @var array<string|null>|null
+	 * @phpstan-var list<string|null>|null
+	 */
+	private $island_namespace_stack = null;
+
+	/**
 	 * Stack of contexts defined by `data-wp-context` directives, in
 	 * the order they are processed.
 	 *
@@ -153,7 +183,8 @@ final class WP_Interactivity_API {
 
 	/**
 	 * Marker that makes the placeholders of the current `process_directives()`
-	 * call recognizable. It occurs nowhere in the HTML that call received.
+	 * call recognizable. It occurs nowhere in the HTML that call received, and
+	 * it differs from the marker of any call that the current one runs inside.
 	 *
 	 * @since 7.2.0
 	 * @var string
@@ -476,6 +507,9 @@ final class WP_Interactivity_API {
 	 * @since 6.5.0
 	 * @since 7.2.0 The output includes the trusted HTML that `data-wp-html` renders. That HTML is
 	 *              added once the whole call has finished, so it is never processed.
+	 * @since 7.2.0 It can be called while another call is processing, as from a derived-state
+	 *              closure that renders markup. That call processes its HTML on its own, and the
+	 *              processing of the other call continues as before it once it returns.
 	 *
 	 * @param string $html The HTML content to process.
 	 * @return string The processed HTML content. It returns the original content when the HTML contains unbalanced tags.
@@ -485,30 +519,49 @@ final class WP_Interactivity_API {
 			return $html;
 		}
 
-		$this->namespace_stack = array();
-		$this->context_stack   = array();
+		$caller_state = array(
+			$this->namespace_stack,
+			$this->island_namespace_stack,
+			$this->context_stack,
+			$this->current_element,
+			$this->html_placeholder_marker,
+			$this->html_placeholders,
+		);
+
+		$this->namespace_stack        = array();
+		$this->island_namespace_stack = array();
+		$this->context_stack          = array();
+		$this->current_element        = null;
 
 		/*
 		 * The trusted HTML of `data-wp-html` hosts never takes part in the
 		 * processing: each host receives a placeholder comment, and the comments
 		 * are replaced by their HTML once the result is known. The marker that
 		 * identifies them is chosen so that it occurs nowhere in the input, which
-		 * makes it impossible for the input to contain a placeholder.
+		 * makes it impossible for the input to contain a placeholder. It is also
+		 * longer than the marker of any call this one runs inside, so their
+		 * placeholders never coincide.
 		 */
-		$marker = 'wp-interactivity-dangerous-html';
+		$marker = '' === $this->html_placeholder_marker ? 'wp-interactivity-dangerous-html' : $this->html_placeholder_marker . '_';
 		while ( str_contains( $html, $marker ) ) {
 			$marker .= '_';
 		}
 		$this->html_placeholder_marker = $marker;
 		$this->html_placeholders       = array();
 
-		$result = $this->_process_directives( $html );
-
-		$this->namespace_stack = null;
-		$this->context_stack   = null;
-
-		$placeholders            = $this->html_placeholders;
-		$this->html_placeholders = array();
+		try {
+			$result       = $this->_process_directives( $html );
+			$placeholders = $this->html_placeholders;
+		} finally {
+			list(
+				$this->namespace_stack,
+				$this->island_namespace_stack,
+				$this->context_stack,
+				$this->current_element,
+				$this->html_placeholder_marker,
+				$this->html_placeholders
+			) = $caller_state;
+		}
 
 		if ( null === $result ) {
 			return $html;
@@ -523,7 +576,7 @@ final class WP_Interactivity_API {
 	 * and updates the markup accordingly.
 	 *
 	 * It uses the WP_Interactivity_API instance's context and namespace stacks,
-	 * which are shared between all calls.
+	 * which every call made during one `process_directives()` call shares.
 	 *
 	 * This method returns null if the HTML contains unbalanced tags.
 	 *
@@ -544,8 +597,9 @@ final class WP_Interactivity_API {
 		 * Save the current size for each stack to restore them in case
 		 * the processing finds unbalanced tags.
 		 */
-		$namespace_stack_size = count( $this->namespace_stack );
-		$context_stack_size   = count( $this->context_stack );
+		$namespace_stack_size        = count( $this->namespace_stack );
+		$island_namespace_stack_size = count( $this->island_namespace_stack );
+		$context_stack_size          = count( $this->context_stack );
 
 		while ( $p->next_tag( array( 'tag_closers' => 'visit' ) ) ) {
 			$tag_name = $p->get_tag();
@@ -645,7 +699,15 @@ final class WP_Interactivity_API {
 				'attributes' => $element_attrs,
 			);
 
+			$is_content_consumed = false;
+
 			foreach ( $modes as $mode => $should_run ) {
+				// An element whose content was consumed is completed as at its closer tag.
+				if ( 'exit' === $mode && $is_content_consumed ) {
+					array_pop( $tag_stack );
+					$should_run = true;
+				}
+
 				if ( ! $should_run ) {
 					continue;
 				}
@@ -664,6 +726,16 @@ final class WP_Interactivity_API {
 						: array( $this, self::$directive_processors[ $directive_prefix ] );
 
 					call_user_func_array( $func, array( $p, $mode, &$tag_stack ) );
+
+					/*
+					 * A processor that consumes the content of the element it enters
+					 * leaves the cursor on the element's closer tag, where no other
+					 * processor enters. `data-wp-each` completes its `template` itself.
+					 */
+					if ( 'enter' === $mode && $p->is_tag_closer() ) {
+						$is_content_consumed = 'data-wp-each' !== $directive_prefix;
+						break;
+					}
 				}
 			}
 
@@ -674,6 +746,7 @@ final class WP_Interactivity_API {
 		if ( $unbalanced ) {
 			// Reset the namespace and context stacks to their previous values.
 			array_splice( $this->namespace_stack, $namespace_stack_size );
+			array_splice( $this->island_namespace_stack, $island_namespace_stack_size );
 			array_splice( $this->context_stack, $context_stack_size );
 		}
 
@@ -1058,14 +1131,16 @@ final class WP_Interactivity_API {
 	 * stack so that it's available for the nested interactivity elements.
 	 *
 	 * @since 6.5.0
+	 * @since 7.2.0 Also records the namespace that the directive itself names, for `data-wp-html`.
 	 *
 	 * @param WP_Interactivity_API_Directives_Processor $p    The directives processor instance.
 	 * @param string                                    $mode Whether the processing is entering or exiting the tag.
 	 */
 	private function data_wp_interactive_processor( WP_Interactivity_API_Directives_Processor $p, string $mode ) {
-		// When exiting tags, it removes the last namespace from the stack.
+		// When exiting tags, it removes the last namespace from the stacks.
 		if ( 'exit' === $mode ) {
 			array_pop( $this->namespace_stack );
+			array_pop( $this->island_namespace_stack );
 			return;
 		}
 
@@ -1081,6 +1156,7 @@ final class WP_Interactivity_API {
 		 * contained a valid namespace.
 		 */
 		$new_namespace = null;
+		$decoded_json  = null;
 		if ( is_string( $attribute_value ) && ! empty( $attribute_value ) ) {
 			$decoded_json = json_decode( $attribute_value, true );
 			if ( is_array( $decoded_json ) ) {
@@ -1092,6 +1168,25 @@ final class WP_Interactivity_API {
 		$this->namespace_stack[] = ( $new_namespace && 1 === preg_match( '/^([\w\-_\/]+)/', $new_namespace ) )
 			? $new_namespace
 			: end( $this->namespace_stack );
+
+		/*
+		 * Only the attribute named exactly `data-wp-interactive` makes an island,
+		 * so an element with only suffixed or unique-ID entries keeps the
+		 * enclosing island's namespace. The client reads a JSON object only when
+		 * the value starts with `{`, and keeps any other value as given.
+		 */
+		if ( null === $attribute_value ) {
+			$this->island_namespace_stack[] = array_last( $this->island_namespace_stack );
+			return;
+		}
+		$island_namespace = is_string( $attribute_value ) ? $attribute_value : null;
+		if ( is_array( $decoded_json ) && 1 === preg_match( '/^\s*\{/', $attribute_value ) ) {
+			$island_namespace = is_string( $decoded_json['namespace'] ?? null ) ? $decoded_json['namespace'] : null;
+		}
+		if ( '' === $island_namespace || ( null !== $island_namespace && self::is_reserved_word( $island_namespace ) ) ) {
+			$island_namespace = null;
+		}
+		$this->island_namespace_stack[] = $island_namespace;
 	}
 
 	/**
@@ -1511,18 +1606,27 @@ final class WP_Interactivity_API {
 	/**
 	 * Processes the `data-wp-html` directive.
 	 *
-	 * It sets the content of the current HTML element to the HTML of the token
-	 * that its associated reference resolves to. The HTML is written as given and
-	 * the directives inside it are not processed. See
+	 * Only an entry without a suffix or a unique ID controls the content: the
+	 * HTML of the token its reference resolves to, written as given, or nothing
+	 * for any other value. No directive inside that content is processed. See
 	 * {@see wp_interactivity_as_dangerous_html()} for the risks of marking HTML
 	 * as trusted.
 	 *
-	 * The element is left as it would be without the directive, and a notice
-	 * reports the reason, when the reference does not resolve to a token, the
-	 * element cannot hold content, or the element also carries `data-wp-text` or,
-	 * for a `template`, `data-wp-each`. A reference that resolves to `null`
-	 * declines without a notice. Only the entry without a suffix or a unique ID
-	 * is processed.
+	 * HTML that closes the element, or that the browser moves out of it, such
+	 * as a `div` in a `p`, is still written as given. The browser places the part
+	 * that escapes after the element, where the client hydrates it as ordinary
+	 * markup although the server did not process its directives.
+	 *
+	 * A value other than a token or `null` raises a notice. A reference that
+	 * resolves to nothing does not.
+	 *
+	 * The element is processed as if it had no `data-wp-html` directive when it
+	 * also carries `data-wp-text`, `data-wp-each` or `data-wp-router-region`, which
+	 * raises a notice, or when its entries all have a suffix or unique ID or are
+	 * dropped by the client. The directive is also ignored, with a notice, on void
+	 * elements and on `script`, `style`, `textarea`, `title`, `iframe`, `xmp`,
+	 * `noembed` and `noframes` elements. Their content is preserved and the
+	 * reference is not evaluated.
 	 *
 	 * @since 7.2.0
 	 *
@@ -1534,27 +1638,40 @@ final class WP_Interactivity_API {
 			return;
 		}
 
-		// Get the first valid `data-wp-html` entry without suffix or unique ID.
-		$valid_entry = array_find(
-			$this->get_directive_entries( $p, 'html' ),
-			fn( $entry ) => null === $entry['suffix'] && null === $entry['unique_id'] && ! empty( $entry['value'] )
-		);
-
-		if ( null === $valid_entry ) {
+		$directives = $this->get_client_directives( $p );
+		if ( empty( $directives['html'] ) ) {
 			return;
 		}
 
-		/*
-		 * The structural reasons decline without evaluating the reference, so
-		 * their notice does not depend on the value and no derived state runs
-		 * for a result that would be discarded.
-		 */
+		foreach ( array( 'text', 'each', 'router-region' ) as $conflicting_prefix ) {
+			if ( ! empty( $directives[ $conflicting_prefix ] ) ) {
+				_doing_it_wrong(
+					__METHOD__,
+					sprintf(
+						/* translators: %s: The directive combined with data-wp-html, such as data-wp-text. */
+						__( 'The "data-wp-html" directive cannot be combined with the "%s" directive on the same element. The "data-wp-html" directive is ignored.' ),
+						esc_html( 'data-wp-' . $conflicting_prefix )
+					),
+					'7.2.0'
+				);
+				return;
+			}
+		}
+
+		$host_entry = array_find(
+			$directives['html'],
+			fn( $entry ) => null === $entry['suffix'] && null === $entry['unique_id']
+		);
+		if ( null === $host_entry ) {
+			return;
+		}
+
 		if ( ! $p->has_and_visits_its_closer_tag() ) {
 			_doing_it_wrong(
 				__METHOD__,
 				sprintf(
 					/* translators: %s: The HTML tag name of the element, in lowercase. */
-					__( 'The "data-wp-html" directive cannot set the content of a <%s> element because it cannot hold content. The element is left as it is.' ),
+					__( 'The "data-wp-html" directive is not supported on <%s> elements. The directive is ignored.' ),
 					esc_html( strtolower( $p->get_tag() ) )
 				),
 				'7.2.0'
@@ -1562,43 +1679,19 @@ final class WP_Interactivity_API {
 			return;
 		}
 
-		$combined_directive = null;
-		if ( array_find( $this->get_directive_entries( $p, 'text' ), fn( $entry ) => null === $entry['suffix'] && null === $entry['unique_id'] ) ) {
-			$combined_directive = 'data-wp-text';
-		} elseif ( 'TEMPLATE' === $p->get_tag() && ! empty( $this->get_directive_entries( $p, 'each' ) ) ) {
-			$combined_directive = 'data-wp-each';
-		}
-		if ( null !== $combined_directive ) {
+		$result = $this->resolve_html_reference( $host_entry['value'] );
+		$html   = WP_Interactivity_Dangerous_HTML::get_html( $result );
+
+		if ( null === $html && null !== $result ) {
 			_doing_it_wrong(
 				__METHOD__,
-				sprintf(
-					/* translators: %s: The directive combined with data-wp-html, such as data-wp-text. */
-					__( 'The "data-wp-html" directive cannot be combined with the "%s" directive on the same element. The "data-wp-html" directive is ignored.' ),
-					esc_html( $combined_directive )
-				),
+				__( 'The "data-wp-html" directive requires a reference that resolves to the value returned by wp_interactivity_as_dangerous_html(). Other values, such as strings of HTML, are not rendered and the content of the element is removed.' ),
 				'7.2.0'
 			);
-			return;
 		}
 
-		/*
-		 * An entry value that is not a string is a JSON literal written in the
-		 * markup, which no store property can be named by, so it is not evaluated.
-		 */
-		$result = is_string( $valid_entry['value'] ) ? $this->evaluate( $valid_entry ) : $valid_entry['value'];
-
-		// Unresolved references and `null` values keep the element as it is, as they do in the client.
-		if ( null === $result ) {
-			return;
-		}
-
-		$html = WP_Interactivity_Dangerous_HTML::get_html( $result );
 		if ( null === $html ) {
-			_doing_it_wrong(
-				__METHOD__,
-				__( 'The "data-wp-html" directive requires a reference that resolves to the value returned by wp_interactivity_as_dangerous_html(). Other values, such as strings of HTML, are not rendered and the element is left as it is.' ),
-				'7.2.0'
-			);
+			$p->skip_to_balanced_tag_closer( '' );
 			return;
 		}
 
@@ -1608,9 +1701,130 @@ final class WP_Interactivity_API {
 		 * processors, and the marker in it occurs nowhere in the input.
 		 */
 		$placeholder = '<!--' . $this->html_placeholder_marker . ':' . count( $this->html_placeholders ) . '-->';
-		if ( $p->set_raw_content_between_balanced_tags( $placeholder ) ) {
+		if ( $p->skip_to_balanced_tag_closer( $placeholder ) ) {
 			$this->html_placeholders[ $placeholder ] = $html;
 		}
+	}
+
+	/**
+	 * Gets the directives on the current element that the client keeps.
+	 *
+	 * The client drops a directive when a reserved word (`__proto__`,
+	 * `constructor` or `prototype`) is its prefix, any `--`-separated part of its
+	 * suffix or its unique ID, ignoring case and leading and trailing dashes, or
+	 * when its value names a reserved word as its namespace.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param WP_Interactivity_API_Directives_Processor $p The directives processor instance.
+	 * @return array[] The directives by prefix, such as `html`, each in the order of the element's attributes,
+	 *                 with their raw values.
+	 * @phpstan-return array<non-empty-string, list<array{
+	 *     suffix: non-empty-string|null,
+	 *     unique_id: non-empty-string|null,
+	 *     value: string|true,
+	 * }>>
+	 */
+	private function get_client_directives( WP_Interactivity_API_Directives_Processor $p ): array {
+		$directives = array();
+		foreach ( $p->get_attribute_names_with_prefix( 'data-wp-' ) ?? array() as $attribute_name ) {
+			$parsed_directive = $this->parse_directive_name( $attribute_name );
+			if ( null === $parsed_directive ) {
+				continue;
+			}
+
+			$name_parts = array( $parsed_directive['prefix'] );
+			if ( null !== $parsed_directive['suffix'] ) {
+				array_push( $name_parts, ...explode( '--', $parsed_directive['suffix'] ) );
+			}
+			if ( null !== $parsed_directive['unique_id'] ) {
+				$name_parts[] = $parsed_directive['unique_id'];
+			}
+			foreach ( $name_parts as $name_part ) {
+				if ( self::is_reserved_word( strtolower( trim( $name_part, '-' ) ) ) ) {
+					continue 2;
+				}
+			}
+
+			$value = $p->get_attribute( $attribute_name );
+			if ( is_string( $value ) && 1 === preg_match( self::NAMESPACED_VALUE_REGEX, $value, $matches ) && self::is_reserved_word( $matches[1] ) ) {
+				continue;
+			}
+
+			$directives[ $parsed_directive['prefix'] ][] = array(
+				'suffix'    => $parsed_directive['suffix'],
+				'unique_id' => $parsed_directive['unique_id'],
+				'value'     => $value,
+			);
+		}
+		return $directives;
+	}
+
+	/**
+	 * Resolves the reference of a `data-wp-html` directive as the client does.
+	 *
+	 * The reference is the raw attribute value, never decoded as JSON: an
+	 * optional `<namespace>::`, an optional `!` and a dot-separated path.
+	 * Without `<namespace>::`, the namespace is the one that the nearest
+	 * `data-wp-interactive` directive names, never one inherited from a further
+	 * one. When it names none, the reference resolves to `null`. It also
+	 * resolves to `null`, without being evaluated, when its path is empty or
+	 * starts with a second `!`, which names no property, or when a segment of
+	 * its path is a reserved word (`__proto__`, `constructor` or `prototype`).
+	 * The `!` applies after that, so `!state.x.constructor` resolves to `true`.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param string|true $reference The attribute value. It is `true` when the attribute has no value.
+	 * @return mixed The value the reference resolves to, or `null` if it resolves to nothing.
+	 */
+	private function resolve_html_reference( $reference ) {
+		if ( ! is_string( $reference ) ) {
+			return null;
+		}
+
+		if ( 1 === preg_match( self::NAMESPACED_VALUE_REGEX, $reference, $matches ) ) {
+			list( , $namespace, $path ) = $matches;
+		} else {
+			$namespace = array_last( $this->island_namespace_stack ?? array() );
+			$path      = $reference;
+		}
+
+		$should_negate_value = false;
+		if ( str_starts_with( $path, '!' ) ) {
+			$path                = substr( $path, 1 );
+			$should_negate_value = '' !== $path;
+		}
+
+		if (
+			'' === $path ||
+			str_starts_with( $path, '!' ) ||
+			null !== array_find( explode( '.', $path ), fn( $segment ) => self::is_reserved_word( $segment ) )
+		) {
+			$value = null;
+		} else {
+			$value = $this->evaluate(
+				array(
+					'namespace' => $namespace,
+					'value'     => $path,
+				)
+			);
+		}
+
+		return $should_negate_value ? ! $value : $value;
+	}
+
+	/**
+	 * Checks whether a name is one the client never resolves or keeps as a
+	 * directive name part, because it would reach the prototype of an object.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param string $name The name.
+	 * @return bool Whether the name is `__proto__`, `constructor` or `prototype`.
+	 */
+	private static function is_reserved_word( string $name ): bool {
+		return '__proto__' === $name || 'constructor' === $name || 'prototype' === $name;
 	}
 
 	/**

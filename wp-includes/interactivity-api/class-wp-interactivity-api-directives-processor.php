@@ -71,30 +71,52 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
 	 * @return bool Whether the content was successfully replaced.
 	 */
 	public function set_content_between_balanced_tags( string $new_content ): bool {
-		return $this->set_raw_content_between_balanced_tags( esc_html( $new_content ) );
-	}
-
-	/**
-	 * Sets the content between two balanced tags, writing it as given.
-	 *
-	 * Unlike {@see WP_Interactivity_API_Directives_Processor::set_content_between_balanced_tags()},
-	 * it does not escape the content. Like it, it replaces the content between
-	 * the current opener tag and its matching closer tag, and it rewinds to the
-	 * opener tag.
-	 *
-	 * @since 7.2.0
-	 *
-	 * @access private
-	 *
-	 * @param string $new_content The markup to replace the content between the matching tags. It is written as is.
-	 * @return bool Whether the content was successfully replaced.
-	 */
-	public function set_raw_content_between_balanced_tags( string $new_content ): bool {
 		$positions = $this->get_after_opener_tag_and_before_closer_tag_positions( true );
 		if ( ! $positions ) {
 			return false;
 		}
 		list( $after_opener_tag, $before_closer_tag ) = $positions;
+
+		$this->lexical_updates[] = new WP_HTML_Text_Replacement(
+			$after_opener_tag,
+			$before_closer_tag - $after_opener_tag,
+			esc_html( $new_content )
+		);
+
+		return true;
+	}
+
+	/**
+	 * Moves to the matching closer tag of the current opener tag and replaces
+	 * the content between them.
+	 *
+	 * The matching closer tag is found as in
+	 * {@see WP_Interactivity_API_Directives_Processor::next_balanced_tag_closer_tag()}.
+	 * The new content is written as given. Unlike
+	 * {@see WP_Interactivity_API_Directives_Processor::set_content_between_balanced_tags()},
+	 * it neither applies the pending updates nor seeks back to the opener tag,
+	 * so it can be called any number of times on the same processor.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @access private
+	 *
+	 * @param string $new_content The markup to replace the content between the matching tags with.
+	 * @return bool Whether the matching closer tag was found. When it is not found, the cursor is at the end
+	 *              of the HTML and nothing is replaced.
+	 */
+	public function skip_to_balanced_tag_closer( string $new_content ): bool {
+		$bookmarks = $this->get_balanced_tag_bookmarks();
+		if ( ! $bookmarks ) {
+			return false;
+		}
+		list( $opener_tag, $closer_tag ) = $bookmarks;
+
+		$after_opener_tag  = $this->bookmarks[ $opener_tag ]->start + $this->bookmarks[ $opener_tag ]->length;
+		$before_closer_tag = $this->bookmarks[ $closer_tag ]->start;
+
+		$this->release_bookmark( $opener_tag );
+		$this->release_bookmark( $closer_tag );
 
 		$this->lexical_updates[] = new WP_HTML_Text_Replacement(
 			$after_opener_tag,
