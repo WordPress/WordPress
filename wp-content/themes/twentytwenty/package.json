@@ -18,8 +18,19 @@
 		"url": "https://core.trac.wordpress.org/"
 	},
 	"engines": {
-		"node": ">=16",
-		"npm": ">=9.8.1"
+		"node": ">=24.18.0",
+		"npm": ">=11.16.0"
+	},
+	"devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": ">=24.18.0"
+		},
+		"packageManager": {
+			"name": "npm",
+			"version": ">=11.16.0",
+			"onFail": "error"
+		}
 	},
 	"devDependencies": {
 		"@double-great/stylelint-a11y": "^3.8.3",
