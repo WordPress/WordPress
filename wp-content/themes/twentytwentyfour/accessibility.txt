@@ -1,0 +1,32 @@
+=== Accessibility Statement ===
+
+Twenty Twenty-Four was tested by the WordPress Accessibility Team during the development process, using common accessibility testing tools including screen readers. All WordPress core themes go through a similar testing process, with the goal of meeting WCAG 2 guidelines at level AA, in keeping with the WordPress accessibility standards.
+
+== Quick Information ==
+Accessibility audit completed: No.
+Most recent audit date: N/A
+Tested to standard and conformance level: N/A
+Audited by: N/A
+Accessibility Conformance Report: N/A
+
+== Testing Tools and Methodology ==
+
+Accessibility was considered as a primary goal from the initial design phase through final release. Accessibility testing was performed at various intermediate stages of the development process.
+
+During development, tools used included the WAVE toolbar, manual testing using a keyboard and a screen reader, and manual color contrast tests.
+
+== Screen Reader Text Class ==
+
+`.screen-reader-text`
+
+== Accessibility Features ==
+
+The theme does not have any accessibility enhancements beyond the standard features of a WordPress block theme.
+
+== Accessibility Help Contact ==
+
+For assistance with accessibility in WordPress and core themes, contact the accessibility team at [Make WordPress Accessibility](https://make.wordpress.org/accessibility).
+
+== Where to Report Issues ==
+
+Issues should be reported in the [WordPress Core Ticket Tracker](https://core.trac.wordpress.org/).
