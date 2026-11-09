@@ -140,12 +140,9 @@ if ( isset( $GLOBALS['wp_settings']['media']['embeds'] ) ) :
 <p class="description"><?php _e( 'Configuring this is optional. By default, it should be blank.' ); ?></p>
 </td>
 </tr>
+<?php endif; ?>
 <tr>
 <td colspan="2" class="td-full">
-<?php else : ?>
-<tr>
-<td class="td-full">
-<?php endif; ?>
 <label for="uploads_use_yearmonth_folders">
 <input name="uploads_use_yearmonth_folders" type="checkbox" id="uploads_use_yearmonth_folders" value="1"<?php checked( '1', get_option( 'uploads_use_yearmonth_folders' ) ); ?> />
 	<?php _e( 'Organize my uploads into month- and year-based folders' ); ?>
