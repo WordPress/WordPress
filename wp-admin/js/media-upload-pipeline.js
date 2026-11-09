@@ -38,6 +38,13 @@ window.wp = window.wp || {};
 
 	const imageSizeCount = Object.keys( settings.allImageSizes || {} ).length;
 
+	/*
+	 * Image subtypes the pipeline processes. Keep in sync with
+	 * CLIENT_SIDE_SUPPORTED_MIME_TYPES and HEIC_MIME_TYPES in the
+	 * upload-media package.
+	 */
+	const IMAGE_SUBTYPES = [ 'jpeg', 'png', 'gif', 'webp', 'avif', 'heic', 'heif' ];
+
 	/**
 	 * Recursively appends data to a FormData object, supporting nested objects.
 	 *
@@ -413,15 +420,72 @@ window.wp = window.wp || {};
 	}
 
 	/**
+	 * Gets the image subtype of a file name the pipeline can process.
+	 *
+	 * @param {string} fileName A file name.
+	 * @return {string|null} The subtype, eg. `jpeg` for `photo.jpg`, or
+	 *                       null when the pipeline does not process it.
+	 */
+	function getImageSubtype( fileName ) {
+		const match = /\.([a-z0-9]+)$/i.exec( fileName || '' );
+		if ( ! match ) {
+			return null;
+		}
+		// `jpg` is not a valid subtype, so map it to `jpeg`.
+		const extension = match[ 1 ].toLowerCase();
+		const subtype = 'jpg' === extension ? 'jpeg' : extension;
+		return IMAGE_SUBTYPES.includes( subtype ) ? subtype : null;
+	}
+
+	/**
+	 * Whether a file is an image the client-side pipeline can process.
+	 *
+	 * A file whose type is missing from the allowed types the page was
+	 * rendered with is left to the server, which can allow it for a single
+	 * request (see partitionBatch()). A HEIC file is also matched by its
+	 * extension, since browsers on platforms without a HEIC codec may give
+	 * it no type at all.
+	 *
+	 * @param {plupload.File} file A file added to the plupload queue.
+	 * @return {boolean} True when the pipeline should take the file.
+	 */
+	function isPipelineFile( file ) {
+		const type = ( file.type || '' ).toLowerCase();
+		const allowedTypes = settings.allowedMimeTypes;
+		if (
+			type &&
+			allowedTypes &&
+			! Object.values( allowedTypes ).includes( type )
+		) {
+			return false;
+		}
+		if (
+			type.startsWith( 'image/' ) &&
+			IMAGE_SUBTYPES.includes( type.slice( 6 ) )
+		) {
+			return true;
+		}
+		const subtype = getImageSubtype( file.name );
+		return 'heic' === subtype || 'heif' === subtype;
+	}
+
+	/**
 	 * Splits a batch of plupload files between the pipeline and classic
 	 * plupload.
 	 *
-	 * Audio files stay classic so they keep the title and description that
-	 * media_handle_upload() derives from their ID3 tags, which the REST
-	 * endpoint does not do. So do JPEG and PNG images while plupload's own
-	 * client-side resize is enabled (the "Scale images" setting, or a
-	 * `resize` passed through `plupload_init`): plupload scales those down
-	 * before uploading them, the pipeline would not.
+	 * Only images the pipeline can process are taken (see isPipelineFile()).
+	 * Everything else, such as audio, video, PDF, SVG or JSON, stays
+	 * classic: the pipeline would do nothing for it but upload it, and
+	 * would check its type against the allowed types the page was rendered
+	 * with instead of the uploader's own filters, which a plugin can extend
+	 * for a single frame. For the same reason an image of a type the page
+	 * was not rendered with stays classic, so the server decides. Audio
+	 * also keeps the title and description that media_handle_upload()
+	 * derives from its ID3 tags, which the REST endpoint does not. JPEG
+	 * and PNG images stay classic too while plupload's own client-side
+	 * resize is enabled (the "Scale images" setting, or a `resize` passed
+	 * through `plupload_init`): plupload scales those down before
+	 * uploading them, the pipeline would not.
 	 *
 	 * The whole batch stays classic when a file cannot be re-queued on
 	 * plupload or is already plupload's: plupload returns no native File
@@ -450,7 +514,7 @@ window.wp = window.wp || {};
 			}
 			const type = file.type || '';
 			if (
-				/^audio\//i.test( type ) ||
+				! isPipelineFile( file ) ||
 				( isResizing && /^image\/(?:jpeg|png)$/i.test( type ) )
 			) {
 				batch.classic.push( file );
@@ -735,5 +799,6 @@ window.wp = window.wp || {};
 		isReady: isReady,
 		routeBatch: routeBatch,
 		getErrorText: getErrorText,
+		getImageSubtype: getImageSubtype,
 	};
 } )( window.wp );
