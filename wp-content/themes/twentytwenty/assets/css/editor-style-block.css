@@ -961,6 +961,11 @@ hr.wp-block-separator.is-style-dots::before {
 	line-height: 1.1;
 }
 
+/*
+ * In the editor, these elements are editable text fields. A focus underline
+ * would only appear while typing, so it is intentionally omitted here.
+ */
+/* stylelint-disable-next-line a11y/selector-pseudo-class-focus */
 .editor-styles-wrapper .wp-block-button__link:hover,
 .editor-styles-wrapper .wp-block-file__button:hover {
 	text-decoration: underline;

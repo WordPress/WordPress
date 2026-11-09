@@ -22,14 +22,14 @@
 		"npm": ">=9.8.1"
 	},
 	"devDependencies": {
+		"@double-great/stylelint-a11y": "^3.8.3",
 		"@wordpress/browserslist-config": "^6.34.0",
 		"@wordpress/scripts": "^30.27.0",
 		"autoprefixer": "^10.4.22",
 		"concurrently": "^9.2.1",
 		"postcss": "^8.5.6",
 		"postcss-cli": "^11.0.1",
-		"rtlcss": "^4.3.0",
-		"stylelint-a11y": "^1.2.3"
+		"rtlcss": "^4.3.0"
 	},
 	"browserslist": [
 		"extends @wordpress/browserslist-config"
