@@ -598,7 +598,7 @@ h2 {
 h1:before,
 h2:before {
   background: #767676;
-  content: " ";
+  content: "";
   display: block;
   height: 2px;
   margin: 1rem 0;
@@ -713,7 +713,7 @@ figcaption,
 }
 .editor-post-title__block:before {
   background: #767676;
-  content: " ";
+  content: "";
   display: block;
   height: 2px;
   margin: 1rem 0;
