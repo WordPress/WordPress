@@ -67,7 +67,7 @@ Source: https://stocksnap.io/photo/striped-lines-BTNYMDDCBW
 
 Bundled block pattern image, Copyright Seacoast Sage
 License: CC0 1.0 Universal (CC0 1.0)
-Source: https://stocksnap.io/photo/striped-fabric-9CBVWF2CDU
+Source: https://commons.wikimedia.org/wiki/File:Succulent_office_plants_(Unsplash).jpg
 
 == Changelog ==
 
