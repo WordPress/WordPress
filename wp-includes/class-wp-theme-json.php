@@ -1949,9 +1949,7 @@ class WP_Theme_JSON {
 					$style_selectors = $block_metadata['styleVariations'] ?? array();
 
 					foreach ( $registered_styles[ $block_name ] as $block_style ) {
-						if ( ! isset( $style_selectors[ $block_style['name'] ] ) ) {
-							$style_selectors[ $block_style['name'] ] = static::get_block_style_variation_selector( $block_style['name'], $block_metadata['selector'] );
-						}
+						$style_selectors[ $block_style['name'] ] ??= static::get_block_style_variation_selector( $block_style['name'], $block_metadata['selector'] );
 					}
 
 					static::$blocks_metadata[ $block_name ]['styleVariations'] = $style_selectors;

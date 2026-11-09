@@ -325,9 +325,7 @@ class WP_Duotone {
 		 * of the array, so we add them manually to make things easier later.
 		 */
 		for ( $i = 1; $i <= 8; $i++ ) {
-			if ( ! isset( $match[ $i ] ) ) {
-				$match[ $i ] = '';
-			}
+			$match[ $i ] ??= '';
 		}
 
 		if ( $match[2] !== $match[4] || $match[4] !== $match[6] ) {
@@ -489,9 +487,7 @@ class WP_Duotone {
 		 * of the array, so we add them manually to make things easier later.
 		 */
 		for ( $i = 1; $i <= 6; $i++ ) {
-			if ( ! isset( $match[ $i ] ) ) {
-				$match[ $i ] = '';
-			}
+			$match[ $i ] ??= '';
 		}
 
 		$hsla = self::colord_clamp_hsla(
