@@ -30,12 +30,18 @@ interface WP_Secrets_Keyring {
 	 * re-wrapped value with update_site_option(), which reports an unchanged value
 	 * as a failure, and WP_Secrets_Keyring_Conformance checks this.
 	 *
+	 * Attributes are not inherited, so an implementation must mark $key_material
+	 * with #[\SensitiveParameter] itself to keep it out of stack traces.
+	 *
 	 * @since 7.2.0
 	 *
 	 * @param string $key_material Raw key material to protect.
 	 * @return string|WP_Error Opaque wrapped value on success, WP_Error on failure.
 	 */
-	public function wrap( string $key_material );
+	public function wrap(
+		#[\SensitiveParameter]
+		string $key_material
+	);
 
 	/**
 	 * Unwraps (decrypts) previously wrapped key material.

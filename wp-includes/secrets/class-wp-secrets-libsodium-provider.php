@@ -245,7 +245,15 @@ final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
 	 * @phpstan-return array{dk: string, dk_nonce: string, ct: string, nonce: string, fingerprint: string, created: int, needs_rotation: bool}|WP_Error
 	 * @phpstan-param 'site'|'network' $scope
 	 */
-	private function demote_slot( WP_Secrets_Cipher $cipher, string $master_key, string $scope, int $site_id, string $name, array $current_slot ) {
+	private function demote_slot(
+		WP_Secrets_Cipher $cipher,
+		#[\SensitiveParameter]
+		string $master_key,
+		string $scope,
+		int $site_id,
+		string $name,
+		array $current_slot
+	) {
 		$plaintext = $cipher->decrypt_value( $master_key, $scope, $site_id, $name, WP_Secret_Version::CURRENT, $current_slot );
 
 		if ( is_wp_error( $plaintext ) ) {
@@ -289,7 +297,14 @@ final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
 	 *                                     wp_import_option_as_secret() passes 'imported'.
 	 * @return true|WP_Error
 	 */
-	public function set( string $name, $value, bool $network = false, bool $needs_rotation = false, ?string $action = null ) {
+	public function set(
+		string $name,
+		#[\SensitiveParameter]
+		$value,
+		bool $network = false,
+		bool $needs_rotation = false,
+		?string $action = null
+	) {
 		$name_check = wp_secrets_validate_name( $name );
 
 		if ( is_wp_error( $name_check ) ) {

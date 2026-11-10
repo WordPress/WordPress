@@ -69,7 +69,16 @@ final class WP_Secrets_Cipher {
 	 * @phpstan-param 'site'|'network' $scope
 	 * @phpstan-param WP_Secret_Version::CURRENT|WP_Secret_Version::PREVIOUS $slot
 	 */
-	public function encrypt_value( string $master_key, string $scope, int $site_id, string $name, string $slot, $plaintext ) {
+	public function encrypt_value(
+		#[\SensitiveParameter]
+		string $master_key,
+		string $scope,
+		int $site_id,
+		string $name,
+		string $slot,
+		#[\SensitiveParameter]
+		$plaintext
+	) {
 		$check = $this->validate_common( $master_key, $scope, $site_id, $name, $slot );
 
 		if ( is_wp_error( $check ) ) {
@@ -142,7 +151,15 @@ final class WP_Secrets_Cipher {
 	 * @phpstan-param 'site'|'network' $scope
 	 * @phpstan-param WP_Secret_Version::CURRENT|WP_Secret_Version::PREVIOUS $slot
 	 */
-	public function decrypt_value( string $master_key, string $scope, int $site_id, string $name, string $slot, $record ) {
+	public function decrypt_value(
+		#[\SensitiveParameter]
+		string $master_key,
+		string $scope,
+		int $site_id,
+		string $name,
+		string $slot,
+		$record
+	) {
 		$check = $this->validate_common( $master_key, $scope, $site_id, $name, $slot );
 
 		if ( is_wp_error( $check ) ) {
@@ -211,7 +228,12 @@ final class WP_Secrets_Cipher {
 	 * @param string $plaintext  Value to fingerprint.
 	 * @return string|WP_Error 32-character hex string on success. WP_Error on failure.
 	 */
-	public function fingerprint( string $master_key, $plaintext ) {
+	public function fingerprint(
+		#[\SensitiveParameter]
+		string $master_key,
+		#[\SensitiveParameter]
+		$plaintext
+	) {
 		if ( ! $this->is_valid_master_key( $master_key ) ) {
 			return new WP_Error(
 				WP_SECRETS_ERROR_KEY_UNAVAILABLE,

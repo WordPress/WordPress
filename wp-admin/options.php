@@ -439,6 +439,10 @@ foreach ( (array) $options as $option ) :
 		// Mask connector API keys and prevent updates from this screen.
 		$value    = _wp_connectors_mask_api_key( $option->option_value );
 		$disabled = true;
+	} elseif ( WP_Secrets_Key_Manager::ROOT_KEY_OPTION === $option->option_name ) {
+		// Replacing the root key makes every stored secret unreadable.
+		$value    = _wp_connectors_mask_api_key( $option->option_value );
+		$disabled = true;
 	} else {
 		$value               = $option->option_value;
 		$options_to_update[] = $option->option_name;

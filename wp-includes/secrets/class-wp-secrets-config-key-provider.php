@@ -84,7 +84,10 @@ final class WP_Secrets_Config_Key_Provider implements WP_Secrets_Keyring {
 	 * @param string $key_material Raw key material to protect.
 	 * @return string|WP_Error
 	 */
-	public function wrap( string $key_material ) {
+	public function wrap(
+		#[\SensitiveParameter]
+		string $key_material
+	) {
 		if ( '' === $key_material ) {
 			return new WP_Error(
 				WP_SECRETS_ERROR_INVALID_VALUE,
