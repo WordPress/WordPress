@@ -484,6 +484,7 @@ function get_dropins() {
  * Includes Multisite drop-ins only when is_multisite()
  *
  * @since 3.0.0
+ * @since 7.2.0 Added the `secrets.php` drop-in.
  *
  * @return array[] {
  *     Key is file name. The value is an array of data about the drop-in.
@@ -507,6 +508,7 @@ function _get_dropins() {
 		'object-cache.php'        => array( __( 'External object cache.' ), true ),          // Auto on load.
 		'php-error.php'           => array( __( 'Custom PHP error message.' ), true ),       // Auto on error.
 		'fatal-error-handler.php' => array( __( 'Custom PHP fatal error handler.' ), true ), // Auto on error.
+		'secrets.php'             => array( __( 'Custom Secrets API backend.' ), true ),     // Auto on load.
 	);
 
 	if ( is_multisite() ) {
