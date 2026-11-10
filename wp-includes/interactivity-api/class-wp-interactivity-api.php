@@ -183,8 +183,9 @@ final class WP_Interactivity_API {
 
 	/**
 	 * Marker that makes the placeholders of the current `process_directives()`
-	 * call recognizable. It occurs nowhere in the HTML that call received, and
-	 * it differs from the marker of any call that the current one runs inside.
+	 * call recognizable, or an empty string until the first `data-wp-html` host
+	 * of the call renders and draws it. It holds a random UUID, so no text
+	 * written before the call can realistically hold it.
 	 *
 	 * @since 7.2.0
 	 * @var string
@@ -536,17 +537,11 @@ final class WP_Interactivity_API {
 		/*
 		 * The trusted HTML of `data-wp-html` hosts never takes part in the
 		 * processing: each host receives a placeholder comment, and the comments
-		 * are replaced by their HTML once the result is known. The marker that
-		 * identifies them is chosen so that it occurs nowhere in the input, which
-		 * makes it impossible for the input to contain a placeholder. It is also
-		 * longer than the marker of any call this one runs inside, so their
-		 * placeholders never coincide.
+		 * are replaced by their HTML once the result is known. The call starts
+		 * without the marker that identifies them: the first host that renders
+		 * draws it, so a call without such a host does no marker work.
 		 */
-		$marker = '' === $this->html_placeholder_marker ? 'wp-interactivity-dangerous-html' : $this->html_placeholder_marker . '_';
-		while ( str_contains( $html, $marker ) ) {
-			$marker .= '_';
-		}
-		$this->html_placeholder_marker = $marker;
+		$this->html_placeholder_marker = '';
 		$this->html_placeholders       = array();
 
 		try {
@@ -1698,8 +1693,13 @@ final class WP_Interactivity_API {
 		/*
 		 * The HTML is held back and a placeholder comment takes its place, so no
 		 * later step of the call scans it. A comment is a single token for the
-		 * processors, and the marker in it occurs nowhere in the input.
+		 * processors. Its marker holds a random UUID, drawn once per call by the
+		 * first host that renders, so no text written before the call can
+		 * realistically contain a placeholder.
 		 */
+		if ( '' === $this->html_placeholder_marker ) {
+			$this->html_placeholder_marker = 'wp-interactivity-dangerous-html-' . wp_generate_uuid4();
+		}
 		$placeholder = '<!--' . $this->html_placeholder_marker . ':' . count( $this->html_placeholders ) . '-->';
 		if ( $p->skip_to_balanced_tag_closer( $placeholder ) ) {
 			$this->html_placeholders[ $placeholder ] = $html;
