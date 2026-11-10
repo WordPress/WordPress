@@ -7,6 +7,10 @@ var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
@@ -24,13 +28,6 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// package-external:@wordpress/element
-var require_element = __commonJS({
-  "package-external:@wordpress/element"(exports, module) {
-    module.exports = window.wp.element;
-  }
-});
-
 // package-external:@wordpress/data
 var require_data = __commonJS({
   "package-external:@wordpress/data"(exports, module) {
@@ -42,6 +39,13 @@ var require_data = __commonJS({
 var require_core_data = __commonJS({
   "package-external:@wordpress/core-data"(exports, module) {
     module.exports = window.wp.coreData;
+  }
+});
+
+// package-external:@wordpress/element
+var require_element = __commonJS({
+  "package-external:@wordpress/element"(exports, module) {
+    module.exports = window.wp.element;
   }
 });
 
@@ -66,6 +70,20 @@ var require_react = __commonJS({
   }
 });
 
+// vendor-external:react-dom
+var require_react_dom = __commonJS({
+  "vendor-external:react-dom"(exports, module) {
+    module.exports = window.ReactDOM;
+  }
+});
+
+// package-external:@wordpress/warning
+var require_warning = __commonJS({
+  "package-external:@wordpress/warning"(exports, module) {
+    module.exports = window.wp.warning;
+  }
+});
+
 // package-external:@wordpress/i18n
 var require_i18n = __commonJS({
   "package-external:@wordpress/i18n"(exports, module) {
@@ -80,24 +98,7 @@ var require_html_entities = __commonJS({
   }
 });
 
-// node_modules/.store/clsx@2.1.1-XOLP1vUL9vEGfpiXm37fAw/node_modules/clsx/dist/clsx.mjs
-function r(e) {
-  var t, f, n = "";
-  if ("string" == typeof e || "number" == typeof e) n += e;
-  else if ("object" == typeof e) if (Array.isArray(e)) {
-    var o = e.length;
-    for (t = 0; t < o; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
-  } else for (f in e) e[f] && (n && (n += " "), n += f);
-  return n;
-}
-function clsx() {
-  for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
-  return n;
-}
-var clsx_default = clsx;
-
 // packages/core-fields/build-module/wp_template/author/view.mjs
-var import_element4 = __toESM(require_element(), 1);
 var import_data = __toESM(require_data(), 1);
 var import_core_data = __toESM(require_core_data(), 1);
 
@@ -124,6 +125,26 @@ var layout_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primiti
 var import_primitives4 = __toESM(require_primitives(), 1);
 var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
 var plugins_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.Path, { d: "M15.3995 11.5711L12.2175 8.38909L10.273 6.44454L7.67678 9.04074C7.3017 9.41581 7.09099 9.92452 7.09099 10.455L7.09099 13.455C7.09099 13.7202 6.98563 13.9745 6.7981 14.1621L5.14645 15.8137C4.95118 16.009 4.95118 16.3256 5.14645 16.5208L7.26777 18.6421C7.46303 18.8374 7.77961 18.8374 7.97487 18.6421L9.62652 16.9905C9.81406 16.8029 10.0684 16.6976 10.3336 16.6976H13.3336C13.8641 16.6976 14.3728 16.4869 14.7478 16.1118L17.344 13.5156L15.3995 11.5711ZM12.2175 8.38909L16.1066 4.5M15.3995 11.5711L19.2886 7.68198" }) });
+
+// packages/ui/build-module/avatar/index.mjs
+var avatar_exports = {};
+__export(avatar_exports, {
+  Fallback: () => Fallback,
+  Image: () => Image,
+  Initials: () => Initials,
+  Root: () => Root
+});
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/index.parts.mjs
+var index_parts_exports = {};
+__export(index_parts_exports, {
+  Fallback: () => AvatarFallback,
+  Image: () => AvatarImage,
+  Root: () => AvatarRoot
+});
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/root/AvatarRoot.mjs
+var React6 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useRenderElement.mjs
 var React4 = __toESM(require_react(), 1);
@@ -292,6 +313,8 @@ function createLogOnce(severity, prefix) {
 var warn = createLogOnce("warn", "Base UI");
 
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/empty.mjs
+function NOOP() {
+}
 var EMPTY_ARRAY = Object.freeze([]);
 var EMPTY_OBJECT = Object.freeze({});
 
@@ -498,12 +521,12 @@ function useRenderElementProps(componentProps, params, renderProp) {
     state = EMPTY_OBJECT,
     ref,
     props,
-    stateAttributesMapping,
+    stateAttributesMapping: stateAttributesMapping2,
     enabled = true
   } = params;
   const className = enabled ? resolveClassName(classNameProp, state) : void 0;
   const style = enabled ? resolveStyle(styleProp, state) : void 0;
-  const stateProps = enabled ? getStateAttributesProps(state, stateAttributesMapping) : EMPTY_OBJECT;
+  const stateProps = enabled ? getStateAttributesProps(state, stateAttributesMapping2) : EMPTY_OBJECT;
   const resolvedProps = enabled && props ? resolveRenderFunctionProps(props) : void 0;
   const outProps = enabled ? mergeObjects(stateProps, resolvedProps) ?? {} : EMPTY_OBJECT;
   if (typeof document !== "undefined") {
@@ -592,34 +615,708 @@ function renderTag(Tag, props) {
   return /* @__PURE__ */ React4.createElement(Tag, props);
 }
 
-// packages/ui/build-module/icon/icon.mjs
-var import_element = __toESM(require_element(), 1);
-var import_primitives5 = __toESM(require_primitives(), 1);
-var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
-var Icon = (0, import_element.forwardRef)(
-  function UnforwardedIcon({ icon, size = 24, style, ...restProps }, ref) {
-    const mergedStyle = icon.props.style || style ? { ...icon.props.style, ...style } : void 0;
-    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
-      import_primitives5.SVG,
-      {
-        ref,
-        ...icon.props,
-        ...restProps,
-        ...mergedStyle ? { style: mergedStyle } : {},
-        width: size,
-        height: size
-      }
-    );
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/root/AvatarRootContext.mjs
+var React5 = __toESM(require_react(), 1);
+var AvatarRootContext = /* @__PURE__ */ React5.createContext(void 0);
+if (true) AvatarRootContext.displayName = "AvatarRootContext";
+function useAvatarRootContext() {
+  const context = React5.useContext(AvatarRootContext);
+  if (context === void 0) {
+    throw new Error(true ? "Base UI: AvatarRootContext is missing. Avatar parts must be placed within <Avatar.Root>." : formatErrorMessage_default(13));
   }
-);
-
-// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/use-render/useRender.mjs
-function useRender(params) {
-  return useRenderElement(params.defaultTagName ?? "div", params, params);
+  return context;
 }
 
-// packages/ui/build-module/text/text.mjs
-var import_element2 = __toESM(require_element(), 1);
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/root/stateAttributesMapping.mjs
+var avatarStateAttributesMapping = {
+  imageLoadingStatus: () => null
+};
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/root/AvatarRoot.mjs
+var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+var AvatarRoot = /* @__PURE__ */ React6.forwardRef(function AvatarRoot2(componentProps, forwardedRef) {
+  const {
+    className,
+    render: render2,
+    style,
+    ...elementProps
+  } = componentProps;
+  const [imageLoadingStatus, setImageLoadingStatus] = React6.useState("idle");
+  const state = {
+    imageLoadingStatus
+  };
+  const contextValue = React6.useMemo(() => ({
+    imageLoadingStatus,
+    setImageLoadingStatus
+  }), [imageLoadingStatus, setImageLoadingStatus]);
+  const element = useRenderElement("span", componentProps, {
+    state,
+    ref: forwardedRef,
+    props: elementProps,
+    stateAttributesMapping: avatarStateAttributesMapping
+  });
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(AvatarRootContext.Provider, {
+    value: contextValue,
+    children: element
+  });
+});
+if (true) AvatarRoot.displayName = "AvatarRoot";
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/image/AvatarImage.mjs
+var React13 = __toESM(require_react(), 1);
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/safeReact.mjs
+var React7 = __toESM(require_react(), 1);
+var SafeReact = {
+  ...React7
+};
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useStableCallback.mjs
+var useInsertionEffect = SafeReact.useInsertionEffect;
+var useSafeInsertionEffect = (
+  // React 17 doesn't have useInsertionEffect.
+  useInsertionEffect && // Preact replaces useInsertionEffect with useLayoutEffect and fires too late.
+  useInsertionEffect !== SafeReact.useLayoutEffect ? useInsertionEffect : (fn) => fn()
+);
+function useStableCallback(callback) {
+  const stable = useRefWithInit(createStableCallback).current;
+  stable.next = callback;
+  useSafeInsertionEffect(stable.effect);
+  return stable.trampoline;
+}
+function createStableCallback() {
+  const stable = {
+    next: void 0,
+    callback: assertNotCalled,
+    trampoline: (...args) => stable.callback?.(...args),
+    effect: () => {
+      stable.callback = stable.next;
+    }
+  };
+  return stable;
+}
+function assertNotCalled() {
+  if (true) {
+    throw (
+      /* minify-error-disabled */
+      new Error("Base UI: Cannot call an event handler while rendering.")
+    );
+  }
+}
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useIsoLayoutEffect.mjs
+var React8 = __toESM(require_react(), 1);
+var noop = () => {
+};
+var useIsoLayoutEffect = typeof document !== "undefined" ? React8.useLayoutEffect : noop;
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useOpenChangeComplete.mjs
+var React10 = __toESM(require_react(), 1);
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useAnimationsFinished.mjs
+var ReactDOM = __toESM(require_react_dom(), 1);
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useOnMount.mjs
+var React9 = __toESM(require_react(), 1);
+function useOnMount(fn) {
+  React9.useEffect(fn, EMPTY_ARRAY);
+}
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useAnimationFrame.mjs
+var EMPTY = null;
+var LAST_RAF = globalThis.requestAnimationFrame;
+var Scheduler = class {
+  /* This implementation uses an array as a backing data-structure for frame callbacks.
+   * It allows `O(1)` callback cancelling by inserting a `null` in the array, though it
+   * never calls the native `cancelAnimationFrame` if there are no frames left. This can
+   * be much more efficient if there is a call pattern that alterns as
+   * "request-cancel-request-cancel-…".
+   * But in the case of "request-request-…-cancel-cancel-…", it leaves the final animation
+   * frame to run anyway. We turn that frame into a `O(1)` no-op via `callbacksCount`. */
+  callbacks = [];
+  callbacksCount = 0;
+  nextId = 1;
+  startId = 1;
+  isScheduled = false;
+  tick = (timestamp) => {
+    this.isScheduled = false;
+    const currentCallbacks = this.callbacks;
+    const currentCallbacksCount = this.callbacksCount;
+    this.callbacks = [];
+    this.callbacksCount = 0;
+    this.startId = this.nextId;
+    if (currentCallbacksCount > 0) {
+      for (let i = 0; i < currentCallbacks.length; i += 1) {
+        currentCallbacks[i]?.(timestamp);
+      }
+    }
+  };
+  request(fn) {
+    const id = this.nextId;
+    this.nextId += 1;
+    this.callbacks.push(fn);
+    this.callbacksCount += 1;
+    const didRAFChange = LAST_RAF !== requestAnimationFrame && (LAST_RAF = requestAnimationFrame, true);
+    if (!this.isScheduled || didRAFChange) {
+      requestAnimationFrame(this.tick);
+      this.isScheduled = true;
+    }
+    return id;
+  }
+  cancel(id) {
+    const index = id - this.startId;
+    if (index < 0 || index >= this.callbacks.length) {
+      return;
+    }
+    if (this.callbacks[index] === null) {
+      return;
+    }
+    this.callbacks[index] = null;
+    this.callbacksCount -= 1;
+  }
+};
+var scheduler = new Scheduler();
+var AnimationFrame = class _AnimationFrame {
+  static create() {
+    return new _AnimationFrame();
+  }
+  static request(fn) {
+    return scheduler.request(fn);
+  }
+  static cancel(id) {
+    return scheduler.cancel(id);
+  }
+  currentId = EMPTY;
+  /**
+   * Executes `fn` after `delay`, clearing any previously scheduled call.
+   */
+  request(fn) {
+    this.cancel();
+    this.currentId = scheduler.request(() => {
+      this.currentId = EMPTY;
+      fn();
+    });
+  }
+  cancel = () => {
+    if (this.currentId !== EMPTY) {
+      scheduler.cancel(this.currentId);
+      this.currentId = EMPTY;
+    }
+  };
+  disposeEffect = () => {
+    return this.cancel;
+  };
+};
+function useAnimationFrame() {
+  const timeout = useRefWithInit(AnimationFrame.create).current;
+  useOnMount(timeout.disposeEffect);
+  return timeout;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/resolveRef.mjs
+function resolveRef(maybeRef) {
+  if (maybeRef == null) {
+    return maybeRef;
+  }
+  return "current" in maybeRef ? maybeRef.current : maybeRef;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/getFiniteAnimations.mjs
+function getFiniteAnimations(element, options) {
+  return element.getAnimations(options).filter((animation) => {
+    const timing = animation.effect?.getTiming();
+    return timing?.duration !== Infinity && timing?.iterations !== Infinity;
+  });
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/TransitionStatusDataAttributes.mjs
+var startingStyle = "data-starting-style";
+var endingStyle = "data-ending-style";
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useAnimationsFinished.mjs
+var pendingCallbacks = null;
+function flushBeforePaint(fn) {
+  if (!pendingCallbacks) {
+    const callbacks = [];
+    pendingCallbacks = callbacks;
+    queueMicrotask(() => {
+      pendingCallbacks = null;
+      ReactDOM.flushSync(() => {
+        for (const callback of callbacks) {
+          callback();
+        }
+      });
+    });
+  }
+  pendingCallbacks.push(fn);
+}
+function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false, batch = false) {
+  const frame = useAnimationFrame();
+  return useStableCallback((fnToExecute, signal = null) => {
+    frame.cancel();
+    const element = resolveRef(elementOrRef);
+    if (element == null) {
+      return;
+    }
+    const resolvedElement = element;
+    const done = () => {
+      if (!batch) {
+        ReactDOM.flushSync(fnToExecute);
+        return;
+      }
+      flushBeforePaint(() => {
+        if (!signal?.aborted) {
+          fnToExecute();
+        }
+      });
+    };
+    if (typeof resolvedElement.getAnimations !== "function" || globalThis.BASE_UI_ANIMATIONS_DISABLED) {
+      fnToExecute();
+      return;
+    }
+    function exec() {
+      Promise.all(getFiniteAnimations(resolvedElement).map((animation) => animation.finished.then(NOOP))).then(() => {
+        if (!signal?.aborted) {
+          done();
+        }
+      }, () => {
+        if (signal?.aborted) {
+          return;
+        }
+        const currentAnimations = getFiniteAnimations(resolvedElement);
+        if (currentAnimations.some((animation) => animation.pending || animation.playState !== "finished")) {
+          exec();
+          return;
+        }
+        done();
+      });
+    }
+    if (waitForStartingStyleRemoved) {
+      const startingStyleAttribute = startingStyle;
+      if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
+        frame.request(exec);
+        return;
+      }
+      const attributeObserver = new MutationObserver(() => {
+        if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
+          attributeObserver.disconnect();
+          exec();
+        }
+      });
+      attributeObserver.observe(resolvedElement, {
+        attributes: true,
+        attributeFilter: [startingStyleAttribute]
+      });
+      signal?.addEventListener("abort", () => attributeObserver.disconnect(), {
+        once: true
+      });
+      return;
+    }
+    frame.request(exec);
+  });
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useOpenChangeComplete.mjs
+function useOpenChangeComplete(parameters) {
+  const {
+    enabled = true,
+    open,
+    ref,
+    batch = false,
+    onComplete: onCompleteParam
+  } = parameters;
+  const onComplete = useStableCallback(onCompleteParam);
+  const runOnceAnimationsFinish = useAnimationsFinished(ref, open, batch);
+  React10.useEffect(() => {
+    if (!enabled) {
+      return void 0;
+    }
+    const abortController = new AbortController();
+    runOnceAnimationsFinish(onComplete, abortController.signal);
+    return () => {
+      abortController.abort();
+    };
+  }, [enabled, open, onComplete, runOnceAnimationsFinish]);
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/stateAttributesMapping.mjs
+var STARTING_HOOK = {
+  [startingStyle]: ""
+};
+var ENDING_HOOK = {
+  [endingStyle]: ""
+};
+var transitionStatusMapping = {
+  transitionStatus(value) {
+    if (value === "starting") {
+      return STARTING_HOOK;
+    }
+    if (value === "ending") {
+      return ENDING_HOOK;
+    }
+    return null;
+  }
+};
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useTransitionStatus.mjs
+var React11 = __toESM(require_react(), 1);
+function useTransitionStatus(open, enableIdleState = false, deferEndingState = false, animateInitialOpen = false) {
+  const [transitionStatus, setTransitionStatus] = React11.useState(open && enableIdleState ? "idle" : void 0);
+  const [mounted, setMounted] = React11.useState(open && !animateInitialOpen);
+  if (open && !mounted) {
+    setMounted(true);
+    setTransitionStatus("starting");
+  }
+  if (!open && mounted && transitionStatus !== "ending" && !deferEndingState) {
+    setTransitionStatus("ending");
+  }
+  if (!open && !mounted && transitionStatus === "ending") {
+    setTransitionStatus(void 0);
+  }
+  useIsoLayoutEffect(() => {
+    if (!open && mounted && transitionStatus !== "ending" && deferEndingState) {
+      const frame = AnimationFrame.request(() => {
+        setTransitionStatus("ending");
+      });
+      return () => {
+        AnimationFrame.cancel(frame);
+      };
+    }
+    return void 0;
+  }, [open, mounted, transitionStatus, deferEndingState]);
+  useIsoLayoutEffect(() => {
+    if (!open || enableIdleState || transitionStatus === void 0) {
+      return void 0;
+    }
+    const frame = AnimationFrame.request(() => {
+      setTransitionStatus(void 0);
+    });
+    return () => {
+      AnimationFrame.cancel(frame);
+    };
+  }, [enableIdleState, open, transitionStatus]);
+  useIsoLayoutEffect(() => {
+    if (!open || !enableIdleState) {
+      return void 0;
+    }
+    if (open && mounted && transitionStatus !== "idle") {
+      setTransitionStatus("starting");
+    }
+    const frame = AnimationFrame.request(() => {
+      setTransitionStatus("idle");
+    });
+    return () => {
+      AnimationFrame.cancel(frame);
+    };
+  }, [enableIdleState, open, mounted, transitionStatus]);
+  return {
+    mounted,
+    setMounted,
+    transitionStatus
+  };
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/image/useImageLoadingStatus.mjs
+var React12 = __toESM(require_react(), 1);
+function useImageLoadingStatus(src, {
+  referrerPolicy,
+  crossOrigin,
+  sizes,
+  srcSet
+}, enabled) {
+  const state = React12.useState("idle");
+  const setLoadingStatus = state[1];
+  useIsoLayoutEffect(() => {
+    if (!enabled) {
+      return NOOP;
+    }
+    if (!src && !srcSet) {
+      setLoadingStatus("error");
+      return NOOP;
+    }
+    let isMounted = true;
+    const image = new window.Image();
+    const updateStatus = (status) => () => {
+      if (!isMounted) {
+        return;
+      }
+      setLoadingStatus(status);
+    };
+    setLoadingStatus("loading");
+    image.onload = updateStatus("loaded");
+    image.onerror = updateStatus("error");
+    if (referrerPolicy) {
+      image.referrerPolicy = referrerPolicy;
+    }
+    image.crossOrigin = crossOrigin ?? null;
+    if (sizes) {
+      image.sizes = sizes;
+    }
+    if (srcSet) {
+      image.srcset = srcSet;
+    }
+    if (src) {
+      image.src = src;
+    }
+    if (image.complete) {
+      setLoadingStatus(image.naturalWidth > 0 ? "loaded" : "error");
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [enabled, src, srcSet, sizes, crossOrigin, referrerPolicy, setLoadingStatus]);
+  return state;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/image/AvatarImage.mjs
+var stateAttributesMapping = {
+  ...avatarStateAttributesMapping,
+  ...transitionStatusMapping
+};
+var AvatarImage = /* @__PURE__ */ React13.forwardRef(function AvatarImage2(componentProps, forwardedRef) {
+  const {
+    className,
+    render: render2,
+    onLoadingStatusChange: onLoadingStatusChangeProp,
+    keepMounted = false,
+    style,
+    // Split out so they can be applied after every other prop. React 17 and 18 set attributes in
+    // props order, and Safari and Firefox start fetching as soon as `src` lands, ignoring a
+    // `loading` or `srcSet` that arrives after it. React 19 orders these itself.
+    sizes,
+    srcSet,
+    src,
+    ...elementProps
+  } = componentProps;
+  const {
+    setImageLoadingStatus: setRootImageLoadingStatus
+  } = useAvatarRootContext();
+  const [imageLoadingStatus, setImageLoadingStatus] = useImageLoadingStatus(src, componentProps, !keepMounted);
+  const isVisible = imageLoadingStatus === "loaded";
+  const {
+    mounted,
+    transitionStatus,
+    setMounted
+  } = useTransitionStatus(isVisible);
+  const imageRef = React13.useRef(null);
+  const initialCommitRef = React13.useRef(true);
+  useIsoLayoutEffect(() => {
+    if (!keepMounted) {
+      return;
+    }
+    const isInitialCommit = initialCommitRef.current;
+    initialCommitRef.current = false;
+    const image = imageRef.current;
+    if (!image) {
+      return;
+    }
+    if (!image.complete) {
+      setImageLoadingStatus("loading");
+      return;
+    }
+    const status = image.naturalWidth > 0 ? "loaded" : "error";
+    setImageLoadingStatus(status);
+    if (status === "loaded" && isInitialCommit) {
+      setMounted(true);
+    }
+  }, [keepMounted, src, srcSet, sizes, elementProps.crossOrigin, elementProps.referrerPolicy, render2, setImageLoadingStatus, setMounted]);
+  const renderedStatusProps = keepMounted ? {
+    // Presence no longer implies the image loaded, so the not-loaded states need their own
+    // styling hooks. Scoped to `keepMounted` so the default mode, where the element only
+    // exists once loaded, doesn't pick them up while it animates out.
+    "data-loading": imageLoadingStatus === "loading" ? "" : void 0,
+    "data-error": imageLoadingStatus === "error" ? "" : void 0,
+    // Until the image is displayable, the fallback owns the accessible name; without this
+    // both would be exposed to assistive technology at once (including in server HTML).
+    "aria-hidden": imageLoadingStatus !== "loaded" || void 0,
+    onLoad() {
+      setImageLoadingStatus("loaded");
+    },
+    onError() {
+      setImageLoadingStatus("error");
+    }
+  } : void 0;
+  const handleLoadingStatusChange = useStableCallback((status) => {
+    onLoadingStatusChangeProp?.(status);
+    setRootImageLoadingStatus(status);
+  });
+  useIsoLayoutEffect(() => {
+    if (imageLoadingStatus !== "idle") {
+      handleLoadingStatusChange(imageLoadingStatus);
+    }
+  }, [imageLoadingStatus, handleLoadingStatusChange]);
+  useIsoLayoutEffect(() => {
+    return () => setRootImageLoadingStatus("idle");
+  }, [setRootImageLoadingStatus]);
+  useOpenChangeComplete({
+    enabled: !isVisible,
+    open: isVisible,
+    ref: imageRef,
+    onComplete() {
+      if (!isVisible) {
+        setMounted(false);
+      }
+    }
+  });
+  const state = {
+    imageLoadingStatus,
+    // The element never unmounts with `keepMounted`, so an exit transition would play and then
+    // reverse itself once the status is cleared. `data-loading`/`data-error` cover that state.
+    transitionStatus: keepMounted && transitionStatus === "ending" ? void 0 : transitionStatus
+  };
+  const shouldRender = keepMounted || mounted;
+  const sourceProps = {};
+  if (sizes !== void 0) {
+    sourceProps.sizes = sizes;
+  }
+  if (srcSet !== void 0) {
+    sourceProps.srcSet = srcSet;
+  }
+  if (src !== void 0) {
+    sourceProps.src = src;
+  }
+  const element = useRenderElement("img", componentProps, {
+    state,
+    ref: [forwardedRef, imageRef],
+    props: [renderedStatusProps, elementProps, sourceProps],
+    stateAttributesMapping,
+    enabled: shouldRender
+  });
+  if (!shouldRender) {
+    return null;
+  }
+  return element;
+});
+if (true) AvatarImage.displayName = "AvatarImage";
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/fallback/AvatarFallback.mjs
+var React14 = __toESM(require_react(), 1);
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useTimeout.mjs
+var EMPTY2 = 0;
+var Timeout = class _Timeout {
+  static create() {
+    return new _Timeout();
+  }
+  currentId = EMPTY2;
+  /**
+   * Executes `fn` after `delay`, clearing any previously scheduled call.
+   */
+  start(delay, fn) {
+    this.clear();
+    this.currentId = setTimeout(() => {
+      this.currentId = EMPTY2;
+      fn();
+    }, delay);
+  }
+  isStarted() {
+    return this.currentId !== EMPTY2;
+  }
+  clear = () => {
+    if (this.currentId !== EMPTY2) {
+      clearTimeout(this.currentId);
+      this.currentId = EMPTY2;
+    }
+  };
+  disposeEffect = () => {
+    return this.clear;
+  };
+};
+function useTimeout() {
+  const timeout = useRefWithInit(Timeout.create).current;
+  useOnMount(timeout.disposeEffect);
+  return timeout;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/fallback/AvatarFallback.mjs
+var AvatarFallback = /* @__PURE__ */ React14.forwardRef(function AvatarFallback2(componentProps, forwardedRef) {
+  const {
+    className,
+    render: render2,
+    delay = 0,
+    style,
+    ...elementProps
+  } = componentProps;
+  const {
+    imageLoadingStatus
+  } = useAvatarRootContext();
+  const [delayPassed, setDelayPassed] = React14.useState(delay === 0);
+  const timeout = useTimeout();
+  React14.useEffect(() => {
+    if (delay > 0) {
+      timeout.start(delay, () => setDelayPassed(true));
+    } else {
+      setDelayPassed(true);
+    }
+    return timeout.clear;
+  }, [timeout, delay]);
+  const state = {
+    imageLoadingStatus
+  };
+  const element = useRenderElement("span", componentProps, {
+    state,
+    ref: forwardedRef,
+    props: elementProps,
+    stateAttributesMapping: avatarStateAttributesMapping,
+    enabled: imageLoadingStatus !== "loaded" && (delay === 0 || delayPassed)
+  });
+  return element;
+});
+if (true) AvatarFallback.displayName = "AvatarFallback";
+
+// node_modules/.store/clsx@2.1.1-XOLP1vUL9vEGfpiXm37fAw/node_modules/clsx/dist/clsx.mjs
+function r(e) {
+  var t, f, n = "";
+  if ("string" == typeof e || "number" == typeof e) n += e;
+  else if ("object" == typeof e) if (Array.isArray(e)) {
+    var o = e.length;
+    for (t = 0; t < o; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
+  } else for (f in e) e[f] && (n && (n += " "), n += f);
+  return n;
+}
+function clsx() {
+  for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
+  return n;
+}
+var clsx_default = clsx;
+
+// packages/ui/build-module/avatar/root.mjs
+var import_element = __toESM(require_element(), 1);
+
+// packages/ui/build-module/avatar/dev-warnings.mjs
+var import_warning = __toESM(require_warning(), 1);
+function warnAvatarColor(color) {
+  if (color === void 0) {
+    return;
+  }
+  const tokens = color.match(
+    /\/\*[\s\S]*?(?:\*\/|$)|"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*'|(?:[-\w\u0080-\uFFFF]|\\(?:[\da-fA-F]{1,6}[ \t\r\n\f]?|[^\r\n\f]))+/g
+  );
+  if (tokens?.some((token) => token.toLowerCase() === "currentcolor")) {
+    (0, import_warning.default)(
+      "Avatar.Root: `color` contains `currentColor`, which can produce insufficient contrast in colored fallbacks. Use a color that does not depend on the foreground."
+    );
+    return;
+  }
+  if (typeof CSS === "undefined" || !CSS.supports) {
+    return;
+  }
+  if (!CSS.supports("color", color)) {
+    (0, import_warning.default)(
+      "Avatar.Root: The browser does not support the `color` value. Use a valid CSS color supported by this browser."
+    );
+  } else if (
+    // Browsers without relative colors retain the neutral fallback.
+    CSS.supports("color", "rgb(from red r g b / 1)") && !CSS.supports("color", `rgb(from ${color} r g b / 1)`)
+  ) {
+    (0, import_warning.default)(
+      "Avatar.Root: `color` cannot be used as a colored fallback fill. Use an explicit CSS color instead of a CSS-wide keyword such as `inherit`."
+    );
+  }
+}
+
+// packages/ui/build-module/avatar/root.mjs
+var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE = "data-wp-hash";
 function getRuntime() {
   const globalScope = globalThis;
@@ -701,35 +1398,46 @@ function registerStyle(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle("09bae534ff", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._9745ffa515d864cf__text{text-wrap:pretty;margin:0}._8882b6a7feb4fd3d__heading-2xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-2xl,32px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-2xl,32px);--_gcd-p-line-height:var(--wpds-typography-line-height-2xl,40px);font-size:var(--wpds-typography-font-size-2xl,32px);line-height:var(--wpds-typography-line-height-2xl,40px)}._664e3e7687c45603__heading-xl,._8882b6a7feb4fd3d__heading-2xl{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-emphasis,600)}._664e3e7687c45603__heading-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-md,24px)}.dac661a5de0ed2bd__heading-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-lg,15px)}._59c7f3f740e2f96e__heading-md,.dac661a5de0ed2bd__heading-lg{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-emphasis,600);line-height:var(--wpds-typography-line-height-sm,20px)}._59c7f3f740e2f96e__heading-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px)}.cf052fbad8d93b7e__heading-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-xs,11px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-xs,11px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);line-height:var(--wpds-typography-line-height-xs,16px);text-transform:uppercase}._212b9cfef57a0af4__body-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-xl,32px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-xl,32px)}._07f57bc0aa36b2c6__body-lg,._212b9cfef57a0af4__body-xl{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-default,400)}._07f57bc0aa36b2c6__body-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-lg,15px);line-height:var(--wpds-typography-line-height-md,24px)}._0c6da4457aec9e62__body-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px)}._0c6da4457aec9e62__body-md,.b998f87ff17b7bec__body-sm{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-default,400)}.b998f87ff17b7bec__body-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-size:var(--wpds-typography-font-size-sm,12px);line-height:var(--wpds-typography-line-height-xs,16px)}}}');
+  registerStyle("37477070fb", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{.ccc29f9575c4c758__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
 }
-var style_default = { "text": "_9745ffa515d864cf__text", "heading-2xl": "_8882b6a7feb4fd3d__heading-2xl", "heading-xl": "_664e3e7687c45603__heading-xl", "heading-lg": "dac661a5de0ed2bd__heading-lg", "heading-md": "_59c7f3f740e2f96e__heading-md", "heading-sm": "cf052fbad8d93b7e__heading-sm", "body-xl": "_212b9cfef57a0af4__body-xl", "body-lg": "_07f57bc0aa36b2c6__body-lg", "body-md": "_0c6da4457aec9e62__body-md", "body-sm": "b998f87ff17b7bec__body-sm" };
+var resets_default = { "box-sizing": "ccc29f9575c4c758__box-sizing" };
 if (typeof process === "undefined" || true) {
   registerStyle("726f348f3f", "._78c10a0773e51a91__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}._5b33aa2d48624b4f__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._980b3b4776ac8f81__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._43e478b4279a076c__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._698099e25b0fb1a6__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6)._326aee4184d261fd__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}.e9576240835601ba__a,.e9576240835601ba__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}._3f05789653864a73__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._3c72ff72abe57859__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._79d16267c15d9eb2__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
 }
 var global_css_defense_default = { "button": "_78c10a0773e51a91__button", "input": "_5b33aa2d48624b4f__input", "textarea": "_980b3b4776ac8f81__textarea", "div": "_43e478b4279a076c__div", "p": "_698099e25b0fb1a6__p", "heading": "_326aee4184d261fd__heading", "a": "e9576240835601ba__a", "ol": "_3f05789653864a73__ol", "li": "_3c72ff72abe57859__li", "span": "_79d16267c15d9eb2__span" };
-var Text = (0, import_element2.forwardRef)(
-  function UnforwardedText({ variant = "body-md", render: render2, className, ...props }, ref) {
-    const element = useRender({
-      render: render2,
-      defaultTagName: "span",
-      ref,
-      props: mergeProps(props, {
+if (typeof process === "undefined" || true) {
+  registerStyle("2657a3ab0c", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.a9728400af96db77__root{--_wp-ui-avatar-size:var(--wpds-dimension-size-md,32px);--_gcd-span-position:relative;--_gcd-span-display:inline-flex;--_gcd-span-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-span-font-size:var(--_wp-ui-avatar-font-size);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-sm,12px);align-items:center;background-color:var(--wpds-color-background-surface-neutral-weak,#f4f4f4);block-size:var(--_wp-ui-avatar-size);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:50%;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:inline-flex;flex-shrink:0;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--_wp-ui-avatar-font-size);font-weight:var(--wpds-typography-font-weight-emphasis,600);inline-size:var(--_wp-ui-avatar-size);justify-content:center;line-height:1;position:relative;vertical-align:middle}._81a33c129d7cbe31__has-color:after{border:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--_wp-ui-avatar-color);border-radius:inherit;content:"";inset:calc(var(--wpds-border-width-xs, 1px)*-1);pointer-events:none;position:absolute}._32e65dea77285874__is-square{border-radius:var(--wpds-border-radius-sm,2px)}._7d2020337343df5a__is-xs{--_wp-ui-avatar-size:var(--wpds-dimension-size-2xs,16px);--_wp-ui-avatar-font-size:calc(var(--_wp-ui-avatar-size)/2)}._216fb78a075c5ab4__is-sm{--_wp-ui-avatar-size:var(--wpds-dimension-size-sm,24px);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-xs,11px)}.b552ab04a3b94ae9__is-lg{--_wp-ui-avatar-size:var(--wpds-dimension-size-lg,40px);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-md,13px)}.f8a7646462ff80d1__is-xl{--_wp-ui-avatar-size:calc(var(--wpds-dimension-size-md, 32px)*2);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-xl,20px)}._411c43ac028fe4be__image,._7883f856336224e2__fallback{block-size:100%;border-radius:inherit;inline-size:100%;inset:0;position:absolute}._411c43ac028fe4be__image{object-fit:cover;@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1));&[data-error],&[data-loading],&[data-starting-style]{opacity:0}}&[data-ending-style],&[data-error],&[data-loading]{visibility:hidden}}._7883f856336224e2__fallback{--_gcd-span-position:absolute;--_gcd-span-display:flex;align-items:center;display:flex;justify-content:center;overflow:hidden;white-space:nowrap;>svg{block-size:100%;flex-shrink:0;inline-size:100%}>.dc9b5131d4746aa6__person-icon{block-size:110%;color:var(--wpds-color-stroke-surface-neutral-strong,#8d8d8d);inline-size:110%;translate:0 15%}}@media not (forced-colors:active){@supports (color:rgb(from green r g b/1)) and (color:color(from green srgb-linear round(up,r) g b/1)){._81a33c129d7cbe31__has-color:has(>._7883f856336224e2__fallback){border:none}._81a33c129d7cbe31__has-color:has(>._7883f856336224e2__fallback):after{content:none}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback{--_wp-ui-avatar-background:rgb(from var(--_wp-ui-avatar-color) clamp(0,r,255) clamp(0,g,255) clamp(0,b,255)/1);--_wp-ui-avatar-contrast-target:4.55;background-color:var(--_wp-ui-avatar-background)}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback>.dc9b5131d4746aa6__person-icon{--_wp-ui-avatar-contrast-target:3.05}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback,._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback>.dc9b5131d4746aa6__person-icon{--_wp-ui-avatar-luminance:calc(0.2126 * r + 0.7152 * g + 0.0722 * b);--_wp-ui-avatar-light-foreground:round(up,clamp(0,calc(0.17913 - var(--_wp-ui-avatar-luminance)),1));--_wp-ui-avatar-dark-tint:clamp(0,calc(((var(--_wp-ui-avatar-luminance) + 0.05)/var(--_wp-ui-avatar-contrast-target) - 0.05)/max(0.000001, var(--_wp-ui-avatar-luminance))),1);--_wp-ui-avatar-light-tint:clamp(0,calc((1.05 - var(--_wp-ui-avatar-contrast-target)*(var(--_wp-ui-avatar-luminance) + 0.05))/max(0.000001, 1 - var(--_wp-ui-avatar-luminance))),1);--_wp-ui-avatar-tint:calc(var(--_wp-ui-avatar-light-foreground)*var(--_wp-ui-avatar-light-tint) + (1 - var(--_wp-ui-avatar-light-foreground))*var(--_wp-ui-avatar-dark-tint));color:color(from var(--_wp-ui-avatar-background) srgb-linear calc(var(--_wp-ui-avatar-light-foreground) + (r - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint)) calc(var(--_wp-ui-avatar-light-foreground) + (g - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint)) calc(var(--_wp-ui-avatar-light-foreground) + (b - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint))/1)}}}}}');
+}
+var style_default = { "root": "a9728400af96db77__root", "has-color": "_81a33c129d7cbe31__has-color", "is-square": "_32e65dea77285874__is-square", "is-xs": "_7d2020337343df5a__is-xs", "is-sm": "_216fb78a075c5ab4__is-sm", "is-lg": "b552ab04a3b94ae9__is-lg", "is-xl": "f8a7646462ff80d1__is-xl", "image": "_411c43ac028fe4be__image", "fallback": "_7883f856336224e2__fallback", "person-icon": "dc9b5131d4746aa6__person-icon" };
+var Root = (0, import_element.forwardRef)(
+  function AvatarRoot3({ size = "md", shape = "circle", color, className, style, ...props }, ref) {
+    if (true) {
+      warnAvatarColor(color);
+    }
+    const customProperties = color === void 0 ? style : { ...style, "--_wp-ui-avatar-color": color };
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+      index_parts_exports.Root,
+      {
+        ref,
+        style: customProperties,
         className: clsx_default(
-          style_default.text,
-          global_css_defense_default.heading,
-          global_css_defense_default.p,
-          style_default[variant],
+          resets_default["box-sizing"],
+          global_css_defense_default.span,
+          style_default.root,
+          style_default[`is-${size}`],
+          shape === "square" && style_default["is-square"],
+          color !== void 0 && style_default["has-color"],
           className
-        )
-      })
-    });
-    return element;
+        ),
+        ...props
+      }
+    );
   }
 );
 
-// packages/ui/build-module/stack/stack.mjs
-var import_element3 = __toESM(require_element(), 1);
+// packages/ui/build-module/avatar/image.mjs
+var import_element2 = __toESM(require_element(), 1);
+var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE2 = "data-wp-hash";
 function getRuntime2() {
   const globalScope = globalThis;
@@ -811,41 +1519,100 @@ function registerStyle2(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle2("67591fa198", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._8e8e79c1a2eec43b__stack{display:flex}}}");
+  registerStyle2("2657a3ab0c", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.a9728400af96db77__root{--_wp-ui-avatar-size:var(--wpds-dimension-size-md,32px);--_gcd-span-position:relative;--_gcd-span-display:inline-flex;--_gcd-span-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-span-font-size:var(--_wp-ui-avatar-font-size);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-sm,12px);align-items:center;background-color:var(--wpds-color-background-surface-neutral-weak,#f4f4f4);block-size:var(--_wp-ui-avatar-size);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:50%;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:inline-flex;flex-shrink:0;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--_wp-ui-avatar-font-size);font-weight:var(--wpds-typography-font-weight-emphasis,600);inline-size:var(--_wp-ui-avatar-size);justify-content:center;line-height:1;position:relative;vertical-align:middle}._81a33c129d7cbe31__has-color:after{border:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--_wp-ui-avatar-color);border-radius:inherit;content:"";inset:calc(var(--wpds-border-width-xs, 1px)*-1);pointer-events:none;position:absolute}._32e65dea77285874__is-square{border-radius:var(--wpds-border-radius-sm,2px)}._7d2020337343df5a__is-xs{--_wp-ui-avatar-size:var(--wpds-dimension-size-2xs,16px);--_wp-ui-avatar-font-size:calc(var(--_wp-ui-avatar-size)/2)}._216fb78a075c5ab4__is-sm{--_wp-ui-avatar-size:var(--wpds-dimension-size-sm,24px);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-xs,11px)}.b552ab04a3b94ae9__is-lg{--_wp-ui-avatar-size:var(--wpds-dimension-size-lg,40px);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-md,13px)}.f8a7646462ff80d1__is-xl{--_wp-ui-avatar-size:calc(var(--wpds-dimension-size-md, 32px)*2);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-xl,20px)}._411c43ac028fe4be__image,._7883f856336224e2__fallback{block-size:100%;border-radius:inherit;inline-size:100%;inset:0;position:absolute}._411c43ac028fe4be__image{object-fit:cover;@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1));&[data-error],&[data-loading],&[data-starting-style]{opacity:0}}&[data-ending-style],&[data-error],&[data-loading]{visibility:hidden}}._7883f856336224e2__fallback{--_gcd-span-position:absolute;--_gcd-span-display:flex;align-items:center;display:flex;justify-content:center;overflow:hidden;white-space:nowrap;>svg{block-size:100%;flex-shrink:0;inline-size:100%}>.dc9b5131d4746aa6__person-icon{block-size:110%;color:var(--wpds-color-stroke-surface-neutral-strong,#8d8d8d);inline-size:110%;translate:0 15%}}@media not (forced-colors:active){@supports (color:rgb(from green r g b/1)) and (color:color(from green srgb-linear round(up,r) g b/1)){._81a33c129d7cbe31__has-color:has(>._7883f856336224e2__fallback){border:none}._81a33c129d7cbe31__has-color:has(>._7883f856336224e2__fallback):after{content:none}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback{--_wp-ui-avatar-background:rgb(from var(--_wp-ui-avatar-color) clamp(0,r,255) clamp(0,g,255) clamp(0,b,255)/1);--_wp-ui-avatar-contrast-target:4.55;background-color:var(--_wp-ui-avatar-background)}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback>.dc9b5131d4746aa6__person-icon{--_wp-ui-avatar-contrast-target:3.05}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback,._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback>.dc9b5131d4746aa6__person-icon{--_wp-ui-avatar-luminance:calc(0.2126 * r + 0.7152 * g + 0.0722 * b);--_wp-ui-avatar-light-foreground:round(up,clamp(0,calc(0.17913 - var(--_wp-ui-avatar-luminance)),1));--_wp-ui-avatar-dark-tint:clamp(0,calc(((var(--_wp-ui-avatar-luminance) + 0.05)/var(--_wp-ui-avatar-contrast-target) - 0.05)/max(0.000001, var(--_wp-ui-avatar-luminance))),1);--_wp-ui-avatar-light-tint:clamp(0,calc((1.05 - var(--_wp-ui-avatar-contrast-target)*(var(--_wp-ui-avatar-luminance) + 0.05))/max(0.000001, 1 - var(--_wp-ui-avatar-luminance))),1);--_wp-ui-avatar-tint:calc(var(--_wp-ui-avatar-light-foreground)*var(--_wp-ui-avatar-light-tint) + (1 - var(--_wp-ui-avatar-light-foreground))*var(--_wp-ui-avatar-dark-tint));color:color(from var(--_wp-ui-avatar-background) srgb-linear calc(var(--_wp-ui-avatar-light-foreground) + (r - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint)) calc(var(--_wp-ui-avatar-light-foreground) + (g - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint)) calc(var(--_wp-ui-avatar-light-foreground) + (b - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint))/1)}}}}}');
 }
-var style_default2 = { "stack": "_8e8e79c1a2eec43b__stack" };
-var gapTokens = {
-  xs: "var(--wpds-dimension-gap-xs, 4px)",
-  sm: "var(--wpds-dimension-gap-sm, 8px)",
-  md: "var(--wpds-dimension-gap-md, 12px)",
-  lg: "var(--wpds-dimension-gap-lg, 16px)",
-  xl: "var(--wpds-dimension-gap-xl, 24px)",
-  "2xl": "var(--wpds-dimension-gap-2xl, 32px)",
-  "3xl": "var(--wpds-dimension-gap-3xl, 40px)"
-};
-var Stack = (0, import_element3.forwardRef)(
-  function UnforwardedStack({ direction, gap, align, justify, wrap, render: render2, ...props }, ref) {
-    const style = {
-      gap: gap && gapTokens[gap],
-      alignItems: align,
-      justifyContent: justify,
-      flexDirection: direction,
-      flexWrap: wrap
-    };
-    const element = useRender({
-      render: render2,
-      ref,
-      props: mergeProps(props, {
-        style,
-        className: style_default2.stack
-      })
-    });
-    return element;
+var style_default2 = { "root": "a9728400af96db77__root", "has-color": "_81a33c129d7cbe31__has-color", "is-square": "_32e65dea77285874__is-square", "is-xs": "_7d2020337343df5a__is-xs", "is-sm": "_216fb78a075c5ab4__is-sm", "is-lg": "b552ab04a3b94ae9__is-lg", "is-xl": "f8a7646462ff80d1__is-xl", "image": "_411c43ac028fe4be__image", "fallback": "_7883f856336224e2__fallback", "person-icon": "dc9b5131d4746aa6__person-icon" };
+var Image = (0, import_element2.forwardRef)(
+  function AvatarImage3({ className, ...props }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+      index_parts_exports.Image,
+      {
+        ref,
+        className: clsx_default(style_default2.image, className),
+        ...props
+      }
+    );
   }
 );
 
-// packages/core-fields/build-module/wp_template/author/view.mjs
-var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+// packages/ui/build-module/avatar/fallback.mjs
+var import_element5 = __toESM(require_element(), 1);
+var import_primitives6 = __toESM(require_primitives(), 1);
+
+// packages/ui/build-module/icon/icon.mjs
+var import_element3 = __toESM(require_element(), 1);
+var import_primitives5 = __toESM(require_primitives(), 1);
+var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+var Icon = (0, import_element3.forwardRef)(
+  function UnforwardedIcon({ icon, size = 24, style, ...restProps }, ref) {
+    const mergedStyle = icon.props.style || style ? { ...icon.props.style, ...style } : void 0;
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+      import_primitives5.SVG,
+      {
+        ref,
+        ...icon.props,
+        ...restProps,
+        ...mergedStyle ? { style: mergedStyle } : {},
+        width: size,
+        height: size
+      }
+    );
+  }
+);
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/use-render/useRender.mjs
+function useRender(params) {
+  return useRenderElement(params.defaultTagName ?? "div", params, params);
+}
+
+// packages/ui/build-module/avatar/fallback-with-loading-delay.mjs
+var import_element4 = __toESM(require_element(), 1);
+var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+function FallbackElement({
+  elementProps,
+  render: render2,
+  state,
+  enabled
+}) {
+  return useRender({
+    defaultTagName: "span",
+    // Forward the original state without adding useRender's automatic data attributes.
+    render: typeof render2 === "function" ? (props) => render2(props, state) : render2,
+    props: { ...elementProps },
+    enabled
+  });
+}
+var FallbackWithLoadingDelay = (0, import_element4.forwardRef)(function AvatarFallbackWithLoadingDelay({ delay = 0, render: render2, ...props }, ref) {
+  const [delayPassed, setDelayPassed] = (0, import_element4.useState)(delay === 0);
+  (0, import_element4.useEffect)(() => {
+    if (delay === 0) {
+      setDelayPassed(true);
+      return;
+    }
+    const timeout = setTimeout(() => setDelayPassed(true), delay);
+    return () => clearTimeout(timeout);
+  }, [delay]);
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+    index_parts_exports.Fallback,
+    {
+      ...props,
+      ref,
+      delay: 0,
+      render: (elementProps, state) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+        FallbackElement,
+        {
+          elementProps,
+          render: render2,
+          state,
+          enabled: state.imageLoadingStatus !== "loading" || delayPassed
+        }
+      )
+    }
+  );
+});
+
+// packages/ui/build-module/avatar/fallback.mjs
+var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE3 = "data-wp-hash";
 function getRuntime3() {
   const globalScope = globalThis;
@@ -927,165 +1694,74 @@ function registerStyle3(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle3("9c246501a5", "._66de93a96eb5a44f__avatar{align-items:center;block-size:1lh;display:flex;flex-shrink:0;inline-size:24px;justify-content:start;overflow:hidden}._66de93a96eb5a44f__avatar img{block-size:16px;border-radius:100%;inline-size:16px;object-fit:cover;opacity:0}@media not (prefers-reduced-motion){._66de93a96eb5a44f__avatar img{transition:opacity .1s linear}}._66de93a96eb5a44f__avatar.fe521286e51cb220__is-loaded img{opacity:1}.dbd5d0f448658ef9__icon{align-items:center;block-size:1lh;display:flex;flex-shrink:0;inline-size:24px}.dbd5d0f448658ef9__icon svg{fill:currentColor;margin-inline-start:-4px}._5026ec0f3be21164__name{overflow:hidden;text-overflow:ellipsis}");
+  registerStyle3("726f348f3f", "._78c10a0773e51a91__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}._5b33aa2d48624b4f__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._980b3b4776ac8f81__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._43e478b4279a076c__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._698099e25b0fb1a6__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6)._326aee4184d261fd__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}.e9576240835601ba__a,.e9576240835601ba__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}._3f05789653864a73__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._3c72ff72abe57859__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._79d16267c15d9eb2__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
 }
-var style_default3 = { "avatar": "_66de93a96eb5a44f__avatar", "is-loaded": "fe521286e51cb220__is-loaded", "icon": "dbd5d0f448658ef9__icon", "name": "_5026ec0f3be21164__name" };
-function getIconForSource(originalSource) {
-  switch (originalSource) {
-    case "theme":
-      return layout_default;
-    case "plugin":
-      return plugins_default;
-    case "site":
-      return globe_default;
-    default:
-      return comment_author_avatar_default;
+var global_css_defense_default2 = { "button": "_78c10a0773e51a91__button", "input": "_5b33aa2d48624b4f__input", "textarea": "_980b3b4776ac8f81__textarea", "div": "_43e478b4279a076c__div", "p": "_698099e25b0fb1a6__p", "heading": "_326aee4184d261fd__heading", "a": "e9576240835601ba__a", "ol": "_3f05789653864a73__ol", "li": "_3c72ff72abe57859__li", "span": "_79d16267c15d9eb2__span" };
+if (typeof process === "undefined" || true) {
+  registerStyle3("2657a3ab0c", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.a9728400af96db77__root{--_wp-ui-avatar-size:var(--wpds-dimension-size-md,32px);--_gcd-span-position:relative;--_gcd-span-display:inline-flex;--_gcd-span-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-span-font-size:var(--_wp-ui-avatar-font-size);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-sm,12px);align-items:center;background-color:var(--wpds-color-background-surface-neutral-weak,#f4f4f4);block-size:var(--_wp-ui-avatar-size);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:50%;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:inline-flex;flex-shrink:0;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--_wp-ui-avatar-font-size);font-weight:var(--wpds-typography-font-weight-emphasis,600);inline-size:var(--_wp-ui-avatar-size);justify-content:center;line-height:1;position:relative;vertical-align:middle}._81a33c129d7cbe31__has-color:after{border:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--_wp-ui-avatar-color);border-radius:inherit;content:"";inset:calc(var(--wpds-border-width-xs, 1px)*-1);pointer-events:none;position:absolute}._32e65dea77285874__is-square{border-radius:var(--wpds-border-radius-sm,2px)}._7d2020337343df5a__is-xs{--_wp-ui-avatar-size:var(--wpds-dimension-size-2xs,16px);--_wp-ui-avatar-font-size:calc(var(--_wp-ui-avatar-size)/2)}._216fb78a075c5ab4__is-sm{--_wp-ui-avatar-size:var(--wpds-dimension-size-sm,24px);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-xs,11px)}.b552ab04a3b94ae9__is-lg{--_wp-ui-avatar-size:var(--wpds-dimension-size-lg,40px);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-md,13px)}.f8a7646462ff80d1__is-xl{--_wp-ui-avatar-size:calc(var(--wpds-dimension-size-md, 32px)*2);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-xl,20px)}._411c43ac028fe4be__image,._7883f856336224e2__fallback{block-size:100%;border-radius:inherit;inline-size:100%;inset:0;position:absolute}._411c43ac028fe4be__image{object-fit:cover;@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1));&[data-error],&[data-loading],&[data-starting-style]{opacity:0}}&[data-ending-style],&[data-error],&[data-loading]{visibility:hidden}}._7883f856336224e2__fallback{--_gcd-span-position:absolute;--_gcd-span-display:flex;align-items:center;display:flex;justify-content:center;overflow:hidden;white-space:nowrap;>svg{block-size:100%;flex-shrink:0;inline-size:100%}>.dc9b5131d4746aa6__person-icon{block-size:110%;color:var(--wpds-color-stroke-surface-neutral-strong,#8d8d8d);inline-size:110%;translate:0 15%}}@media not (forced-colors:active){@supports (color:rgb(from green r g b/1)) and (color:color(from green srgb-linear round(up,r) g b/1)){._81a33c129d7cbe31__has-color:has(>._7883f856336224e2__fallback){border:none}._81a33c129d7cbe31__has-color:has(>._7883f856336224e2__fallback):after{content:none}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback{--_wp-ui-avatar-background:rgb(from var(--_wp-ui-avatar-color) clamp(0,r,255) clamp(0,g,255) clamp(0,b,255)/1);--_wp-ui-avatar-contrast-target:4.55;background-color:var(--_wp-ui-avatar-background)}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback>.dc9b5131d4746aa6__person-icon{--_wp-ui-avatar-contrast-target:3.05}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback,._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback>.dc9b5131d4746aa6__person-icon{--_wp-ui-avatar-luminance:calc(0.2126 * r + 0.7152 * g + 0.0722 * b);--_wp-ui-avatar-light-foreground:round(up,clamp(0,calc(0.17913 - var(--_wp-ui-avatar-luminance)),1));--_wp-ui-avatar-dark-tint:clamp(0,calc(((var(--_wp-ui-avatar-luminance) + 0.05)/var(--_wp-ui-avatar-contrast-target) - 0.05)/max(0.000001, var(--_wp-ui-avatar-luminance))),1);--_wp-ui-avatar-light-tint:clamp(0,calc((1.05 - var(--_wp-ui-avatar-contrast-target)*(var(--_wp-ui-avatar-luminance) + 0.05))/max(0.000001, 1 - var(--_wp-ui-avatar-luminance))),1);--_wp-ui-avatar-tint:calc(var(--_wp-ui-avatar-light-foreground)*var(--_wp-ui-avatar-light-tint) + (1 - var(--_wp-ui-avatar-light-foreground))*var(--_wp-ui-avatar-dark-tint));color:color(from var(--_wp-ui-avatar-background) srgb-linear calc(var(--_wp-ui-avatar-light-foreground) + (r - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint)) calc(var(--_wp-ui-avatar-light-foreground) + (g - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint)) calc(var(--_wp-ui-avatar-light-foreground) + (b - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint))/1)}}}}}');
+}
+var style_default3 = { "root": "a9728400af96db77__root", "has-color": "_81a33c129d7cbe31__has-color", "is-square": "_32e65dea77285874__is-square", "is-xs": "_7d2020337343df5a__is-xs", "is-sm": "_216fb78a075c5ab4__is-sm", "is-lg": "b552ab04a3b94ae9__is-lg", "is-xl": "f8a7646462ff80d1__is-xl", "image": "_411c43ac028fe4be__image", "fallback": "_7883f856336224e2__fallback", "person-icon": "dc9b5131d4746aa6__person-icon" };
+var person = /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
+  import_primitives6.SVG,
+  {
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 24 24",
+    style: { fill: "none" },
+    stroke: "currentColor",
+    strokeWidth: 1.5,
+    children: [
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives6.Circle, { cx: 12, cy: 8, r: 5 }),
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives6.Path, { d: "M20 21a8 8 0 0 0-16 0" })
+    ]
   }
-}
-function TemplateAuthorView({ item }) {
-  const [isImageLoaded, setIsImageLoaded] = (0, import_element4.useState)(false);
-  const originalSource = item.original_source;
-  const icon = getIconForSource(originalSource);
-  const text = item.author_text;
-  const authorId = item.author;
-  const imageUrl = (0, import_data.useSelect)(
-    (select) => {
-      if (originalSource === "site") {
-        const siteData = select(import_core_data.store).getEntityRecord("root", "__unstableBase");
-        const logoId = siteData?.site_logo;
-        if (!logoId) {
-          return void 0;
-        }
-        return select(import_core_data.store).getEntityRecord("postType", "attachment", logoId)?.source_url;
-      }
-      if (originalSource !== "user" || !authorId) {
-        return void 0;
-      }
-      return select(import_core_data.store).getUser(authorId)?.avatar_urls?.[48];
-    },
-    [originalSource, authorId]
-  );
-  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(Stack, { direction: "row", align: "flex-start", children: [
-    imageUrl && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-      "div",
+);
+var Fallback = (0, import_element5.forwardRef)(
+  function AvatarFallback3({
+    className,
+    children = /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+      Icon,
       {
-        className: clsx_default(style_default3.avatar, {
-          [style_default3["is-loaded"]]: isImageLoaded
-        }),
-        children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-          "img",
-          {
-            onLoad: () => setIsImageLoaded(true),
-            alt: "",
-            src: imageUrl
-          }
-        )
+        icon: person,
+        role: "presentation",
+        className: style_default3["person-icon"]
       }
     ),
-    !imageUrl && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: style_default3.icon, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Icon, { icon }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: style_default3.name, children: text })
-  ] });
-}
-
-// packages/core-fields/build-module/wp_template/author/get-author-elements.mjs
-var import_data2 = __toESM(require_data(), 1);
-var import_core_data2 = __toESM(require_core_data(), 1);
-async function getAuthorElements(postType) {
-  const records = await (0, import_data2.resolveSelect)(import_core_data2.store).getEntityRecords(
-    "postType",
-    postType,
-    { per_page: -1, _fields: "id,author_text" }
-  );
-  const seen = /* @__PURE__ */ new Set();
-  const elements = [];
-  for (const record of records ?? []) {
-    const value = record.author_text;
-    if (value && !seen.has(value)) {
-      seen.add(value);
-      elements.push({ value, label: value });
-    }
+    ...props
+  }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+      FallbackWithLoadingDelay,
+      {
+        ref,
+        className: clsx_default(
+          style_default3.fallback,
+          global_css_defense_default2.span,
+          className
+        ),
+        ...props,
+        children
+      }
+    );
   }
-  return elements;
-}
+);
 
-// packages/core-fields/build-module/wp_template/author/field.mjs
-var fieldExtensions = {
-  getValue: ({ item }) => item.author_text,
-  render: TemplateAuthorView,
-  getElements: () => getAuthorElements("wp_template")
-};
-
-// packages/core-fields/build-module/wp_template/description/utils.mjs
-var import_html_entities = __toESM(require_html_entities(), 1);
-var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
-var isCustomTemplate = (item) => item.source === "custom" && !item.has_theme_file && !!item.is_custom;
-var getValue = ({ item }) => (0, import_html_entities.decodeEntities)(item.description || "");
-var render = ({ item }) => {
-  const { description } = item;
-  return description ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Text, { children: (0, import_html_entities.decodeEntities)(description) }) : null;
-};
-
-// packages/core-fields/build-module/wp_template/description/field.mjs
-var fieldExtensions2 = {
-  getValue,
-  render,
-  isVisible: isCustomTemplate
-};
-
-// packages/core-fields/build-module/wp_template/description_readonly/field.mjs
-var fieldExtensions3 = {
-  getValue,
-  render,
-  // Shown when the description cannot be edited and there is one.
-  isVisible: (item) => !isCustomTemplate(item) && !!item.description
-};
-
-// packages/core-fields/build-module/wp_template/default_comment_status/field.mjs
-var import_i18n = __toESM(require_i18n(), 1);
-var fieldExtensions4 = {
-  getValue: ({ item }) => item.default_comment_status || "",
-  setValue: ({ value }) => ({
-    default_comment_status: value || null
-  }),
-  render: ({ item }) => item.default_comment_status === "open" ? (0, import_i18n.__)("Comments open") : (0, import_i18n.__)("Comments closed")
-};
-
-// packages/core-fields/build-module/wp_template/posts_page_title/field.mjs
-var fieldExtensions5 = {
-  getValue: ({ item }) => {
-    const title = item.title;
-    if (typeof title === "string") {
-      return title;
-    }
-    return title?.raw ?? "";
-  },
-  setValue: ({ value }) => ({ title: value })
-};
-
-// packages/core-fields/build-module/wp_template/posts_per_page/field.mjs
-var fieldExtensions6 = {
-  getValue: ({ item }) => item.posts_per_page ?? 1,
-  setValue: ({ value }) => ({ posts_per_page: value })
-};
-
-// packages/core-fields/build-module/shared/title/get-item-title.mjs
-var import_html_entities2 = __toESM(require_html_entities(), 1);
-var import_i18n2 = __toESM(require_i18n(), 1);
-function getItemTitle(item, fallback = (0, import_i18n2.__)("(no title)")) {
-  let title = "";
-  if (typeof item.title === "string") {
-    title = (0, import_html_entities2.decodeEntities)(item.title);
-  } else if (item.title && "rendered" in item.title) {
-    title = (0, import_html_entities2.decodeEntities)(item.title.rendered ?? "");
-  } else if (item.title && "raw" in item.title) {
-    title = (0, import_html_entities2.decodeEntities)(item.title.raw ?? "");
+// packages/ui/build-module/avatar/initials.mjs
+var import_element6 = __toESM(require_element(), 1);
+var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+var Initials = (0, import_element6.forwardRef)(
+  function AvatarInitials({ name, locale, ...props }, ref) {
+    const segmenter = new Intl.Segmenter(locale, {
+      granularity: "grapheme"
+    });
+    const words = name?.trim().split(/\s+/) ?? [];
+    const initials = words.filter((_, index) => index === 0 || index === words.length - 1).map(
+      (word) => segmenter.segment(word).containing(0)?.segment ?? ""
+    ).join("").toLocaleUpperCase(locale);
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Fallback, { ...props, ref, children: initials || void 0 });
   }
-  return title || fallback;
-}
+);
 
-// packages/core-fields/build-module/shared/title/view.mjs
-var import_i18n3 = __toESM(require_i18n(), 1);
-var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+// packages/ui/build-module/stack/stack.mjs
+var import_element7 = __toESM(require_element(), 1);
 var STYLE_HASH_ATTRIBUTE4 = "data-wp-hash";
 function getRuntime4() {
   const globalScope = globalThis;
@@ -1167,32 +1843,462 @@ function registerStyle4(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle4("a4585ee5f7", "._6f88745c59f7b1df__title>span:first-child{display:block;flex-grow:0;overflow:hidden;text-decoration:none;text-overflow:ellipsis;white-space:nowrap}.bfcb43aba334e5f0__pattern-title>span:first-child{flex:1}");
+  registerStyle4("67591fa198", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._8e8e79c1a2eec43b__stack{display:flex}}}");
 }
-var style_default4 = { "title": "_6f88745c59f7b1df__title", "pattern-title": "bfcb43aba334e5f0__pattern-title" };
+var style_default4 = { "stack": "_8e8e79c1a2eec43b__stack" };
+var gapTokens = {
+  xs: "var(--wpds-dimension-gap-xs, 4px)",
+  sm: "var(--wpds-dimension-gap-sm, 8px)",
+  md: "var(--wpds-dimension-gap-md, 12px)",
+  lg: "var(--wpds-dimension-gap-lg, 16px)",
+  xl: "var(--wpds-dimension-gap-xl, 24px)",
+  "2xl": "var(--wpds-dimension-gap-2xl, 32px)",
+  "3xl": "var(--wpds-dimension-gap-3xl, 40px)"
+};
+var Stack = (0, import_element7.forwardRef)(
+  function UnforwardedStack({ direction, gap, align, justify, wrap, render: render2, ...props }, ref) {
+    const style = {
+      gap: gap && gapTokens[gap],
+      alignItems: align,
+      justifyContent: justify,
+      flexDirection: direction,
+      flexWrap: wrap
+    };
+    const element = useRender({
+      render: render2,
+      ref,
+      props: mergeProps(props, {
+        style,
+        className: style_default4.stack
+      })
+    });
+    return element;
+  }
+);
+
+// packages/core-fields/build-module/shared/author/avatar.mjs
+var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
+var STYLE_HASH_ATTRIBUTE5 = "data-wp-hash";
+function getRuntime5() {
+  const globalScope = globalThis;
+  if (globalScope.__wpStyleRuntime) {
+    return globalScope.__wpStyleRuntime;
+  }
+  globalScope.__wpStyleRuntime = {
+    documents: /* @__PURE__ */ new Map(),
+    styles: /* @__PURE__ */ new Map(),
+    injectedStyles: /* @__PURE__ */ new WeakMap()
+  };
+  if (typeof document !== "undefined") {
+    registerDocument5(document);
+  }
+  return globalScope.__wpStyleRuntime;
+}
+function documentContainsStyleHash5(targetDocument, hash) {
+  if (!targetDocument.head) {
+    return false;
+  }
+  for (const style of targetDocument.head.querySelectorAll(
+    `style[${STYLE_HASH_ATTRIBUTE5}]`
+  )) {
+    if (style.getAttribute(STYLE_HASH_ATTRIBUTE5) === hash) {
+      return true;
+    }
+  }
+  return false;
+}
+function injectStyle5(targetDocument, hash, css) {
+  if (!targetDocument.head) {
+    return;
+  }
+  const runtime = getRuntime5();
+  let injectedStyles = runtime.injectedStyles.get(targetDocument);
+  if (!injectedStyles) {
+    injectedStyles = /* @__PURE__ */ new Set();
+    runtime.injectedStyles.set(targetDocument, injectedStyles);
+  }
+  if (injectedStyles.has(hash)) {
+    return;
+  }
+  if (documentContainsStyleHash5(targetDocument, hash)) {
+    injectedStyles.add(hash);
+    return;
+  }
+  const style = targetDocument.createElement("style");
+  style.setAttribute(STYLE_HASH_ATTRIBUTE5, hash);
+  style.appendChild(targetDocument.createTextNode(css));
+  targetDocument.head.appendChild(style);
+  injectedStyles.add(hash);
+}
+function registerDocument5(targetDocument) {
+  const runtime = getRuntime5();
+  runtime.documents.set(
+    targetDocument,
+    (runtime.documents.get(targetDocument) ?? 0) + 1
+  );
+  for (const [hash, css] of runtime.styles) {
+    injectStyle5(targetDocument, hash, css);
+  }
+  return () => {
+    const count = runtime.documents.get(targetDocument);
+    if (count === void 0) {
+      return;
+    }
+    if (count <= 1) {
+      runtime.documents.delete(targetDocument);
+      return;
+    }
+    runtime.documents.set(targetDocument, count - 1);
+  };
+}
+function registerStyle5(hash, css) {
+  const runtime = getRuntime5();
+  runtime.styles.set(hash, css);
+  for (const targetDocument of runtime.documents.keys()) {
+    injectStyle5(targetDocument, hash, css);
+  }
+}
+if (typeof process === "undefined" || true) {
+  registerStyle5("efeba968e6", "._4d84143be9dae462__icon,.dd9b5d817b3207dc__avatar{align-items:center;block-size:1lh;display:flex;flex-shrink:0;inline-size:var(--wpds-dimension-size-2xs,16px)}._4d84143be9dae462__icon svg{fill:currentColor;margin-inline:calc((var(--wpds-dimension-size-2xs, 16px) - var(--wpds-dimension-size-sm, 24px))/2)}.de468aa290326111__name{overflow:hidden;text-overflow:ellipsis}");
+}
+var style_default5 = { "avatar": "dd9b5d817b3207dc__avatar", "icon": "_4d84143be9dae462__icon", "name": "de468aa290326111__name" };
+function AuthorAvatar({ src }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { className: style_default5.avatar, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(avatar_exports.Root, { size: "xs", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(avatar_exports.Image, { src, alt: "", keepMounted: true }) }) });
+}
+
+// packages/core-fields/build-module/wp_template/author/view.mjs
+var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
+var STYLE_HASH_ATTRIBUTE6 = "data-wp-hash";
+function getRuntime6() {
+  const globalScope = globalThis;
+  if (globalScope.__wpStyleRuntime) {
+    return globalScope.__wpStyleRuntime;
+  }
+  globalScope.__wpStyleRuntime = {
+    documents: /* @__PURE__ */ new Map(),
+    styles: /* @__PURE__ */ new Map(),
+    injectedStyles: /* @__PURE__ */ new WeakMap()
+  };
+  if (typeof document !== "undefined") {
+    registerDocument6(document);
+  }
+  return globalScope.__wpStyleRuntime;
+}
+function documentContainsStyleHash6(targetDocument, hash) {
+  if (!targetDocument.head) {
+    return false;
+  }
+  for (const style of targetDocument.head.querySelectorAll(
+    `style[${STYLE_HASH_ATTRIBUTE6}]`
+  )) {
+    if (style.getAttribute(STYLE_HASH_ATTRIBUTE6) === hash) {
+      return true;
+    }
+  }
+  return false;
+}
+function injectStyle6(targetDocument, hash, css) {
+  if (!targetDocument.head) {
+    return;
+  }
+  const runtime = getRuntime6();
+  let injectedStyles = runtime.injectedStyles.get(targetDocument);
+  if (!injectedStyles) {
+    injectedStyles = /* @__PURE__ */ new Set();
+    runtime.injectedStyles.set(targetDocument, injectedStyles);
+  }
+  if (injectedStyles.has(hash)) {
+    return;
+  }
+  if (documentContainsStyleHash6(targetDocument, hash)) {
+    injectedStyles.add(hash);
+    return;
+  }
+  const style = targetDocument.createElement("style");
+  style.setAttribute(STYLE_HASH_ATTRIBUTE6, hash);
+  style.appendChild(targetDocument.createTextNode(css));
+  targetDocument.head.appendChild(style);
+  injectedStyles.add(hash);
+}
+function registerDocument6(targetDocument) {
+  const runtime = getRuntime6();
+  runtime.documents.set(
+    targetDocument,
+    (runtime.documents.get(targetDocument) ?? 0) + 1
+  );
+  for (const [hash, css] of runtime.styles) {
+    injectStyle6(targetDocument, hash, css);
+  }
+  return () => {
+    const count = runtime.documents.get(targetDocument);
+    if (count === void 0) {
+      return;
+    }
+    if (count <= 1) {
+      runtime.documents.delete(targetDocument);
+      return;
+    }
+    runtime.documents.set(targetDocument, count - 1);
+  };
+}
+function registerStyle6(hash, css) {
+  const runtime = getRuntime6();
+  runtime.styles.set(hash, css);
+  for (const targetDocument of runtime.documents.keys()) {
+    injectStyle6(targetDocument, hash, css);
+  }
+}
+if (typeof process === "undefined" || true) {
+  registerStyle6("efeba968e6", "._4d84143be9dae462__icon,.dd9b5d817b3207dc__avatar{align-items:center;block-size:1lh;display:flex;flex-shrink:0;inline-size:var(--wpds-dimension-size-2xs,16px)}._4d84143be9dae462__icon svg{fill:currentColor;margin-inline:calc((var(--wpds-dimension-size-2xs, 16px) - var(--wpds-dimension-size-sm, 24px))/2)}.de468aa290326111__name{overflow:hidden;text-overflow:ellipsis}");
+}
+var style_default6 = { "avatar": "dd9b5d817b3207dc__avatar", "icon": "_4d84143be9dae462__icon", "name": "de468aa290326111__name" };
+function getIconForSource(originalSource) {
+  switch (originalSource) {
+    case "theme":
+      return layout_default;
+    case "plugin":
+      return plugins_default;
+    case "site":
+      return globe_default;
+    default:
+      return comment_author_avatar_default;
+  }
+}
+function TemplateAuthorView({ item }) {
+  const originalSource = item.original_source;
+  const icon = getIconForSource(originalSource);
+  const text = item.author_text;
+  const authorId = item.author;
+  const imageUrl = (0, import_data.useSelect)(
+    (select) => {
+      if (originalSource === "site") {
+        const siteData = select(import_core_data.store).getEntityRecord("root", "__unstableBase");
+        const logoId = siteData?.site_logo;
+        if (!logoId) {
+          return void 0;
+        }
+        return select(import_core_data.store).getEntityRecord("postType", "attachment", logoId)?.source_url;
+      }
+      if (originalSource !== "user" || !authorId) {
+        return void 0;
+      }
+      return select(import_core_data.store).getUser(authorId)?.avatar_urls?.[48];
+    },
+    [originalSource, authorId]
+  );
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Stack, { direction: "row", gap: "xs", align: "flex-start", children: [
+    imageUrl && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(AuthorAvatar, { src: imageUrl }),
+    !imageUrl && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: style_default6.icon, children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Icon, { icon }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: style_default6.name, children: text })
+  ] });
+}
+
+// packages/core-fields/build-module/wp_template/author/get-author-elements.mjs
+var import_data2 = __toESM(require_data(), 1);
+var import_core_data2 = __toESM(require_core_data(), 1);
+async function getAuthorElements(postType) {
+  const records = await (0, import_data2.resolveSelect)(import_core_data2.store).getEntityRecords(
+    "postType",
+    postType,
+    { per_page: -1, _fields: "id,author_text" }
+  );
+  const seen = /* @__PURE__ */ new Set();
+  const elements = [];
+  for (const record of records ?? []) {
+    const value = record.author_text;
+    if (value && !seen.has(value)) {
+      seen.add(value);
+      elements.push({ value, label: value });
+    }
+  }
+  return elements;
+}
+
+// packages/core-fields/build-module/wp_template/author/field.mjs
+var fieldExtensions = {
+  getValue: ({ item }) => item.author_text,
+  render: TemplateAuthorView,
+  getElements: () => getAuthorElements("wp_template")
+};
+
+// packages/core-fields/build-module/wp_template/description/utils.mjs
+var import_html_entities = __toESM(require_html_entities(), 1);
+var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
+var isCustomTemplate = (item) => item.source === "custom" && !item.has_theme_file && !!item.is_custom;
+var getValue = ({ item }) => (0, import_html_entities.decodeEntities)(item.description || "");
+var render = ({ item }) => {
+  const { description } = item;
+  return description ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { children: (0, import_html_entities.decodeEntities)(description) }) : null;
+};
+
+// packages/core-fields/build-module/wp_template/description/field.mjs
+var fieldExtensions2 = {
+  getValue,
+  render,
+  isVisible: isCustomTemplate
+};
+
+// packages/core-fields/build-module/wp_template/description_readonly/field.mjs
+var fieldExtensions3 = {
+  getValue,
+  render,
+  // Shown when the description cannot be edited and there is one.
+  isVisible: (item) => !isCustomTemplate(item) && !!item.description
+};
+
+// packages/core-fields/build-module/wp_template/default_comment_status/field.mjs
+var import_i18n = __toESM(require_i18n(), 1);
+var fieldExtensions4 = {
+  getValue: ({ item }) => item.default_comment_status || "",
+  setValue: ({ value }) => ({
+    default_comment_status: value || null
+  }),
+  render: ({ item }) => item.default_comment_status === "open" ? (0, import_i18n.__)("Comments open") : (0, import_i18n.__)("Comments closed")
+};
+
+// packages/core-fields/build-module/wp_template/posts_page_title/field.mjs
+var fieldExtensions5 = {
+  getValue: ({ item }) => {
+    const title = item.title;
+    if (typeof title === "string") {
+      return title;
+    }
+    return title?.raw ?? "";
+  },
+  setValue: ({ value }) => ({ title: value })
+};
+
+// packages/core-fields/build-module/wp_template/posts_per_page/field.mjs
+var fieldExtensions6 = {
+  getValue: ({ item }) => item.posts_per_page ?? 1,
+  setValue: ({ value }) => ({ posts_per_page: value })
+};
+
+// packages/core-fields/build-module/shared/title/get-item-title.mjs
+var import_html_entities2 = __toESM(require_html_entities(), 1);
+var import_i18n2 = __toESM(require_i18n(), 1);
+function getItemTitle(item, fallback = (0, import_i18n2.__)("(no title)")) {
+  let title = "";
+  if (typeof item.title === "string") {
+    title = (0, import_html_entities2.decodeEntities)(item.title);
+  } else if (item.title && "rendered" in item.title) {
+    title = (0, import_html_entities2.decodeEntities)(item.title.rendered ?? "");
+  } else if (item.title && "raw" in item.title) {
+    title = (0, import_html_entities2.decodeEntities)(item.title.raw ?? "");
+  }
+  return title || fallback;
+}
+
+// packages/core-fields/build-module/shared/title/view.mjs
+var import_i18n3 = __toESM(require_i18n(), 1);
+var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
+var STYLE_HASH_ATTRIBUTE7 = "data-wp-hash";
+function getRuntime7() {
+  const globalScope = globalThis;
+  if (globalScope.__wpStyleRuntime) {
+    return globalScope.__wpStyleRuntime;
+  }
+  globalScope.__wpStyleRuntime = {
+    documents: /* @__PURE__ */ new Map(),
+    styles: /* @__PURE__ */ new Map(),
+    injectedStyles: /* @__PURE__ */ new WeakMap()
+  };
+  if (typeof document !== "undefined") {
+    registerDocument7(document);
+  }
+  return globalScope.__wpStyleRuntime;
+}
+function documentContainsStyleHash7(targetDocument, hash) {
+  if (!targetDocument.head) {
+    return false;
+  }
+  for (const style of targetDocument.head.querySelectorAll(
+    `style[${STYLE_HASH_ATTRIBUTE7}]`
+  )) {
+    if (style.getAttribute(STYLE_HASH_ATTRIBUTE7) === hash) {
+      return true;
+    }
+  }
+  return false;
+}
+function injectStyle7(targetDocument, hash, css) {
+  if (!targetDocument.head) {
+    return;
+  }
+  const runtime = getRuntime7();
+  let injectedStyles = runtime.injectedStyles.get(targetDocument);
+  if (!injectedStyles) {
+    injectedStyles = /* @__PURE__ */ new Set();
+    runtime.injectedStyles.set(targetDocument, injectedStyles);
+  }
+  if (injectedStyles.has(hash)) {
+    return;
+  }
+  if (documentContainsStyleHash7(targetDocument, hash)) {
+    injectedStyles.add(hash);
+    return;
+  }
+  const style = targetDocument.createElement("style");
+  style.setAttribute(STYLE_HASH_ATTRIBUTE7, hash);
+  style.appendChild(targetDocument.createTextNode(css));
+  targetDocument.head.appendChild(style);
+  injectedStyles.add(hash);
+}
+function registerDocument7(targetDocument) {
+  const runtime = getRuntime7();
+  runtime.documents.set(
+    targetDocument,
+    (runtime.documents.get(targetDocument) ?? 0) + 1
+  );
+  for (const [hash, css] of runtime.styles) {
+    injectStyle7(targetDocument, hash, css);
+  }
+  return () => {
+    const count = runtime.documents.get(targetDocument);
+    if (count === void 0) {
+      return;
+    }
+    if (count <= 1) {
+      runtime.documents.delete(targetDocument);
+      return;
+    }
+    runtime.documents.set(targetDocument, count - 1);
+  };
+}
+function registerStyle7(hash, css) {
+  const runtime = getRuntime7();
+  runtime.styles.set(hash, css);
+  for (const targetDocument of runtime.documents.keys()) {
+    injectStyle7(targetDocument, hash, css);
+  }
+}
+if (typeof process === "undefined" || true) {
+  registerStyle7("a4585ee5f7", "._6f88745c59f7b1df__title>span:first-child{display:block;flex-grow:0;overflow:hidden;text-decoration:none;text-overflow:ellipsis;white-space:nowrap}.bfcb43aba334e5f0__pattern-title>span:first-child{flex:1}");
+}
+var style_default7 = { "title": "_6f88745c59f7b1df__title", "pattern-title": "bfcb43aba334e5f0__pattern-title" };
 function BaseTitleView({
   item,
   className,
   children
 }) {
   const renderedTitle = getItemTitle(item);
-  return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
     Stack,
     {
       direction: "row",
       align: "center",
       justify: "flex-start",
       gap: "sm",
-      className: clsx_default("fields-field__title", style_default4.title, className),
+      className: clsx_default("fields-field__title", style_default7.title, className),
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: renderedTitle || (0, import_i18n3.__)("(no title)") }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { children: renderedTitle || (0, import_i18n3.__)("(no title)") }),
         children
       ]
     }
   );
 }
 function TitleView({ item }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(BaseTitleView, { item });
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(BaseTitleView, { item });
 }
 
 // packages/core-fields/build-module/wp_template/title/field.mjs

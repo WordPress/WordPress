@@ -569,20 +569,23 @@ var { state, actions, callbacks } = store(
         if (naturalWidth === 0 || naturalHeight === 0) {
           return;
         }
-        const figure = ref.parentElement;
-        const figureWidth = ref.parentElement.clientWidth;
-        let figureHeight = ref.parentElement.clientHeight;
-        const caption = figure.querySelector("figcaption");
+        const container = ref.closest(".wp-lightbox-container");
+        if (!container) {
+          return;
+        }
+        const containerWidth = container.clientWidth;
+        let containerHeight = container.clientHeight;
+        const caption = container.querySelector("figcaption");
         if (caption) {
           const captionComputedStyle = window.getComputedStyle(caption);
           if (!["absolute", "fixed"].includes(
             captionComputedStyle.position
           )) {
-            figureHeight = figureHeight - caption.offsetHeight - parseFloat(captionComputedStyle.marginTop) - parseFloat(captionComputedStyle.marginBottom);
+            containerHeight = containerHeight - caption.offsetHeight - parseFloat(captionComputedStyle.marginTop) - parseFloat(captionComputedStyle.marginBottom);
           }
         }
-        const buttonOffsetTop = figureHeight - offsetHeight;
-        const buttonOffsetRight = figureWidth - offsetWidth;
+        const buttonOffsetTop = containerHeight - offsetHeight;
+        const buttonOffsetRight = containerWidth - offsetWidth;
         let buttonTop = buttonOffsetTop + 16;
         let buttonRight = buttonOffsetRight + 16;
         if (imageMetadata.scaleAttr === "contain") {

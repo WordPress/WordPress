@@ -9,10 +9,11 @@
  */
 
 return array(
-	'type'     => 'integer',
-	'label'    => __( 'Author' ),
-	'filterBy' => array(
+	'type'        => 'integer',
+	'label'       => __( 'Author' ),
+	'placeholder' => __( '(no author)' ),
+	'filterBy'    => array(
 		'operators' => array( 'isAny', 'isNone' ),
 	),
-	'readOnly' => true,
+	'readOnly'    => true,
 );

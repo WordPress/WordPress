@@ -10,7 +10,7 @@ return array(
 	'id'                 => 'excerpt',
 	'type'               => 'text',
 	'label'              => __( 'Description' ),
-	'placeholder'        => __( 'Add a description' ),
+	'placeholder'        => __( '(no description)' ),
 	'Edit'               => array(
 		'control' => 'textarea',
 		'rows'    => 4,

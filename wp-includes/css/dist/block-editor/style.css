@@ -1285,6 +1285,15 @@ iframe[name=editor-canvas] {
   padding-inline: 4px;
   margin-inline: -4px;
 }
+@media (forced-colors: active) {
+  .block-editor-block-styles__variants .block-editor-block-styles__item[aria-checked=true] {
+    forced-color-adjust: none;
+    outline-color: CanvasText;
+    background-color: SelectedItem;
+    color: SelectedItemText;
+    border-color: ButtonBorder;
+  }
+}
 
 .components-popover.block-editor-block-switcher__popover .components-popover__content {
   min-width: 300px;

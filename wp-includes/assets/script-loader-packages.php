@@ -105,7 +105,7 @@
 			'wp-url',
 			'wp-warning'
 		),
-		'version' => '33ef6bf47ba6425b6067'
+		'version' => '6ce9138caeea03453057'
 	),
 	'block-library.js' => array(
 		'dependencies' => array(
@@ -151,7 +151,7 @@
 				'import' => 'dynamic'
 			)
 		),
-		'version' => '52c8ff0df7e038f93116'
+		'version' => '593533eeaede8306410f'
 	),
 	'block-serialization-default-parser.js' => array(
 		'dependencies' => array(
@@ -226,7 +226,7 @@
 			'wp-theme',
 			'wp-warning'
 		),
-		'version' => 'cec341439c1d110d6bcb'
+		'version' => '351418b2c952645cfd19'
 	),
 	'compose.js' => array(
 		'dependencies' => array(
@@ -282,7 +282,7 @@
 			'wp-url',
 			'wp-warning'
 		),
-		'version' => 'd2b82f6369d5503e99bb'
+		'version' => '089f1cc441f999d491af'
 	),
 	'customize-widgets.js' => array(
 		'dependencies' => array(
@@ -318,7 +318,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '9c1c6c17e54fcd3dc546'
+		'version' => 'd3494925e0851ad5e180'
 	),
 	'data.js' => array(
 		'dependencies' => array(
@@ -457,7 +457,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '7bb3220192e4066fbff3'
+		'version' => 'be48d05b0d107b34fa86'
 	),
 	'edit-widgets.js' => array(
 		'dependencies' => array(
@@ -499,7 +499,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '40eaace1a70c69302c9c'
+		'version' => 'f665033a8ea6672cb756'
 	),
 	'editor.js' => array(
 		'dependencies' => array(
@@ -549,7 +549,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '4edb636b73d7c9cbfbfb'
+		'version' => '3427e50f718f7602341b'
 	),
 	'element.js' => array(
 		'dependencies' => array(
@@ -591,7 +591,7 @@
 				'import' => 'dynamic'
 			)
 		),
-		'version' => 'a42172f82fe130da1d3e'
+		'version' => 'aa22a72719facd7f11f1'
 	),
 	'hooks.js' => array(
 		'dependencies' => array(
@@ -670,7 +670,7 @@
 			'wp-url',
 			'wp-warning'
 		),
-		'version' => 'fea3f56efc43721e5f8e'
+		'version' => '808f767656bfbd5a0781'
 	),
 	'notices.js' => array(
 		'dependencies' => array(
@@ -689,7 +689,7 @@
 			'wp-theme',
 			'wp-warning'
 		),
-		'version' => '5625f63d0c16e55cc8d1'
+		'version' => 'c4f2f330a4bec78fda71'
 	),
 	'nux.js' => array(
 		'dependencies' => array(
@@ -895,7 +895,7 @@
 		'dependencies' => array(
 			
 		),
-		'version' => '3c0d9743cc6cd9591281'
+		'version' => '3533885da07b0c3f7107'
 	),
 	'viewport.js' => array(
 		'dependencies' => array(
@@ -932,7 +932,7 @@
 			'wp-theme',
 			'wp-warning'
 		),
-		'version' => 'b6e3a408f3eb2a70ff74'
+		'version' => 'e37bfbc510430cbe6596'
 	),
 	'wordcount.js' => array(
 		'dependencies' => array(

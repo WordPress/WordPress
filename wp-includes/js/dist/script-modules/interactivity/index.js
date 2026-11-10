@@ -1267,14 +1267,12 @@ var onDOMReady = (callback) => {
     document.addEventListener("DOMContentLoaded", callback);
   }
 };
-var watch = (callback) => E2(() => {
-  setScope();
-  try {
-    return callback();
-  } finally {
-    resetScope();
-  }
-});
+var watch = (callback) => E2(
+  () => runWithoutScope(() => {
+    const cleanup = callback();
+    return typeof cleanup === "function" ? () => runWithoutScope(cleanup) : cleanup;
+  })
+);
 function createFlusher(compute, notify) {
   let flush = () => void 0;
   const dispose = E2(function() {
@@ -1480,6 +1478,14 @@ var setScope = (scope) => {
 };
 var resetScope = () => {
   scopeStack.pop();
+};
+var runWithoutScope = (fn) => {
+  setScope();
+  try {
+    return fn();
+  } finally {
+    resetScope();
+  }
 };
 var throwNotInScope = (method) => {
   throw Error(
@@ -2024,6 +2030,9 @@ var populateServerData = (data) => {
 
 // packages/interactivity/build-module/vdom.mjs
 init_preact_module();
+var htmlFallbacks = /* @__PURE__ */ new WeakMap();
+var htmlServerContents = /* @__PURE__ */ new WeakSet();
+var templateContentDepth = 0;
 var directivePrefix = `data-wp-`;
 var namespaces = [];
 var currentNamespace = () => namespaces[namespaces.length - 1] ?? null;
@@ -2068,6 +2077,34 @@ function splitDirectiveName(directiveName) {
   return { prefix, suffix: suffix || null, uniqueId: null };
 }
 var nsPathRegExp = /^([\w_\/-]+)::(.+)$/;
+function copyFallbackChildren(source, target) {
+  for (const child of Array.from(source.childNodes)) {
+    if (child.nodeType === 1 && child.localName === "script") {
+      continue;
+    }
+    const clone = target.ownerDocument.importNode(child, false);
+    target.appendChild(clone);
+    if (child.nodeType === 1 && child.namespaceURI === "http://www.w3.org/1999/xhtml" && child.localName === "template") {
+      copyFallbackChildren(
+        child.content,
+        clone.content
+      );
+    } else {
+      copyFallbackChildren(child, clone);
+    }
+  }
+}
+function getTemplateContentsOwnerDocument() {
+  return document.createElement("template").content.ownerDocument;
+}
+function getHtmlFallback(element) {
+  const htmlProps = element.props.dangerouslySetInnerHTML;
+  return htmlProps && htmlFallbacks.get(htmlProps);
+}
+function getHtmlServerContent(element) {
+  const htmlProps = element.props.dangerouslySetInnerHTML;
+  return htmlProps && htmlServerContents.has(htmlProps) ? htmlFallbacks.get(htmlProps) : void 0;
+}
 function parseDirectiveValue(rawValue) {
   const regexResult = nsPathRegExp.exec(rawValue);
   const namespace = regexResult?.[1] ?? null;
@@ -2089,7 +2126,25 @@ function parseDirectiveValue(rawValue) {
 }
 var directiveMaps = /* @__PURE__ */ new WeakSet();
 var isDirectiveMap = (value) => typeof value === "object" && value !== null && directiveMaps.has(value);
-function toVdom(root) {
+var getInteractiveNamespace = (value) => {
+  const namespace = (
+    // eslint-disable-next-line no-nested-ternary
+    typeof value === "string" ? value : typeof value?.namespace === "string" ? value.namespace : null
+  );
+  return isReservedKey(namespace) ? null : namespace;
+};
+function toVdom(root, namespace) {
+  if (namespace === void 0) {
+    return convertToVdom(root);
+  }
+  namespaces.push(namespace);
+  try {
+    return convertToVdom(root);
+  } finally {
+    namespaces.pop();
+  }
+}
+function convertToVdom(root) {
   const nodesToRemove = /* @__PURE__ */ new Set();
   const nodesToReplace = /* @__PURE__ */ new Set();
   const treeWalker = document.createTreeWalker(
@@ -2131,13 +2186,7 @@ function toVdom(root) {
         const { namespace, value } = parseDirectiveValue(attributeValue);
         if (attributeName === "data-wp-interactive") {
           island = true;
-          const islandNamespace = (
-            // eslint-disable-next-line no-nested-ternary
-            typeof value === "string" ? value : typeof value?.namespace === "string" ? value.namespace : null
-          );
-          namespaces.push(
-            isReservedKey(islandNamespace) ? null : islandNamespace
-          );
+          namespaces.push(getInteractiveNamespace(value));
         } else if (isReservedKey(namespace)) {
           if (true) {
             warn(
@@ -2210,13 +2259,27 @@ function toVdom(root) {
       ({ suffix }) => suffix === null
     );
     if (props.__directives?.["each-child"] || hasDefaultHtmlDirective) {
-      props.dangerouslySetInnerHTML = {
+      const htmlProps = {
         __html: elementNode.innerHTML
       };
+      props.dangerouslySetInnerHTML = htmlProps;
+      if (hasDefaultHtmlDirective) {
+        const snapshot = getTemplateContentsOwnerDocument().createDocumentFragment();
+        copyFallbackChildren(elementNode, snapshot);
+        htmlFallbacks.set(htmlProps, snapshot);
+        if (!templateContentDepth) {
+          htmlServerContents.add(htmlProps);
+        }
+      }
     } else if (localName === "template") {
-      props.content = [
-        ...elementNode.content.childNodes
-      ].map((childNode) => toVdom(childNode));
+      templateContentDepth++;
+      try {
+        props.content = [
+          ...elementNode.content.childNodes
+        ].map((childNode) => toVdom(childNode));
+      } finally {
+        templateContentDepth--;
+      }
     } else {
       let child = treeWalker.firstChild();
       if (child) {
@@ -2413,13 +2476,16 @@ var Directives = ({
     evaluate: scope.evaluate
   };
   setScope(scope);
-  for (const directiveName of currentPriorityLevel) {
-    const wrapper = directiveCallbacks[directiveName]?.(directiveArgs);
-    if (wrapper !== void 0) {
-      props.children = wrapper;
+  try {
+    for (const directiveName of currentPriorityLevel) {
+      const wrapper = directiveCallbacks[directiveName]?.(directiveArgs);
+      if (wrapper !== void 0) {
+        props.children = wrapper;
+      }
     }
+  } finally {
+    resetScope();
   }
-  resetScope();
   return props.children;
 };
 var old = l.vnode;
@@ -2900,11 +2966,34 @@ function getDangerousHTML(token) {
 
 // packages/interactivity/build-module/directives/html.mjs
 var isServerHTMLRepresentation = (value) => isPlainObject(value) && value.wpServerHtml === true;
+var getTemplates = (content) => Array.from(content.querySelectorAll("template")).filter(
+  (template) => template.namespaceURI === "http://www.w3.org/1999/xhtml"
+);
+var isSameServerContent = (content, other) => {
+  if (!content.isEqualNode(other)) {
+    return false;
+  }
+  const otherTemplates = getTemplates(other);
+  return getTemplates(content).every(
+    (template, index) => isSameServerContent(template.content, otherTemplates[index].content)
+  );
+};
 directive(
   "html",
   ({ directives: { html: htmlEntries }, element, evaluate }) => {
     const entry = htmlEntries.find(isDefaultDirectiveSuffix);
     const lastAppliedKey = A2(void 0);
+    const previousHost = A2(null);
+    const previousInputs = A2(null);
+    const previousServerContent = A2(
+      void 0
+    );
+    const owedServerContent = A2(
+      void 0
+    );
+    const shownServerContent = A2(
+      void 0
+    );
     const preactHtml = A2();
     let result;
     if (!entry) {
@@ -2932,8 +3021,61 @@ directive(
     const preserveContent = result === PENDING_GETTER || serverHTMLRepresentation;
     const trusted = isDangerousHTML(result);
     const resolvedValue = trusted ? getDangerousHTML(result) : emptyHTML;
+    const fallback = getHtmlFallback(element);
+    const serverContent = getHtmlServerContent(element);
     useLayoutEffect(() => {
+      const node = element.ref.current;
+      const hostChanged = previousHost.current !== node;
+      const inputs = [
+        result,
+        active,
+        preserveContent,
+        serverHTMLRepresentation,
+        trusted,
+        resolvedValue,
+        element.ref
+      ];
+      const inputsChanged = previousInputs.current === null || inputs.some(
+        (input, index) => input !== previousInputs.current[index]
+      );
+      previousInputs.current = inputs;
+      if (hostChanged) {
+        previousHost.current = node;
+        lastAppliedKey.current = void 0;
+        owedServerContent.current = void 0;
+        shownServerContent.current = preserveContent ? serverContent : void 0;
+        if (active && preserveContent && !node.hasChildNodes() && fallback?.hasChildNodes()) {
+          node.append(
+            node.ownerDocument.importNode(fallback, true)
+          );
+        }
+      } else if (serverContent !== previousServerContent.current) {
+        owedServerContent.current = serverContent;
+        queueMicrotask(() => {
+          afterNextFrame(() => {
+            if (owedServerContent.current === serverContent) {
+              owedServerContent.current = void 0;
+            }
+          });
+        });
+      }
+      previousServerContent.current = serverContent;
       if (!active) {
+        return;
+      }
+      const owed = owedServerContent.current;
+      if (preserveContent && owed) {
+        owedServerContent.current = void 0;
+        if (!shownServerContent.current || !isSameServerContent(shownServerContent.current, owed)) {
+          node.replaceChildren(
+            node.ownerDocument.importNode(owed, true)
+          );
+        }
+        shownServerContent.current = owed;
+        lastAppliedKey.current = void 0;
+        return;
+      }
+      if (!hostChanged && !inputsChanged) {
         return;
       }
       if (preserveContent) {
@@ -2942,6 +3084,7 @@ directive(
         }
         return;
       }
+      shownServerContent.current = void 0;
       if (!trusted && result !== null && result !== void 0) {
         warn(
           "data-wp-html: the value is not trusted HTML. Use asDangerousHTML() to explicitly trust the markup."
@@ -2951,7 +3094,6 @@ directive(
       if (lastAppliedKey.current === key) {
         return;
       }
-      const node = element.ref.current;
       if (lastAppliedKey.current === void 0 && node.innerHTML === key) {
         lastAppliedKey.current = key;
         return;
@@ -2974,10 +3116,15 @@ directive(
       serverHTMLRepresentation,
       trusted,
       resolvedValue,
-      element.ref
+      fallback,
+      serverContent,
+      element.ref,
+      element
     ]);
     if (active) {
-      preactHtml.current ??= preserveContent && element.props.dangerouslySetInnerHTML?.__html ? element.props.dangerouslySetInnerHTML : { __html: emptyHTML };
+      preactHtml.current ??= {
+        __html: emptyHTML
+      };
       element.props.dangerouslySetInnerHTML = preactHtml.current;
       element.props.children = void 0;
     }
@@ -3467,6 +3614,9 @@ var privateApis = (lock) => {
       parseDirectiveName,
       // Shares the directive-value interpretation with internal consumers.
       parseDirectiveValue,
+      // Shares the rules that turn a `data-wp-interactive` value into a
+      // namespace with internal consumers.
+      getInteractiveNamespace,
       directive,
       getNamespace,
       h: k,
@@ -3482,7 +3632,9 @@ var privateApis = (lock) => {
       sessionId,
       warn,
       afterNextFrame,
-      getScope
+      getScope,
+      /** Runs a callback without a directive scope and restores the caller's stack. */
+      runWithoutScope
     };
   }
   throw new Error("Forbidden access.");

@@ -63,6 +63,13 @@ var require_element = __commonJS({
   }
 });
 
+// package-external:@wordpress/warning
+var require_warning = __commonJS({
+  "package-external:@wordpress/warning"(exports, module) {
+    module.exports = window.wp.warning;
+  }
+});
+
 // package-external:@wordpress/primitives
 var require_primitives = __commonJS({
   "package-external:@wordpress/primitives"(exports, module) {
@@ -79,7 +86,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
         return x === y && (0 !== x || 1 / x === 1 / y) || x !== x && y !== y;
       }
       function useSyncExternalStore$2(subscribe, getSnapshot) {
-        didWarnOld18Alpha || void 0 === React49.startTransition || (didWarnOld18Alpha = true, console.error(
+        didWarnOld18Alpha || void 0 === React54.startTransition || (didWarnOld18Alpha = true, console.error(
           "You are using an outdated, pre-release alpha of React 18 that does not support useSyncExternalStore. The use-sync-external-store shim will not work correctly. Upgrade to a newer pre-release."
         ));
         var value = getSnapshot();
@@ -89,7 +96,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
             "The result of getSnapshot should be cached to avoid an infinite loop"
           ), didWarnUncachedGetSnapshot = true);
         }
-        cachedValue = useState16({
+        cachedValue = useState19({
           inst: { value, getSnapshot }
         });
         var inst = cachedValue[0].inst, forceUpdate = cachedValue[1];
@@ -101,7 +108,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
           },
           [subscribe, value, getSnapshot]
         );
-        useEffect14(
+        useEffect15(
           function() {
             checkIfSnapshotChanged(inst) && forceUpdate({ inst });
             return subscribe(function() {
@@ -127,8 +134,8 @@ var require_use_sync_external_store_shim_development = __commonJS({
         return getSnapshot();
       }
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var React49 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState16 = React49.useState, useEffect14 = React49.useEffect, useLayoutEffect3 = React49.useLayoutEffect, useDebugValue2 = React49.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
-      exports.useSyncExternalStore = void 0 !== React49.useSyncExternalStore ? React49.useSyncExternalStore : shim;
+      var React54 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState19 = React54.useState, useEffect15 = React54.useEffect, useLayoutEffect3 = React54.useLayoutEffect, useDebugValue2 = React54.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+      exports.useSyncExternalStore = void 0 !== React54.useSyncExternalStore ? React54.useSyncExternalStore : shim;
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
     })();
   }
@@ -155,14 +162,14 @@ var require_with_selector_development = __commonJS({
         return x === y && (0 !== x || 1 / x === 1 / y) || x !== x && y !== y;
       }
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var React49 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore3 = shim.useSyncExternalStore, useRef19 = React49.useRef, useEffect14 = React49.useEffect, useMemo17 = React49.useMemo, useDebugValue2 = React49.useDebugValue;
+      var React54 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore3 = shim.useSyncExternalStore, useRef20 = React54.useRef, useEffect15 = React54.useEffect, useMemo18 = React54.useMemo, useDebugValue2 = React54.useDebugValue;
       exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual) {
-        var instRef = useRef19(null);
+        var instRef = useRef20(null);
         if (null === instRef.current) {
           var inst = { hasValue: false, value: null };
           instRef.current = inst;
         } else inst = instRef.current;
-        instRef = useMemo17(
+        instRef = useMemo18(
           function() {
             function memoizedSelector(nextSnapshot) {
               if (!hasMemo) {
@@ -198,7 +205,7 @@ var require_with_selector_development = __commonJS({
           [getSnapshot, getServerSnapshot, selector, isEqual]
         );
         var value = useSyncExternalStore3(subscribe, instRef[0], instRef[1]);
-        useEffect14(
+        useEffect15(
           function() {
             inst.hasValue = true;
             inst.value = value;
@@ -283,6 +290,26 @@ var require_html_entities = __commonJS({
 
 // packages/core-fields/build-module/attachment/alt_text/field.mjs
 var import_i18n3 = __toESM(require_i18n(), 1);
+
+// packages/ui/build-module/avatar/index.mjs
+var avatar_exports = {};
+__export(avatar_exports, {
+  Fallback: () => Fallback,
+  Image: () => Image,
+  Initials: () => Initials,
+  Root: () => Root
+});
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/index.parts.mjs
+var index_parts_exports = {};
+__export(index_parts_exports, {
+  Fallback: () => AvatarFallback,
+  Image: () => AvatarImage,
+  Root: () => AvatarRoot
+});
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/root/AvatarRoot.mjs
+var React6 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useRenderElement.mjs
 var React4 = __toESM(require_react(), 1);
@@ -659,12 +686,12 @@ function useRenderElementProps(componentProps, params, renderProp) {
     state = EMPTY_OBJECT,
     ref,
     props,
-    stateAttributesMapping,
+    stateAttributesMapping: stateAttributesMapping2,
     enabled = true
   } = params;
   const className = enabled ? resolveClassName(classNameProp, state) : void 0;
   const style = enabled ? resolveStyle(styleProp, state) : void 0;
-  const stateProps = enabled ? getStateAttributesProps(state, stateAttributesMapping) : EMPTY_OBJECT;
+  const stateProps = enabled ? getStateAttributesProps(state, stateAttributesMapping2) : EMPTY_OBJECT;
   const resolvedProps = enabled && props ? resolveRenderFunctionProps(props) : void 0;
   const outProps = enabled ? mergeObjects(stateProps, resolvedProps) ?? {} : EMPTY_OBJECT;
   if (typeof document !== "undefined") {
@@ -753,10 +780,60 @@ function renderTag(Tag, props) {
   return /* @__PURE__ */ React4.createElement(Tag, props);
 }
 
-// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/safeReact.mjs
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/root/AvatarRootContext.mjs
 var React5 = __toESM(require_react(), 1);
+var AvatarRootContext = /* @__PURE__ */ React5.createContext(void 0);
+if (true) AvatarRootContext.displayName = "AvatarRootContext";
+function useAvatarRootContext() {
+  const context = React5.useContext(AvatarRootContext);
+  if (context === void 0) {
+    throw new Error(true ? "Base UI: AvatarRootContext is missing. Avatar parts must be placed within <Avatar.Root>." : formatErrorMessage_default(13));
+  }
+  return context;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/root/stateAttributesMapping.mjs
+var avatarStateAttributesMapping = {
+  imageLoadingStatus: () => null
+};
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/root/AvatarRoot.mjs
+var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
+var AvatarRoot = /* @__PURE__ */ React6.forwardRef(function AvatarRoot2(componentProps, forwardedRef) {
+  const {
+    className,
+    render,
+    style,
+    ...elementProps
+  } = componentProps;
+  const [imageLoadingStatus, setImageLoadingStatus] = React6.useState("idle");
+  const state = {
+    imageLoadingStatus
+  };
+  const contextValue = React6.useMemo(() => ({
+    imageLoadingStatus,
+    setImageLoadingStatus
+  }), [imageLoadingStatus, setImageLoadingStatus]);
+  const element = useRenderElement("span", componentProps, {
+    state,
+    ref: forwardedRef,
+    props: elementProps,
+    stateAttributesMapping: avatarStateAttributesMapping
+  });
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AvatarRootContext.Provider, {
+    value: contextValue,
+    children: element
+  });
+});
+if (true) AvatarRoot.displayName = "AvatarRoot";
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/image/AvatarImage.mjs
+var React13 = __toESM(require_react(), 1);
+
+// node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/safeReact.mjs
+var React7 = __toESM(require_react(), 1);
 var SafeReact = {
-  ...React5
+  ...React7
 };
 
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useStableCallback.mjs
@@ -793,21 +870,21 @@ function assertNotCalled() {
 }
 
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useIsoLayoutEffect.mjs
-var React6 = __toESM(require_react(), 1);
+var React8 = __toESM(require_react(), 1);
 var noop = () => {
 };
-var useIsoLayoutEffect = typeof document !== "undefined" ? React6.useLayoutEffect : noop;
+var useIsoLayoutEffect = typeof document !== "undefined" ? React8.useLayoutEffect : noop;
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useOpenChangeComplete.mjs
-var React8 = __toESM(require_react(), 1);
+var React10 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useAnimationsFinished.mjs
 var ReactDOM = __toESM(require_react_dom(), 1);
 
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useOnMount.mjs
-var React7 = __toESM(require_react(), 1);
+var React9 = __toESM(require_react(), 1);
 function useOnMount(fn) {
-  React7.useEffect(fn, EMPTY_ARRAY);
+  React9.useEffect(fn, EMPTY_ARRAY);
 }
 
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useAnimationFrame.mjs
@@ -1015,7 +1092,7 @@ function useOpenChangeComplete(parameters) {
   } = parameters;
   const onComplete = useStableCallback(onCompleteParam);
   const runOnceAnimationsFinish = useAnimationsFinished(ref, open2, batch);
-  React8.useEffect(() => {
+  React10.useEffect(() => {
     if (!enabled) {
       return void 0;
     }
@@ -1047,10 +1124,10 @@ var transitionStatusMapping = {
 };
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useTransitionStatus.mjs
-var React9 = __toESM(require_react(), 1);
+var React11 = __toESM(require_react(), 1);
 function useTransitionStatus(open2, enableIdleState = false, deferEndingState = false, animateInitialOpen = false) {
-  const [transitionStatus, setTransitionStatus] = React9.useState(open2 && enableIdleState ? "idle" : void 0);
-  const [mounted, setMounted] = React9.useState(open2 && !animateInitialOpen);
+  const [transitionStatus, setTransitionStatus] = React11.useState(open2 && enableIdleState ? "idle" : void 0);
+  const [mounted, setMounted] = React11.useState(open2 && !animateInitialOpen);
   if (open2 && !mounted) {
     setMounted(true);
     setTransitionStatus("starting");
@@ -1104,6 +1181,182 @@ function useTransitionStatus(open2, enableIdleState = false, deferEndingState = 
   };
 }
 
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/image/useImageLoadingStatus.mjs
+var React12 = __toESM(require_react(), 1);
+function useImageLoadingStatus(src, {
+  referrerPolicy,
+  crossOrigin,
+  sizes,
+  srcSet
+}, enabled) {
+  const state = React12.useState("idle");
+  const setLoadingStatus = state[1];
+  useIsoLayoutEffect(() => {
+    if (!enabled) {
+      return NOOP;
+    }
+    if (!src && !srcSet) {
+      setLoadingStatus("error");
+      return NOOP;
+    }
+    let isMounted = true;
+    const image = new window.Image();
+    const updateStatus = (status) => () => {
+      if (!isMounted) {
+        return;
+      }
+      setLoadingStatus(status);
+    };
+    setLoadingStatus("loading");
+    image.onload = updateStatus("loaded");
+    image.onerror = updateStatus("error");
+    if (referrerPolicy) {
+      image.referrerPolicy = referrerPolicy;
+    }
+    image.crossOrigin = crossOrigin ?? null;
+    if (sizes) {
+      image.sizes = sizes;
+    }
+    if (srcSet) {
+      image.srcset = srcSet;
+    }
+    if (src) {
+      image.src = src;
+    }
+    if (image.complete) {
+      setLoadingStatus(image.naturalWidth > 0 ? "loaded" : "error");
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [enabled, src, srcSet, sizes, crossOrigin, referrerPolicy, setLoadingStatus]);
+  return state;
+}
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/image/AvatarImage.mjs
+var stateAttributesMapping = {
+  ...avatarStateAttributesMapping,
+  ...transitionStatusMapping
+};
+var AvatarImage = /* @__PURE__ */ React13.forwardRef(function AvatarImage2(componentProps, forwardedRef) {
+  const {
+    className,
+    render,
+    onLoadingStatusChange: onLoadingStatusChangeProp,
+    keepMounted = false,
+    style,
+    // Split out so they can be applied after every other prop. React 17 and 18 set attributes in
+    // props order, and Safari and Firefox start fetching as soon as `src` lands, ignoring a
+    // `loading` or `srcSet` that arrives after it. React 19 orders these itself.
+    sizes,
+    srcSet,
+    src,
+    ...elementProps
+  } = componentProps;
+  const {
+    setImageLoadingStatus: setRootImageLoadingStatus
+  } = useAvatarRootContext();
+  const [imageLoadingStatus, setImageLoadingStatus] = useImageLoadingStatus(src, componentProps, !keepMounted);
+  const isVisible = imageLoadingStatus === "loaded";
+  const {
+    mounted,
+    transitionStatus,
+    setMounted
+  } = useTransitionStatus(isVisible);
+  const imageRef = React13.useRef(null);
+  const initialCommitRef = React13.useRef(true);
+  useIsoLayoutEffect(() => {
+    if (!keepMounted) {
+      return;
+    }
+    const isInitialCommit = initialCommitRef.current;
+    initialCommitRef.current = false;
+    const image = imageRef.current;
+    if (!image) {
+      return;
+    }
+    if (!image.complete) {
+      setImageLoadingStatus("loading");
+      return;
+    }
+    const status = image.naturalWidth > 0 ? "loaded" : "error";
+    setImageLoadingStatus(status);
+    if (status === "loaded" && isInitialCommit) {
+      setMounted(true);
+    }
+  }, [keepMounted, src, srcSet, sizes, elementProps.crossOrigin, elementProps.referrerPolicy, render, setImageLoadingStatus, setMounted]);
+  const renderedStatusProps = keepMounted ? {
+    // Presence no longer implies the image loaded, so the not-loaded states need their own
+    // styling hooks. Scoped to `keepMounted` so the default mode, where the element only
+    // exists once loaded, doesn't pick them up while it animates out.
+    "data-loading": imageLoadingStatus === "loading" ? "" : void 0,
+    "data-error": imageLoadingStatus === "error" ? "" : void 0,
+    // Until the image is displayable, the fallback owns the accessible name; without this
+    // both would be exposed to assistive technology at once (including in server HTML).
+    "aria-hidden": imageLoadingStatus !== "loaded" || void 0,
+    onLoad() {
+      setImageLoadingStatus("loaded");
+    },
+    onError() {
+      setImageLoadingStatus("error");
+    }
+  } : void 0;
+  const handleLoadingStatusChange = useStableCallback((status) => {
+    onLoadingStatusChangeProp?.(status);
+    setRootImageLoadingStatus(status);
+  });
+  useIsoLayoutEffect(() => {
+    if (imageLoadingStatus !== "idle") {
+      handleLoadingStatusChange(imageLoadingStatus);
+    }
+  }, [imageLoadingStatus, handleLoadingStatusChange]);
+  useIsoLayoutEffect(() => {
+    return () => setRootImageLoadingStatus("idle");
+  }, [setRootImageLoadingStatus]);
+  useOpenChangeComplete({
+    enabled: !isVisible,
+    open: isVisible,
+    ref: imageRef,
+    onComplete() {
+      if (!isVisible) {
+        setMounted(false);
+      }
+    }
+  });
+  const state = {
+    imageLoadingStatus,
+    // The element never unmounts with `keepMounted`, so an exit transition would play and then
+    // reverse itself once the status is cleared. `data-loading`/`data-error` cover that state.
+    transitionStatus: keepMounted && transitionStatus === "ending" ? void 0 : transitionStatus
+  };
+  const shouldRender = keepMounted || mounted;
+  const sourceProps = {};
+  if (sizes !== void 0) {
+    sourceProps.sizes = sizes;
+  }
+  if (srcSet !== void 0) {
+    sourceProps.srcSet = srcSet;
+  }
+  if (src !== void 0) {
+    sourceProps.src = src;
+  }
+  const element = useRenderElement("img", componentProps, {
+    state,
+    ref: [forwardedRef, imageRef],
+    props: [renderedStatusProps, elementProps, sourceProps],
+    stateAttributesMapping,
+    enabled: shouldRender
+  });
+  if (!shouldRender) {
+    return null;
+  }
+  return element;
+});
+if (true) AvatarImage.displayName = "AvatarImage";
+
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/fallback/AvatarFallback.mjs
+var React14 = __toESM(require_react(), 1);
+
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useTimeout.mjs
 var EMPTY2 = 0;
 var Timeout = class _Timeout {
@@ -1140,6 +1393,42 @@ function useTimeout() {
   return timeout;
 }
 
+// node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/avatar/fallback/AvatarFallback.mjs
+var AvatarFallback = /* @__PURE__ */ React14.forwardRef(function AvatarFallback2(componentProps, forwardedRef) {
+  const {
+    className,
+    render,
+    delay = 0,
+    style,
+    ...elementProps
+  } = componentProps;
+  const {
+    imageLoadingStatus
+  } = useAvatarRootContext();
+  const [delayPassed, setDelayPassed] = React14.useState(delay === 0);
+  const timeout = useTimeout();
+  React14.useEffect(() => {
+    if (delay > 0) {
+      timeout.start(delay, () => setDelayPassed(true));
+    } else {
+      setDelayPassed(true);
+    }
+    return timeout.clear;
+  }, [timeout, delay]);
+  const state = {
+    imageLoadingStatus
+  };
+  const element = useRenderElement("span", componentProps, {
+    state,
+    ref: forwardedRef,
+    props: elementProps,
+    stateAttributesMapping: avatarStateAttributesMapping,
+    enabled: imageLoadingStatus !== "loaded" && (delay === 0 || delayPassed)
+  });
+  return element;
+});
+if (true) AvatarFallback.displayName = "AvatarFallback";
+
 // node_modules/.store/clsx@2.1.1-XOLP1vUL9vEGfpiXm37fAw/node_modules/clsx/dist/clsx.mjs
 function r(e) {
   var t, f, n = "";
@@ -1156,14 +1445,273 @@ function clsx() {
 }
 var clsx_default = clsx;
 
-// packages/ui/build-module/icon/icon.mjs
+// packages/ui/build-module/avatar/root.mjs
 var import_element = __toESM(require_element(), 1);
+
+// packages/ui/build-module/avatar/dev-warnings.mjs
+var import_warning = __toESM(require_warning(), 1);
+function warnAvatarColor(color) {
+  if (color === void 0) {
+    return;
+  }
+  const tokens = color.match(
+    /\/\*[\s\S]*?(?:\*\/|$)|"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*'|(?:[-\w\u0080-\uFFFF]|\\(?:[\da-fA-F]{1,6}[ \t\r\n\f]?|[^\r\n\f]))+/g
+  );
+  if (tokens?.some((token) => token.toLowerCase() === "currentcolor")) {
+    (0, import_warning.default)(
+      "Avatar.Root: `color` contains `currentColor`, which can produce insufficient contrast in colored fallbacks. Use a color that does not depend on the foreground."
+    );
+    return;
+  }
+  if (typeof CSS === "undefined" || !CSS.supports) {
+    return;
+  }
+  if (!CSS.supports("color", color)) {
+    (0, import_warning.default)(
+      "Avatar.Root: The browser does not support the `color` value. Use a valid CSS color supported by this browser."
+    );
+  } else if (
+    // Browsers without relative colors retain the neutral fallback.
+    CSS.supports("color", "rgb(from red r g b / 1)") && !CSS.supports("color", `rgb(from ${color} r g b / 1)`)
+  ) {
+    (0, import_warning.default)(
+      "Avatar.Root: `color` cannot be used as a colored fallback fill. Use an explicit CSS color instead of a CSS-wide keyword such as `inherit`."
+    );
+  }
+}
+
+// packages/ui/build-module/avatar/root.mjs
+var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+var STYLE_HASH_ATTRIBUTE = "data-wp-hash";
+function getRuntime() {
+  const globalScope = globalThis;
+  if (globalScope.__wpStyleRuntime) {
+    return globalScope.__wpStyleRuntime;
+  }
+  globalScope.__wpStyleRuntime = {
+    documents: /* @__PURE__ */ new Map(),
+    styles: /* @__PURE__ */ new Map(),
+    injectedStyles: /* @__PURE__ */ new WeakMap()
+  };
+  if (typeof document !== "undefined") {
+    registerDocument(document);
+  }
+  return globalScope.__wpStyleRuntime;
+}
+function documentContainsStyleHash(targetDocument, hash) {
+  if (!targetDocument.head) {
+    return false;
+  }
+  for (const style of targetDocument.head.querySelectorAll(
+    `style[${STYLE_HASH_ATTRIBUTE}]`
+  )) {
+    if (style.getAttribute(STYLE_HASH_ATTRIBUTE) === hash) {
+      return true;
+    }
+  }
+  return false;
+}
+function injectStyle(targetDocument, hash, css) {
+  if (!targetDocument.head) {
+    return;
+  }
+  const runtime = getRuntime();
+  let injectedStyles = runtime.injectedStyles.get(targetDocument);
+  if (!injectedStyles) {
+    injectedStyles = /* @__PURE__ */ new Set();
+    runtime.injectedStyles.set(targetDocument, injectedStyles);
+  }
+  if (injectedStyles.has(hash)) {
+    return;
+  }
+  if (documentContainsStyleHash(targetDocument, hash)) {
+    injectedStyles.add(hash);
+    return;
+  }
+  const style = targetDocument.createElement("style");
+  style.setAttribute(STYLE_HASH_ATTRIBUTE, hash);
+  style.appendChild(targetDocument.createTextNode(css));
+  targetDocument.head.appendChild(style);
+  injectedStyles.add(hash);
+}
+function registerDocument(targetDocument) {
+  const runtime = getRuntime();
+  runtime.documents.set(
+    targetDocument,
+    (runtime.documents.get(targetDocument) ?? 0) + 1
+  );
+  for (const [hash, css] of runtime.styles) {
+    injectStyle(targetDocument, hash, css);
+  }
+  return () => {
+    const count = runtime.documents.get(targetDocument);
+    if (count === void 0) {
+      return;
+    }
+    if (count <= 1) {
+      runtime.documents.delete(targetDocument);
+      return;
+    }
+    runtime.documents.set(targetDocument, count - 1);
+  };
+}
+function registerStyle(hash, css) {
+  const runtime = getRuntime();
+  runtime.styles.set(hash, css);
+  for (const targetDocument of runtime.documents.keys()) {
+    injectStyle(targetDocument, hash, css);
+  }
+}
+if (typeof process === "undefined" || true) {
+  registerStyle("37477070fb", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{.ccc29f9575c4c758__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
+}
+var resets_default = { "box-sizing": "ccc29f9575c4c758__box-sizing" };
+if (typeof process === "undefined" || true) {
+  registerStyle("726f348f3f", "._78c10a0773e51a91__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}._5b33aa2d48624b4f__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._980b3b4776ac8f81__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._43e478b4279a076c__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._698099e25b0fb1a6__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6)._326aee4184d261fd__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}.e9576240835601ba__a,.e9576240835601ba__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}._3f05789653864a73__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._3c72ff72abe57859__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._79d16267c15d9eb2__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
+}
+var global_css_defense_default = { "button": "_78c10a0773e51a91__button", "input": "_5b33aa2d48624b4f__input", "textarea": "_980b3b4776ac8f81__textarea", "div": "_43e478b4279a076c__div", "p": "_698099e25b0fb1a6__p", "heading": "_326aee4184d261fd__heading", "a": "e9576240835601ba__a", "ol": "_3f05789653864a73__ol", "li": "_3c72ff72abe57859__li", "span": "_79d16267c15d9eb2__span" };
+if (typeof process === "undefined" || true) {
+  registerStyle("2657a3ab0c", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.a9728400af96db77__root{--_wp-ui-avatar-size:var(--wpds-dimension-size-md,32px);--_gcd-span-position:relative;--_gcd-span-display:inline-flex;--_gcd-span-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-span-font-size:var(--_wp-ui-avatar-font-size);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-sm,12px);align-items:center;background-color:var(--wpds-color-background-surface-neutral-weak,#f4f4f4);block-size:var(--_wp-ui-avatar-size);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:50%;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:inline-flex;flex-shrink:0;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--_wp-ui-avatar-font-size);font-weight:var(--wpds-typography-font-weight-emphasis,600);inline-size:var(--_wp-ui-avatar-size);justify-content:center;line-height:1;position:relative;vertical-align:middle}._81a33c129d7cbe31__has-color:after{border:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--_wp-ui-avatar-color);border-radius:inherit;content:"";inset:calc(var(--wpds-border-width-xs, 1px)*-1);pointer-events:none;position:absolute}._32e65dea77285874__is-square{border-radius:var(--wpds-border-radius-sm,2px)}._7d2020337343df5a__is-xs{--_wp-ui-avatar-size:var(--wpds-dimension-size-2xs,16px);--_wp-ui-avatar-font-size:calc(var(--_wp-ui-avatar-size)/2)}._216fb78a075c5ab4__is-sm{--_wp-ui-avatar-size:var(--wpds-dimension-size-sm,24px);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-xs,11px)}.b552ab04a3b94ae9__is-lg{--_wp-ui-avatar-size:var(--wpds-dimension-size-lg,40px);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-md,13px)}.f8a7646462ff80d1__is-xl{--_wp-ui-avatar-size:calc(var(--wpds-dimension-size-md, 32px)*2);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-xl,20px)}._411c43ac028fe4be__image,._7883f856336224e2__fallback{block-size:100%;border-radius:inherit;inline-size:100%;inset:0;position:absolute}._411c43ac028fe4be__image{object-fit:cover;@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1));&[data-error],&[data-loading],&[data-starting-style]{opacity:0}}&[data-ending-style],&[data-error],&[data-loading]{visibility:hidden}}._7883f856336224e2__fallback{--_gcd-span-position:absolute;--_gcd-span-display:flex;align-items:center;display:flex;justify-content:center;overflow:hidden;white-space:nowrap;>svg{block-size:100%;flex-shrink:0;inline-size:100%}>.dc9b5131d4746aa6__person-icon{block-size:110%;color:var(--wpds-color-stroke-surface-neutral-strong,#8d8d8d);inline-size:110%;translate:0 15%}}@media not (forced-colors:active){@supports (color:rgb(from green r g b/1)) and (color:color(from green srgb-linear round(up,r) g b/1)){._81a33c129d7cbe31__has-color:has(>._7883f856336224e2__fallback){border:none}._81a33c129d7cbe31__has-color:has(>._7883f856336224e2__fallback):after{content:none}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback{--_wp-ui-avatar-background:rgb(from var(--_wp-ui-avatar-color) clamp(0,r,255) clamp(0,g,255) clamp(0,b,255)/1);--_wp-ui-avatar-contrast-target:4.55;background-color:var(--_wp-ui-avatar-background)}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback>.dc9b5131d4746aa6__person-icon{--_wp-ui-avatar-contrast-target:3.05}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback,._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback>.dc9b5131d4746aa6__person-icon{--_wp-ui-avatar-luminance:calc(0.2126 * r + 0.7152 * g + 0.0722 * b);--_wp-ui-avatar-light-foreground:round(up,clamp(0,calc(0.17913 - var(--_wp-ui-avatar-luminance)),1));--_wp-ui-avatar-dark-tint:clamp(0,calc(((var(--_wp-ui-avatar-luminance) + 0.05)/var(--_wp-ui-avatar-contrast-target) - 0.05)/max(0.000001, var(--_wp-ui-avatar-luminance))),1);--_wp-ui-avatar-light-tint:clamp(0,calc((1.05 - var(--_wp-ui-avatar-contrast-target)*(var(--_wp-ui-avatar-luminance) + 0.05))/max(0.000001, 1 - var(--_wp-ui-avatar-luminance))),1);--_wp-ui-avatar-tint:calc(var(--_wp-ui-avatar-light-foreground)*var(--_wp-ui-avatar-light-tint) + (1 - var(--_wp-ui-avatar-light-foreground))*var(--_wp-ui-avatar-dark-tint));color:color(from var(--_wp-ui-avatar-background) srgb-linear calc(var(--_wp-ui-avatar-light-foreground) + (r - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint)) calc(var(--_wp-ui-avatar-light-foreground) + (g - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint)) calc(var(--_wp-ui-avatar-light-foreground) + (b - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint))/1)}}}}}');
+}
+var style_default = { "root": "a9728400af96db77__root", "has-color": "_81a33c129d7cbe31__has-color", "is-square": "_32e65dea77285874__is-square", "is-xs": "_7d2020337343df5a__is-xs", "is-sm": "_216fb78a075c5ab4__is-sm", "is-lg": "b552ab04a3b94ae9__is-lg", "is-xl": "f8a7646462ff80d1__is-xl", "image": "_411c43ac028fe4be__image", "fallback": "_7883f856336224e2__fallback", "person-icon": "dc9b5131d4746aa6__person-icon" };
+var Root = (0, import_element.forwardRef)(
+  function AvatarRoot3({ size: size4 = "md", shape = "circle", color, className, style, ...props }, ref) {
+    if (true) {
+      warnAvatarColor(color);
+    }
+    const customProperties = color === void 0 ? style : { ...style, "--_wp-ui-avatar-color": color };
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+      index_parts_exports.Root,
+      {
+        ref,
+        style: customProperties,
+        className: clsx_default(
+          resets_default["box-sizing"],
+          global_css_defense_default.span,
+          style_default.root,
+          style_default[`is-${size4}`],
+          shape === "square" && style_default["is-square"],
+          color !== void 0 && style_default["has-color"],
+          className
+        ),
+        ...props
+      }
+    );
+  }
+);
+
+// packages/ui/build-module/avatar/image.mjs
+var import_element2 = __toESM(require_element(), 1);
+var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+var STYLE_HASH_ATTRIBUTE2 = "data-wp-hash";
+function getRuntime2() {
+  const globalScope = globalThis;
+  if (globalScope.__wpStyleRuntime) {
+    return globalScope.__wpStyleRuntime;
+  }
+  globalScope.__wpStyleRuntime = {
+    documents: /* @__PURE__ */ new Map(),
+    styles: /* @__PURE__ */ new Map(),
+    injectedStyles: /* @__PURE__ */ new WeakMap()
+  };
+  if (typeof document !== "undefined") {
+    registerDocument2(document);
+  }
+  return globalScope.__wpStyleRuntime;
+}
+function documentContainsStyleHash2(targetDocument, hash) {
+  if (!targetDocument.head) {
+    return false;
+  }
+  for (const style of targetDocument.head.querySelectorAll(
+    `style[${STYLE_HASH_ATTRIBUTE2}]`
+  )) {
+    if (style.getAttribute(STYLE_HASH_ATTRIBUTE2) === hash) {
+      return true;
+    }
+  }
+  return false;
+}
+function injectStyle2(targetDocument, hash, css) {
+  if (!targetDocument.head) {
+    return;
+  }
+  const runtime = getRuntime2();
+  let injectedStyles = runtime.injectedStyles.get(targetDocument);
+  if (!injectedStyles) {
+    injectedStyles = /* @__PURE__ */ new Set();
+    runtime.injectedStyles.set(targetDocument, injectedStyles);
+  }
+  if (injectedStyles.has(hash)) {
+    return;
+  }
+  if (documentContainsStyleHash2(targetDocument, hash)) {
+    injectedStyles.add(hash);
+    return;
+  }
+  const style = targetDocument.createElement("style");
+  style.setAttribute(STYLE_HASH_ATTRIBUTE2, hash);
+  style.appendChild(targetDocument.createTextNode(css));
+  targetDocument.head.appendChild(style);
+  injectedStyles.add(hash);
+}
+function registerDocument2(targetDocument) {
+  const runtime = getRuntime2();
+  runtime.documents.set(
+    targetDocument,
+    (runtime.documents.get(targetDocument) ?? 0) + 1
+  );
+  for (const [hash, css] of runtime.styles) {
+    injectStyle2(targetDocument, hash, css);
+  }
+  return () => {
+    const count = runtime.documents.get(targetDocument);
+    if (count === void 0) {
+      return;
+    }
+    if (count <= 1) {
+      runtime.documents.delete(targetDocument);
+      return;
+    }
+    runtime.documents.set(targetDocument, count - 1);
+  };
+}
+function registerStyle2(hash, css) {
+  const runtime = getRuntime2();
+  runtime.styles.set(hash, css);
+  for (const targetDocument of runtime.documents.keys()) {
+    injectStyle2(targetDocument, hash, css);
+  }
+}
+if (typeof process === "undefined" || true) {
+  registerStyle2("2657a3ab0c", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.a9728400af96db77__root{--_wp-ui-avatar-size:var(--wpds-dimension-size-md,32px);--_gcd-span-position:relative;--_gcd-span-display:inline-flex;--_gcd-span-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-span-font-size:var(--_wp-ui-avatar-font-size);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-sm,12px);align-items:center;background-color:var(--wpds-color-background-surface-neutral-weak,#f4f4f4);block-size:var(--_wp-ui-avatar-size);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:50%;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:inline-flex;flex-shrink:0;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--_wp-ui-avatar-font-size);font-weight:var(--wpds-typography-font-weight-emphasis,600);inline-size:var(--_wp-ui-avatar-size);justify-content:center;line-height:1;position:relative;vertical-align:middle}._81a33c129d7cbe31__has-color:after{border:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--_wp-ui-avatar-color);border-radius:inherit;content:"";inset:calc(var(--wpds-border-width-xs, 1px)*-1);pointer-events:none;position:absolute}._32e65dea77285874__is-square{border-radius:var(--wpds-border-radius-sm,2px)}._7d2020337343df5a__is-xs{--_wp-ui-avatar-size:var(--wpds-dimension-size-2xs,16px);--_wp-ui-avatar-font-size:calc(var(--_wp-ui-avatar-size)/2)}._216fb78a075c5ab4__is-sm{--_wp-ui-avatar-size:var(--wpds-dimension-size-sm,24px);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-xs,11px)}.b552ab04a3b94ae9__is-lg{--_wp-ui-avatar-size:var(--wpds-dimension-size-lg,40px);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-md,13px)}.f8a7646462ff80d1__is-xl{--_wp-ui-avatar-size:calc(var(--wpds-dimension-size-md, 32px)*2);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-xl,20px)}._411c43ac028fe4be__image,._7883f856336224e2__fallback{block-size:100%;border-radius:inherit;inline-size:100%;inset:0;position:absolute}._411c43ac028fe4be__image{object-fit:cover;@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1));&[data-error],&[data-loading],&[data-starting-style]{opacity:0}}&[data-ending-style],&[data-error],&[data-loading]{visibility:hidden}}._7883f856336224e2__fallback{--_gcd-span-position:absolute;--_gcd-span-display:flex;align-items:center;display:flex;justify-content:center;overflow:hidden;white-space:nowrap;>svg{block-size:100%;flex-shrink:0;inline-size:100%}>.dc9b5131d4746aa6__person-icon{block-size:110%;color:var(--wpds-color-stroke-surface-neutral-strong,#8d8d8d);inline-size:110%;translate:0 15%}}@media not (forced-colors:active){@supports (color:rgb(from green r g b/1)) and (color:color(from green srgb-linear round(up,r) g b/1)){._81a33c129d7cbe31__has-color:has(>._7883f856336224e2__fallback){border:none}._81a33c129d7cbe31__has-color:has(>._7883f856336224e2__fallback):after{content:none}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback{--_wp-ui-avatar-background:rgb(from var(--_wp-ui-avatar-color) clamp(0,r,255) clamp(0,g,255) clamp(0,b,255)/1);--_wp-ui-avatar-contrast-target:4.55;background-color:var(--_wp-ui-avatar-background)}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback>.dc9b5131d4746aa6__person-icon{--_wp-ui-avatar-contrast-target:3.05}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback,._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback>.dc9b5131d4746aa6__person-icon{--_wp-ui-avatar-luminance:calc(0.2126 * r + 0.7152 * g + 0.0722 * b);--_wp-ui-avatar-light-foreground:round(up,clamp(0,calc(0.17913 - var(--_wp-ui-avatar-luminance)),1));--_wp-ui-avatar-dark-tint:clamp(0,calc(((var(--_wp-ui-avatar-luminance) + 0.05)/var(--_wp-ui-avatar-contrast-target) - 0.05)/max(0.000001, var(--_wp-ui-avatar-luminance))),1);--_wp-ui-avatar-light-tint:clamp(0,calc((1.05 - var(--_wp-ui-avatar-contrast-target)*(var(--_wp-ui-avatar-luminance) + 0.05))/max(0.000001, 1 - var(--_wp-ui-avatar-luminance))),1);--_wp-ui-avatar-tint:calc(var(--_wp-ui-avatar-light-foreground)*var(--_wp-ui-avatar-light-tint) + (1 - var(--_wp-ui-avatar-light-foreground))*var(--_wp-ui-avatar-dark-tint));color:color(from var(--_wp-ui-avatar-background) srgb-linear calc(var(--_wp-ui-avatar-light-foreground) + (r - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint)) calc(var(--_wp-ui-avatar-light-foreground) + (g - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint)) calc(var(--_wp-ui-avatar-light-foreground) + (b - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint))/1)}}}}}');
+}
+var style_default2 = { "root": "a9728400af96db77__root", "has-color": "_81a33c129d7cbe31__has-color", "is-square": "_32e65dea77285874__is-square", "is-xs": "_7d2020337343df5a__is-xs", "is-sm": "_216fb78a075c5ab4__is-sm", "is-lg": "b552ab04a3b94ae9__is-lg", "is-xl": "f8a7646462ff80d1__is-xl", "image": "_411c43ac028fe4be__image", "fallback": "_7883f856336224e2__fallback", "person-icon": "dc9b5131d4746aa6__person-icon" };
+var Image = (0, import_element2.forwardRef)(
+  function AvatarImage3({ className, ...props }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+      index_parts_exports.Image,
+      {
+        ref,
+        className: clsx_default(style_default2.image, className),
+        ...props
+      }
+    );
+  }
+);
+
+// packages/ui/build-module/avatar/fallback.mjs
+var import_element14 = __toESM(require_element(), 1);
+var import_primitives2 = __toESM(require_primitives(), 1);
+
+// packages/ui/build-module/icon/icon.mjs
+var import_element3 = __toESM(require_element(), 1);
 var import_primitives = __toESM(require_primitives(), 1);
-var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-var Icon = (0, import_element.forwardRef)(
+var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+var Icon = (0, import_element3.forwardRef)(
   function UnforwardedIcon({ icon, size: size4 = 24, style, ...restProps }, ref) {
     const mergedStyle = icon.props.style || style ? { ...icon.props.style, ...style } : void 0;
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
       import_primitives.SVG,
       {
         ref,
@@ -1178,13 +1726,13 @@ var Icon = (0, import_element.forwardRef)(
 );
 
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useId.mjs
-var React11 = __toESM(require_react(), 1);
+var React16 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useForcedRerendering.mjs
-var React10 = __toESM(require_react(), 1);
+var React15 = __toESM(require_react(), 1);
 function useForcedRerendering() {
-  const [, setState] = React10.useState({});
-  return React10.useCallback(() => {
+  const [, setState] = React15.useState({});
+  return React15.useCallback(() => {
     setState({});
   }, []);
 }
@@ -1192,10 +1740,10 @@ function useForcedRerendering() {
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/useId.mjs
 var globalId = 0;
 function useGlobalId(idOverride, prefix = "mui") {
-  const defaultId = React11.useRef(void 0);
+  const defaultId = React16.useRef(void 0);
   const forceRerender = useForcedRerendering();
   const id = idOverride ?? defaultId.current;
-  React11.useEffect(() => {
+  React16.useEffect(() => {
     if (defaultId.current == null) {
       globalId += 1;
       defaultId.current = `${prefix}-${globalId}`;
@@ -1609,7 +2157,7 @@ __export(media_query_exports, {
 var iOS = "@supports (-webkit-touch-callout: none)";
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingDelayGroup.mjs
-var React12 = __toESM(require_react(), 1);
+var React17 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/utils/event.mjs
 function isReactEvent(event) {
@@ -1823,8 +2371,8 @@ function isHoverOpenEvent(openEventType) {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingDelayGroup.mjs
-var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-var FloatingDelayGroupContext = /* @__PURE__ */ React12.createContext({
+var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+var FloatingDelayGroupContext = /* @__PURE__ */ React17.createContext({
   hasProvider: false,
   timeoutMs: 0,
   delayRef: {
@@ -1851,10 +2399,10 @@ function FloatingDelayGroup(props) {
     delay,
     timeoutMs = 0
   } = props;
-  const delayRef = React12.useRef(delay);
-  const initialDelayRef = React12.useRef(delay);
-  const currentIdRef = React12.useRef(null);
-  const currentContextRef = React12.useRef(null);
+  const delayRef = React17.useRef(delay);
+  const initialDelayRef = React17.useRef(delay);
+  const currentIdRef = React17.useRef(null);
+  const currentContextRef = React17.useRef(null);
   const timeout = useTimeout();
   useIsoLayoutEffect(() => {
     initialDelayRef.current = delay;
@@ -1867,8 +2415,8 @@ function FloatingDelayGroup(props) {
       close: getDelay(delay, "close")
     };
   }, [delay, currentIdRef, delayRef, initialDelayRef]);
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(FloatingDelayGroupContext.Provider, {
-    value: React12.useMemo(() => ({
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(FloatingDelayGroupContext.Provider, {
+    value: React17.useMemo(() => ({
       hasProvider: true,
       delayRef,
       initialDelayRef,
@@ -1887,7 +2435,7 @@ function useDelayGroup(store, options = {
     open: open2
   } = options;
   const floatingId = store.useState("floatingId");
-  const groupContext = React12.useContext(FloatingDelayGroupContext);
+  const groupContext = React17.useContext(FloatingDelayGroupContext);
   const {
     currentIdRef,
     delayRef,
@@ -1897,8 +2445,8 @@ function useDelayGroup(store, options = {
     hasProvider,
     timeout
   } = groupContext;
-  const [isInstantPhase, setIsInstantPhase] = React12.useState(false);
-  const openRef = React12.useRef(open2);
+  const [isInstantPhase, setIsInstantPhase] = React17.useState(false);
+  const openRef = React17.useRef(open2);
   useIsoLayoutEffect(() => {
     openRef.current = open2;
   }, [open2]);
@@ -1971,7 +2519,7 @@ function useDelayGroup(store, options = {
       }
     };
   }, [currentContextRef, currentIdRef, delayRef, floatingId, initialDelayRef, timeout]);
-  return React12.useMemo(() => ({
+  return React17.useMemo(() => ({
     activeIdRef: currentIdRef,
     hasProvider,
     delayRef,
@@ -1992,7 +2540,7 @@ function mergeCleanups(...cleanups) {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/FocusGuard.mjs
-var React13 = __toESM(require_react(), 1);
+var React18 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/visuallyHidden.mjs
 var visuallyHiddenBase = {
@@ -2018,9 +2566,9 @@ var visuallyHiddenInput = {
 };
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/FocusGuard.mjs
-var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-var FocusGuard = /* @__PURE__ */ React13.forwardRef(function FocusGuard2(props, ref) {
-  const [role, setRole] = React13.useState();
+var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+var FocusGuard = /* @__PURE__ */ React18.forwardRef(function FocusGuard2(props, ref) {
+  const [role, setRole] = React18.useState();
   useIsoLayoutEffect(() => {
     if (parts_exports.screenReader.voiceOver && parts_exports.engine.webkit) {
       setRole("button");
@@ -2031,7 +2579,7 @@ var FocusGuard = /* @__PURE__ */ React13.forwardRef(function FocusGuard2(props, 
     // Role is only for VoiceOver
     role
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", {
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", {
     ...props,
     ref,
     style: visuallyHidden,
@@ -2364,7 +2912,7 @@ function createAttribute(name) {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingPortal.mjs
-var React14 = __toESM(require_react(), 1);
+var React19 = __toESM(require_react(), 1);
 var ReactDOM2 = __toESM(require_react_dom(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/constants.mjs
@@ -2388,10 +2936,10 @@ var ownerVisuallyHidden = {
 };
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingPortal.mjs
-var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
-var PortalContext = /* @__PURE__ */ React14.createContext(null);
+var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+var PortalContext = /* @__PURE__ */ React19.createContext(null);
 if (true) PortalContext.displayName = "PortalContext";
-var usePortalContext = () => React14.useContext(PortalContext);
+var usePortalContext = () => React19.useContext(PortalContext);
 var attr = createAttribute("portal");
 function useFloatingPortalNode(props = {}) {
   const {
@@ -2403,14 +2951,14 @@ function useFloatingPortalNode(props = {}) {
   const uniqueId = useId();
   const portalContext = usePortalContext();
   const parentPortalNode = portalContext?.portalNode;
-  const [containerElement, setContainerElement] = React14.useState(null);
-  const [portalNode, setPortalNode] = React14.useState(null);
+  const [containerElement, setContainerElement] = React19.useState(null);
+  const [portalNode, setPortalNode] = React19.useState(null);
   const setPortalNodeRef = useStableCallback((node) => {
     if (node !== null) {
       setPortalNode(node);
     }
   });
-  const containerRef = React14.useRef(null);
+  const containerRef = React19.useRef(null);
   useIsoLayoutEffect(() => {
     if (containerProp === null) {
       if (containerRef.current) {
@@ -2447,11 +2995,11 @@ function useFloatingPortalNode(props = {}) {
     node: portalNode,
     // `id` and `render` props can override or remove the generated ID. Use the exact
     // rendered value so `aria-owns` never points at an ID absent from the DOM.
-    nodeId: /* @__PURE__ */ React14.isValidElement(portalElement) ? portalElement.props.id : void 0,
+    nodeId: /* @__PURE__ */ React19.isValidElement(portalElement) ? portalElement.props.id : void 0,
     subtree: portalSubtree
   };
 }
-var FloatingPortal = /* @__PURE__ */ React14.forwardRef(function FloatingPortal2(componentProps, forwardedRef) {
+var FloatingPortal = /* @__PURE__ */ React19.forwardRef(function FloatingPortal2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -2471,16 +3019,16 @@ var FloatingPortal = /* @__PURE__ */ React14.forwardRef(function FloatingPortal2
     componentProps,
     elementProps
   });
-  const beforeOutsideRef = React14.useRef(null);
-  const afterOutsideRef = React14.useRef(null);
-  const beforeInsideRef = React14.useRef(null);
-  const afterInsideRef = React14.useRef(null);
-  const [focusManagerState, setFocusManagerState] = React14.useState(null);
-  const focusInsideDisabledRef = React14.useRef(false);
+  const beforeOutsideRef = React19.useRef(null);
+  const afterOutsideRef = React19.useRef(null);
+  const beforeInsideRef = React19.useRef(null);
+  const afterInsideRef = React19.useRef(null);
+  const [focusManagerState, setFocusManagerState] = React19.useState(null);
+  const focusInsideDisabledRef = React19.useRef(false);
   const modal = focusManagerState?.modal;
   const open2 = focusManagerState?.open;
   const shouldRenderGuards = !!focusManagerState && !focusManagerState.modal && focusManagerState.open && !!portalNode;
-  React14.useEffect(() => {
+  React19.useEffect(() => {
     if (!portalNode || modal) {
       return void 0;
     }
@@ -2506,7 +3054,7 @@ var FloatingPortal = /* @__PURE__ */ React14.forwardRef(function FloatingPortal2
     enableFocusInside(portalNode);
     focusInsideDisabledRef.current = false;
   }, [open2, portalNode]);
-  const portalContextValue = React14.useMemo(() => ({
+  const portalContextValue = React19.useMemo(() => ({
     beforeOutsideRef,
     afterOutsideRef,
     beforeInsideRef,
@@ -2514,10 +3062,10 @@ var FloatingPortal = /* @__PURE__ */ React14.forwardRef(function FloatingPortal2
     portalNode,
     setFocusManagerState
   }), [portalNode]);
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(React14.Fragment, {
-    children: [portalSubtree, /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(PortalContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(React19.Fragment, {
+    children: [portalSubtree, /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(PortalContext.Provider, {
       value: portalContextValue,
-      children: [shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(FocusGuard, {
+      children: [shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(FocusGuard, {
         "data-type": "outside",
         ref: beforeOutsideRef,
         onFocus: (event) => {
@@ -2529,11 +3077,11 @@ var FloatingPortal = /* @__PURE__ */ React14.forwardRef(function FloatingPortal2
             prevTabbable?.focus();
           }
         }
-      }), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", {
+      }), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", {
         role: portalOwnerRole,
         "aria-owns": portalNodeId,
         style: ownerVisuallyHidden
-      }), portalNode && /* @__PURE__ */ ReactDOM2.createPortal(children, portalNode), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(FocusGuard, {
+      }), portalNode && /* @__PURE__ */ ReactDOM2.createPortal(children, portalNode), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(FocusGuard, {
         "data-type": "outside",
         ref: afterOutsideRef,
         onFocus: (event) => {
@@ -2555,7 +3103,7 @@ var FloatingPortal = /* @__PURE__ */ React14.forwardRef(function FloatingPortal2
 if (true) FloatingPortal.displayName = "FloatingPortal";
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingTree.mjs
-var React15 = __toESM(require_react(), 1);
+var React20 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/utils/createEventEmitter.mjs
 function createEventEmitter() {
@@ -2577,19 +3125,19 @@ function createEventEmitter() {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/components/FloatingTree.mjs
-var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
-var FloatingNodeContext = /* @__PURE__ */ React15.createContext(null);
+var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+var FloatingNodeContext = /* @__PURE__ */ React20.createContext(null);
 if (true) FloatingNodeContext.displayName = "FloatingNodeContext";
-var FloatingTreeContext = /* @__PURE__ */ React15.createContext(null);
+var FloatingTreeContext = /* @__PURE__ */ React20.createContext(null);
 if (true) FloatingTreeContext.displayName = "FloatingTreeContext";
-var useFloatingParentNodeId = () => React15.useContext(FloatingNodeContext)?.id || null;
+var useFloatingParentNodeId = () => React20.useContext(FloatingNodeContext)?.id || null;
 var useFloatingTree = (externalTree) => {
-  const contextTree = React15.useContext(FloatingTreeContext);
+  const contextTree = React20.useContext(FloatingTreeContext);
   return externalTree ?? contextTree;
 };
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useClientPoint.mjs
-var React16 = __toESM(require_react(), 1);
+var React21 = __toESM(require_react(), 1);
 function createVirtualElement(domElement, data) {
   let offsetX = null;
   let offsetY = null;
@@ -2648,10 +3196,10 @@ function useClientPoint(store, props = {}) {
   const floating = store.useState("floatingElement");
   const domReference = store.useState("domReferenceElement");
   const dataRef = store.context.dataRef;
-  const initialRef = React16.useRef(false);
-  const cleanupListenerRef = React16.useRef(null);
-  const [pointerType, setPointerType] = React16.useState();
-  const [reactive, setReactive] = React16.useState([]);
+  const initialRef = React21.useRef(false);
+  const cleanupListenerRef = React21.useRef(null);
+  const [pointerType, setPointerType] = React21.useState();
+  const [reactive, setReactive] = React21.useState([]);
   const resetReference = useStableCallback((reference2) => {
     store.set("positionReference", reference2);
   });
@@ -2679,7 +3227,7 @@ function useClientPoint(store, props = {}) {
     }
   });
   const openCheck = isMouseLikePointerType(pointerType) ? floating : open2;
-  React16.useEffect(() => {
+  React21.useEffect(() => {
     if (!enabled) {
       resetReference(domReference);
       return void 0;
@@ -2707,20 +3255,20 @@ function useClientPoint(store, props = {}) {
     }
     return cleanupListener;
   }, [openCheck, enabled, floating, dataRef, domReference, store, setReference, resetReference, reactive]);
-  React16.useEffect(() => () => {
+  React21.useEffect(() => () => {
     store.set("positionReference", null);
   }, [store]);
-  React16.useEffect(() => {
+  React21.useEffect(() => {
     if (enabled && !floating) {
       initialRef.current = false;
     }
   }, [enabled, floating]);
-  React16.useEffect(() => {
+  React21.useEffect(() => {
     if (!enabled && open2) {
       initialRef.current = true;
     }
   }, [enabled, open2]);
-  const reference = React16.useMemo(() => {
+  const reference = React21.useMemo(() => {
     function setPointerTypeRef(event) {
       setPointerType(event.pointerType);
     }
@@ -2731,14 +3279,14 @@ function useClientPoint(store, props = {}) {
       onMouseEnter: handleReferenceEnterOrMove
     };
   }, [handleReferenceEnterOrMove]);
-  return React16.useMemo(() => enabled ? {
+  return React21.useMemo(() => enabled ? {
     reference,
     trigger: reference
   } : {}, [enabled, reference]);
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useDismiss.mjs
-var React17 = __toESM(require_react(), 1);
+var React22 = __toESM(require_react(), 1);
 function alwaysFalse() {
   return false;
 }
@@ -2773,13 +3321,13 @@ function useDismiss(store, props = {}) {
     escapeKey: escapeKeyBubbles,
     outsidePress: outsidePressBubbles
   } = normalizeProp(bubbles);
-  const pressStartedInsideRef = React17.useRef(false);
-  const pressStartPreventedRef = React17.useRef(false);
-  const suppressNextOutsideClickRef = React17.useRef(false);
-  const sawPressWhileOpenRef = React17.useRef(false);
-  const isComposingRef = React17.useRef(false);
-  const currentPointerTypeRef = React17.useRef("");
-  const touchStateRef = React17.useRef(null);
+  const pressStartedInsideRef = React22.useRef(false);
+  const pressStartPreventedRef = React22.useRef(false);
+  const suppressNextOutsideClickRef = React22.useRef(false);
+  const sawPressWhileOpenRef = React22.useRef(false);
+  const isComposingRef = React22.useRef(false);
+  const currentPointerTypeRef = React22.useRef("");
+  const touchStateRef = React22.useRef(null);
   const cancelDismissOnEndTimeout = useTimeout();
   const clearInsideReactTreeTimeout = useTimeout();
   const compositionTimeout = useTimeout();
@@ -2849,7 +3397,7 @@ function useDismiss(store, props = {}) {
       pressStartPreventedRef.current = true;
     }
   });
-  React17.useEffect(() => {
+  React22.useEffect(() => {
     function handleOpenChange(details) {
       if (!details.open) {
         sawPressWhileOpenRef.current = false;
@@ -2860,8 +3408,8 @@ function useDismiss(store, props = {}) {
       events.off("openchange", handleOpenChange);
     };
   }, [events]);
-  React17.useEffect(() => clearInsideReactTree, [clearInsideReactTree]);
-  React17.useEffect(() => {
+  React22.useEffect(() => clearInsideReactTree, [clearInsideReactTree]);
+  React22.useEffect(() => {
     if (!open2 || !enabled) {
       if (!open2) {
         sawPressWhileOpenRef.current = false;
@@ -3136,12 +3684,12 @@ function useDismiss(store, props = {}) {
       suppressNextOutsideClickRef.current = false;
     };
   }, [dataRef, floatingElement, escapeKey2, outsidePressEnabled, outsidePress2, open2, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, clearInsideReactTree, getOutsidePressEventProp, hasBlockingChild, isEventWithinOwnElements, tree, store, cancelDismissOnEndTimeout, compositionTimeout]);
-  const reference = React17.useMemo(() => ({
+  const reference = React22.useMemo(() => ({
     onKeyDown: closeOnEscapeKeyDown,
     onPointerDown: closeOnReferencePress,
     onClick: closeOnReferencePress
   }), [closeOnEscapeKeyDown, closeOnReferencePress]);
-  const floating = React17.useMemo(() => ({
+  const floating = React22.useMemo(() => ({
     onKeyDown: closeOnEscapeKeyDown,
     // `onMouseDown` may be blocked if `event.preventDefault()` is called in
     // `onPointerDown`, such as with <NumberField.ScrubArea>.
@@ -3161,7 +3709,7 @@ function useDismiss(store, props = {}) {
     onTouchEndCapture: markInsideReactTree,
     onTouchMoveCapture: markInsideReactTree
   }), [closeOnEscapeKeyDown, markInsideReactTree, markPressStartedInsideReactTree, markInsidePressStartPrevented]);
-  return React17.useMemo(() => enabled ? {
+  return React22.useMemo(() => enabled ? {
     reference,
     floating,
     trigger: reference
@@ -3330,7 +3878,7 @@ var BasePopupHandle = class {
 };
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/popups/popupStoreUtils.mjs
-var React19 = __toESM(require_react(), 1);
+var React24 = __toESM(require_react(), 1);
 var ReactDOM3 = __toESM(require_react_dom(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useSyncedFloatingRootContext.mjs
@@ -3369,7 +3917,7 @@ function useSyncedFloatingRootContext(options) {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useUnmountAfterClose.mjs
-var React18 = __toESM(require_react(), 1);
+var React23 = __toESM(require_react(), 1);
 function useUnmountAfterClose(parameters) {
   const {
     open: open2,
@@ -3391,8 +3939,8 @@ function useUnmountAfterClose(parameters) {
       setPreventUnmountOnClose(false);
     }
   }, [open2, setPreventUnmountOnClose]);
-  const mountedRef = React18.useRef(mounted);
-  const pendingUnmountRef = React18.useRef(false);
+  const mountedRef = React23.useRef(mounted);
+  const pendingUnmountRef = React23.useRef(false);
   const rerender = useForcedRerendering();
   const unmount = () => {
     mountedRef.current = false;
@@ -3472,7 +4020,7 @@ function syncTriggerCount(store) {
   }
 }
 function useTriggerRegistration(id, store) {
-  const registrationRef = React19.useRef(null);
+  const registrationRef = React24.useRef(null);
   return useStableCallback((element) => {
     const registration = registrationRef.current;
     if (registration !== null) {
@@ -3615,7 +4163,7 @@ function useImplicitActiveTrigger(store, options = {}) {
   const {
     closeOnActiveTriggerUnmount = false
   } = options;
-  const resolvedActiveTriggerIdRef = React19.useRef(null);
+  const resolvedActiveTriggerIdRef = React24.useRef(null);
   const open2 = store.useState("open");
   const reactiveTriggerCount = store.useState("triggerCount");
   const activeTriggerId = store.useState("activeTriggerId");
@@ -3835,12 +4383,12 @@ var PopupTriggerMap = class {
 };
 
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/store/useStore.mjs
-var React21 = __toESM(require_react(), 1);
+var React26 = __toESM(require_react(), 1);
 var import_shim = __toESM(require_shim(), 1);
 var import_with_selector = __toESM(require_with_selector(), 1);
 
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/fastHooks.mjs
-var React20 = __toESM(require_react(), 1);
+var React25 = __toESM(require_react(), 1);
 var hooks = [];
 var currentInstance = void 0;
 function getInstance() {
@@ -3872,7 +4420,7 @@ function fastComponent(fn) {
   return FastComponent;
 }
 function fastComponentRef(fn) {
-  return /* @__PURE__ */ React20.forwardRef(fastComponent(fn));
+  return /* @__PURE__ */ React25.forwardRef(fastComponent(fn));
 }
 function createInstance() {
   return {
@@ -3887,7 +4435,7 @@ function useStore(store, selector, a1, a2, a3) {
   return useStoreImplementation(store, selector, a1, a2, a3);
 }
 function useStoreR19(store, selector, a1, a2, a3) {
-  const getSelection = React21.useCallback(() => selector(store.getSnapshot(), a1, a2, a3), [store, selector, a1, a2, a3]);
+  const getSelection = React26.useCallback(() => selector(store.getSnapshot(), a1, a2, a3), [store, selector, a1, a2, a3]);
   return (0, import_shim.useSyncExternalStore)(store.subscribe, getSelection, getSelection);
 }
 register({
@@ -4084,7 +4632,7 @@ var Store = class {
 };
 
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/store/ReactStore.mjs
-var React22 = __toESM(require_react(), 1);
+var React27 = __toESM(require_react(), 1);
 var ReactStore = class extends Store {
   /**
    * Creates a new ReactStore instance.
@@ -4108,7 +4656,7 @@ var ReactStore = class extends Store {
    * by `useState` is updated before the next render (similarly to React's `useState`).
    */
   useSyncedValue(key, value) {
-    React22.useDebugValue(key);
+    React27.useDebugValue(key);
     const store = this;
     useIsoLayoutEffect(() => {
       if (store.state[key] !== value) {
@@ -4147,8 +4695,8 @@ var ReactStore = class extends Store {
   useSyncedValues(statePart) {
     const store = this;
     if (true) {
-      React22.useDebugValue(statePart, (p) => Object.keys(p));
-      const keys = React22.useRef(Object.keys(statePart)).current;
+      React27.useDebugValue(statePart, (p) => Object.keys(p));
+      const keys = React27.useRef(Object.keys(statePart)).current;
       const nextKeys = Object.keys(statePart);
       if (keys.length !== nextKeys.length || keys.some((key, index2) => key !== nextKeys[index2])) {
         console.error("ReactStore.useSyncedValues expects the same prop keys on every render. Keys should be stable.");
@@ -4164,7 +4712,7 @@ var ReactStore = class extends Store {
    * is non-undefined, the store's state at `key` is updated to match `controlled`.
    */
   useControlledProp(key, controlled) {
-    React22.useDebugValue(key);
+    React27.useDebugValue(key);
     const store = this;
     const isControlled = controlled !== void 0;
     useIsoLayoutEffect(() => {
@@ -4202,7 +4750,7 @@ var ReactStore = class extends Store {
    * @param key Key of the selector to use.
    */
   useState(key, a1, a2, a3) {
-    React22.useDebugValue(key);
+    React27.useDebugValue(key);
     return useStore(this, this.selectors[key], a1, a2, a3);
   }
   /**
@@ -4213,7 +4761,7 @@ var ReactStore = class extends Store {
    * @param fn Function to assign.
    */
   useContextCallback(key, fn) {
-    React22.useDebugValue(key);
+    React27.useDebugValue(key);
     const stableFunction = useStableCallback(fn ?? NOOP);
     this.context[key] = stableFunction;
   }
@@ -4224,7 +4772,7 @@ var ReactStore = class extends Store {
    * @param key Key of the state to set.
    */
   useStateSetter(key) {
-    const ref = React22.useRef(void 0);
+    const ref = React27.useRef(void 0);
     if (ref.current === void 0) {
       ref.current = (value) => {
         this.set(key, value);
@@ -4415,23 +4963,23 @@ var popupStoreSelectors = {
 };
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/popups/usePopupHandleStore.mjs
-var React23 = __toESM(require_react(), 1);
+var React28 = __toESM(require_react(), 1);
 var import_shim2 = __toESM(require_shim(), 1);
 function usePopupHandleStore(handle) {
-  const subscribe = React23.useCallback((listener) => {
+  const subscribe = React28.useCallback((listener) => {
     if (handle === void 0) {
       return NOOP;
     }
     return handle.subscribeStore(listener);
   }, [handle]);
-  const getSnapshot = React23.useCallback(() => {
+  const getSnapshot = React28.useCallback(() => {
     return handle === void 0 ? void 0 : handle.store;
   }, [handle]);
   return (0, import_shim2.useSyncExternalStore)(subscribe, getSnapshot, () => handle?.serverStore);
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useFocus.mjs
-var React24 = __toESM(require_react(), 1);
+var React29 = __toESM(require_react(), 1);
 var isMacSafari = parts_exports.os.mac && parts_exports.engine.webkit;
 function useFocus(store, props = {}) {
   const {
@@ -4442,11 +4990,11 @@ function useFocus(store, props = {}) {
     events,
     dataRef
   } = store.context;
-  const blockFocusRef = React24.useRef(false);
-  const blockedReferenceRef = React24.useRef(null);
-  const keyboardModalityRef = React24.useRef(true);
+  const blockFocusRef = React29.useRef(false);
+  const blockedReferenceRef = React29.useRef(null);
+  const keyboardModalityRef = React29.useRef(true);
   const timeout = useTimeout();
-  React24.useEffect(() => {
+  React29.useEffect(() => {
     const domReference = store.select("domReferenceElement");
     if (!enabled) {
       return void 0;
@@ -4467,7 +5015,7 @@ function useFocus(store, props = {}) {
     }
     return mergeCleanups(addEventListener(win, "blur", onBlur), isMacSafari && addEventListener(win, "keydown", onKeyDown, true), isMacSafari && addEventListener(win, "pointerdown", onPointerDown, true));
   }, [store, enabled]);
-  React24.useEffect(() => {
+  React29.useEffect(() => {
     if (!enabled) {
       return void 0;
     }
@@ -4485,7 +5033,7 @@ function useFocus(store, props = {}) {
       events.off("openchange", onOpenChangeLocal);
     };
   }, [events, enabled, store]);
-  const reference = React24.useMemo(() => {
+  const reference = React29.useMemo(() => {
     function resetBlockedFocus() {
       blockFocusRef.current = false;
       blockedReferenceRef.current = null;
@@ -4551,14 +5099,14 @@ function useFocus(store, props = {}) {
       }
     };
   }, [dataRef, delay, store, timeout]);
-  return React24.useMemo(() => enabled ? {
+  return React29.useMemo(() => enabled ? {
     reference,
     trigger: reference
   } : {}, [enabled, reference]);
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverFloatingInteraction.mjs
-var React25 = __toESM(require_react(), 1);
+var React30 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverInteractionSharedState.mjs
 var HoverInteraction = class _HoverInteraction {
@@ -4666,7 +5214,7 @@ function useHoverFloatingInteraction(store, parameters = {}) {
       clearPointerEvents();
     }
   }, [open2, instance, clearPointerEvents]);
-  React25.useEffect(() => {
+  React30.useEffect(() => {
     return clearPointerEvents;
   }, [clearPointerEvents]);
   useIsoLayoutEffect(() => {
@@ -4695,7 +5243,7 @@ function useHoverFloatingInteraction(store, parameters = {}) {
     }
     return void 0;
   }, [enabled, open2, domReferenceElement, floatingElement, instance, isHoverOpen, tree, parentId, clearPointerEvents]);
-  React25.useEffect(() => {
+  React30.useEffect(() => {
     if (!enabled) {
       return void 0;
     }
@@ -4770,7 +5318,7 @@ function useHoverFloatingInteraction(store, parameters = {}) {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useHoverReferenceInteraction.mjs
-var React26 = __toESM(require_react(), 1);
+var React31 = __toESM(require_react(), 1);
 var ReactDOM4 = __toESM(require_react_dom(), 1);
 var EMPTY_REF = {
   current: null
@@ -4797,7 +5345,7 @@ function useHoverReferenceInteraction(store, props = {}) {
   } = store.context;
   const tree = useFloatingTree(externalTree);
   const instance = useHoverInteractionSharedState(store);
-  const isHoverCloseActiveRef = React26.useRef(false);
+  const isHoverCloseActiveRef = React31.useRef(false);
   const handleCloseRef = useValueAsRef(handleClose);
   const delayRef = useValueAsRef(delay);
   const restMsRef = useValueAsRef(restMs);
@@ -4835,8 +5383,8 @@ function useHoverReferenceInteraction(store, props = {}) {
   if (isActiveTrigger) {
     instance.handleCloseOptions = handleClose?.__options;
   }
-  React26.useEffect(() => cleanupMouseMoveHandler, [cleanupMouseMoveHandler]);
-  React26.useEffect(() => {
+  React31.useEffect(() => cleanupMouseMoveHandler, [cleanupMouseMoveHandler]);
+  React31.useEffect(() => {
     if (!enabled) {
       return void 0;
     }
@@ -4857,7 +5405,7 @@ function useHoverReferenceInteraction(store, props = {}) {
       events.off("openchange", onOpenChangeLocal);
     };
   }, [enabled, events, instance, cleanupMouseMoveHandler]);
-  React26.useEffect(() => {
+  React31.useEffect(() => {
     if (!enabled) {
       return void 0;
     }
@@ -4987,7 +5535,7 @@ function useHoverReferenceInteraction(store, props = {}) {
     }
     return mergeCleanups(addEventListener(trigger, "mouseenter", onMouseEnter), addEventListener(trigger, "mouseleave", onMouseLeave), staleOpenGuard);
   }, [cleanupMouseMoveHandler, clearPointerEvents, dataRef, delayRef, store, enabled, handleCloseRef, instance, isActiveTrigger, isOverInactiveTrigger, isClickLikeOpenEvent2, mouseOnly, move, restMsRef, triggerElementRef, tree, enabledRef, getHandleCloseContext, isClosingRef, checkShouldOpen, guardStaleOpen]);
-  return React26.useMemo(() => {
+  return React31.useMemo(() => {
     if (!enabled) {
       return void 0;
     }
@@ -6452,7 +7000,7 @@ var computePosition2 = (reference, floating, options) => {
 };
 
 // node_modules/.store/@floating-ui/react-dom@2.1.9-AxWcAwqlMfOrAFOinFKSVg/node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.mjs
-var React27 = __toESM(require_react(), 1);
+var React32 = __toESM(require_react(), 1);
 var import_react2 = __toESM(require_react(), 1);
 var ReactDOM5 = __toESM(require_react_dom(), 1);
 var isClient = typeof document !== "undefined";
@@ -6518,7 +7066,7 @@ function roundByDPR(element, value) {
   return Math.round(value * dpr) / dpr;
 }
 function useLatestRef(value) {
-  const ref = React27.useRef(value);
+  const ref = React32.useRef(value);
   index(() => {
     ref.current = value;
   });
@@ -6541,7 +7089,7 @@ function useFloating(options) {
     whileElementsMounted,
     open: open2
   } = options;
-  const [data, setData] = React27.useState({
+  const [data, setData] = React32.useState({
     x: 0,
     y: 0,
     strategy,
@@ -6549,19 +7097,19 @@ function useFloating(options) {
     middlewareData: {},
     isPositioned: false
   });
-  const [latestMiddleware, setLatestMiddleware] = React27.useState(middleware);
+  const [latestMiddleware, setLatestMiddleware] = React32.useState(middleware);
   if (!deepEqual(latestMiddleware, middleware)) {
     setLatestMiddleware(middleware);
   }
-  const [_reference, _setReference] = React27.useState(null);
-  const [_floating, _setFloating] = React27.useState(null);
-  const setReference = React27.useCallback((node) => {
+  const [_reference, _setReference] = React32.useState(null);
+  const [_floating, _setFloating] = React32.useState(null);
+  const setReference = React32.useCallback((node) => {
     if (node !== referenceRef.current) {
       referenceRef.current = node;
       _setReference(node);
     }
   }, []);
-  const setFloating = React27.useCallback((node) => {
+  const setFloating = React32.useCallback((node) => {
     if (node !== floatingRef.current) {
       floatingRef.current = node;
       _setFloating(node);
@@ -6569,14 +7117,14 @@ function useFloating(options) {
   }, []);
   const referenceEl = externalReference || _reference;
   const floatingEl = externalFloating || _floating;
-  const referenceRef = React27.useRef(null);
-  const floatingRef = React27.useRef(null);
-  const dataRef = React27.useRef(data);
+  const referenceRef = React32.useRef(null);
+  const floatingRef = React32.useRef(null);
+  const dataRef = React32.useRef(data);
   const hasWhileElementsMounted = whileElementsMounted != null;
   const whileElementsMountedRef = useLatestRef(whileElementsMounted);
   const platformRef = useLatestRef(platform3);
   const openRef = useLatestRef(open2);
-  const update2 = React27.useCallback(() => {
+  const update2 = React32.useCallback(() => {
     if (!referenceRef.current || !floatingRef.current) {
       return;
     }
@@ -6614,7 +7162,7 @@ function useFloating(options) {
       }));
     }
   }, [open2]);
-  const isMountedRef = React27.useRef(false);
+  const isMountedRef = React32.useRef(false);
   index(() => {
     isMountedRef.current = true;
     return () => {
@@ -6631,17 +7179,17 @@ function useFloating(options) {
       update2();
     }
   }, [referenceEl, floatingEl, update2, whileElementsMountedRef, hasWhileElementsMounted]);
-  const refs = React27.useMemo(() => ({
+  const refs = React32.useMemo(() => ({
     reference: referenceRef,
     floating: floatingRef,
     setReference,
     setFloating
   }), [setReference, setFloating]);
-  const elements = React27.useMemo(() => ({
+  const elements = React32.useMemo(() => ({
     reference: referenceEl,
     floating: floatingEl
   }), [referenceEl, floatingEl]);
-  const floatingStyles = React27.useMemo(() => {
+  const floatingStyles = React32.useMemo(() => {
     const initialStyles = {
       position: strategy,
       left: 0,
@@ -6667,7 +7215,7 @@ function useFloating(options) {
       top: y
     };
   }, [strategy, transform, elements.floating, data.x, data.y]);
-  return React27.useMemo(() => ({
+  return React32.useMemo(() => ({
     ...data,
     update: update2,
     refs,
@@ -6739,19 +7287,19 @@ function inertValue(value) {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/direction-context/DirectionContext.mjs
-var React28 = __toESM(require_react(), 1);
-var DirectionContext = /* @__PURE__ */ React28.createContext(void 0);
+var React33 = __toESM(require_react(), 1);
+var DirectionContext = /* @__PURE__ */ React33.createContext(void 0);
 if (true) DirectionContext.displayName = "DirectionContext";
 function useDirection() {
-  const context = React28.useContext(DirectionContext);
+  const context = React33.useContext(DirectionContext);
   return context?.direction ?? "ltr";
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/internals/useAnchorPositioning.mjs
-var React30 = __toESM(require_react(), 1);
+var React35 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/floating-ui-react/hooks/useFloating.mjs
-var React29 = __toESM(require_react(), 1);
+var React34 = __toESM(require_react(), 1);
 function useBaseUIFloating(options) {
   const {
     nodeId,
@@ -6763,10 +7311,10 @@ function useBaseUIFloating(options) {
   const domReferenceElement = store.useState("domReferenceElement");
   const open2 = store.useState("open");
   const floatingId = store.useState("floatingId");
-  const [positionReference, setPositionReferenceRaw] = React29.useState(null);
-  const domReferenceRef = React29.useRef(null);
+  const [positionReference, setPositionReferenceRaw] = React34.useState(null);
+  const domReferenceRef = React34.useRef(null);
   const tree = useFloatingTree(externalTree);
-  const storeElements = React29.useMemo(() => ({
+  const storeElements = React34.useMemo(() => ({
     reference: referenceElement,
     floating: floatingElement,
     domReference: domReferenceElement
@@ -6780,7 +7328,7 @@ function useBaseUIFloating(options) {
       }
     }
   });
-  const setPositionReference = React29.useCallback((node) => {
+  const setPositionReference = React34.useCallback((node) => {
     const computedPositionReference = isElement(node) ? {
       getBoundingClientRect: () => node.getBoundingClientRect(),
       getClientRects: () => node.getClientRects(),
@@ -6789,16 +7337,16 @@ function useBaseUIFloating(options) {
     setPositionReferenceRaw(computedPositionReference);
     position.refs.setReference(computedPositionReference);
   }, [position.refs]);
-  const refs = React29.useMemo(() => ({
+  const refs = React34.useMemo(() => ({
     ...position.refs,
     setPositionReference,
     domReference: domReferenceRef
   }), [position.refs, setPositionReference]);
-  const elements = React29.useMemo(() => ({
+  const elements = React34.useMemo(() => ({
     ...position.elements,
     domReference: domReferenceElement
   }), [position.elements, domReferenceElement]);
-  const context = React29.useMemo(() => ({
+  const context = React34.useMemo(() => ({
     ...position,
     dataRef: store.context.dataRef,
     open: open2,
@@ -6822,7 +7370,7 @@ function useBaseUIFloating(options) {
       node.context = context;
     }
   });
-  return React29.useMemo(() => ({
+  return React34.useMemo(() => ({
     ...position,
     context,
     refs,
@@ -7014,7 +7562,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
   const mountedRef = useValueAsRef(mounted);
   const direction = useDirection();
   const isRtl = direction === "rtl";
-  const [mountPlacement, setMountPlacement] = React30.useState(null);
+  const [mountPlacement, setMountPlacement] = React35.useState(null);
   if (!mounted && mountPlacement !== null) {
     setMountPlacement(null);
   }
@@ -7056,7 +7604,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     boundary: collisionBoundary === "clipping-ancestors" ? "clippingAncestors" : collisionBoundary,
     padding: collisionPadding
   };
-  const arrowRef = React30.useRef(null);
+  const arrowRef = React35.useRef(null);
   const sideOffsetRef = useValueAsRef(sideOffset);
   const alignOffsetRef = useValueAsRef(alignOffset);
   const sideOffsetDep = typeof sideOffset !== "function" ? sideOffset : 0;
@@ -7196,7 +7744,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
       });
     }
   }, [mounted, floatingRootContext]);
-  const autoUpdateOptions = React30.useMemo(() => ({
+  const autoUpdateOptions = React35.useMemo(() => ({
     ancestorScroll: !disableAnchorTracking,
     elementResize: !disableAnchorTracking && typeof ResizeObserver !== "undefined",
     layoutShift: !disableAnchorTracking && typeof IntersectionObserver !== "undefined"
@@ -7227,7 +7775,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     sideY
   } = middlewareData.adaptiveOrigin || DEFAULT_SIDES;
   const resolvedPosition = isPositioned ? positionMethod : "fixed";
-  const floatingStyles = React30.useMemo(() => {
+  const floatingStyles = React35.useMemo(() => {
     let base;
     if (!isPositioned) {
       base = {
@@ -7254,7 +7802,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     }
     return base;
   }, [adaptiveOrigin2, resolvedPosition, sideX, x, sideY, y, originalFloatingStyles, isPositioned]);
-  const registeredPositionReferenceRef = React30.useRef(null);
+  const registeredPositionReferenceRef = React35.useRef(null);
   useIsoLayoutEffect(() => {
     if (!mounted) {
       return;
@@ -7268,7 +7816,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
       registeredPositionReferenceRef.current = finalAnchor;
     }
   }, [mounted, refs, anchorDep, anchorValueRef]);
-  React30.useEffect(() => {
+  React35.useEffect(() => {
     if (!mounted) {
       return;
     }
@@ -7281,7 +7829,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
       registeredPositionReferenceRef.current = anchorValue.current;
     }
   }, [mounted, refs, anchorDep, anchorValueRef]);
-  React30.useEffect(() => {
+  React35.useEffect(() => {
     if (keepMounted && mounted && elements.reference && elements.floating) {
       return autoUpdate(elements.reference, elements.floating, update2, autoUpdateOptions);
     }
@@ -7296,13 +7844,13 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
       setMountPlacement(renderedPlacement);
     }
   }, [lazyFlip, lockAlign, mounted, isPositioned, renderedPlacement, renderedSide, renderedAlign, side, placementAlign]);
-  const arrowStyles = React30.useMemo(() => ({
+  const arrowStyles = React35.useMemo(() => ({
     position: "absolute",
     top: middlewareData.arrow?.y,
     left: middlewareData.arrow?.x
   }), [middlewareData.arrow]);
   const arrowUncentered = middlewareData.arrow?.centerOffset !== 0;
-  return React30.useMemo(() => ({
+  return React35.useMemo(() => ({
     positionerStyles: floatingStyles,
     arrowStyles,
     arrowRef,
@@ -7354,13 +7902,13 @@ function usePositioner(componentProps, state, {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/usePopupViewport.mjs
-var React34 = __toESM(require_react(), 1);
+var React39 = __toESM(require_react(), 1);
 var ReactDOM6 = __toESM(require_react_dom(), 1);
 
 // node_modules/.store/@base-ui/utils@0.5.0--7My7Lubseca8je9LSEweA/node_modules/@base-ui/utils/usePreviousValue.mjs
-var React31 = __toESM(require_react(), 1);
+var React36 = __toESM(require_react(), 1);
 function usePreviousValue(value) {
-  const [state, setState] = React31.useState({
+  const [state, setState] = React36.useState({
     current: value,
     previous: null
   });
@@ -7374,7 +7922,7 @@ function usePreviousValue(value) {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/usePopupAutoResize.mjs
-var React32 = __toESM(require_react(), 1);
+var React37 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/getCssDimensions.mjs
 function getCssDimensions2(element) {
@@ -7413,10 +7961,10 @@ function usePopupAutoResize(parameters) {
   } = parameters;
   const runOnceAnimationsFinish = useAnimationsFinished(popupElement, true);
   const animationFrame = useAnimationFrame();
-  const committedDimensionsRef = React32.useRef(null);
+  const committedDimensionsRef = React37.useRef(null);
   const onMeasureLayout = useStableCallback(onMeasureLayoutParam);
   const onMeasureLayoutComplete = useStableCallback(onMeasureLayoutCompleteParam);
-  const anchoringStyles = React32.useMemo(() => getPopupAnchoringStyles(side, direction), [side, direction]);
+  const anchoringStyles = React37.useMemo(() => getPopupAnchoringStyles(side, direction), [side, direction]);
   useIsoLayoutEffect(() => {
     if (!mounted) {
       committedDimensionsRef.current = null;
@@ -7515,16 +8063,16 @@ function setPositionerCssSize(positionerElement, size4) {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/direction-provider/DirectionProvider.mjs
-var React33 = __toESM(require_react(), 1);
-var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+var React38 = __toESM(require_react(), 1);
+var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
 var DirectionProvider = function DirectionProvider2(props) {
   const {
     direction = "ltr"
   } = props;
-  const contextValue = React33.useMemo(() => ({
+  const contextValue = React38.useMemo(() => ({
     direction
   }), [direction]);
-  return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(DirectionContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(DirectionContext.Provider, {
     value: contextValue,
     children: props.children
   });
@@ -7603,7 +8151,7 @@ var adaptiveOrigin = {
 var activationDirection = "data-activation-direction";
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/usePopupViewport.mjs
-var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
 var popupViewportStateMapping = {
   activationDirection: (value) => value ? {
     [activationDirection]: value
@@ -7625,16 +8173,16 @@ function usePopupViewport(parameters) {
   const positionerElement = store.useState("positionerElement");
   const previousActiveTrigger = usePreviousValue(open2 ? activeTrigger : null);
   const currentContentKey = usePopupContentKey(activeTriggerId, payload);
-  const capturedNodeRef = React34.useRef(null);
-  const [previousContentNode, setPreviousContentNode] = React34.useState(null);
-  const [newTriggerOffset, setNewTriggerOffset] = React34.useState(null);
-  const currentContainerRef = React34.useRef(null);
-  const previousContainerRef = React34.useRef(null);
+  const capturedNodeRef = React39.useRef(null);
+  const [previousContentNode, setPreviousContentNode] = React39.useState(null);
+  const [newTriggerOffset, setNewTriggerOffset] = React39.useState(null);
+  const currentContainerRef = React39.useRef(null);
+  const previousContainerRef = React39.useRef(null);
   const onAnimationsFinished = useAnimationsFinished(currentContainerRef, true);
   const cleanupFrame = useAnimationFrame();
-  const cleanupControllerRef = React34.useRef(null);
-  const [previousContentDimensions, setPreviousContentDimensions] = React34.useState(null);
-  const [showStartingStyleAttribute, setShowStartingStyleAttribute] = React34.useState(false);
+  const cleanupControllerRef = React39.useRef(null);
+  const [previousContentDimensions, setPreviousContentDimensions] = React39.useState(null);
+  const [showStartingStyleAttribute, setShowStartingStyleAttribute] = React39.useState(false);
   useIsoLayoutEffect(() => {
     store.set("adaptiveOrigin", adaptiveOrigin);
     return () => {
@@ -7664,7 +8212,7 @@ function usePopupViewport(parameters) {
       capturedNodeRef.current = null;
     }, controller.signal);
   });
-  const lastHandledTriggerRef = React34.useRef(null);
+  const lastHandledTriggerRef = React39.useRef(null);
   useIsoLayoutEffect(() => {
     if (!open2 || !mounted) {
       lastHandledTriggerRef.current = null;
@@ -7706,14 +8254,14 @@ function usePopupViewport(parameters) {
   const isTransitioning = previousContentNode != null;
   let childrenToRender;
   if (!isTransitioning) {
-    childrenToRender = /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
+    childrenToRender = /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", {
       "data-current": true,
       ref: currentContainerRef,
       children
     }, currentContentKey);
   } else {
-    childrenToRender = /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(React34.Fragment, {
-      children: [/* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
+    childrenToRender = /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(React39.Fragment, {
+      children: [/* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", {
         "data-previous": true,
         inert: inertValue(true),
         ref: previousContainerRef,
@@ -7725,7 +8273,7 @@ function usePopupViewport(parameters) {
           position: "absolute"
         },
         "data-ending-style": showStartingStyleAttribute ? void 0 : ""
-      }, "previous"), /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
+      }, "previous"), /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", {
         "data-current": true,
         ref: currentContainerRef,
         "data-starting-style": showStartingStyleAttribute ? "" : void 0,
@@ -7791,10 +8339,10 @@ function calculateRelativePosition(from, to) {
   };
 }
 function usePopupContentKey(activeTriggerId, payload) {
-  const [contentKey, setContentKey] = React34.useState(0);
-  const previousActiveTriggerIdRef = React34.useRef(activeTriggerId);
-  const previousPayloadRef = React34.useRef(payload);
-  const pendingPayloadUpdateRef = React34.useRef(false);
+  const [contentKey, setContentKey] = React39.useState(0);
+  const previousActiveTriggerIdRef = React39.useRef(activeTriggerId);
+  const previousPayloadRef = React39.useRef(payload);
+  const pendingPayloadUpdateRef = React39.useRef(false);
   useIsoLayoutEffect(() => {
     const previousActiveTriggerId = previousActiveTriggerIdRef.current;
     const previousPayload = previousPayloadRef.current;
@@ -7814,10 +8362,10 @@ function usePopupContentKey(activeTriggerId, payload) {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/utils/FloatingPortalLite.mjs
-var React35 = __toESM(require_react(), 1);
+var React40 = __toESM(require_react(), 1);
 var ReactDOM7 = __toESM(require_react_dom(), 1);
-var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
-var FloatingPortalLite = /* @__PURE__ */ React35.forwardRef(function FloatingPortalLite2(componentProps, forwardedRef) {
+var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+var FloatingPortalLite = /* @__PURE__ */ React40.forwardRef(function FloatingPortalLite2(componentProps, forwardedRef) {
   const {
     children,
     container,
@@ -7838,15 +8386,15 @@ var FloatingPortalLite = /* @__PURE__ */ React35.forwardRef(function FloatingPor
   if (!portalSubtree && !portalNode) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(React35.Fragment, {
+  return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(React40.Fragment, {
     children: [portalSubtree, portalNode && /* @__PURE__ */ ReactDOM7.createPortal(children, portalNode)]
   });
 });
 if (true) FloatingPortalLite.displayName = "FloatingPortalLite";
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/index.parts.mjs
-var index_parts_exports = {};
-__export(index_parts_exports, {
+var index_parts_exports2 = {};
+__export(index_parts_exports2, {
   Arrow: () => TooltipArrow,
   Handle: () => TooltipHandle,
   Popup: () => TooltipPopup,
@@ -7860,14 +8408,14 @@ __export(index_parts_exports, {
 });
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/root/TooltipRoot.mjs
-var React38 = __toESM(require_react(), 1);
+var React43 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/root/TooltipRootContext.mjs
-var React36 = __toESM(require_react(), 1);
-var TooltipRootContext = /* @__PURE__ */ React36.createContext(void 0);
+var React41 = __toESM(require_react(), 1);
+var TooltipRootContext = /* @__PURE__ */ React41.createContext(void 0);
 if (true) TooltipRootContext.displayName = "TooltipRootContext";
 function useTooltipRootContext(optional) {
-  const context = React36.useContext(TooltipRootContext);
+  const context = React41.useContext(TooltipRootContext);
   if (context === void 0 && !optional) {
     throw new Error(true ? "Base UI: TooltipRootContext is missing. Tooltip parts must be placed within <Tooltip.Root>." : formatErrorMessage_default(72));
   }
@@ -7875,7 +8423,7 @@ function useTooltipRootContext(optional) {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/store/TooltipStore.mjs
-var React37 = __toESM(require_react(), 1);
+var React42 = __toESM(require_react(), 1);
 var selectors2 = {
   ...popupStoreSelectors,
   disabled: (state) => state.disabled,
@@ -7934,7 +8482,7 @@ function createInitialState(initialState, triggerElements, floatingId, nested = 
 }
 function createInitialContext(triggerElements) {
   return {
-    popupRef: /* @__PURE__ */ React37.createRef(),
+    popupRef: /* @__PURE__ */ React42.createRef(),
     onOpenChange: void 0,
     onOpenChangeComplete: void 0,
     triggerElements
@@ -7942,7 +8490,7 @@ function createInitialContext(triggerElements) {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/root/TooltipRoot.mjs
-var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
 var TooltipRoot = fastComponent(function TooltipRoot2(props) {
   const {
     disabled: disabled2 = false,
@@ -7988,7 +8536,7 @@ var TooltipRoot = fastComponent(function TooltipRoot2(props) {
   const isInstantPhase = store.useState("isInstantPhase");
   const instantType = store.useState("instantType");
   const lastOpenChangeReason = store.useState("lastOpenChangeReason");
-  const previousInstantTypeRef = React38.useRef(null);
+  const previousInstantTypeRef = React43.useRef(null);
   useIsoLayoutEffect(() => {
     if (openState && disabled2) {
       store.setOpen(false, createChangeEventDetails(reason_parts_exports.disabled));
@@ -8012,17 +8560,17 @@ var TooltipRoot = fastComponent(function TooltipRoot2(props) {
       }
     }
   }, [store, activeTriggerId, open2]);
-  React38.useImperativeHandle(actionsRef, () => ({
+  React43.useImperativeHandle(actionsRef, () => ({
     unmount: forceUnmount,
     close: () => store.setOpen(false, createChangeEventDetails(reason_parts_exports.imperativeAction))
   }), [forceUnmount, store]);
   const shouldRenderInteractions = open2 || mounted || !disabled2 && trackCursorAxis !== "none";
-  return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(TooltipRootContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(TooltipRootContext.Provider, {
     value: store,
-    children: [handle && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(PopupHandleAttachment, {
+    children: [handle && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(PopupHandleAttachment, {
       handle,
       store
-    }), shouldRenderInteractions && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(TooltipInteractions, {
+    }), shouldRenderInteractions && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(TooltipInteractions, {
       store,
       disabled: disabled2,
       trackCursorAxis
@@ -8046,7 +8594,7 @@ function TooltipInteractions({
     enabled: !disabled2 && trackCursorAxis !== "none",
     axis: trackCursorAxis === "none" ? void 0 : trackCursorAxis
   });
-  const triggerProps = React38.useMemo(() => mergeProps(clientPoint.reference, dismiss.reference), [clientPoint.reference, dismiss.reference]);
+  const triggerProps = React43.useMemo(() => mergeProps(clientPoint.reference, dismiss.reference), [clientPoint.reference, dismiss.reference]);
   usePopupInteractionProps(store, {
     activeTriggerProps: triggerProps,
     inactiveTriggerProps: triggerProps,
@@ -8056,14 +8604,14 @@ function TooltipInteractions({
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/trigger/TooltipTrigger.mjs
-var React40 = __toESM(require_react(), 1);
+var React45 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/provider/TooltipProviderContext.mjs
-var React39 = __toESM(require_react(), 1);
-var TooltipProviderContext = /* @__PURE__ */ React39.createContext(void 0);
+var React44 = __toESM(require_react(), 1);
+var TooltipProviderContext = /* @__PURE__ */ React44.createContext(void 0);
 if (true) TooltipProviderContext.displayName = "TooltipProviderContext";
 function useTooltipProviderContext() {
-  return React39.useContext(TooltipProviderContext);
+  return React44.useContext(TooltipProviderContext);
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/utils/constants.mjs
@@ -8099,7 +8647,7 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
   const isTriggerActive = store.useState("isTriggerActive", thisTriggerId);
   const isOpenedByThisTrigger = store.useState("isOpenedByTrigger", thisTriggerId);
   const floatingRootContext = store.useState("floatingRootContext");
-  const triggerElementRef = React40.useRef(null);
+  const triggerElementRef = React45.useRef(null);
   const closeDelayWithDefault = closeDelay ?? 0;
   const {
     registerTrigger,
@@ -8125,9 +8673,9 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
   const disabledRef = useValueAsRef(disabled2);
   const trackCursorAxis = store.useState("trackCursorAxis");
   const disableHoverablePopup = store.useState("disableHoverablePopup");
-  const isNestedTriggerHoveredRef = React40.useRef(false);
+  const isNestedTriggerHoveredRef = React45.useRef(false);
   const nestedTriggerOpenTimeout = useTimeout();
-  const pointerTypeRef = React40.useRef(void 0);
+  const pointerTypeRef = React45.useRef(void 0);
   function getOpenDelay() {
     if (hasProvider && activeIdRef.current != null) {
       return 0;
@@ -8252,14 +8800,14 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
 if (true) TooltipTrigger.displayName = "TooltipTrigger";
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/portal/TooltipPortal.mjs
-var React42 = __toESM(require_react(), 1);
+var React47 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/portal/TooltipPortalContext.mjs
-var React41 = __toESM(require_react(), 1);
-var TooltipPortalContext = /* @__PURE__ */ React41.createContext(void 0);
+var React46 = __toESM(require_react(), 1);
+var TooltipPortalContext = /* @__PURE__ */ React46.createContext(void 0);
 if (true) TooltipPortalContext.displayName = "TooltipPortalContext";
 function useTooltipPortalContext() {
-  const value = React41.useContext(TooltipPortalContext);
+  const value = React46.useContext(TooltipPortalContext);
   if (value === void 0) {
     throw new Error(true ? "Base UI: <Tooltip.Portal> is missing." : formatErrorMessage_default(70));
   }
@@ -8267,8 +8815,8 @@ function useTooltipPortalContext() {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/portal/TooltipPortal.mjs
-var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
-var TooltipPortal = /* @__PURE__ */ React42.forwardRef(function TooltipPortal2(props, forwardedRef) {
+var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
+var TooltipPortal = /* @__PURE__ */ React47.forwardRef(function TooltipPortal2(props, forwardedRef) {
   const {
     keepMounted = false,
     ...portalProps
@@ -8279,9 +8827,9 @@ var TooltipPortal = /* @__PURE__ */ React42.forwardRef(function TooltipPortal2(p
   if (!shouldRender) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(TooltipPortalContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(TooltipPortalContext.Provider, {
     value: keepMounted,
-    children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(FloatingPortalLite, {
+    children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(FloatingPortalLite, {
       ref: forwardedRef,
       ...portalProps
     })
@@ -8290,14 +8838,14 @@ var TooltipPortal = /* @__PURE__ */ React42.forwardRef(function TooltipPortal2(p
 if (true) TooltipPortal.displayName = "TooltipPortal";
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/positioner/TooltipPositioner.mjs
-var React44 = __toESM(require_react(), 1);
+var React49 = __toESM(require_react(), 1);
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/positioner/TooltipPositionerContext.mjs
-var React43 = __toESM(require_react(), 1);
-var TooltipPositionerContext = /* @__PURE__ */ React43.createContext(void 0);
+var React48 = __toESM(require_react(), 1);
+var TooltipPositionerContext = /* @__PURE__ */ React48.createContext(void 0);
 if (true) TooltipPositionerContext.displayName = "TooltipPositionerContext";
 function useTooltipPositionerContext() {
-  const context = React43.useContext(TooltipPositionerContext);
+  const context = React48.useContext(TooltipPositionerContext);
   if (context === void 0) {
     throw new Error(true ? "Base UI: TooltipPositionerContext is missing. TooltipPositioner parts must be placed within <Tooltip.Positioner>." : formatErrorMessage_default(71));
   }
@@ -8305,8 +8853,8 @@ function useTooltipPositionerContext() {
 }
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/positioner/TooltipPositioner.mjs
-var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
-var TooltipPositioner = /* @__PURE__ */ React44.forwardRef(function TooltipPositioner2(componentProps, forwardedRef) {
+var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
+var TooltipPositioner = /* @__PURE__ */ React49.forwardRef(function TooltipPositioner2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -8353,7 +8901,7 @@ var TooltipPositioner = /* @__PURE__ */ React44.forwardRef(function TooltipPosit
     collisionAvoidance,
     adaptiveOrigin: adaptiveOrigin2
   });
-  const state = React44.useMemo(() => ({
+  const state = React49.useMemo(() => ({
     open: open2,
     side: positioning.side,
     align: positioning.align,
@@ -8368,7 +8916,7 @@ var TooltipPositioner = /* @__PURE__ */ React44.forwardRef(function TooltipPosit
     hidden: !mounted,
     inert: !open2 || trackCursorAxis === "both" || disableHoverablePopup
   });
-  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(TooltipPositionerContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(TooltipPositionerContext.Provider, {
     value: positioning,
     children: element
   });
@@ -8376,8 +8924,8 @@ var TooltipPositioner = /* @__PURE__ */ React44.forwardRef(function TooltipPosit
 if (true) TooltipPositioner.displayName = "TooltipPositioner";
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/popup/TooltipPopup.mjs
-var React45 = __toESM(require_react(), 1);
-var TooltipPopup = /* @__PURE__ */ React45.forwardRef(function TooltipPopup2(componentProps, forwardedRef) {
+var React50 = __toESM(require_react(), 1);
+var TooltipPopup = /* @__PURE__ */ React50.forwardRef(function TooltipPopup2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -8428,8 +8976,8 @@ var TooltipPopup = /* @__PURE__ */ React45.forwardRef(function TooltipPopup2(com
 if (true) TooltipPopup.displayName = "TooltipPopup";
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/arrow/TooltipArrow.mjs
-var React46 = __toESM(require_react(), 1);
-var TooltipArrow = /* @__PURE__ */ React46.forwardRef(function TooltipArrow2(componentProps, forwardedRef) {
+var React51 = __toESM(require_react(), 1);
+var TooltipArrow = /* @__PURE__ */ React51.forwardRef(function TooltipArrow2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -8467,21 +9015,21 @@ var TooltipArrow = /* @__PURE__ */ React46.forwardRef(function TooltipArrow2(com
 if (true) TooltipArrow.displayName = "TooltipArrow";
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/provider/TooltipProvider.mjs
-var React47 = __toESM(require_react(), 1);
-var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
+var React52 = __toESM(require_react(), 1);
+var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
 var TooltipProvider = function TooltipProvider2(props) {
   const {
     delay,
     closeDelay,
     timeout = 400
   } = props;
-  const delayValue = React47.useMemo(() => ({
+  const delayValue = React52.useMemo(() => ({
     open: delay,
     close: closeDelay
   }), [delay, closeDelay]);
-  return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(TooltipProviderContext.Provider, {
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(TooltipProviderContext.Provider, {
     value: delay,
-    children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(FloatingDelayGroup, {
+    children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(FloatingDelayGroup, {
       delay: delayValue,
       timeoutMs: timeout,
       children: props.children
@@ -8491,8 +9039,8 @@ var TooltipProvider = function TooltipProvider2(props) {
 if (true) TooltipProvider.displayName = "TooltipProvider";
 
 // node_modules/.store/@base-ui/react@1.9.0-uHNeM94OdjIeOtpyYGvL0A/node_modules/@base-ui/react/tooltip/viewport/TooltipViewport.mjs
-var React48 = __toESM(require_react(), 1);
-var TooltipViewport = /* @__PURE__ */ React48.forwardRef(function TooltipViewport2(componentProps, forwardedRef) {
+var React53 = __toESM(require_react(), 1);
+var TooltipViewport = /* @__PURE__ */ React53.forwardRef(function TooltipViewport2(componentProps, forwardedRef) {
   const {
     render,
     className,
@@ -8567,340 +9115,54 @@ function useRender(params) {
   return useRenderElement(params.defaultTagName ?? "div", params, params);
 }
 
-// packages/ui/build-module/text/text.mjs
-var import_element11 = __toESM(require_element(), 1);
-var STYLE_HASH_ATTRIBUTE = "data-wp-hash";
-function getRuntime() {
-  const globalScope = globalThis;
-  if (globalScope.__wpStyleRuntime) {
-    return globalScope.__wpStyleRuntime;
-  }
-  globalScope.__wpStyleRuntime = {
-    documents: /* @__PURE__ */ new Map(),
-    styles: /* @__PURE__ */ new Map(),
-    injectedStyles: /* @__PURE__ */ new WeakMap()
-  };
-  if (typeof document !== "undefined") {
-    registerDocument(document);
-  }
-  return globalScope.__wpStyleRuntime;
-}
-function documentContainsStyleHash(targetDocument, hash) {
-  if (!targetDocument.head) {
-    return false;
-  }
-  for (const style of targetDocument.head.querySelectorAll(
-    `style[${STYLE_HASH_ATTRIBUTE}]`
-  )) {
-    if (style.getAttribute(STYLE_HASH_ATTRIBUTE) === hash) {
-      return true;
-    }
-  }
-  return false;
-}
-function injectStyle(targetDocument, hash, css) {
-  if (!targetDocument.head) {
-    return;
-  }
-  const runtime = getRuntime();
-  let injectedStyles = runtime.injectedStyles.get(targetDocument);
-  if (!injectedStyles) {
-    injectedStyles = /* @__PURE__ */ new Set();
-    runtime.injectedStyles.set(targetDocument, injectedStyles);
-  }
-  if (injectedStyles.has(hash)) {
-    return;
-  }
-  if (documentContainsStyleHash(targetDocument, hash)) {
-    injectedStyles.add(hash);
-    return;
-  }
-  const style = targetDocument.createElement("style");
-  style.setAttribute(STYLE_HASH_ATTRIBUTE, hash);
-  style.appendChild(targetDocument.createTextNode(css));
-  targetDocument.head.appendChild(style);
-  injectedStyles.add(hash);
-}
-function registerDocument(targetDocument) {
-  const runtime = getRuntime();
-  runtime.documents.set(
-    targetDocument,
-    (runtime.documents.get(targetDocument) ?? 0) + 1
-  );
-  for (const [hash, css] of runtime.styles) {
-    injectStyle(targetDocument, hash, css);
-  }
-  return () => {
-    const count = runtime.documents.get(targetDocument);
-    if (count === void 0) {
-      return;
-    }
-    if (count <= 1) {
-      runtime.documents.delete(targetDocument);
-      return;
-    }
-    runtime.documents.set(targetDocument, count - 1);
-  };
-}
-function registerStyle(hash, css) {
-  const runtime = getRuntime();
-  runtime.styles.set(hash, css);
-  for (const targetDocument of runtime.documents.keys()) {
-    injectStyle(targetDocument, hash, css);
-  }
-}
-if (typeof process === "undefined" || true) {
-  registerStyle("09bae534ff", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._9745ffa515d864cf__text{text-wrap:pretty;margin:0}._8882b6a7feb4fd3d__heading-2xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-2xl,32px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-2xl,32px);--_gcd-p-line-height:var(--wpds-typography-line-height-2xl,40px);font-size:var(--wpds-typography-font-size-2xl,32px);line-height:var(--wpds-typography-line-height-2xl,40px)}._664e3e7687c45603__heading-xl,._8882b6a7feb4fd3d__heading-2xl{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-emphasis,600)}._664e3e7687c45603__heading-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-md,24px)}.dac661a5de0ed2bd__heading-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-lg,15px)}._59c7f3f740e2f96e__heading-md,.dac661a5de0ed2bd__heading-lg{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-emphasis,600);line-height:var(--wpds-typography-line-height-sm,20px)}._59c7f3f740e2f96e__heading-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px)}.cf052fbad8d93b7e__heading-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-xs,11px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-xs,11px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);line-height:var(--wpds-typography-line-height-xs,16px);text-transform:uppercase}._212b9cfef57a0af4__body-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-xl,32px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-xl,32px)}._07f57bc0aa36b2c6__body-lg,._212b9cfef57a0af4__body-xl{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-default,400)}._07f57bc0aa36b2c6__body-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-lg,15px);line-height:var(--wpds-typography-line-height-md,24px)}._0c6da4457aec9e62__body-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px)}._0c6da4457aec9e62__body-md,.b998f87ff17b7bec__body-sm{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-default,400)}.b998f87ff17b7bec__body-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-size:var(--wpds-typography-font-size-sm,12px);line-height:var(--wpds-typography-line-height-xs,16px)}}}');
-}
-var style_default = { "text": "_9745ffa515d864cf__text", "heading-2xl": "_8882b6a7feb4fd3d__heading-2xl", "heading-xl": "_664e3e7687c45603__heading-xl", "heading-lg": "dac661a5de0ed2bd__heading-lg", "heading-md": "_59c7f3f740e2f96e__heading-md", "heading-sm": "cf052fbad8d93b7e__heading-sm", "body-xl": "_212b9cfef57a0af4__body-xl", "body-lg": "_07f57bc0aa36b2c6__body-lg", "body-md": "_0c6da4457aec9e62__body-md", "body-sm": "b998f87ff17b7bec__body-sm" };
-if (typeof process === "undefined" || true) {
-  registerStyle("726f348f3f", "._78c10a0773e51a91__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}._5b33aa2d48624b4f__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._980b3b4776ac8f81__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._43e478b4279a076c__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._698099e25b0fb1a6__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6)._326aee4184d261fd__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}.e9576240835601ba__a,.e9576240835601ba__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}._3f05789653864a73__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._3c72ff72abe57859__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._79d16267c15d9eb2__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
-}
-var global_css_defense_default = { "button": "_78c10a0773e51a91__button", "input": "_5b33aa2d48624b4f__input", "textarea": "_980b3b4776ac8f81__textarea", "div": "_43e478b4279a076c__div", "p": "_698099e25b0fb1a6__p", "heading": "_326aee4184d261fd__heading", "a": "e9576240835601ba__a", "ol": "_3f05789653864a73__ol", "li": "_3c72ff72abe57859__li", "span": "_79d16267c15d9eb2__span" };
-var Text = (0, import_element11.forwardRef)(
-  function UnforwardedText({ variant = "body-md", render, className, ...props }, ref) {
-    const element = useRender({
-      render,
-      defaultTagName: "span",
-      ref,
-      props: mergeProps(props, {
-        className: clsx_default(
-          style_default.text,
-          global_css_defense_default.heading,
-          global_css_defense_default.p,
-          style_default[variant],
-          className
-        )
-      })
-    });
-    return element;
-  }
-);
-
-// packages/icons/build-module/library/audio.mjs
-var import_primitives2 = __toESM(require_primitives(), 1);
-var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
-var audio_default = /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
-  /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_primitives2.Path, { d: "M13.25 16.5C13.25 18.0188 12.0188 19.25 10.5 19.25C8.98122 19.25 7.75 18.0188 7.75 16.5C7.75 14.9812 8.98122 13.75 10.5 13.75C12.0188 13.75 13.25 14.9812 13.25 16.5Z", fill: "currentColor", stroke: "none" }),
-  /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_primitives2.Path, { d: "M10.5 19.25C12.0188 19.25 13.25 18.0188 13.25 16.5C13.25 14.9812 12.0188 13.75 10.5 13.75C8.98122 13.75 7.75 14.9812 7.75 16.5C7.75 18.0188 8.98122 19.25 10.5 19.25ZM10.5 19.25C13.4867 19.25 13.75 16.5 13.75 15.1379V7.99998C13.75 4.9108 16.4 5.00254 18 5.00233" })
-] });
-
-// packages/icons/build-module/library/comment-author-avatar.mjs
-var import_primitives3 = __toESM(require_primitives(), 1);
-var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
-var comment_author_avatar_default = /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
-  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_primitives3.Path, { d: "M8 18.0476V16C8 14.8954 8.89543 14 10 14H14C15.1046 14 16 14.8954 16 16V18.0476" }),
-  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_primitives3.Path, { d: "M12 4.75C7.99594 4.75 4.75 7.99593 4.75 12C4.75 16.0041 7.99593 19.25 12 19.25C16.0041 19.25 19.25 16.0041 19.25 12C19.25 7.99594 16.0041 4.75 12 4.75Z", strokeLinejoin: "round" }),
-  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_primitives3.Path, { d: "M13.75 10C13.75 10.9665 12.9665 11.75 12 11.75C11.0335 11.75 10.25 10.9665 10.25 10C10.25 9.0335 11.0335 8.25 12 8.25C12.9665 8.25 13.75 9.0335 13.75 10Z" })
-] });
-
-// packages/icons/build-module/library/file.mjs
-var import_primitives4 = __toESM(require_primitives(), 1);
-var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
-var file_default = /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_primitives4.Path, { d: "M3.75 6V17.5C3.75 18.1904 4.30964 18.75 5 18.75H19C19.6904 18.75 20.25 18.1904 20.25 17.5V8.5C20.25 7.80964 19.6904 7.25 19 7.25H13.3463C12.8352 7.25 12.3755 6.93881 12.1857 6.46424L11.8143 5.53576C11.6245 5.06119 11.1648 4.75 10.6537 4.75H5C4.30964 4.75 3.75 5.30964 3.75 6Z" }) });
-
-// packages/icons/build-module/library/image.mjs
-var import_primitives5 = __toESM(require_primitives(), 1);
+// packages/ui/build-module/avatar/fallback-with-loading-delay.mjs
+var import_element13 = __toESM(require_element(), 1);
 var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
-var image_default = /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_primitives5.Path, { d: "M19.25 14.2513L16.0707 11.0707C16.0317 11.0317 15.9683 11.0317 15.9293 11.0707L12.0584 14.9416C12.0245 14.9755 11.9713 14.9806 11.9316 14.9537L8.65791 12.7392C8.62313 12.7156 8.57736 12.7163 8.54332 12.7409L4.75 15.4808M19.25 14.2513V6C19.25 5.30964 18.6904 4.75 18 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V15.4808M19.25 14.2513V18C19.25 18.6904 18.6904 19.25 18 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V15.4808" }) });
-
-// packages/icons/build-module/library/video.mjs
-var import_primitives6 = __toESM(require_primitives(), 1);
-var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
-var video_default = /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
-  /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_primitives6.Path, { d: "M10 15L15 12L10 9V15Z", fill: "currentColor", stroke: "none" }),
-  /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_primitives6.Path, { d: "M4.75 6C4.75 5.30964 5.30964 4.75 6 4.75H18C18.6904 4.75 19.25 5.30964 19.25 6V18C19.25 18.6904 18.6904 19.25 18 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V6Z" })
-] });
-
-// packages/ui/build-module/utils/render-slot-with-children.mjs
-var import_element12 = __toESM(require_element(), 1);
-function renderSlotWithChildren(slot, defaultSlot, children) {
-  return (0, import_element12.cloneElement)(
-    slot ?? defaultSlot,
-    { children }
-  );
+function FallbackElement({
+  elementProps,
+  render,
+  state,
+  enabled
+}) {
+  return useRender({
+    defaultTagName: "span",
+    // Forward the original state without adding useRender's automatic data attributes.
+    render: typeof render === "function" ? (props) => render(props, state) : render,
+    props: { ...elementProps },
+    enabled
+  });
 }
-
-// packages/ui/build-module/utils/wp-compat-overlay-slot.mjs
-var STYLE_HASH_ATTRIBUTE2 = "data-wp-hash";
-function getRuntime2() {
-  const globalScope = globalThis;
-  if (globalScope.__wpStyleRuntime) {
-    return globalScope.__wpStyleRuntime;
-  }
-  globalScope.__wpStyleRuntime = {
-    documents: /* @__PURE__ */ new Map(),
-    styles: /* @__PURE__ */ new Map(),
-    injectedStyles: /* @__PURE__ */ new WeakMap()
-  };
-  if (typeof document !== "undefined") {
-    registerDocument2(document);
-  }
-  return globalScope.__wpStyleRuntime;
-}
-function documentContainsStyleHash2(targetDocument, hash) {
-  if (!targetDocument.head) {
-    return false;
-  }
-  for (const style of targetDocument.head.querySelectorAll(
-    `style[${STYLE_HASH_ATTRIBUTE2}]`
-  )) {
-    if (style.getAttribute(STYLE_HASH_ATTRIBUTE2) === hash) {
-      return true;
-    }
-  }
-  return false;
-}
-function injectStyle2(targetDocument, hash, css) {
-  if (!targetDocument.head) {
-    return;
-  }
-  const runtime = getRuntime2();
-  let injectedStyles = runtime.injectedStyles.get(targetDocument);
-  if (!injectedStyles) {
-    injectedStyles = /* @__PURE__ */ new Set();
-    runtime.injectedStyles.set(targetDocument, injectedStyles);
-  }
-  if (injectedStyles.has(hash)) {
-    return;
-  }
-  if (documentContainsStyleHash2(targetDocument, hash)) {
-    injectedStyles.add(hash);
-    return;
-  }
-  const style = targetDocument.createElement("style");
-  style.setAttribute(STYLE_HASH_ATTRIBUTE2, hash);
-  style.appendChild(targetDocument.createTextNode(css));
-  targetDocument.head.appendChild(style);
-  injectedStyles.add(hash);
-}
-function registerDocument2(targetDocument) {
-  const runtime = getRuntime2();
-  runtime.documents.set(
-    targetDocument,
-    (runtime.documents.get(targetDocument) ?? 0) + 1
-  );
-  for (const [hash, css] of runtime.styles) {
-    injectStyle2(targetDocument, hash, css);
-  }
-  return () => {
-    const count = runtime.documents.get(targetDocument);
-    if (count === void 0) {
+var FallbackWithLoadingDelay = (0, import_element13.forwardRef)(function AvatarFallbackWithLoadingDelay({ delay = 0, render, ...props }, ref) {
+  const [delayPassed, setDelayPassed] = (0, import_element13.useState)(delay === 0);
+  (0, import_element13.useEffect)(() => {
+    if (delay === 0) {
+      setDelayPassed(true);
       return;
     }
-    if (count <= 1) {
-      runtime.documents.delete(targetDocument);
-      return;
+    const timeout = setTimeout(() => setDelayPassed(true), delay);
+    return () => clearTimeout(timeout);
+  }, [delay]);
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+    index_parts_exports.Fallback,
+    {
+      ...props,
+      ref,
+      delay: 0,
+      render: (elementProps, state) => /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+        FallbackElement,
+        {
+          elementProps,
+          render,
+          state,
+          enabled: state.imageLoadingStatus !== "loading" || delayPassed
+        }
+      )
     }
-    runtime.documents.set(targetDocument, count - 1);
-  };
-}
-function registerStyle2(hash, css) {
-  const runtime = getRuntime2();
-  runtime.styles.set(hash, css);
-  for (const targetDocument of runtime.documents.keys()) {
-    injectStyle2(targetDocument, hash, css);
-  }
-}
-if (typeof process === "undefined" || true) {
-  registerStyle2("40df669685", "._9e7887c25dedb459__slot{inset:0;isolation:isolate;pointer-events:none;position:fixed;z-index:1000000003}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._9e7887c25dedb459__slot>*{pointer-events:auto}}}");
-}
-var wp_compat_overlay_slot_default = { "slot": "_9e7887c25dedb459__slot" };
-var WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE = "data-wp-compat-overlay-slot";
-function resolveOwnerDocument() {
-  return typeof document === "undefined" ? null : document;
-}
-function isInWordPressEnvironment() {
-  let topWp;
-  try {
-    topWp = window.top?.wp;
-  } catch {
-  }
-  const wp = topWp ?? window.wp;
-  return typeof wp?.components === "object" && wp.components !== null;
-}
-var cachedSlot = null;
-function ensureSlotIsAccessible(element) {
-  element.setAttribute("aria-hidden", "false");
-  return element;
-}
-function createSlot(ownerDocument2) {
-  const element = ownerDocument2.createElement("div");
-  element.setAttribute(WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE, "");
-  if (wp_compat_overlay_slot_default.slot) {
-    element.classList.add(wp_compat_overlay_slot_default.slot);
-  }
-  ownerDocument2.body.appendChild(element);
-  return element;
-}
-function getWpCompatOverlaySlot() {
-  if (typeof window === "undefined") {
-    return void 0;
-  }
-  if (!isInWordPressEnvironment() && window.__wpUiCompatOverlaySlotEnabled !== true) {
-    return void 0;
-  }
-  const ownerDocument2 = resolveOwnerDocument();
-  if (!ownerDocument2 || !ownerDocument2.body) {
-    return void 0;
-  }
-  if (cachedSlot && cachedSlot.ownerDocument === ownerDocument2 && cachedSlot.isConnected) {
-    return ensureSlotIsAccessible(cachedSlot);
-  }
-  const existing = ownerDocument2.querySelector(
-    `[${WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE}]`
   );
-  if (existing instanceof HTMLDivElement) {
-    cachedSlot = ensureSlotIsAccessible(existing);
-    return cachedSlot;
-  }
-  if (cachedSlot?.isConnected) {
-    cachedSlot.remove();
-  }
-  cachedSlot = ensureSlotIsAccessible(createSlot(ownerDocument2));
-  return cachedSlot;
-}
-
-// packages/ui/build-module/utils/direction-provider.mjs
-var import_i18n = __toESM(require_i18n(), 1);
-var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
-function DirectionProvider3({ children }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(DirectionProvider, { direction: (0, import_i18n.isRTL)() ? "rtl" : "ltr", children });
-}
-
-// packages/ui/build-module/tooltip/index.mjs
-var tooltip_exports = {};
-__export(tooltip_exports, {
-  Popup: () => Popup,
-  Portal: () => Portal,
-  Positioner: () => Positioner,
-  Provider: () => Provider,
-  Root: () => Root,
-  Trigger: () => Trigger
 });
 
-// packages/ui/build-module/tooltip/popup.mjs
-var import_element15 = __toESM(require_element(), 1);
-
-// packages/ui/build-module/tooltip/portal.mjs
-var import_element13 = __toESM(require_element(), 1);
-var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
-var Portal = (0, import_element13.forwardRef)(
-  function TooltipPortal3({ container, ...restProps }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
-      index_parts_exports.Portal,
-      {
-        container: container === void 0 ? getWpCompatOverlaySlot() : container,
-        ...restProps,
-        ref
-      }
-    );
-  }
-);
-
-// packages/ui/build-module/tooltip/positioner.mjs
-var import_element14 = __toESM(require_element(), 1);
-var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
+// packages/ui/build-module/avatar/fallback.mjs
+var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE3 = "data-wp-hash";
 function getRuntime3() {
   const globalScope = globalThis;
@@ -8982,62 +9244,74 @@ function registerStyle3(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle3("37477070fb", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{.ccc29f9575c4c758__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
+  registerStyle3("726f348f3f", "._78c10a0773e51a91__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}._5b33aa2d48624b4f__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._980b3b4776ac8f81__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._43e478b4279a076c__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._698099e25b0fb1a6__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6)._326aee4184d261fd__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}.e9576240835601ba__a,.e9576240835601ba__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}._3f05789653864a73__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._3c72ff72abe57859__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._79d16267c15d9eb2__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
 }
-var resets_default = { "box-sizing": "ccc29f9575c4c758__box-sizing" };
+var global_css_defense_default2 = { "button": "_78c10a0773e51a91__button", "input": "_5b33aa2d48624b4f__input", "textarea": "_980b3b4776ac8f81__textarea", "div": "_43e478b4279a076c__div", "p": "_698099e25b0fb1a6__p", "heading": "_326aee4184d261fd__heading", "a": "e9576240835601ba__a", "ol": "_3f05789653864a73__ol", "li": "_3c72ff72abe57859__li", "span": "_79d16267c15d9eb2__span" };
 if (typeof process === "undefined" || true) {
-  registerStyle3("aaf79ac691", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.b9266862d9435660__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._7bb3fd8a0810be6d__popup{--_wp-ui-elevation-sm:0 1px 2px rgba(0,0,0,.05),0 2px 3px rgba(0,0,0,.04),0 6px 6px rgba(0,0,0,.03),0 8px 8px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-sm);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
+  registerStyle3("2657a3ab0c", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.a9728400af96db77__root{--_wp-ui-avatar-size:var(--wpds-dimension-size-md,32px);--_gcd-span-position:relative;--_gcd-span-display:inline-flex;--_gcd-span-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-span-font-size:var(--_wp-ui-avatar-font-size);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-sm,12px);align-items:center;background-color:var(--wpds-color-background-surface-neutral-weak,#f4f4f4);block-size:var(--_wp-ui-avatar-size);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:50%;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:inline-flex;flex-shrink:0;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--_wp-ui-avatar-font-size);font-weight:var(--wpds-typography-font-weight-emphasis,600);inline-size:var(--_wp-ui-avatar-size);justify-content:center;line-height:1;position:relative;vertical-align:middle}._81a33c129d7cbe31__has-color:after{border:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--_wp-ui-avatar-color);border-radius:inherit;content:"";inset:calc(var(--wpds-border-width-xs, 1px)*-1);pointer-events:none;position:absolute}._32e65dea77285874__is-square{border-radius:var(--wpds-border-radius-sm,2px)}._7d2020337343df5a__is-xs{--_wp-ui-avatar-size:var(--wpds-dimension-size-2xs,16px);--_wp-ui-avatar-font-size:calc(var(--_wp-ui-avatar-size)/2)}._216fb78a075c5ab4__is-sm{--_wp-ui-avatar-size:var(--wpds-dimension-size-sm,24px);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-xs,11px)}.b552ab04a3b94ae9__is-lg{--_wp-ui-avatar-size:var(--wpds-dimension-size-lg,40px);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-md,13px)}.f8a7646462ff80d1__is-xl{--_wp-ui-avatar-size:calc(var(--wpds-dimension-size-md, 32px)*2);--_wp-ui-avatar-font-size:var(--wpds-typography-font-size-xl,20px)}._411c43ac028fe4be__image,._7883f856336224e2__fallback{block-size:100%;border-radius:inherit;inline-size:100%;inset:0;position:absolute}._411c43ac028fe4be__image{object-fit:cover;@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1));&[data-error],&[data-loading],&[data-starting-style]{opacity:0}}&[data-ending-style],&[data-error],&[data-loading]{visibility:hidden}}._7883f856336224e2__fallback{--_gcd-span-position:absolute;--_gcd-span-display:flex;align-items:center;display:flex;justify-content:center;overflow:hidden;white-space:nowrap;>svg{block-size:100%;flex-shrink:0;inline-size:100%}>.dc9b5131d4746aa6__person-icon{block-size:110%;color:var(--wpds-color-stroke-surface-neutral-strong,#8d8d8d);inline-size:110%;translate:0 15%}}@media not (forced-colors:active){@supports (color:rgb(from green r g b/1)) and (color:color(from green srgb-linear round(up,r) g b/1)){._81a33c129d7cbe31__has-color:has(>._7883f856336224e2__fallback){border:none}._81a33c129d7cbe31__has-color:has(>._7883f856336224e2__fallback):after{content:none}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback{--_wp-ui-avatar-background:rgb(from var(--_wp-ui-avatar-color) clamp(0,r,255) clamp(0,g,255) clamp(0,b,255)/1);--_wp-ui-avatar-contrast-target:4.55;background-color:var(--_wp-ui-avatar-background)}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback>.dc9b5131d4746aa6__person-icon{--_wp-ui-avatar-contrast-target:3.05}._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback,._81a33c129d7cbe31__has-color>._7883f856336224e2__fallback>.dc9b5131d4746aa6__person-icon{--_wp-ui-avatar-luminance:calc(0.2126 * r + 0.7152 * g + 0.0722 * b);--_wp-ui-avatar-light-foreground:round(up,clamp(0,calc(0.17913 - var(--_wp-ui-avatar-luminance)),1));--_wp-ui-avatar-dark-tint:clamp(0,calc(((var(--_wp-ui-avatar-luminance) + 0.05)/var(--_wp-ui-avatar-contrast-target) - 0.05)/max(0.000001, var(--_wp-ui-avatar-luminance))),1);--_wp-ui-avatar-light-tint:clamp(0,calc((1.05 - var(--_wp-ui-avatar-contrast-target)*(var(--_wp-ui-avatar-luminance) + 0.05))/max(0.000001, 1 - var(--_wp-ui-avatar-luminance))),1);--_wp-ui-avatar-tint:calc(var(--_wp-ui-avatar-light-foreground)*var(--_wp-ui-avatar-light-tint) + (1 - var(--_wp-ui-avatar-light-foreground))*var(--_wp-ui-avatar-dark-tint));color:color(from var(--_wp-ui-avatar-background) srgb-linear calc(var(--_wp-ui-avatar-light-foreground) + (r - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint)) calc(var(--_wp-ui-avatar-light-foreground) + (g - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint)) calc(var(--_wp-ui-avatar-light-foreground) + (b - var(--_wp-ui-avatar-light-foreground)) * var(--_wp-ui-avatar-tint))/1)}}}}}');
 }
-var style_default2 = { "positioner": "b9266862d9435660__positioner", "popup": "_7bb3fd8a0810be6d__popup" };
-var Positioner = (0, import_element14.forwardRef)(
-  function TooltipPositioner3({ align = "center", className, side = "top", sideOffset = 4, ...props }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
-      index_parts_exports.Positioner,
+var style_default3 = { "root": "a9728400af96db77__root", "has-color": "_81a33c129d7cbe31__has-color", "is-square": "_32e65dea77285874__is-square", "is-xs": "_7d2020337343df5a__is-xs", "is-sm": "_216fb78a075c5ab4__is-sm", "is-lg": "b552ab04a3b94ae9__is-lg", "is-xl": "f8a7646462ff80d1__is-xl", "image": "_411c43ac028fe4be__image", "fallback": "_7883f856336224e2__fallback", "person-icon": "dc9b5131d4746aa6__person-icon" };
+var person = /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(
+  import_primitives2.SVG,
+  {
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 24 24",
+    style: { fill: "none" },
+    stroke: "currentColor",
+    strokeWidth: 1.5,
+    children: [
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_primitives2.Circle, { cx: 12, cy: 8, r: 5 }),
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_primitives2.Path, { d: "M20 21a8 8 0 0 0-16 0" })
+    ]
+  }
+);
+var Fallback = (0, import_element14.forwardRef)(
+  function AvatarFallback3({
+    className,
+    children = /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+      Icon,
+      {
+        icon: person,
+        role: "presentation",
+        className: style_default3["person-icon"]
+      }
+    ),
+    ...props
+  }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+      FallbackWithLoadingDelay,
       {
         ref,
-        align,
-        side,
-        sideOffset,
-        ...props,
         className: clsx_default(
-          resets_default["box-sizing"],
-          style_default2.positioner,
+          style_default3.fallback,
+          global_css_defense_default2.span,
           className
-        )
+        ),
+        ...props,
+        children
       }
     );
   }
 );
 
-// packages/ui/build-module/utils/theme-provider.mjs
-var theme = __toESM(require_theme(), 1);
-
-// packages/ui/build-module/lock-unlock.mjs
-var import_private_apis = __toESM(require_private_apis(), 1);
-var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
-  "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
-  "@wordpress/ui"
+// packages/ui/build-module/avatar/initials.mjs
+var import_element15 = __toESM(require_element(), 1);
+var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
+var Initials = (0, import_element15.forwardRef)(
+  function AvatarInitials({ name, locale, ...props }, ref) {
+    const segmenter = new Intl.Segmenter(locale, {
+      granularity: "grapheme"
+    });
+    const words = name?.trim().split(/\s+/) ?? [];
+    const initials = words.filter((_, index2) => index2 === 0 || index2 === words.length - 1).map(
+      (word) => segmenter.segment(word).containing(0)?.segment ?? ""
+    ).join("").toLocaleUpperCase(locale);
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Fallback, { ...props, ref, children: initials || void 0 });
+  }
 );
 
-// packages/ui/build-module/utils/theme-provider.mjs
-function getThemeProvider() {
-  const themePackage = theme;
-  if (themePackage.ThemeProvider) {
-    return themePackage.ThemeProvider;
-  }
-  if (!themePackage.privateApis) {
-    throw new Error(
-      "@wordpress/ui: @wordpress/theme must expose `ThemeProvider` or `privateApis.ThemeProvider`."
-    );
-  }
-  return unlock(
-    themePackage.privateApis
-  ).ThemeProvider;
-}
-var ThemeProvider = getThemeProvider();
-
-// packages/ui/build-module/tooltip/popup.mjs
-var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
+// packages/ui/build-module/text/text.mjs
+var import_element16 = __toESM(require_element(), 1);
 var STYLE_HASH_ATTRIBUTE4 = "data-wp-hash";
 function getRuntime4() {
   const globalScope = globalThis;
@@ -9119,53 +9393,69 @@ function registerStyle4(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle4("aaf79ac691", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.b9266862d9435660__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._7bb3fd8a0810be6d__popup{--_wp-ui-elevation-sm:0 1px 2px rgba(0,0,0,.05),0 2px 3px rgba(0,0,0,.04),0 6px 6px rgba(0,0,0,.03),0 8px 8px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-sm);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
+  registerStyle4("09bae534ff", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._9745ffa515d864cf__text{text-wrap:pretty;margin:0}._8882b6a7feb4fd3d__heading-2xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-2xl,32px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-2xl,32px);--_gcd-p-line-height:var(--wpds-typography-line-height-2xl,40px);font-size:var(--wpds-typography-font-size-2xl,32px);line-height:var(--wpds-typography-line-height-2xl,40px)}._664e3e7687c45603__heading-xl,._8882b6a7feb4fd3d__heading-2xl{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-emphasis,600)}._664e3e7687c45603__heading-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-md,24px)}.dac661a5de0ed2bd__heading-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-lg,15px)}._59c7f3f740e2f96e__heading-md,.dac661a5de0ed2bd__heading-lg{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-emphasis,600);line-height:var(--wpds-typography-line-height-sm,20px)}._59c7f3f740e2f96e__heading-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px)}.cf052fbad8d93b7e__heading-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-xs,11px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-xs,11px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);line-height:var(--wpds-typography-line-height-xs,16px);text-transform:uppercase}._212b9cfef57a0af4__body-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-xl,32px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-xl,32px)}._07f57bc0aa36b2c6__body-lg,._212b9cfef57a0af4__body-xl{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-default,400)}._07f57bc0aa36b2c6__body-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-lg,15px);line-height:var(--wpds-typography-line-height-md,24px)}._0c6da4457aec9e62__body-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px)}._0c6da4457aec9e62__body-md,.b998f87ff17b7bec__body-sm{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-default,400)}.b998f87ff17b7bec__body-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-size:var(--wpds-typography-font-size-sm,12px);line-height:var(--wpds-typography-line-height-xs,16px)}}}');
 }
-var style_default3 = { "positioner": "b9266862d9435660__positioner", "popup": "_7bb3fd8a0810be6d__popup" };
-var POPUP_COLOR = { background: "#1e1e1e" };
-var Popup = (0, import_element15.forwardRef)(function TooltipPopup3({ portal, positioner, children, className, ...props }, ref) {
-  const popupContent = /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(ThemeProvider, { color: POPUP_COLOR, children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
-    index_parts_exports.Popup,
-    {
+var style_default4 = { "text": "_9745ffa515d864cf__text", "heading-2xl": "_8882b6a7feb4fd3d__heading-2xl", "heading-xl": "_664e3e7687c45603__heading-xl", "heading-lg": "dac661a5de0ed2bd__heading-lg", "heading-md": "_59c7f3f740e2f96e__heading-md", "heading-sm": "cf052fbad8d93b7e__heading-sm", "body-xl": "_212b9cfef57a0af4__body-xl", "body-lg": "_07f57bc0aa36b2c6__body-lg", "body-md": "_0c6da4457aec9e62__body-md", "body-sm": "b998f87ff17b7bec__body-sm" };
+if (typeof process === "undefined" || true) {
+  registerStyle4("726f348f3f", "._78c10a0773e51a91__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}._5b33aa2d48624b4f__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._980b3b4776ac8f81__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._43e478b4279a076c__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._698099e25b0fb1a6__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6)._326aee4184d261fd__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}.e9576240835601ba__a,.e9576240835601ba__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}._3f05789653864a73__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._3c72ff72abe57859__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._79d16267c15d9eb2__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
+}
+var global_css_defense_default3 = { "button": "_78c10a0773e51a91__button", "input": "_5b33aa2d48624b4f__input", "textarea": "_980b3b4776ac8f81__textarea", "div": "_43e478b4279a076c__div", "p": "_698099e25b0fb1a6__p", "heading": "_326aee4184d261fd__heading", "a": "e9576240835601ba__a", "ol": "_3f05789653864a73__ol", "li": "_3c72ff72abe57859__li", "span": "_79d16267c15d9eb2__span" };
+var Text = (0, import_element16.forwardRef)(
+  function UnforwardedText({ variant = "body-md", render, className, ...props }, ref) {
+    const element = useRender({
+      render,
+      defaultTagName: "span",
       ref,
-      className: clsx_default(style_default3.popup, className),
-      ...props,
-      children
-    }
-  ) });
-  const positionedPopup = renderSlotWithChildren(
-    positioner,
-    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(Positioner, {}),
-    popupContent
-  );
-  return renderSlotWithChildren(portal, /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(Portal, {}), positionedPopup);
-});
-
-// packages/ui/build-module/tooltip/trigger.mjs
-var import_element16 = __toESM(require_element(), 1);
-var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
-var Trigger = (0, import_element16.forwardRef)(
-  function TooltipTrigger3(props, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(index_parts_exports.Trigger, { ref, ...props });
+      props: mergeProps(props, {
+        className: clsx_default(
+          style_default4.text,
+          global_css_defense_default3.heading,
+          global_css_defense_default3.p,
+          style_default4[variant],
+          className
+        )
+      })
+    });
+    return element;
   }
 );
 
-// packages/ui/build-module/tooltip/root.mjs
-var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
-function Root(props) {
-  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(DirectionProvider3, { children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(index_parts_exports.Root, { ...props }) });
-}
+// packages/icons/build-module/library/audio.mjs
+var import_primitives3 = __toESM(require_primitives(), 1);
+var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
+var audio_default = /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+  /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_primitives3.Path, { d: "M13.25 16.5C13.25 18.0188 12.0188 19.25 10.5 19.25C8.98122 19.25 7.75 18.0188 7.75 16.5C7.75 14.9812 8.98122 13.75 10.5 13.75C12.0188 13.75 13.25 14.9812 13.25 16.5Z", fill: "currentColor", stroke: "none" }),
+  /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_primitives3.Path, { d: "M10.5 19.25C12.0188 19.25 13.25 18.0188 13.25 16.5C13.25 14.9812 12.0188 13.75 10.5 13.75C8.98122 13.75 7.75 14.9812 7.75 16.5C7.75 18.0188 8.98122 19.25 10.5 19.25ZM10.5 19.25C13.4867 19.25 13.75 16.5 13.75 15.1379V7.99998C13.75 4.9108 16.4 5.00254 18 5.00233" })
+] });
 
-// packages/ui/build-module/tooltip/provider.mjs
-var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
-function Provider({ ...props }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(index_parts_exports.Provider, { ...props });
-}
+// packages/icons/build-module/library/file.mjs
+var import_primitives4 = __toESM(require_primitives(), 1);
+var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
+var file_default = /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_primitives4.Path, { d: "M3.75 6V17.5C3.75 18.1904 4.30964 18.75 5 18.75H19C19.6904 18.75 20.25 18.1904 20.25 17.5V8.5C20.25 7.80964 19.6904 7.25 19 7.25H13.3463C12.8352 7.25 12.3755 6.93881 12.1857 6.46424L11.8143 5.53576C11.6245 5.06119 11.1648 4.75 10.6537 4.75H5C4.30964 4.75 3.75 5.30964 3.75 6Z" }) });
 
-// packages/ui/build-module/link/link.mjs
+// packages/icons/build-module/library/image.mjs
+var import_primitives5 = __toESM(require_primitives(), 1);
+var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
+var image_default = /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_primitives5.Path, { d: "M19.25 14.2513L16.0707 11.0707C16.0317 11.0317 15.9683 11.0317 15.9293 11.0707L12.0584 14.9416C12.0245 14.9755 11.9713 14.9806 11.9316 14.9537L8.65791 12.7392C8.62313 12.7156 8.57736 12.7163 8.54332 12.7409L4.75 15.4808M19.25 14.2513V6C19.25 5.30964 18.6904 4.75 18 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V15.4808M19.25 14.2513V18C19.25 18.6904 18.6904 19.25 18 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V15.4808" }) });
+
+// packages/icons/build-module/library/video.mjs
+var import_primitives6 = __toESM(require_primitives(), 1);
+var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
+var video_default = /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+  /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_primitives6.Path, { d: "M10 15L15 12L10 9V15Z", fill: "currentColor", stroke: "none" }),
+  /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_primitives6.Path, { d: "M4.75 6C4.75 5.30964 5.30964 4.75 6 4.75H18C18.6904 4.75 19.25 5.30964 19.25 6V18C19.25 18.6904 18.6904 19.25 18 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V6Z" })
+] });
+
+// packages/ui/build-module/utils/render-slot-with-children.mjs
 var import_element17 = __toESM(require_element(), 1);
-var import_i18n2 = __toESM(require_i18n(), 1);
-var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
+function renderSlotWithChildren(slot, defaultSlot, children) {
+  return (0, import_element17.cloneElement)(
+    slot ?? defaultSlot,
+    { children }
+  );
+}
+
+// packages/ui/build-module/utils/wp-compat-overlay-slot.mjs
 var STYLE_HASH_ATTRIBUTE5 = "data-wp-hash";
 function getRuntime5() {
   const globalScope = globalThis;
@@ -9247,71 +9537,104 @@ function registerStyle5(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle5("37477070fb", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{.ccc29f9575c4c758__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
+  registerStyle5("40df669685", "._9e7887c25dedb459__slot{inset:0;isolation:isolate;pointer-events:none;position:fixed;z-index:1000000003}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._9e7887c25dedb459__slot>*{pointer-events:auto}}}");
 }
-var resets_default2 = { "box-sizing": "ccc29f9575c4c758__box-sizing" };
-if (typeof process === "undefined" || true) {
-  registerStyle5("c13e206e92", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._0f52be5f1d4ce686__outset-ring--focus-within:focus-within,._8f922cee854f2408__outset-ring--focus-visible:focus-visible,.accedd6ae8fd878e__outset-ring--focus:focus{--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}._3ad2c88c126f2bdd__outset-ring--focus-within-except-active:focus-within,.c20f61b115485a7f__outset-ring--focus-except-active:focus{outline:none}._3ad2c88c126f2bdd__outset-ring--focus-within-except-active:focus-within:not(:has(:active)),.c20f61b115485a7f__outset-ring--focus-except-active:focus:not(:active){--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}}}");
+var wp_compat_overlay_slot_default = { "slot": "_9e7887c25dedb459__slot" };
+var WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE = "data-wp-compat-overlay-slot";
+function resolveOwnerDocument() {
+  return typeof document === "undefined" ? null : document;
 }
-var focus_module_default = { "outset-ring--focus": "accedd6ae8fd878e__outset-ring--focus", "outset-ring--focus-visible": "_8f922cee854f2408__outset-ring--focus-visible", "outset-ring--focus-within": "_0f52be5f1d4ce686__outset-ring--focus-within", "outset-ring--focus-except-active": "c20f61b115485a7f__outset-ring--focus-except-active", "outset-ring--focus-within-except-active": "_3ad2c88c126f2bdd__outset-ring--focus-within-except-active" };
-if (typeof process === "undefined" || true) {
-  registerStyle5("c87d91cdf7", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.a574f9f242212d58__link{--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);border-radius:var(--wpds-border-radius-sm,2px);text-decoration-thickness:from-font;text-underline-offset:.2em}._2d2f0506e717a46c__link-with-icon{text-decoration-line:none}._92b7b6a03fbb27ac__link-contents{text-decoration:inherit;text-decoration-line:underline}._69f40d9212adc58d__is-brand,._69f40d9212adc58d__is-brand:visited{--_gcd-a-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9))}._69f40d9212adc58d__is-brand:active,._69f40d9212adc58d__is-brand:hover{--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));color:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000))}._9a9c54c6e67b4c3c__is-neutral,._9a9c54c6e67b4c3c__is-neutral:visited{--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);text-decoration-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d)}._9a9c54c6e67b4c3c__is-neutral:active,._9a9c54c6e67b4c3c__is-neutral:hover{--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);color:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e)}._93be0b747897baad__is-unstyled{--_gcd-a-border-radius:0;--_gcd-a-color:inherit;color:inherit;text-decoration:none}._9c39df40fdc09594__link-icon{font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-padding-xs,4px);text-decoration:none}._9c39df40fdc09594__link-icon:after{content:"\\2060\\2197"}._9c39df40fdc09594__link-icon:dir(rtl):after{content:"\\2060\\2196"}}}');
+function isInWordPressEnvironment() {
+  let topWp;
+  try {
+    topWp = window.top?.wp;
+  } catch {
+  }
+  const wp = topWp ?? window.wp;
+  return typeof wp?.components === "object" && wp.components !== null;
 }
-var style_default4 = { "link": "a574f9f242212d58__link", "link-with-icon": "_2d2f0506e717a46c__link-with-icon", "link-contents": "_92b7b6a03fbb27ac__link-contents", "is-brand": "_69f40d9212adc58d__is-brand", "is-neutral": "_9a9c54c6e67b4c3c__is-neutral", "is-unstyled": "_93be0b747897baad__is-unstyled", "link-icon": "_9c39df40fdc09594__link-icon" };
-if (typeof process === "undefined" || true) {
-  registerStyle5("726f348f3f", "._78c10a0773e51a91__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}._5b33aa2d48624b4f__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._980b3b4776ac8f81__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._43e478b4279a076c__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._698099e25b0fb1a6__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6)._326aee4184d261fd__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}.e9576240835601ba__a,.e9576240835601ba__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}._3f05789653864a73__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._3c72ff72abe57859__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._79d16267c15d9eb2__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
+var cachedSlot = null;
+function ensureSlotIsAccessible(element) {
+  element.setAttribute("aria-hidden", "false");
+  return element;
 }
-var global_css_defense_default2 = { "button": "_78c10a0773e51a91__button", "input": "_5b33aa2d48624b4f__input", "textarea": "_980b3b4776ac8f81__textarea", "div": "_43e478b4279a076c__div", "p": "_698099e25b0fb1a6__p", "heading": "_326aee4184d261fd__heading", "a": "e9576240835601ba__a", "ol": "_3f05789653864a73__ol", "li": "_3c72ff72abe57859__li", "span": "_79d16267c15d9eb2__span" };
-var Link = (0, import_element17.forwardRef)(
-  function UnforwardedLink({
-    children,
-    variant = "default",
-    tone = "brand",
-    openInNewTab = false,
-    target,
-    render,
-    className,
-    ...props
-  }, ref) {
-    const shouldShowNewTabIndicator = openInNewTab || /^_blank$/i.test(target ?? "");
-    const element = useRender({
-      render,
-      defaultTagName: "a",
-      ref,
-      props: mergeProps(props, {
-        className: clsx_default(
-          global_css_defense_default2.a,
-          resets_default2["box-sizing"],
-          focus_module_default["outset-ring--focus-except-active"],
-          variant !== "unstyled" && style_default4.link,
-          variant !== "unstyled" && shouldShowNewTabIndicator && style_default4["link-with-icon"],
-          variant !== "unstyled" && style_default4[`is-${tone}`],
-          variant === "unstyled" && style_default4["is-unstyled"],
-          className
-        ),
-        target: target ?? (openInNewTab ? "_blank" : void 0),
-        children: /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(import_jsx_runtime25.Fragment, { children: [
-          shouldShowNewTabIndicator && variant !== "unstyled" ? /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: style_default4["link-contents"], children }) : children,
-          shouldShowNewTabIndicator && /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
-            "span",
-            {
-              className: style_default4["link-icon"],
-              role: "img",
-              "aria-label": (
-                /* translators: accessibility text appended to link text */
-                (0, import_i18n2.__)("(opens in a new tab)")
-              )
-            }
-          )
-        ] })
-      })
-    });
-    return element;
+function createSlot(ownerDocument2) {
+  const element = ownerDocument2.createElement("div");
+  element.setAttribute(WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE, "");
+  if (wp_compat_overlay_slot_default.slot) {
+    element.classList.add(wp_compat_overlay_slot_default.slot);
+  }
+  ownerDocument2.body.appendChild(element);
+  return element;
+}
+function getWpCompatOverlaySlot() {
+  if (typeof window === "undefined") {
+    return void 0;
+  }
+  if (!isInWordPressEnvironment() && window.__wpUiCompatOverlaySlotEnabled !== true) {
+    return void 0;
+  }
+  const ownerDocument2 = resolveOwnerDocument();
+  if (!ownerDocument2 || !ownerDocument2.body) {
+    return void 0;
+  }
+  if (cachedSlot && cachedSlot.ownerDocument === ownerDocument2 && cachedSlot.isConnected) {
+    return ensureSlotIsAccessible(cachedSlot);
+  }
+  const existing = ownerDocument2.querySelector(
+    `[${WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE}]`
+  );
+  if (existing instanceof HTMLDivElement) {
+    cachedSlot = ensureSlotIsAccessible(existing);
+    return cachedSlot;
+  }
+  if (cachedSlot?.isConnected) {
+    cachedSlot.remove();
+  }
+  cachedSlot = ensureSlotIsAccessible(createSlot(ownerDocument2));
+  return cachedSlot;
+}
+
+// packages/ui/build-module/utils/direction-provider.mjs
+var import_i18n = __toESM(require_i18n(), 1);
+var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
+function DirectionProvider3({ children }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(DirectionProvider, { direction: (0, import_i18n.isRTL)() ? "rtl" : "ltr", children });
+}
+
+// packages/ui/build-module/tooltip/index.mjs
+var tooltip_exports = {};
+__export(tooltip_exports, {
+  Popup: () => Popup,
+  Portal: () => Portal,
+  Positioner: () => Positioner,
+  Provider: () => Provider,
+  Root: () => Root2,
+  Trigger: () => Trigger
+});
+
+// packages/ui/build-module/tooltip/popup.mjs
+var import_element20 = __toESM(require_element(), 1);
+
+// packages/ui/build-module/tooltip/portal.mjs
+var import_element18 = __toESM(require_element(), 1);
+var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
+var Portal = (0, import_element18.forwardRef)(
+  function TooltipPortal3({ container, ...restProps }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+      index_parts_exports2.Portal,
+      {
+        container: container === void 0 ? getWpCompatOverlaySlot() : container,
+        ...restProps,
+        ref
+      }
+    );
   }
 );
 
-// packages/ui/build-module/stack/stack.mjs
-var import_element18 = __toESM(require_element(), 1);
+// packages/ui/build-module/tooltip/positioner.mjs
+var import_element19 = __toESM(require_element(), 1);
+var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE6 = "data-wp-hash";
 function getRuntime6() {
   const globalScope = globalThis;
@@ -9393,88 +9716,62 @@ function registerStyle6(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle6("67591fa198", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._8e8e79c1a2eec43b__stack{display:flex}}}");
+  registerStyle6("37477070fb", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{.ccc29f9575c4c758__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
 }
-var style_default5 = { "stack": "_8e8e79c1a2eec43b__stack" };
-var gapTokens = {
-  xs: "var(--wpds-dimension-gap-xs, 4px)",
-  sm: "var(--wpds-dimension-gap-sm, 8px)",
-  md: "var(--wpds-dimension-gap-md, 12px)",
-  lg: "var(--wpds-dimension-gap-lg, 16px)",
-  xl: "var(--wpds-dimension-gap-xl, 24px)",
-  "2xl": "var(--wpds-dimension-gap-2xl, 32px)",
-  "3xl": "var(--wpds-dimension-gap-3xl, 40px)"
-};
-var Stack = (0, import_element18.forwardRef)(
-  function UnforwardedStack({ direction, gap, align, justify, wrap, render, ...props }, ref) {
-    const style = {
-      gap: gap && gapTokens[gap],
-      alignItems: align,
-      justifyContent: justify,
-      flexDirection: direction,
-      flexWrap: wrap
-    };
-    const element = useRender({
-      render,
-      ref,
-      props: mergeProps(props, {
-        style,
-        className: style_default5.stack
-      })
-    });
-    return element;
+var resets_default2 = { "box-sizing": "ccc29f9575c4c758__box-sizing" };
+if (typeof process === "undefined" || true) {
+  registerStyle6("aaf79ac691", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.b9266862d9435660__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._7bb3fd8a0810be6d__popup{--_wp-ui-elevation-sm:0 1px 2px rgba(0,0,0,.05),0 2px 3px rgba(0,0,0,.04),0 6px 6px rgba(0,0,0,.03),0 8px 8px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-sm);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
+}
+var style_default5 = { "positioner": "b9266862d9435660__positioner", "popup": "_7bb3fd8a0810be6d__popup" };
+var Positioner = (0, import_element19.forwardRef)(
+  function TooltipPositioner3({ align = "center", className, side = "top", sideOffset = 4, ...props }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
+      index_parts_exports2.Positioner,
+      {
+        ref,
+        align,
+        side,
+        sideOffset,
+        ...props,
+        className: clsx_default(
+          resets_default2["box-sizing"],
+          style_default5.positioner,
+          className
+        )
+      }
+    );
   }
 );
 
-// packages/core-fields/build-module/attachment/alt_text/field.mjs
-var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
-var fieldExtensions = {
-  description: /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime26.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
-      Link,
-      {
-        href: (
-          // translators: Localized tutorial, if one exists. W3C Web Accessibility Initiative link has list of existing translations.
-          (0, import_i18n3.__)(
-            "https://www.w3.org/WAI/tutorials/images/decision-tree/"
-          )
-        ),
-        openInNewTab: true,
-        children: (0, import_i18n3.__)("Describe the purpose of the image.")
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("br", {}),
-    (0, import_i18n3.__)("Leave empty if decorative.")
-  ] }),
-  // Only images have an alternative text.
-  isVisible: (item) => item?.media_type === "image",
-  render: ({ item }) => item?.alt_text || "-"
-};
+// packages/ui/build-module/utils/theme-provider.mjs
+var theme = __toESM(require_theme(), 1);
 
-// packages/core-fields/build-module/attachment/attached_to/edit.mjs
-var import_core_data = __toESM(require_core_data(), 1);
-var import_components = __toESM(require_components(), 1);
-var import_i18n4 = __toESM(require_i18n(), 1);
-var import_element19 = __toESM(require_element(), 1);
-var import_compose = __toESM(require_compose(), 1);
-var import_data = __toESM(require_data(), 1);
+// packages/ui/build-module/lock-unlock.mjs
+var import_private_apis = __toESM(require_private_apis(), 1);
+var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
+  "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
+  "@wordpress/ui"
+);
 
-// packages/core-fields/build-module/attachment/get-rendered-content.mjs
-function getRenderedContent(content) {
-  if (!content) {
-    return "";
+// packages/ui/build-module/utils/theme-provider.mjs
+function getThemeProvider() {
+  const themePackage = theme;
+  if (themePackage.ThemeProvider) {
+    return themePackage.ThemeProvider;
   }
-  if (typeof content === "string") {
-    return content;
+  if (!themePackage.privateApis) {
+    throw new Error(
+      "@wordpress/ui: @wordpress/theme must expose `ThemeProvider` or `privateApis.ThemeProvider`."
+    );
   }
-  if (typeof content === "object") {
-    return content.rendered || content.raw || "";
-  }
-  return "";
+  return unlock(
+    themePackage.privateApis
+  ).ThemeProvider;
 }
+var ThemeProvider = getThemeProvider();
 
-// packages/core-fields/build-module/attachment/attached_to/edit.mjs
-var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
+// packages/ui/build-module/tooltip/popup.mjs
+var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE7 = "data-wp-hash";
 function getRuntime7() {
   const globalScope = globalThis;
@@ -9556,148 +9853,53 @@ function registerStyle7(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle7("1a504e7637", ".components-popover__content:has(.e7c40a32a00ab056__attached-to){margin-block-end:96px}.components-popover__content:has(.e7c40a32a00ab056__attached-to):has(.components-form-token-field__suggestions-list){margin-block-end:0}.components-popover__content:has(.e7c40a32a00ab056__attached-to)\n.components-form-token-field__suggestions-list{block-size:96px;max-block-size:none}");
+  registerStyle7("aaf79ac691", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.b9266862d9435660__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._7bb3fd8a0810be6d__popup{--_wp-ui-elevation-sm:0 1px 2px rgba(0,0,0,.05),0 2px 3px rgba(0,0,0,.04),0 6px 6px rgba(0,0,0,.03),0 8px 8px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-sm);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
 }
-var style_default6 = { "attached-to": "e7c40a32a00ab056__attached-to" };
-function MediaAttachedToEdit({
-  data,
-  onChange
-}) {
-  const defaultPost = !!data.post && !!data?._embedded?.["wp:attached-to"]?.[0] ? [
+var style_default6 = { "positioner": "b9266862d9435660__positioner", "popup": "_7bb3fd8a0810be6d__popup" };
+var POPUP_COLOR = { background: "#1e1e1e" };
+var Popup = (0, import_element20.forwardRef)(function TooltipPopup3({ portal, positioner, children, className, ...props }, ref) {
+  const popupContent = /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(ThemeProvider, { color: POPUP_COLOR, children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+    index_parts_exports2.Popup,
     {
-      label: getRenderedContent(
-        data._embedded?.["wp:attached-to"]?.[0]?.title
-      ),
-      value: data.post.toString()
+      ref,
+      className: clsx_default(style_default6.popup, className),
+      ...props,
+      children
     }
-  ] : [];
-  const [options, setOptions] = (0, import_element19.useState)(defaultPost);
-  const [searchResults, setSearchResults] = (0, import_element19.useState)(
-    []
+  ) });
+  const positionedPopup = renderSlotWithChildren(
+    positioner,
+    /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Positioner, {}),
+    popupContent
   );
-  const [isLoading, setIsLoading] = (0, import_element19.useState)(false);
-  const [value, setValue] = (0, import_element19.useState)(
-    data?.post?.toString() ?? null
-  );
-  const postTypes = (0, import_data.useSelect)(
-    (select) => select(import_core_data.store).getPostTypes(),
-    []
-  );
-  const handleDetach = () => {
-    onChange({
-      post: 0,
-      _embedded: { ...data?._embedded, "wp:attached-to": void 0 }
-    });
-    setValue(null);
-  };
-  const onValueChange = async (filterValue) => {
-    setIsLoading(true);
-    const results = await (0, import_core_data.__experimentalFetchLinkSuggestions)(
-      filterValue,
-      /*
-       * @TODO `fetchLinkSuggestions()` should accept `perPage` as an option argument.
-       * `isInitialSuggestions` limits the result to 3, otherwise it's hardcoded to 20.
-       */
-      { type: "post", isInitialSuggestions: true },
-      {}
-    );
-    setSearchResults(results);
-    const suggestions = results.map((result) => {
-      return {
-        label: result.title,
-        value: result.id.toString()
-      };
-    });
-    const includeCurrent = !filterValue && suggestions.findIndex((s) => s.value === value) === -1;
-    setOptions(suggestions.concat(includeCurrent ? defaultPost : []));
-    setIsLoading(false);
-  };
-  const debouncedValueChange = (0, import_compose.useDebounce)((0, import_compose.useEvent)(onValueChange), 300);
-  const handleSelectOption = (selectedPostId) => {
-    if (!selectedPostId) {
-      handleDetach();
-      return;
-    }
-    setValue(selectedPostId);
-    if (selectedPostId) {
-      const selectedPost = searchResults.find(
-        (result) => result.id === Number(selectedPostId)
-      );
-      if (selectedPost && postTypes) {
-        const postType = postTypes.find(
-          (_postType) => _postType.slug === selectedPost?.type
-        );
-        const attachedTo = {
-          ...postType && { type: postType.slug },
-          id: Number(selectedPostId),
-          title: {
-            raw: selectedPost.title,
-            rendered: selectedPost.title
-          }
-        };
-        onChange({
-          post: Number(selectedPostId),
-          _embedded: {
-            ...data?._embedded,
-            "wp:attached-to": [attachedTo]
-          }
-        });
-      }
-    }
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
-    import_components.ComboboxControl,
-    {
-      className: style_default6["attached-to"],
-      isLoading,
-      label: (0, import_i18n4.__)("Attached to"),
-      help: (0, import_i18n4.__)("Attach this file to a single post or page."),
-      value,
-      options,
-      onFilterValueChange: (filterValue) => debouncedValueChange(filterValue),
-      onChange: handleSelectOption,
-      hideLabelFromVision: true,
-      expandOnFocus: false
-    }
-  );
-}
+  return renderSlotWithChildren(portal, /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Portal, {}), positionedPopup);
+});
 
-// packages/core-fields/build-module/attachment/attached_to/view.mjs
-var import_element20 = __toESM(require_element(), 1);
-var import_i18n5 = __toESM(require_i18n(), 1);
-var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
-function MediaAttachedToView({ item }) {
-  const [attachedPostTitle, setAttachedPostTitle] = (0, import_element20.useState)(null);
-  const parentId = item.post;
-  const embeddedPostId = item._embedded?.["wp:attached-to"]?.[0]?.id;
-  const embeddedPostTitle = item._embedded?.["wp:attached-to"]?.[0]?.title;
-  (0, import_element20.useEffect)(() => {
-    if (!!parentId && parentId === embeddedPostId) {
-      setAttachedPostTitle(
-        getRenderedContent(embeddedPostTitle) || (0, import_i18n5.__)("(no title)")
-      );
-    }
-    if (!parentId) {
-      setAttachedPostTitle((0, import_i18n5.__)("(Unattached)"));
-    }
-  }, [parentId, embeddedPostId, embeddedPostTitle]);
-  return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(import_jsx_runtime28.Fragment, { children: attachedPostTitle });
-}
-
-// packages/core-fields/build-module/attachment/attached_to/field.mjs
-var fieldExtensions2 = {
-  Edit: MediaAttachedToEdit,
-  render: MediaAttachedToView
-};
-
-// packages/core-fields/build-module/attachment/author/field.mjs
-var import_data2 = __toESM(require_data(), 1);
-var import_core_data2 = __toESM(require_core_data(), 1);
-
-// packages/core-fields/build-module/attachment/author/view.mjs
-var import_i18n6 = __toESM(require_i18n(), 1);
+// packages/ui/build-module/tooltip/trigger.mjs
 var import_element21 = __toESM(require_element(), 1);
+var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
+var Trigger = (0, import_element21.forwardRef)(
+  function TooltipTrigger3(props, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(index_parts_exports2.Trigger, { ref, ...props });
+  }
+);
+
+// packages/ui/build-module/tooltip/root.mjs
+var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
+function Root2(props) {
+  return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(DirectionProvider3, { children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(index_parts_exports2.Root, { ...props }) });
+}
+
+// packages/ui/build-module/tooltip/provider.mjs
 var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
+function Provider({ ...props }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(index_parts_exports2.Provider, { ...props });
+}
+
+// packages/ui/build-module/link/link.mjs
+var import_element22 = __toESM(require_element(), 1);
+var import_i18n2 = __toESM(require_i18n(), 1);
+var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE8 = "data-wp-hash";
 function getRuntime8() {
   const globalScope = globalThis;
@@ -9779,106 +9981,71 @@ function registerStyle8(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle8("e069e4bb2c", "._84dbb86623263398__avatar{align-items:center;block-size:1lh;display:flex;flex-shrink:0;inline-size:24px;justify-content:start;overflow:hidden}._84dbb86623263398__avatar img{block-size:16px;border-radius:100%;inline-size:16px;object-fit:cover;opacity:1}@media not (prefers-reduced-motion){._083b7cb18cdc7423__is-loaded img,.e0b40933d4bec16d__is-loading img{transition:opacity .1s linear}}.e0b40933d4bec16d__is-loading img{opacity:0}._083b7cb18cdc7423__is-loaded img{opacity:1}.c422488b9ef245f2__icon{align-items:center;block-size:1lh;display:flex;flex-shrink:0;inline-size:24px}.c422488b9ef245f2__icon svg{fill:currentColor;margin-inline-start:-4px}._02fc2c638a522239__name{overflow:hidden;text-overflow:ellipsis}");
+  registerStyle8("37477070fb", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{.ccc29f9575c4c758__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
 }
-var style_default7 = { "avatar": "_84dbb86623263398__avatar", "is-loading": "e0b40933d4bec16d__is-loading", "is-loaded": "_083b7cb18cdc7423__is-loaded", "icon": "c422488b9ef245f2__icon", "name": "_02fc2c638a522239__name" };
-function AuthorView({ item }) {
-  const author = item?._embedded?.author?.[0];
-  const text = author?.name;
-  const imageUrl = author?.avatar_urls?.[48];
-  const [loadingState, setLoadingState] = (0, import_element21.useState)("loading");
-  (0, import_element21.useEffect)(() => {
-    setLoadingState("loading");
-  }, [imageUrl]);
-  const imgRef = (0, import_element21.useCallback)((img) => {
-    if (img?.complete) {
-      setLoadingState("instant");
-    }
-  }, []);
-  const handleLoad = () => {
-    if (loadingState === "loading") {
-      setLoadingState("loaded");
-    }
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(Stack, { direction: "row", align: "flex-start", justify: "flex-start", children: [
-    !!imageUrl && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
-      "div",
-      {
-        className: clsx_default(style_default7.avatar, {
-          [style_default7["is-loading"]]: loadingState === "loading",
-          [style_default7["is-loaded"]]: loadingState === "loaded"
-        }),
-        children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
-          "img",
-          {
-            ref: imgRef,
-            onLoad: handleLoad,
-            alt: (0, import_i18n6.__)("Author avatar"),
-            src: imageUrl
-          }
-        )
-      }
-    ),
-    !imageUrl && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: style_default7.icon, children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Icon, { icon: comment_author_avatar_default }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { className: style_default7.name, children: text })
-  ] });
+var resets_default3 = { "box-sizing": "ccc29f9575c4c758__box-sizing" };
+if (typeof process === "undefined" || true) {
+  registerStyle8("c13e206e92", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._0f52be5f1d4ce686__outset-ring--focus-within:focus-within,._8f922cee854f2408__outset-ring--focus-visible:focus-visible,.accedd6ae8fd878e__outset-ring--focus:focus{--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}._3ad2c88c126f2bdd__outset-ring--focus-within-except-active:focus-within,.c20f61b115485a7f__outset-ring--focus-except-active:focus{outline:none}._3ad2c88c126f2bdd__outset-ring--focus-within-except-active:focus-within:not(:has(:active)),.c20f61b115485a7f__outset-ring--focus-except-active:focus:not(:active){--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--focus-color,var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9)));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}}}");
 }
-
-// packages/core-fields/build-module/attachment/author/field.mjs
-var fieldExtensions3 = {
-  getElements: async () => {
-    const authors = await (0, import_data2.resolveSelect)(import_core_data2.store).getEntityRecords(
-      "root",
-      "user",
-      {
-        per_page: -1,
-        who: "authors",
-        _fields: "id,name",
-        context: "view"
-      }
-    ) ?? [];
-    return authors.map(({ id, name }) => ({
-      value: id,
-      label: name
-    }));
-  },
-  render: AuthorView
-};
-
-// packages/core-fields/build-module/attachment/get-raw-content.mjs
-function getRawContent(content) {
-  if (!content) {
-    return "";
-  }
-  if (typeof content === "string") {
-    return content;
-  }
-  if (typeof content === "object" && "raw" in content) {
-    return content.raw || "";
-  }
-  return "";
+var focus_module_default = { "outset-ring--focus": "accedd6ae8fd878e__outset-ring--focus", "outset-ring--focus-visible": "_8f922cee854f2408__outset-ring--focus-visible", "outset-ring--focus-within": "_0f52be5f1d4ce686__outset-ring--focus-within", "outset-ring--focus-except-active": "c20f61b115485a7f__outset-ring--focus-except-active", "outset-ring--focus-within-except-active": "_3ad2c88c126f2bdd__outset-ring--focus-within-except-active" };
+if (typeof process === "undefined" || true) {
+  registerStyle8("c87d91cdf7", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.a574f9f242212d58__link{--_gcd-a-border-radius:var(--wpds-border-radius-sm,2px);border-radius:var(--wpds-border-radius-sm,2px);text-decoration-thickness:from-font;text-underline-offset:.2em}._2d2f0506e717a46c__link-with-icon{text-decoration-line:none}._92b7b6a03fbb27ac__link-contents{text-decoration:inherit;text-decoration-line:underline}._69f40d9212adc58d__is-brand,._69f40d9212adc58d__is-brand:visited{--_gcd-a-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9))}._69f40d9212adc58d__is-brand:active,._69f40d9212adc58d__is-brand:hover{--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));color:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000))}._9a9c54c6e67b4c3c__is-neutral,._9a9c54c6e67b4c3c__is-neutral:visited{--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);text-decoration-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d)}._9a9c54c6e67b4c3c__is-neutral:active,._9a9c54c6e67b4c3c__is-neutral:hover{--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);color:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e)}._93be0b747897baad__is-unstyled{--_gcd-a-border-radius:0;--_gcd-a-color:inherit;color:inherit;text-decoration:none}._9c39df40fdc09594__link-icon{font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-padding-xs,4px);text-decoration:none}._9c39df40fdc09594__link-icon:after{content:"\\2060\\2197"}._9c39df40fdc09594__link-icon:dir(rtl):after{content:"\\2060\\2196"}}}');
 }
+var style_default7 = { "link": "a574f9f242212d58__link", "link-with-icon": "_2d2f0506e717a46c__link-with-icon", "link-contents": "_92b7b6a03fbb27ac__link-contents", "is-brand": "_69f40d9212adc58d__is-brand", "is-neutral": "_9a9c54c6e67b4c3c__is-neutral", "is-unstyled": "_93be0b747897baad__is-unstyled", "link-icon": "_9c39df40fdc09594__link-icon" };
+if (typeof process === "undefined" || true) {
+  registerStyle8("726f348f3f", "._78c10a0773e51a91__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}._5b33aa2d48624b4f__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-weak,#707070))}&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._980b3b4776ac8f81__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._43e478b4279a076c__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._698099e25b0fb1a6__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6)._326aee4184d261fd__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}.e9576240835601ba__a,.e9576240835601ba__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}._3f05789653864a73__ol{list-style:var(--_gcd-ol-list-style,none);margin:var(--_gcd-ol-margin,0);padding-block:var(--_gcd-ol-padding-block,0);padding-inline:var(--_gcd-ol-padding-inline,0)}._3c72ff72abe57859__li{margin:var(--_gcd-li-margin,0)}[role=treeitem] span._79d16267c15d9eb2__span[aria-hidden]{display:var(--_gcd-span-display,inline);font-family:var(--_gcd-span-font-family,inherit);font-size:var(--_gcd-span-font-size,inherit);line-height:var(--_gcd-span-line-height,1);pointer-events:var(--_gcd-span-pointer-events,auto);position:var(--_gcd-span-position,static)}");
+}
+var global_css_defense_default4 = { "button": "_78c10a0773e51a91__button", "input": "_5b33aa2d48624b4f__input", "textarea": "_980b3b4776ac8f81__textarea", "div": "_43e478b4279a076c__div", "p": "_698099e25b0fb1a6__p", "heading": "_326aee4184d261fd__heading", "a": "e9576240835601ba__a", "ol": "_3f05789653864a73__ol", "li": "_3c72ff72abe57859__li", "span": "_79d16267c15d9eb2__span" };
+var Link = (0, import_element22.forwardRef)(
+  function UnforwardedLink({
+    children,
+    variant = "default",
+    tone = "brand",
+    openInNewTab = false,
+    target,
+    render,
+    className,
+    ...props
+  }, ref) {
+    const shouldShowNewTabIndicator = openInNewTab || /^_blank$/i.test(target ?? "");
+    const element = useRender({
+      render,
+      defaultTagName: "a",
+      ref,
+      props: mergeProps(props, {
+        className: clsx_default(
+          global_css_defense_default4.a,
+          resets_default3["box-sizing"],
+          focus_module_default["outset-ring--focus-except-active"],
+          variant !== "unstyled" && style_default7.link,
+          variant !== "unstyled" && shouldShowNewTabIndicator && style_default7["link-with-icon"],
+          variant !== "unstyled" && style_default7[`is-${tone}`],
+          variant === "unstyled" && style_default7["is-unstyled"],
+          className
+        ),
+        target: target ?? (openInNewTab ? "_blank" : void 0),
+        children: /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(import_jsx_runtime30.Fragment, { children: [
+          shouldShowNewTabIndicator && variant !== "unstyled" ? /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("span", { className: style_default7["link-contents"], children }) : children,
+          shouldShowNewTabIndicator && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+            "span",
+            {
+              className: style_default7["link-icon"],
+              role: "img",
+              "aria-label": (
+                /* translators: accessibility text appended to link text */
+                (0, import_i18n2.__)("(opens in a new tab)")
+              )
+            }
+          )
+        ] })
+      })
+    });
+    return element;
+  }
+);
 
-// packages/core-fields/build-module/attachment/caption/field.mjs
-var fieldExtensions4 = {
-  getValue: ({ item }) => getRawContent(item?.caption),
-  render: ({ item }) => getRawContent(item?.caption) || "-"
-};
-
-// packages/core-fields/build-module/attachment/description/field.mjs
-var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
-var fieldExtensions5 = {
-  getValue: ({ item }) => getRawContent(item?.description),
-  render: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("div", { children: getRawContent(item?.description) || "-" })
-};
-
-// packages/core-fields/build-module/attachment/filename/field.mjs
-var import_url2 = __toESM(require_url(), 1);
-
-// packages/core-fields/build-module/attachment/filename/view.mjs
-var import_element22 = __toESM(require_element(), 1);
-var import_url = __toESM(require_url(), 1);
-var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
+// packages/ui/build-module/stack/stack.mjs
+var import_element23 = __toESM(require_element(), 1);
 var STYLE_HASH_ATTRIBUTE9 = "data-wp-hash";
 function getRuntime9() {
   const globalScope = globalThis;
@@ -9960,112 +10127,87 @@ function registerStyle9(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle9("2ccce7fe48", ".dataviews-view-grid .d4415d2e9fe19d80__filename,.dataviews-view-list .d4415d2e9fe19d80__filename,.dataviews-view-table .d4415d2e9fe19d80__filename{display:inline-block;max-inline-size:15ch;overflow:hidden;text-overflow:ellipsis;vertical-align:top;white-space:nowrap}");
+  registerStyle9("67591fa198", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._8e8e79c1a2eec43b__stack{display:flex}}}");
 }
-var style_default8 = { "filename": "d4415d2e9fe19d80__filename" };
-var TRUNCATE_LENGTH = 15;
-function FileNameView({ item }) {
-  const fileName = (0, import_element22.useMemo)(
-    () => item?.source_url ? (0, import_url.getFilename)(item.source_url) : null,
-    [item?.source_url]
-  );
-  if (!fileName) {
-    return "";
+var style_default8 = { "stack": "_8e8e79c1a2eec43b__stack" };
+var gapTokens = {
+  xs: "var(--wpds-dimension-gap-xs, 4px)",
+  sm: "var(--wpds-dimension-gap-sm, 8px)",
+  md: "var(--wpds-dimension-gap-md, 12px)",
+  lg: "var(--wpds-dimension-gap-lg, 16px)",
+  xl: "var(--wpds-dimension-gap-xl, 24px)",
+  "2xl": "var(--wpds-dimension-gap-2xl, 32px)",
+  "3xl": "var(--wpds-dimension-gap-3xl, 40px)"
+};
+var Stack = (0, import_element23.forwardRef)(
+  function UnforwardedStack({ direction, gap, align, justify, wrap, render, ...props }, ref) {
+    const style = {
+      gap: gap && gapTokens[gap],
+      alignItems: align,
+      justifyContent: justify,
+      flexDirection: direction,
+      flexWrap: wrap
+    };
+    const element = useRender({
+      render,
+      ref,
+      props: mergeProps(props, {
+        style,
+        className: style_default8.stack
+      })
+    });
+    return element;
   }
-  if (fileName.length <= TRUNCATE_LENGTH) {
-    return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { className: style_default8.filename, children: fileName });
-  }
-  return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(tooltip_exports.Root, { children: [
+);
+
+// packages/core-fields/build-module/attachment/alt_text/field.mjs
+var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
+var fieldExtensions = {
+  description: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(import_jsx_runtime31.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-      tooltip_exports.Trigger,
+      Link,
       {
-        render: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { className: style_default8.filename, children: fileName })
+        href: (
+          // translators: Localized tutorial, if one exists. W3C Web Accessibility Initiative link has list of existing translations.
+          (0, import_i18n3.__)(
+            "https://www.w3.org/WAI/tutorials/images/decision-tree/"
+          )
+        ),
+        openInNewTab: true,
+        children: (0, import_i18n3.__)("Describe the purpose of the image.")
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(tooltip_exports.Popup, { children: fileName })
-  ] });
-}
-
-// packages/core-fields/build-module/attachment/filename/field.mjs
-var fieldExtensions6 = {
-  getValue: ({ item }) => (0, import_url2.getFilename)(item?.source_url || ""),
-  render: FileNameView
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("br", {}),
+    (0, import_i18n3.__)("Leave empty if decorative.")
+  ] }),
+  // Only images have an alternative text.
+  isVisible: (item) => item?.media_type === "image",
+  render: ({ item }) => item?.alt_text || "-"
 };
 
-// packages/core-fields/build-module/attachment/filesize/field.mjs
-var import_i18n7 = __toESM(require_i18n(), 1);
-var KB_IN_BYTES = 1024;
-var MB_IN_BYTES = 1024 * KB_IN_BYTES;
-var GB_IN_BYTES = 1024 * MB_IN_BYTES;
-var TB_IN_BYTES = 1024 * GB_IN_BYTES;
-var PB_IN_BYTES = 1024 * TB_IN_BYTES;
-var EB_IN_BYTES = 1024 * PB_IN_BYTES;
-var ZB_IN_BYTES = 1024 * EB_IN_BYTES;
-var YB_IN_BYTES = 1024 * ZB_IN_BYTES;
-function getBytesString(bytes, unitSymbol, decimals = 2) {
-  return (0, import_i18n7.sprintf)(
-    // translators: 1: Actual bytes of a file. 2: The unit symbol (e.g. MB).
-    (0, import_i18n7._x)("%1$s %2$s", "file size"),
-    bytes.toLocaleString(void 0, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: decimals
-    }),
-    unitSymbol
-  );
-}
-function formatFileSize(bytes, decimals = 2) {
-  if (bytes === 0) {
-    return getBytesString(0, (0, import_i18n7._x)("B", "unit symbol"), decimals);
+// packages/core-fields/build-module/attachment/attached_to/edit.mjs
+var import_core_data = __toESM(require_core_data(), 1);
+var import_components = __toESM(require_components(), 1);
+var import_i18n4 = __toESM(require_i18n(), 1);
+var import_element24 = __toESM(require_element(), 1);
+var import_compose = __toESM(require_compose(), 1);
+var import_data = __toESM(require_data(), 1);
+
+// packages/core-fields/build-module/attachment/get-rendered-content.mjs
+function getRenderedContent(content) {
+  if (!content) {
+    return "";
   }
-  const quant = {
-    /* translators: Unit symbol for yottabyte. */
-    [(0, import_i18n7._x)("YB", "unit symbol")]: YB_IN_BYTES,
-    /* translators: Unit symbol for zettabyte. */
-    [(0, import_i18n7._x)("ZB", "unit symbol")]: ZB_IN_BYTES,
-    /* translators: Unit symbol for exabyte. */
-    [(0, import_i18n7._x)("EB", "unit symbol")]: EB_IN_BYTES,
-    /* translators: Unit symbol for petabyte. */
-    [(0, import_i18n7._x)("PB", "unit symbol")]: PB_IN_BYTES,
-    /* translators: Unit symbol for terabyte. */
-    [(0, import_i18n7._x)("TB", "unit symbol")]: TB_IN_BYTES,
-    /* translators: Unit symbol for gigabyte. */
-    [(0, import_i18n7._x)("GB", "unit symbol")]: GB_IN_BYTES,
-    /* translators: Unit symbol for megabyte. */
-    [(0, import_i18n7._x)("MB", "unit symbol")]: MB_IN_BYTES,
-    /* translators: Unit symbol for kilobyte. */
-    [(0, import_i18n7._x)("KB", "unit symbol")]: KB_IN_BYTES,
-    /* translators: Unit symbol for byte. */
-    [(0, import_i18n7._x)("B", "unit symbol")]: 1
-  };
-  for (const [unit, mag] of Object.entries(quant)) {
-    if (bytes >= mag) {
-      return getBytesString(bytes / mag, unit, decimals);
-    }
+  if (typeof content === "string") {
+    return content;
+  }
+  if (typeof content === "object") {
+    return content.rendered || content.raw || "";
   }
   return "";
 }
-var fieldExtensions7 = {
-  getValue: ({ item }) => item?.media_details?.filesize ? formatFileSize(item.media_details.filesize) : "",
-  isVisible: (item) => !!item?.media_details?.filesize
-};
 
-// packages/core-fields/build-module/attachment/media_dimensions/field.mjs
-var import_i18n8 = __toESM(require_i18n(), 1);
-var fieldExtensions8 = {
-  getValue: ({ item }) => item?.media_details?.width && item?.media_details?.height ? (0, import_i18n8.sprintf)(
-    // translators: 1: Width. 2: Height.
-    (0, import_i18n8._x)("%1$s × %2$s", "image dimensions"),
-    item.media_details.width.toString(),
-    item.media_details.height.toString()
-  ) : "",
-  isVisible: (item) => !!(item?.media_details?.width && item?.media_details?.height)
-};
-
-// packages/core-fields/build-module/attachment/media_thumbnail/view.mjs
-var import_data3 = __toESM(require_data(), 1);
-var import_core_data3 = __toESM(require_core_data(), 1);
-var import_element23 = __toESM(require_element(), 1);
-var import_url3 = __toESM(require_url(), 1);
+// packages/core-fields/build-module/attachment/attached_to/edit.mjs
 var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE10 = "data-wp-hash";
 function getRuntime10() {
@@ -10148,179 +10290,146 @@ function registerStyle10(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle10("745f53a63d", ".d31c1bb519429a5f__thumbnail{align-items:center;block-size:100%;display:flex;position:relative}@media not (prefers-reduced-motion){._1de2cd5c03163339__is-loaded img,.fa7f813024ab5e51__is-loading img{transition:opacity .1s linear}}.fa7f813024ab5e51__is-loading img{opacity:0}._1de2cd5c03163339__is-loaded img{opacity:1}._6fe4bbddd5625356__image{block-size:100%;display:block;inline-size:100%;object-fit:cover}._201afb54579badfa__stack{block-size:100%;box-sizing:border-box;color:var(--wpds-color-foreground-content-neutral-weak,#707070);inline-size:100%}._5fe1ffe29fe0dace__icon{fill:currentColor}._99ec2746aefe458f__filename{box-sizing:border-box;container-type:inline-size;inline-size:100%;padding:0 var(--wpds-dimension-padding-lg,16px);text-align:center}._5d94e568f29e1798__filename-text{display:block;margin-block-start:var(--wpds-dimension-gap-xs,4px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@container (max-width: 90px){._5d94e568f29e1798__filename-text{display:none}}");
+  registerStyle10("1a504e7637", ".components-popover__content:has(.e7c40a32a00ab056__attached-to){margin-block-end:96px}.components-popover__content:has(.e7c40a32a00ab056__attached-to):has(.components-form-token-field__suggestions-list){margin-block-end:0}.components-popover__content:has(.e7c40a32a00ab056__attached-to)\n.components-form-token-field__suggestions-list{block-size:96px;max-block-size:none}");
 }
-var style_default9 = { "thumbnail": "d31c1bb519429a5f__thumbnail", "is-loading": "fa7f813024ab5e51__is-loading", "is-loaded": "_1de2cd5c03163339__is-loaded", "image": "_6fe4bbddd5625356__image", "stack": "_201afb54579badfa__stack", "icon": "_5fe1ffe29fe0dace__icon", "filename": "_99ec2746aefe458f__filename", "filename-text": "_5d94e568f29e1798__filename-text" };
-function getMediaTypeIcon(mimeType) {
-  if (mimeType.startsWith("image/")) {
-    return image_default;
-  }
-  if (mimeType.startsWith("video/")) {
-    return video_default;
-  }
-  if (mimeType.startsWith("audio/")) {
-    return audio_default;
-  }
-  return file_default;
-}
-function getBestImageUrl(media, configSizes) {
-  const sizes = media?.media_details?.sizes;
-  if (!sizes) {
-    return media.source_url;
-  }
-  const targetWidth = configSizes ? parseInt(configSizes, 10) : NaN;
-  if (Number.isNaN(targetWidth)) {
-    return media.source_url;
-  }
-  const sorted = Object.values(sizes).filter(
-    (size4) => typeof size4.width === "number" && !Number.isNaN(size4.width)
-  ).toSorted((a, b) => a.width - b.width);
-  if (!sorted.length) {
-    return media.source_url;
-  }
-  const match = sorted.find((size4) => size4.width >= targetWidth) ?? sorted[sorted.length - 1];
-  return match.source_url;
-}
-function FallbackView({
-  item,
-  filename
+var style_default9 = { "attached-to": "e7c40a32a00ab056__attached-to" };
+function MediaAttachedToEdit({
+  data,
+  onChange
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: style_default9.thumbnail, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
-    Stack,
+  const defaultPost = !!data.post && !!data?._embedded?.["wp:attached-to"]?.[0] ? [
     {
-      direction: "column",
-      justify: "center",
-      align: "center",
-      className: style_default9.stack,
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-          Icon,
-          {
-            className: style_default9.icon,
-            icon: getMediaTypeIcon(item.mime_type || ""),
-            size: 24
-          }
-        ),
-        !!filename && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: style_default9.filename, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-          Text,
-          {
-            variant: "body-sm",
-            className: style_default9["filename-text"],
-            children: filename
-          }
-        ) })
-      ]
+      label: getRenderedContent(
+        data._embedded?.["wp:attached-to"]?.[0]?.title
+      ),
+      value: data.post.toString()
     }
-  ) });
-}
-function ImageView({
-  item,
-  configSizes,
-  onError
-}) {
-  const imageUrl = getBestImageUrl(item, configSizes);
-  const title = typeof item.title === "string" ? item.title : item.title?.raw;
-  const [loadingState, setLoadingState] = (0, import_element23.useState)("loading");
-  (0, import_element23.useEffect)(() => {
-    setLoadingState("loading");
-  }, [imageUrl]);
-  const imgRef = (0, import_element23.useCallback)((img) => {
-    if (img?.complete) {
-      setLoadingState("instant");
+  ] : [];
+  const [options, setOptions] = (0, import_element24.useState)(defaultPost);
+  const [searchResults, setSearchResults] = (0, import_element24.useState)(
+    []
+  );
+  const [isLoading, setIsLoading] = (0, import_element24.useState)(false);
+  const [value, setValue] = (0, import_element24.useState)(
+    data?.post?.toString() ?? null
+  );
+  const postTypes = (0, import_data.useSelect)(
+    (select) => select(import_core_data.store).getPostTypes(),
+    []
+  );
+  const handleDetach = () => {
+    onChange({
+      post: 0,
+      _embedded: { ...data?._embedded, "wp:attached-to": void 0 }
+    });
+    setValue(null);
+  };
+  const onValueChange = async (filterValue) => {
+    setIsLoading(true);
+    const results = await (0, import_core_data.__experimentalFetchLinkSuggestions)(
+      filterValue,
+      /*
+       * @TODO `fetchLinkSuggestions()` should accept `perPage` as an option argument.
+       * `isInitialSuggestions` limits the result to 3, otherwise it's hardcoded to 20.
+       */
+      { type: "post", isInitialSuggestions: true },
+      {}
+    );
+    setSearchResults(results);
+    const suggestions = results.map((result) => {
+      return {
+        label: result.title,
+        value: result.id.toString()
+      };
+    });
+    const includeCurrent = !filterValue && suggestions.findIndex((s) => s.value === value) === -1;
+    setOptions(suggestions.concat(includeCurrent ? defaultPost : []));
+    setIsLoading(false);
+  };
+  const debouncedValueChange = (0, import_compose.useDebounce)((0, import_compose.useEvent)(onValueChange), 300);
+  const handleSelectOption = (selectedPostId) => {
+    if (!selectedPostId) {
+      handleDetach();
+      return;
     }
-  }, []);
-  const handleLoad = () => {
-    if (loadingState === "loading") {
-      setLoadingState("loaded");
+    setValue(selectedPostId);
+    if (selectedPostId) {
+      const selectedPost = searchResults.find(
+        (result) => result.id === Number(selectedPostId)
+      );
+      if (selectedPost && postTypes) {
+        const postType = postTypes.find(
+          (_postType) => _postType.slug === selectedPost?.type
+        );
+        const attachedTo = {
+          ...postType && { type: postType.slug },
+          id: Number(selectedPostId),
+          title: {
+            raw: selectedPost.title,
+            rendered: selectedPost.title
+          }
+        };
+        onChange({
+          post: Number(selectedPostId),
+          _embedded: {
+            ...data?._embedded,
+            "wp:attached-to": [attachedTo]
+          }
+        });
+      }
     }
   };
   return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-    "div",
+    import_components.ComboboxControl,
     {
-      className: clsx_default(style_default9.thumbnail, {
-        [style_default9["is-loading"]]: loadingState === "loading",
-        [style_default9["is-loaded"]]: loadingState === "loaded"
-      }),
-      children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-        "img",
-        {
-          ref: imgRef,
-          className: style_default9.image,
-          src: imageUrl,
-          alt: item.alt_text || title,
-          onLoad: handleLoad,
-          onError,
-          loading: "lazy"
-        }
-      )
-    }
-  );
-}
-function MediaThumbnailView({
-  item,
-  config
-}) {
-  const [imageError, setImageError] = (0, import_element23.useState)(false);
-  const _featuredMedia = (0, import_data3.useSelect)(
-    (select) => {
-      if (!item.featured_media) {
-        return;
-      }
-      return select(import_core_data3.store).getEntityRecord(
-        "postType",
-        "attachment",
-        item.featured_media
-      );
-    },
-    [item.featured_media]
-  );
-  const featuredMedia = item.featured_media ? _featuredMedia : item;
-  if (!featuredMedia) {
-    return null;
-  }
-  const filename = (0, import_url3.getFilename)(featuredMedia.source_url || "");
-  if (imageError || !(featuredMedia.mime_type || "").startsWith("image/")) {
-    return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(FallbackView, { item: featuredMedia, filename: filename || "" });
-  }
-  return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-    ImageView,
-    {
-      item: featuredMedia,
-      configSizes: config?.sizes,
-      onError: () => setImageError(true)
+      className: style_default9["attached-to"],
+      isLoading,
+      label: (0, import_i18n4.__)("Attached to"),
+      help: (0, import_i18n4.__)("Attach this file to a single post or page."),
+      value,
+      options,
+      onFilterValueChange: (filterValue) => debouncedValueChange(filterValue),
+      onChange: handleSelectOption,
+      hideLabelFromVision: true,
+      expandOnFocus: false
     }
   );
 }
 
-// packages/core-fields/build-module/attachment/media_thumbnail/field.mjs
-var fieldExtensions9 = {
-  render: MediaThumbnailView
-};
-
-// packages/core-fields/build-module/attachment/mime_type/field.mjs
-var fieldExtensions10 = {
-  getValue: ({ item }) => item?.mime_type || "",
-  render: ({ item }) => item?.mime_type || "-"
-};
-
-// packages/core-fields/build-module/shared/title/get-item-title.mjs
-var import_html_entities = __toESM(require_html_entities(), 1);
-var import_i18n9 = __toESM(require_i18n(), 1);
-function getItemTitle(item, fallback = (0, import_i18n9.__)("(no title)")) {
-  let title = "";
-  if (typeof item.title === "string") {
-    title = (0, import_html_entities.decodeEntities)(item.title);
-  } else if (item.title && "rendered" in item.title) {
-    title = (0, import_html_entities.decodeEntities)(item.title.rendered ?? "");
-  } else if (item.title && "raw" in item.title) {
-    title = (0, import_html_entities.decodeEntities)(item.title.raw ?? "");
-  }
-  return title || fallback;
-}
-
-// packages/core-fields/build-module/shared/title/view.mjs
-var import_i18n10 = __toESM(require_i18n(), 1);
+// packages/core-fields/build-module/attachment/attached_to/view.mjs
+var import_element25 = __toESM(require_element(), 1);
+var import_i18n5 = __toESM(require_i18n(), 1);
 var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
+function MediaAttachedToView({ item }) {
+  const [attachedPostTitle, setAttachedPostTitle] = (0, import_element25.useState)(null);
+  const parentId = item.post;
+  const embeddedPostId = item._embedded?.["wp:attached-to"]?.[0]?.id;
+  const embeddedPostTitle = item._embedded?.["wp:attached-to"]?.[0]?.title;
+  (0, import_element25.useEffect)(() => {
+    if (!!parentId && parentId === embeddedPostId) {
+      setAttachedPostTitle(
+        getRenderedContent(embeddedPostTitle) || (0, import_i18n5.__)("(no title)")
+      );
+    }
+    if (!parentId) {
+      setAttachedPostTitle((0, import_i18n5.__)("(Unattached)"));
+    }
+  }, [parentId, embeddedPostId, embeddedPostTitle]);
+  return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_jsx_runtime33.Fragment, { children: attachedPostTitle });
+}
+
+// packages/core-fields/build-module/attachment/attached_to/field.mjs
+var fieldExtensions2 = {
+  Edit: MediaAttachedToEdit,
+  render: MediaAttachedToView
+};
+
+// packages/core-fields/build-module/attachment/author/field.mjs
+var import_data2 = __toESM(require_data(), 1);
+var import_core_data2 = __toESM(require_core_data(), 1);
+
+// packages/core-fields/build-module/shared/author/avatar.mjs
+var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE11 = "data-wp-hash";
 function getRuntime11() {
   const globalScope = globalThis;
@@ -10402,32 +10511,716 @@ function registerStyle11(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle11("a4585ee5f7", "._6f88745c59f7b1df__title>span:first-child{display:block;flex-grow:0;overflow:hidden;text-decoration:none;text-overflow:ellipsis;white-space:nowrap}.bfcb43aba334e5f0__pattern-title>span:first-child{flex:1}");
+  registerStyle11("efeba968e6", "._4d84143be9dae462__icon,.dd9b5d817b3207dc__avatar{align-items:center;block-size:1lh;display:flex;flex-shrink:0;inline-size:var(--wpds-dimension-size-2xs,16px)}._4d84143be9dae462__icon svg{fill:currentColor;margin-inline:calc((var(--wpds-dimension-size-2xs, 16px) - var(--wpds-dimension-size-sm, 24px))/2)}.de468aa290326111__name{overflow:hidden;text-overflow:ellipsis}");
 }
-var style_default10 = { "title": "_6f88745c59f7b1df__title", "pattern-title": "bfcb43aba334e5f0__pattern-title" };
+var style_default10 = { "avatar": "dd9b5d817b3207dc__avatar", "icon": "_4d84143be9dae462__icon", "name": "de468aa290326111__name" };
+function AuthorAvatar({ src }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: style_default10.avatar, children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(avatar_exports.Root, { size: "xs", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(avatar_exports.Image, { src, alt: "", keepMounted: true }) }) });
+}
+
+// packages/core-fields/build-module/attachment/author/view.mjs
+var import_jsx_runtime35 = __toESM(require_jsx_runtime(), 1);
+var STYLE_HASH_ATTRIBUTE12 = "data-wp-hash";
+function getRuntime12() {
+  const globalScope = globalThis;
+  if (globalScope.__wpStyleRuntime) {
+    return globalScope.__wpStyleRuntime;
+  }
+  globalScope.__wpStyleRuntime = {
+    documents: /* @__PURE__ */ new Map(),
+    styles: /* @__PURE__ */ new Map(),
+    injectedStyles: /* @__PURE__ */ new WeakMap()
+  };
+  if (typeof document !== "undefined") {
+    registerDocument12(document);
+  }
+  return globalScope.__wpStyleRuntime;
+}
+function documentContainsStyleHash12(targetDocument, hash) {
+  if (!targetDocument.head) {
+    return false;
+  }
+  for (const style of targetDocument.head.querySelectorAll(
+    `style[${STYLE_HASH_ATTRIBUTE12}]`
+  )) {
+    if (style.getAttribute(STYLE_HASH_ATTRIBUTE12) === hash) {
+      return true;
+    }
+  }
+  return false;
+}
+function injectStyle12(targetDocument, hash, css) {
+  if (!targetDocument.head) {
+    return;
+  }
+  const runtime = getRuntime12();
+  let injectedStyles = runtime.injectedStyles.get(targetDocument);
+  if (!injectedStyles) {
+    injectedStyles = /* @__PURE__ */ new Set();
+    runtime.injectedStyles.set(targetDocument, injectedStyles);
+  }
+  if (injectedStyles.has(hash)) {
+    return;
+  }
+  if (documentContainsStyleHash12(targetDocument, hash)) {
+    injectedStyles.add(hash);
+    return;
+  }
+  const style = targetDocument.createElement("style");
+  style.setAttribute(STYLE_HASH_ATTRIBUTE12, hash);
+  style.appendChild(targetDocument.createTextNode(css));
+  targetDocument.head.appendChild(style);
+  injectedStyles.add(hash);
+}
+function registerDocument12(targetDocument) {
+  const runtime = getRuntime12();
+  runtime.documents.set(
+    targetDocument,
+    (runtime.documents.get(targetDocument) ?? 0) + 1
+  );
+  for (const [hash, css] of runtime.styles) {
+    injectStyle12(targetDocument, hash, css);
+  }
+  return () => {
+    const count = runtime.documents.get(targetDocument);
+    if (count === void 0) {
+      return;
+    }
+    if (count <= 1) {
+      runtime.documents.delete(targetDocument);
+      return;
+    }
+    runtime.documents.set(targetDocument, count - 1);
+  };
+}
+function registerStyle12(hash, css) {
+  const runtime = getRuntime12();
+  runtime.styles.set(hash, css);
+  for (const targetDocument of runtime.documents.keys()) {
+    injectStyle12(targetDocument, hash, css);
+  }
+}
+if (typeof process === "undefined" || true) {
+  registerStyle12("efeba968e6", "._4d84143be9dae462__icon,.dd9b5d817b3207dc__avatar{align-items:center;block-size:1lh;display:flex;flex-shrink:0;inline-size:var(--wpds-dimension-size-2xs,16px)}._4d84143be9dae462__icon svg{fill:currentColor;margin-inline:calc((var(--wpds-dimension-size-2xs, 16px) - var(--wpds-dimension-size-sm, 24px))/2)}.de468aa290326111__name{overflow:hidden;text-overflow:ellipsis}");
+}
+var style_default11 = { "avatar": "dd9b5d817b3207dc__avatar", "icon": "_4d84143be9dae462__icon", "name": "de468aa290326111__name" };
+function AuthorView({ item }) {
+  const author = item?._embedded?.author?.[0];
+  const text = author?.name;
+  const imageUrl = author?.avatar_urls?.[48];
+  if (!text) {
+    return null;
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(Stack, { direction: "row", gap: "xs", align: "flex-start", justify: "flex-start", children: [
+    !!imageUrl && /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(AuthorAvatar, { src: imageUrl }),
+    /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("span", { className: style_default11.name, children: text })
+  ] });
+}
+
+// packages/core-fields/build-module/attachment/author/field.mjs
+var fieldExtensions3 = {
+  getElements: async () => {
+    const authors = await (0, import_data2.resolveSelect)(import_core_data2.store).getEntityRecords(
+      "root",
+      "user",
+      {
+        per_page: -1,
+        who: "authors",
+        _fields: "id,name",
+        context: "view"
+      }
+    ) ?? [];
+    return authors.map(({ id, name }) => ({
+      value: id,
+      label: name
+    }));
+  },
+  render: AuthorView
+};
+
+// packages/core-fields/build-module/attachment/get-raw-content.mjs
+function getRawContent(content) {
+  if (!content) {
+    return "";
+  }
+  if (typeof content === "string") {
+    return content;
+  }
+  if (typeof content === "object" && "raw" in content) {
+    return content.raw || "";
+  }
+  return "";
+}
+
+// packages/core-fields/build-module/attachment/caption/field.mjs
+var fieldExtensions4 = {
+  getValue: ({ item }) => getRawContent(item?.caption),
+  render: ({ item }) => getRawContent(item?.caption) || "-"
+};
+
+// packages/core-fields/build-module/attachment/description/field.mjs
+var import_jsx_runtime36 = __toESM(require_jsx_runtime(), 1);
+var fieldExtensions5 = {
+  getValue: ({ item }) => getRawContent(item?.description),
+  render: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { children: getRawContent(item?.description) || "-" })
+};
+
+// packages/core-fields/build-module/attachment/filename/field.mjs
+var import_url2 = __toESM(require_url(), 1);
+
+// packages/core-fields/build-module/attachment/filename/view.mjs
+var import_element26 = __toESM(require_element(), 1);
+var import_url = __toESM(require_url(), 1);
+var import_jsx_runtime37 = __toESM(require_jsx_runtime(), 1);
+var STYLE_HASH_ATTRIBUTE13 = "data-wp-hash";
+function getRuntime13() {
+  const globalScope = globalThis;
+  if (globalScope.__wpStyleRuntime) {
+    return globalScope.__wpStyleRuntime;
+  }
+  globalScope.__wpStyleRuntime = {
+    documents: /* @__PURE__ */ new Map(),
+    styles: /* @__PURE__ */ new Map(),
+    injectedStyles: /* @__PURE__ */ new WeakMap()
+  };
+  if (typeof document !== "undefined") {
+    registerDocument13(document);
+  }
+  return globalScope.__wpStyleRuntime;
+}
+function documentContainsStyleHash13(targetDocument, hash) {
+  if (!targetDocument.head) {
+    return false;
+  }
+  for (const style of targetDocument.head.querySelectorAll(
+    `style[${STYLE_HASH_ATTRIBUTE13}]`
+  )) {
+    if (style.getAttribute(STYLE_HASH_ATTRIBUTE13) === hash) {
+      return true;
+    }
+  }
+  return false;
+}
+function injectStyle13(targetDocument, hash, css) {
+  if (!targetDocument.head) {
+    return;
+  }
+  const runtime = getRuntime13();
+  let injectedStyles = runtime.injectedStyles.get(targetDocument);
+  if (!injectedStyles) {
+    injectedStyles = /* @__PURE__ */ new Set();
+    runtime.injectedStyles.set(targetDocument, injectedStyles);
+  }
+  if (injectedStyles.has(hash)) {
+    return;
+  }
+  if (documentContainsStyleHash13(targetDocument, hash)) {
+    injectedStyles.add(hash);
+    return;
+  }
+  const style = targetDocument.createElement("style");
+  style.setAttribute(STYLE_HASH_ATTRIBUTE13, hash);
+  style.appendChild(targetDocument.createTextNode(css));
+  targetDocument.head.appendChild(style);
+  injectedStyles.add(hash);
+}
+function registerDocument13(targetDocument) {
+  const runtime = getRuntime13();
+  runtime.documents.set(
+    targetDocument,
+    (runtime.documents.get(targetDocument) ?? 0) + 1
+  );
+  for (const [hash, css] of runtime.styles) {
+    injectStyle13(targetDocument, hash, css);
+  }
+  return () => {
+    const count = runtime.documents.get(targetDocument);
+    if (count === void 0) {
+      return;
+    }
+    if (count <= 1) {
+      runtime.documents.delete(targetDocument);
+      return;
+    }
+    runtime.documents.set(targetDocument, count - 1);
+  };
+}
+function registerStyle13(hash, css) {
+  const runtime = getRuntime13();
+  runtime.styles.set(hash, css);
+  for (const targetDocument of runtime.documents.keys()) {
+    injectStyle13(targetDocument, hash, css);
+  }
+}
+if (typeof process === "undefined" || true) {
+  registerStyle13("2ccce7fe48", ".dataviews-view-grid .d4415d2e9fe19d80__filename,.dataviews-view-list .d4415d2e9fe19d80__filename,.dataviews-view-table .d4415d2e9fe19d80__filename{display:inline-block;max-inline-size:15ch;overflow:hidden;text-overflow:ellipsis;vertical-align:top;white-space:nowrap}");
+}
+var style_default12 = { "filename": "d4415d2e9fe19d80__filename" };
+var TRUNCATE_LENGTH = 15;
+function FileNameView({ item }) {
+  const fileName = (0, import_element26.useMemo)(
+    () => item?.source_url ? (0, import_url.getFilename)(item.source_url) : null,
+    [item?.source_url]
+  );
+  if (!fileName) {
+    return "";
+  }
+  if (fileName.length <= TRUNCATE_LENGTH) {
+    return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: style_default12.filename, children: fileName });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(tooltip_exports.Root, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+      tooltip_exports.Trigger,
+      {
+        render: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: style_default12.filename, children: fileName })
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(tooltip_exports.Popup, { children: fileName })
+  ] });
+}
+
+// packages/core-fields/build-module/attachment/filename/field.mjs
+var fieldExtensions6 = {
+  getValue: ({ item }) => (0, import_url2.getFilename)(item?.source_url || ""),
+  render: FileNameView
+};
+
+// packages/core-fields/build-module/attachment/filesize/field.mjs
+var import_i18n6 = __toESM(require_i18n(), 1);
+var KB_IN_BYTES = 1024;
+var MB_IN_BYTES = 1024 * KB_IN_BYTES;
+var GB_IN_BYTES = 1024 * MB_IN_BYTES;
+var TB_IN_BYTES = 1024 * GB_IN_BYTES;
+var PB_IN_BYTES = 1024 * TB_IN_BYTES;
+var EB_IN_BYTES = 1024 * PB_IN_BYTES;
+var ZB_IN_BYTES = 1024 * EB_IN_BYTES;
+var YB_IN_BYTES = 1024 * ZB_IN_BYTES;
+function getBytesString(bytes, unitSymbol, decimals = 2) {
+  return (0, import_i18n6.sprintf)(
+    // translators: 1: Actual bytes of a file. 2: The unit symbol (e.g. MB).
+    (0, import_i18n6._x)("%1$s %2$s", "file size"),
+    bytes.toLocaleString(void 0, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: decimals
+    }),
+    unitSymbol
+  );
+}
+function formatFileSize(bytes, decimals = 2) {
+  if (bytes === 0) {
+    return getBytesString(0, (0, import_i18n6._x)("B", "unit symbol"), decimals);
+  }
+  const quant = {
+    /* translators: Unit symbol for yottabyte. */
+    [(0, import_i18n6._x)("YB", "unit symbol")]: YB_IN_BYTES,
+    /* translators: Unit symbol for zettabyte. */
+    [(0, import_i18n6._x)("ZB", "unit symbol")]: ZB_IN_BYTES,
+    /* translators: Unit symbol for exabyte. */
+    [(0, import_i18n6._x)("EB", "unit symbol")]: EB_IN_BYTES,
+    /* translators: Unit symbol for petabyte. */
+    [(0, import_i18n6._x)("PB", "unit symbol")]: PB_IN_BYTES,
+    /* translators: Unit symbol for terabyte. */
+    [(0, import_i18n6._x)("TB", "unit symbol")]: TB_IN_BYTES,
+    /* translators: Unit symbol for gigabyte. */
+    [(0, import_i18n6._x)("GB", "unit symbol")]: GB_IN_BYTES,
+    /* translators: Unit symbol for megabyte. */
+    [(0, import_i18n6._x)("MB", "unit symbol")]: MB_IN_BYTES,
+    /* translators: Unit symbol for kilobyte. */
+    [(0, import_i18n6._x)("KB", "unit symbol")]: KB_IN_BYTES,
+    /* translators: Unit symbol for byte. */
+    [(0, import_i18n6._x)("B", "unit symbol")]: 1
+  };
+  for (const [unit, mag] of Object.entries(quant)) {
+    if (bytes >= mag) {
+      return getBytesString(bytes / mag, unit, decimals);
+    }
+  }
+  return "";
+}
+var fieldExtensions7 = {
+  getValue: ({ item }) => item?.media_details?.filesize ? formatFileSize(item.media_details.filesize) : "",
+  isVisible: (item) => !!item?.media_details?.filesize
+};
+
+// packages/core-fields/build-module/attachment/media_dimensions/field.mjs
+var import_i18n7 = __toESM(require_i18n(), 1);
+var fieldExtensions8 = {
+  getValue: ({ item }) => item?.media_details?.width && item?.media_details?.height ? (0, import_i18n7.sprintf)(
+    // translators: 1: Width. 2: Height.
+    (0, import_i18n7._x)("%1$s × %2$s", "image dimensions"),
+    item.media_details.width.toString(),
+    item.media_details.height.toString()
+  ) : "",
+  isVisible: (item) => !!(item?.media_details?.width && item?.media_details?.height)
+};
+
+// packages/core-fields/build-module/attachment/media_thumbnail/view.mjs
+var import_data3 = __toESM(require_data(), 1);
+var import_core_data3 = __toESM(require_core_data(), 1);
+var import_element27 = __toESM(require_element(), 1);
+var import_url3 = __toESM(require_url(), 1);
+var import_jsx_runtime38 = __toESM(require_jsx_runtime(), 1);
+var STYLE_HASH_ATTRIBUTE14 = "data-wp-hash";
+function getRuntime14() {
+  const globalScope = globalThis;
+  if (globalScope.__wpStyleRuntime) {
+    return globalScope.__wpStyleRuntime;
+  }
+  globalScope.__wpStyleRuntime = {
+    documents: /* @__PURE__ */ new Map(),
+    styles: /* @__PURE__ */ new Map(),
+    injectedStyles: /* @__PURE__ */ new WeakMap()
+  };
+  if (typeof document !== "undefined") {
+    registerDocument14(document);
+  }
+  return globalScope.__wpStyleRuntime;
+}
+function documentContainsStyleHash14(targetDocument, hash) {
+  if (!targetDocument.head) {
+    return false;
+  }
+  for (const style of targetDocument.head.querySelectorAll(
+    `style[${STYLE_HASH_ATTRIBUTE14}]`
+  )) {
+    if (style.getAttribute(STYLE_HASH_ATTRIBUTE14) === hash) {
+      return true;
+    }
+  }
+  return false;
+}
+function injectStyle14(targetDocument, hash, css) {
+  if (!targetDocument.head) {
+    return;
+  }
+  const runtime = getRuntime14();
+  let injectedStyles = runtime.injectedStyles.get(targetDocument);
+  if (!injectedStyles) {
+    injectedStyles = /* @__PURE__ */ new Set();
+    runtime.injectedStyles.set(targetDocument, injectedStyles);
+  }
+  if (injectedStyles.has(hash)) {
+    return;
+  }
+  if (documentContainsStyleHash14(targetDocument, hash)) {
+    injectedStyles.add(hash);
+    return;
+  }
+  const style = targetDocument.createElement("style");
+  style.setAttribute(STYLE_HASH_ATTRIBUTE14, hash);
+  style.appendChild(targetDocument.createTextNode(css));
+  targetDocument.head.appendChild(style);
+  injectedStyles.add(hash);
+}
+function registerDocument14(targetDocument) {
+  const runtime = getRuntime14();
+  runtime.documents.set(
+    targetDocument,
+    (runtime.documents.get(targetDocument) ?? 0) + 1
+  );
+  for (const [hash, css] of runtime.styles) {
+    injectStyle14(targetDocument, hash, css);
+  }
+  return () => {
+    const count = runtime.documents.get(targetDocument);
+    if (count === void 0) {
+      return;
+    }
+    if (count <= 1) {
+      runtime.documents.delete(targetDocument);
+      return;
+    }
+    runtime.documents.set(targetDocument, count - 1);
+  };
+}
+function registerStyle14(hash, css) {
+  const runtime = getRuntime14();
+  runtime.styles.set(hash, css);
+  for (const targetDocument of runtime.documents.keys()) {
+    injectStyle14(targetDocument, hash, css);
+  }
+}
+if (typeof process === "undefined" || true) {
+  registerStyle14("745f53a63d", ".d31c1bb519429a5f__thumbnail{align-items:center;block-size:100%;display:flex;position:relative}@media not (prefers-reduced-motion){._1de2cd5c03163339__is-loaded img,.fa7f813024ab5e51__is-loading img{transition:opacity .1s linear}}.fa7f813024ab5e51__is-loading img{opacity:0}._1de2cd5c03163339__is-loaded img{opacity:1}._6fe4bbddd5625356__image{block-size:100%;display:block;inline-size:100%;object-fit:cover}._201afb54579badfa__stack{block-size:100%;box-sizing:border-box;color:var(--wpds-color-foreground-content-neutral-weak,#707070);inline-size:100%}._5fe1ffe29fe0dace__icon{fill:currentColor}._99ec2746aefe458f__filename{box-sizing:border-box;container-type:inline-size;inline-size:100%;padding:0 var(--wpds-dimension-padding-lg,16px);text-align:center}._5d94e568f29e1798__filename-text{display:block;margin-block-start:var(--wpds-dimension-gap-xs,4px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@container (max-width: 90px){._5d94e568f29e1798__filename-text{display:none}}");
+}
+var style_default13 = { "thumbnail": "d31c1bb519429a5f__thumbnail", "is-loading": "fa7f813024ab5e51__is-loading", "is-loaded": "_1de2cd5c03163339__is-loaded", "image": "_6fe4bbddd5625356__image", "stack": "_201afb54579badfa__stack", "icon": "_5fe1ffe29fe0dace__icon", "filename": "_99ec2746aefe458f__filename", "filename-text": "_5d94e568f29e1798__filename-text" };
+function getMediaTypeIcon(mimeType) {
+  if (mimeType.startsWith("image/")) {
+    return image_default;
+  }
+  if (mimeType.startsWith("video/")) {
+    return video_default;
+  }
+  if (mimeType.startsWith("audio/")) {
+    return audio_default;
+  }
+  return file_default;
+}
+function getBestImageUrl(media, configSizes) {
+  const sizes = media?.media_details?.sizes;
+  if (!sizes) {
+    return media.source_url;
+  }
+  const targetWidth = configSizes ? parseInt(configSizes, 10) : NaN;
+  if (Number.isNaN(targetWidth)) {
+    return media.source_url;
+  }
+  const sorted = Object.values(sizes).filter(
+    (size4) => typeof size4.width === "number" && !Number.isNaN(size4.width)
+  ).toSorted((a, b) => a.width - b.width);
+  if (!sorted.length) {
+    return media.source_url;
+  }
+  const match = sorted.find((size4) => size4.width >= targetWidth) ?? sorted[sorted.length - 1];
+  return match.source_url;
+}
+function FallbackView({
+  item,
+  filename
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: style_default13.thumbnail, children: /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
+    Stack,
+    {
+      direction: "column",
+      justify: "center",
+      align: "center",
+      className: style_default13.stack,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+          Icon,
+          {
+            className: style_default13.icon,
+            icon: getMediaTypeIcon(item.mime_type || ""),
+            size: 24
+          }
+        ),
+        !!filename && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: style_default13.filename, children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+          Text,
+          {
+            variant: "body-sm",
+            className: style_default13["filename-text"],
+            children: filename
+          }
+        ) })
+      ]
+    }
+  ) });
+}
+function ImageView({
+  item,
+  configSizes,
+  onError
+}) {
+  const imageUrl = getBestImageUrl(item, configSizes);
+  const title = typeof item.title === "string" ? item.title : item.title?.raw;
+  const [loadingState, setLoadingState] = (0, import_element27.useState)("loading");
+  (0, import_element27.useEffect)(() => {
+    setLoadingState("loading");
+  }, [imageUrl]);
+  const imgRef = (0, import_element27.useCallback)((img) => {
+    if (img?.complete) {
+      setLoadingState("instant");
+    }
+  }, []);
+  const handleLoad = () => {
+    if (loadingState === "loading") {
+      setLoadingState("loaded");
+    }
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+    "div",
+    {
+      className: clsx_default(style_default13.thumbnail, {
+        [style_default13["is-loading"]]: loadingState === "loading",
+        [style_default13["is-loaded"]]: loadingState === "loaded"
+      }),
+      children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+        "img",
+        {
+          ref: imgRef,
+          className: style_default13.image,
+          src: imageUrl,
+          alt: item.alt_text || title,
+          onLoad: handleLoad,
+          onError,
+          loading: "lazy"
+        }
+      )
+    }
+  );
+}
+function MediaThumbnailView({
+  item,
+  config
+}) {
+  const [imageError, setImageError] = (0, import_element27.useState)(false);
+  const _featuredMedia = (0, import_data3.useSelect)(
+    (select) => {
+      if (!item.featured_media) {
+        return;
+      }
+      return select(import_core_data3.store).getEntityRecord(
+        "postType",
+        "attachment",
+        item.featured_media
+      );
+    },
+    [item.featured_media]
+  );
+  const featuredMedia = item.featured_media ? _featuredMedia : item;
+  if (!featuredMedia) {
+    return null;
+  }
+  const filename = (0, import_url3.getFilename)(featuredMedia.source_url || "");
+  if (imageError || !(featuredMedia.mime_type || "").startsWith("image/")) {
+    return /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(FallbackView, { item: featuredMedia, filename: filename || "" });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+    ImageView,
+    {
+      item: featuredMedia,
+      configSizes: config?.sizes,
+      onError: () => setImageError(true)
+    }
+  );
+}
+
+// packages/core-fields/build-module/attachment/media_thumbnail/field.mjs
+var fieldExtensions9 = {
+  render: MediaThumbnailView
+};
+
+// packages/core-fields/build-module/attachment/mime_type/field.mjs
+var fieldExtensions10 = {
+  getValue: ({ item }) => item?.mime_type || "",
+  render: ({ item }) => item?.mime_type || "-"
+};
+
+// packages/core-fields/build-module/shared/title/get-item-title.mjs
+var import_html_entities = __toESM(require_html_entities(), 1);
+var import_i18n8 = __toESM(require_i18n(), 1);
+function getItemTitle(item, fallback = (0, import_i18n8.__)("(no title)")) {
+  let title = "";
+  if (typeof item.title === "string") {
+    title = (0, import_html_entities.decodeEntities)(item.title);
+  } else if (item.title && "rendered" in item.title) {
+    title = (0, import_html_entities.decodeEntities)(item.title.rendered ?? "");
+  } else if (item.title && "raw" in item.title) {
+    title = (0, import_html_entities.decodeEntities)(item.title.raw ?? "");
+  }
+  return title || fallback;
+}
+
+// packages/core-fields/build-module/shared/title/view.mjs
+var import_i18n9 = __toESM(require_i18n(), 1);
+var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
+var STYLE_HASH_ATTRIBUTE15 = "data-wp-hash";
+function getRuntime15() {
+  const globalScope = globalThis;
+  if (globalScope.__wpStyleRuntime) {
+    return globalScope.__wpStyleRuntime;
+  }
+  globalScope.__wpStyleRuntime = {
+    documents: /* @__PURE__ */ new Map(),
+    styles: /* @__PURE__ */ new Map(),
+    injectedStyles: /* @__PURE__ */ new WeakMap()
+  };
+  if (typeof document !== "undefined") {
+    registerDocument15(document);
+  }
+  return globalScope.__wpStyleRuntime;
+}
+function documentContainsStyleHash15(targetDocument, hash) {
+  if (!targetDocument.head) {
+    return false;
+  }
+  for (const style of targetDocument.head.querySelectorAll(
+    `style[${STYLE_HASH_ATTRIBUTE15}]`
+  )) {
+    if (style.getAttribute(STYLE_HASH_ATTRIBUTE15) === hash) {
+      return true;
+    }
+  }
+  return false;
+}
+function injectStyle15(targetDocument, hash, css) {
+  if (!targetDocument.head) {
+    return;
+  }
+  const runtime = getRuntime15();
+  let injectedStyles = runtime.injectedStyles.get(targetDocument);
+  if (!injectedStyles) {
+    injectedStyles = /* @__PURE__ */ new Set();
+    runtime.injectedStyles.set(targetDocument, injectedStyles);
+  }
+  if (injectedStyles.has(hash)) {
+    return;
+  }
+  if (documentContainsStyleHash15(targetDocument, hash)) {
+    injectedStyles.add(hash);
+    return;
+  }
+  const style = targetDocument.createElement("style");
+  style.setAttribute(STYLE_HASH_ATTRIBUTE15, hash);
+  style.appendChild(targetDocument.createTextNode(css));
+  targetDocument.head.appendChild(style);
+  injectedStyles.add(hash);
+}
+function registerDocument15(targetDocument) {
+  const runtime = getRuntime15();
+  runtime.documents.set(
+    targetDocument,
+    (runtime.documents.get(targetDocument) ?? 0) + 1
+  );
+  for (const [hash, css] of runtime.styles) {
+    injectStyle15(targetDocument, hash, css);
+  }
+  return () => {
+    const count = runtime.documents.get(targetDocument);
+    if (count === void 0) {
+      return;
+    }
+    if (count <= 1) {
+      runtime.documents.delete(targetDocument);
+      return;
+    }
+    runtime.documents.set(targetDocument, count - 1);
+  };
+}
+function registerStyle15(hash, css) {
+  const runtime = getRuntime15();
+  runtime.styles.set(hash, css);
+  for (const targetDocument of runtime.documents.keys()) {
+    injectStyle15(targetDocument, hash, css);
+  }
+}
+if (typeof process === "undefined" || true) {
+  registerStyle15("a4585ee5f7", "._6f88745c59f7b1df__title>span:first-child{display:block;flex-grow:0;overflow:hidden;text-decoration:none;text-overflow:ellipsis;white-space:nowrap}.bfcb43aba334e5f0__pattern-title>span:first-child{flex:1}");
+}
+var style_default14 = { "title": "_6f88745c59f7b1df__title", "pattern-title": "bfcb43aba334e5f0__pattern-title" };
 function BaseTitleView({
   item,
   className,
   children
 }) {
   const renderedTitle = getItemTitle(item);
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
     Stack,
     {
       direction: "row",
       align: "center",
       justify: "flex-start",
       gap: "sm",
-      className: clsx_default("fields-field__title", style_default10.title, className),
+      className: clsx_default("fields-field__title", style_default14.title, className),
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("span", { children: renderedTitle || (0, import_i18n10.__)("(no title)") }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { children: renderedTitle || (0, import_i18n9.__)("(no title)") }),
         children
       ]
     }
   );
 }
 function TitleView({ item }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(BaseTitleView, { item });
+  return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(BaseTitleView, { item });
 }
 
 // packages/core-fields/build-module/attachment/title/field.mjs

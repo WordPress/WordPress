@@ -15016,7 +15016,7 @@ ${content}
                 {
                   variant: "solid",
                   text: () => getErrorReport(error2, componentStack),
-                  children: (0, import_i18n10.__)("Copy error")
+                  children: (0, import_i18n10._x)("Copy error", "button label")
                 }
               ) })
             ] }),

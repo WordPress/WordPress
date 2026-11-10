@@ -12763,7 +12763,7 @@ if (typeof process === "undefined" || true) {
 var style_module_default8 = { "error-boundary": "_69e0fe7ecf360e98__error-boundary" };
 function CopyErrorButton({ error }) {
   const ref = (0, import_compose3.useCopyToClipboard)(() => error.stack ?? String(error));
-  return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(import_components13.Button, { __next40pxDefaultSize: true, variant: "secondary", ref, children: (0, import_i18n15.__)("Copy error") });
+  return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(import_components13.Button, { __next40pxDefaultSize: true, variant: "secondary", ref, children: (0, import_i18n15._x)("Copy error", "button label") });
 }
 var ErrorBoundary = class extends import_element38.Component {
   constructor(props) {

@@ -12045,7 +12045,7 @@ var wp;
             text: `${content}
 
 ${details}`,
-            label: status === "error" ? (0, import_i18n7.__)("Copy error") : (0, import_i18n7.__)("Copy message")
+            label: status === "error" ? (0, import_i18n7._x)("Copy error", "button label") : (0, import_i18n7.__)("Copy message")
           }
         )
       ] }),

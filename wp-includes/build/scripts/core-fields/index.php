@@ -36,6 +36,7 @@
  * - `password`, for every post type but the design ones.
  * - `ping_status`, for the post types supporting `trackbacks`.
  * - `post-content-info`, for the post types supporting `editor`.
+ * - `publish_date`, for every post type but the design ones.
  * - `scheduled_date`, for every post type but the design ones.
  * - `slug`, for the viewable post types but the design ones.
  * - `status`, for every post type but the design ones.
@@ -74,6 +75,7 @@ function wp_register_core_post_type_supports_fields() {
 			'password'          => true,
 			'ping_status'       => post_type_supports( $post_type, 'trackbacks' ),
 			'post-content-info' => post_type_supports( $post_type, 'editor' ),
+			'publish_date'      => true,
 			'scheduled_date'    => true,
 			'slug'              => is_post_type_viewable( $post_type ),
 			'status'            => true,
@@ -110,15 +112,15 @@ function wp_register_core_field_collections() {
 	wp_register_entity_field_collection( __DIR__ . '/page' );
 
 	// wp_template: unregister unwanted default fields, and register its own.
-	wp_unregister_entity_fields( 'postType', 'wp_template', array( 'author', 'date', 'excerpt', 'password', 'post-content-info', 'scheduled_date', 'slug', 'status', 'template', 'title' ) );
+	wp_unregister_entity_fields( 'postType', 'wp_template', array( 'author', 'date', 'excerpt', 'password', 'post-content-info', 'publish_date', 'scheduled_date', 'slug', 'status', 'template', 'title' ) );
 	wp_register_entity_field_collection( __DIR__ . '/wp_template' );
 
 	// wp_template_part: unregister unwanted default fields, and register its own.
-	wp_unregister_entity_fields( 'postType', 'wp_template_part', array( 'author', 'date', 'excerpt', 'password', 'post-content-info', 'scheduled_date', 'slug', 'status', 'template', 'title' ) );
+	wp_unregister_entity_fields( 'postType', 'wp_template_part', array( 'author', 'date', 'excerpt', 'password', 'post-content-info', 'publish_date', 'scheduled_date', 'slug', 'status', 'template', 'title' ) );
 	wp_register_entity_field_collection( __DIR__ . '/wp_template_part' );
 
 	// wp_block: unregister unwanted default fields, and register its own.
-	wp_unregister_entity_fields( 'postType', 'wp_block', array( 'date', 'excerpt', 'password', 'scheduled_date', 'slug', 'status', 'template', 'title' ) );
+	wp_unregister_entity_fields( 'postType', 'wp_block', array( 'date', 'excerpt', 'password', 'publish_date', 'scheduled_date', 'slug', 'status', 'template', 'title' ) );
 	wp_register_entity_field_collection( __DIR__ . '/wp_block' );
 	// Patterns are sorted client-side, where the author's ID isn't a useful
 	// order, like the template authors.
@@ -141,7 +143,7 @@ function wp_register_core_field_collections() {
 	wp_register_entity_field_collection( __DIR__ . '/attachment' );
 
 	// wp_navigation: unregister unwanted default fields.
-	wp_unregister_entity_fields( 'postType', 'wp_navigation', array( 'date', 'password', 'post-content-info', 'scheduled_date', 'slug', 'status', 'template' ) );
+	wp_unregister_entity_fields( 'postType', 'wp_navigation', array( 'date', 'password', 'post-content-info', 'publish_date', 'scheduled_date', 'slug', 'status', 'template' ) );
 
 	// Register fields for root/site (entity/kind).
 	wp_register_entity_field_collection( __DIR__ . '/root_site' );

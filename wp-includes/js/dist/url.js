@@ -769,7 +769,7 @@ var wp;
     } catch {
     }
     if (filename) {
-      return filename;
+      return safeDecodeURIComponent(filename);
     }
   }
 
