@@ -70,7 +70,7 @@
 
 	&:before {
 		background: $color__text-light;
-		content: "";
+		content: "\020";
 		display: block;
 		height: 2px;
 		margin: $size__spacing-unit 0;
