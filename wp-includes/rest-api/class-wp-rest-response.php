@@ -24,6 +24,7 @@
  * @phpstan-type Link_Attributes array{
  *     embeddable?: bool,
  *     targetHints?: Target_Hints,
+ *     count?: int<0, max>,
  *     ...<string, mixed>
  * }
  * @phpstan-type Link array{
@@ -34,6 +35,7 @@
  *     href: non-falsy-string,
  *     embeddable?: bool,
  *     targetHints?: array<string, mixed>, // Not narrowed like in Link_Attributes, since PHPStan merges this shape with its list form in add_links(). The merged attributes passed to add_link() there are only accepted while they include `mixed`; with the nested shape, the call would be an argument.type error even when `mixed` is not checked.
+ *     count?: int<0, max>, // Declared rather than left to the unsealed keys, since that merge also drops them: an attribute not named here is rejected when a caller passes a precise shape.
  *     ...<string, mixed>
  * }
  * @phpstan-type Curie array{

@@ -716,6 +716,8 @@ function wp_get_post_revisions( $post = 0, $args = null ) {
  *     @type int $latest_id The latest revision post ID or 0 if no revisions exist.
  *     @type int $count     The total count of revisions for the given post.
  * }
+ *
+ * @phpstan-return array{ latest_id: int, count: int<0, max> }|WP_Error
  */
 function wp_get_latest_revision_id_and_total_count( $post = 0 ) {
 	$post = get_post( $post );
