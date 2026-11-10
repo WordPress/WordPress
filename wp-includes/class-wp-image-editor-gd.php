@@ -432,31 +432,59 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * Flips current image.
 	 *
 	 * @since 3.5.0
+	 * @since 7.2.0 Switched to using imageflip() instead of imagecopyresampled() with negative dimensions.
 	 *
 	 * @param bool $horz Flip along Horizontal Axis.
 	 * @param bool $vert Flip along Vertical Axis.
 	 * @return true|WP_Error
 	 */
 	public function flip( $horz, $vert ) {
-		$w   = $this->size['width'];
-		$h   = $this->size['height'];
-		$dst = wp_imagecreatetruecolor( $w, $h );
+		if ( ! is_gd_image( $this->image ) ) {
+			return new WP_Error( 'image_flip_error', __( 'Image flip failed.' ), $this->file );
+		}
 
-		if ( is_gd_image( $dst ) ) {
-			$sx = $vert ? ( $w - 1 ) : 0;
-			$sy = $horz ? ( $h - 1 ) : 0;
-			$sw = $vert ? -$w : $w;
-			$sh = $horz ? -$h : $h;
+		/*
+		 * imageflip() works in place and keeps palette images as palette images.
+		 * The previous implementation always copied into a new truecolor image,
+		 * and saving or streaming as WebP relies on that, since imagewebp()
+		 * rejects palette images. Convert first to keep that behavior.
+		 */
+		if ( ! imageistruecolor( $this->image ) && ! imagepalettetotruecolor( $this->image ) ) {
+			return new WP_Error( 'image_flip_error', __( 'Image flip failed.' ), $this->file );
+		}
 
-			if ( imagecopyresampled( $dst, $this->image, 0, 0, $sx, $sy, $w, $h, $sw, $sh ) ) {
-				if ( PHP_VERSION_ID < 80000 ) { // imagedestroy() has no effect as of PHP 8.0.
-					imagedestroy( $this->image );
-				}
+		/*
+		 * imageflip() also keeps the current alpha settings, which rotate() leaves
+		 * with blending enabled. Reset them to what the previous implementation
+		 * always produced, including when no axis is flipped.
+		 */
+		imagealphablending( $this->image, false );
+		imagesavealpha( $this->image, true );
 
-				$this->image = $dst;
+		/*
+		 * imageflip() changes the image in place, so the image keeps its current resolution and interlace setting.
+		 * rotate(), crop() and resize() copy into a new image, which resets them to GD's defaults: 96 DPI and no
+		 * interlacing. Reset them here too, so a flip gives the same result as the other edits.
+		 *
+		 * @link https://core.trac.wordpress.org/ticket/66113
+		 */
+		imageresolution( $this->image, 96, 96 );
+		imageinterlace( $this->image, 0 );
 
-				return true;
-			}
+		if ( ! $horz && ! $vert ) {
+			return true;
+		}
+
+		if ( $horz && $vert ) {
+			$mode = IMG_FLIP_BOTH;
+		} elseif ( $horz ) {
+			$mode = IMG_FLIP_VERTICAL;
+		} else {
+			$mode = IMG_FLIP_HORIZONTAL;
+		}
+
+		if ( imageflip( $this->image, $mode ) ) {
+			return true;
 		}
 
 		return new WP_Error( 'image_flip_error', __( 'Image flip failed.' ), $this->file );
