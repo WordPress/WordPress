@@ -212,7 +212,7 @@ class IdnaEncoder {
 					$character |= ($value & 0x3F) << ($remaining * 6);
 				}
 
-				$position--;
+				--$position;
 			}
 
 			if (// Non-shortest form sequences are invalid
@@ -270,7 +270,7 @@ class IdnaEncoder {
 				// Character is valid ASCII
 				// TODO: this should also check if it's valid for a URL
 				$output .= chr($char);
-				$h++;
+				++$h;
 
 				// Check if the character is non-ASCII, but below initial n
 				// This never occurs for Punycode, so ignore in coverage
@@ -307,7 +307,7 @@ class IdnaEncoder {
 				$c = $codepoints[$num];
 				// if c < n then increment delta, fail on overflow
 				if ($c < $n) {
-					$delta++;
+					++$delta;
 				} elseif ($c === $n) { // if c == n then begin
 					// let q = delta
 					$q = $delta;
@@ -341,12 +341,12 @@ class IdnaEncoder {
 					// let delta = 0
 					$delta = 0;
 					// increment h
-					$h++;
+					++$h;
 				} // end
 			} // end
 			// increment delta and n
-			$delta++;
-			$n++;
+			++$delta;
+			++$n;
 		} // end
 
 		return $output;

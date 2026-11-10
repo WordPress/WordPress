@@ -56,7 +56,7 @@ final class Ipv6 {
 		$c2              = ($ip2 === '') ? -1 : substr_count($ip2, ':');
 
 		if (strpos($ip2, '.') !== false) {
-			$c2++;
+			++$c2;
 		}
 
 		if ($c1 === -1 && $c2 === -1) {

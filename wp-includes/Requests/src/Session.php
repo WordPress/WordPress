@@ -227,7 +227,13 @@ class Session {
 	 * @throws \WpOrg\Requests\Exception On invalid URLs (`nonhttp`)
 	 */
 	public function request($url, $headers = [], $data = [], $type = Requests::GET, $options = []) {
-		$request = $this->merge_request(compact('url', 'headers', 'data', 'options'));
+		$request = [
+			'url'     => $url,
+			'headers' => $headers,
+			'data'    => $data,
+			'options' => $options,
+		];
+		$request = $this->merge_request($request);
 
 		return Requests::request($request['url'], $request['headers'], $request['data'], $type, $request['options']);
 	}

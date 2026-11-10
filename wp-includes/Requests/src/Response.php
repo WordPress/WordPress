@@ -108,7 +108,7 @@ class Response {
 	 */
 	public function is_redirect() {
 		$code = $this->status_code;
-		return in_array($code, [300, 301, 302, 303, 307], true) || $code > 307 && $code < 400;
+		return in_array($code, [300, 301, 302, 303, 307], true) || ($code > 307 && $code < 400);
 	}
 
 	/**
