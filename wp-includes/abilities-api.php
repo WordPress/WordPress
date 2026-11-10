@@ -200,10 +200,10 @@ declare( strict_types = 1 );
  * #### Execute Callback
  *
  * The execute callback performs the ability's core functionality. It receives
- * the normalized, validated, and coerced input when an input schema is defined,
- * and no arguments otherwise. It returns either a result or `WP_Error` on failure.
- * Exceptions thrown by execute or permission callbacks are caught and converted
- * to a `WP_Error`.
+ * the input prepared by `WP_Ability::prepare_input()` when an input schema is
+ * defined, and no arguments otherwise. It returns either a result or `WP_Error`
+ * on failure. Exceptions thrown by execute or permission callbacks are caught
+ * and converted to a `WP_Error`.
  *
  *     function my_plugin_analyze_text( string $input ): string|WP_Error {
  *         $score = My_Plugin::perform_sentiment_analysis( $input );
@@ -228,10 +228,10 @@ declare( strict_types = 1 );
  *
  * The permission callback determines whether the ability can be executed and
  * must return a boolean or `WP_Error`. When called through `WP_Ability::execute()`,
- * it receives the same normalized, validated, and coerced input as the execute
- * callback. Common use cases include checking user capabilities, validating API
- * keys, or verifying system state. In the example above, every execution requires
- * `edit_posts`, and the callback only adds the check that depends on the input:
+ * it receives the same prepared input as the execute callback. Common use cases
+ * include checking user capabilities, validating API keys, or verifying system
+ * state. In the example above, every execution requires `edit_posts`, and the
+ * callback only adds the check that depends on the input:
  *
  *     function my_plugin_can_analyze_text( string $input ): bool|WP_Error {
  *         // Only administrators can analyze long texts.
@@ -243,26 +243,24 @@ declare( strict_types = 1 );
  *
  * ### Execution Lifecycle
  *
- * Call `WP_Ability::execute()` to normalize, validate, and coerce input, check
- * permissions, invoke the execute callback, and validate output. It returns the
- * result or a `WP_Error` on failure. Custom ability classes can override this
- * behavior.
+ * Call `WP_Ability::execute()` to prepare the input, check permissions, invoke
+ * the execute callback, and validate output. It returns the result or a
+ * `WP_Error` on failure. Custom ability classes can override this behavior.
  *
- * Integrations that call `WP_Ability::check_permissions()` directly must prepare
- * the input first. See `WP_Ability::check_permissions()` for the required steps.
+ * Integrations that call `WP_Ability::check_permissions()` directly must pass it
+ * the input returned by `WP_Ability::prepare_input()`.
  *
  * Hooks run in this order, and processing stops at the first failure:
  *
  *  1. `wp_ability_invoked` action, with the raw input.
  *  2. `wp_pre_execute_ability` filter, which can short-circuit the rest of execution.
- *  3. `wp_ability_normalize_input`, `wp_ability_validate_input`, and
- *     `wp_ability_permission_result` filters. The input validation filter runs only
- *     when a non-empty input schema is defined. Input coercion has no filter. It runs
- *     between validation and the permission check, only when a non-empty input
- *     schema is defined.
- *  4. `wp_before_execute_ability` action.
- *  5. `wp_ability_execute_result` and `wp_ability_validate_output` filters.
- *  6. `wp_after_execute_ability` action.
+ *  3. `wp_ability_normalize_input` and `wp_ability_validate_input` filters, while the
+ *     input is prepared. The input validation filter runs only when a non-empty input
+ *     schema is defined. Sanitization has no filter.
+ *  4. `wp_ability_permission_result` filter.
+ *  5. `wp_before_execute_ability` action.
+ *  6. `wp_ability_execute_result` and `wp_ability_validate_output` filters.
+ *  7. `wp_after_execute_ability` action.
  *
  * ### Client Exposure
  *
