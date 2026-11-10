@@ -73,7 +73,7 @@ function wp_secrets_site_health_result( string $test, string $label, string $sta
 }
 
 /**
- * Tests whether the site key comes from a dedicated constant or a weaker fallback.
+ * Tests whether the site key is defined, and in the recommended form.
  *
  * @since 7.2.0
  *
@@ -82,7 +82,9 @@ function wp_secrets_site_health_result( string $test, string $label, string $sta
  * @phpstan-return array{test: string, label: string, status: 'good'|'recommended'|'critical', badge: array{label: string, color: string}, description: string}
  */
 function wp_secrets_site_health_test_key_source(): array {
-	$key_source = _wp_secrets_get_key_manager()->get_keyring()->get_key_source();
+	$keyring    = _wp_secrets_get_key_manager()->get_keyring();
+	$key_source = $keyring->get_key_source();
+	$key_status = $keyring instanceof WP_Secrets_Config_Key_Provider ? $keyring->get_key_status() : null;
 
 	if ( str_contains( $key_source, 'broken' ) ) {
 		return wp_secrets_site_health_result(
@@ -96,7 +98,7 @@ function wp_secrets_site_health_test_key_source(): array {
 		);
 	}
 
-	if ( str_contains( $key_source, 'legacy interpretation' ) ) {
+	if ( WP_Secrets_Config_Key_Provider::KEY_STATUS_LEGACY === $key_status ) {
 		return wp_secrets_site_health_result(
 			'secrets_api_key_source',
 			__( 'Secrets API key should be regenerated' ),
@@ -108,14 +110,45 @@ function wp_secrets_site_health_test_key_source(): array {
 		);
 	}
 
-	if ( str_contains( $key_source, 'LOGGED_IN_KEY' ) ) {
+	if ( WP_Secrets_Config_Key_Provider::KEY_STATUS_UNDEFINED === $key_status || WP_Secrets_Config_Key_Provider::KEY_STATUS_UNUSABLE === $key_status ) {
+		$is_defined = WP_Secrets_Config_Key_Provider::KEY_STATUS_UNUSABLE === $key_status;
+		$example    = sprintf( "define( 'WP_SECRETS_KEY', '%s' );", base64_encode( random_bytes( 32 ) ) );
+
 		return wp_secrets_site_health_result(
 			'secrets_api_key_source',
-			__( 'Secrets API is using a fallback key' ),
+			__( 'Secrets API has no encryption key' ),
 			'recommended',
 			sprintf(
-				'<p>%s</p>',
-				esc_html__( 'No dedicated WP_SECRETS_KEY constant is defined. Secrets are encrypted using a key derived from existing salts, which works but is not the recommended configuration. Define WP_SECRETS_KEY with a value from `wp secret generate-key`.' )
+				'<p>%s</p><p>%s</p><p><code>%s</code></p><p>%s</p>',
+				$is_defined
+					? sprintf(
+						/* translators: 1: WP_SECRETS_KEY, 2: wp-config.php, 3: wp-config-sample.php */
+						__( '%1$s is defined in %2$s, but its value cannot be used: it is empty, still the placeholder from %3$s, or the same as one of the authentication keys and salts. Plugins cannot store API keys and other credentials with the Secrets API until it is fixed.' ),
+						'<code>WP_SECRETS_KEY</code>',
+						'<code>wp-config.php</code>',
+						'<code>wp-config-sample.php</code>'
+					)
+					: sprintf(
+						/* translators: 1: WP_SECRETS_KEY, 2: wp-config.php */
+						__( '%1$s is not defined in %2$s. Plugins cannot store API keys and other credentials with the Secrets API until it is.' ),
+						'<code>WP_SECRETS_KEY</code>',
+						'<code>wp-config.php</code>'
+					),
+				$is_defined
+					? sprintf(
+						/* translators: 1: WP_SECRETS_KEY, 2: wp-config.php */
+						__( 'Replace the %1$s line in %2$s with this one:' ),
+						'<code>WP_SECRETS_KEY</code>',
+						'<code>wp-config.php</code>'
+					)
+					: sprintf(
+						/* translators: 1: wp-config.php, 2: Translated version of "That's all, stop editing! Happy publishing." */
+						__( 'Add this line to %1$s, above the line reading %2$s:' ),
+						'<code>wp-config.php</code>',
+						'<code>/* ' . __( 'That&#8217;s all, stop editing! Happy publishing.' ) . ' */</code>'
+					),
+				esc_html( $example ),
+				esc_html__( 'A new value is generated each time this page loads. Keep a copy of the one you use with your backups: secrets stored with it cannot be read without it.' )
 			)
 		);
 	}
