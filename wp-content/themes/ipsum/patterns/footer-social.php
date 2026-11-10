@@ -5,7 +5,7 @@
  * Categories: footer
  * Block Types: core/template-part/footer
  * Viewport width: 1280
- * Description: A centered footer — the social icons over the site title in uppercase, with the credit line beneath.
+ * Description: A centered footer. It has the social icons over the site title in uppercase, with the credit line beneath.
  *
  * @package Ipsum
  * @since Ipsum 1.0

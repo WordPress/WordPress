@@ -5,7 +5,7 @@
  * Categories: header
  * Block Types: core/template-part/header
  * Viewport width: 1280
- * Description: A sticky, viewport-tall header rail — the menu button on top and the site title running vertically beneath it.
+ * Description: A sticky header rail as tall as the screen. It has the menu button on top, with the site title running vertically beneath it.
  *
  * @package Ipsum
  * @since Ipsum 1.0

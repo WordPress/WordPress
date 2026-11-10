@@ -3,14 +3,15 @@
  * Title: Sidebar
  * Slug: ipsum/hidden-sidebar
  * Inserter: no
+ * Description: The Sidebar template part. It has the categories list and the five latest posts, each a title and how long ago it was published. The sidebar templates place it in a column beside the main content.
  *
  * @package Ipsum
  * @since Ipsum 1.0
  */
 
 ?>
-<!-- wp:group {"tagName":"aside","metadata":{"name":"<?php echo esc_html_x( 'Sidebar', 'Name of the sidebar group', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"default"}} -->
-<aside class="wp-block-group"><!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Categories', 'Name of the categories group', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Sidebar', 'Name of the sidebar group', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"default"}} -->
+<div class="wp-block-group"><!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Categories', 'Name of the categories group', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:heading {"metadata":{"name":"<?php echo esc_html_x( 'Categories Label', 'Name of the categories heading', 'ipsum' ); ?>"},"style":{"typography":{"letterSpacing":"0rem"}},"fontSize":"small"} -->
 <h2 class="wp-block-heading has-small-font-size" style="letter-spacing:0rem"><?php esc_html_e( 'Categories', 'ipsum' ); ?></h2>
 <!-- /wp:heading -->
@@ -32,5 +33,5 @@
 <!-- /wp:group -->
 <!-- /wp:post-template --></div>
 <!-- /wp:query --></div>
-<!-- /wp:group --></aside>
+<!-- /wp:group --></div>
 <!-- /wp:group -->

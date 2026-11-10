@@ -4,7 +4,7 @@
  * Slug: ipsum/text-faqs
  * Categories: text
  * Viewport width: 1280
- * Description: Questions and answers in accordions — a flush stack with dotted rules, the first item open.
+ * Description: Questions and answers in accordions. They’re stacked flush with dotted rules, and the first one is open.
  *
  * @package Ipsum
  * @since Ipsum 1.0

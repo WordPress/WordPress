@@ -5,14 +5,14 @@
  * Categories: posts
  * Block Types: core/query
  * Viewport width: 1280
- * Description: Featured image beside title and meta in a responsive row — the image takes a fixed width on desktop and the full width on small screens.
+ * Description: Featured image beside title and meta in a responsive row. The image takes a fixed width on desktop and the full width on small screens.
  *
  * @package Ipsum
  * @since Ipsum 1.0
  */
 
 ?>
-<!-- wp:query {"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true,"taxQuery":null,"parents":[],"excludeCurrent":null},"metadata":{"categories":["posts"],"name":"<?php echo esc_html_x( 'Archive Columns', 'Name of the Archive Columns query', 'ipsum' ); ?>"},"align":"wide","layout":{"type":"default"}} -->
+<!-- wp:query {"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true,"taxQuery":null,"parents":[],"excludeCurrent":null},"metadata":{"name":"<?php echo esc_html_x( 'Archive Columns', 'Name of the Archive Columns query', 'ipsum' ); ?>"},"align":"wide","layout":{"type":"default"}} -->
 <div class="wp-block-query alignwide"><!-- wp:post-template {"style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"constrained"}} -->
 <!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Media and Content', 'Name of the group holding the media and content', 'ipsum' ); ?>"},"style":{"@mobile":{"layout":{"orientation":"vertical","justifyContent":"stretch"}},"@tablet":{"layout":{"orientation":"vertical","justifyContent":"stretch"}},"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"top"}} -->
 <div class="wp-block-group"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"4/3","sizeSlug":"large","style":{"@mobile":{"layout":{"selfStretch":"fit"}},"@tablet":{"layout":{"selfStretch":"fit"}},"layout":{"selfStretch":"fixedNoShrink","flexSize":"300px"}}} /-->

@@ -4,7 +4,7 @@
  * Slug: ipsum/text-statement-wide
  * Categories: text
  * Viewport width: 1280
- * Description: The statement at band width — the quotation mark and one oversized line, left aligned.
+ * Description: The statement at band width, without the card. It has the quotation mark and one oversized line, left aligned.
  *
  * @package Ipsum
  * @since Ipsum 1.0

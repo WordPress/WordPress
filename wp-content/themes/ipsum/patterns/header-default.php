@@ -5,7 +5,7 @@
  * Categories: header
  * Block Types: core/template-part/header
  * Viewport width: 1280
- * Description: The theme’s default header — site title and tagline on the left, navigation on the right.
+ * Description: The theme’s default header, with the site title and tagline on the left and the navigation on the right.
  *
  * @package Ipsum
  * @since Ipsum 1.0

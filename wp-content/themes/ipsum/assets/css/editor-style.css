@@ -2,10 +2,10 @@
  * Editor-only overrides. The editors load style.css first, so this file holds
  * only what the editors need on top of it.
  *
- * Sticky header part and pinned search bar: !important because the editor
- * forces position:relative on block wrappers.
+ * Sticky header part and Pinned to Bottom template parts: !important because
+ * the editor forces position:relative on block wrappers.
  */
 header.wp-block-template-part:has(> .is-position-sticky),
-.sticky-bottom {
+.wp-block-template-part.is-style-sticky-bottom {
 	position: sticky !important;
 }

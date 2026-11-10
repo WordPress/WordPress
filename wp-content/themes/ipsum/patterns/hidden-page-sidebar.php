@@ -4,7 +4,7 @@
  * Slug: ipsum/hidden-page-sidebar
  * Template Types: page
  * Inserter: no
- * Description: A page beside a classic sidebar with categories and recent posts, on the wide width.
+ * Description: The Pages Sidebar template. It has the featured image, title and content beside the Sidebar part on the wide width, between the header and the wide footer, with the search bar pinned to the bottom.
  *
  * @package Ipsum
  * @since Ipsum 1.0
@@ -30,11 +30,11 @@
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"33.33%"} -->
-<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:template-part {"slug":"sidebar","area":"uncategorized"} /--></div>
+<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:template-part {"slug":"sidebar","tagName":"aside"} /--></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></main>
 <!-- /wp:group -->
 
-<!-- wp:template-part {"slug":"footer-wide","area":"footer"} /-->
+<!-- wp:template-part {"slug":"footer-wide"} /-->
 
-<!-- wp:template-part {"slug":"search-bar","className":"sticky-bottom"} /-->
+<!-- wp:template-part {"slug":"search-bar","className":"is-style-sticky-bottom"} /-->

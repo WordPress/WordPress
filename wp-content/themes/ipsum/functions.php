@@ -48,13 +48,34 @@ if ( ! function_exists( 'ipsum_enqueue_styles' ) ) :
 	 * @return void
 	 */
 	function ipsum_enqueue_styles() {
+		$style_path     = get_parent_theme_file_path( 'style.css' );
+		$style_min_path = get_parent_theme_file_path( 'style.min.css' );
+
+		/*
+		 * Use the minified stylesheet, unless script debugging is on or style.css
+		 * has changed since style.min.css was built. That keeps edits made in the
+		 * Theme File Editor working: saving style.css makes it the newer file.
+		 */
+		if (
+			SCRIPT_DEBUG
+			|| ! file_exists( $style_min_path )
+			|| ( filemtime( $style_path ) > filemtime( $style_min_path ) )
+		) {
+			$src = 'style.css';
+		} else {
+			$src = 'style.min.css';
+		}
+
 		// Register theme stylesheet.
 		wp_register_style(
 			'ipsum-style',
-			get_parent_theme_file_uri( 'style.css' ),
+			get_parent_theme_file_uri( $src ),
 			array(),
-			wp_get_theme()->get( 'Version' )
+			wp_get_theme( get_template() )->get( 'Version' )
 		);
+
+		// Let WordPress inline the stylesheet, so it is not a render-blocking request.
+		wp_style_add_data( 'ipsum-style', 'path', get_parent_theme_file_path( $src ) );
 
 		// Enqueue theme stylesheet.
 		wp_enqueue_style( 'ipsum-style' );
@@ -69,21 +90,29 @@ if ( ! function_exists( 'ipsum_comments_cta_binding' ) ) :
 	 *
 	 * @since Ipsum 1.0
 	 *
-	 * @param array    $source_args    Block binding source arguments.
-	 * @param WP_Block $block_instance The block instance.
-	 * @return string The call to action text.
+	 * @param array<string, mixed> $source_args    Block binding source arguments. Unused.
+	 * @param WP_Block             $block_instance The block instance.
+	 * @return string|null The call to action text, an empty string when comments
+	 *                     are closed, or null to keep the block's original content
+	 *                     when there is no post.
 	 */
 	function ipsum_comments_cta_binding( $source_args, $block_instance ) {
-		$post_id = $block_instance->context['postId'] ?? get_the_ID();
+		unset( $source_args ); // Unused, but must be accepted to get the block instance.
 
-		if ( ! comments_open( $post_id ) ) {
+		$post_id = $block_instance->context['postId'] ?? null;
+		$post    = get_post( is_numeric( $post_id ) ? (int) $post_id : null );
+		if ( ! $post ) {
+			return null;
+		}
+
+		if ( ! comments_open( $post ) ) {
 			return '';
 		}
 
-		$post_title = wp_strip_all_tags( get_the_title( $post_id ) );
+		$post_title = wp_strip_all_tags( get_the_title( $post ) );
 		$has_title  = ! empty( $post_title );
 
-		if ( get_comments_number( $post_id ) > 0 ) {
+		if ( get_comments_number( $post ) > 0 ) {
 			$text = $has_title
 				? sprintf(
 					/* translators: %s: Post title. */
@@ -101,7 +130,7 @@ if ( ! function_exists( 'ipsum_comments_cta_binding' ) ) :
 				: __( 'Be the first to comment', 'ipsum' );
 		}
 
-		return '<a href="' . esc_url( get_comments_link( $post_id ) ) . '">' . wp_kses_post( $text ) . '</a>';
+		return '<a href="' . esc_url( get_comments_link( $post ) ) . '">' . wp_kses_post( $text ) . '</a>';
 	}
 endif;
 
@@ -133,8 +162,9 @@ if ( ! function_exists( 'ipsum_sidebar_template_types' ) ) :
 	 *
 	 * @since Ipsum 1.0
 	 *
-	 * @param array $default_template_types The default template types.
-	 * @return array The template types, with the sidebar variants added.
+	 * @param array<string, array<string, string>> $default_template_types The default template types, keyed by
+	 *                                                                     slug, each with a title and description.
+	 * @return array<string, array<string, string>> The template types, with the sidebar variants added.
 	 */
 	function ipsum_sidebar_template_types( $default_template_types ) {
 		$default_template_types['index-sidebar']   = array(
@@ -166,6 +196,14 @@ if ( ! function_exists( 'ipsum_register_pattern_categories' ) ) :
 				'description' => __( 'Full page layouts, ready to be applied to a page.', 'ipsum' ),
 			)
 		);
+
+		register_block_pattern_category(
+			'ipsum_post-format',
+			array(
+				'label'       => _x( 'Post formats', 'Block pattern category', 'ipsum' ),
+				'description' => __( 'Layouts for post formats, like audio and link posts.', 'ipsum' ),
+			)
+		);
 	}
 endif;
 add_action( 'init', 'ipsum_register_pattern_categories' );
@@ -182,12 +220,14 @@ if ( ! function_exists( 'ipsum_search_aria_label_support' ) ) :
 	 *
 	 * @since Ipsum 1.0
 	 *
-	 * @param array $metadata Metadata for the block type being registered.
-	 * @return array The block metadata, with ARIA label support on the Search block.
+	 * @param array<string, mixed> $metadata Metadata for the block type being registered.
+	 * @return array<string, mixed> The block metadata, with ARIA label support on the Search block.
 	 */
 	function ipsum_search_aria_label_support( $metadata ) {
 		if ( isset( $metadata['name'] ) && 'core/search' === $metadata['name'] ) {
-			$metadata['supports']['ariaLabel'] = true;
+			$supports              = isset( $metadata['supports'] ) && is_array( $metadata['supports'] ) ? $metadata['supports'] : array();
+			$supports['ariaLabel'] = true;
+			$metadata['supports']  = $supports;
 		}
 		return $metadata;
 	}
@@ -200,6 +240,10 @@ if ( ! function_exists( 'ipsum_register_block_styles' ) ) :
 	 *
 	 * The Evening code style keeps the Evening palette's literals on purpose,
 	 * so the block reads as a dark slab under every style variation.
+	 *
+	 * Each style's CSS is an inline style, as in the default themes. Row Hover
+	 * can't move to styles/blocks/, because a theme.json css string cannot hold
+	 * its at-rules and selector lists.
 	 *
 	 * @since Ipsum 1.0
 	 *
@@ -221,6 +265,86 @@ if ( ! function_exists( 'ipsum_register_block_styles' ) ) :
 				'name'         => 'sharp',
 				'label'        => _x( 'Sharp', 'Block style label', 'ipsum' ),
 				'inline_style' => '.wp-block-site-logo.is-style-sharp{border-radius:0;}',
+			)
+		);
+
+		/*
+		 * Pins the part to the bottom of the viewport, so it belongs at the root
+		 * of the template. It keeps to its content's width at the inline end, so
+		 * the rest of the band doesn't block clicks on the page. The editors also
+		 * need the override in editor-style.css.
+		 */
+		register_block_style(
+			'core/template-part',
+			array(
+				'name'         => 'sticky-bottom',
+				'label'        => _x( 'Pinned to Bottom', 'Block style label', 'ipsum' ),
+				'inline_style' => '
+				.wp-block-template-part.is-style-sticky-bottom {
+					position: sticky;
+					inset-block-end: 0;
+					z-index: 10;
+					width: fit-content;
+					margin-inline-start: auto;
+				}',
+			)
+		);
+
+		/*
+		 * Outlines the Search button until it is hovered, focused or pressed, when
+		 * the global button states take back over. A theme.json css string would
+		 * wrap this in :where() and only tie with the global button styles.
+		 */
+		register_block_style(
+			'core/search',
+			array(
+				'name'         => 'outline',
+				'label'        => _x( 'Outline', 'Block style label', 'ipsum' ),
+				'inline_style' => '
+				.wp-block-search.is-style-outline .wp-block-search__button.wp-element-button:not(:hover):not(:focus):not(:active) {
+					background-color: var(--wp--preset--color--base);
+					border: 1px dotted var(--wp--preset--color--contrast);
+					color: var(--wp--preset--color--contrast);
+				}',
+			)
+		);
+
+		/*
+		 * Hovering any part of a post row colors the whole row and tilts its
+		 * featured image. Targets the row's child blocks, since the Group spans
+		 * the full band. Needs each post's blocks wrapped in one Group.
+		 */
+		register_block_style(
+			'core/post-template',
+			array(
+				'name'         => 'hover-together',
+				'label'        => _x( 'Row Hover', 'Block style label', 'ipsum' ),
+				'inline_style' => '
+				.wp-block-post-template.is-style-hover-together .wp-block-post > .wp-block-group,
+				.wp-block-post-template.is-style-hover-together .wp-block-post > .wp-block-group a {
+					transition: color 0.15s ease-out;
+				}
+
+				.wp-block-post-template.is-style-hover-together .wp-block-post > .wp-block-group:has(> :hover),
+				.wp-block-post-template.is-style-hover-together .wp-block-post > .wp-block-group:has(> :hover) a {
+					color: var(--wp--preset--color--accent-3);
+				}
+
+				@media (prefers-reduced-motion: no-preference) {
+					@keyframes tilt-settle {
+						35% {
+							transform: rotate(-1deg);
+						}
+
+						100% {
+							transform: rotate(0deg);
+						}
+					}
+
+					.wp-block-post-template.is-style-hover-together .wp-block-post > .wp-block-group:has(> :hover) .wp-block-post-featured-image img {
+						animation: tilt-settle 0.5s ease-out;
+					}
+				}',
 			)
 		);
 	}

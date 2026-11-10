@@ -4,7 +4,7 @@
  * Slug: ipsum/contact-say-hi
  * Categories: contact
  * Viewport width: 1280
- * Description: A centered contact invitation — a display heading with the reach-out link over a row of social icons.
+ * Description: A centered contact invitation. A display heading with the reach-out link sits over a row of social icons.
  *
  * @package Ipsum
  * @since Ipsum 1.0
@@ -17,7 +17,7 @@
 <h2 class="wp-block-heading has-text-align-center is-style-text-display"><?php echo wp_kses_post( __( 'Got questions? <br><a href="#" rel="nofollow">Feel free to reach out.</a>', 'ipsum' ) ); ?></h2>
 <!-- /wp:heading -->
 
-<!-- wp:spacer {"height":"var:preset|spacing|40","metadata":{"name":"<?php echo esc_html_x( 'S', 'Name of the spacer', 'ipsum' ); ?>"}} -->
+<!-- wp:spacer {"height":"var:preset|spacing|40","metadata":{"name":"<?php echo esc_html_x( 'Heading Gap', 'Name of the spacer under the contact heading', 'ipsum' ); ?>"}} -->
 <div style="height:var(--wp--preset--spacing--40)" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->
 

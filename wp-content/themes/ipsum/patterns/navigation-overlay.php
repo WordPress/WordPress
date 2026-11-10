@@ -5,7 +5,7 @@
  * Categories: navigation
  * Block Types: core/template-part/navigation-overlay
  * Viewport width: 1280
- * Description: The theme’s default navigation overlay — centered logo, site title and tagline, and a large vertical menu on a dark background.
+ * Description: The theme’s default navigation overlay, on an inverted background. It has a centered logo, site title and tagline, and a large vertical menu.
  *
  * @package Ipsum
  * @since Ipsum 1.0

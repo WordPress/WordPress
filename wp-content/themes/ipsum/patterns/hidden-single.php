@@ -4,6 +4,7 @@
  * Slug: ipsum/hidden-single
  * Template Types: single
  * Inserter: no
+ * Description: The Single Posts template. It has the header, the featured image, title, date and categories, content, tags and author card, then the Comments and Keep Reading sections, the footer, and the search bar pinned to the bottom.
  *
  * @package Ipsum
  * @since Ipsum 1.0
@@ -23,7 +24,7 @@
 <!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Date and Categories', 'Name of the group holding the post date and categories', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
 <div class="wp-block-group"><!-- wp:post-date /-->
 
-<!-- wp:paragraph {"metadata":{"name":"·"},"style":{"typography":{"fontStyle":"normal","fontWeight":"600"}},"fontSize":"small"} -->
+<!-- wp:paragraph {"metadata":{"name":"<?php echo esc_html_x( 'Meta Separator', 'Name of the paragraph separating post meta items', 'ipsum' ); ?>"},"style":{"typography":{"fontStyle":"normal","fontWeight":"600"}},"fontSize":"small"} -->
 <p class="has-small-font-size" style="font-style:normal;font-weight:600"><span aria-hidden="true"><?php esc_html_e( '·', 'ipsum' ); ?></span></p>
 <!-- /wp:paragraph -->
 
@@ -41,8 +42,8 @@
 <div class="wp-block-group author-card" style="margin-top:var(--wp--preset--spacing--60);margin-bottom:var(--wp--preset--spacing--60)"><!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Avatar and Author', 'Name of the group holding the author avatar and name', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"stretch","justifyContent":"left"}} -->
 <div class="wp-block-group"><!-- wp:avatar {"size":64} /-->
 
-<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Written by Author Name', 'Name of the group holding the byline and author name', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"0","padding":{"right":"var:preset|spacing|30","left":"var:preset|spacing|30"}},"border":{"radius":{"topLeft":"10px","topRight":"10px","bottomLeft":"10px","bottomRight":"10px"}}},"backgroundColor":"accent-5","layout":{"type":"flex","flexWrap":"nowrap"}} -->
-<div class="wp-block-group has-accent-5-background-color has-background" style="border-top-left-radius:10px;border-top-right-radius:10px;border-bottom-left-radius:10px;border-bottom-right-radius:10px;padding-right:var(--wp--preset--spacing--30);padding-left:var(--wp--preset--spacing--30)"><!-- wp:paragraph {"metadata":{"name":"<?php echo esc_html_x( 'Written by', 'Name of the byline paragraph', 'ipsum' ); ?>"},"style":{"typography":{"fontStyle":"normal","fontWeight":"600"}},"fontSize":"small","fontFamily":"manrope"} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Written by Author Name', 'Name of the group holding the byline and author name', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"0","padding":{"right":"var:preset|spacing|30","left":"var:preset|spacing|30"}},"border":{"radius":"10px"}},"backgroundColor":"accent-5","layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<div class="wp-block-group has-accent-5-background-color has-background" style="border-radius:10px;padding-right:var(--wp--preset--spacing--30);padding-left:var(--wp--preset--spacing--30)"><!-- wp:paragraph {"metadata":{"name":"<?php echo esc_html_x( 'Written by', 'Name of the byline paragraph', 'ipsum' ); ?>"},"style":{"typography":{"fontStyle":"normal","fontWeight":"600"}},"fontSize":"small","fontFamily":"manrope"} -->
 <p class="has-manrope-font-family has-small-font-size" style="font-style:normal;font-weight:600"><?php esc_html_e( 'Written by&nbsp;', 'ipsum' ); ?></p>
 <!-- /wp:paragraph -->
 
@@ -58,4 +59,4 @@
 
 <!-- wp:template-part {"slug":"footer"} /-->
 
-<!-- wp:template-part {"slug":"search-bar","className":"sticky-bottom"} /-->
+<!-- wp:template-part {"slug":"search-bar","className":"is-style-sticky-bottom"} /-->

@@ -1,0 +1,10 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Dot Separator",
+	"slug": "dot-before",
+	"blockTypes": ["core/comment-edit-link", "core/comment-reply-link"],
+	"styles": {
+		"css": "&::before{content:\"·\" / \"\";font-weight:600;padding-inline:0.5em;}"
+	}
+}

@@ -3,6 +3,7 @@
  * Title: Comments
  * Slug: ipsum/hidden-comments
  * Inserter: no
+ * Description: The comments section of the Single Posts templates. It has a heading with the comment count, the comments with pagination, and the comment form. Each comment shows its avatar, author, date, and edit and reply links.
  *
  * @package Ipsum
  * @since Ipsum 1.0
@@ -29,9 +30,9 @@
 <!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Comment Date and Edit', 'Name of the group holding the comment date and edit link', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":{"top":"var:preset|spacing|20","left":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
 <div class="wp-block-group"><!-- wp:comment-date {"isLink":false} /-->
 
-<!-- wp:comment-edit-link {"className":"dot-before"} /-->
+<!-- wp:comment-edit-link {"className":"is-style-dot-before"} /-->
 
-<!-- wp:comment-reply-link {"className":"dot-before"} /--></div>
+<!-- wp:comment-reply-link {"className":"is-style-dot-before"} /--></div>
 <!-- /wp:group --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->

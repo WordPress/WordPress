@@ -3,6 +3,7 @@
  * Title: Keep Reading
  * Slug: ipsum/hidden-keep-reading
  * Inserter: no
+ * Description: The end of the Single Posts templates. It has a small “Keep Reading” label over the three latest other posts, each a title and how long ago it was published.
  *
  * @package Ipsum
  * @since Ipsum 1.0

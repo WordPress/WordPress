@@ -3,9 +3,10 @@
  * Title: Overlay Profile
  * Slug: ipsum/overlay-profile
  * Categories: navigation
+ * Keywords: menu, author, profile, subscribe
  * Block Types: core/template-part/navigation-overlay
  * Viewport width: 1280
- * Description: A navigation overlay led by the author — avatar, name and role over the menu, extra links, and a full-width subscribe button.
+ * Description: A navigation overlay led by the author. It has the author’s avatar, name and role over the menu, extra links, and a full-width subscribe button.
  *
  * @package Ipsum
  * @since Ipsum 1.0
@@ -19,10 +20,10 @@
 
 <!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Identity', 'Name of the identity group', 'ipsum' ); ?>"},"align":"wide","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignwide"><!-- wp:image {"width":"160px","aspectRatio":"1","scale":"cover","focalPoint":{"x":0.5,"y":1},"sizeSlug":"full","linkDestination":"none","align":"center"} -->
-<figure class="wp-block-image aligncenter size-full is-resized"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/ipsum-portrait-tall.webp?ver=<?php echo esc_attr( wp_get_theme( get_template() )->get( 'Version' ) ); ?>" alt="<?php esc_attr_e( 'Portrait of the author.', 'ipsum' ); ?>" style="aspect-ratio:1;object-fit:cover;object-position:50% 100%;width:160px;height:auto"/></figure>
+<figure class="wp-block-image aligncenter size-full is-resized"><img src="<?php echo esc_url( get_parent_theme_file_uri( 'assets/images/ipsum-portrait-tall.webp' ) ); ?>" alt="<?php esc_attr_e( 'Portrait of the author.', 'ipsum' ); ?>" style="aspect-ratio:1;object-fit:cover;object-position:50% 100%;width:160px;height:auto"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Identity', 'Name of the identity group', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":{"top":"var:preset|spacing|20","left":"var:preset|spacing|20"}}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Name and Role', 'Name of the group holding the author name and role', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":{"top":"var:preset|spacing|20","left":"var:preset|spacing|20"}}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
 <div class="wp-block-group"><!-- wp:heading {"style":{"typography":{"textAlign":"center"}},"fontSize":"x-large"} -->
 <h2 class="wp-block-heading has-text-align-center has-x-large-font-size"><?php esc_html_e( 'Lorem', 'ipsum' ); ?></h2>
 <!-- /wp:heading -->

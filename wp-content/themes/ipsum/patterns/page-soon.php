@@ -1,22 +1,23 @@
 <?php
 /**
- * Title: Page Soon
+ * Title: Coming Soon
  * Slug: ipsum/page-soon
  * Categories: ipsum_page
+ * Keywords: launch, landing, maintenance, placeholder
  * Block Types: core/post-content
  * Post Types: page
  * Viewport width: 1280
- * Description: A full-height coming-soon cover — the tagline as headline, a short note from the author, and a button to subscribe.
+ * Description: A full-height coming soon cover. It has the tagline as the headline, a short note from the author, and a button to subscribe.
  *
  * @package Ipsum
  * @since Ipsum 1.0
  */
 
 ?>
-<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Page Soon', 'Name of the Page Soon element', 'ipsum' ); ?>"},"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:cover {"url":"<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/ipsum-monobloc.webp?ver=<?php echo esc_attr( wp_get_theme( get_template() )->get( 'Version' ) ); ?>","overlayColor":"accent-6","isUserOverlayColor":true,"contentPosition":"top left","sizeSlug":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|70"}},"border":{"radius":{"topLeft":"10px","topRight":"10px","bottomLeft":"10px","bottomRight":"10px"}},"dimensions":{"aspectRatio":"2/3"}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-cover has-custom-content-position is-position-top-left" style="border-top-left-radius:10px;border-top-right-radius:10px;border-bottom-left-radius:10px;border-bottom-right-radius:10px;padding-top:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--70)"><img class="wp-block-cover__image-background size-full" alt="" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/ipsum-monobloc.webp?ver=<?php echo esc_attr( wp_get_theme( get_template() )->get( 'Version' ) ); ?>" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-accent-6-background-color has-background-dim-100 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Cover Inner Wrapper', 'Name of the Cover Inner Wrapper element', 'ipsum' ); ?>"},"style":{"border":{"radius":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"elements":{"link":{"color":{"text":"var:preset|color|contrast"}}},"spacing":{"padding":{"right":"var:preset|spacing|30","left":"var:preset|spacing|30","top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}},"backgroundColor":"base","textColor":"contrast","layout":{"type":"default"}} -->
-<div class="wp-block-group has-contrast-color has-base-background-color has-text-color has-background has-link-color" style="border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-left-radius:5px;border-bottom-right-radius:5px;padding-top:var(--wp--preset--spacing--30);padding-right:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30);padding-left:var(--wp--preset--spacing--30)"><!-- wp:heading {"style":{"typography":{"textAlign":"left"}},"fontSize":"2-x-large"} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Coming Soon', 'Name of the coming soon group', 'ipsum' ); ?>"},"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:cover {"url":"<?php echo esc_url( get_parent_theme_file_uri( 'assets/images/ipsum-monobloc.webp' ) ); ?>","overlayColor":"accent-6","isUserOverlayColor":true,"contentPosition":"top left","sizeSlug":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|70"}},"border":{"radius":"10px"},"dimensions":{"aspectRatio":"2/3"}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-cover has-custom-content-position is-position-top-left" style="border-radius:10px;padding-top:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--70)"><img class="wp-block-cover__image-background size-full" alt="" src="<?php echo esc_url( get_parent_theme_file_uri( 'assets/images/ipsum-monobloc.webp' ) ); ?>" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-accent-6-background-color has-background-dim-100 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Cover Inner Wrapper', 'Name of the Cover Inner Wrapper element', 'ipsum' ); ?>"},"style":{"border":{"radius":"5px"},"elements":{"link":{"color":{"text":"var:preset|color|contrast"}}},"spacing":{"padding":{"right":"var:preset|spacing|30","left":"var:preset|spacing|30","top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}},"backgroundColor":"base","textColor":"contrast","layout":{"type":"default"}} -->
+<div class="wp-block-group has-contrast-color has-base-background-color has-text-color has-background has-link-color" style="border-radius:5px;padding-top:var(--wp--preset--spacing--30);padding-right:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30);padding-left:var(--wp--preset--spacing--30)"><!-- wp:heading {"style":{"typography":{"textAlign":"left"}},"fontSize":"2-x-large"} -->
 <h2 class="wp-block-heading has-text-align-left has-2-x-large-font-size"><?php esc_html_e( 'Until real words arrive.', 'ipsum' ); ?></h2>
 <!-- /wp:heading -->
 
@@ -26,8 +27,8 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"left"}} -->
-<div class="wp-block-buttons"><!-- wp:button {"style":{"border":{"radius":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}}}} -->
-<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" style="border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-left-radius:5px;border-bottom-right-radius:5px"><?php esc_html_e( 'Get the first post', 'ipsum' ); ?></a></div>
+<div class="wp-block-buttons"><!-- wp:button {"style":{"border":{"radius":"5px"}}} -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" style="border-radius:5px"><?php esc_html_e( 'Get the first post', 'ipsum' ); ?></a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group --></div>
