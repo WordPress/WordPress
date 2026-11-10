@@ -73,6 +73,21 @@ function wp_secrets_site_health_result( string $test, string $label, string $sta
 }
 
 /**
+ * Whether the active provider protects secrets with the keyring.
+ *
+ * A secrets.php drop-in can replace the whole provider, which then protects secrets
+ * with its own keys. The default keyring, and WP_SECRETS_KEY, are not used at all.
+ *
+ * @since 7.2.0
+ *
+ * @param WP_Secrets_Provider $provider The active provider.
+ * @return bool
+ */
+function wp_secrets_site_health_uses_keyring( WP_Secrets_Provider $provider ): bool {
+	return $provider instanceof WP_Secrets_Libsodium_Provider || $provider instanceof WP_Secrets_Broken_Provider;
+}
+
+/**
  * Tests whether the site key is defined, and in the recommended form.
  *
  * @since 7.2.0
@@ -82,11 +97,32 @@ function wp_secrets_site_health_result( string $test, string $label, string $sta
  * @phpstan-return array{test: string, label: string, status: 'good'|'recommended'|'critical', badge: array{label: string, color: string}, description: string}
  */
 function wp_secrets_site_health_test_key_source(): array {
+	$provider = _wp_secrets_get_provider();
+
+	if ( ! wp_secrets_site_health_uses_keyring( $provider ) ) {
+		return wp_secrets_site_health_result(
+			'secrets_api_key_source',
+			__( 'Secrets API keys are managed by the provider' ),
+			'good',
+			sprintf(
+				'<p>%s</p>',
+				sprintf(
+					/* translators: 1: secrets.php, 2: Name of the active secrets provider, 3: WP_SECRETS_KEY */
+					__( 'Secrets are protected by the provider of the %1$s drop-in: %2$s. %3$s is not used.' ),
+					'<code>secrets.php</code>',
+					esc_html( $provider->get_label() ),
+					'<code>WP_SECRETS_KEY</code>'
+				)
+			)
+		);
+	}
+
 	$keyring    = _wp_secrets_get_key_manager()->get_keyring();
 	$key_source = $keyring->get_key_source();
 	$key_status = $keyring instanceof WP_Secrets_Config_Key_Provider ? $keyring->get_key_status() : null;
 
-	if ( str_contains( $key_source, 'broken' ) ) {
+	// The broken keyring's description is translated, so check its class rather than its text.
+	if ( $keyring instanceof WP_Secrets_Broken_Keyring ) {
 		return wp_secrets_site_health_result(
 			'secrets_api_key_source',
 			__( 'Secrets API key source is broken' ),
@@ -98,14 +134,68 @@ function wp_secrets_site_health_test_key_source(): array {
 		);
 	}
 
+	/*
+	 * Once a root key exists, it is wrapped with the current site key, and core has no way
+	 * to re-wrap it under another one. Changing the key source then locks every stored
+	 * secret, and blocks saving new ones, until the change is reverted.
+	 */
+	$has_root_key = false !== get_site_option( WP_Secrets_Key_Manager::ROOT_KEY_OPTION );
+
+	if ( $has_root_key ) {
+		$root_key = _wp_secrets_get_key_manager()->get_root_key();
+
+		if ( is_wp_error( $root_key ) ) {
+			/*
+			 * Only the default keyring reads wp-config.php. A keyring from a secrets.php
+			 * drop-in fails for its own reasons, such as an unreachable key service, and
+			 * its error is the useful part.
+			 */
+			$cause = $keyring instanceof WP_Secrets_Config_Key_Provider
+				? sprintf(
+					/* translators: %s: WP_SECRETS_KEY */
+					__( 'This happens when %s was changed or removed after secrets were stored. Restoring the previous value fixes it.' ),
+					'<code>WP_SECRETS_KEY</code>'
+				)
+				: sprintf(
+					/* translators: 1: secrets.php, 2: Error message from the keyring. */
+					__( 'The keyring of the %1$s drop-in reported: %2$s' ),
+					'<code>secrets.php</code>',
+					esc_html( $root_key->get_error_message() )
+				);
+
+			return wp_secrets_site_health_result(
+				'secrets_api_key_source',
+				__( 'Secrets API cannot unlock the stored secrets' ),
+				'critical',
+				sprintf(
+					'<p>%s</p><p>%s</p>',
+					esc_html__( 'The configured key cannot decrypt the root key that protects the stored secrets, so no secret can be read or saved.' ),
+					$cause
+				)
+			);
+		}
+
+		wp_secrets_memzero( $root_key );
+	}
+
 	if ( WP_Secrets_Config_Key_Provider::KEY_STATUS_LEGACY === $key_status ) {
 		return wp_secrets_site_health_result(
 			'secrets_api_key_source',
-			__( 'Secrets API key should be regenerated' ),
+			__( 'Secrets API key is not in the recommended form' ),
 			'recommended',
 			sprintf(
 				'<p>%s</p>',
-				esc_html__( 'WP_SECRETS_KEY is defined, but not in the recommended base64-encoded 32-byte form. Regenerate it with `wp secret generate-key`.' )
+				$has_root_key
+					? sprintf(
+						/* translators: %s: WP_SECRETS_KEY */
+						__( '%s is defined, but not as a base64-encoded random 32-byte value. Keep its current value: secrets are already encrypted with it, and changing it makes them unreadable.' ),
+						'<code>WP_SECRETS_KEY</code>'
+					)
+					: sprintf(
+						/* translators: %s: WP_SECRETS_KEY */
+						__( '%s is defined, but not as a base64-encoded random 32-byte value. No secrets are stored yet, so it can still be replaced with such a value.' ),
+						'<code>WP_SECRETS_KEY</code>'
+					)
 			)
 		);
 	}
@@ -176,8 +266,23 @@ function wp_secrets_site_health_test_key_source(): array {
 function wp_secrets_site_health_test_undecryptable(): array {
 	$broken = wp_secrets_site_health_find_undecryptable( false );
 
-	if ( is_multisite() && is_super_admin() ) {
-		$broken = array_merge( $broken, wp_secrets_site_health_find_undecryptable( true ) );
+	if ( ! is_wp_error( $broken ) && is_multisite() && is_super_admin() ) {
+		$network_broken = wp_secrets_site_health_find_undecryptable( true );
+		$broken         = is_wp_error( $network_broken ) ? $network_broken : array_merge( $broken, $network_broken );
+	}
+
+	// Secrets that cannot be listed cannot be checked, which must not read as all of them decrypting.
+	if ( is_wp_error( $broken ) ) {
+		return wp_secrets_site_health_result(
+			'secrets_api_undecryptable',
+			__( 'Secrets could not be checked' ),
+			'critical',
+			sprintf(
+				'<p>%s</p><p>%s</p>',
+				esc_html__( 'The stored secrets could not be listed, so none of them could be checked. Secrets probably cannot be read or written either until this is fixed.' ),
+				esc_html( $broken->get_error_message() )
+			)
+		);
 	}
 
 	if ( empty( $broken ) ) {
@@ -209,9 +314,13 @@ function wp_secrets_site_health_test_undecryptable(): array {
 		'critical',
 		sprintf(
 			'<p>%s</p><ul>%s</ul><p>%s</p>',
-			esc_html__( 'The following secrets exist but could not be decrypted with the current key. There is no way to recover the original value. The credential must be re-entered.' ),
+			esc_html__( 'The following secrets exist but could not be decrypted with the current key.' ),
 			$items,
-			esc_html__( 'This can happen after losing WP_SECRETS_KEY, restoring a database backup without its matching key, or a failed key rotation.' )
+			sprintf(
+				/* translators: %s: WP_SECRETS_KEY */
+				__( 'This can happen after %s was changed or removed, after restoring a database backup without its matching key, or after a failed key rotation. Restoring the previous key makes the secrets readable again. Otherwise, each credential must be entered again.' ),
+				'<code>WP_SECRETS_KEY</code>'
+			)
 		)
 	);
 }
@@ -222,15 +331,16 @@ function wp_secrets_site_health_test_undecryptable(): array {
  * @since 7.2.0
  *
  * @param bool $network Whether to check network-scope secrets.
- * @return array List of array( 'name' => ..., 'fingerprint' => ... ).
+ * @return array|WP_Error List of array( 'name' => ..., 'fingerprint' => ... ),
+ *                        or WP_Error when the secrets cannot be listed.
  *
- * @phpstan-return list<array{name: string, fingerprint: string}>
+ * @phpstan-return list<array{name: string, fingerprint: string}>|WP_Error
  */
-function wp_secrets_site_health_find_undecryptable( bool $network ): array {
+function wp_secrets_site_health_find_undecryptable( bool $network ) {
 	$entries = $network ? wp_list_network_secrets() : wp_list_secrets();
 
 	if ( is_wp_error( $entries ) ) {
-		return array();
+		return $entries;
 	}
 
 	$broken = array();
@@ -261,8 +371,18 @@ function wp_secrets_site_health_find_undecryptable( bool $network ): array {
 function wp_secrets_site_health_test_needs_rotation(): array {
 	$count = wp_secrets_site_health_count_needing_rotation( false );
 
-	if ( is_multisite() && is_super_admin() ) {
-		$count += wp_secrets_site_health_count_needing_rotation( true );
+	if ( ! is_wp_error( $count ) && is_multisite() && is_super_admin() ) {
+		$network_count = wp_secrets_site_health_count_needing_rotation( true );
+		$count         = is_wp_error( $network_count ) ? $network_count : $count + $network_count;
+	}
+
+	if ( is_wp_error( $count ) ) {
+		return wp_secrets_site_health_result(
+			'secrets_api_needs_rotation',
+			__( 'Secrets could not be checked for pending rotation' ),
+			'recommended',
+			sprintf( '<p>%s</p>', esc_html( $count->get_error_message() ) )
+		);
 	}
 
 	if ( 0 === $count ) {
@@ -301,15 +421,15 @@ function wp_secrets_site_health_test_needs_rotation(): array {
  * @since 7.2.0
  *
  * @param bool $network Whether to check network-scope secrets.
- * @return int
+ * @return int|WP_Error The number of secrets, or WP_Error when the secrets cannot be listed.
  *
- * @phpstan-return int<0, max>
+ * @phpstan-return int<0, max>|WP_Error
  */
-function wp_secrets_site_health_count_needing_rotation( bool $network ): int {
+function wp_secrets_site_health_count_needing_rotation( bool $network ) {
 	$entries = $network ? wp_list_network_secrets() : wp_list_secrets();
 
 	if ( is_wp_error( $entries ) ) {
-		return 0;
+		return $entries;
 	}
 
 	$count = 0;
@@ -335,8 +455,9 @@ function wp_secrets_site_health_count_needing_rotation( bool $network ): int {
  * @return array<string, array<string, mixed>>
  */
 function wp_secrets_site_health_debug_info( $info ) {
-	$key_manager = _wp_secrets_get_key_manager();
-	$provider    = _wp_secrets_get_provider();
+	$key_manager  = _wp_secrets_get_key_manager();
+	$provider     = _wp_secrets_get_provider();
+	$uses_keyring = wp_secrets_site_health_uses_keyring( $provider );
 
 	$fields = array(
 		'dropin_active'  => array(
@@ -363,11 +484,11 @@ function wp_secrets_site_health_debug_info( $info ) {
 		),
 		'keyring_class'  => array(
 			'label' => __( 'Keyring class' ),
-			'value' => get_class( $key_manager->get_keyring() ),
+			'value' => $uses_keyring ? get_class( $key_manager->get_keyring() ) : __( 'Not used by the provider' ),
 		),
 		'key_source'     => array(
 			'label' => __( 'Key source' ),
-			'value' => $key_manager->get_keyring()->get_key_source(),
+			'value' => $uses_keyring ? $key_manager->get_keyring()->get_key_source() : __( 'Not used by the provider' ),
 		),
 		'record_version' => array(
 			'label' => __( 'Record format version' ),
