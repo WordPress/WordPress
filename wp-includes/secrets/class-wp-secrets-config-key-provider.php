@@ -38,7 +38,7 @@
  *
  * @since 7.2.0
  */
-final class WP_Secrets_Config_Key_Provider implements WP_Secrets_Keyring {
+final class WP_Secrets_Config_Key_Provider extends WP_Secrets_Keyring {
 
 	/**
 	 * AAD binding the root key's wrapped form to this purpose.

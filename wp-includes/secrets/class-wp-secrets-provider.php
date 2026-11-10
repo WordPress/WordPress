@@ -1,6 +1,6 @@
 <?php
 /**
- * Secrets API: WP_Secrets_Provider interface
+ * Secrets API: WP_Secrets_Provider class
  *
  * @package WordPress
  * @subpackage Secrets
@@ -8,20 +8,20 @@
  */
 
 /**
- * Interface for a secrets provider.
+ * Base class for a secrets provider.
  *
  * A provider is responsible for a secret: storing it, protecting it, and returning
  * it to a caller. It is the outermost extension point in the Secrets API, and the
- * one a hosting platform implements.
+ * one a hosting platform extends.
  *
  * WordPress ships WP_Secrets_Libsodium_Provider, which encrypts with libsodium and
  * stores ciphertext in the options tables. That provider is the default rather than
  * a privileged case: a platform that protects credentials in a key management
- * service, a hardware security module, or its own control panel implements this
- * same interface.
+ * service, a hardware security module, or its own control panel extends this
+ * same class.
  *
  * A provider must be stronger than the default, never weaker. Storing a plaintext
- * where the default would have stored ciphertext is what this interface exists to
+ * where the default would have stored ciphertext is what this class exists to
  * prevent. Receiving a value over an authenticated channel and holding it in a
  * hardware security module satisfies that requirement.
  *
@@ -49,9 +49,13 @@
  *   caching the raw value alongside it would undo that. Memoize within the request
  *   only.
  *
+ * Implementations extend this class. It is abstract rather than an interface so
+ * that a later release can add a method with a default implementation, and every
+ * existing subclass keeps working.
+ *
  * @since 7.2.0
  */
-interface WP_Secrets_Provider {
+abstract class WP_Secrets_Provider {
 
 	/**
 	 * Protection happens inside WordPress.
@@ -94,7 +98,7 @@ interface WP_Secrets_Provider {
 	 *
 	 * @phpstan-param WP_Secret_Version::CURRENT|WP_Secret_Version::PREVIOUS $version
 	 */
-	public function get( string $name, string $version, bool $network = false );
+	abstract public function get( string $name, string $version, bool $network = false );
 
 	/**
 	 * Stores a secret.
@@ -138,7 +142,7 @@ interface WP_Secrets_Provider {
 	 *                                    'updated'.
 	 * @return true|WP_Error
 	 */
-	public function set(
+	abstract public function set(
 		string $name,
 		#[\SensitiveParameter]
 		$value,
@@ -162,7 +166,7 @@ interface WP_Secrets_Provider {
 	 * @param bool   $network Whether this is a network-scope secret.
 	 * @return true|WP_Error
 	 */
-	public function delete( string $name, bool $network = false );
+	abstract public function delete( string $name, bool $network = false );
 
 	/**
 	 * Clears a secret's previous version, if this provider keeps one.
@@ -180,7 +184,7 @@ interface WP_Secrets_Provider {
 	 * @param bool   $network Whether this is a network-scope secret.
 	 * @return true|WP_Error
 	 */
-	public function retire_previous( string $name, bool $network = false );
+	abstract public function retire_previous( string $name, bool $network = false );
 
 	/**
 	 * Lists secrets by name and metadata. Never values.
@@ -195,7 +199,7 @@ interface WP_Secrets_Provider {
 	 *
 	 * @phpstan-return list<array{name: string, fingerprint: string, created: int, has_previous: bool, needs_rotation: bool}>|WP_Error
 	 */
-	public function list_secrets( string $name_prefix = '', bool $network = false );
+	abstract public function list_secrets( string $name_prefix = '', bool $network = false );
 
 	/**
 	 * A short human-readable name for this provider, for Site Health.
@@ -208,7 +212,7 @@ interface WP_Secrets_Provider {
 	 *
 	 * @return string
 	 */
-	public function get_label(): string;
+	abstract public function get_label(): string;
 
 	/**
 	 * Where secrets this provider holds are actually protected.
@@ -225,7 +229,7 @@ interface WP_Secrets_Provider {
 	 *
 	 * @phpstan-return self::BOUNDARY_*
 	 */
-	public function get_protection_boundary(): string;
+	abstract public function get_protection_boundary(): string;
 
 	/**
 	 * Whether wp_set_secret() can succeed against this provider.
@@ -239,5 +243,5 @@ interface WP_Secrets_Provider {
 	 *
 	 * @return bool
 	 */
-	public function is_writable(): bool;
+	abstract public function is_writable(): bool;
 }

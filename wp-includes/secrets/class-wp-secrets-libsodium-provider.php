@@ -13,7 +13,7 @@
  * Uses libsodium envelope encryption and stores ciphertext in the options tables.
  *
  * This is the default rather than a privileged case. Everything it does is expressed
- * through WP_Secrets_Provider, the same interface a platform implements, so a KMS-
+ * through WP_Secrets_Provider, the same class a platform extends, so a KMS-
  * or HSM-backed provider is a peer rather than an exception carved into the side of
  * this one.
  *
@@ -32,7 +32,7 @@
  *
  * @since 7.2.0
  */
-final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
+final class WP_Secrets_Libsodium_Provider extends WP_Secrets_Provider {
 
 	/**
 	 * Where ciphertext records live.

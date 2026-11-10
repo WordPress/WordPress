@@ -22,7 +22,7 @@
  *
  * @since 7.2.0
  */
-final class WP_Secrets_Broken_Provider implements WP_Secrets_Provider {
+final class WP_Secrets_Broken_Provider extends WP_Secrets_Provider {
 
 	/**
 	 * The single error every operation reports.

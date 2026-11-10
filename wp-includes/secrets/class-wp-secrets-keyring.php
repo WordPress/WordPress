@@ -1,6 +1,6 @@
 <?php
 /**
- * Secrets API: WP_Secrets_Keyring interface
+ * Secrets API: WP_Secrets_Keyring class
  *
  * @package WordPress
  * @subpackage Secrets
@@ -10,7 +10,7 @@
 /**
  * Wraps and unwraps the root key that everything else in this API derives from.
  *
- * A KMS or HSM lives behind this interface in a production deployment. An
+ * A KMS or HSM lives behind this class in a production deployment. An
  * implementation is never handed a plaintext secret, only 32 bytes of key material,
  * and cannot turn encryption off. There is no method here that
  * accepts a plaintext secret value at all.
@@ -18,9 +18,13 @@
  * An implementation should run WP_Secrets_Keyring_Conformance against itself before
  * shipping.
  *
+ * Implementations extend this class. It is abstract rather than an interface so
+ * that a later release can add a method with a default implementation, and every
+ * existing subclass keeps working.
+ *
  * @since 7.2.0
  */
-interface WP_Secrets_Keyring {
+abstract class WP_Secrets_Keyring {
 
 	/**
 	 * Wraps (encrypts) raw key material for storage.
@@ -38,7 +42,7 @@ interface WP_Secrets_Keyring {
 	 * @param string $key_material Raw key material to protect.
 	 * @return string|WP_Error Opaque wrapped value on success, WP_Error on failure.
 	 */
-	public function wrap(
+	abstract public function wrap(
 		#[\SensitiveParameter]
 		string $key_material
 	);
@@ -51,7 +55,7 @@ interface WP_Secrets_Keyring {
 	 * @param string $wrapped An opaque value previously returned by wrap().
 	 * @return string|WP_Error Raw key material on success, WP_Error on failure.
 	 */
-	public function unwrap( string $wrapped );
+	abstract public function unwrap( string $wrapped );
 
 	/**
 	 * A human-readable description of the key source, for Site Health.
@@ -60,5 +64,5 @@ interface WP_Secrets_Keyring {
 	 *
 	 * @return string
 	 */
-	public function get_key_source(): string;
+	abstract public function get_key_source(): string;
 }

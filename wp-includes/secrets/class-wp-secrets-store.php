@@ -1,6 +1,6 @@
 <?php
 /**
- * Secrets API: WP_Secrets_Store interface
+ * Secrets API: WP_Secrets_Store class
  *
  * @package WordPress
  * @subpackage Secrets
@@ -20,9 +20,13 @@
  * the write succeeded. Providers declare writability up front through
  * WP_Secrets_Provider::is_writable().
  *
+ * Implementations extend this class. It is abstract rather than an interface so
+ * that a later release can add a method with a default implementation, and every
+ * existing subclass keeps working.
+ *
  * @since 7.2.0
  */
-interface WP_Secrets_Store {
+abstract class WP_Secrets_Store {
 
 	/**
 	 * Reads a secret's stored record.
@@ -34,7 +38,7 @@ interface WP_Secrets_Store {
 	 * @return array<mixed>|null|WP_Error The record array if it exists. Null if it does not.
 	 *                             WP_Error if it could not be determined which.
 	 */
-	public function get( string $name, bool $network = false );
+	abstract public function get( string $name, bool $network = false );
 
 	/**
 	 * Writes a secret's record.
@@ -47,7 +51,7 @@ interface WP_Secrets_Store {
 	 * @return bool|WP_Error True on success. WP_Error on failure, including when the
 	 *                       store does not accept writes.
 	 */
-	public function set( string $name, array $record, bool $network = false );
+	abstract public function set( string $name, array $record, bool $network = false );
 
 	/**
 	 * Deletes a secret's record.
@@ -59,7 +63,7 @@ interface WP_Secrets_Store {
 	 * @return bool|WP_Error True on success (including if it did not exist).
 	 *                       WP_Error on failure.
 	 */
-	public function delete( string $name, bool $network = false );
+	abstract public function delete( string $name, bool $network = false );
 
 	/**
 	 * Lists the names of every secret in this store, for this scope. Never a value.
@@ -69,5 +73,5 @@ interface WP_Secrets_Store {
 	 * @param bool $network Whether to list network-scope secrets.
 	 * @return string[]|WP_Error Array of secret names on success. WP_Error on failure.
 	 */
-	public function list_names( bool $network = false );
+	abstract public function list_names( bool $network = false );
 }

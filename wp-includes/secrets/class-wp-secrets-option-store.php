@@ -21,7 +21,7 @@
  *
  * @since 7.2.0
  */
-final class WP_Secrets_Option_Store implements WP_Secrets_Store {
+final class WP_Secrets_Option_Store extends WP_Secrets_Store {
 
 	/**
 	 * Option name prefix for site-scope secrets.

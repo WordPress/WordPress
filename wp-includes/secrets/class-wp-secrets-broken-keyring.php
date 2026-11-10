@@ -20,7 +20,7 @@
  *
  * @since 7.2.0
  */
-final class WP_Secrets_Broken_Keyring implements WP_Secrets_Keyring {
+final class WP_Secrets_Broken_Keyring extends WP_Secrets_Keyring {
 
 	/**
 	 * Always fails closed.
