@@ -135,9 +135,12 @@ final class WP_Secrets_Key_Manager {
 	 *
 	 * @since 7.2.0
 	 *
-	 * @param string   $scope   'site' or 'network'.
-	 * @param int|null $site_id Blog ID for site scope. Defaults to the current blog.
-	 *                          Ignored for network scope.
+	 * @param string   $scope           'site' or 'network'.
+	 * @param int|null $site_id         Blog ID for site scope. Defaults to the current blog.
+	 *                                  Ignored for network scope.
+	 * @param bool     $create_root_key Optional. Whether to generate and store a root key
+	 *                                  if none exists. Pass false when only reading
+	 *                                  secrets. Default true.
 	 * @return string|WP_Error 32-byte master key on success. WP_Error on failure,
 	 *                         including when a caller passes an invalid scope or
 	 *                         site ID – see WP_Secrets_Cipher::validate_common()
@@ -145,7 +148,7 @@ final class WP_Secrets_Key_Manager {
 	 *
 	 * @phpstan-param 'site'|'network' $scope
 	 */
-	public function get_master_key( string $scope, ?int $site_id = null ) {
+	public function get_master_key( string $scope, ?int $site_id = null, bool $create_root_key = true ) {
 		if ( ! in_array( $scope, array( 'site', 'network' ), true ) ) {
 			$message = __( 'The scope must be "site" or "network".' );
 
@@ -171,7 +174,7 @@ final class WP_Secrets_Key_Manager {
 			$context = self::SITE_KDF_CONTEXT;
 		}
 
-		$root_key = $this->get_root_key();
+		$root_key = $this->get_root_key( $create_root_key );
 
 		if ( is_wp_error( $root_key ) ) {
 			return $root_key;
@@ -196,15 +199,36 @@ final class WP_Secrets_Key_Manager {
 	/**
 	 * Returns the root key, generating and persisting one on first use.
 	 *
+	 * get_site_option() also returns false when its query fails, so a false result is
+	 * checked against the database before a new root key is generated. Generating one
+	 * while another is stored would make every existing secret undecryptable.
+	 *
 	 * @since 7.2.0
 	 *
+	 * @param bool $create Optional. Whether to generate and store a root key if none
+	 *                     exists. Default true.
 	 * @return string|WP_Error 32 raw bytes on success. WP_Error on failure.
 	 */
-	public function get_root_key() {
+	public function get_root_key( bool $create = true ) {
 		$wrapped = $this->get_wrapped_root_key();
 
 		if ( false === $wrapped ) {
-			return $this->generate_root_key();
+			$wrapped = $this->read_stored_root_key();
+
+			if ( is_wp_error( $wrapped ) ) {
+				return $wrapped;
+			}
+
+			if ( false === $wrapped ) {
+				if ( ! $create ) {
+					return new WP_Error(
+						WP_SECRETS_ERROR_KEY_UNAVAILABLE,
+						__( 'No root key is stored.' )
+					);
+				}
+
+				return $this->generate_root_key();
+			}
 		}
 
 		if ( ! is_string( $wrapped ) ) {
@@ -338,9 +362,13 @@ final class WP_Secrets_Key_Manager {
 	 *
 	 * @since 7.2.0
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @return string|WP_Error
 	 */
 	private function generate_root_key() {
+		global $wpdb;
+
 		$candidate = random_bytes( 32 );
 
 		$wrapped = $this->keyring->wrap( $candidate );
@@ -351,7 +379,12 @@ final class WP_Secrets_Key_Manager {
 			return $wrapped;
 		}
 
-		if ( add_site_option( self::ROOT_KEY_OPTION, $wrapped ) ) {
+		$inserted_row_id = $this->insert_root_key( $wrapped );
+
+		// Use whichever root key is stored now: this one, or one another request stored first.
+		$existing = $this->read_stored_root_key();
+
+		if ( is_string( $existing ) && hash_equals( $existing, $wrapped ) ) {
 			$this->cached_wrapped  = $wrapped;
 			$this->cached_root_key = $candidate;
 
@@ -361,12 +394,18 @@ final class WP_Secrets_Key_Manager {
 		// Lost the race: another request created one first. Use theirs, not ours.
 		wp_secrets_memzero( $candidate );
 
-		$existing = get_site_option( self::ROOT_KEY_OPTION );
+		if ( $inserted_row_id ) {
+			$wpdb->delete( $wpdb->sitemeta, array( 'meta_id' => $inserted_row_id ) );
+		}
 
-		if ( ! is_string( $existing ) ) {
+		if ( is_wp_error( $existing ) ) {
+			return $existing;
+		}
+
+		if ( false === $existing ) {
 			return new WP_Error(
 				WP_SECRETS_ERROR_STORE_UNAVAILABLE,
-				__( 'Could not read the root key after losing the creation race.' )
+				__( 'Could not store the root key.' )
 			);
 		}
 
@@ -378,5 +417,140 @@ final class WP_Secrets_Key_Manager {
 		}
 
 		return $root_key;
+	}
+
+	/**
+	 * Stores a new wrapped root key unless one is already stored.
+	 *
+	 * This does not use add_site_option(). On a single site that is add_option(), which
+	 * skips its existence check for an option cached as missing and then overwrites the
+	 * stored row, so a failed read followed by add_option() would replace the root key.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param string $wrapped The wrapped root key.
+	 * @return int ID of the inserted wp_sitemeta row on multisite, 0 otherwise.
+	 */
+	private function insert_root_key( string $wrapped ): int {
+		global $wpdb;
+
+		$value = maybe_serialize( $wrapped );
+
+		if ( ! is_multisite() ) {
+			// The unique key on option_name makes this a no-op when a root key exists.
+			$wpdb->query(
+				$wpdb->prepare(
+					"INSERT IGNORE INTO `$wpdb->options` (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, 'off')",
+					self::ROOT_KEY_OPTION,
+					$value
+				)
+			);
+
+			return 0;
+		}
+
+		/*
+		 * wp_sitemeta has no unique key on meta_key, so two requests can both insert a
+		 * row. read_stored_root_key() returns the oldest row, so both end up with the
+		 * same root key, and the request that lost deletes its own row.
+		 */
+		$inserted = $wpdb->insert(
+			$wpdb->sitemeta,
+			array(
+				'site_id'    => get_current_network_id(),
+				'meta_key'   => self::ROOT_KEY_OPTION,
+				'meta_value' => $value,
+			)
+		);
+
+		return $inserted ? (int) $wpdb->insert_id : 0;
+	}
+
+	/**
+	 * Reads the wrapped root key from the database, bypassing the options cache.
+	 *
+	 * get_site_option() returns false both when the root key does not exist and when
+	 * its query failed, and caches the option as missing either way. This read tells
+	 * the two apart. When the row exists, it also clears that cache entry.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @return string|false|WP_Error The wrapped root key, false if none is stored, or
+	 *                               WP_Error if the read failed or the row is malformed.
+	 */
+	private function read_stored_root_key() {
+		global $wpdb;
+
+		if ( is_multisite() ) {
+			$value = $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d ORDER BY meta_id ASC LIMIT 1",
+					self::ROOT_KEY_OPTION,
+					get_current_network_id()
+				)
+			);
+		} else {
+			$value = $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1",
+					self::ROOT_KEY_OPTION
+				)
+			);
+		}
+
+		if ( '' !== $wpdb->last_error ) {
+			return new WP_Error(
+				WP_SECRETS_ERROR_STORE_UNAVAILABLE,
+				__( 'Could not read the root key.' )
+			);
+		}
+
+		if ( null === $value ) {
+			return false;
+		}
+
+		$this->forget_missing_root_key();
+
+		$value = maybe_unserialize( $value );
+
+		if ( ! is_string( $value ) ) {
+			return new WP_Error(
+				WP_SECRETS_ERROR_RECORD_MALFORMED,
+				__( 'The stored root key is not a string.' )
+			);
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Removes the root key from the cache of options that do not exist.
+	 *
+	 * @since 7.2.0
+	 */
+	private function forget_missing_root_key(): void {
+		if ( is_multisite() ) {
+			$network_id     = get_current_network_id();
+			$group          = 'site-options';
+			$notoptions_key = "$network_id:notoptions";
+
+			wp_cache_delete( "$network_id:" . self::ROOT_KEY_OPTION, $group );
+		} else {
+			$group          = 'options';
+			$notoptions_key = 'notoptions';
+
+			wp_cache_delete( self::ROOT_KEY_OPTION, $group );
+		}
+
+		$notoptions = wp_cache_get( $notoptions_key, $group );
+
+		if ( is_array( $notoptions ) && isset( $notoptions[ self::ROOT_KEY_OPTION ] ) ) {
+			unset( $notoptions[ self::ROOT_KEY_OPTION ] );
+			wp_cache_set( $notoptions_key, $notoptions, $group );
+		}
 	}
 }

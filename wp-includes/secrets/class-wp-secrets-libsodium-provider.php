@@ -495,7 +495,8 @@ final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
 		$scope   = $network ? 'network' : 'site';
 		$site_id = $network ? 0 : get_current_blog_id();
 
-		$master_key = $this->key_manager->get_master_key( $scope, $network ? null : $site_id );
+		// Reading never creates a root key: without the stored one, nothing can be decrypted.
+		$master_key = $this->key_manager->get_master_key( $scope, $network ? null : $site_id, false );
 
 		if ( is_wp_error( $master_key ) ) {
 			return $master_key;
