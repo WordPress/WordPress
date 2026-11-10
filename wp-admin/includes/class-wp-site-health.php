@@ -17,7 +17,7 @@ class WP_Site_Health {
 	public $is_mariadb                   = false;
 	private $mysql_server_version        = '';
 	private $mysql_required_version      = '5.5';
-	private $mysql_recommended_version   = '8.0';
+	private $mysql_recommended_version   = '8.4';
 	private $mariadb_recommended_version = '10.11';
 
 	public $php_memory_limit;
