@@ -57,6 +57,7 @@ class WP_Debug_Data {
 			'wp-server'           => self::get_wp_server(),
 			'wp-database'         => self::get_wp_database(),
 			'wp-constants'        => self::get_wp_constants(),
+			'wp-secrets-api'      => self::get_wp_secrets_api(),
 			'wp-filesystem'       => self::get_wp_filesystem(),
 		);
 
@@ -332,6 +333,80 @@ class WP_Debug_Data {
 				'<code>' . str_replace( ABSPATH, '', WP_CONTENT_DIR ) . '</code>'
 			),
 			'fields'      => $fields,
+		);
+	}
+
+	/**
+	 * Gets the Secrets API section of the debug data.
+	 *
+	 * Counts and class names only – no secret values, and no fingerprints. Network
+	 * scope figures are included only for a super admin on a multisite install.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @return array<string, string|array> The Secrets API debug data.
+	 */
+	private static function get_wp_secrets_api(): array {
+		$key_manager = _wp_secrets_get_key_manager();
+		$provider    = _wp_secrets_get_provider();
+
+		// A provider from a secrets.php drop-in protects secrets with its own keys, not the keyring.
+		$uses_keyring = $provider instanceof WP_Secrets_Libsodium_Provider || $provider instanceof WP_Secrets_Broken_Provider;
+
+		$fields = array(
+			'dropin_active'  => array(
+				'label' => __( 'Drop-in active' ),
+				'value' => wp_using_secrets_dropin() ? __( 'Yes' ) : __( 'No' ),
+			),
+			'provider_class' => array(
+				'label' => __( 'Provider class' ),
+				'value' => get_class( $provider ),
+			),
+			'protected_by'   => array(
+				'label' => __( 'Secrets protected by' ),
+				'value' => $provider->get_label(),
+			),
+			'protection_at'  => array(
+				'label' => __( 'Encryption boundary' ),
+				'value' => WP_Secrets_Provider::BOUNDARY_WORDPRESS === $provider->get_protection_boundary()
+					? __( 'WordPress' )
+					: __( 'The provider (outside WordPress)' ),
+			),
+			'writable'       => array(
+				'label' => __( 'Accepts writes' ),
+				'value' => $provider->is_writable() ? __( 'Yes' ) : __( 'No' ),
+			),
+			'keyring_class'  => array(
+				'label' => __( 'Keyring class' ),
+				'value' => $uses_keyring ? get_class( $key_manager->get_keyring() ) : __( 'Not used by the provider' ),
+			),
+			'key_source'     => array(
+				'label' => __( 'Key source' ),
+				'value' => $uses_keyring ? $key_manager->get_keyring()->get_key_source() : __( 'Not used by the provider' ),
+			),
+			'record_version' => array(
+				'label' => __( 'Record format version' ),
+				'value' => (string) WP_SECRETS_RECORD_VERSION,
+			),
+		);
+
+		$site_secrets                = wp_list_secrets();
+		$fields['site_secret_count'] = array(
+			'label' => __( 'Site secrets' ),
+			'value' => is_wp_error( $site_secrets ) ? __( 'Unavailable' ) : (string) count( $site_secrets ),
+		);
+
+		if ( is_multisite() && is_super_admin() ) {
+			$network_secrets                = wp_list_network_secrets();
+			$fields['network_secret_count'] = array(
+				'label' => __( 'Network secrets' ),
+				'value' => is_wp_error( $network_secrets ) ? __( 'Unavailable' ) : (string) count( $network_secrets ),
+			);
+		}
+
+		return array(
+			'label'  => __( 'Secrets API' ),
+			'fields' => $fields,
 		);
 	}
 
