@@ -390,10 +390,26 @@ switch ( $step ) {
 			}
 		}
 
-		$key = 0;
+		/*
+		 * The Secrets API key is generated like the salts above, but written as base64-encoded
+		 * random bytes, the form the Secrets API uses as raw key material.
+		 */
+		try {
+			$secrets_key = base64_encode( random_bytes( 32 ) );
+		} catch ( Exception $ex ) {
+			$secrets_key = wp_generate_password( 64, true, true );
+		}
+
+		$key             = 0;
+		$has_secrets_key = false;
 		foreach ( $config_file as $line_num => $line ) {
 			if ( str_starts_with( $line, '$table_prefix =' ) ) {
 				$config_file[ $line_num ] = '$table_prefix = \'' . addcslashes( $prefix, "\\'" ) . "';\r\n";
+				continue;
+			}
+
+			if ( isset( $nonce_salt_line ) && ! isset( $salts_end_line ) && '/**#@-*/' === trim( $line ) ) {
+				$salts_end_line = $line_num;
 				continue;
 			}
 
@@ -426,9 +442,35 @@ switch ( $step ) {
 				case 'NONCE_SALT':
 					$config_file[ $line_num ] = "define( '" . $constant . "'," . $padding . "'" . $secret_keys[ $key++ ] . "' );\r\n";
 					break;
+				case 'WP_SECRETS_KEY':
+					$config_file[ $line_num ] = "define( '" . $constant . "'," . $padding . "'" . $secrets_key . "' );\r\n";
+					$has_secrets_key          = true;
+					break;
+			}
+
+			if ( 'NONCE_SALT' === $constant ) {
+				$nonce_salt_line = $line_num;
 			}
 		}
 		unset( $line );
+
+		// A custom or older localized wp-config-sample.php may not define the key: add it after the salts.
+		if ( ! $has_secrets_key && isset( $nonce_salt_line ) ) {
+			$secrets_key_lines = array(
+				"\r\n",
+				"/**\r\n",
+				" * Encryption key for the Secrets API.\r\n",
+				" *\r\n",
+				" * Secrets stored by WordPress and plugins are encrypted with this key.\r\n",
+				" * Unlike the keys and salts above, changing it makes every stored secret unreadable.\r\n",
+				" *\r\n",
+				" * @since 7.2.0\r\n",
+				" */\r\n",
+				"define( 'WP_SECRETS_KEY', '" . $secrets_key . "' );\r\n",
+			);
+
+			array_splice( $config_file, ( $salts_end_line ?? $nonce_salt_line ) + 1, 0, $secrets_key_lines );
+		}
 
 		if ( ! is_writable( ABSPATH ) ) :
 			setup_config_display_header();

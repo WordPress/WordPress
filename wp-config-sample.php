@@ -60,6 +60,17 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
 /**#@-*/
 
 /**
+ * Encryption key for the Secrets API.
+ *
+ * Secrets stored by WordPress and plugins are encrypted with this key. Change it to
+ * a unique phrase, different from the keys and salts above. Unlike them, it must not
+ * be changed once secrets are stored: that makes every stored secret unreadable.
+ *
+ * @since 7.2.0
+ */
+define( 'WP_SECRETS_KEY', 'put your unique phrase here' );
+
+/**
  * WordPress database table prefix.
  *
  * You can have multiple installations in one database if you give each
