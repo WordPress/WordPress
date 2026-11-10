@@ -96,7 +96,7 @@ class ParagonIE_Sodium_Core_SecretStream_State
      */
     public function needsRekey()
     {
-        return ($this->counter & 0xffff) === 0;
+        return ($this->counter & 0xffffffff) === 0;
     }
 
     /**

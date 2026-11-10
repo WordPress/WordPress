@@ -140,16 +140,32 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             throw new SodiumException('Could not open input file for reading');
         }
 
-        /** @var resource $ofp */
-        $ofp = @fopen($outputFile, 'wb');
-        if (!is_resource($ofp)) {
+        /** @var resource $destination */
+        $destination = self::openOutputFile($outputFile);
+        if (!is_resource($destination)) {
             fclose($ifp);
             throw new SodiumException('Could not open output file for writing');
         }
+        /** @var resource $ofp */
+        $ofp = tmpfile();
+        if (!is_resource($ofp)) {
+            fclose($ifp);
+            fclose($destination);
+            throw new SodiumException('Could not open temporary output file for writing');
+        }
 
-        $res = self::box_decrypt($ifp, $ofp, $size, $nonce, $keypair);
+        try {
+            $res = self::box_decrypt($ifp, $ofp, $size, $nonce, $keypair);
+            self::commitAuthenticatedOutput($ofp, $destination);
+        } catch (Exception $ex) {
+            fclose($ifp);
+            fclose($ofp);
+            fclose($destination);
+            throw $ex;
+        }
         fclose($ifp);
         fclose($ofp);
+        fclose($destination);
         try {
             ParagonIE_Sodium_Compat::memzero($nonce);
             ParagonIE_Sodium_Compat::memzero($ephKeypair);
@@ -324,20 +340,13 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             throw new SodiumException('Could not open input file for reading');
         }
 
-        /** @var resource $ofp */
-        $ofp = @fopen($outputFile, 'wb');
-        if (!is_resource($ofp)) {
-            fclose($ifp);
-            throw new SodiumException('Could not open output file for writing');
-        }
-
         $ephemeralPK = fread($ifp, ParagonIE_Sodium_Compat::CRYPTO_BOX_PUBLICKEYBYTES);
         if (!is_string($ephemeralPK)) {
+            fclose($ifp);
             throw new SodiumException('Could not read input file');
         }
         if (self::strlen($ephemeralPK) !== ParagonIE_Sodium_Compat::CRYPTO_BOX_PUBLICKEYBYTES) {
             fclose($ifp);
-            fclose($ofp);
             throw new SodiumException('Could not read public key from sealed file');
         }
 
@@ -351,9 +360,32 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             $ephemeralPK
         );
 
-        $res = self::box_decrypt($ifp, $ofp, $size, $nonce, $msgKeypair);
+        /** @var resource $destination */
+        $destination = self::openOutputFile($outputFile);
+        if (!is_resource($destination)) {
+            fclose($ifp);
+            throw new SodiumException('Could not open output file for writing');
+        }
+        /** @var resource $ofp */
+        $ofp = tmpfile();
+        if (!is_resource($ofp)) {
+            fclose($ifp);
+            fclose($destination);
+            throw new SodiumException('Could not open temporary output file for writing');
+        }
+
+        try {
+            $res = self::box_decrypt($ifp, $ofp, $size, $nonce, $msgKeypair);
+            self::commitAuthenticatedOutput($ofp, $destination);
+        } catch (Exception $ex) {
+            fclose($ifp);
+            fclose($ofp);
+            fclose($destination);
+            throw $ex;
+        }
         fclose($ifp);
         fclose($ofp);
+        fclose($destination);
         try {
             ParagonIE_Sodium_Compat::memzero($nonce);
             ParagonIE_Sodium_Compat::memzero($ephKeypair);
@@ -579,16 +611,32 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             throw new SodiumException('Could not open input file for reading');
         }
 
-        /** @var resource $ofp */
-        $ofp = @fopen($outputFile, 'wb');
-        if (!is_resource($ofp)) {
+        /** @var resource $destination */
+        $destination = self::openOutputFile($outputFile);
+        if (!is_resource($destination)) {
             fclose($ifp);
             throw new SodiumException('Could not open output file for writing');
         }
+        /** @var resource $ofp */
+        $ofp = tmpfile();
+        if (!is_resource($ofp)) {
+            fclose($ifp);
+            fclose($destination);
+            throw new SodiumException('Could not open temporary output file for writing');
+        }
 
-        $res = self::secretbox_decrypt($ifp, $ofp, $size, $nonce, $key);
+        try {
+            $res = self::secretbox_decrypt($ifp, $ofp, $size, $nonce, $key);
+            self::commitAuthenticatedOutput($ofp, $destination);
+        } catch (Exception $ex) {
+            fclose($ifp);
+            fclose($ofp);
+            fclose($destination);
+            throw $ex;
+        }
         fclose($ifp);
         fclose($ofp);
+        fclose($destination);
         try {
             ParagonIE_Sodium_Compat::memzero($key);
         } catch (SodiumException $ex) {
@@ -785,36 +833,41 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
 
         // Set ParagonIE_Sodium_Compat::$fastMult to true to speed up verification.
         ParagonIE_Sodium_Compat::$fastMult = true;
+        try {
+            if (ParagonIE_Sodium_Core_Ed25519::small_order($publicKey)) {
+                throw new SodiumException('Public key has small order');
+            }
+            /** @var ParagonIE_Sodium_Core_Curve25519_Ge_P3 $A */
+            $A = ParagonIE_Sodium_Core_Ed25519::ge_frombytes_negate_vartime($publicKey);
+            if (!ParagonIE_Sodium_Core_Ed25519::is_on_main_subgroup($A)) {
+                throw new SodiumException('Public key is not on a member of the main subgroup');
+            }
 
-        if (ParagonIE_Sodium_Core_Ed25519::small_order($publicKey)) {
-            throw new SodiumException('Public key has small order');
+            $hs = hash_init('sha512');
+            self::hash_update($hs, self::substr($sig, 0, 32));
+            self::hash_update($hs, self::substr($publicKey, 0, 32));
+            /** @var resource $hs */
+            $hs = self::updateHashWithFile($hs, $fp, $size);
+            /** @var string $hDigest */
+            $hDigest = hash_final($hs, true);
+
+            /** @var string $h */
+            $h = ParagonIE_Sodium_Core_Ed25519::sc_reduce($hDigest) . self::substr($hDigest, 32);
+
+            /** @var ParagonIE_Sodium_Core_Curve25519_Ge_P2 $R */
+            $R = ParagonIE_Sodium_Core_Ed25519::ge_double_scalarmult_vartime(
+                $h,
+                $A,
+                self::substr($sig, 32)
+            );
+
+            /** @var string $rcheck */
+            $rcheck = ParagonIE_Sodium_Core_Ed25519::ge_tobytes($R);
+        } catch (Exception $ex) {
+            fclose($fp);
+            ParagonIE_Sodium_Compat::$fastMult = $orig;
+            throw $ex;
         }
-        /** @var ParagonIE_Sodium_Core_Curve25519_Ge_P3 $A */
-        $A = ParagonIE_Sodium_Core_Ed25519::ge_frombytes_negate_vartime($publicKey);
-        if (!ParagonIE_Sodium_Core_Ed25519::is_on_main_subgroup($A)) {
-            throw new SodiumException('Public key is not on a member of the main subgroup');
-        }
-
-        $hs = hash_init('sha512');
-        self::hash_update($hs, self::substr($sig, 0, 32));
-        self::hash_update($hs, self::substr($publicKey, 0, 32));
-        /** @var resource $hs */
-        $hs = self::updateHashWithFile($hs, $fp, $size);
-        /** @var string $hDigest */
-        $hDigest = hash_final($hs, true);
-
-        /** @var string $h */
-        $h = ParagonIE_Sodium_Core_Ed25519::sc_reduce($hDigest) . self::substr($hDigest, 32);
-
-        /** @var ParagonIE_Sodium_Core_Curve25519_Ge_P2 $R */
-        $R = ParagonIE_Sodium_Core_Ed25519::ge_double_scalarmult_vartime(
-            $h,
-            $A,
-            self::substr($sig, 32)
-        );
-
-        /** @var string $rcheck */
-        $rcheck = ParagonIE_Sodium_Core_Ed25519::ge_tobytes($R);
 
         // Close the file handle
         fclose($fp);
@@ -1148,6 +1201,35 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
     }
 
     /**
+     * @param string $outputFile
+     * @return resource|bool
+     */
+    protected static function openOutputFile($outputFile)
+    {
+        $destination = @fopen($outputFile, 'r+b');
+        return is_resource($destination) ? $destination : @fopen($outputFile, 'x+b');
+    }
+
+    /**
+     * @param resource $tmp
+     * @param resource $destination
+     * @return void
+     * @throws SodiumException
+     */
+    protected static function commitAuthenticatedOutput($tmp, $destination)
+    {
+        if (fseek($tmp, 0) !== 0) {
+            throw new SodiumException('Could not rewind temporary output file');
+        }
+        if (fseek($destination, 0) !== 0 || !ftruncate($destination, 0)) {
+            throw new SodiumException('Could not prepare output file for writing');
+        }
+        if (stream_copy_to_stream($tmp, $destination) === false) {
+            throw new SodiumException('Could not write to output file');
+        }
+    }
+
+    /**
      * Update a hash context with the contents of a file, without
      * loading the entire file into memory.
      *
@@ -1328,36 +1410,41 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
 
         // Set ParagonIE_Sodium_Compat::$fastMult to true to speed up verification.
         ParagonIE_Sodium_Compat::$fastMult = true;
+        try {
+            if (ParagonIE_Sodium_Core32_Ed25519::small_order($publicKey)) {
+                throw new SodiumException('Public key has small order');
+            }
+            /** @var ParagonIE_Sodium_Core32_Curve25519_Ge_P3 $A */
+            $A = ParagonIE_Sodium_Core32_Ed25519::ge_frombytes_negate_vartime($publicKey);
+            if (!ParagonIE_Sodium_Core32_Ed25519::is_on_main_subgroup($A)) {
+                throw new SodiumException('Public key is not on a member of the main subgroup');
+            }
 
-        if (ParagonIE_Sodium_Core32_Ed25519::small_order($publicKey)) {
-            throw new SodiumException('Public key has small order');
+            $hs = hash_init('sha512');
+            self::hash_update($hs, self::substr($sig, 0, 32));
+            self::hash_update($hs, self::substr($publicKey, 0, 32));
+            /** @var resource $hs */
+            $hs = self::updateHashWithFile($hs, $fp, $size);
+            /** @var string $hDigest */
+            $hDigest = hash_final($hs, true);
+
+            /** @var string $h */
+            $h = ParagonIE_Sodium_Core32_Ed25519::sc_reduce($hDigest) . self::substr($hDigest, 32);
+
+            /** @var ParagonIE_Sodium_Core32_Curve25519_Ge_P2 $R */
+            $R = ParagonIE_Sodium_Core32_Ed25519::ge_double_scalarmult_vartime(
+                $h,
+                $A,
+                self::substr($sig, 32)
+            );
+
+            /** @var string $rcheck */
+            $rcheck = ParagonIE_Sodium_Core32_Ed25519::ge_tobytes($R);
+        } catch (Exception $ex) {
+            fclose($fp);
+            ParagonIE_Sodium_Compat::$fastMult = $orig;
+            throw $ex;
         }
-        /** @var ParagonIE_Sodium_Core32_Curve25519_Ge_P3 $A */
-        $A = ParagonIE_Sodium_Core32_Ed25519::ge_frombytes_negate_vartime($publicKey);
-        if (!ParagonIE_Sodium_Core32_Ed25519::is_on_main_subgroup($A)) {
-            throw new SodiumException('Public key is not on a member of the main subgroup');
-        }
-
-        $hs = hash_init('sha512');
-        self::hash_update($hs, self::substr($sig, 0, 32));
-        self::hash_update($hs, self::substr($publicKey, 0, 32));
-        /** @var resource $hs */
-        $hs = self::updateHashWithFile($hs, $fp, $size);
-        /** @var string $hDigest */
-        $hDigest = hash_final($hs, true);
-
-        /** @var string $h */
-        $h = ParagonIE_Sodium_Core32_Ed25519::sc_reduce($hDigest) . self::substr($hDigest, 32);
-
-        /** @var ParagonIE_Sodium_Core32_Curve25519_Ge_P2 $R */
-        $R = ParagonIE_Sodium_Core32_Ed25519::ge_double_scalarmult_vartime(
-            $h,
-            $A,
-            self::substr($sig, 32)
-        );
-
-        /** @var string $rcheck */
-        $rcheck = ParagonIE_Sodium_Core32_Ed25519::ge_tobytes($R);
 
         // Close the file handle
         fclose($fp);

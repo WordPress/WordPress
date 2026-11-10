@@ -138,6 +138,9 @@ class ParagonIE_Sodium_Core32_ChaCha20 extends ParagonIE_Sodium_Core32_Util
 
         $c = '';
         for (;;) {
+            if ($ctx->isExhausted()) {
+                throw new SodiumException('Overflow');
+            }
             if ($bytes < 64) {
                 $message .= str_repeat("\x00", 64 - $bytes);
             }
@@ -264,7 +267,14 @@ class ParagonIE_Sodium_Core32_ChaCha20 extends ParagonIE_Sodium_Core32_Util
             /** @var ParagonIE_Sodium_Core32_Int32 $j12 */
             $j12 = $j12->addInt(1);
             if ($j12->limbs[0] === 0 && $j12->limbs[1] === 0) {
-                $j13 = $j13->addInt(1);
+                if ($ctx instanceof ParagonIE_Sodium_Core32_ChaCha20_IetfCtx) {
+                    $ctx->markExhausted();
+                } else {
+                    $j13 = $j13->addInt(1);
+                    if ($j13->limbs[0] === 0 && $j13->limbs[1] === 0) {
+                        $ctx->markExhausted();
+                    }
+                }
             }
 
             /*

@@ -14,6 +14,21 @@ class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util 
      */
     protected $container;
 
+    /** @var bool */
+    protected $exhausted = false;
+
+    /** @return bool */
+    public function isExhausted()
+    {
+        return $this->exhausted;
+    }
+
+    /** @return void */
+    public function markExhausted()
+    {
+        $this->exhausted = true;
+    }
+
     /**
      * ParagonIE_Sodium_Core_ChaCha20_Ctx constructor.
      *
