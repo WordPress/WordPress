@@ -4012,9 +4012,10 @@ function wp_post_mime_type_where( $post_mime_types, $table_alias = '' ) {
  *
  * @since 1.0.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
  * @see wp_delete_attachment()
  * @see wp_trash_post()
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int  $post_id      Post ID. (The default of 0 is for historical reasons; providing it is incorrect.)
  * @param bool $force_delete Optional. Whether to bypass Trash and force deletion.

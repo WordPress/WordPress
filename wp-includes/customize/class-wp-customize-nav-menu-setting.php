@@ -310,11 +310,11 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * @since 4.3.0
 	 * @deprecated 4.7.0 Use wp_list_sort()
 	 *
+	 * @see WP_Customize_Nav_Menu_Setting::filter_wp_get_nav_menus()
+	 *
 	 * @param object $menu1
 	 * @param object $menu2
 	 * @return int
-	 *
-	 * @see WP_Customize_Nav_Menu_Setting::filter_wp_get_nav_menus()
 	 */
 	protected function _sort_menus_by_orderby( $menu1, $menu2 ) {
 		_deprecated_function( __METHOD__, '4.7.0', 'wp_list_sort' );

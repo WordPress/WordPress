@@ -3788,9 +3788,9 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
  *
  * @since 2.3.0
  *
- * @global bool $_wp_suspend_cache_invalidation
- *
  * @see get_object_taxonomies() for more on $object_type.
+ *
+ * @global bool $_wp_suspend_cache_invalidation.
  *
  * @param int|array    $object_ids  Single or list of term object ID(s).
  * @param array|string $object_type The taxonomy object type.

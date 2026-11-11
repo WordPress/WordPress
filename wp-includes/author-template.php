@@ -205,11 +205,11 @@ function get_the_author_meta( $field = '', $user_id = false ) {
  *
  * @since 2.8.0
  *
+ * @see get_the_author_meta()
+ *
  * @param string    $field   Selects the field of the users record. See get_the_author_meta()
  *                           for the list of possible fields.
  * @param int|false $user_id Optional. User ID. Defaults to the current post author.
- *
- * @see get_the_author_meta()
  */
 function the_author_meta( $field = '', $user_id = false ) {
 	$author_meta = get_the_author_meta( $field, $user_id );
