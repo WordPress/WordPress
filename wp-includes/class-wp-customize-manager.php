@@ -248,7 +248,7 @@ final class WP_Customize_Manager {
 	 *
 	 *     @type null|string|false $changeset_uuid     Changeset UUID, the `post_name` for the customize_changeset post containing the customized state.
 	 *                                                 Defaults to `null` resulting in a UUID to be immediately generated. If `false` is provided, then
-	 *                                                 then the changeset UUID will be determined during `after_setup_theme`: when the
+	 *                                                 the changeset UUID will be determined during `after_setup_theme`: when the
 	 *                                                 `customize_changeset_branching` filter returns false, then the default UUID will be that
 	 *                                                 of the most recent `customize_changeset` post that has a status other than 'auto-draft',
 	 *                                                 'publish', or 'trash'. Otherwise, if changeset branching is enabled, then a random UUID will be used.
@@ -3223,7 +3223,7 @@ final class WP_Customize_Manager {
 	 * the 'customize' meta cap which then maps to 'edit_theme_options'. This is currently
 	 * required in core for `wp_create_post_autosave()` because it will call
 	 * `_wp_translate_postdata()` which in turn will check if a user can 'edit_post', but the
-	 * the caps for the customize_changeset post type are all mapping to the meta capability.
+	 * caps for the customize_changeset post type are all mapping to the meta capability.
 	 * This should be able to be removed once #40922 is addressed in core.
 	 *
 	 * @since 4.9.0

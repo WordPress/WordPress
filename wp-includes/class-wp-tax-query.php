@@ -156,7 +156,7 @@ class WP_Tax_Query {
 				$cleaned_query[]         = $cleaned_clause;
 
 				/*
-				 * Keep a copy of the clause in the flate
+				 * Keep a copy of the clause in the flat
 				 * $queried_terms array, for use in WP_Query.
 				 */
 				if ( ! empty( $cleaned_clause['taxonomy'] ) && 'NOT IN' !== $cleaned_clause['operator'] ) {

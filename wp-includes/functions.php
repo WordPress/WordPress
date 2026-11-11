@@ -2572,7 +2572,7 @@ function _wp_upload_dir( $time = null ) {
 			 *
 			 * Rather than UPLOADS, we actually use BLOGUPLOADDIR if it is set, as it is absolute.
 			 * (And it will be set, see ms_upload_constants().) Otherwise, UPLOADS can be used, as
-			 * as it is relative to ABSPATH. For the final piece: when UPLOADS is used with ms-files
+			 * it is relative to ABSPATH. For the final piece: when UPLOADS is used with ms-files
 			 * rewriting in multisite, the resulting URL is /files. (#WP22702 for background.)
 			 */
 
