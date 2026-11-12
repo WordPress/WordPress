@@ -1465,13 +1465,16 @@ function wp_random_content_post_limits( $limits, WP_Query $query ): string {
  * Redirects random content requests to the randomly selected post.
  *
  * Called by {@see WP::handle_random()} immediately after the main query selects the
- * random post, to avoid unnecessary processing before the redirect. As the redirect
- * is sent before {@see WP::send_headers()}, the headers preventing the redirect being
- * cached or indexed are sent with it.
+ * random post, to avoid unnecessary processing before the redirect. The headers
+ * preventing the response being cached or indexed are sent as soon as a post is
+ * selected, before {@see WP::send_headers()}, so they are sent with the redirect.
+ *
+ * The request ends once a post is selected. The redirect is to the post's permalink
+ * as returned by {@see get_permalink()}, including a permalink filtered to be on
+ * another site.
  *
  * If no post is selected, for example on an empty archive, {@see WP::handle_random()}
- * handles the request as a 404. If the post's permalink is on another site, the
- * request is handled as a regular archive request.
+ * handles the request as a 404.
  *
  * @since 7.2.0
  *
@@ -1484,22 +1487,16 @@ function wp_random_content_redirect(): void {
 		return;
 	}
 
-	$location = get_permalink( $wp_query->post );
-
-	// Only consider redirecting permitted locations so wp_safe_redirect doesn't redirect to the fallback.
-	if ( ! $location || ! wp_validate_redirect( $location, '' ) ) {
-		return;
-	}
-
 	nocache_headers();
 
 	if ( ! headers_sent() ) {
 		header( 'X-Robots-Tag: noindex, follow' );
 	}
 
-	if ( wp_safe_redirect( $location, 302 ) ) {
-		exit;
-	}
+	$location = get_permalink( $wp_query->post );
+
+	wp_redirect( $location, 302 );
+	exit;
 }
 
 /**
