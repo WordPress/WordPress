@@ -93,6 +93,18 @@ class WP_Script_Modules {
 	private $modules_with_missing_dependencies = array();
 
 	/**
+	 * List of handles for scripts encountered which have missing script module dependencies.
+	 *
+	 * A handle is added to this list when it is discovered to have script module dependencies that are not
+	 * registered. At this time, a warning is emitted with {@see _doing_it_wrong()}. The handle is then added to this
+	 * list, so that duplicate warnings don't occur.
+	 *
+	 * @since 7.2.0
+	 * @var string[]
+	 */
+	private $scripts_with_missing_module_dependencies = array();
+
+	/**
 	 * Registers the script module if no script module with that script module
 	 * identifier has already been registered.
 	 *
@@ -367,11 +379,23 @@ class WP_Script_Modules {
 	}
 
 	/**
-	 * Prints translations for all enqueued script modules.
+	 * Prints translations for the enqueued script modules and for the script
+	 * modules in the import map.
 	 *
 	 * Outputs inline `<script>` tags that call `wp.i18n.setLocaleData()` with
 	 * the translated strings for each script module. This must run before
 	 * the script modules execute.
+	 *
+	 * The translations are printed after the scripts in the footer. A script
+	 * that imports a script module while it executes may evaluate the script
+	 * module before its translations are printed. To avoid that, the script
+	 * can use the 'defer' loading strategy, or import the script module once
+	 * the document has been parsed.
+	 *
+	 * The translations of the enqueued script modules are printed first,
+	 * followed by the translations of the script modules in the import map.
+	 * When two script modules translate the same string of a text domain
+	 * differently, the translation printed last is the one that is used.
 	 *
 	 * Auto-detects the text domain and translation path for each module from
 	 * its source URL. Modules whose text domain or path differs from the
@@ -379,10 +403,12 @@ class WP_Script_Modules {
 	 * {@see WP_Script_Modules::set_translations()}.
 	 *
 	 * @since 7.0.0
+	 * @since 7.2.0 Translations of the script module dependencies ('module_dependencies') of scripts, and of their
+	 *              dependencies, are now printed. The translations of the enqueued script modules are now printed
+	 *              first, instead of after the translations of their dependencies.
 	 */
 	public function print_script_module_translations(): void {
-		// Collect all module IDs that will be on the page (enqueued + their dependencies).
-		$module_ids = $this->get_sorted_dependencies( $this->queue );
+		$module_ids = $this->get_loadable_script_module_ids();
 
 		$set_locale_data_js_function = <<<'JS'
 		( domain, translations ) => {
@@ -456,6 +482,10 @@ class WP_Script_Modules {
 		 * priority 10 via _wp_footer_scripts), but before the script modules
 		 * execute. Script modules with type="module" are deferred by default,
 		 * so inline translation scripts at priority 11 will execute before them.
+		 *
+		 * A script that is not deferred and imports a script module while it
+		 * executes may evaluate that script module before these translations
+		 * are printed.
 		 */
 		add_action( 'wp_footer', array( $this, 'print_script_module_translations' ), 21 );
 		add_action( 'admin_print_footer_scripts', array( $this, 'print_script_module_translations' ), 11 );
@@ -634,7 +664,7 @@ class WP_Script_Modules {
 	 * Returns the import map array.
 	 *
 	 * @since 6.5.0
-	 * @since 7.0.0 Script module dependencies ('module_dependencies') of classic scripts are now included.
+	 * @since 7.0.0 Script module dependencies ('module_dependencies') of scripts are now included.
 	 *
 	 * @global WP_Scripts $wp_scripts
 	 *
@@ -646,8 +676,8 @@ class WP_Script_Modules {
 
 		$imports = array();
 
-		// Identify script modules that are dependencies of classic scripts.
-		$classic_script_module_dependencies = array();
+		// Identify script modules that are dependencies of scripts.
+		$script_module_dependencies = array();
 		if ( $wp_scripts instanceof WP_Scripts ) {
 			$handles = array_merge(
 				$wp_scripts->queue,
@@ -680,11 +710,14 @@ class WP_Script_Modules {
 						if ( ! isset( $this->registered[ $id ] ) ) {
 							$missing_module_dependencies[] = $id;
 						} else {
-							$classic_script_module_dependencies[] = $id;
+							$script_module_dependencies[] = $id;
 						}
 					}
 
-					if ( count( $missing_module_dependencies ) > 0 ) {
+					if (
+						count( $missing_module_dependencies ) > 0 &&
+						! in_array( $handle, $this->scripts_with_missing_module_dependencies, true )
+					) {
 						_doing_it_wrong(
 							'WP_Scripts::add_data',
 							sprintf(
@@ -696,6 +729,7 @@ class WP_Script_Modules {
 							),
 							'7.0.0'
 						);
+						$this->scripts_with_missing_module_dependencies[] = $handle;
 					}
 				}
 
@@ -710,8 +744,8 @@ class WP_Script_Modules {
 		// Note: the script modules in $this->queue are not included in the importmap because they get printed as scripts.
 		$ids = array_unique(
 			array_merge(
-				$classic_script_module_dependencies,
-				array_keys( $this->get_dependencies( array_merge( $this->queue, $classic_script_module_dependencies ) ) )
+				$script_module_dependencies,
+				array_keys( $this->get_dependencies( array_merge( $this->queue, $script_module_dependencies ) ) )
 			)
 		);
 		foreach ( $ids as $id ) {
@@ -721,6 +755,26 @@ class WP_Script_Modules {
 			}
 		}
 		return array( 'imports' => $imports );
+	}
+
+	/**
+	 * Gets the IDs of the enqueued script modules and of the script modules in the import map.
+	 *
+	 * The script modules in the import map are the dependencies of the enqueued script modules, the script module
+	 * dependencies ('module_dependencies') of scripts, and the dependencies of those. The enqueued script modules
+	 * come first, followed by the script modules in the import map.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @return string[] List of script module IDs.
+	 */
+	private function get_loadable_script_module_ids(): array {
+		return array_unique(
+			array_merge(
+				$this->queue,
+				array_keys( $this->get_import_map()['imports'] )
+			)
+		);
 	}
 
 	/**
@@ -1014,21 +1068,13 @@ class WP_Script_Modules {
 	 * form `wp-script-module-data-{$module_id}`.
 	 */
 	public function print_script_module_data(): void {
-		$modules = array();
-		foreach ( array_unique( $this->queue ) as $id ) {
-			if ( '@wordpress/a11y' === $id ) {
-				$this->a11y_available = true;
-			}
-			$modules[ $id ] = true;
-		}
-		foreach ( array_keys( $this->get_import_map()['imports'] ) as $id ) {
-			if ( '@wordpress/a11y' === $id ) {
-				$this->a11y_available = true;
-			}
-			$modules[ $id ] = true;
+		$module_ids = $this->get_loadable_script_module_ids();
+
+		if ( in_array( '@wordpress/a11y', $module_ids, true ) ) {
+			$this->a11y_available = true;
 		}
 
-		foreach ( array_keys( $modules ) as $module_id ) {
+		foreach ( $module_ids as $module_id ) {
 			/**
 			 * Filters data associated with a given Script Module.
 			 *
