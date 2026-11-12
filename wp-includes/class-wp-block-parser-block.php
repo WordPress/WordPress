@@ -14,12 +14,12 @@
  */
 class WP_Block_Parser_Block {
 	/**
-	 * Name of block
+	 * Name of block, or `null` when the block is top-level freeform HTML content.
 	 *
 	 * @example "core/paragraph"
 	 *
 	 * @since 5.0.0
-	 * @var string
+	 * @var string|null
 	 */
 	public $blockName; // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 
@@ -74,11 +74,11 @@ class WP_Block_Parser_Block {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param string $name          Name of block.
-	 * @param array  $attrs         Optional set of attributes from block comment delimiters.
-	 * @param array  $inner_blocks  List of inner blocks (of this same class).
-	 * @param string $inner_html    Resultant HTML from inside block comment delimiters after removing inner blocks.
-	 * @param array  $inner_content List of string fragments and null markers where inner blocks were found.
+	 * @param string|null $name          Name of block, or `null` for freeform HTML content.
+	 * @param array       $attrs         Optional set of attributes from block comment delimiters.
+	 * @param array       $inner_blocks  List of inner blocks (of this same class).
+	 * @param string      $inner_html    Resultant HTML from inside block comment delimiters after removing inner blocks.
+	 * @param array       $inner_content List of string fragments and null markers where inner blocks were found.
 	 */
 	public function __construct( $name, $attrs, $inner_blocks, $inner_html, $inner_content ) {
 		$this->blockName    = $name;          // phpcs:ignore WordPress.NamingConventions.ValidVariableName
