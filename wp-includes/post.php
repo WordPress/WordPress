@@ -3895,7 +3895,7 @@ function get_post_mime_types() {
  * @param string|string[] $wildcard_mime_types Mime types, e.g. `audio/mpeg`, `image` (same as `image/*`),
  *                                             or `flash` (same as `*flash*`).
  * @param string|string[] $real_mime_types     Real post mime type values.
- * @return array array(wildcard=>array(real types)).
+ * @return array<string[]> array(wildcard=>array(real types)).
  */
 function wp_match_mime_types( $wildcard_mime_types, $real_mime_types ) {
 	$matches = array();
@@ -7637,11 +7637,15 @@ function wp_attachment_is_image( $post = null ) {
  *
  * @param string|int $mime          MIME type or attachment ID.
  * @param string     $preferred_ext File format to prefer in return. Default '.png'.
- * @return string|false Icon, false otherwise.
+ * @return string|false Icon URL, or false if no icon was found.
  */
 function wp_mime_type_icon( $mime = 0, $preferred_ext = '.png' ) {
+	$icon = false;
 	if ( ! is_numeric( $mime ) ) {
-		$icon = wp_cache_get( "mime_type_icon_$mime" );
+		$cached_icon = wp_cache_get( "mime_type_icon_$mime" );
+		if ( is_string( $cached_icon ) ) {
+			$icon = $cached_icon;
+		}
 	}
 
 	// Check if preferred file format variable is present and is a validly formatted file extension.
@@ -7756,11 +7760,12 @@ function wp_mime_type_icon( $mime = 0, $preferred_ext = '.png' ) {
 
 		foreach ( $matches as $match => $wilds ) {
 			foreach ( $wilds as $wild ) {
-				if ( ! isset( $types[ $wild ] ) ) {
+				$type_icon = $types[ $wild ] ?? null;
+				if ( ! is_string( $type_icon ) ) {
 					continue;
 				}
 
-				$icon = $types[ $wild ];
+				$icon = $type_icon;
 				if ( ! is_numeric( $mime ) ) {
 					wp_cache_add( "mime_type_icon_$mime", $icon );
 				}
@@ -7774,10 +7779,10 @@ function wp_mime_type_icon( $mime = 0, $preferred_ext = '.png' ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $icon    Path to the mime type icon.
-	 * @param string $mime    Mime type.
-	 * @param int    $post_id Attachment ID. Will equal 0 if the function passed
-	 *                        the mime type.
+	 * @param string|false $icon    URL of the mime type icon, or false if no icon was found.
+	 * @param string|int   $mime    Mime type, or 0 if no post was found for the passed ID.
+	 * @param int          $post_id Attachment ID. Will equal 0 if the function passed
+	 *                              the mime type or no post was found for the passed ID.
 	 */
 	return apply_filters( 'wp_mime_type_icon', $icon, $mime, $post_id );
 }

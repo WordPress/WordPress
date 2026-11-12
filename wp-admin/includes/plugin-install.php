@@ -223,9 +223,9 @@ function plugins_api( $action, $args = array() ) {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param object|WP_Error $res    Response object or WP_Error.
-	 * @param string          $action The type of information being requested from the Plugin Installation API.
-	 * @param object          $args   Plugin API arguments.
+	 * @param object|array|WP_Error $res    Response object or array, or WP_Error on failure.
+	 * @param string                $action The type of information being requested from the Plugin Installation API.
+	 * @param object                $args   Plugin API arguments.
 	 */
 	return apply_filters( 'plugins_api_result', $res, $action, $args );
 }

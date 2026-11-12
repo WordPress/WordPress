@@ -1224,11 +1224,12 @@ function get_the_tag_list( $before = '', $sep = '', $after = '', $post_id = 0 ) 
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param string $tag_list List of tags.
-	 * @param string $before   String to use before the tags.
-	 * @param string $sep      String to use between the tags.
-	 * @param string $after    String to use after the tags.
-	 * @param int    $post_id  Post ID.
+	 * @param string|false|WP_Error $tag_list A list of tags on success, false if there are no terms,
+	 *                                        WP_Error on failure.
+	 * @param string                $before   String to use before the tags.
+	 * @param string                $sep      String to use between the tags.
+	 * @param string                $after    String to use after the tags.
+	 * @param int                   $post_id  Post ID.
 	 */
 	return apply_filters( 'the_tags', $tag_list, $before, $sep, $after, $post_id );
 }

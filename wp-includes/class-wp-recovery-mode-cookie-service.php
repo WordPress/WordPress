@@ -195,7 +195,7 @@ final class WP_Recovery_Mode_Cookie_Service {
 	 * @since 5.2.0
 	 *
 	 * @param string $data Data to hash.
-	 * @return string|false The hashed $data, or false on failure.
+	 * @return string The hashed $data.
 	 */
 	private function recovery_mode_hash( $data ) {
 		$default_keys = array_unique(

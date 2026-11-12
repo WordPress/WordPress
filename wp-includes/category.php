@@ -428,7 +428,7 @@ function clean_category_cache( $id ) {
  * @since 4.4.0 The `$category` parameter now also accepts a WP_Term object.
  * @access private
  *
- * @param array|object|WP_Term $category Category row object or array.
+ * @param array|object|WP_Term|null $category Category row object or array. Null is left unchanged.
  */
 function _make_cat_compat( &$category ) {
 	if ( is_object( $category ) && ! is_wp_error( $category ) ) {

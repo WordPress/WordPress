@@ -5587,7 +5587,11 @@ function get_post_galleries( $post, $html = true ) {
  *
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @param bool        $html Optional. Whether to return HTML or data. Default is true.
- * @return string|array Gallery data and srcs parsed from the expanded shortcode.
+ * @return string|array|false Gallery HTML or an array of gallery data and srcs parsed from
+ *                            the expanded shortcode, depending on `$html`. False if the post has
+ *                            no gallery.
+ *
+ * @phpstan-return ( $html is false ? array<mixed>|false : string|false )
  */
 function get_post_gallery( $post = 0, $html = true ) {
 	$galleries = get_post_galleries( $post, $html );
@@ -5598,9 +5602,10 @@ function get_post_gallery( $post = 0, $html = true ) {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param array       $gallery   The first-found post gallery.
-	 * @param int|WP_Post $post      Post ID or object.
-	 * @param array       $galleries Associative array of all found post galleries.
+	 * @param string|array<mixed>|false $gallery   The first-found post gallery, or false if the post has no gallery.
+	 *                                             An HTML string when `$html` is true, otherwise an array.
+	 * @param int|WP_Post               $post      Post ID or object.
+	 * @param array                     $galleries Associative array of all found post galleries.
 	 */
 	return apply_filters( 'get_post_gallery', $gallery, $post, $galleries );
 }

@@ -4760,9 +4760,9 @@ function wp_get_code_editor_settings( $args ) {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param array $settings The array of settings passed to the code editor.
-	 *                        A falsey value disables the editor.
-	 * @param array $args {
+	 * @param array|false $settings The array of settings passed to the code editor.
+	 *                              A falsey value disables the editor.
+	 * @param array       $args {
 	 *     Args passed when calling `get_code_editor_settings()`.
 	 *
 	 *     @type string   $type       The MIME type of the file to be edited.

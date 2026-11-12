@@ -443,8 +443,8 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
  * @global string   $domain     The new site's domain.
  * @global string   $path       The new site's path.
  *
- * @return null|bool True if site signup was validated, false on error.
- *                   The function halts all execution if the user is not logged in.
+ * @return bool True if site signup was validated, false on error.
+ *              The function halts all execution if the user is not logged in.
  */
 function validate_another_blog_signup() {
 	global $blogname, $blog_title, $errors, $domain, $path;

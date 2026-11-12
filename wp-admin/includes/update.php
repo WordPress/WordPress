@@ -11,7 +11,7 @@
  *
  * @since 2.7.0
  *
- * @return object|array|false The response from the API on success, false on failure.
+ * @return object|false The response from the API on success, false on failure.
  */
 function get_preferred_from_update_core() {
 	$updates = get_core_updates();
