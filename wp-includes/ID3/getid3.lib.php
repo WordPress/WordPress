@@ -746,10 +746,14 @@ class getid3_lib
 					// https://core.trac.wordpress.org/changeset/29378
 					// This function has been deprecated in PHP 8.0 because in libxml 2.9.0, external entity loading is
 					// disabled by default, but is still needed when LIBXML_NOENT is used.
-					$loader = @libxml_disable_entity_loader(true);
+					$loader = libxml_disable_entity_loader(true);
+					if ($loader === false && !libxml_disable_entity_loader(true)) {
+						// Failed to disable external entity loading — refuse to parse to prevent XXE
+						return false;
+					}
 					$XMLobject = simplexml_load_string($XMLstring, 'SimpleXMLElement', GETID3_LIBXML_OPTIONS);
 					$return = self::SimpleXMLelement2array($XMLobject);
-					@libxml_disable_entity_loader($loader);
+					libxml_disable_entity_loader($loader);
 					return $return;
 				}
 			} else {

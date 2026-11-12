@@ -495,6 +495,11 @@ class getid3_id3v2 extends getid3_handler
 							$info['replay_gain']['album']['adjustment'] = floatval(trim(str_replace('dB', '', $txxx_array['data'])));
 						}
 						break;
+					case 'replaygain_album_peak':
+						if (empty($info['replay_gain']['album']['peak']) && !empty($txxx_array['data'])) {
+							$info['replay_gain']['album']['peak'] = floatval($txxx_array['data']);
+						}
+						break;
 				}
 			}
 		}
@@ -622,8 +627,10 @@ class getid3_id3v2 extends getid3_handler
 				if (!function_exists('gzuncompress')) {
 					$this->warning('gzuncompress() support required to decompress ID3v2 frame "'.$parsedFrame['frame_name'].'"');
 				} else {
-					if ($decompresseddata = @gzuncompress(substr($parsedFrame['data'], 4))) {
-					//if ($decompresseddata = @gzuncompress($parsedFrame['data'])) {
+					// https://github.com/JamesHeinrich/getID3/security/advisories/GHSA-c2xw-vp6w-gpph
+					// Set a limit of 1/4 of PHP memory limit (if known), or default hard cap of 32MB if unknown.
+					$decompression_limit = ($this->getid3->memory_limit > 0) ? (int) round($this->getid3->memory_limit / 4) : 32*1024*1024;
+					if ($decompresseddata = @gzuncompress(substr($parsedFrame['data'], 4), $decompression_limit)) {
 						$parsedFrame['data'] = $decompresseddata;
 						unset($decompresseddata);
 					} else {
@@ -700,6 +707,87 @@ class getid3_id3v2 extends getid3_handler
 				}
 			}
 			//unset($parsedFrame['data']); do not unset, may be needed elsewhere, e.g. for replaygain
+
+
+		} elseif ((($id3v2_majorversion == 3) && ($parsedFrame['frame_name'] == 'IPLS')) || // 4.4  IPLS Involved people list (ID3v2.3 only)
+				(($id3v2_majorversion == 2) && ($parsedFrame['frame_name'] == 'IPL')) ||    // 4.4  IPL  Involved people list (ID3v2.2 only)
+				(($id3v2_majorversion >= 4) && ($parsedFrame['frame_name'] == 'TIPL')) ||   // 4.2.2 TIPL Involved people list (ID3v2.4 only)
+				(($id3v2_majorversion >= 4) && ($parsedFrame['frame_name'] == 'TMCL'))) {   // 4.2.2 TMCL Musician credits list (ID3v2.4 only)
+			// http://id3.org/id3v2.3.0#sec4.4
+			//   There may only be one 'IPL' frame in each tag
+			// <Header for 'Involved people list', ID: 'IPL'>
+			// Text encoding     $xx
+			// People list strings    <textstrings>
+
+			$frame_offset = 0;
+			$frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
+			if ((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
+				$this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
+			}
+			$parsedFrame['encodingid'] = $frame_textencoding;
+			$parsedFrame['encoding']   = $this->TextEncodingNameLookup($parsedFrame['encodingid']);
+			$parsedFrame['data_raw']   = (string) substr($parsedFrame['data'], $frame_offset);
+
+			// https://www.getid3.org/phpBB3/viewtopic.php?t=1369
+			// "this tag typically contains null terminated strings, which are associated in pairs"
+			// "there are users that use the tag incorrectly"
+			$IPLS_parts_unsorted = array();
+			if (((strlen($parsedFrame['data_raw']) % 2) == 0) && ((substr($parsedFrame['data_raw'], 0, 2) == "\xFF\xFE") || (substr($parsedFrame['data_raw'], 0, 2) == "\xFE\xFF"))) {
+				// UTF-16, be careful looking for null bytes since most 2-byte characters may contain one; you need to find twin null bytes, and on even padding
+				$thisILPS = '';
+				for ($i = 0; $i < strlen($parsedFrame['data_raw']); $i += 2) {
+					$twobytes = substr($parsedFrame['data_raw'], $i, 2);
+					if ($twobytes === "\x00\x00") {
+						$IPLS_parts_unsorted[] = getid3_lib::iconv_fallback($parsedFrame['encoding'], $info['id3v2']['encoding'], $thisILPS);
+						$thisILPS = '';
+					} else {
+						$thisILPS .= $twobytes;
+					}
+				}
+				if (strlen($thisILPS) > 0) { // extract the last part if any, even if it's only a BOM with no text following
+					$IPLS_parts_unsorted[] = getid3_lib::iconv_fallback($parsedFrame['encoding'], $info['id3v2']['encoding'], $thisILPS);
+				}
+			} else {
+				// ISO-8859-1 or UTF-8 or other single-byte-null character set
+				$IPLS_parts_unsorted = explode("\x00", $parsedFrame['data_raw']);
+				if (end($IPLS_parts_unsorted) === '') {
+					// there was a terminating null after the last part and explode appended an empty string; drop it
+					array_pop($IPLS_parts_unsorted);
+				}
+			}
+
+			$IPLS_parts = array();
+			if (count($IPLS_parts_unsorted) == 1) {
+				// Just a list of names, e.g. "Dino Baptiste, Jimmy Copley, John Gordon, Bernie Marsden, Sharon Watson".
+				// Use the normal output format but with empty roles.
+				$IPLS_parts_sorted = preg_split('#[;,\\r\\n\\t]#', $IPLS_parts_unsorted[0]);
+				foreach ($IPLS_parts_sorted as $person) {
+					$IPLS_parts[] = array(
+						'position' => '',
+						'person'   => $person
+					);
+				}
+			}
+			else {
+				while (\count($IPLS_parts_unsorted) >= 2) {
+					$IPLS_parts[] = array(
+						'position' => array_shift($IPLS_parts_unsorted),
+						'person'   => array_shift($IPLS_parts_unsorted)
+					);
+				}
+				if (\count($IPLS_parts_unsorted) > 0) {
+					$this->warning("Odd number of {$parsedFrame['frame_name']} parts - expected even number forming role/name pairs");
+					$IPLS_parts[] = array(
+						'position' => array_shift($IPLS_parts_unsorted),
+						'person'   => ''
+					);
+				}
+			}
+			$parsedFrame['data'] = $IPLS_parts;
+
+			if (!empty($parsedFrame['framenameshort']) && !empty($parsedFrame['data'])) {
+				$info['id3v2']['comments'][$parsedFrame['framenameshort']] = $parsedFrame['data'];
+			}
 
 
 		} elseif ($parsedFrame['frame_name'][0] == 'T') { // 4.2. T??[?] Text information frame
@@ -800,86 +888,6 @@ class getid3_id3v2 extends getid3_handler
 				$info['id3v2']['comments'][$parsedFrame['framenameshort']][] = getid3_lib::iconv_fallback('ISO-8859-1', $info['id3v2']['encoding'], $parsedFrame['url']);
 			}
 			unset($parsedFrame['data']);
-
-
-		} elseif ((($id3v2_majorversion == 3) && ($parsedFrame['frame_name'] == 'IPLS')) || // 4.4  IPLS Involved people list (ID3v2.3 only)
-				(($id3v2_majorversion == 2) && ($parsedFrame['frame_name'] == 'IPL'))) {     // 4.4  IPL  Involved people list (ID3v2.2 only)
-			// http://id3.org/id3v2.3.0#sec4.4
-			//   There may only be one 'IPL' frame in each tag
-			// <Header for 'User defined URL link frame', ID: 'IPL'>
-			// Text encoding     $xx
-			// People list strings    <textstrings>
-
-			$frame_offset = 0;
-			$frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
-			if ((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-				$this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
-			}
-			$parsedFrame['encodingid'] = $frame_textencoding;
-			$parsedFrame['encoding']   = $this->TextEncodingNameLookup($parsedFrame['encodingid']);
-			$parsedFrame['data_raw']   = (string) substr($parsedFrame['data'], $frame_offset);
-
-			// https://www.getid3.org/phpBB3/viewtopic.php?t=1369
-			// "this tag typically contains null terminated strings, which are associated in pairs"
-			// "there are users that use the tag incorrectly"
-			$IPLS_parts = array();
-			if (strpos($parsedFrame['data_raw'], "\x00") !== false) {
-				$IPLS_parts_unsorted = array();
-				if (((strlen($parsedFrame['data_raw']) % 2) == 0) && ((substr($parsedFrame['data_raw'], 0, 2) == "\xFF\xFE") || (substr($parsedFrame['data_raw'], 0, 2) == "\xFE\xFF"))) {
-					// UTF-16, be careful looking for null bytes since most 2-byte characters may contain one; you need to find twin null bytes, and on even padding
-					$thisILPS  = '';
-					for ($i = 0; $i < strlen($parsedFrame['data_raw']); $i += 2) {
-						$twobytes = substr($parsedFrame['data_raw'], $i, 2);
-						if ($twobytes === "\x00\x00") {
-							$IPLS_parts_unsorted[] = getid3_lib::iconv_fallback($parsedFrame['encoding'], $info['id3v2']['encoding'], $thisILPS);
-							$thisILPS  = '';
-						} else {
-							$thisILPS .= $twobytes;
-						}
-					}
-					if (strlen($thisILPS) > 2) { // 2-byte BOM
-						$IPLS_parts_unsorted[] = getid3_lib::iconv_fallback($parsedFrame['encoding'], $info['id3v2']['encoding'], $thisILPS);
-					}
-				} else {
-					// ISO-8859-1 or UTF-8 or other single-byte-null character set
-					$IPLS_parts_unsorted = explode("\x00", $parsedFrame['data_raw']);
-				}
-				if (count($IPLS_parts_unsorted) == 1) {
-					// just a list of names, e.g. "Dino Baptiste, Jimmy Copley, John Gordon, Bernie Marsden, Sharon Watson"
-					foreach ($IPLS_parts_unsorted as $key => $value) {
-						$IPLS_parts_sorted = preg_split('#[;,\\r\\n\\t]#', $value);
-						$position = '';
-						foreach ($IPLS_parts_sorted as $person) {
-							$IPLS_parts[] = array('position'=>$position, 'person'=>$person);
-						}
-					}
-				} elseif ((count($IPLS_parts_unsorted) % 2) == 0) {
-					$position = '';
-					$person   = '';
-					foreach ($IPLS_parts_unsorted as $key => $value) {
-						if (($key % 2) == 0) {
-							$position = $value;
-						} else {
-							$person   = $value;
-							$IPLS_parts[] = array('position'=>$position, 'person'=>$person);
-							$position = '';
-							$person   = '';
-						}
-					}
-				} else {
-					foreach ($IPLS_parts_unsorted as $key => $value) {
-						$IPLS_parts[] = array($value);
-					}
-				}
-
-			} else {
-				$IPLS_parts = preg_split('#[;,\\r\\n\\t]#', $parsedFrame['data_raw']);
-			}
-			$parsedFrame['data'] = $IPLS_parts;
-
-			if (!empty($parsedFrame['framenameshort']) && !empty($parsedFrame['data'])) {
-				$info['id3v2']['comments'][$parsedFrame['framenameshort']][] = $parsedFrame['data'];
-			}
 
 
 		} elseif ((($id3v2_majorversion >= 3) && ($parsedFrame['frame_name'] == 'MCDI')) || // 4.4   MCDI Music CD identifier

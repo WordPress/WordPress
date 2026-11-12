@@ -827,6 +827,12 @@ $this->error('HEIF files not currently supported');
 						}
 					}
 
+					// prevent memory exhaustion from crafted files: each "stsd" entry is at least 16 bytes (4 size + 4 data_format + 6 reserved + 2 reference_index)
+					$max_entries = (int) floor(max(0, strlen($atom_data) - 8) / 16);
+					if ($atom_structure['number_entries'] > $max_entries) {
+						$this->warning('QuickTime atom "stsd" claims '.$atom_structure['number_entries'].' entries but only has data for '.$max_entries.', truncating');
+						$atom_structure['number_entries'] = $max_entries;
+					}
 					$stsdEntriesDataOffset = 8;
 					for ($i = 0; $i < (int) $atom_structure['number_entries']; $i++) {
 						$atom_structure['sample_description_table'][$i]['size']             = getid3_lib::BigEndian2Int(substr($atom_data, $stsdEntriesDataOffset, 4));
@@ -1180,6 +1186,12 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 					$atom_structure['version']        = getid3_lib::BigEndian2Int(substr($atom_data,  0, 1));
 					$atom_structure['flags_raw']      = getid3_lib::BigEndian2Int(substr($atom_data,  1, 3)); // hardcoded: 0x0000
 					$atom_structure['number_entries'] = getid3_lib::BigEndian2Int(substr($atom_data,  4, 4));
+					// prevent memory exhaustion from crafted files: each "dref" entry is at least 12 bytes (4 size + 4 type + 1 version + 3 flags)
+					$max_entries = (int) floor(max(0, strlen($atom_data) - 8) / 12);
+					if ($atom_structure['number_entries'] > $max_entries) {
+						$this->warning('QuickTime atom "dref" claims '.$atom_structure['number_entries'].' entries but only has data for '.$max_entries.', truncating');
+						$atom_structure['number_entries'] = $max_entries;
+					}
 					$drefDataOffset = 8;
 					for ($i = 0; $i < $atom_structure['number_entries']; $i++) {
 						$atom_structure['data_references'][$i]['size']                    = getid3_lib::BigEndian2Int(substr($atom_data, $drefDataOffset, 4));
@@ -1318,6 +1330,12 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 					$atom_structure['version']        = getid3_lib::BigEndian2Int(substr($atom_data,  0, 1));
 					$atom_structure['flags_raw']      = getid3_lib::BigEndian2Int(substr($atom_data,  1, 3)); // hardcoded: 0x0000
 					$atom_structure['number_entries'] = getid3_lib::BigEndian2Int(substr($atom_data,  4, 4));
+					// prevent memory exhaustion from crafted files: each "elst" entry is at least 12 bytes (4 track_duration + 4 media_time + 4 media_rate)
+					$max_entries = (int) floor(max(0, strlen($atom_data) - 8) / 12);
+					if ($atom_structure['number_entries'] > $max_entries) {
+						$this->warning('QuickTime atom "elst" claims '.$atom_structure['number_entries'].' entries but only has data for '.$max_entries.', truncating');
+						$atom_structure['number_entries'] = $max_entries;
+					}
 					for ($i = 0; $i < $atom_structure['number_entries']; $i++ ) {
 						$atom_structure['edit_list'][$i]['track_duration'] =   getid3_lib::BigEndian2Int(substr($atom_data, 8 + ($i * 12) + 0, 4));
 						$atom_structure['edit_list'][$i]['media_time']     =   getid3_lib::BigEndian2Int(substr($atom_data, 8 + ($i * 12) + 4, 4));
@@ -1800,6 +1818,12 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 					$atom_structure['version']       = getid3_lib::BigEndian2Int(substr($atom_data,  0, 1));
 					$atom_structure['flags_raw']     = getid3_lib::BigEndian2Int(substr($atom_data,  1, 3));
 					$atom_structure['entry_count']   = getid3_lib::BigEndian2Int(substr($atom_data,  4, 4));
+					// prevent memory exhaustion from crafted files: each "keys" entry is at least 8 bytes (4 key_size + 4 key_namespace)
+					$max_entries = (int) floor(max(0, strlen($atom_data) - 8) / 8);
+					if ($atom_structure['entry_count'] > $max_entries) {
+						$this->warning('QuickTime atom "keys" claims '.$atom_structure['entry_count'].' entries but only has data for '.$max_entries.', truncating');
+						$atom_structure['entry_count'] = $max_entries;
+					}
 					$keys_atom_offset = 8;
 
 					$keys_index_base = (!empty($info['quicktime']['temp_meta_key_names']) ? count($info['quicktime']['temp_meta_key_names']) : 0); // file may contain multiple "keys" entries, starting index should be culmulative not reset to 1 on each set; https://github.com/JamesHeinrich/getID3/issues/452

@@ -387,7 +387,7 @@ class getID3
 	 */
 	protected $startup_warning = '';
 
-	const VERSION           = '1.9.26-202609042051';
+	const VERSION           = '1.9.28-202610301738';
 	const FREAD_BUFFER_SIZE = 32768;
 
 	const ATTACHMENTS_NONE   = false;
@@ -1008,7 +1008,7 @@ class getID3
 							'mime_type' => 'audio/dsd',
 						),
 
-				// DTS  - audio       - Dolby Theatre System
+				// DTS  - audio       - Digital Theater Systems
 				'dts'  => array(
 							'pattern'   => '^\\x7F\\xFE\\x80\\x01',
 							'group'     => 'audio',
@@ -1606,7 +1606,7 @@ class getID3
 			// and verify there's at least one instance of "TRACK xx AUDIO" in the file
 			$GetFileFormatArray = $this->GetFileFormatArray();
 			$info = $GetFileFormatArray['cue'];
-			$info['include']   = 'module.'.$info['group'].'.'.$info['module'].'.php';
+			$info['include'] = 'module.'.$info['group'].'.'.$info['module'].'.php';
 			return $info;
 		}
 
@@ -1629,14 +1629,21 @@ class getID3
 		// loop thru array
 		foreach ($array as $key => $value) {
 
-			// go recursive
-			if (is_array($value)) {
-				$this->CharConvert($array[$key], $encoding);
-			}
+			if ($key == 'picture') { // https://github.com/JamesHeinrich/getID3/issues/508
 
-			// convert string
-			elseif (is_string($value)) {
+				// pictures are binary data and should not be altered
+				continue;
+
+			} elseif (is_array($value)) {
+
+				// convert arrays recursively
+				$this->CharConvert($array[$key], $encoding);
+
+			} elseif (is_string($value)) {
+
+				// actually convert only strings
 				$array[$key] = trim(getid3_lib::iconv_fallback($encoding, $this->encoding, $value));
+
 			}
 		}
 	}
@@ -1690,7 +1697,7 @@ class getID3
 						if (is_string($value)) {
 							$value = trim($value, " \r\n\t"); // do not trim nulls from $value!! Unicode characters will get mangled if trailing nulls are removed!
 						}
-						if (isset($value) && $value !== "") {
+						if (isset($value) && ($value !== '')) {
 							if (!is_numeric($key)) {
 								$this->info['tags'][trim($tag_name)][trim($tag_key)][$key] = $value;
 							} else {
