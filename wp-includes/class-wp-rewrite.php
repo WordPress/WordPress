@@ -1423,22 +1423,6 @@ class WP_Rewrite {
 		 */
 		$page_rewrite = apply_filters( 'page_rewrite_rules', $page_rewrite );
 
-		// Random content rewrite rules.
-		$random_rewrite = $this->random_rewrite_rules();
-
-		/**
-		 * Filters rewrite rules used for random content redirects.
-		 *
-		 * Likely random content rules would include `/random/`, as well as
-		 * term, author and post type archives prefixed with the random base,
-		 * for example `/random/category/news/`.
-		 *
-		 * @since 7.2.0
-		 *
-		 * @param array<string, string> $random_rewrite Array of rewrite rules for random content redirects, keyed by their regex pattern.
-		 */
-		$random_rewrite = apply_filters( 'random_rewrite_rules', $random_rewrite );
-
 		// Extra permastructs.
 		foreach ( $this->extra_permastructs as $permastructname => $struct ) {
 			if ( is_array( $struct ) ) {
@@ -1485,7 +1469,38 @@ class WP_Rewrite {
 			$this->extra_rules_top = array_merge( $this->extra_rules_top, $rules );
 		}
 
-		// Put them together.
+		// Random content rewrite rules.
+		$random_rewrite = $this->random_rewrite_rules();
+
+		/*
+		 * Rules added to the top, including those for post types and taxonomies, take
+		 * precedence over random content rules using the same regex, for example a post
+		 * type archive at `/random/`.
+		 *
+		 * Rules added to the top are merged ahead of the random content rules, so without
+		 * this, the random content rule's query would replace the query of a rule using the
+		 * same regex. Rules added to the top using a different regex for the same path,
+		 * such as `^random/?$`, already take precedence as they are matched first.
+		 */
+		$random_rewrite = array_diff_key( $random_rewrite, $this->extra_rules_top );
+
+		/**
+		 * Filters rewrite rules used for random content redirects.
+		 *
+		 * Likely random content rules would include `/random/`, as well as
+		 * term, author and post type archives prefixed with the random base,
+		 * for example `/random/category/news/`.
+		 *
+		 * @since 7.2.0
+		 *
+		 * @param array<string, string> $random_rewrite Array of rewrite rules for random content redirects, keyed by their regex pattern.
+		 */
+		$random_rewrite = apply_filters( 'random_rewrite_rules', $random_rewrite );
+
+		/*
+		 * Put them together, with the random content rules ahead of the generic rules
+		 * such as the page and post rules which would otherwise match them first.
+		 */
 		if ( $this->use_verbose_page_rules ) {
 			$this->rules = array_merge( $this->extra_rules_top, $robots_rewrite, $favicon_rewrite, $sitemap_rewrite, $deprecated_files, $registration_pages, $random_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $author_rewrite, $date_rewrite, $page_rewrite, $post_rewrite, $this->extra_rules );
 		} else {
@@ -1531,6 +1546,19 @@ class WP_Rewrite {
 	 * `/random/` rule is omitted. The same applies to a published post when posts share
 	 * the URL, see {@see WP_Rewrite::post_permalinks_share_random_base()}. The rules are flushed
 	 * when such a page or post changes, see {@see wp_random_content_flush_rewrite_rules_for_post()}.
+	 *
+	 * Rules added to the top of the rewrite rules, including those for post types and taxonomies,
+	 * take precedence over the random content rules. When the rewrite rules are generated, random
+	 * content rules using the same regex as a rule added to the top are omitted, see
+	 * {@see WP_Rewrite::rewrite_rules()}. For example, a post type archive at `/random/` replaces
+	 * the `/random/` rule.
+	 *
+	 * If a post type or taxonomy uses the random base as its rewrite slug, its rules may match
+	 * random archive URLs before the random content rules do. For example, the attachment rules
+	 * of a post type with the rewrite slug `random` match `/random/category/news/`, and the rules
+	 * of a hierarchical post type or taxonomy match every URL beginning with `/random/`. Such
+	 * random archive URLs display the post type or taxonomy content instead. To use random
+	 * archives on these sites, change the random base on the Permalinks screen.
 	 *
 	 * The `random` query variable can be added to any other archive or search URL, for example
 	 * `/2026/?random`, to request a random post from that archive.
