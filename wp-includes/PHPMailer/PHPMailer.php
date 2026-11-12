@@ -769,7 +769,7 @@ class PHPMailer
      *
      * @var string
      */
-    const VERSION = '7.1.1';
+    const VERSION = '7.2.0';
 
     /**
      * Error severity: message only, continue processing.
@@ -1288,6 +1288,7 @@ class PHPMailer
      * the deprecated $useimap argument is truthy.
      * Note that quotes in the name part are removed.
      *
+     * @deprecated This method will be removed in the next major release of PHPMailer.
      * @see https://www.andrew.cmu.edu/user/agreen1/testing/mrbs/web/Mail/RFC822.php A more careful implementation
      *
      * @param string $addrstr The address list string
@@ -1300,11 +1301,11 @@ class PHPMailer
      */
     public static function parseAddresses($addrstr, $useimap = null, $charset = self::CHARSET_ISO88591)
     {
-        if ($useimap == true) {
+        if ($useimap) {
             trigger_error(self::lang('deprecated_argument') . '$useimap', E_USER_DEPRECATED);
         }
         $addresses = [];
-        if ($useimap == true && function_exists('imap_rfc822_parse_adrlist')) {
+        if ($useimap !== false && function_exists('imap_rfc822_parse_adrlist')) {
             //Use this built-in parser if it's available
             // phpcs:ignore PHPCompatibility.FunctionUse.RemovedFunctions.imap_rfc822_parse_adrlistRemoved -- wrapped in function_exists()
             $list = imap_rfc822_parse_adrlist($addrstr, '');
@@ -1486,8 +1487,8 @@ class PHPMailer
      * Check that a string looks like an email address.
      * Validation patterns supported:
      * * `auto` Pick best pattern automatically;
-     * * `pcre8` Use the squiloople.com pattern, requires PCRE > 8.0;
-     * * `pcre` Use old PCRE implementation;
+     * * `pcre8` (deprecated, will convert to PHP validator) Use the squiloople.com pattern, requires PCRE > 8.0
+     * * `pcre` (deprecated, will convert to PHP validator) Use old PCRE implementation, kept for BC;
      * * `php` Use PHP built-in FILTER_VALIDATE_EMAIL;
      * * `html5` Use the pattern given by the HTML5 spec for 'email' type form input elements.
      * * `eai` Use a pattern similar to the HTML5 spec for 'email' and to firefox, extended to support EAI (RFC6530).
@@ -1503,7 +1504,8 @@ class PHPMailer
      * You can also set the PHPMailer::$validator static to a callable, allowing built-in methods to use your validator.
      *
      * @param string          $address       The email address to check
-     * @param string|callable $patternselect Which pattern to use
+     * @param string|callable $patternselect Which pattern to use;
+     *                                        the `pcre` and `pcre8` patterns are deprecated
      *
      * @return bool
      */
@@ -1521,7 +1523,7 @@ class PHPMailer
             return false;
         }
         switch ($patternselect) {
-            case 'pcre': //Kept for BC
+            case 'pcre': //Deprecated, kept for BC
             case 'pcre8':
                 /*
                  * A more complex and more permissive version of the RFC5322 regex on which FILTER_VALIDATE_EMAIL
@@ -2191,12 +2193,17 @@ class PHPMailer
      */
     public function setSMTPXclientAttribute($name, $value)
     {
-        if (!in_array($name, SMTP::$xclient_allowed_attributes)) {
+        if (!in_array($name, SMTP::$xclient_allowed_attributes, true)) {
             return false;
         }
         if (isset($this->SMTPXClient[$name]) && $value === null) {
             unset($this->SMTPXClient[$name]);
         } elseif ($value !== null) {
+            if (!is_string($value)) {
+                //Reject invalid XCLIENT attributes
+                return false;
+            }
+            //Values are stored raw and xtext-encoded at send time
             $this->SMTPXClient[$name] = $value;
         }
 
@@ -2247,7 +2254,17 @@ class PHPMailer
             $smtp_from = $this->Sender;
         }
         if (count($this->SMTPXClient)) {
-            $this->smtp->xclient($this->SMTPXClient);
+            if (!$this->smtp->xclient($this->SMTPXClient)) {
+                throw new Exception($this->smtp->getError()['error'], self::STOP_CRITICAL);
+            }
+            //XCLIENT success resets the session to the greeting protocol stage,
+            //so the client must send EHLO again before starting a transaction.
+            if ($this->Helo) {
+                $hello = $this->Helo;
+            } else {
+                $hello = $this->serverHostname();
+            }
+            $this->smtp->hello($hello);
         }
         if (!$this->smtp->mail($smtp_from)) {
             $this->setError(self::lang('from_failed') . $smtp_from . ' : ' . implode(',', $this->smtp->getError()));
@@ -2646,7 +2663,22 @@ class PHPMailer
             $addresses[] = $this->addrFormat($address);
         }
 
-        return $type . ': ' . implode(', ', $addresses) . static::$LE;
+        //Fold between addresses so that no line exceeds the RFC 2822 line length limit
+        $header = $type . ': ' . array_shift($addresses);
+        $lineLength = strlen($header);
+        foreach ($addresses as $address) {
+            //The address goes after ', ' and must still leave room for the ',' that ends
+            //the line if the next address gets folded
+            if ($lineLength + strlen(', ') + strlen($address) + strlen(',') > static::MAX_LINE_LENGTH) {
+                $header .= ',' . static::$LE . ' ' . $address;
+                $lineLength = strlen(' ') + strlen($address);
+            } else {
+                $header .= ', ' . $address;
+                $lineLength += strlen(', ') + strlen($address);
+            }
+        }
+
+        return $header . static::$LE;
     }
 
     /**
@@ -3319,8 +3351,9 @@ class PHPMailer
                     @unlink($signed);
                     //The message returned by openssl contains both headers and body, so need to split them up
                     $parts = explode("\n\n", $body, 2);
-                    $this->MIMEHeader .= $parts[0] . static::$LE . static::$LE;
-                    $body = $parts[1];
+                    //openssl emits bare LF breaks, which SMTP servers may reject
+                    $this->MIMEHeader .= static::normalizeBreaks($parts[0]) . static::$LE . static::$LE;
+                    $body = static::normalizeBreaks($parts[1]);
                 } else {
                     @unlink($signed);
                     throw new Exception(self::lang('signing') . openssl_error_string());

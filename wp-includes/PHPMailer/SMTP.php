@@ -36,7 +36,7 @@ class SMTP
      * @var string
      * @deprecated This constant will be removed in PHPMailer 8.0. Use `PHPMailer::VERSION` instead.
      */
-    const VERSION = '7.1.1';
+    const VERSION = '7.2.0';
 
     /**
      * SMTP line break constant.
@@ -212,6 +212,7 @@ class SMTP
     /**
      * Allowed SMTP XCLIENT attributes.
      * Must be allowed by the SMTP server. EHLO response is not checked.
+     * This is a static rather than a constant because PHP 5.5 doesn't allow constant arrays.
      *
      * @see https://www.postfix.org/XCLIENT_README.html
      *
@@ -274,6 +275,14 @@ class SMTP
      * @var string
      */
     protected $last_reply = '';
+
+    /**
+     * The last command sent to the server.
+     * Used to avoid sending QUIT while a DATA command is still in progress.
+     *
+     * @var string
+     */
+    protected $state = '';
 
     /**
      * Output debugging info via a user-selected method.
@@ -671,10 +680,11 @@ class SMTP
                     if (!$this->sendCommand('OAuth TOKEN', $oauth, [235, 334])) {
                         return false;
                     }
-                    //If the server answers with 334, send an empty line and wait for a 235
+                    //If the server answers with 334, send an empty line
+                    //a reply other than a 235 means the authentication failed, so we don't need to send anything else
                     if (
-                        substr($this->last_reply, 0, 3) === '334'
-                        && $this->sendCommand('AUTH End', '', 235)
+                        strpos($this->last_reply, '334') === 0
+                        && !$this->sendCommand('AUTH End', '', 235)
                     ) {
                         return false;
                     }
@@ -762,6 +772,7 @@ class SMTP
     {
         $this->server_caps = null;
         $this->helo_rply = null;
+        $this->state = '';
         if (is_resource($this->smtp_conn)) {
             //Close the connection and cleanup
             fclose($this->smtp_conn);
@@ -1020,7 +1031,12 @@ class SMTP
      */
     public function quit($close_on_error = true)
     {
-        $noerror = $this->sendCommand('QUIT', 'QUIT', 221);
+        if ($this->state === 'DATA') {
+            //The server would take QUIT as part of an unfinished message, so just close the connection
+            $noerror = true;
+        } else {
+            $noerror = $this->sendCommand('QUIT', 'QUIT', 221);
+        }
         $err = $this->error; //Save any error
         if ($noerror || $close_on_error) {
             $this->close();
@@ -1071,7 +1087,38 @@ class SMTP
     }
 
     /**
+     * Encode a string using xtext encoding as defined in RFC 1891 & 3461,
+     * as required for XCLIENT attribute values: any octet outside
+     * printable US-ASCII (33-126), including '+', whitespace, and control
+     * characters, is encoded as '+' followed by two uppercase hexadecimal
+     * digits. Values encoded this way cannot inject additional attributes.
+     *
+     * @param string $value The string to encode
+     *
+     * @return string The xtext-encoded string
+     */
+    public static function xtext($value)
+    {
+        return preg_replace_callback(
+            '/[^\x21-\x7E]|\+/',
+            static function ($matches) {
+                return sprintf('+%02X', ord($matches[0]));
+            },
+            $value
+        );
+    }
+
+    /**
      * Send SMTP XCLIENT command to server and check its return code.
+     * On success the server resets the session to the initial greeting
+     * protocol stage and responds with 220, so a new EHLO is required
+     * before any MAIL command.
+     *
+     * Attribute values are xtext-encoded (RFC 1891 & 3461) before being
+     * sent.
+     *
+     * @see https://www.postfix.org/XCLIENT_README.html
+     * @see https://www.rfc-editor.org/info/rfc3461/#section-4
      *
      * @return bool True on success
      */
@@ -1079,14 +1126,20 @@ class SMTP
     {
         $xclient_options = "";
         foreach ($vars as $key => $value) {
-            if (in_array($key, SMTP::$xclient_allowed_attributes)) {
-                $xclient_options .= " {$key}={$value}";
+            if (!in_array($key, SMTP::$xclient_allowed_attributes)) {
+                $this->setError("Invalid XCLIENT attribute name: $key");
+                return false;
             }
+            if (!is_string($value)) {
+                $this->setError("XCLIENT attribute value for $key must be a string");
+                return false;
+            }
+            $xclient_options .= " {$key}=" . static::xtext($value);
         }
         if (!$xclient_options) {
             return true;
         }
-        return $this->sendCommand('XCLIENT', 'XCLIENT' . $xclient_options, 250);
+        return $this->sendCommand('XCLIENT', 'XCLIENT' . $xclient_options, 220);
     }
 
     /**
@@ -1123,6 +1176,7 @@ class SMTP
 
             return false;
         }
+        $this->state = $command;
         $this->client_send($commandstring . static::LE, $command);
 
         $this->last_reply = $this->get_lines();
