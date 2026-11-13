@@ -314,7 +314,14 @@ final class WP_Secrets_Cipher {
 	 * @phpstan-param 'site'|'network' $scope
 	 * @phpstan-param WP_Secret_Version::CURRENT|WP_Secret_Version::PREVIOUS $slot
 	 */
-	private function validate_common( string $master_key, string $scope, int $site_id, string $name, string $slot ) {
+	private function validate_common(
+		#[\SensitiveParameter]
+		string $master_key,
+		string $scope,
+		int $site_id,
+		string $name,
+		string $slot
+	) {
 		if ( ! in_array( $scope, array( 'site', 'network' ), true ) ) {
 			return $this->invalid_argument( __( 'The scope must be "site" or "network".' ) );
 		}
