@@ -258,6 +258,11 @@ function wp_date( $format, $timestamp = null, $timezone = null ) {
 	}
 
 	$datetime = date_create( '@' . $timestamp );
+
+	if ( false === $datetime ) {
+		return false;
+	}
+
 	$datetime->setTimezone( $timezone );
 
 	if ( empty( $wp_locale->month ) || empty( $wp_locale->weekday ) ) {
@@ -269,7 +274,7 @@ function wp_date( $format, $timestamp = null, $timezone = null ) {
 		$new_format    = '';
 		$format_length = strlen( $format );
 		$month         = $wp_locale->get_month( $datetime->format( 'm' ) );
-		$weekday       = $wp_locale->get_weekday( $datetime->format( 'w' ) );
+		$weekday       = $wp_locale->get_weekday( (int) $datetime->format( 'w' ) );
 
 		for ( $i = 0; $i < $format_length; $i++ ) {
 			switch ( $format[ $i ] ) {

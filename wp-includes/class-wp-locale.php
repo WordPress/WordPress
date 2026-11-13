@@ -264,6 +264,8 @@ class WP_Locale {
 	 *
 	 * @param int $weekday_number 0 for Sunday through 6 Saturday.
 	 * @return string Full translated weekday.
+	 *
+	 * @phpstan-param int<0, 6> $weekday_number
 	 */
 	public function get_weekday( $weekday_number ) {
 		return $this->weekday[ $weekday_number ];
@@ -355,6 +357,8 @@ class WP_Locale {
 	 *
 	 * @param string|int $month_number '01' through '12'.
 	 * @return string Translated genitive month name.
+	 *
+	 * @phpstan-param int<1, 12>|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'10'|'11'|'12'|'01'|'02'|'03'|'04'|'05'|'06'|'07'|'08'|'09' $month_number
 	 */
 	public function get_month_genitive( $month_number ) {
 		return $this->month_genitive[ zeroise( $month_number, 2 ) ];
@@ -369,6 +373,8 @@ class WP_Locale {
 	 *
 	 * @param string $meridiem Either 'am', 'pm', 'AM', or 'PM'. Not translated version.
 	 * @return string Translated version
+	 *
+	 * @phpstan-param 'am'|'pm'|'AM'|'PM' $meridiem
 	 */
 	public function get_meridiem( $meridiem ) {
 		return $this->meridiem[ $meridiem ];
