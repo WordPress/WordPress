@@ -1907,6 +1907,11 @@ class WP_Query {
 	 * There are a few filters and actions that can be used to modify the post
 	 * database query.
 	 *
+	 * When a WP_Query instance is constructed with non-empty query arguments,
+	 * this method is called and the retrieved posts are stored in the `posts`
+	 * property. To access those results, use the property instead of calling
+	 * this method again, which reprocesses the query and may change its results.
+	 *
 	 * @since 1.5.0
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
