@@ -28,11 +28,12 @@
  *
  * @since 2.3.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite   WordPress rewrite component.
  * @global bool       $is_IIS
- * @global WP_Query   $wp_query   WordPress Query object.
- * @global wpdb       $wpdb       WordPress database abstraction object.
- * @global WP         $wp         Current WordPress environment instance.
+ * @global WP_Query   $wp_query     WordPress Query object.
+ * @global WP_Query   $wp_the_query WordPress main Query object.
+ * @global wpdb       $wpdb         WordPress database abstraction object.
+ * @global WP         $wp           Current WordPress environment instance.
  *
  * @param string $requested_url Optional. The URL that was requested, used to
  *                              figure if redirect is needed.
@@ -41,9 +42,21 @@
  * @phpstan-return ( $do_redirect is true ? null : string|null )
  */
 function redirect_canonical( $requested_url = null, $do_redirect = true ) {
-	global $wp_rewrite, $is_IIS, $wp_query, $wpdb, $wp;
+	global $wp_rewrite, $is_IIS, $wp_query, $wp_the_query, $wpdb, $wp;
 
 	if ( isset( $_SERVER['REQUEST_METHOD'] ) && ! in_array( strtoupper( $_SERVER['REQUEST_METHOD'] ), array( 'GET', 'HEAD' ), true ) ) {
+		return null;
+	}
+
+	/*
+	 * Random content requests with a selected post are redirected to that post by
+	 * wp_random_content_redirect() later on the `template_redirect` action. A canonical
+	 * redirect would redirect the request twice and may drop the `random` query variable.
+	 */
+	if ( $wp_the_query instanceof WP_Query
+		&& wp_is_random_content_query( $wp_the_query )
+		&& $wp_the_query->post instanceof WP_Post
+	) {
 		return null;
 	}
 
