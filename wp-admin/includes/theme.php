@@ -494,18 +494,11 @@ function themes_api( $action, $args = array() ) {
 	}
 
 	if ( 'query_themes' === $action ) {
-		if ( ! isset( $args->per_page ) ) {
-			$args->per_page = 24;
-		}
+		$args->per_page ??= 24;
 	}
 
-	if ( ! isset( $args->locale ) ) {
-		$args->locale = get_user_locale();
-	}
-
-	if ( ! isset( $args->wp_version ) ) {
-		$args->wp_version = substr( wp_get_wp_version(), 0, 3 ); // x.y
-	}
+	$args->locale     ??= get_user_locale();
+	$args->wp_version ??= substr( wp_get_wp_version(), 0, 3 ); // x.y
 
 	/**
 	 * Filters arguments used to query for installer pages from the WordPress.org Themes API.
