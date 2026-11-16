@@ -22,7 +22,7 @@
  * @property string $blog_id
  * @property int    $site_id
  *
- * @phpstan-property numeric-string $blog_id
+ * @phpstan-property decimal-int-string $blog_id
  */
 #[AllowDynamicProperties]
 class WP_Network {
@@ -64,7 +64,7 @@ class WP_Network {
 	 *
 	 * @since 4.4.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	private $blog_id = '0';
 

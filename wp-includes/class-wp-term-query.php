@@ -307,7 +307,7 @@ class WP_Term_Query {
 	 *
 	 * @phpstan-return (
 	 *     $query is array{ fields: 'count', ... }
-	 *         ? 0|numeric-string
+	 *         ? 0|decimal-int-string
 	 *         : ( $query is array{ fields: 'ids'|'tt_ids', ... }
 	 *             ? int[]
 	 *             : ( $query is array{ fields: 'id=>parent', ... }
@@ -361,7 +361,7 @@ class WP_Term_Query {
 	 *                                             integer 0 when the queried parent term is not in the
 	 *                                             taxonomy hierarchy.
 	 *
-	 * @phpstan-return 0|numeric-string|int[]|array<int, int>|string[]|array<int, string>|WP_Term[]
+	 * @phpstan-return 0|decimal-int-string|int[]|array<int, int>|string[]|array<int, string>|WP_Term[]
 	 */
 	public function get_terms() {
 		global $wpdb;
@@ -821,7 +821,7 @@ class WP_Term_Query {
 
 		if ( 'count' === $_fields ) {
 			// The request selects a single COUNT column, so it only returns null on a database error.
-			/** @var numeric-string $count */
+			/** @var decimal-int-string $count */
 			$count = $wpdb->get_var( $this->request ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			if ( $args['cache_results'] ) {
 				wp_cache_set_salted( $cache_key, $count, 'term-queries', $last_changed );

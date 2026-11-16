@@ -20,7 +20,7 @@
  *
  * @phpstan-type Data_Array array{
  *     ID: non-negative-int,
- *     post_author: numeric-string|'',
+ *     post_author: decimal-int-string|'',
  *     post_date: string,
  *     post_date_gmt: string,
  *     post_content: string,
@@ -41,7 +41,7 @@
  *     menu_order: int,
  *     post_type: non-empty-string,
  *     post_mime_type: string,
- *     comment_count: numeric-string,
+ *     comment_count: decimal-int-string,
  *     filter: 'raw'|'edit'|'db'|'display'|'attribute'|'js'|'sample'|null,
  *     ancestors: list<non-negative-int>,
  *     page_template: string,
@@ -70,7 +70,7 @@ final class WP_Post {
 	 *
 	 * @since 3.5.0
 	 * @var string
-	 * @phpstan-var numeric-string|''
+	 * @phpstan-var decimal-int-string|''
 	 */
 	public $post_author = '0';
 
@@ -246,7 +246,7 @@ final class WP_Post {
 	 *
 	 * @since 3.5.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	public $comment_count = '0';
 
@@ -274,7 +274,7 @@ final class WP_Post {
 	 * @param int $post_id Post ID.
 	 * @return WP_Post|false Post object, false otherwise.
 	 *
-	 * @phpstan-param int|numeric-string $post_id
+	 * @phpstan-param int|decimal-int-string $post_id
 	 */
 	public static function get_instance( $post_id ) {
 		global $wpdb;

@@ -608,7 +608,7 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
  *               the type it was registered with, which may be an integer, float, or
  *               boolean.
  *
- * @phpstan-param int|numeric-string $object_id
+ * @phpstan-param int|decimal-int-string $object_id
  * @phpstan-return (
  *     $meta_key is ''|'0'
  *         ? ( $single is true
@@ -653,7 +653,7 @@ function get_metadata( $meta_type, $object_id, $meta_key = '', $single = false )
  *               When `$meta_key` is not specified, the values are returned exactly as
  *               they are held in the object cache, which means they are still serialized.
  *
- * @phpstan-param int|numeric-string $object_id
+ * @phpstan-param int|decimal-int-string $object_id
  * @phpstan-return (
  *     $meta_key is ''|'0'
  *         ? array<array-key, list<string>>|false|null
@@ -747,7 +747,7 @@ function get_metadata_raw( $meta_type, $object_id, $meta_key = '', $single = fal
  * @return mixed An array of default values if `$single` is false.
  *               The default value of the meta field if `$single` is true.
  *
- * @phpstan-param int|numeric-string $object_id
+ * @phpstan-param int|decimal-int-string $object_id
  * @phpstan-return ( $single is true ? mixed : list<mixed> )
  */
 function get_metadata_default( $meta_type, $object_id, $meta_key, $single = false ) {
@@ -857,7 +857,7 @@ function metadata_exists( $meta_type, $object_id, $meta_key ) {
  *     @type string $user_id    Optional. The object ID when the meta type is 'user'.
  * }
  *
- * @phpstan-param int|numeric-string $meta_id
+ * @phpstan-param int|decimal-int-string $meta_id
  */
 function get_metadata_by_mid( $meta_type, $meta_id ) {
 	global $wpdb;
@@ -930,7 +930,7 @@ function get_metadata_by_mid( $meta_type, $meta_id ) {
  * @param string|false $meta_key   Optional. You can provide a meta key to update it. Default false.
  * @return bool True on successful update, false on failure.
  *
- * @phpstan-param int|numeric-string $meta_id
+ * @phpstan-param int|decimal-int-string $meta_id
  */
 function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = false ) {
 	global $wpdb;
@@ -1057,7 +1057,7 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
  * @param int|string $meta_id   ID for a specific meta row.
  * @return bool True on successful delete, false on failure.
  *
- * @phpstan-param int|numeric-string $meta_id
+ * @phpstan-param int|decimal-int-string $meta_id
  */
 function delete_metadata_by_mid( $meta_type, $meta_id ) {
 	global $wpdb;

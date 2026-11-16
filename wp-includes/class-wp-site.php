@@ -22,7 +22,7 @@
  * @property int|string|false $post_count
  * @property string           $home
  *
- * @phpstan-property int|numeric-string|false $post_count
+ * @phpstan-property int|decimal-int-string|false $post_count
  */
 #[AllowDynamicProperties]
 final class WP_Site {
@@ -36,7 +36,7 @@ final class WP_Site {
 	 *
 	 * @since 4.5.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	public $blog_id;
 
@@ -66,7 +66,7 @@ final class WP_Site {
 	 *
 	 * @since 4.5.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	public $site_id = '0';
 
@@ -93,7 +93,7 @@ final class WP_Site {
 	 *
 	 * @since 4.5.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	public $public = '1';
 
@@ -104,7 +104,7 @@ final class WP_Site {
 	 *
 	 * @since 4.5.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	public $archived = '0';
 
@@ -118,7 +118,7 @@ final class WP_Site {
 	 *
 	 * @since 4.5.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	public $mature = '0';
 
@@ -129,7 +129,7 @@ final class WP_Site {
 	 *
 	 * @since 4.5.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	public $spam = '0';
 
@@ -140,7 +140,7 @@ final class WP_Site {
 	 *
 	 * @since 4.5.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	public $deleted = '0';
 
@@ -151,7 +151,7 @@ final class WP_Site {
 	 *
 	 * @since 4.5.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	public $lang_id = '0';
 

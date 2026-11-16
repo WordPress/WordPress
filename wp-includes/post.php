@@ -1132,7 +1132,7 @@ function get_extended( $post ) {
  * @return WP_Post|array|null Type corresponding to $output on success or null on failure.
  *                            When $output is OBJECT, a `WP_Post` instance is returned.
  *
- * @phpstan-param int|numeric-string|WP_Post|null $post
+ * @phpstan-param int|decimal-int-string|WP_Post|null $post
  * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
  * @phpstan-param 'raw'|'edit'|'db'|'display' $filter
  * @phpstan-return (
@@ -4599,7 +4599,7 @@ function wp_untrash_post_comments( $post = null ) {
  *
  * @phpstan-return (
  *     $args is array{ fields: 'count', ... }
- *         ? numeric-string|WP_Error
+ *         ? decimal-int-string|WP_Error
  *         : ( $args is array{ fields: 'id=>parent', ... }
  *             ? array<int, int>|WP_Error
  *             : ( $args is array{ fields: 'names'|'slugs', ... }
@@ -4641,7 +4641,7 @@ function wp_get_post_categories( $post_id = 0, $args = array() ) {
  *
  * @phpstan-return (
  *     $args is array{ fields: 'count', ... }
- *         ? numeric-string|WP_Error
+ *         ? decimal-int-string|WP_Error
  *         : ( $args is array{ fields: 'ids'|'tt_ids', ... }
  *             ? int[]|WP_Error
  *             : ( $args is array{ fields: 'id=>parent', ... }
@@ -4678,7 +4678,7 @@ function wp_get_post_tags( $post_id = 0, $args = array() ) {
  *
  * @phpstan-return (
  *     $args is array{ fields: 'count', ... }
- *         ? numeric-string|WP_Error
+ *         ? decimal-int-string|WP_Error
  *         : ( $args is array{ fields: 'ids'|'tt_ids', ... }
  *             ? int[]|WP_Error
  *             : ( $args is array{ fields: 'id=>parent', ... }
@@ -6455,7 +6455,7 @@ function get_all_page_ids() {
  *                            'edit', 'db', 'display'. Default 'raw'.
  * @return WP_Post|array|null WP_Post or array on success, null on failure.
  *
- * @phpstan-param int|numeric-string|WP_Post|null $page
+ * @phpstan-param int|decimal-int-string|WP_Post|null $page
  * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
  * @phpstan-param 'raw'|'edit'|'db'|'display' $filter
  * @phpstan-return (

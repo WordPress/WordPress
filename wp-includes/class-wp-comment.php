@@ -16,31 +16,31 @@
  *
  * @since 4.4.0
  *
- * @property-read numeric-string|''|null $post_author
- * @property-read string|null            $post_date
- * @property-read string|null            $post_date_gmt
- * @property-read string|null            $post_content
- * @property-read string|null            $post_title
- * @property-read string|null            $post_excerpt
- * @property-read non-empty-string|null  $post_status
- * @property-read non-empty-string|null  $comment_status
- * @property-read non-empty-string|null  $ping_status
- * @property-read string|null            $post_name
- * @property-read string|null            $to_ping
- * @property-read string|null            $pinged
- * @property-read string|null            $post_modified
- * @property-read string|null            $post_modified_gmt
- * @property-read string|null            $post_content_filtered
- * @property-read non-negative-int|null  $post_parent
- * @property-read string|null            $guid
- * @property-read int|null               $menu_order
- * @property-read non-empty-string|null  $post_type
- * @property-read string|null            $post_mime_type
- * @property-read numeric-string|null    $comment_count
+ * @property-read decimal-int-string|''|null $post_author
+ * @property-read string|null                $post_date
+ * @property-read string|null                $post_date_gmt
+ * @property-read string|null                $post_content
+ * @property-read string|null                $post_title
+ * @property-read string|null                $post_excerpt
+ * @property-read non-empty-string|null      $post_status
+ * @property-read non-empty-string|null      $comment_status
+ * @property-read non-empty-string|null      $ping_status
+ * @property-read string|null                $post_name
+ * @property-read string|null                $to_ping
+ * @property-read string|null                $pinged
+ * @property-read string|null                $post_modified
+ * @property-read string|null                $post_modified_gmt
+ * @property-read string|null                $post_content_filtered
+ * @property-read non-negative-int|null      $post_parent
+ * @property-read string|null                $guid
+ * @property-read int|null                   $menu_order
+ * @property-read non-empty-string|null      $post_type
+ * @property-read string|null                $post_mime_type
+ * @property-read decimal-int-string|null    $comment_count
  *
  * @phpstan-type Data_Array array{
- *     comment_ID: numeric-string,
- *     comment_post_ID: numeric-string,
+ *     comment_ID: decimal-int-string,
+ *     comment_post_ID: decimal-int-string,
  *     comment_author: string,
  *     comment_author_email: string,
  *     comment_author_url: string,
@@ -48,12 +48,12 @@
  *     comment_date: non-empty-string,
  *     comment_date_gmt: non-empty-string,
  *     comment_content: string,
- *     comment_karma: numeric-string,
+ *     comment_karma: decimal-int-string,
  *     comment_approved: non-empty-string,
  *     comment_agent: string,
  *     comment_type: string,
- *     comment_parent: numeric-string,
- *     user_id: numeric-string,
+ *     comment_parent: decimal-int-string,
+ *     user_id: decimal-int-string,
  *     ...
  * }
  */
@@ -68,7 +68,7 @@ final class WP_Comment {
 	 *
 	 * @since 4.4.0
 	 * @var string|int
-	 * @phpstan-var numeric-string|int
+	 * @phpstan-var decimal-int-string|int
 	 */
 	public $comment_ID;
 
@@ -80,7 +80,7 @@ final class WP_Comment {
 	 *
 	 * @since 4.4.0
 	 * @var string|int
-	 * @phpstan-var numeric-string|int
+	 * @phpstan-var decimal-int-string|int
 	 */
 	public $comment_post_ID = '0';
 
@@ -149,7 +149,7 @@ final class WP_Comment {
 	 *
 	 * @since 4.4.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	public $comment_karma = '0';
 
@@ -196,7 +196,7 @@ final class WP_Comment {
 	 *
 	 * @since 4.4.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	public $comment_parent = '0';
 
@@ -207,7 +207,7 @@ final class WP_Comment {
 	 *
 	 * @since 4.4.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var decimal-int-string
 	 */
 	public $user_id = '0';
 
@@ -253,7 +253,7 @@ final class WP_Comment {
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param int $id Comment ID.
-	 * @phpstan-param int|numeric-string $id
+	 * @phpstan-param int|decimal-int-string $id
 	 * @return WP_Comment|false Comment object, otherwise false.
 	 */
 	public static function get_instance( $id ) {

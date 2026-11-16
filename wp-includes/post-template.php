@@ -1352,7 +1352,7 @@ function wp_list_pages( $args = '' ) {
 	 * @since 2.1.0
 	 *
 	 * @param string[] $exclude_array An array of page IDs to exclude.
-	 * @phpstan-param list<numeric-string> $exclude_array
+	 * @phpstan-param list<decimal-int-string> $exclude_array
 	 */
 	$parsed_args['exclude'] = implode( ',', apply_filters( 'wp_list_pages_excludes', $exclude_array ) );
 

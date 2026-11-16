@@ -584,7 +584,7 @@ function delete_comment_meta( $comment_id, $meta_key, $meta_value = '' ) {
  *               the type it was registered with, which may be an integer, float, or
  *               boolean.
  *
- * @phpstan-param int|numeric-string $comment_id
+ * @phpstan-param int|decimal-int-string $comment_id
  * @phpstan-return (
  *     $key is ''|'0'
  *         ? array<array-key, list<string>>|false

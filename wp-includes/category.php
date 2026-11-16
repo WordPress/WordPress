@@ -25,7 +25,7 @@
  *
  * @phpstan-return (
  *     $args is array{ fields: 'count', ... }
- *         ? list<0|numeric-string>
+ *         ? list<0|decimal-int-string>
  *         : (
  *             $args is array{ fields: 'names'|'slugs', ... }
  *                 ? list<string>

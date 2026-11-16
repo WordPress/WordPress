@@ -40,8 +40,8 @@
  * @property string     $syntax_highlighting
  * @property string     $use_ssl
  *
- * @phpstan-property numeric-string        $user_status
- * @phpstan-property int|numeric-string|'' $user_level
+ * @phpstan-property decimal-int-string        $user_status
+ * @phpstan-property int|decimal-int-string|'' $user_level
  */
 #[AllowDynamicProperties]
 class WP_User {
