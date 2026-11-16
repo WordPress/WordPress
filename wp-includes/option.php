@@ -1474,9 +1474,7 @@ function get_transient( $transient ) {
 			}
 		}
 
-		if ( ! isset( $value ) ) {
-			$value = get_option( $transient_option );
-		}
+		$value ??= get_option( $transient_option );
 	}
 
 	/**
@@ -2607,9 +2605,7 @@ function get_site_transient( $transient ) {
 			}
 		}
 
-		if ( ! isset( $value ) ) {
-			$value = get_site_option( $transient_option );
-		}
+		$value ??= get_site_option( $transient_option );
 	}
 
 	/**
