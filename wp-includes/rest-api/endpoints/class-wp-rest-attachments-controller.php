@@ -1603,24 +1603,12 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			$mime_type = (string) get_post_mime_type( $post );
 
 			/*
-			 * Per-file output format for images, evaluated with the real filename
-			 * and MIME type so plugins filtering image_editor_output_format can
-			 * make per-attachment decisions (e.g. JPEG -> WebP). Resolved the same
-			 * way WP_Image_Editor::set_quality() resolves the output format.
+			 * Per-file output format for images, so plugins filtering
+			 * image_editor_output_format can make per-attachment decisions
+			 * (e.g. JPEG -> WebP).
 			 */
 			if ( in_array( 'image_output_format', $fields, true ) ) {
-				$filename = get_attached_file( $post->ID );
-
-				/** This filter is documented in wp-includes/media.php */
-				$output_formats = apply_filters(
-					'image_editor_output_format',
-					array( $mime_type => $mime_type ),
-					$filename ? $filename : '',
-					$mime_type
-				);
-
-				$output_mime                 = $output_formats[ $mime_type ] ?? $mime_type;
-				$data['image_output_format'] = ( $output_mime !== $mime_type ) ? $output_mime : null;
+				$data['image_output_format'] = $this->get_image_output_format( $post );
 			}
 
 			/*
@@ -2784,6 +2772,34 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	}
 
 	/**
+	 * Gets the MIME type an image attachment's sub-sizes are generated in.
+	 *
+	 * Resolved the same way WP_Image_Editor::set_quality() resolves the output
+	 * format, with the attachment's real file name and MIME type.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param WP_Post $post Image attachment post object.
+	 * @return string|null The output MIME type, or null if it matches the attachment's own.
+	 */
+	private function get_image_output_format( WP_Post $post ): ?string {
+		$mime_type = (string) get_post_mime_type( $post );
+		$filename  = get_attached_file( $post->ID );
+
+		/** This filter is documented in wp-includes/media.php */
+		$output_formats = apply_filters(
+			'image_editor_output_format',
+			array( $mime_type => $mime_type ),
+			$filename ? $filename : '',
+			$mime_type
+		);
+
+		$output_mime = is_array( $output_formats ) ? ( $output_formats[ $mime_type ] ?? $mime_type ) : $mime_type;
+
+		return ( is_string( $output_mime ) && $output_mime !== $mime_type ) ? $output_mime : null;
+	}
+
+	/**
 	 * Checks whether a dimension exceeds the maximum allowed value.
 	 *
 	 * A maximum of zero means the dimension is unconstrained.
@@ -2847,6 +2863,25 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			);
 		}
 
+		/*
+		 * The server writes sub-sizes in the attachment's output format without
+		 * checking it against the network's allowed upload file types, so a
+		 * sideload in that format is exempt from them too. Resolved before the
+		 * output format filter below is added.
+		 */
+		$output_format     = wp_attachment_is_image( $post ) ? $this->get_image_output_format( $post ) : null;
+		$output_extensions = null !== $output_format ? array_search( $output_format, wp_get_mime_types(), true ) : false;
+		$filter_filetypes  = null;
+
+		if ( is_string( $output_extensions ) ) {
+			$filter_filetypes = static function ( $filetypes ) use ( $output_extensions ) {
+				return is_string( $filetypes ) ? $filetypes . ' ' . str_replace( '|', ' ', $output_extensions ) : $filetypes;
+			};
+
+			add_filter( 'site_option_upload_filetypes', $filter_filetypes );
+			add_filter( 'default_site_option_upload_filetypes', $filter_filetypes );
+		}
+
 		if ( false === $request['convert_format'] ) {
 			// Prevent image conversion as that is done client-side.
 			add_filter( 'image_editor_output_format', '__return_empty_array', 100 );
@@ -2897,6 +2932,11 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		remove_filter( 'wp_unique_filename', $filter_filename );
 		remove_filter( 'image_editor_output_format', '__return_empty_array', 100 );
 		remove_filter( 'upload_dir', $filter_upload_dir, 100 );
+
+		if ( null !== $filter_filetypes ) {
+			remove_filter( 'site_option_upload_filetypes', $filter_filetypes );
+			remove_filter( 'default_site_option_upload_filetypes', $filter_filetypes );
+		}
 
 		if ( is_wp_error( $file ) ) {
 			return $file;
