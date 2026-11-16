@@ -728,6 +728,14 @@ class WP {
 	 * the redirect. Otherwise the request continues with the results of the main
 	 * query, which is not run again.
 	 *
+	 * Search requests are never random content requests. A search request that includes
+	 * the `random` query variable is redirected to the search results without it, see
+	 * {@see WP::redirect_random_search()}.
+	 *
+	 * Requests that are not for posts ignore the `random` query variable, they are neither
+	 * random content requests nor redirected. These are requests for robots.txt, the
+	 * favicon, sitemaps, feeds and trackbacks.
+	 *
 	 * @since 7.2.0
 	 *
 	 * @see wp_is_random_content_query()
@@ -739,6 +747,26 @@ class WP {
 		global $wp_the_query;
 
 		if ( ! isset( $this->query_vars['random'] ) || ! wp_is_random_content_redirect_enabled() ) {
+			return false;
+		}
+
+		/*
+		 * Random content can only be requested from posts. Requests for robots.txt, the
+		 * favicon, sitemaps, feeds and trackbacks ignore the `random` query variable.
+		 *
+		 * Embeds are not included as only singular requests are embeds, which are never
+		 * random content requests.
+		 */
+		foreach ( array( 'robots', 'favicon', 'sitemap', 'feed', 'tb' ) as $query_var ) {
+			if ( ! empty( $this->query_vars[ $query_var ] ) ) {
+				return false;
+			}
+		}
+
+		if ( isset( $this->query_vars['s'] ) ) {
+			$this->redirect_random_search();
+
+			// The request was not redirected, run the search as if `random` was not requested.
 			return false;
 		}
 
@@ -765,6 +793,143 @@ class WP {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Redirects search requests for random content to the search results.
+	 *
+	 * Random content can not be requested from search results. Instead, a search
+	 * request that includes the `random` query variable is redirected to
+	 * the same request without it.
+	 *
+	 * The location depends on how random content was requested:
+	 *
+	 * - By the `random` query string parameter: the requested path is retained and the
+	 *   parameter is removed. For example, `example.com/search/foo/?random` redirects to
+	 *   `example.com/search/foo/` and `example.com/?s=foo&random` to `example.com/?s=foo`.
+	 * - By a rewrite rule, such as those using the random base: the path is replaced by the
+	 *   query variables of the request, so the location never includes the random base.
+	 *   For example, `example.com/random/category/news/?s=foo` redirects to
+	 *   `example.com/?s=foo&category_name=news`.
+	 *
+	 * Other query string parameters, including those that are not query variables, are
+	 * retained. The redirect happens before the main query is run, so no search is
+	 * performed for the redirected request.
+	 *
+	 * As with random content requests, only front end GET and HEAD requests are redirected.
+	 * The request is not redirected when the location would be the requested URL. This is
+	 * the case when random content is not requested by the URL, for example by a filter,
+	 * or is requested by a rewrite rule for the home page.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+	 */
+	protected function redirect_random_search(): void {
+		global $wp_rewrite;
+
+		if ( is_admin() ) {
+			return;
+		}
+
+		$request_method = isset( $_SERVER['REQUEST_METHOD'] ) && is_string( $_SERVER['REQUEST_METHOD'] ) ? strtoupper( $_SERVER['REQUEST_METHOD'] ) : '';
+		if ( 'GET' !== $request_method && 'HEAD' !== $request_method ) {
+			return;
+		}
+
+		$requested_path = '';
+
+		if ( is_string( $this->request ) && '' !== $this->request ) {
+			/*
+			 * The requested path is URL-encoded unless it is from PATH_INFO. Encode any
+			 * characters that are not safe in a redirect without decoding the path, as
+			 * doing so would change its meaning. For example, a plus is a space in the
+			 * path of a search.
+			 *
+			 * The path is from $_SERVER, so is unslashed first. The slashes are not part
+			 * of the request.
+			 */
+			$requested_path = (string) preg_replace_callback(
+				'|[^a-z0-9\-._~+%/]|i',
+				static fn ( array $matches ): string => rawurlencode( $matches[0] ),
+				wp_unslash( $this->request )
+			);
+			$requested_path = user_trailingslashit( $requested_path );
+
+			// PATHINFO permalinks are prefixed by the index file, which PATH_INFO does not include.
+			if ( '' !== $wp_rewrite->root && ! str_starts_with( $requested_path, $wp_rewrite->root ) ) {
+				$requested_path = $wp_rewrite->root . $requested_path;
+			}
+		}
+
+		$path       = $requested_path;
+		$query_args = $_GET;
+
+		wp_parse_str( $this->matched_query, $matched_query_vars );
+
+		if ( isset( $matched_query_vars['random'] ) ) {
+			/*
+			 * The path requests random content, so can not be retained. Replace it with
+			 * the query variables it was rewritten to.
+			 */
+			$path       = '';
+			$query_args = array_merge( $query_args, $this->query_vars );
+		}
+
+		unset( $query_args['random'] );
+
+		$location = add_query_arg( $this->urlencode_query_args( $query_args ), home_url( '/' . $path ) );
+
+		/*
+		 * The redirect removes the random request from the URL. If there is nothing to
+		 * remove the location is the requested URL, which would redirect repeatedly. This
+		 * is the case when random content is not requested by the URL, for example by a
+		 * filter, or is requested by a rewrite rule for the home page.
+		 */
+		if ( add_query_arg( $this->urlencode_query_args( $_GET ), home_url( '/' . $requested_path ) ) === $location ) {
+			return;
+		}
+
+		// Only consider redirecting permitted locations so wp_safe_redirect doesn't redirect to the fallback.
+		if ( ! wp_validate_redirect( $location, '' ) ) {
+			return;
+		}
+
+		if ( wp_safe_redirect( $location, 301 ) ) {
+			exit;
+		}
+	}
+
+	/**
+	 * URL-encodes the names and values of query string parameters.
+	 *
+	 * Unlike urlencode_deep(), the parameter names are encoded as well as the values. A
+	 * name is from the request, so may include characters that separate parameters.
+	 *
+	 * The values are unslashed before they are encoded. The names are not, as slashes
+	 * are only added to the values of the superglobals.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param array<mixed> $query_args Query string parameters. The values are expected to
+	 *                                 be slashed, the names are not.
+	 * @return array<string, mixed> URL-encoded query string parameters. Values that are
+	 *                              neither scalar nor an array are removed.
+	 */
+	private function urlencode_query_args( array $query_args ): array {
+		$encoded = array();
+
+		foreach ( $query_args as $name => $value ) {
+			$name = urlencode( (string) $name );
+
+			if ( is_array( $value ) ) {
+				$encoded[ $name ] = $this->urlencode_query_args( $value );
+			} elseif ( is_scalar( $value ) ) {
+				$encoded[ $name ] = urlencode( wp_unslash( (string) $value ) );
+			}
+		}
+
+		return $encoded;
 	}
 
 	/**

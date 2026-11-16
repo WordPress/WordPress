@@ -1561,7 +1561,8 @@ class WP_Rewrite {
 	 * archives on these sites, change the random base on the Permalinks screen.
 	 *
 	 * The `random` query variable can be added to any other archive or search URL, for example
-	 * `/2026/?random`, to request a random post from that archive.
+	 * `/2026/?random`, to request a random post from that archive. Search requests
+	 * including it are redirected to the search results, see {@see WP::handle_random()}.
 	 *
 	 * @since 7.2.0
 	 *

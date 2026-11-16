@@ -426,8 +426,10 @@ class WP_Query {
 	/**
 	 * Signifies whether the current query is for random content.
 	 *
-	 * True for a blog home, archive or search request that includes the `random`
-	 * query variable, for example `example.com/random/` or `example.com/?s=foo&random`.
+	 * True for a blog home or archive request that includes the `random` query
+	 * variable, for example `example.com/random/` or `example.com/random/category/news/`.
+	 * Search, feed, trackback, robots.txt, favicon and sitemap requests are never for
+	 * random content.
 	 *
 	 * @since 7.2.0
 	 */
@@ -1167,7 +1169,12 @@ class WP_Query {
 
 		$this->is_random = isset( $query_vars['random'] )
 			&& ! $this->is_feed
-			&& ( $this->is_home || $this->is_archive || $this->is_search );
+			&& ! $this->is_search
+			&& ! $this->is_robots
+			&& ! $this->is_favicon
+			&& ! $this->is_sitemap
+			&& ! $this->is_trackback
+			&& ( $this->is_home || $this->is_archive );
 
 		$this->query_vars_hash    = md5( serialize( $this->query_vars ) );
 		$this->query_vars_changed = false;
