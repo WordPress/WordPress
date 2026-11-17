@@ -74,9 +74,15 @@ function _wp_connectors_preload_paths( array $preload_paths ): array {
 }
 add_filter( 'wp_options_connectors_wp_admin_preload_paths', '_wp_connectors_preload_paths' );
 
+// Used to install connector plugins when filesystem credentials are required.
+wp_enqueue_script( 'updates' );
+
 require_once ABSPATH . 'wp-admin/admin-header.php';
 
 // Render the Connectors page.
 wp_options_connectors_wp_admin_render_page();
+
+wp_print_request_filesystem_credentials_modal();
+wp_print_admin_notice_templates();
 
 require_once ABSPATH . 'wp-admin/admin-footer.php';
