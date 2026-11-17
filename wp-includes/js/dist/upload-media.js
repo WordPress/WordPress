@@ -100,6 +100,7 @@ var wp;
     getHeicConversionAdvice: () => getHeicConversionAdvice,
     getHeicUnsupportedMessage: () => getHeicUnsupportedMessage,
     isClientSideMediaSupported: () => isClientSideMediaSupported,
+    isClientSideSupportedFormat: () => isClientSideSupportedFormat,
     isHeicCanvasSupported: () => isHeicCanvasSupported,
     isHeicFile: () => isHeicFile,
     store: () => store
@@ -818,6 +819,13 @@ var wp;
     } catch {
       return false;
     }
+  }
+  function isClientSideSupportedFormat(file) {
+    const type = (file.type || "").toLowerCase();
+    if (CLIENT_SIDE_SUPPORTED_MIME_TYPES.includes(type) || HEIC_MIME_TYPES.includes(type)) {
+      return true;
+    }
+    return /\.hei[cf]$/i.test(file.name || "");
   }
 
   // packages/upload-media/build-module/store/utils/index.mjs

@@ -1824,7 +1824,10 @@ var wp;
   // packages/icons/build-module/library/file.mjs
   var import_primitives20 = __toESM(require_primitives(), 1);
   var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
-  var file_default = /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_primitives20.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_primitives20.Path, { d: "M3.75 6V17.5C3.75 18.1904 4.30964 18.75 5 18.75H19C19.6904 18.75 20.25 18.1904 20.25 17.5V8.5C20.25 7.80964 19.6904 7.25 19 7.25H13.3463C12.8352 7.25 12.3755 6.93881 12.1857 6.46424L11.8143 5.53576C11.6245 5.06119 11.1648 4.75 10.6537 4.75H5C4.30964 4.75 3.75 5.30964 3.75 6Z" }) });
+  var file_default = /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(import_primitives20.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_primitives20.Path, { d: "M14 4.75V7.75C14 8.44036 14.5596 9 15.25 9H18.25" }),
+    /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_primitives20.Path, { d: "M5.75 18L5.75 6C5.75 5.30964 6.30964 4.75 7 4.75H14L18.25 9V18C18.25 18.6904 17.6904 19.25 17 19.25H7C6.30964 19.25 5.75 18.6904 5.75 18Z", strokeLinejoin: "round" })
+  ] });
 
   // packages/icons/build-module/library/format-list-bullets-rtl.mjs
   var import_primitives21 = __toESM(require_primitives(), 1);
@@ -57250,8 +57253,11 @@ If there's a particular need for this, please submit a feature request at https:
       )
     ] });
   }
-  function MediaPreview({ attachment }) {
-    const url = attachment.source_url;
+  function MediaPreview({
+    attachment,
+    getPreviewUrl
+  }) {
+    const url = getPreviewUrl && !(0, import_blob3.isBlobURL)(attachment.source_url) ? getPreviewUrl(attachment) : attachment.source_url;
     const mimeType = attachment.mime_type || "";
     if (mimeType.startsWith("image")) {
       return /* @__PURE__ */ (0, import_jsx_runtime250.jsx)(
@@ -57283,7 +57289,8 @@ If there's a particular need for this, please submit a feature request at https:
     open: open2,
     onFilesDrop,
     isUploading,
-    setTargetItemId
+    setTargetItemId,
+    getPreviewUrl
   }) {
     const itemsKey = getItemsKey(allItems);
     return /* @__PURE__ */ (0, import_jsx_runtime250.jsxs)(
@@ -57336,7 +57343,8 @@ If there's a particular need for this, please submit a feature request at https:
                           children: (!isBlob || hasPreviewImage) && /* @__PURE__ */ (0, import_jsx_runtime250.jsx)(
                             MediaPreview,
                             {
-                              attachment
+                              attachment,
+                              getPreviewUrl
                             }
                           )
                         }
@@ -57411,7 +57419,8 @@ If there's a particular need for this, please submit a feature request at https:
     open: open2,
     onFilesDrop,
     isUploading,
-    setTargetItemId
+    setTargetItemId,
+    getPreviewUrl
   }) {
     const itemsKey = getItemsKey(allItems);
     return /* @__PURE__ */ (0, import_jsx_runtime250.jsxs)(import_jsx_runtime250.Fragment, { children: [
@@ -57450,7 +57459,8 @@ If there's a particular need for this, please submit a feature request at https:
                         /* @__PURE__ */ (0, import_jsx_runtime250.jsx)(
                           MediaPreview,
                           {
-                            attachment
+                            attachment,
+                            getPreviewUrl
                           }
                         ),
                         !isBlob && /* @__PURE__ */ (0, import_jsx_runtime250.jsx)(
@@ -57537,7 +57547,8 @@ If there's a particular need for this, please submit a feature request at https:
     validity,
     isPickerFiltered,
     featuredImageFlow,
-    pickerTitle
+    pickerTitle,
+    getPreviewUrl
   }) {
     const MediaUploadComponent = isPickerFiltered ? FilteredMediaUpload : ConditionalMediaUpload;
     const value = field.getValue({ item: data });
@@ -57835,7 +57846,8 @@ If there's a particular need for this, please submit a feature request at https:
                   open: () => setPendingOpen(true),
                   onFilesDrop,
                   isUploading: !!blobs.length,
-                  setTargetItemId
+                  setTargetItemId,
+                  getPreviewUrl
                 }
               ),
               field.description && /* @__PURE__ */ (0, import_jsx_runtime250.jsx)(

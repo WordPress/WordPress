@@ -29,7 +29,11 @@ var wp;
   var offset;
   var output;
   var stack;
-  var tokenizer = /<!--[ \t\f\r\n]+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)[ \t\f\r\n]+({(?:(?=([^}]+|}+(?=})|(?!}[ \t\f\r\n]+\/?-->)[^])*)\5|[^]*?)}[ \t\f\r\n]+)?(\/)?-->/g;
+  var delimiterPrefixPattern = /[ \t\f\r\n]+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)[ \t\f\r\n]+/y;
+  var attributeAreaClosingPattern = /}[ \t\f\r\n]+$/g;
+  var commentStartPattern = /<!--/g;
+  var onlyDashesCommentEndPattern = /-*>/y;
+  var commentEndPattern = /--!?>/g;
   function Block(blockName, attrs, innerBlocks, innerHTML, innerContent) {
     return {
       blockName,
@@ -56,7 +60,7 @@ var wp;
     offset = 0;
     output = [];
     stack = [];
-    tokenizer.lastIndex = 0;
+    commentStartPattern.lastIndex = 0;
     do {
     } while (proceed());
     return output;
@@ -72,13 +76,7 @@ var wp;
           addFreeform();
           return false;
         }
-        if (1 === stackDepth) {
-          addBlockFromStack();
-          return false;
-        }
-        while (0 < stack.length) {
-          addBlockFromStack();
-        }
+        implicitlyCloseAllOpenBlocks();
         return false;
       case "void-block":
         if (0 === stackDepth) {
@@ -130,8 +128,10 @@ var wp;
           stackTop.prevOffset,
           startOffset - stackTop.prevOffset
         );
-        stackTop.block.innerHTML += html;
-        stackTop.block.innerContent.push(html);
+        if (html) {
+          stackTop.block.innerHTML += html;
+          stackTop.block.innerContent.push(html);
+        }
         stackTop.prevOffset = startOffset + tokenLength;
         addInnerBlock(
           stackTop.block,
@@ -154,36 +154,75 @@ var wp;
     }
   }
   function nextToken() {
-    const matches = tokenizer.exec(document);
-    if (null === matches) {
-      return ["no-more-tokens", "", null, 0, 0];
+    while (commentStartPattern.lastIndex < document.length) {
+      const nextComment = commentStartPattern.exec(document);
+      if (null === nextComment) {
+        commentStartPattern.lastIndex = document.length;
+        break;
+      }
+      onlyDashesCommentEndPattern.lastIndex = commentStartPattern.lastIndex;
+      const abruptlyClosedEnding = onlyDashesCommentEndPattern.exec(document);
+      if (null !== abruptlyClosedEnding) {
+        commentStartPattern.lastIndex = onlyDashesCommentEndPattern.lastIndex;
+        continue;
+      }
+      commentEndPattern.lastIndex = commentStartPattern.lastIndex;
+      const commentEnd = commentEndPattern.exec(document);
+      if (null === commentEnd) {
+        commentStartPattern.lastIndex = document.length;
+        break;
+      }
+      if ("!" === document[commentEndPattern.lastIndex - 2]) {
+        commentStartPattern.lastIndex = commentEndPattern.lastIndex;
+        continue;
+      }
+      if (commentEnd.index < commentStartPattern.lastIndex + 6) {
+        commentStartPattern.lastIndex = commentEndPattern.lastIndex;
+        continue;
+      }
+      delimiterPrefixPattern.lastIndex = commentStartPattern.lastIndex;
+      const delimiterPrefix = delimiterPrefixPattern.exec(document);
+      if (null === delimiterPrefix) {
+        commentStartPattern.lastIndex = commentEndPattern.lastIndex;
+        continue;
+      }
+      const isVoid = "/" === document[commentEnd.index - 1];
+      const voidBackup = isVoid ? 1 : 0;
+      const attributeAreaLength = commentEnd.index - voidBackup - delimiterPrefixPattern.lastIndex;
+      const hasAttrs = attributeAreaLength > 0;
+      if (hasAttrs && "{" !== document[delimiterPrefixPattern.lastIndex]) {
+        commentStartPattern.lastIndex = commentEndPattern.lastIndex;
+        continue;
+      }
+      const attributeArea = document.slice(
+        delimiterPrefixPattern.lastIndex,
+        commentEnd.index - voidBackup
+      );
+      attributeAreaClosingPattern.lastIndex = 1;
+      const attributeClosing = hasAttrs ? attributeAreaClosingPattern.exec(attributeArea) : null;
+      if (hasAttrs && null === attributeClosing) {
+        commentStartPattern.lastIndex = commentEndPattern.lastIndex;
+        continue;
+      }
+      const jsonAttributes = attributeClosing ? attributeArea.slice(0, attributeClosing.index + 1) : null;
+      const startedAt = nextComment.index;
+      commentStartPattern.lastIndex = commentEndPattern.lastIndex;
+      const length = commentEndPattern.lastIndex - nextComment.index;
+      const isCloser = "/" === delimiterPrefix[1];
+      const namespace = delimiterPrefix[2] || "core/";
+      const name = namespace + delimiterPrefix[3];
+      const attrs = jsonAttributes ? parseJSON(jsonAttributes) : {};
+      if (isCloser && (isVoid || hasAttrs)) {
+      }
+      if (isVoid) {
+        return ["void-block", name, attrs, startedAt, length];
+      }
+      if (isCloser) {
+        return ["block-closer", name, null, startedAt, length];
+      }
+      return ["block-opener", name, attrs, startedAt, length];
     }
-    const startedAt = matches.index;
-    const [
-      match,
-      closerMatch,
-      namespaceMatch,
-      nameMatch,
-      attrsMatch,
-      ,
-      voidMatch
-    ] = matches;
-    const length = match.length;
-    const isCloser = !!closerMatch;
-    const isVoid = !!voidMatch;
-    const namespace = namespaceMatch || "core/";
-    const name = namespace + nameMatch;
-    const hasAttrs = !!attrsMatch;
-    const attrs = hasAttrs ? parseJSON(attrsMatch) : {};
-    if (isCloser && (isVoid || hasAttrs)) {
-    }
-    if (isVoid) {
-      return ["void-block", name, attrs, startedAt, length];
-    }
-    if (isCloser) {
-      return ["block-closer", name, null, startedAt, length];
-    }
-    return ["block-opener", name, attrs, startedAt, length];
+    return ["no-more-tokens", "", null, 0, 0];
   }
   function addFreeform(rawLength) {
     const length = rawLength ? rawLength : document.length - offset;
@@ -224,6 +263,39 @@ var wp;
       );
     }
     output.push(block);
+  }
+  function implicitlyCloseAllOpenBlocks() {
+    let lastClosedBlock = null;
+    let lastOpenerAt = document.length;
+    let lastLeadingHtml = null;
+    while (stack.length > 0) {
+      const stackTop = stack.pop();
+      let html;
+      const htmlLength = lastOpenerAt - stackTop.prevOffset;
+      if (htmlLength > 0) {
+        html = document.substr(stackTop.prevOffset, htmlLength);
+        stackTop.block.innerHTML += html;
+        stackTop.block.innerContent.push(html);
+      }
+      if (lastClosedBlock !== null) {
+        stackTop.block.innerContent.push(null);
+        stackTop.block.innerBlocks.push(lastClosedBlock);
+      }
+      lastClosedBlock = stackTop.block;
+      lastOpenerAt = stackTop.tokenStart;
+      lastLeadingHtml = stackTop.leadingHtmlStart;
+    }
+    if (null !== lastLeadingHtml && lastOpenerAt > lastLeadingHtml) {
+      const html = document.substr(
+        lastLeadingHtml,
+        lastOpenerAt - lastLeadingHtml
+      );
+      output.push(Freeform(html));
+    }
+    if (lastClosedBlock !== null) {
+      output.push(lastClosedBlock);
+    }
+    offset = document.length;
   }
   return __toCommonJS(index_exports);
 })();

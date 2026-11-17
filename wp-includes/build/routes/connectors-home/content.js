@@ -11747,6 +11747,68 @@ var import_data = __toESM(require_data());
 var import_element34 = __toESM(require_element());
 var import_i18n7 = __toESM(require_i18n());
 var import_notices = __toESM(require_notices());
+function isFilesystemUnavailableError(error2) {
+  return typeof error2 === "object" && error2 !== null && error2.code === "fs_unavailable";
+}
+function installPluginViaWpUpdates(slug, trigger) {
+  return new Promise((resolve, reject) => {
+    const w = window;
+    const jq = w.jQuery;
+    const updates = w.wp?.updates;
+    if (!jq || !updates?.installPlugin) {
+      reject(new Error("wp.updates.installPlugin is not available."));
+      return;
+    }
+    const cleanup = () => {
+      jq(document).off("wp-plugin-install-success", onSuccess);
+      jq(document).off("wp-plugin-install-error", onError);
+      jq(document).off("credential-modal-cancel", onCancel);
+      jq(document).off("ajaxComplete", onAjaxComplete);
+    };
+    const onSuccess = (_event, response) => {
+      if (response.slug !== slug) {
+        return;
+      }
+      cleanup();
+      resolve("installed");
+    };
+    const onError = (_event, response) => {
+      if (response.slug !== slug) {
+        return;
+      }
+      cleanup();
+      const errResponse = response;
+      reject(
+        new Error(errResponse.errorMessage ?? "Install failed.")
+      );
+    };
+    const onCancel = () => {
+      cleanup();
+      resolve("canceled");
+    };
+    const onAjaxComplete = (_event, xhr, settings) => {
+      if (typeof settings.data !== "string") {
+        return;
+      }
+      const params = new URLSearchParams(settings.data);
+      if (params.get("action") !== "install-plugin" || params.get("slug") !== slug) {
+        return;
+      }
+      if (xhr.status !== 200 || typeof xhr.responseJSON !== "object" || xhr.responseJSON === null) {
+        cleanup();
+        reject(new Error("Install failed."));
+      }
+    };
+    jq(document).on("wp-plugin-install-success", onSuccess);
+    jq(document).on("wp-plugin-install-error", onError);
+    jq(document).on("credential-modal-cancel", onCancel);
+    jq(document).on("ajaxComplete", onAjaxComplete);
+    updates.maybeRequestFilesystemCredentials?.({
+      target: trigger ?? null
+    });
+    updates.installPlugin({ slug });
+  });
+}
 function useConnectorPlugin({
   file: pluginFileFromServer,
   settingName,
@@ -11896,18 +11958,45 @@ function useConnectorPlugin({
       }
     );
   };
-  const installPlugin = async () => {
+  const installPlugin = async (event) => {
     if (!pluginSlug) {
       return;
     }
+    const trigger = event?.currentTarget;
     setIsBusy(true);
     try {
-      await saveEntityRecord(
-        "root",
-        "plugin",
-        { slug: pluginSlug, status: "active" },
-        { throwOnError: true }
-      );
+      try {
+        await saveEntityRecord(
+          "root",
+          "plugin",
+          { slug: pluginSlug, status: "active" },
+          { throwOnError: true }
+        );
+      } catch (error2) {
+        if (!isFilesystemUnavailableError(error2)) {
+          throw error2;
+        }
+        const outcome = await installPluginViaWpUpdates(
+          pluginSlug,
+          trigger
+        );
+        if (outcome === "canceled") {
+          return;
+        }
+        if (pluginBasename) {
+          await saveEntityRecord(
+            "root",
+            "plugin",
+            { plugin: pluginBasename, status: "active" },
+            { throwOnError: true }
+          );
+        }
+        invalidateResolution("getEntityRecord", [
+          "root",
+          "plugin",
+          pluginBasename
+        ]);
+      }
       setPluginStatusOverride("active");
       invalidateResolution("getEntityRecord", ["root", "site"]);
       setIsExpanded(true);
@@ -11983,12 +12072,12 @@ function useConnectorPlugin({
       setIsBusy(false);
     }
   };
-  const handleButtonClick = () => {
+  const handleButtonClick = (event) => {
     if (pluginStatus === "not-installed") {
       if (canInstallPlugins === false) {
         return;
       }
-      installPlugin();
+      installPlugin(event);
     } else if (pluginStatus === "inactive") {
       if (canActivatePlugins === false) {
         return;
@@ -12675,15 +12764,35 @@ function AiPluginCallout() {
   }, []);
   const { saveEntityRecord } = (0, import_data3.useDispatch)(import_core_data2.store);
   const { createSuccessNotice, createErrorNotice } = (0, import_data3.useDispatch)(import_notices2.store);
-  const installPlugin = async () => {
+  const installPlugin = async (event) => {
+    const trigger = event.currentTarget;
     setIsBusy(true);
     try {
-      await saveEntityRecord(
-        "root",
-        "plugin",
-        { slug: AI_PLUGIN_SLUG, status: "active" },
-        { throwOnError: true }
-      );
+      try {
+        await saveEntityRecord(
+          "root",
+          "plugin",
+          { slug: AI_PLUGIN_SLUG, status: "active" },
+          { throwOnError: true }
+        );
+      } catch (error2) {
+        if (!isFilesystemUnavailableError(error2)) {
+          throw error2;
+        }
+        const outcome = await installPluginViaWpUpdates(
+          AI_PLUGIN_SLUG,
+          trigger
+        );
+        if (outcome === "canceled") {
+          return;
+        }
+        await saveEntityRecord(
+          "root",
+          "plugin",
+          { plugin: AI_PLUGIN_ID, status: "active" },
+          { throwOnError: true }
+        );
+      }
       setJustActivated(true);
       createSuccessNotice(
         (0, import_i18n9.__)("AI plugin installed and activated successfully."),

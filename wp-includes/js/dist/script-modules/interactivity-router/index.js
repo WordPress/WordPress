@@ -939,7 +939,15 @@ var reloadAndDischarge = (token) => {
     }
   }
 };
+var entryChangeType = null;
+window.navigation?.addEventListener("currententrychange", (event) => {
+  entryChangeType = event.navigationType;
+});
 window.addEventListener("popstate", async () => {
+  if ((entryChangeType === "push" || entryChangeType === "replace") && currentNavigationId === navigateCallId && state.navigating) {
+    state.url = window.location.href;
+    return;
+  }
   const pagePath = getPagePath(window.location.href);
   const token = ++navigationId;
   currentNavigationId = token;
@@ -957,20 +965,32 @@ window.addEventListener("popstate", async () => {
       state.initiator = null;
     }
     const page = await pages.get(pagePath);
+    if (currentNavigationId !== token) {
+      return;
+    }
     if (!page) {
       reloadAndDischarge(token);
       return;
     }
-    if (currentNavigationId === token) {
-      batch(() => {
-        state.navigating = true;
-        state.initiator = null;
-      });
+    batch(() => {
+      state.navigating = true;
+      state.initiator = null;
+    });
+    if (currentNavigationId !== token) {
+      return;
     }
+    const { navigation } = privateState;
     batch(() => {
       state.url = window.location.href;
+      if (navigation.hasStarted) {
+        navigation.hasStarted = false;
+        navigation.hasFinished = true;
+      }
       renderPage(page);
     });
+    if (isLoadingAnnounced) {
+      a11ySpeak("loaded");
+    }
     if (currentNavigationId === token) {
       afterNextFrame(() => {
         if (currentNavigationId === token) {
@@ -1007,9 +1027,10 @@ window.document.querySelectorAll("script[type=module][src]").forEach(({ src }) =
     )
   );
 })();
-var navigatingTo = "";
 var navigationId = 0;
 var currentNavigationId = 0;
+var navigateCallId = 0;
+var isLoadingAnnounced = false;
 var hasLoadedNavigationTextsData = false;
 var navigationTexts = {
   loading: "Loading page, please wait.",
@@ -1076,6 +1097,11 @@ var { state, actions } = store("core/router", {
      * needed, and updates any interactive regions whose contents have
      * changed. It also creates a new entry in the browser session history.
      *
+     * If another navigation (another call or a back/forward traversal)
+     * starts before this one renders its page, this one is abandoned: it
+     * doesn't render its page, change the session history or fall back to
+     * a full page load.
+     *
      * @param href                               The page href.
      * @param [options]                          Options object.
      * @param [options.force]                    If true, it forces re-fetching the URL.
@@ -1086,7 +1112,7 @@ var { state, actions } = store("core/router", {
      * @param [options.screenReaderAnnouncement] Whether a message for screen readers should be announced while navigating. Default to `true`.
      * @param [options.initiator]                Who started the navigation. A nonempty string is used as is; `null` suppresses attribution silently; omitting it derives the value from the directive scope. An empty string or any other invalid value warns when `SCRIPT_DEBUG` is enabled, resolves to `null`, and never derives an initiator.
      *
-     * @return  Promise that resolves once the navigation is completed or aborted.
+     * @return  Promise that resolves once the navigation is completed or abandoned.
      */
     *navigate(href, options = {}) {
       options = Object.assign(/* @__PURE__ */ Object.create(null), options);
@@ -1102,13 +1128,15 @@ var { state, actions } = store("core/router", {
         screenReaderAnnouncement = true,
         timeout = 1e4
       } = options;
-      navigatingTo = href;
       actions.prefetch(pagePath, options);
       const timeoutPromise = new Promise(
         (resolve2) => setTimeout(resolve2, timeout)
       );
+      const token = ++navigationId;
+      currentNavigationId = token;
+      navigateCallId = token;
       const loadingTimeout = setTimeout(() => {
-        if (navigatingTo !== href) {
+        if (currentNavigationId !== token) {
           return;
         }
         if (loadingAnimation) {
@@ -1119,8 +1147,6 @@ var { state, actions } = store("core/router", {
           a11ySpeak("loading");
         }
       }, 400);
-      const token = ++navigationId;
-      currentNavigationId = token;
       try {
         batch(() => {
           state.navigating = true;
@@ -1131,21 +1157,24 @@ var { state, actions } = store("core/router", {
           timeoutPromise
         ]);
         clearTimeout(loadingTimeout);
-        if (navigatingTo !== href) {
+        const canRenderPage = page && !page.initialData?.config?.["core/router"]?.clientNavigationDisabled;
+        if (canRenderPage && currentNavigationId === token) {
+          yield importScriptModules(page.scriptModules);
+        }
+        if (currentNavigationId !== token) {
           return;
         }
-        if (page && !page.initialData?.config?.["core/router"]?.clientNavigationDisabled) {
-          yield importScriptModules(page.scriptModules);
+        if (canRenderPage) {
           batch(() => {
             state.url = href;
-            if (loadingAnimation) {
+            if (loadingAnimation || navigation.hasStarted) {
               navigation.hasStarted = false;
               navigation.hasFinished = true;
             }
             renderPage(page);
           });
           window.history[options.replace ? "replaceState" : "pushState"]({ wpInteractivityId: sessionId }, "", href);
-          if (screenReaderAnnouncement) {
+          if (screenReaderAnnouncement || isLoadingAnnounced) {
             a11ySpeak("loaded");
           }
           const { hash } = new URL(href, window.location.href);
@@ -1202,6 +1231,7 @@ var { state, actions } = store("core/router", {
 });
 state.url = state.url || window.location.href;
 function a11ySpeak(messageKey) {
+  isLoadingAnnounced = messageKey === "loading";
   if (!hasLoadedNavigationTextsData) {
     hasLoadedNavigationTextsData = true;
     const script = document.querySelector(

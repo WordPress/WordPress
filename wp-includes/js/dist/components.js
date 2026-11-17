@@ -78326,6 +78326,7 @@ The screen with id ${screen.id} will not be added.`
     disabled: disabled2,
     required,
     placeholder,
+    onMouseDown,
     ...additionalProps
   }, forwardedRef) {
     const { baseControlProps, controlProps } = useBaseControlProps({
@@ -78341,7 +78342,11 @@ The screen with id ${screen.id} will not be added.`
         base_control_default.VisualLabel,
         {
           id: labelId,
-          onClick: () => editableRef.current?.focus(),
+          onClick: () => {
+            if (!disabled2) {
+              editableRef.current?.focus();
+            }
+          },
           children: label
         }
       ),
@@ -78358,6 +78363,12 @@ The screen with id ${screen.id} will not be added.`
           ref: mergedRefs,
           contentEditable: !disabled2,
           tabIndex: disabled2 ? -1 : void 0,
+          onMouseDown: (event) => {
+            onMouseDown?.(event);
+            if (disabled2) {
+              event.preventDefault();
+            }
+          },
           suppressContentEditableWarning: true,
           ...additionalProps,
           ...controlProps

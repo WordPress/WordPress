@@ -254,7 +254,7 @@
 			'wp-primitives',
 			'wp-private-apis'
 		),
-		'version' => 'fc39ba4261c0c13a18da'
+		'version' => '6ee0c90ba79f0665129a'
 	),
 	'core-actions/wp_template_part.js' => array(
 		'dependencies' => array(
@@ -294,7 +294,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'a18070ac45d386810812'
+		'version' => '1c6e0a53a90f773f7bcf'
 	),
 	'core-fields/page.js' => array(
 		'dependencies' => array(
@@ -331,6 +331,7 @@
 			'wp-data',
 			'wp-date',
 			'wp-element',
+			'wp-hooks',
 			'wp-html-entities',
 			'wp-i18n',
 			'wp-media-utils',
@@ -348,7 +349,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '9a5e94c52cfc7769eb34'
+		'version' => '2aa2fe44937a04cb98c7'
 	),
 	'core-fields/root_site.js' => array(
 		'dependencies' => array(
@@ -378,7 +379,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'c370718a4a4c6a472b00'
+		'version' => 'd680682bcf1ba8335f47'
 	),
 	'core-fields/wp_template.js' => array(
 		'dependencies' => array(
@@ -426,7 +427,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '33d6fd6d02d1097c3b37'
+		'version' => 'dfc10f4161f895f0cd08'
 	),
 	'dashboard-init/index.js' => array(
 		'dependencies' => array(
@@ -459,13 +460,13 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'cef91e6c10beba154e91'
+		'version' => '478dda8abb4953f812c4'
 	),
 	'interactivity/index.js' => array(
 		'dependencies' => array(
 			
 		),
-		'version' => 'c030c90d503985d55ec2'
+		'version' => 'b2185b9b3c06dcd1869d'
 	),
 	'interactivity-router/full-page.js' => array(
 		'dependencies' => array(
@@ -493,7 +494,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '3e7d4036443ac65e34a4'
+		'version' => 'c0110eac0afb41d3f204'
 	),
 	'latex-to-mathml/index.js' => array(
 		'dependencies' => array(

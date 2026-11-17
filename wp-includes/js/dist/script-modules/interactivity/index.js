@@ -2982,7 +2982,7 @@ directive(
   "html",
   ({ directives: { html: htmlEntries }, element, evaluate }) => {
     const entry = htmlEntries.find(isDefaultDirectiveSuffix);
-    const lastAppliedKey = A2(void 0);
+    const writeRecord = A2(void 0);
     const previousHost = A2(null);
     const previousInputs = A2(null);
     const previousServerContent = A2(
@@ -3041,7 +3041,7 @@ directive(
       previousInputs.current = inputs;
       if (hostChanged) {
         previousHost.current = node;
-        lastAppliedKey.current = void 0;
+        writeRecord.current = void 0;
         owedServerContent.current = void 0;
         shownServerContent.current = preserveContent ? serverContent : void 0;
         if (active && preserveContent && !node.hasChildNodes() && fallback?.hasChildNodes()) {
@@ -3072,7 +3072,7 @@ directive(
           );
         }
         shownServerContent.current = owed;
-        lastAppliedKey.current = void 0;
+        writeRecord.current = void 0;
         return;
       }
       if (!hostChanged && !inputsChanged) {
@@ -3080,7 +3080,7 @@ directive(
       }
       if (preserveContent) {
         if (serverHTMLRepresentation) {
-          lastAppliedKey.current = void 0;
+          writeRecord.current = void 0;
         }
         return;
       }
@@ -3091,15 +3091,18 @@ directive(
         );
       }
       const key = String(resolvedValue);
-      if (lastAppliedKey.current === key) {
+      const plainString = typeof resolvedValue === "string";
+      const record = writeRecord.current;
+      if (record && ("rejected" in record ? record.rejected === key && record.plainString === plainString : record.applied === key)) {
         return;
       }
-      if (lastAppliedKey.current === void 0 && node.innerHTML === key) {
-        lastAppliedKey.current = key;
+      if (!record && node.innerHTML === key) {
+        writeRecord.current = { applied: key };
         return;
       }
       try {
         node.innerHTML = resolvedValue;
+        writeRecord.current = { applied: key };
       } catch (error) {
         node.innerHTML = emptyHTML;
         if (true) {
@@ -3107,8 +3110,8 @@ directive(
             `data-wp-html: the browser rejected this HTML value, so the element was emptied. ${error}`
           );
         }
+        writeRecord.current = { rejected: key, plainString };
       }
-      lastAppliedKey.current = key;
     }, [
       result,
       active,

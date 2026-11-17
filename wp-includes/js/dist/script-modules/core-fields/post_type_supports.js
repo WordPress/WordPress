@@ -281,6 +281,13 @@ var require_html_entities = __commonJS({
   }
 });
 
+// package-external:@wordpress/hooks
+var require_hooks = __commonJS({
+  "package-external:@wordpress/hooks"(exports, module) {
+    module.exports = window.wp.hooks;
+  }
+});
+
 // package-external:@wordpress/media-utils
 var require_media_utils = __commonJS({
   "package-external:@wordpress/media-utils"(exports, module) {
@@ -18142,6 +18149,7 @@ var import_components2 = __toESM(require_components(), 1);
 var import_core_data4 = __toESM(require_core_data(), 1);
 var import_data4 = __toESM(require_data(), 1);
 var import_element52 = __toESM(require_element(), 1);
+var import_hooks = __toESM(require_hooks(), 1);
 var import_media_utils = __toESM(require_media_utils(), 1);
 
 // packages/core-fields/build-module/lock-unlock.mjs
@@ -18154,6 +18162,15 @@ var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnl
 // packages/core-fields/build-module/post_type_supports/featured_media/edit.mjs
 var import_jsx_runtime80 = __toESM(require_jsx_runtime(), 1);
 var { MediaEditControl } = unlock(import_media_utils.privateApis);
+function getPreviewUrl(attachment, postId) {
+  const size4 = (0, import_hooks.applyFilters)(
+    "editor.PostFeaturedImage.imageSize",
+    "large",
+    attachment.id,
+    postId
+  );
+  return attachment.media_details?.sizes?.[size4]?.source_url ?? attachment.source_url;
+}
 var FilteredMediaEdit = (0, import_components2.withFilters)("editor.PostFeaturedImage")(
   function PostFeaturedImage(props) {
     return /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
@@ -18163,7 +18180,8 @@ var FilteredMediaEdit = (0, import_components2.withFilters)("editor.PostFeatured
         isExpanded: true,
         isPickerFiltered: true,
         featuredImageFlow: true,
-        pickerTitle: props.postType?.labels?.featured_image || props.field.label
+        pickerTitle: props.postType?.labels?.featured_image || props.field.label,
+        getPreviewUrl: (attachment) => getPreviewUrl(attachment, props.data.id)
       }
     );
   }
