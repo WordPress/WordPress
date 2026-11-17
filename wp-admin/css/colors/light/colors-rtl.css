@@ -63,7 +63,7 @@ a {
   color: #0073aa;
 }
 a:hover, a:active, a:focus {
-  color: rgb(0, 149.5, 221);
+  color: rgb(0%, 58.6274509804%, 86.6666666667%);
 }
 
 #post-body .misc-pub-post-status::before,
@@ -116,7 +116,7 @@ span.wp-media-buttons-icon::before {
 .wp-core-ui .button-link.button-link-delete:focus,
 .wp-core-ui .delete-link:hover,
 .wp-core-ui .delete-link:focus {
-  color: rgb(158.3684210526, 18.6315789474, 18.6315789474);
+  color: rgb(62.1052631579%, 7.306501548%, 7.306501548%);
 }
 
 /* Forms */
@@ -132,7 +132,7 @@ input[type=radio]:checked {
 
 .wp-core-ui input[type=reset]:hover,
 .wp-core-ui input[type=reset]:active {
-  color: rgb(0, 149.5, 221);
+  color: rgb(0%, 58.6274509804%, 86.6666666667%);
 }
 
 input[type=text]:focus,
@@ -405,14 +405,14 @@ input[type=radio]:focus {
 }
 
 #adminmenu .wp-submenu .wp-submenu-head {
-  color: rgb(104.4, 104.4, 104.4);
+  color: rgb(40.9411764706%, 40.9411764706%, 40.9411764706%);
 }
 
 #adminmenu .wp-submenu a,
 #adminmenu .wp-has-current-submenu .wp-submenu a,
 #adminmenu a.wp-has-current-submenu:focus + .wp-submenu a,
 #adminmenu .wp-has-current-submenu.opensub .wp-submenu a {
-  color: rgb(104.4, 104.4, 104.4);
+  color: rgb(40.9411764706%, 40.9411764706%, 40.9411764706%);
 }
 #adminmenu .wp-submenu a:focus, #adminmenu .wp-submenu a:hover,
 #adminmenu .wp-has-current-submenu .wp-submenu a:focus,
@@ -546,14 +546,14 @@ ul#adminmenu > li.current > a.current::after {
 
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary,
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary .ab-submenu {
-  background: rgb(246.85, 246.85, 246.85);
+  background: rgb(96.8039215686%, 96.8039215686%, 96.8039215686%);
 }
 
 #wpadminbar .ab-submenu .ab-item,
 #wpadminbar .quicklinks .menupop ul li a,
 #wpadminbar .quicklinks .menupop.hover ul li a,
 #wpadminbar.nojs .quicklinks .menupop:hover ul li a {
-  color: rgb(104.4, 104.4, 104.4);
+  color: rgb(40.9411764706%, 40.9411764706%, 40.9411764706%);
 }
 
 #wpadminbar .quicklinks li .blavatar,
@@ -601,7 +601,7 @@ ul#adminmenu > li.current > a.current::after {
 /* Admin Bar: search */
 #wpadminbar > #wp-toolbar > #wp-admin-bar-top-secondary > #wp-admin-bar-search #adminbarsearch input.adminbar-input:focus {
   color: #333;
-  background: rgb(246.85, 246.85, 246.85);
+  background: rgb(96.8039215686%, 96.8039215686%, 96.8039215686%);
 }
 
 /* Admin Bar: recovery mode */
@@ -624,13 +624,13 @@ ul#adminmenu > li.current > a.current::after {
 }
 
 #wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode:hover {
-  background-color: rgb(178.2, 63, 5.4);
+  background-color: rgb(69.8823529412%, 24.7058823529%, 2.1176470588%);
 }
 
 /* Admin Bar: my account */
 #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
-  border-color: rgb(246.85, 246.85, 246.85);
-  background-color: rgb(246.85, 246.85, 246.85);
+  border-color: rgb(96.8039215686%, 96.8039215686%, 96.8039215686%);
+  background-color: rgb(96.8039215686%, 96.8039215686%, 96.8039215686%);
 }
 
 #wpadminbar #wp-admin-bar-user-info .display-name {
@@ -638,7 +638,7 @@ ul#adminmenu > li.current > a.current::after {
 }
 
 #wpadminbar #wp-admin-bar-user-info .username {
-  color: rgb(104.4, 104.4, 104.4);
+  color: rgb(40.9411764706%, 40.9411764706%, 40.9411764706%);
 }
 
 #wpadminbar #wp-admin-bar-user-info a:hover .howdy,
@@ -653,7 +653,7 @@ ul#adminmenu > li.current > a.current::after {
 /* Pointers */
 .wp-pointer .wp-pointer-content h3 {
   background-color: #007cba;
-  border-color: rgb(0, 107, 160.5);
+  border-color: rgb(0%, 41.9607843137%, 62.9411764706%);
 }
 
 .wp-pointer .wp-pointer-content h3::before {
