@@ -734,12 +734,8 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		),
 	);
 	$args     = wp_parse_args( $args, $defaults );
-	if ( $menu->count > 0 ) {
-		$items = get_posts( $args );
-	} else {
-		$items = array();
-	}
 
+	$items = get_posts( $args );
 	$items = array_map( 'wp_setup_nav_menu_item', $items );
 
 	if ( ! is_admin() ) { // Remove invalid items only on front end.
