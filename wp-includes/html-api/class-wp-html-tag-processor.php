@@ -956,6 +956,8 @@ class WP_HTML_Tag_Processor {
 	 * @since 7.1.0 Recognizes processing instructions.
 	 *
 	 * @return bool Whether a token was parsed.
+	 *
+	 * @phpstan-impure
 	 */
 	public function next_token(): bool {
 		return $this->base_class_next_token();
