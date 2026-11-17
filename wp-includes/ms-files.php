@@ -30,6 +30,11 @@ if ( ! defined( 'BLOGUPLOADDIR' ) ) {
 	die( '500 &#8212; Directory not configured.' );
 }
 
+if ( ! isset( $_GET['file'] ) || ! is_string( $_GET['file'] ) ) {
+	status_header( 404 );
+	die( '404 &#8212; File not found.' );
+}
+
 $file = rtrim( BLOGUPLOADDIR, '/' ) . '/' . str_replace( '..', '', $_GET['file'] );
 if ( ! is_file( $file ) ) {
 	status_header( 404 );
