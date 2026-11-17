@@ -707,7 +707,9 @@ class WP {
 	 * Redirects random content requests to a randomly selected post.
 	 *
 	 * For random content requests, runs the main query to select a single random post
-	 * from the requested archive and redirects to it. For example, `example.com/random/`
+	 * from the requested archive and redirects to it. The post is selected by looking up
+	 * random post IDs, see {@see wp_random_content_posts_pre_query()}, as sorting posts
+	 * randomly requires the database to read every eligible post. For example, `example.com/random/`
 	 * redirects to a random post and `example.com/random/category/news/` redirects to a
 	 * random post in the "news" category.
 	 *
@@ -716,8 +718,11 @@ class WP {
 	 * enforcing the eligible posts, order and limit are added after any other callbacks:
 	 *
 	 * - {@see wp_random_content_pre_get_posts()} on the {@see 'pre_get_posts'} action.
+	 * - {@see wp_random_content_posts_where()} on the {@see 'posts_where'} filter.
 	 * - {@see wp_random_content_posts_orderby()} on the {@see 'posts_orderby'} filter.
 	 * - {@see wp_random_content_post_limits()} on the {@see 'post_limits'} filter.
+	 * - {@see wp_random_content_posts_fields()} on the {@see 'posts_fields'} filter.
+	 * - {@see wp_random_content_posts_pre_query()} on the {@see 'posts_pre_query'} filter.
 	 *
 	 * If a post is selected, the redirect is sent by {@see wp_random_content_redirect()}
 	 * on the {@see 'template_redirect'} action at priority 100, so the request is set up
@@ -771,14 +776,20 @@ class WP {
 		}
 
 		add_action( 'pre_get_posts', 'wp_random_content_pre_get_posts', 20 );
+		add_filter( 'posts_where', 'wp_random_content_posts_where', 20, 2 );
 		add_filter( 'posts_orderby', 'wp_random_content_posts_orderby', 20, 2 );
 		add_filter( 'post_limits', 'wp_random_content_post_limits', 20, 2 );
+		add_filter( 'posts_fields', 'wp_random_content_posts_fields', 20, 2 );
+		add_filter( 'posts_pre_query', 'wp_random_content_posts_pre_query', 20, 2 );
 
 		$this->query_posts();
 
 		remove_action( 'pre_get_posts', 'wp_random_content_pre_get_posts', 20 );
+		remove_filter( 'posts_where', 'wp_random_content_posts_where', 20 );
 		remove_filter( 'posts_orderby', 'wp_random_content_posts_orderby', 20 );
 		remove_filter( 'post_limits', 'wp_random_content_post_limits', 20 );
+		remove_filter( 'posts_fields', 'wp_random_content_posts_fields', 20 );
+		remove_filter( 'posts_pre_query', 'wp_random_content_posts_pre_query', 20 );
 
 		if ( ! wp_is_random_content_query( $wp_the_query ) ) {
 			return true;
