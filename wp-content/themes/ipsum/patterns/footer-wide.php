@@ -17,8 +17,11 @@
 <div class="wp-block-group alignwide" style="padding-top:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20)"><!-- wp:paragraph {"fontSize":"small","fontFamily":"manrope"} -->
 <p class="has-manrope-font-family has-small-font-size">
 <?php
-/* Translators: 1. is the start of a 'a' HTML element, 2. is the end of a 'a' HTML element */
-printf( esc_html__( 'Designed with %1$sWordPress%2$s', 'ipsum' ), '<a href="' . esc_url( 'https://wordpress.org' ) . '" rel="nofollow">', '</a>' );
+printf(
+	/* translators: Designed with WordPress. %s: WordPress link. */
+	esc_html__( 'Designed with %s', 'ipsum' ),
+	'<a href="' . esc_url( __( 'https://wordpress.org', 'ipsum' ) ) . '" rel="nofollow">WordPress</a>'
+);
 ?>
 </p>
 <!-- /wp:paragraph -->

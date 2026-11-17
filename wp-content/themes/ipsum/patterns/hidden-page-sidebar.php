@@ -4,7 +4,7 @@
  * Slug: ipsum/hidden-page-sidebar
  * Template Types: page
  * Inserter: no
- * Description: The Pages Sidebar template. It has the featured image, title and content beside the Sidebar part on the wide width, between the header and the wide footer, with the search bar pinned to the bottom.
+ * Description: The Pages Sidebar template. It has the featured image, title and content beside the Sidebar part on the wide width, between the theme header and the wide theme footer, with the search bar pinned to the bottom.
  *
  * @package Ipsum
  * @since Ipsum 1.0

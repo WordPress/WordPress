@@ -14,6 +14,13 @@ Text Domain: ipsum
 Tags: one-column, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready, wide-blocks, block-styles, style-variations, blog
 */
 
+/*
+ * IMPORTANT: This file is only served on the frontend when `SCRIPT_DEBUG` is enabled;
+ * in most instances, the `style.min.css` file will be served. It is not recommended that you
+ * use the Theme File Editor to modify this stylesheet. Instead, add the necessary style
+ * overrides via "Additional CSS" in the Site Editor.
+ */
+
 /* Crossfade page transition */
 
 @media (prefers-reduced-motion: no-preference) {
@@ -67,6 +74,12 @@ span[style*="text-decoration"] {
 	text-decoration-thickness: 1px !important;
 	text-decoration-style: dotted !important;
 	text-underline-offset: 0.1em;
+}
+
+/* Focus ring in the text color, so it keeps contrast in every color variation. Buttons keep theme.json's. */
+:where(.wp-site-blocks *:focus-visible:not(.wp-element-button, .wp-block-button__link)) {
+	outline: 2px dotted currentcolor;
+	outline-offset: 2px;
 }
 
 /*
@@ -181,6 +194,15 @@ footer.wp-block-template-part {
 }
 
 /*
+ * Long unbroken author names still grow their flex row (avatar + meta).
+ * Comment content inherits body's break-word once the template wrapper is a
+ * plain group; only the author needs anywhere so min-content can shrink.
+ */
+.wp-block-comment-author-name {
+	overflow-wrap: anywhere;
+}
+
+/*
  * Sticky headers: a sticky root block inside a template part has no room to
  * travel — the part's wrapper element is exactly as tall as its content — so
  * the wrapper itself must carry the stickiness. Keyed on the class core emits
@@ -199,6 +221,25 @@ header.wp-block-template-part:has(> .is-position-sticky) {
  */
 .admin-bar header.wp-block-template-part:has(> .is-position-sticky) {
 	inset-block-start: var(--wp-admin--admin-bar--height, 32px);
+}
+
+/* Below 600px the admin bar scrolls away (core's breakpoint), so stick to the very top. */
+@media (max-width: 600px) {
+	.admin-bar header.wp-block-template-part:has(> .is-position-sticky) {
+		inset-block-start: 0;
+	}
+}
+
+/*
+ * Keep focused elements and anchor targets from scrolling under a sticky
+ * header. Scroll padding can't follow the header's real height, so this is a
+ * generous guess: Header Sticky is under 120px tall with its 48px logo, and
+ * 10rem leaves room for a bigger logo or a title that wraps. Too much padding
+ * only leaves a little more space above what you scroll to. It replaces core's
+ * admin bar scroll padding, so the bar's height is added back.
+ */
+html:has(header.wp-block-template-part > .is-position-sticky) {
+	scroll-padding-block-start: calc(var(--wp-admin--admin-bar--height, 0px) + 10rem);
 }
 
 /*

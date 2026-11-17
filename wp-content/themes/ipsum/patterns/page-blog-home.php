@@ -15,9 +15,11 @@
 ?>
 <!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Text Statement', 'Name of the Text Statement element', 'ipsum' ); ?>"},"align":"wide","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"},"blockGap":"var:preset|spacing|20"}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignwide" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)"><!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Text Statement Wrapper', 'Name of the Text Statement Wrapper element', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"0"}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:paragraph {"className":"is-style-text-quote-mark","style":{"typography":{"fontStyle":"normal","fontWeight":"400","textAlign":"left","lineHeight":"1.3"}},"fontSize":"x-large"} -->
-<p class="has-text-align-left is-style-text-quote-mark has-x-large-font-size" style="font-style:normal;font-weight:400;line-height:1.3"><?php echo wp_kses_post( __( 'I teach and write about books, slow mornings, and the occasional recipe that actually works—start with the <a href="#">essays</a>.', 'ipsum' ) ); ?></p>
-<!-- /wp:paragraph --></div>
+<div class="wp-block-group"><!-- wp:quote {"className":"is-style-plain","style":{"spacing":{"blockGap":"var:preset|spacing|30"}}} -->
+<blockquote class="wp-block-quote is-style-plain"><!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.3"}},"fontSize":"x-large"} -->
+<p class="has-x-large-font-size" style="font-style:normal;font-weight:400;line-height:1.3"><?php esc_html_e( 'Write the sentence first. The page can wait.', 'ipsum' ); ?></p>
+<!-- /wp:paragraph --><cite><?php echo wp_kses_post( __( 'From the <a href="#">essays</a>', 'ipsum' ) ); ?></cite></blockquote>
+<!-- /wp:quote --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
 
@@ -32,7 +34,7 @@
 <!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Post Title', 'Name of the group holding the post title', 'ipsum' ); ?>"},"align":"full","style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull"><!-- wp:post-title {"isLink":true,"fontSize":"2-x-large"} /-->
 
-<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Date and Categories', 'Name of the group holding the post date and categories', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Date and Categories', 'Name of the group holding the post date and categories', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"flex"}} -->
 <div class="wp-block-group"><!-- wp:post-date /-->
 
 <!-- wp:paragraph {"metadata":{"name":"<?php echo esc_html_x( 'Meta Separator', 'Name of the paragraph separating post meta items', 'ipsum' ); ?>"},"style":{"typography":{"fontStyle":"normal","fontWeight":"600"}},"fontSize":"small"} -->
@@ -88,12 +90,12 @@
 <!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Subscribe', 'Name of the Subscribe element', 'ipsum' ); ?>"},"align":"full","style":{"spacing":{"margin":{"top":"0","bottom":"0"},"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|70"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Subscribe Wrapper', 'Name of the Subscribe Wrapper element', 'ipsum' ); ?>"},"style":{"border":{"radius":"10px"},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}},"elements":{"link":{"color":{"text":"var:preset|color|base"}}}},"backgroundColor":"accent-3","textColor":"base","layout":{"type":"constrained","justifyContent":"left"}} -->
 <div class="wp-block-group has-base-color has-accent-3-background-color has-text-color has-background has-link-color" style="border-radius:10px;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Title and Paragraph', 'Name of the Title and Paragraph element', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:heading {"style":{"typography":{"textAlign":"left"}},"fontSize":"x-large"} -->
-<h2 class="wp-block-heading has-text-align-left has-x-large-font-size"><?php esc_html_e( 'The next post can find you.', 'ipsum' ); ?></h2>
+<div class="wp-block-group"><!-- wp:heading {"fontSize":"x-large"} -->
+<h2 class="wp-block-heading has-x-large-font-size"><?php esc_html_e( 'The next post can find you.', 'ipsum' ); ?></h2>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"style":{"typography":{"textAlign":"left"}}} -->
-<p class="has-text-align-left"><?php esc_html_e( 'Leave your address, and new essays will arrive as they’re published—no noise.', 'ipsum' ); ?></p>
+<!-- wp:paragraph -->
+<p><?php esc_html_e( 'Leave your address, and new essays will arrive as they’re published—no noise.', 'ipsum' ); ?></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 

@@ -27,18 +27,19 @@ if ( ! function_exists( 'ipsum_register_abilities' ) ) :
 			'ipsum/get-design-guide',
 			array(
 				'label'                 => __( 'Get Design Guide', 'ipsum' ),
-				'description'           => __( 'Returns the design guide of the Ipsum theme, read from the site as it is now: the color palette and what each color is for, whether it is light or dark, fonts, font sizes, spacing, layout widths, style variations, block styles, patterns, and the templates and template parts with the pattern that fills each. Read it before building pages, templates or styles. Pass fields to get only some sections.', 'ipsum' ),
+				'description'           => __( 'Returns the design guide of the Ipsum theme, read from the site as it is now. By default returns the basic design sections: the active theme, whether the palette is light or dark, the color palette and what each color is for, gradients, duotone, typography, spacing, layout widths, and guidelines. Pass fields to request specific sections, including larger lists such as style variations, block styles, patterns, templates, template parts, and template part areas. Read it before building pages, templates or styles.', 'ipsum' ),
 				'category'              => 'site',
 				'input_schema'          => array(
 					'type'                 => 'object',
 					'properties'           => array(
 						'fields' => array(
 							'type'        => 'array',
+							'title'       => __( 'Fields', 'ipsum' ),
+							'description' => __( 'Optional. Sections to return. When omitted or empty, returns the basic design sections (theme, colorScheme, colors, gradients, duotone, typography, spacing, layout, guidelines). When set, returns only the listed sections. Every section name in the enum is valid, including larger lists such as patterns, templates, template parts, template part areas, block styles, and style variations.', 'ipsum' ),
 							'items'       => array(
 								'type' => 'string',
 								'enum' => array_keys( $output_schema['properties'] ),
 							),
-							'description' => __( 'Optional. Limits the guide to these sections. All sections are returned when it is omitted.', 'ipsum' ),
 						),
 					),
 					'additionalProperties' => false,
@@ -84,9 +85,40 @@ if ( ! function_exists( 'ipsum_get_color_roles' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ipsum_get_design_guide_default_fields' ) ) :
+	/**
+	 * Returns the design guide sections included when fields is omitted or empty.
+	 *
+	 * Larger lists (style variations, block styles, patterns, templates,
+	 * template parts, and template part areas) are left out of the default
+	 * response and must be requested through fields.
+	 *
+	 * @since Ipsum 1.0
+	 *
+	 * @return string[] Section names.
+	 */
+	function ipsum_get_design_guide_default_fields() {
+		return array(
+			'theme',
+			'colorScheme',
+			'colors',
+			'gradients',
+			'duotone',
+			'typography',
+			'spacing',
+			'layout',
+			'guidelines',
+		);
+	}
+endif;
+
 if ( ! function_exists( 'ipsum_get_design_guide_schema' ) ) :
 	/**
 	 * Returns the JSON Schema of the design guide, with one property per section.
+	 *
+	 * Top-level sections stay optional so callers can request a subset. Nested
+	 * objects with a fixed set of fields mark guaranteed properties as required
+	 * and set additionalProperties to false.
 	 *
 	 * @since Ipsum 1.0
 	 *
@@ -98,155 +130,428 @@ if ( ! function_exists( 'ipsum_get_design_guide_schema' ) ) :
 	 * }
 	 */
 	function ipsum_get_design_guide_schema() {
-		$string      = array( 'type' => 'string' );
-		$nullable    = array( 'type' => array( 'string', 'null' ) );
-		$strings     = array(
+		$string   = array( 'type' => 'string' );
+		$nullable = array(
+			'type'        => array( 'string', 'null' ),
+			'description' => __( 'A font family preset slug, a literal font-family value, or null when unset.', 'ipsum' ),
+		);
+		$strings  = array(
 			'type'  => 'array',
 			'items' => $string,
 		);
-		$scheme      = array(
-			'type' => 'string',
-			'enum' => array( 'light', 'dark' ),
+		$scheme   = array(
+			'type'        => 'string',
+			'title'       => __( 'Color Scheme', 'ipsum' ),
+			'description' => __( 'Whether the palette is light or dark.', 'ipsum' ),
+			'enum'        => array( 'light', 'dark' ),
 		);
-		$object_list = static function ( $description, $properties ) {
+
+		$object_list = static function ( $title, $description, $properties, $required = array() ) {
+			$items = array(
+				'type'                 => 'object',
+				'properties'           => $properties,
+				'additionalProperties' => false,
+			);
+			if ( ! empty( $required ) ) {
+				$items['required'] = $required;
+			}
 			return array(
 				'type'        => 'array',
+				'title'       => $title,
 				'description' => $description,
-				'items'       => array(
-					'type'       => 'object',
-					'properties' => $properties,
-				),
+				'items'       => $items,
 			);
 		};
-		$preset_list = static function ( $description, $value_key, $value_schema ) use ( $object_list, $string ) {
-			return $object_list(
-				$description,
+
+		$preset_list = static function ( $title, $description, $value_key, $value_schema, $required, $extra_properties = array() ) use ( $object_list ) {
+			$name_description = in_array( 'name', $required, true )
+				? __( 'The human-readable preset name.', 'ipsum' )
+				: __( 'The human-readable preset name. Omitted when the preset does not set one.', 'ipsum' );
+			$properties       = array_merge(
 				array(
-					'slug'     => $string,
-					'name'     => $string,
+					'slug'     => array(
+						'type'        => 'string',
+						'title'       => __( 'Slug', 'ipsum' ),
+						'description' => __( 'The preset slug.', 'ipsum' ),
+					),
+					'name'     => array(
+						'type'        => 'string',
+						'title'       => __( 'Name', 'ipsum' ),
+						'description' => $name_description,
+					),
 					$value_key => $value_schema,
-				)
+				),
+				$extra_properties
 			);
+			return $object_list( $title, $description, $properties, $required );
 		};
 
-		$colors = $preset_list( __( 'The color palette, with what each color is for. Every style variation redefines the same slugs. Colors added on the site have no role.', 'ipsum' ), 'color', $string );
+		$colors = $preset_list(
+			__( 'Colors', 'ipsum' ),
+			__( 'The color palette from the theme and any colors added on the site, with what each theme color is for. Every style variation redefines the same slugs. The role field is omitted for colors that have no known role.', 'ipsum' ),
+			'color',
+			array(
+				'type'        => 'string',
+				'title'       => __( 'Color', 'ipsum' ),
+				'description' => __( 'The CSS color value.', 'ipsum' ),
+			),
+			array( 'slug', 'name', 'color' ),
+			array(
+				'role' => array(
+					'type'        => 'string',
+					'title'       => __( 'Role', 'ipsum' ),
+					'description' => __( 'What the color is for. Present only for theme palette colors with a known role.', 'ipsum' ),
+				),
+			)
+		);
 
-		$colors['items']['properties']['role'] = $string;
+		$font_value = array(
+			'type'        => array( 'string', 'null' ),
+			'description' => __( 'A font family preset slug, a literal font-family value, or null when unset. headingFont falls back to bodyFont when headings do not set their own family.', 'ipsum' ),
+		);
 
 		return array(
 			'type'                 => 'object',
 			'additionalProperties' => false,
 			'properties'           => array(
 				'theme'             => array(
-					'type'        => 'object',
-					'description' => __( 'The active theme. Its stylesheet is the one to use in REST routes such as /wp/v2/global-styles/themes/{stylesheet}.', 'ipsum' ),
-					'properties'  => array(
-						'name'       => $string,
-						'stylesheet' => $string,
+					'type'                 => 'object',
+					'title'                => __( 'Theme', 'ipsum' ),
+					'description'          => __( 'The active theme. Its stylesheet is the one to use in REST routes such as /wp/v2/global-styles/themes/{stylesheet}.', 'ipsum' ),
+					'properties'           => array(
+						'name'       => array(
+							'type'        => 'string',
+							'title'       => __( 'Name', 'ipsum' ),
+							'description' => __( 'The active theme name.', 'ipsum' ),
+						),
+						'stylesheet' => array(
+							'type'        => 'string',
+							'title'       => __( 'Stylesheet', 'ipsum' ),
+							'description' => __( 'The theme stylesheet slug.', 'ipsum' ),
+						),
 					),
+					'required'             => array( 'name', 'stylesheet' ),
+					'additionalProperties' => false,
 				),
 				'colorScheme'       => array_merge(
 					$scheme,
 					array( 'description' => __( 'Whether the active palette is light or dark.', 'ipsum' ) )
 				),
 				'colors'            => $colors,
-				'gradients'         => $preset_list( __( 'The gradient presets.', 'ipsum' ), 'gradient', $string ),
-				'duotone'           => $preset_list( __( 'The duotone filter presets.', 'ipsum' ), 'colors', $strings ),
+				'gradients'         => $preset_list(
+					__( 'Gradients', 'ipsum' ),
+					__( 'The gradient presets from the theme and any added on the site.', 'ipsum' ),
+					'gradient',
+					array(
+						'type'        => 'string',
+						'title'       => __( 'Gradient', 'ipsum' ),
+						'description' => __( 'The CSS gradient value.', 'ipsum' ),
+					),
+					array( 'slug', 'name', 'gradient' )
+				),
+				'duotone'           => $preset_list(
+					__( 'Duotone', 'ipsum' ),
+					__( 'The duotone filter presets from the theme and any added on the site.', 'ipsum' ),
+					'colors',
+					array_merge(
+						$strings,
+						array(
+							'title'       => __( 'Colors', 'ipsum' ),
+							'description' => __( 'The two colors in the duotone filter.', 'ipsum' ),
+						)
+					),
+					array( 'slug', 'name', 'colors' )
+				),
 				'typography'        => array(
-					'type'        => 'object',
-					'description' => __( 'The font families of body text and headings, by slug, and the font family and font size presets.', 'ipsum' ),
-					'properties'  => array(
-						'bodyFont'     => $nullable,
-						'headingFont'  => $nullable,
+					'type'                 => 'object',
+					'title'                => __( 'Typography', 'ipsum' ),
+					'description'          => __( 'The font families of body text and headings, the blocks that use another family, and the font family and font size presets. Font values are preset slugs, literal font-family values, or null. headingFont falls back to bodyFont when headings do not set their own family. Font size presets list theme sizes first, then any custom sizes; they are not sorted by size.', 'ipsum' ),
+					'properties'           => array(
+						'bodyFont'     => array_merge(
+							$font_value,
+							array( 'title' => __( 'Body Font', 'ipsum' ) )
+						),
+						'headingFont'  => array_merge(
+							$font_value,
+							array( 'title' => __( 'Heading Font', 'ipsum' ) )
+						),
 						'blockFonts'   => array(
 							'type'                 => 'object',
-							'description'          => __( 'The blocks set in another font than body text, such as buttons, navigation and post meta, grouped by font family slug.', 'ipsum' ),
+							'title'                => __( 'Block Fonts', 'ipsum' ),
+							'description'          => __( 'The blocks set in another font than body text, such as buttons, navigation and post meta, grouped by font family slug or literal value.', 'ipsum' ),
 							'additionalProperties' => $strings,
 						),
-						'fontFamilies' => $preset_list( __( 'The font family presets.', 'ipsum' ), 'fontFamily', $string ),
-						'fontSizes'    => $preset_list( __( 'The font size presets, smallest first.', 'ipsum' ), 'size', $string ),
+						'fontFamilies' => $preset_list(
+							__( 'Font Families', 'ipsum' ),
+							__( 'The font family presets from the theme and any added on the site. The name is omitted when a preset does not set one.', 'ipsum' ),
+							'fontFamily',
+							array(
+								'type'        => 'string',
+								'title'       => __( 'Font Family', 'ipsum' ),
+								'description' => __( 'The CSS font-family value.', 'ipsum' ),
+							),
+							array( 'slug', 'fontFamily' )
+						),
+						'fontSizes'    => $preset_list(
+							__( 'Font Sizes', 'ipsum' ),
+							__( 'The font size presets from the theme, then any custom sizes. Not sorted by size. The name is omitted when a preset does not set one.', 'ipsum' ),
+							'size',
+							array(
+								'type'        => 'string',
+								'title'       => __( 'Size', 'ipsum' ),
+								'description' => __( 'The CSS font-size value.', 'ipsum' ),
+							),
+							array( 'slug', 'size' )
+						),
 					),
+					'required'             => array( 'bodyFont', 'headingFont', 'blockFonts', 'fontFamilies', 'fontSizes' ),
+					'additionalProperties' => false,
 				),
-				'spacing'           => $preset_list( __( 'The spacing scale, smallest first.', 'ipsum' ), 'size', $string ),
-				'layout'            => array(
-					'type'        => 'object',
-					'description' => __( 'The width of the content, and of wide-aligned blocks.', 'ipsum' ),
-					'properties'  => array(
-						'contentSize' => $nullable,
-						'wideSize'    => $nullable,
+				'spacing'           => $preset_list(
+					__( 'Spacing', 'ipsum' ),
+					__( 'The spacing scale from the theme, then any custom sizes. Not sorted by size. The name is omitted when a preset does not set one.', 'ipsum' ),
+					'size',
+					array(
+						'type'        => 'string',
+						'title'       => __( 'Size', 'ipsum' ),
+						'description' => __( 'The CSS spacing size value.', 'ipsum' ),
 					),
+					array( 'slug', 'size' )
+				),
+				'layout'            => array(
+					'type'                 => 'object',
+					'title'                => __( 'Layout', 'ipsum' ),
+					'description'          => __( 'The width of the content, and of wide-aligned blocks.', 'ipsum' ),
+					'properties'           => array(
+						'contentSize' => array(
+							'type'        => array( 'string', 'null' ),
+							'title'       => __( 'Content Size', 'ipsum' ),
+							'description' => __( 'The default content width, or null when unset.', 'ipsum' ),
+						),
+						'wideSize'    => array(
+							'type'        => array( 'string', 'null' ),
+							'title'       => __( 'Wide Size', 'ipsum' ),
+							'description' => __( 'The wide-aligned content width, or null when unset.', 'ipsum' ),
+						),
+					),
+					'required'             => array( 'contentSize', 'wideSize' ),
+					'additionalProperties' => false,
 				),
 				'styleVariations'   => $object_list(
-					__( 'The style variations. Each one lists only what it changes: colorScheme and colors for the palette, bodyFont and headingFont for the fonts, and blocks for the style properties it sets on each block. Their full data is at /wp/v2/global-styles/themes/{stylesheet}/variations.', 'ipsum' ),
+					__( 'Style Variations', 'ipsum' ),
+					__( 'The style variations available for this theme. Each item lists only what that variation changes: colorScheme and colors for the palette, bodyFont and headingFont for the fonts, and blocks for the style properties it sets on each block. Optional fields are omitted when the variation does not change them. Their full data is at /wp/v2/global-styles/themes/{stylesheet}/variations.', 'ipsum' ),
 					array(
-						'title'       => $string,
+						'title'       => array(
+							'type'        => 'string',
+							'title'       => __( 'Title', 'ipsum' ),
+							'description' => __( 'The style variation title.', 'ipsum' ),
+						),
 						'colorScheme' => $scheme,
 						'colors'      => array(
 							'type'                 => 'object',
+							'title'                => __( 'Colors', 'ipsum' ),
+							'description'          => __( 'Palette colors the variation sets, keyed by slug.', 'ipsum' ),
 							'additionalProperties' => $string,
 						),
-						'bodyFont'    => $nullable,
-						'headingFont' => $nullable,
+						'bodyFont'    => array_merge(
+							$nullable,
+							array( 'title' => __( 'Body Font', 'ipsum' ) )
+						),
+						'headingFont' => array_merge(
+							$nullable,
+							array( 'title' => __( 'Heading Font', 'ipsum' ) )
+						),
 						'blocks'      => array(
 							'type'                 => 'object',
+							'title'                => __( 'Blocks', 'ipsum' ),
+							'description'          => __( 'Style property names the variation sets on each block, keyed by block name.', 'ipsum' ),
 							'additionalProperties' => $strings,
 						),
-					)
+					),
+					array( 'title' )
 				),
 				'blockStyles'       => $object_list(
+					__( 'Block Styles', 'ipsum' ),
 					__( 'The block styles registered on this site, beyond the ones blocks define themselves. Add className to a block of one of the blockTypes to apply it.', 'ipsum' ),
 					array(
-						'name'       => $string,
-						'label'      => $string,
-						'className'  => $string,
-						'blockTypes' => $strings,
-					)
+						'name'       => array(
+							'type'        => 'string',
+							'title'       => __( 'Name', 'ipsum' ),
+							'description' => __( 'The block style slug.', 'ipsum' ),
+						),
+						'label'      => array(
+							'type'        => 'string',
+							'title'       => __( 'Label', 'ipsum' ),
+							'description' => __( 'The human-readable block style label.', 'ipsum' ),
+						),
+						'className'  => array(
+							'type'        => 'string',
+							'title'       => __( 'Class Name', 'ipsum' ),
+							'description' => __( 'The CSS class to add to the block, such as is-style-outline.', 'ipsum' ),
+						),
+						'blockTypes' => array_merge(
+							$strings,
+							array(
+								'title'       => __( 'Block Types', 'ipsum' ),
+								'description' => __( 'The block names this style can be applied to.', 'ipsum' ),
+							)
+						),
+					),
+					array( 'name', 'label', 'className', 'blockTypes' )
 				),
 				'patterns'          => $object_list(
-					__( 'The patterns of the theme, without their markup, which is at /wp/v2/block-patterns/patterns. Hidden patterns fill templates and template parts and are left out of the inserter.', 'ipsum' ),
+					__( 'Patterns', 'ipsum' ),
+					__( 'The patterns registered by the active theme, without their markup, which is at /wp/v2/block-patterns/patterns. Includes both insertable patterns and hidden ones that fill templates and template parts. Optional fields (blockTypes, templateTypes, postTypes) are omitted when empty.', 'ipsum' ),
 					array(
-						'slug'          => $string,
-						'title'         => $string,
-						'description'   => $string,
-						'categories'    => $strings,
-						'blockTypes'    => $strings,
-						'templateTypes' => $strings,
-						'postTypes'     => $strings,
-						'hidden'        => array( 'type' => 'boolean' ),
-					)
+						'slug'          => array(
+							'type'        => 'string',
+							'title'       => __( 'Slug', 'ipsum' ),
+							'description' => __( 'The pattern slug.', 'ipsum' ),
+						),
+						'title'         => array(
+							'type'        => 'string',
+							'title'       => __( 'Title', 'ipsum' ),
+							'description' => __( 'The pattern title.', 'ipsum' ),
+						),
+						'description'   => array(
+							'type'        => 'string',
+							'title'       => __( 'Description', 'ipsum' ),
+							'description' => __( 'The pattern description.', 'ipsum' ),
+						),
+						'categories'    => array_merge(
+							$strings,
+							array(
+								'title'       => __( 'Categories', 'ipsum' ),
+								'description' => __( 'Pattern categories for the inserter.', 'ipsum' ),
+							)
+						),
+						'blockTypes'    => array_merge(
+							$strings,
+							array(
+								'title'       => __( 'Block Types', 'ipsum' ),
+								'description' => __( 'Block types this pattern is associated with, such as for the block transformer. Omitted when empty.', 'ipsum' ),
+							)
+						),
+						'templateTypes' => array_merge(
+							$strings,
+							array(
+								'title'       => __( 'Template Types', 'ipsum' ),
+								'description' => __( 'Template types this pattern is meant to fill. Omitted when empty.', 'ipsum' ),
+							)
+						),
+						'postTypes'     => array_merge(
+							$strings,
+							array(
+								'title'       => __( 'Post Types', 'ipsum' ),
+								'description' => __( 'Limits which post types the pattern is available for. Omitted when empty.', 'ipsum' ),
+							)
+						),
+						'hidden'        => array(
+							'type'        => 'boolean',
+							'title'       => __( 'Hidden', 'ipsum' ),
+							'description' => __( 'Whether the pattern is excluded from the inserter. Hidden does not mean private; these patterns typically fill templates and template parts.', 'ipsum' ),
+						),
+					),
+					array( 'slug', 'title', 'description', 'categories', 'hidden' )
 				),
 				'templates'         => $object_list(
-					__( 'The templates, with the pattern that fills each. The pattern is null when a template holds its own markup, as it does once it is customized.', 'ipsum' ),
+					__( 'Templates', 'ipsum' ),
+					__( 'The block templates available on the site, including theme templates and any customized copies, with the pattern each delegates to when its markup is a single Pattern block.', 'ipsum' ),
 					array(
-						'slug'        => $string,
-						'title'       => $string,
-						'description' => $string,
-						'pattern'     => $nullable,
-						'customized'  => array( 'type' => 'boolean' ),
-						'postTypes'   => $strings,
-					)
+						'slug'        => array(
+							'type'        => 'string',
+							'title'       => __( 'Slug', 'ipsum' ),
+							'description' => __( 'The template slug.', 'ipsum' ),
+						),
+						'title'       => array(
+							'type'        => 'string',
+							'title'       => __( 'Title', 'ipsum' ),
+							'description' => __( 'The template title.', 'ipsum' ),
+						),
+						'description' => array(
+							'type'        => 'string',
+							'title'       => __( 'Description', 'ipsum' ),
+							'description' => __( 'The template description.', 'ipsum' ),
+						),
+						'pattern'     => array(
+							'type'        => array( 'string', 'null' ),
+							'title'       => __( 'Pattern', 'ipsum' ),
+							'description' => __( 'The pattern slug when the template markup is a single Pattern block, otherwise null. A customized template can still reference a pattern.', 'ipsum' ),
+						),
+						'customized'  => array(
+							'type'        => 'boolean',
+							'title'       => __( 'Customized', 'ipsum' ),
+							'description' => __( 'Whether the template has a saved customization on this site.', 'ipsum' ),
+						),
+						'postTypes'   => array_merge(
+							$strings,
+							array(
+								'title'       => __( 'Post Types', 'ipsum' ),
+								'description' => __( 'Post types the template applies to. Omitted when empty.', 'ipsum' ),
+							)
+						),
+					),
+					array( 'slug', 'title', 'description', 'pattern', 'customized' )
 				),
 				'templateParts'     => $object_list(
-					__( 'The template parts, with their area and the pattern that fills each.', 'ipsum' ),
+					__( 'Template Parts', 'ipsum' ),
+					__( 'The template parts available on the site, including theme parts and any customized copies, with their area and the pattern each delegates to when its markup is a single Pattern block.', 'ipsum' ),
 					array(
-						'slug'       => $string,
-						'title'      => $string,
-						'area'       => $string,
-						'pattern'    => $nullable,
-						'customized' => array( 'type' => 'boolean' ),
-					)
+						'slug'       => array(
+							'type'        => 'string',
+							'title'       => __( 'Slug', 'ipsum' ),
+							'description' => __( 'The template part slug.', 'ipsum' ),
+						),
+						'title'      => array(
+							'type'        => 'string',
+							'title'       => __( 'Title', 'ipsum' ),
+							'description' => __( 'The template part title.', 'ipsum' ),
+						),
+						'area'       => array(
+							'type'        => array( 'string', 'null' ),
+							'title'       => __( 'Area', 'ipsum' ),
+							'description' => __( 'The template part area, such as header, footer, or uncategorized, or null when the part has no area term.', 'ipsum' ),
+						),
+						'pattern'    => array(
+							'type'        => array( 'string', 'null' ),
+							'title'       => __( 'Pattern', 'ipsum' ),
+							'description' => __( 'The pattern slug when the template part markup is a single Pattern block, otherwise null. A customized template part can still reference a pattern.', 'ipsum' ),
+						),
+						'customized' => array(
+							'type'        => 'boolean',
+							'title'       => __( 'Customized', 'ipsum' ),
+							'description' => __( 'Whether the template part has a saved customization on this site.', 'ipsum' ),
+						),
+					),
+					array( 'slug', 'title', 'area', 'pattern', 'customized' )
 				),
 				'templatePartAreas' => $object_list(
-					__( 'The areas a template part can belong to.', 'ipsum' ),
+					__( 'Template Part Areas', 'ipsum' ),
+					__( 'The areas a template part can belong to on this site.', 'ipsum' ),
 					array(
-						'area'        => $string,
-						'label'       => $string,
-						'description' => $string,
-					)
+						'area'        => array(
+							'type'        => 'string',
+							'title'       => __( 'Area', 'ipsum' ),
+							'description' => __( 'The template part area slug.', 'ipsum' ),
+						),
+						'label'       => array(
+							'type'        => 'string',
+							'title'       => __( 'Label', 'ipsum' ),
+							'description' => __( 'The human-readable area label.', 'ipsum' ),
+						),
+						'description' => array(
+							'type'        => 'string',
+							'title'       => __( 'Description', 'ipsum' ),
+							'description' => __( 'What the area is for.', 'ipsum' ),
+						),
+					),
+					array( 'area', 'label', 'description' )
 				),
-				'guidelines'        => array_merge(
-					$strings,
-					array( 'description' => __( 'How the theme is meant to be built with.', 'ipsum' ) )
+				'guidelines'        => array(
+					'type'        => 'array',
+					'title'       => __( 'Guidelines', 'ipsum' ),
+					'description' => __( 'How the theme is meant to be built with.', 'ipsum' ),
+					'items'       => $string,
 				),
 			),
 		);
@@ -260,8 +565,10 @@ if ( ! function_exists( 'ipsum_get_design_guide_presets' ) ) :
 	 * @since Ipsum 1.0
 	 *
 	 * @param mixed    $presets The presets from the global settings, keyed by origin.
+	 *                          Anything other than an array gives an empty list.
 	 * @param string[] $keys    The preset properties to keep.
-	 * @return array<int, array<string, mixed>> The presets, with only the given properties.
+	 * @return array<int, array<string, mixed>> The presets, with only the given properties. Empty when
+	 *                                          `$presets` isn't an array.
 	 */
 	function ipsum_get_design_guide_presets( $presets, $keys ) {
 		$items = array();
@@ -346,14 +653,18 @@ if ( ! function_exists( 'ipsum_get_design_guide' ) ) :
 	 * @param array $input {
 	 *     The ability input.
 	 *
-	 *     @type string[] $fields Optional. The sections to return. Default all of them.
+	 *     @type string[] $fields Optional. The sections to return. When omitted
+	 *                            or empty, returns the basic design sections
+	 *                            from ipsum_get_design_guide_default_fields().
 	 * }
 	 * @return array<string, mixed> The design guide, keyed by section.
 	 */
 	function ipsum_get_design_guide( $input = array() ) {
-		$sections = array_keys( ipsum_get_design_guide_schema()['properties'] );
+		$all_sections = array_keys( ipsum_get_design_guide_schema()['properties'] );
 		if ( ! empty( $input['fields'] ) ) {
-			$sections = array_intersect( $sections, $input['fields'] );
+			$sections = array_values( array_intersect( $all_sections, $input['fields'] ) );
+		} else {
+			$sections = ipsum_get_design_guide_default_fields();
 		}
 		$sections = array_flip( $sections );
 

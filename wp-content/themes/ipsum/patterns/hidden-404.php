@@ -4,7 +4,7 @@
  * Slug: ipsum/hidden-404
  * Template Types: 404
  * Inserter: no
- * Description: The 404 template. It has the header, a “Page not found.” heading and a short note over the search field, and the footer.
+ * Description: The 404 template. It has the theme header, a “Page not found.” heading and a short note over the search field, and the theme footer.
  *
  * @package Ipsum
  * @since Ipsum 1.0

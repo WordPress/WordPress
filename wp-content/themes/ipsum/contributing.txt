@@ -1,10 +1,10 @@
 === Contributing to Ipsum ===
 
-Ipsum is developed at https://github.com/WordPress/ipsum. Changes made there are synced to WordPress core, so please open issues and pull requests in that repository.
+Ipsum is developed on GitHub, at https://github.com/WordPress/ipsum, until its 1.0 release. Changes made there are synced to WordPress core, so until then, please open issues and pull requests in that repository. After 1.0, the GitHub repository is archived, and contributions go through Trac, https://core.trac.wordpress.org, like for the other bundled themes.
 
 = Minifying CSS =
 
-Ipsum has a single stylesheet `style.css` which is enqueued in addition to the global styles coming from core. On a normal production site, when `SCRIPT_DEBUG` is disabled, then the minified version `style.min.css` will be enqueued instead, unless `style.css` has changed since `style.min.css` was built. If you make a change to `style.css`, you'll need to re-minify the `style.min.css` using the built-in npm build tool. As always, it is preferable to use the Site Editor to supply Additional CSS instead of directly editing the theme stylesheet.
+Ipsum has a single stylesheet `style.css` which is enqueued in addition to the global styles coming from core. On a normal production site, when `SCRIPT_DEBUG` is disabled, then the minified version `style.min.css` will be enqueued instead. If you make a change to `style.css`, you'll need to re-minify the `style.min.css` using the built-in npm build tool. As always, it is preferable to use the Site Editor to supply Additional CSS instead of directly editing the theme stylesheet.
 
 Installation instructions
 

@@ -1,6 +1,6 @@
 # DESIGN.md
 
-How to design with Ipsum: what each preset is for, how the theme uses it, and what the style variations, templates, parts and block styles give you. `AGENTS.md` covers working in the repository.
+How to design with Ipsum: what each preset is for, how the theme uses it, and what the style variations, templates, parts and block styles give you. [Writing patterns](#writing-patterns) covers what a new pattern needs. [AGENTS.md](AGENTS.md) covers working on the theme's files.
 
 ## Ipsum
 
@@ -163,8 +163,7 @@ The class is `is-style-` plus the slug.
 | --- | --- | --- | --- |
 | Crop Contents | `is-style-crop-contents` | Group | `overflow: clip` |
 | Display | `is-style-text-display` | Heading, Paragraph, Post Title, Site Title, Query Title | A size above 2X-Large that scales with the viewport, line height 1.2 |
-| Quote Mark | `is-style-text-quote-mark` | Heading, Paragraph | A ❝ above the text, in Border, at 2X-Large |
-| Quote Mark on Color | `is-style-text-quote-mark-on-color` | Heading, Paragraph | The same mark in the current text color; Text Statement uses it on a Strong Contrast card |
+| Plain on Color | `is-style-plain-on-color` | Quote | Quote Plain with the ❝ in the current text color instead of Border; Text Statement uses it on a Strong Contrast card |
 | Evening | `is-style-evening` | Code | A black ground with near-white text and border, the same under every variation |
 | Sharp | `is-style-sharp` | Site Logo | Square corners |
 | Pinned to Bottom | `is-style-sticky-bottom` | Template Part | Pins the part to the bottom of the screen; see [Utility block styles](#utility-block-styles) |
@@ -173,6 +172,8 @@ The class is `is-style-` plus the slug.
 | Outline | `is-style-outline` | Search | A dotted Contrast outline on a Base button until hover, focus or press; the Search Bar part uses it |
 
 Ipsum also restyles core's own block styles: Button Outline (a separate style from Search's Outline, though they share the name), Quote Plain (no ground, padding or corners), Separator Wide (capped at the wide width), Site Logo Rounded (9999px) and Social Icons Logos Only (icons in the current text color).
+
+Text Statement Wide and Page Blog Home open with a Plain Quote, and Text Statement with a Plain on Color Quote, all three citing the same line from the persona's essays.
 
 ## Templates and parts
 
@@ -251,3 +252,65 @@ The separator between meta items is built three ways, on purpose:
 -   **Where both neighbours always render** (post date · categories), it's a Paragraph named Meta Separator: small, weight 600, with the dot hidden from screen readers. The row's block gap (`spacing|20`) spaces it. To add one, copy it from an archive pattern.
 -   **Where the whole row can go** (comments link · call to action), it's the same Paragraph, and the `comments-meta` class hides the row when comments are closed.
 -   **Where a neighbour may not render**, it's the Dot Separator style. The Edit link only renders for people who can edit the comment, and the Reply link only when threading allows it, so a Paragraph would be left behind as a stray dot. Use the Paragraph wherever it's safe: unlike the style's dot, it can be translated.
+
+## Writing patterns
+
+What a pattern in Ipsum needs, on top of the [block patterns reference](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-patterns/).
+
+### Files and headers
+
+-   **File names:** full page layouts take the `page-` prefix, and patterns that only fill a template or part take `hidden-`. The inserter sorts patterns by file name, so the name also sets their order.
+-   **Categories:** use the [default categories](https://github.com/WordPress/gutenberg/blob/c20350c1d246163201375f090b0b7b4ab49b1dad/packages/block-editor/src/components/inserter/block-patterns-tab.js#L35), separated by commas, plus the two that `functions.php` registers: `ipsum_page` (Pages) for full page layouts and `ipsum_post-format` (Post formats) for post format patterns.
+-   **Hiding from the inserter:** a pattern people shouldn't insert on its own, such as one that only fills a template or part, or one that exists to make a template's text translatable, like the 404 pattern, carries ` * Inserter: no`.
+-   **Title and Description:** every pattern needs both, hidden ones too, since agents read them through the REST API (`/wp/v2/block-patterns/patterns`). Write full sentences, not dashes: what the pattern is, then a second sentence on what's in it. A hidden pattern says which template or template part it fills.
+-   **Block Types:** suggests the pattern when someone inserts that block or template part, such as a Query, Post Content, header or footer. Header, footer and navigation overlay patterns take `Block Types: core/template-part/<area>`. Patterns for General parts, like the sidebar and the search bar, leave it out, or the Site Editor offers each one as a design for every other General part.
+-   **Template Types:** suggests the pattern for a template, by slug (`404`, `home`, `single` and so on). Every template pattern takes it.
+-   **Post Types:** limits the pattern to those post types, usually for full page patterns.
+
+### Strings
+
+Every user-visible string goes through an [i18n function](https://developer.wordpress.org/apis/internationalization/internationalization-guidelines/) with the `ipsum` text domain, so it's translatable and escaped:
+
+-   `esc_html__()` translates and escapes text shown in HTML, and `esc_html_x()` does the same with a context for translators. `esc_html_e()` echoes it as well.
+-   `esc_attr__()` and `esc_attr_x()` translate and escape text that goes in an HTML attribute, such as alt text.
+-   For simple HTML inside a string, use `echo wp_kses_post( __( 'Lorem ipsum <em>Hello</em> dolor sit amet.', 'ipsum' ) );`. It's clearer for translators than `sprintf()`, and they can drop the markup where it doesn't work in their language.
+
+### Images
+
+-   Build image URLs with `get_parent_theme_file_uri()` and the image's path in the theme. The URL then works wherever the site lives and from a child theme, and it can be filtered with `parent_theme_file_uri`, for example to serve the images from a CDN.
+-   Don't add a `?ver=` query argument. The images won't change after release, and once a pattern is inserted, its image URL is saved in the post, so the version would never update there anyway.
+-   Give every image translated alt text, and remove its ID, both the `id` attribute and the `wp-image-<id>` class.
+-   Credit every image's license under `== Images ==` in `readme.txt`.
+
+An image copied from the editor:
+
+```html
+<!-- wp:image {"id":125,"sizeSlug":"large","linkDestination":"none"} -->
+<figure class="wp-block-image size-large"><img src="http://wp-stable.test/wp-content/themes/ipsum/assets/images/project.webp" alt="" class="wp-image-125"/></figure>
+<!-- /wp:image -->
+```
+
+becomes:
+
+```html
+<!-- wp:image {"sizeSlug":"large","linkDestination":"none"} -->
+<figure class="wp-block-image size-large"><img src="<?php echo esc_url( get_parent_theme_file_uri( 'assets/images/project.webp' ) ); ?>" alt="<?php echo esc_attr_x( 'Picture of a building', 'Alt text for project picture', 'ipsum' ); ?>"/></figure>
+<!-- /wp:image -->
+```
+
+### Presets
+
+-   Use the spacing, font size and color presets, never fixed values. They keep the design consistent, let a style variation or Global Styles change it in one place, and keep patterns readable for more people. The sections above say what each preset is for.
+-   If you keep setting the same property on the same block, such as a border radius on images, move it to `theme.json`.
+
+### Cleaning up copied markup
+
+Markup built in the editor, or exported with a tool like Create Block Theme, carries attributes that don't belong in a pattern. Remove them; the editor adds back what it needs when the pattern is inserted.
+
+-   **`queryId` on Query blocks**, like the image IDs above: `<!-- wp:query {"queryId":18,"query":{"perPage":8,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true}} -->` becomes `<!-- wp:query {"query":{"perPage":8,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true}} -->`.
+-   **`theme` and `area` on template part blocks.** The area comes from `templateParts` in `theme.json`, so the slug is enough: `<!-- wp:template-part {"slug":"header-portfolio","theme":"ipsum","area":"header","tagName":"header"} /-->` becomes `<!-- wp:template-part {"slug":"header-portfolio","tagName":"header"} /-->`.
+-   **`patternName` and `categories` in block metadata.** The editor writes them into blocks inserted from a pattern. Keep the rest of the metadata, such as `name` or `bindings`: `<!-- wp:group {"metadata":{"name":"Footer","patternName":"ipsum/footer","categories":["footer"]},"layout":{"type":"constrained"}} -->` becomes `<!-- wp:group {"metadata":{"name":"Footer"},"layout":{"type":"constrained"}} -->`.
+
+### Block names
+
+Block names (`metadata.name`) show in the List View, and they're what an agent reads to tell blocks apart. Name a block by what it does, not what it prints: the paragraph holding the `·` separator is `Meta Separator`, not `·`. Translate names like other strings: `esc_html_x( 'Meta Separator', 'Name of the paragraph separating post meta items', 'ipsum' )`.

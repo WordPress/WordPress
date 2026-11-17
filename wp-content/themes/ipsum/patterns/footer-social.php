@@ -30,8 +30,11 @@
 <!-- wp:paragraph {"metadata":{"name":"<?php echo esc_html_x( 'Credit Line', 'Name of the credit line paragraph', 'ipsum' ); ?>"},"style":{"typography":{"textAlign":"center"}},"fontSize":"small","fontFamily":"manrope"} -->
 <p class="has-text-align-center has-manrope-font-family has-small-font-size">
 <?php
-/* Translators: 1. is the start of a 'a' HTML element, 2. is the end of a 'a' HTML element */
-printf( esc_html__( 'Designed with %1$sWordPress%2$s', 'ipsum' ), '<a href="' . esc_url( 'https://wordpress.org' ) . '" rel="nofollow">', '</a>' );
+printf(
+	/* translators: Designed with WordPress. %s: WordPress link. */
+	esc_html__( 'Designed with %s', 'ipsum' ),
+	'<a href="' . esc_url( __( 'https://wordpress.org', 'ipsum' ) ) . '" rel="nofollow">WordPress</a>'
+);
 ?>
 </p>
 <!-- /wp:paragraph --></div>

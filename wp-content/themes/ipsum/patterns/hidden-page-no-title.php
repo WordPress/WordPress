@@ -4,7 +4,7 @@
  * Slug: ipsum/hidden-page-no-title
  * Template Types: page
  * Inserter: no
- * Description: The Pages No Title template, for pages built from patterns. It has the header, the page content with no title or featured image, the footer, and the search bar pinned to the bottom.
+ * Description: The Pages No Title template, for pages built from patterns. It has the theme header, the page content with no title or featured image, the theme footer, and the search bar pinned to the bottom.
  *
  * @package Ipsum
  * @since Ipsum 1.0

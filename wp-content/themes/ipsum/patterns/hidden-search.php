@@ -4,7 +4,7 @@
  * Slug: ipsum/hidden-search
  * Template Types: search
  * Inserter: no
- * Description: The Search Results template. It has the header, the results title over the search field, the matching posts in the Archive Compact listing with a no-results message and pagination, and the footer.
+ * Description: The Search Results template. It has the theme header, the results title over the search field, the matching posts in the Archive Compact listing with a no-results message and pagination, and the theme footer.
  *
  * @package Ipsum
  * @since Ipsum 1.0
@@ -26,7 +26,7 @@
 <div class="wp-block-group" style="margin-bottom:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50)"><!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Post Title', 'Name of the group holding the post title', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group"><!-- wp:post-title {"isLink":true,"fontSize":"2-x-large"} /-->
 
-<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Date and Categories', 'Name of the group holding the post date and categories', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Date and Categories', 'Name of the group holding the post date and categories', 'ipsum' ); ?>"},"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"flex"}} -->
 <div class="wp-block-group"><!-- wp:post-date /-->
 
 <!-- wp:paragraph {"metadata":{"name":"<?php echo esc_html_x( 'Meta Separator', 'Name of the paragraph separating post meta items', 'ipsum' ); ?>"},"style":{"typography":{"fontStyle":"normal","fontWeight":"600"}},"fontSize":"small"} -->

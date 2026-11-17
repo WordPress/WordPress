@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Plain on Color",
+	"slug": "plain-on-color",
+	"blockTypes": ["core/quote"],
+	"styles": {
+		"border": {
+			"radius": "0px"
+		},
+		"color": {
+			"background": "transparent"
+		},
+		"spacing": {
+			"padding": {
+				"bottom": "0px",
+				"left": "0px",
+				"right": "0px",
+				"top": "0px"
+			}
+		},
+		"css": "&::before{color:currentcolor;}"
+	}
+}

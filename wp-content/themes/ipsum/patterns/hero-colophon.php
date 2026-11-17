@@ -26,7 +26,7 @@
 <p style="margin-bottom:var(--wp--preset--spacing--40)"><?php echo esc_html__( 'Teacher in Porto. This is where I keep my notes on books, slow mornings, and the occasional recipe that actually works.', 'ipsum' ); ?></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:navigation {"overlay":"navigation-overlay","icon":"menu","overlayBackgroundColor":"base","overlayTextColor":"contrast","style":{"spacing":{"blockGap":"var:preset|spacing|30"},"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontSize":"small","ariaLabel":"<?php esc_attr_e( 'Primary', 'ipsum' ); ?>"} /--></div>
+<!-- wp:navigation {"overlay":"navigation-overlay","icon":"menu","overlayBackgroundColor":"base","overlayTextColor":"contrast","style":{"spacing":{"blockGap":"var:preset|spacing|30"},"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontSize":"small","ariaLabel":"<?php echo esc_attr_x( 'Primary', 'Accessible name of the main site navigation', 'ipsum' ); ?>"} /--></div>
 <!-- /wp:group --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
