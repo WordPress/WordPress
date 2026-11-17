@@ -1070,6 +1070,10 @@ table.form-table td .updated p {
 	max-width: 768px;
 }
 
+.auth-app-card p {
+	overflow-wrap: break-word;
+}
+
 .authorize-application-php .form-wrap p {
 	display: block;
 }
