@@ -239,6 +239,10 @@ body.modal-open {
 	overflow: hidden;
 }
 
+body.modal-open .editor-post-excerpt__dropdown__content {
+	z-index: 99999;
+}
+
 body.mobile.modal-open #wpwrap {
 	overflow: hidden;
 	position: fixed;
