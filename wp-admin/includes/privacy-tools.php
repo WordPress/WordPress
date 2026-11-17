@@ -587,6 +587,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
  * Send an email to the user with a link to the personal data export file
  *
  * @since 4.9.6
+ * @since 7.2.0 Returns a `WP_Error` if the request is not confirmed or completed.
  *
  * @param int $request_id The request ID for this personal data export.
  * @return true|WP_Error True on success or `WP_Error` on failure.
@@ -597,6 +598,10 @@ function wp_privacy_send_personal_data_export_email( $request_id ) {
 
 	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
 		return new WP_Error( 'invalid_request', __( 'Invalid request ID when sending personal data export email.' ) );
+	}
+
+	if ( ! in_array( $request->status, array( 'request-confirmed', 'request-completed' ), true ) ) {
+		return new WP_Error( 'invalid_request', __( 'Invalid request status when sending personal data export email.' ) );
 	}
 
 	// Localize message content for user; fallback to site default for visitors.
