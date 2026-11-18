@@ -7319,9 +7319,12 @@ var others = [{
   settings: {
     title: 'Imgur',
     icon: _icons__WEBPACK_IMPORTED_MODULE_0__[/* embedPhotoIcon */ "g"],
-    description: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Embed Imgur content.')
+    description: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Embed Imgur content.'),
+    supports: {
+      inserter: false
+    }
   },
-  patterns: [/^https?:\/\/(.+\.)?imgur\.com\/.+/i]
+  patterns: []
 }, {
   name: 'core-embed/issuu',
   settings: {
