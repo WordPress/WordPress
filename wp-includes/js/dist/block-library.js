@@ -13140,16 +13140,6 @@ const variations_variations = [{
     responsive: true
   }
 }, {
-  name: 'imgur',
-  title: 'Imgur',
-  icon: embedPhotoIcon,
-  description: (0,external_wp_i18n_namespaceObject.__)('Embed Imgur content.'),
-  patterns: [/^https?:\/\/(.+\.)?imgur\.com\/.+/i],
-  attributes: {
-    providerNameSlug: 'imgur',
-    responsive: true
-  }
-}, {
   name: 'issuu',
   title: 'Issuu',
   icon: embedContentIcon,
@@ -14126,6 +14116,8 @@ function file_save_save(_ref) {
 
 
 
+const escapeLessThan = value => value.replace(/</g, '&lt;');
+const escapeEditableHTML = value => escapeLessThan(value.replace(/&/g, '&amp;'));
 const file_transforms_transforms = {
   from: [{
     type: 'files',
@@ -14180,7 +14172,7 @@ const file_transforms_transforms = {
     transform: attributes => {
       return (0,external_wp_blocks_namespaceObject.createBlock)('core/file', {
         href: attributes.url,
-        fileName: attributes.caption || (0,external_wp_url_namespaceObject.getFilename)(attributes.url),
+        fileName: attributes.caption || escapeEditableHTML((0,external_wp_url_namespaceObject.getFilename)(attributes.url) || ''),
         textLinkHref: attributes.url,
         id: attributes.id,
         anchor: attributes.anchor
