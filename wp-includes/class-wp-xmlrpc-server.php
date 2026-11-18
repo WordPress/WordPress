@@ -51,6 +51,17 @@ class wp_xmlrpc_server extends IXR_Server {
 	protected $auth_failed = false;
 
 	/**
+	 * Flags that a pingback has already been processed in this instance of wp_xmlrpc_server.
+	 *
+	 * Prevents a single `system.multicall` request from processing an unbounded number of pingbacks.
+	 *
+	 * @since 7.1.5
+	 *
+	 * @var bool
+	 */
+	protected $pingback_processed = false;
+
+	/**
 	 * Flags that XML-RPC is enabled
 	 *
 	 * @var bool
@@ -7096,6 +7107,16 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	public function pingback_ping( $args ) {
 		global $wpdb;
+
+		/*
+		 * Checked before the `xmlrpc_call` action and any database or network work, so repeated
+		 * calls in a multicall cost nothing, including in plugins that check each pingback.
+		 */
+		if ( $this->pingback_processed ) {
+			return $this->pingback_error( 49, __( 'Only one pingback can be processed per request.' ) );
+		}
+
+		$this->pingback_processed = true;
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'pingback.ping', $args, $this );
