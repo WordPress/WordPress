@@ -248,7 +248,11 @@ function create_initial_rest_routes() {
  * @global WP_REST_Server $wp_rest_server ResponseHandler instance (usually WP_REST_Server).
  */
 function rest_api_loaded() {
-	if ( empty( $GLOBALS['wp']->query_vars['rest_route'] ) ) {
+	/*
+	 * Admin screens call wp() for list queries; they are never REST entry points.
+	 * Check WP_ADMIN rather than is_admin(), which follows the current screen.
+	 */
+	if ( empty( $GLOBALS['wp']->query_vars['rest_route'] ) || defined( 'WP_ADMIN' ) ) {
 		return;
 	}
 
