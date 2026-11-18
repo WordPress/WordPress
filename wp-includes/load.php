@@ -1965,7 +1965,7 @@ function wp_is_json_media_type( $media_type ) {
 	static $cache = array();
 
 	if ( ! isset( $cache[ $media_type ] ) ) {
-		$cache[ $media_type ] = (bool) preg_match( '/(^|\s|,)application\/([\w!#\$&-\^\.\+]+\+)?json(\+oembed)?($|\s|;|,)/i', $media_type );
+		$cache[ $media_type ] = (bool) preg_match( '/(^|\s|,)application\/([\w!#\$&\-\^\.\+]+\+)?json(\+oembed)?($|\s|;|,)/i', $media_type );
 	}
 
 	return $cache[ $media_type ];
