@@ -602,12 +602,11 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! empty( $request['author'] ) ) {
-			$post_author = (int) $request['author'];
+			$post_author    = (int) $request['author'];
+			$current_author = $template instanceof WP_Block_Template ? (int) $template->author : 0;
 
-			if ( get_current_user_id() !== $post_author ) {
-				$user_obj = get_userdata( $post_author );
-
-				if ( ! $user_obj ) {
+			if ( get_current_user_id() !== $post_author && $current_author !== $post_author ) {
+				if ( ! is_user_member_of_blog( $post_author ) ) {
 					return new WP_Error(
 						'rest_invalid_author',
 						__( 'Invalid author ID.' ),
