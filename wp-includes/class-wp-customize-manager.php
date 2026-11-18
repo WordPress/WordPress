@@ -5220,8 +5220,9 @@ final class WP_Customize_Manager {
 		$this->add_setting(
 			'custom_logo',
 			array(
-				'theme_supports' => array( 'custom-logo' ),
-				'transport'      => 'postMessage',
+				'theme_supports'    => array( 'custom-logo' ),
+				'transport'         => 'postMessage',
+				'sanitize_callback' => 'absint',
 			)
 		);
 
@@ -5984,7 +5985,6 @@ final class WP_Customize_Manager {
 
 		wp_send_json_success( $themes );
 	}
-
 
 	/**
 	 * Callback for validating the header_textcolor value.

@@ -153,6 +153,28 @@ class WP_Customize_Setting {
 	protected $is_multidimensional_aggregated = false;
 
 	/**
+	 * Whether the setting is being saved.
+	 *
+	 * When saving, the value of an option setting is not sanitized with `sanitize_option()`
+	 * by {@see WP_Customize_Setting::sanitize()} since `update_option()` sanitizes it.
+	 *
+	 * @since 7.1.5
+	 * @var bool
+	 */
+	private $is_saving = false;
+
+	/**
+	 * Number of times that previewing has been suspended for each option, keyed by option name.
+	 *
+	 * While previewing an option is suspended, its preview filters pass through the original value.
+	 *
+	 * @since 7.1.5
+	 * @see WP_Customize_Setting::suspend_option_preview()
+	 * @var array<string, positive-int>
+	 */
+	private static $suspended_option_previews = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * Any supplied $args override class property defaults.
@@ -437,6 +459,62 @@ class WP_Customize_Setting {
 	}
 
 	/**
+	 * Suspends previewing the setting's option, so that its preview filters pass through the original value.
+	 *
+	 * This is done while the option is being sanitized or saved. Every call must be paired with a call to
+	 * {@see WP_Customize_Setting::resume_option_preview()}, including when an exception or error is thrown.
+	 *
+	 * @since 7.1.5
+	 */
+	private function suspend_option_preview() {
+		/** @var string $id_base */
+		$id_base = $this->id_data['base'];
+
+		if ( ! isset( self::$suspended_option_previews[ $id_base ] ) ) {
+			self::$suspended_option_previews[ $id_base ] = 1;
+		} else {
+			++self::$suspended_option_previews[ $id_base ];
+		}
+	}
+
+	/**
+	 * Resumes previewing the setting's option, once each suspension has been resumed.
+	 *
+	 * @since 7.1.5
+	 *
+	 * @see WP_Customize_Setting::suspend_option_preview()
+	 */
+	private function resume_option_preview() {
+		/** @var string $id_base */
+		$id_base = $this->id_data['base'];
+
+		if ( ! isset( self::$suspended_option_previews[ $id_base ] ) ) {
+			return;
+		}
+
+		if ( self::$suspended_option_previews[ $id_base ] > 1 ) {
+			--self::$suspended_option_previews[ $id_base ];
+		} else {
+			unset( self::$suspended_option_previews[ $id_base ] );
+		}
+	}
+
+	/**
+	 * Determines whether previewing the setting's option is suspended.
+	 *
+	 * @since 7.1.5
+	 *
+	 * @see WP_Customize_Setting::suspend_option_preview()
+	 *
+	 * @return bool Whether previewing the option is suspended.
+	 */
+	private function is_option_preview_suspended() {
+		/** @var string $id_base */
+		$id_base = $this->id_data['base'];
+		return 'option' === $this->type && isset( self::$suspended_option_previews[ $id_base ] );
+	}
+
+	/**
 	 * Callback function to filter non-multidimensional theme mods and options.
 	 *
 	 * If switch_to_blog() was called after the preview() method, and the current
@@ -449,7 +527,7 @@ class WP_Customize_Setting {
 	 * @return mixed New or old value.
 	 */
 	public function _preview_filter( $original ) {
-		if ( ! $this->is_current_blog_previewed() ) {
+		if ( ! $this->is_current_blog_previewed() || $this->is_option_preview_suspended() ) {
 			return $original;
 		}
 
@@ -481,7 +559,7 @@ class WP_Customize_Setting {
 	 * @return mixed New or old value.
 	 */
 	final public function _multidimensional_preview_filter( $original ) {
-		if ( ! $this->is_current_blog_previewed() ) {
+		if ( ! $this->is_current_blog_previewed() || $this->is_option_preview_suspended() ) {
 			return $original;
 		}
 
@@ -521,27 +599,68 @@ class WP_Customize_Setting {
 	 *                    or value isn't set or is invalid.
 	 */
 	final public function save() {
-		$value = $this->post_value();
-
-		if ( ! $this->check_capabilities() || ! isset( $value ) ) {
-			return false;
+		/*
+		 * While saving an option setting, its preview filters pass through the persisted value. Otherwise,
+		 * update_option() would skip the update when the new value is the same as the previewed value, and
+		 * hooks which read the option while saving would get a value not sanitized with sanitize_option().
+		 */
+		if ( 'option' === $this->type ) {
+			$this->suspend_option_preview();
 		}
 
-		$id_base = $this->id_data['base'];
-
-		/**
-		 * Fires when the WP_Customize_Setting::save() method is called.
-		 *
-		 * The dynamic portion of the hook name, `$id_base` refers to
-		 * the base slug of the setting name.
-		 *
-		 * @since 3.4.0
-		 *
-		 * @param WP_Customize_Setting $setting WP_Customize_Setting instance.
+		/*
+		 * Since a `finally` block requires PHP 5.5, the state is restored in each `catch` block before
+		 * rethrowing. Exceptions are caught for PHP 5, and errors such as TypeError for PHP 7+.
 		 */
-		do_action( "customize_save_{$id_base}", $this );
+		try {
+			$this->is_saving = true;
+			$value           = $this->post_value();
+			$this->is_saving = false;
 
-		$this->update( $value );
+			if ( ! $this->check_capabilities() || ! isset( $value ) ) {
+				$this->end_saving();
+				return false;
+			}
+
+			/** @var string $id_base */
+			$id_base = $this->id_data['base'];
+
+			/**
+			 * Fires when the WP_Customize_Setting::save() method is called.
+			 *
+			 * The dynamic portion of the hook name, `$id_base` refers to
+			 * the base slug of the setting name.
+			 *
+			 * @since 3.4.0
+			 *
+			 * @param WP_Customize_Setting $setting WP_Customize_Setting instance.
+			 */
+			do_action( "customize_save_{$id_base}", $this );
+
+			$this->update( $value );
+		} catch ( Exception $e ) {
+			$this->end_saving();
+			throw $e;
+		} catch ( Throwable $e ) {
+			$this->end_saving();
+			throw $e;
+		}
+
+		$this->end_saving();
+	}
+
+	/**
+	 * Restores the state changed while saving the setting.
+	 *
+	 * @since 7.1.5
+	 *
+	 * @see WP_Customize_Setting::save()
+	 */
+	private function end_saving() {
+		$this->is_saving = false;
+		if ( 'option' === $this->type ) {
+			$this->resume_option_preview();
+		}
 	}
 
 	/**
@@ -562,12 +681,12 @@ class WP_Customize_Setting {
 	 * Sanitize an input.
 	 *
 	 * @since 3.4.0
+	 * @since 7.1.5 The value of an option setting is additionally sanitized with `sanitize_option()`.
 	 *
 	 * @param string|array $value The value to sanitize.
 	 * @return string|array|null|WP_Error Sanitized value, or `null`/`WP_Error` if invalid.
 	 */
 	public function sanitize( $value ) {
-
 		/**
 		 * Filters a Customize setting value in un-slashed form.
 		 *
@@ -576,7 +695,101 @@ class WP_Customize_Setting {
 		 * @param mixed                $value   Value of the setting.
 		 * @param WP_Customize_Setting $setting WP_Customize_Setting instance.
 		 */
-		return apply_filters( "customize_sanitize_{$this->id}", $value, $this );
+		$value = apply_filters( "customize_sanitize_{$this->id}", $value, $this );
+
+		/*
+		 * The value of an option setting is previewed via the option filters, bypassing the
+		 * sanitize_option() call in update_option(). So the value is sanitized here to ensure
+		 * that the previewed value is sanitized in the same way as the value which would be
+		 * persisted. When saving, this is skipped since update_option() sanitizes the value.
+		 */
+		if ( 'option' === $this->type && ! $this->is_saving && ! is_null( $value ) && ! is_wp_error( $value ) ) {
+			$value = $this->sanitize_option_value( $value );
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Sanitizes the value of an option setting with `sanitize_option()`.
+	 *
+	 * This applies the sanitization for core options as well as for options sanitized via the
+	 * {@see 'sanitize_option_$option'} filter, such as by the `sanitize_callback` passed to
+	 * `register_setting()`. The value of a multidimensional setting is sanitized as part of
+	 * the root option value.
+	 *
+	 * Any errors added via `add_settings_error()` during sanitization are returned as a `WP_Error`.
+	 *
+	 * @since 7.1.5
+	 *
+	 * @global array<int, array{setting: string, code: string, message: string, type: string}>|null $wp_settings_errors Storage array of errors registered during this pageload.
+	 *
+	 * @param mixed $value Value which has already been sanitized by the setting's sanitize callback.
+	 * @return mixed|WP_Error Sanitized value, or `WP_Error` if invalid.
+	 */
+	private function sanitize_option_value( $value ) {
+		global $wp_settings_errors;
+
+		/** @var string $id_base */
+		$id_base = $this->id_data['base'];
+
+		/** @var string[] $keys */
+		$keys = $this->id_data['keys'];
+
+		// Callbacks for the "sanitize_option_{$option}" filter may call add_settings_error() without checking whether it exists.
+		if ( ! function_exists( 'add_settings_error' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/template.php';
+		}
+
+		if ( $this->is_multidimensional_aggregated ) {
+			$root  = self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['root_value'];
+			$value = $this->multidimensional_replace( $root, $keys, $value );
+		}
+
+		// Capture only the errors added while sanitizing, and leave the existing errors untouched.
+		$previous_settings_errors       = $wp_settings_errors;
+		$previous_settings_errors_count = is_array( $wp_settings_errors ) ? count( $wp_settings_errors ) : 0;
+
+		/*
+		 * While sanitizing, the preview filters for the option pass through the original value. This
+		 * prevents infinite recursion when sanitize_option() calls get_option() for the same option,
+		 * for example to fall back to the existing value when the value is invalid.
+		 *
+		 * Since a `finally` block requires PHP 5.5, the state is restored in each `catch` block before
+		 * rethrowing. Exceptions are caught for PHP 5, and errors such as TypeError for PHP 7+.
+		 */
+		$this->suspend_option_preview();
+		try {
+			$value = sanitize_option( $id_base, $value );
+		} catch ( Exception $e ) {
+			$this->resume_option_preview();
+			$wp_settings_errors = $previous_settings_errors;
+			throw $e;
+		} catch ( Throwable $e ) {
+			$this->resume_option_preview();
+			$wp_settings_errors = $previous_settings_errors;
+			throw $e;
+		}
+		$this->resume_option_preview();
+
+		$settings_errors    = is_array( $wp_settings_errors ) ? array_slice( $wp_settings_errors, $previous_settings_errors_count ) : array();
+		$wp_settings_errors = $previous_settings_errors;
+
+		$validity = new WP_Error();
+		foreach ( $settings_errors as $settings_error ) {
+			if ( 'error' === $settings_error['type'] ) {
+				$validity->add( $settings_error['code'], $settings_error['message'] );
+			}
+		}
+		if ( array() !== $validity->get_error_codes() ) {
+			return $validity;
+		}
+
+		if ( $this->is_multidimensional_aggregated ) {
+			$value = $this->multidimensional_get( $value, $keys );
+		}
+
+		return $value;
 	}
 
 	/**
@@ -850,6 +1063,7 @@ class WP_Customize_Setting {
 	 * Multidimensional helper function.
 	 *
 	 * @since 3.4.0
+	 * @since 7.1.5 When creating, a non-array value is overridden with an array at every level, not only the last.
 	 *
 	 * @param array $root
 	 * @param array $keys
@@ -869,6 +1083,11 @@ class WP_Customize_Setting {
 		$node = &$root;
 
 		foreach ( $keys as $key ) {
+			if ( $create && ! is_array( $node ) ) {
+				// Account for an array overriding a string or object value.
+				$node = array();
+			}
+
 			if ( $create && ! isset( $node[ $key ] ) ) {
 				$node[ $key ] = array();
 			}
