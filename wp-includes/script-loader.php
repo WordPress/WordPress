@@ -98,7 +98,11 @@ function wp_default_packages_vendor( $scripts ) {
 		'react'                       => '16.13.1',
 		'react-dom'                   => '16.13.1',
 		'moment'                      => '2.26.0',
-		'lodash'                      => '4.17.21',
+		/*
+		 * Lodash includes an additional suffix, 4.17.21 script loader version was used with a prior
+		 * lodash version.
+		 */
+		'lodash'                      => '4.17.21-wp.1',
 		'wp-polyfill-fetch'           => '3.0.0',
 		'wp-polyfill-formdata'        => '3.0.12',
 		'wp-polyfill-node-contains'   => '3.42.0',
