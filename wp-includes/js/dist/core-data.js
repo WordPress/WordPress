@@ -1564,6 +1564,30 @@ const external_wp_url_namespaceObject = window["wp"]["url"];
 ;// CONCATENATED MODULE: external ["wp","deprecated"]
 const external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
+;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/is-safe-entity-key.js
+const UNSAFE_CHARACTERS = /[?#&\\\x00-\x1f\x7f]/;
+function isSafeEntityKey(key) {
+  if (key === null || key === undefined || typeof key === 'number') {
+    return true;
+  }
+  if (typeof key !== 'string') {
+    return false;
+  }
+  if (/%2f/i.test(key)) {
+    return false;
+  }
+  const decoded = key.replace(
+    /%([0-7][0-9a-f])/gi,
+    (match, hex) => String.fromCharCode(parseInt(hex, 16))
+  );
+  if (UNSAFE_CHARACTERS.test(decoded)) {
+    return false;
+  }
+  return decoded
+    .split('/')
+    .every((segment) => segment !== '.' && segment !== '..');
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/set-nested-value.js
 /**
  * Sets the value at path of object.
@@ -2225,6 +2249,9 @@ const deleteEntityRecord = (kind, name, recordId, query, {
     });
     let hasError = false;
     try {
+      if (!isSafeEntityKey(recordId)) {
+        throw new Error('Invalid entity record key.');
+      }
       let path = `${entityConfig.baseURL}/${recordId}`;
       if (query) {
         path = (0,external_wp_url_namespaceObject.addQueryArgs)(path, query);
@@ -2428,6 +2455,9 @@ const saveEntityRecord = (kind, name, record, {
     let error;
     let hasError = false;
     try {
+      if (!isSafeEntityKey(recordId)) {
+        throw new Error('Invalid entity record key.');
+      }
       const path = `${entityConfig.baseURL}${recordId ? '/' + recordId : ''}`;
       const persistedRecord = select.getRawEntityRecord(kind, name, recordId);
       if (isAutosave) {
@@ -6020,6 +6050,10 @@ const resolvers_getEntityRecord = (kind, name, key = '', query) => async ({
   if (!entityConfig) {
     return;
   }
+  if (!isSafeEntityKey(key)) {
+    return;
+  }
+
   const lock = await dispatch.__unstableAcquireStoreLock(STORE_NAME, ['entities', 'records', kind, name, key], {
     exclusive: false
   });
@@ -6305,6 +6339,10 @@ const resolvers_canUser = (requestedAction, resource, id) => async ({
     if (!resource.kind || !resource.name) {
       throw new Error('The entity resource object is not valid.');
     }
+
+    if (!isSafeEntityKey(resource.id)) {
+      return;
+    }
     const configs = await dispatch(getOrLoadEntitiesConfig(resource.kind, resource.name));
     const entityConfig = configs.find(config => config.name === resource.name && config.kind === resource.kind);
     if (!entityConfig) {
@@ -6312,6 +6350,9 @@ const resolvers_canUser = (requestedAction, resource, id) => async ({
     }
     resourcePath = entityConfig.baseURL + (resource.id ? '/' + resource.id : '');
   } else {
+    if (!isSafeEntityKey(resource) || !isSafeEntityKey(id)) {
+      return;
+    }
     resourcePath = `/wp/v2/${resource}` + (id ? '/' + id : '');
   }
   const {
@@ -6386,6 +6427,10 @@ const resolvers_getAutosaves = (postType, postId) => async ({
   dispatch,
   resolveSelect
 }) => {
+  if (!isSafeEntityKey(postId)) {
+    return;
+  }
+
   const {
     rest_base: restBase,
     rest_namespace: restNamespace = 'wp/v2'
@@ -6608,7 +6653,7 @@ const resolvers_getRevisions = (kind, name, recordKey, query = {}) => async ({
 }) => {
   const configs = await dispatch(getOrLoadEntitiesConfig(kind, name));
   const entityConfig = configs.find(config => config.name === name && config.kind === kind);
-  if (!entityConfig) {
+  if (!entityConfig || !isSafeEntityKey(recordKey)) {
     return;
   }
   if (query._fields) {
@@ -6687,7 +6732,7 @@ const resolvers_getRevision = (kind, name, recordKey, revisionKey, query) => asy
 }) => {
   const configs = await dispatch(getOrLoadEntitiesConfig(kind, name));
   const entityConfig = configs.find(config => config.name === name && config.kind === kind);
-  if (!entityConfig) {
+  if (!entityConfig || !isSafeEntityKey(recordKey) || !isSafeEntityKey(revisionKey)) {
     return;
   }
   if (query !== undefined && query._fields) {

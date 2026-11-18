@@ -90,6 +90,13 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler {
 		 */
 		$query_args = apply_filters( 'rest_term_search_query', $query_args, $request );
 
+		if ( empty( $query_args['taxonomy'] ) ) {
+			return array(
+				self::RESULT_IDS   => array(),
+				self::RESULT_TOTAL => 0,
+			);
+		}
+
 		$query       = new WP_Term_Query();
 		$found_terms = $query->query( $query_args );
 		$found_ids   = wp_list_pluck( $found_terms, 'term_id' );

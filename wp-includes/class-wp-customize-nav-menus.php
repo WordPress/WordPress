@@ -1523,13 +1523,17 @@ final class WP_Customize_Nav_Menus {
 	 *
 	 * Note that the array is expected to be pre-sorted.
 	 *
+	 * The serialized arguments are prefixed so that the resulting hash cannot
+	 * collide with other `wp_hash()` values computed over serialized data.
+	 *
 	 * @since 4.3.0
+	 * @since 7.1.5 The hash is now domain-separated from other hashes.
 	 *
 	 * @param array $args The arguments to hash.
 	 * @return string Hashed nav menu arguments.
 	 */
 	public function hash_nav_menu_args( $args ) {
-		return wp_hash( serialize( $args ) );
+		return wp_hash( 'customize_nav_menu_args|' . serialize( $args ) );
 	}
 
 	/**

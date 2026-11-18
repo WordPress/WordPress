@@ -17146,16 +17146,6 @@ const embed_variations_variations = [{
     responsive: true
   }
 }, {
-  name: 'imgur',
-  title: getTitle('Imgur'),
-  icon: embedPhotoIcon,
-  description: (0,external_wp_i18n_namespaceObject.__)('Embed Imgur content.'),
-  patterns: [/^https?:\/\/(.+\.)?imgur\.com\/.+/i],
-  attributes: {
-    providerNameSlug: 'imgur',
-    responsive: true
-  }
-}, {
   name: 'issuu',
   title: getTitle('Issuu'),
   icon: embedContentIcon,
@@ -18429,10 +18419,13 @@ function file_save_save({
   });
 }
 
+;// CONCATENATED MODULE: external ["wp","escapeHtml"]
+const external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/file/transforms.js
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -18504,7 +18497,7 @@ const file_transforms_transforms = {
     transform: attributes => {
       return (0,external_wp_blocks_namespaceObject.createBlock)('core/file', {
         href: attributes.url,
-        fileName: attributes.caption || (0,external_wp_url_namespaceObject.getFilename)(attributes.url),
+        fileName: attributes.caption || (0,external_wp_escapeHtml_namespaceObject.escapeEditableHTML)((0,external_wp_url_namespaceObject.getFilename)(attributes.url) || ''),
         textLinkHref: attributes.url,
         id: attributes.id,
         anchor: attributes.anchor
@@ -35019,8 +35012,6 @@ function LeafMoreMenu(props) {
   });
 }
 
-;// CONCATENATED MODULE: external ["wp","escapeHtml"]
-const external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation-link/update-attributes.js
 /**
  * WordPress dependencies
