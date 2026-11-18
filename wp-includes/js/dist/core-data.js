@@ -787,6 +787,40 @@ var Status = /* @__PURE__ */ ((Status2) => {
 
 /***/ }),
 
+/***/ 3063:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   A: () => (/* binding */ isSafeEntityKey)
+/* harmony export */ });
+const UNSAFE_CHARACTERS = /[?#&\\\x00-\x1f\x7f]/;
+function isSafeEntityKey(key) {
+  if (key === null || key === undefined || typeof key === "number") {
+    return true;
+  }
+  if (typeof key !== "string") {
+    return false;
+  }
+  if (/%2f/i.test(key)) {
+    return false;
+  }
+  const decoded = key.replace(
+    /%([0-7][0-9a-f])/gi,
+    (match, hex) => String.fromCharCode(parseInt(hex, 16))
+  );
+  if (UNSAFE_CHARACTERS.test(decoded)) {
+    return false;
+  }
+  return decoded
+    .split("/")
+    .every((segment) => segment !== "." && segment !== "..");
+}
+
+
+
+/***/ }),
+
 /***/ 3249:
 /***/ ((module) => {
 
@@ -1246,6 +1280,8 @@ var external_wp_url_ = __webpack_require__(3832);
 // EXTERNAL MODULE: external ["wp","deprecated"]
 var external_wp_deprecated_ = __webpack_require__(4040);
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_);
+// EXTERNAL MODULE: ./node_modules/@wordpress/core-data/build-module/utils/is-safe-entity-key.js
+var is_safe_entity_key = __webpack_require__(3063);
 // EXTERNAL MODULE: ./node_modules/@wordpress/core-data/build-module/utils/set-nested-value.js
 var set_nested_value = __webpack_require__(5003);
 ;// ./node_modules/@wordpress/core-data/build-module/utils/get-nested-value.js
@@ -1609,6 +1645,9 @@ const deleteEntityRecord = (kind, name, recordId, query, { __unstableFetch = (ex
     });
     let hasError = false;
     try {
+      if (!(0,is_safe_entity_key/* default */.A)(recordId)) {
+        throw new Error("Invalid entity record key.");
+      }
       let path = `${entityConfig.baseURL}/${recordId}`;
       if (query) {
         path = (0,external_wp_url_.addQueryArgs)(path, query);
@@ -1764,6 +1803,9 @@ const saveEntityRecord = (kind, name, record, {
     let error;
     let hasError = false;
     try {
+      if (!(0,is_safe_entity_key/* default */.A)(recordId)) {
+        throw new Error("Invalid entity record key.");
+      }
       const path = `${entityConfig.baseURL}${recordId ? "/" + recordId : ""}`;
       const persistedRecord = !isNewRecord ? select.getRawEntityRecord(kind, name, recordId) : {};
       if (isAutosave) {
@@ -4136,6 +4178,8 @@ var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_w
 var build_module_name = __webpack_require__(2278);
 // EXTERNAL MODULE: ./node_modules/@wordpress/core-data/build-module/entities.js + 2 modules
 var entities = __webpack_require__(5914);
+// EXTERNAL MODULE: ./node_modules/@wordpress/core-data/build-module/utils/is-safe-entity-key.js
+var is_safe_entity_key = __webpack_require__(3063);
 // EXTERNAL MODULE: ./node_modules/@wordpress/core-data/build-module/utils/get-normalized-comma-separable.js
 var get_normalized_comma_separable = __webpack_require__(533);
 // EXTERNAL MODULE: ./node_modules/@wordpress/core-data/build-module/utils/user-permissions.js
@@ -4181,6 +4225,10 @@ const getEntityRecord = (kind, name, key = "", query) => async ({ select, dispat
   if (!entityConfig) {
     return;
   }
+  if (!(0,is_safe_entity_key/* default */.A)(key)) {
+    return;
+  }
+
   const lock = await dispatch.__unstableAcquireStoreLock(
     build_module_name/* STORE_NAME */.E,
     ["entities", "records", kind, name, key],
@@ -4458,6 +4506,10 @@ const canUser = (requestedAction, resource, id) => async ({ dispatch, registry, 
     if (!resource.kind || !resource.name) {
       throw new Error("The entity resource object is not valid.");
     }
+
+    if (!(0,is_safe_entity_key/* default */.A)(resource.id)) {
+      return;
+    }
     const configs = await resolveSelect.getEntitiesConfig(
       resource.kind
     );
@@ -4469,6 +4521,9 @@ const canUser = (requestedAction, resource, id) => async ({ dispatch, registry, 
     }
     resourcePath = entityConfig.baseURL + (resource.id ? "/" + resource.id : "");
   } else {
+    if (!(0,is_safe_entity_key/* default */.A)(resource) || !(0,is_safe_entity_key/* default */.A)(id)) {
+      return;
+    }
     resourcePath = `/wp/v2/${resource}` + (id ? "/" + id : "");
   }
   let response;
@@ -4502,6 +4557,10 @@ const canUserEditEntityRecord = (kind, name, recordId) => async ({ dispatch }) =
   await dispatch(canUser("update", { kind, name, id: recordId }));
 };
 const getAutosaves = (postType, postId) => async ({ dispatch, resolveSelect }) => {
+  if (!(0,is_safe_entity_key/* default */.A)(postId)) {
+    return;
+  }
+
   const {
     rest_base: restBase,
     rest_namespace: restNamespace = "wp/v2",
@@ -4671,7 +4730,7 @@ const getRevisions = (kind, name, recordKey, query = {}) => async ({ dispatch, r
   const entityConfig = configs.find(
     (config) => config.name === name && config.kind === kind
   );
-  if (!entityConfig) {
+  if (!entityConfig || !(0,is_safe_entity_key/* default */.A)(recordKey)) {
     return;
   }
   if (query._fields) {
@@ -4748,7 +4807,7 @@ const getRevision = (kind, name, recordKey, revisionKey, query) => async ({ disp
   const entityConfig = configs.find(
     (config) => config.name === name && config.kind === kind
   );
-  if (!entityConfig) {
+  if (!entityConfig || !(0,is_safe_entity_key/* default */.A)(recordKey) || !(0,is_safe_entity_key/* default */.A)(revisionKey)) {
     return;
   }
   if (query !== void 0 && query._fields) {
@@ -6581,6 +6640,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1455);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _name__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2278);
+/* harmony import */ var _utils_is_safe_entity_key__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3063);
+
 
 
 function receiveRegisteredPostMeta(postType, registeredPostMeta) {
@@ -6619,6 +6680,9 @@ const editMediaEntity = (recordId, edits = {}, { __unstableFetch = (_wordpress_a
       recordId
     });
     try {
+      if (!(0,_utils_is_safe_entity_key__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .A)(recordId)) {
+        throw new Error("Invalid entity record key.");
+      }
       const path = `${entityConfig.baseURL}/${recordId}/edit`;
       const newRecord = await __unstableFetch({
         path,

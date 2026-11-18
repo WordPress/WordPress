@@ -16012,14 +16012,6 @@ const embed_variations_variations = [
     attributes: { providerNameSlug: "dailymotion", responsive: true }
   },
   {
-    name: "imgur",
-    title: getTitle("Imgur"),
-    icon: embedPhotoIcon,
-    description: (0,external_wp_i18n_namespaceObject.__)("Embed Imgur content."),
-    patterns: [/^https?:\/\/(.+\.)?imgur\.com\/.+/i],
-    attributes: { providerNameSlug: "imgur", responsive: true }
-  },
-  {
     name: "issuu",
     title: getTitle("Issuu"),
     icon: embedContentIcon,
@@ -17147,7 +17139,10 @@ function file_save_save({ attributes }) {
 }
 
 
+;// external ["wp","escapeHtml"]
+const external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
 ;// ./node_modules/@wordpress/block-library/build-module/file/transforms.js
+
 
 
 
@@ -17229,7 +17224,7 @@ const file_transforms_transforms = {
       transform: (attributes) => {
         return (0,external_wp_blocks_namespaceObject.createBlock)("core/file", {
           href: attributes.url,
-          fileName: attributes.caption || (0,external_wp_url_namespaceObject.getFilename)(attributes.url),
+          fileName: attributes.caption || (0,external_wp_escapeHtml_namespaceObject.escapeEditableHTML)((0,external_wp_url_namespaceObject.getFilename)(attributes.url) ?? ""),
           textLinkHref: attributes.url,
           id: attributes.id,
           anchor: attributes.anchor
@@ -32243,8 +32238,6 @@ const LinkUITools = ({
 var link_ui_default = (/* unused pure expression or super */ null && (LinkUITools));
 
 
-;// external ["wp","escapeHtml"]
-const external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
 ;// ./node_modules/@wordpress/block-library/build-module/navigation-link/shared/update-attributes.js
 
 
