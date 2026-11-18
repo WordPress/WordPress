@@ -55985,8 +55985,17 @@ If there's a particular need for this, please submit a feature request at https:
   var import_data47 = __toESM(require_data(), 1);
   var import_html_entities10 = __toESM(require_html_entities(), 1);
   var import_core_data30 = __toESM(require_core_data(), 1);
-  var getExternalLink = (url, text) => `<a ${getExternalLinkAttributes(url)}>${text}</a>`;
-  var getExternalLinkAttributes = (url) => `href="${url}" target="_blank" rel="noopener"`;
+  var escapeAmpersand = (value) => value.replace(/&(?!([a-z0-9]+|#[0-9]+|#x[a-f0-9]+);)/gi, "&amp;");
+  var escapeQuotationMark = (value) => value.replace(/"/g, "&quot;");
+  var escapeLessThan = (value) => value.replace(/</g, "&lt;");
+  var escapeGreaterThan = (value) => value.replace(/>/g, "&gt;");
+  var escapeAttribute = (value) => escapeGreaterThan(
+    escapeLessThan(escapeQuotationMark(escapeAmpersand(value)))
+  );
+  var escapeEditableHTML = (value) => escapeLessThan(value.replace(/&/g, "&amp;"));
+  var isHttpURL = (url) => /^https?:/.test(url);
+  var getExternalLink = (url, text) => isHttpURL(url) ? `<a ${getExternalLinkAttributes(url)}>${text}</a>` : text;
+  var getExternalLinkAttributes = (url) => `href="${isHttpURL(url) ? escapeAttribute(url) : ""}" target="_blank" rel="noopener"`;
   var getOpenverseLicense = (license, licenseVersion) => {
     let licenseName = license.trim();
     if (license !== "pdm") {
@@ -56010,8 +56019,10 @@ If there's a particular need for this, please submit a feature request at https:
       license_version: licenseVersion,
       license_url: licenseUrl
     } = item;
-    const fullLicense = getOpenverseLicense(license, licenseVersion);
-    const _creator = (0, import_html_entities10.decodeEntities)(creator);
+    const fullLicense = escapeEditableHTML(
+      getOpenverseLicense(license, licenseVersion)
+    );
+    const _creator = creator ? escapeEditableHTML((0, import_html_entities10.decodeEntities)(creator)) : "";
     let _caption;
     if (_creator) {
       _caption = title ? (0, import_i18n144.sprintf)(
@@ -56019,7 +56030,7 @@ If there's a particular need for this, please submit a feature request at https:
         (0, import_i18n144._x)('"%1$s" by %2$s/ %3$s', "caption"),
         getExternalLink(
           foreignLandingUrl,
-          (0, import_html_entities10.decodeEntities)(title)
+          escapeEditableHTML((0, import_html_entities10.decodeEntities)(title))
         ),
         creatorUrl ? getExternalLink(creatorUrl, _creator) : _creator,
         licenseUrl ? getExternalLink(
@@ -56042,7 +56053,7 @@ If there's a particular need for this, please submit a feature request at https:
         (0, import_i18n144._x)('"%1$s"/ %2$s', "caption"),
         getExternalLink(
           foreignLandingUrl,
-          (0, import_html_entities10.decodeEntities)(title)
+          escapeEditableHTML((0, import_html_entities10.decodeEntities)(title))
         ),
         licenseUrl ? getExternalLink(
           `${licenseUrl}?ref=openverse`,
