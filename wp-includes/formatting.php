@@ -4062,6 +4062,7 @@ function wp_make_link_relative( $link ) {
  * of functions depending on the $option.
  *
  * @since 2.0.5
+ * @since 7.1.5 The `show_on_front` option is sanitized.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -4279,6 +4280,13 @@ function sanitize_option( $option, $value ) {
 					__( 'A structure tag is required when using custom permalinks. <a href="%s">Learn more</a>' ),
 					__( 'https://codex.wordpress.org/Using_Permalinks#Choosing_your_permalink_structure' )
 				);
+			}
+			break;
+
+		case 'show_on_front':
+			// Any value other than 'page' is treated as 'posts'.
+			if ( 'page' !== $value ) {
+				$value = 'posts';
 			}
 			break;
 
