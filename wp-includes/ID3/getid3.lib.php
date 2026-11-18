@@ -730,9 +730,9 @@ class getid3_lib
 			// http://websec.io/2012/08/27/Preventing-XEE-in-PHP.html
 			// https://core.trac.wordpress.org/changeset/29378
 			// This function has been deprecated in PHP 8.0 because in libxml 2.9.0, external entity loading is
-			// disabled by default, but is still needed when LIBXML_NOENT is used.
+			// disabled by default.
 			$loader = @libxml_disable_entity_loader(true);
-			$XMLobject = simplexml_load_string($XMLstring, 'SimpleXMLElement', LIBXML_NOENT);
+			$XMLobject = simplexml_load_string($XMLstring, 'SimpleXMLElement', 0);
 			$return = self::SimpleXMLelement2array($XMLobject);
 			@libxml_disable_entity_loader($loader);
 			return $return;
