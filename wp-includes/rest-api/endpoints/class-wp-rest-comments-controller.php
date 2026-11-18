@@ -427,7 +427,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		// Limit who can set comment `author`, `author_ip` or `status` to anything other than the default.
-		if ( isset( $request['author'] ) && get_current_user_id() !== $request['author'] && ! current_user_can( 'moderate_comments' ) ) {
+		if ( isset( $request['author'] ) && get_current_user_id() !== $request['author'] && ! $this->check_assign_author_permission( $request['author'] ) ) {
 			return new WP_Error(
 				'rest_comment_invalid_author',
 				/* translators: %s: Request parameter. */
@@ -681,6 +681,24 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		/*
+		 * Reassigning a comment copies the new author's email address onto it,
+		 * which is then returned in the response.
+		 */
+		if (
+			isset( $request['author'] ) &&
+			(int) $request['author'] !== (int) $comment->user_id &&
+			get_current_user_id() !== (int) $request['author'] &&
+			! $this->check_assign_author_permission( $request['author'] )
+		) {
+			return new WP_Error(
+				'rest_comment_invalid_author',
+				/* translators: %s: Request parameter. */
+				sprintf( __( "Sorry, you are not allowed to edit '%s' for comments." ), 'author' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		/*
 		 * check_edit_permission() above only establishes that the comment may be
 		 * edited where it currently sits, because 'edit_comment' maps to 'edit_post'
 		 * on the comment's current parent. When the parent is being changed, the new
@@ -717,6 +735,15 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		if ( isset( $request['type'] ) && get_comment_type( $id ) !== $request['type'] ) {
 			return new WP_Error( 'rest_comment_invalid_type', __( 'Sorry, you are not allowed to change the comment type.' ), array( 'status' => 404 ) );
+		}
+
+		/*
+		 * Re-sending the current author is a no-op. Otherwise the author's details
+		 * would be refreshed from their user account, exposing any change to their
+		 * email address to whoever can edit the comment.
+		 */
+		if ( isset( $request['author'] ) && (int) $request['author'] === (int) $comment->user_id ) {
+			unset( $request['author'] );
 		}
 
 		$prepared_args = $this->prepare_item_for_database( $request );
@@ -1694,6 +1721,18 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		return current_user_can( 'edit_comment', $comment->comment_ID );
+	}
+
+	/**
+	 * Checks whether the current user can attribute a comment to another user.
+	 *
+	 * @since 7.1.5
+	 *
+	 * @param int $author_id ID of the user the comment is being attributed to.
+	 * @return bool Whether the comment can be attributed to the user.
+	 */
+	protected function check_assign_author_permission( $author_id ) {
+		return current_user_can( 'moderate_comments' ) && is_user_member_of_blog( $author_id );
 	}
 
 	/**
