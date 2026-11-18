@@ -36,6 +36,7 @@ class WP_Meta_Query {
 	 *
 	 * @since 3.2.0
 	 * @var string
+	 * @phpstan-var 'AND'|'OR'|null
 	 */
 	public $relation;
 
@@ -170,8 +171,8 @@ class WP_Meta_Query {
 			return;
 		}
 
-		if ( isset( $meta_query['relation'] ) && 'OR' === strtoupper( $meta_query['relation'] ) ) {
-			$this->relation = 'OR';
+		if ( isset( $meta_query['relation'] ) ) {
+			$this->relation = $this->sanitize_relation( $meta_query['relation'] );
 		} else {
 			$this->relation = 'AND';
 		}
@@ -209,6 +210,19 @@ class WP_Meta_Query {
 					unset( $query['value'] );
 				}
 
+				/*
+				 * Dropping an empty value can leave a clause that is no longer
+				 * first-order, so sanitize it as a nested query instead. Otherwise
+				 * it would be stored unsanitized and later treated as a nested
+				 * query when the SQL is generated.
+				 */
+				if ( ! $this->is_first_order_clause( $query ) ) {
+					$query = $this->sanitize_query( $query );
+				} elseif ( array_key_exists( 'relation', $query ) ) {
+					// A first-order clause has no relation of its own, but never store an unvalidated one.
+					$query['relation'] = $this->sanitize_relation( $query['relation'] );
+				}
+
 				$clean_queries[ $key ] = $query;
 
 				// Otherwise, it's a nested query, so we recurse.
@@ -226,7 +240,7 @@ class WP_Meta_Query {
 		}
 
 		// Sanitize the 'relation' key provided in the query.
-		if ( isset( $relation ) && 'OR' === strtoupper( $relation ) ) {
+		if ( isset( $relation ) && 'OR' === $this->sanitize_relation( $relation ) ) {
 			$clean_queries['relation'] = 'OR';
 			$this->has_or_relation     = true;
 
@@ -244,6 +258,23 @@ class WP_Meta_Query {
 		}
 
 		return $clean_queries;
+	}
+
+	/**
+	 * Sanitizes a 'relation' operator.
+	 *
+	 * @since 7.1.5
+	 *
+	 * @param mixed $relation Raw relation key from the query argument. Typically the string 'AND' or 'OR'.
+	 * @return string Sanitized relation. Either 'AND' or 'OR'.
+	 * @phpstan-return 'AND'|'OR'
+	 */
+	public function sanitize_relation( $relation ) {
+		if ( is_string( $relation ) && 'OR' === strtoupper( $relation ) ) {
+			return 'OR';
+		} else {
+			return 'AND';
+		}
 	}
 
 	/**
@@ -460,7 +491,8 @@ class WP_Meta_Query {
 
 		foreach ( $query as $key => &$clause ) {
 			if ( 'relation' === $key ) {
-				$relation = $query['relation'];
+				// Clauses that bypassed sanitize_query() may carry an unvalidated relation.
+				$relation = $this->sanitize_relation( $query['relation'] );
 			} elseif ( is_array( $clause ) ) {
 
 				// This is a first-order clause.
