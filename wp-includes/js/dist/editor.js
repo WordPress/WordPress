@@ -14392,8 +14392,15 @@ const withRegistryProvider = (0,external_wp_compose_namespaceObject.createHigher
 /** @typedef {import('@wordpress/block-editor').InserterMediaItem} InserterMediaItem */
 /** @typedef {import('@wordpress/block-editor').InserterMediaCategory} InserterMediaCategory */
 
-const getExternalLink = (url, text) => `<a ${getExternalLinkAttributes(url)}>${text}</a>`;
-const getExternalLinkAttributes = url => `href="${url}" target="_blank" rel="noreferrer noopener"`;
+const escapeAmpersand = value => value.replace(/&(?!([a-z0-9]+|#[0-9]+|#x[a-f0-9]+);)/gi, '&amp;');
+const escapeQuotationMark = value => value.replace(/"/g, '&quot;');
+const escapeLessThan = value => value.replace(/</g, '&lt;');
+const escapeGreaterThan = value => value.replace(/>/g, '&gt;');
+const escapeAttribute = value => escapeGreaterThan(escapeLessThan(escapeQuotationMark(escapeAmpersand(value))));
+const escapeEditableHTML = value => escapeLessThan(value.replace(/&/g, '&amp;'));
+const isHttpURL = url => /^https?:/.test(url);
+const getExternalLink = (url, text) => isHttpURL(url) ? `<a ${getExternalLinkAttributes(url)}>${text}</a>` : text;
+const getExternalLinkAttributes = url => `href="${isHttpURL(url) ? escapeAttribute(url) : ''}" target="_blank" rel="noreferrer noopener"`;
 const getOpenverseLicense = (license, licenseVersion) => {
   let licenseName = license.trim();
   // PDM has no abbreviation
@@ -14422,19 +14429,19 @@ const getOpenverseCaption = item => {
     license_version: licenseVersion,
     license_url: licenseUrl
   } = item;
-  const fullLicense = getOpenverseLicense(license, licenseVersion);
-  const _creator = (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(creator);
+  const fullLicense = escapeEditableHTML(getOpenverseLicense(license, licenseVersion));
+  const _creator = creator ? escapeEditableHTML((0,external_wp_htmlEntities_namespaceObject.decodeEntities)(creator)) : '';
   let _caption;
   if (_creator) {
     _caption = title ? (0,external_wp_i18n_namespaceObject.sprintf)(
     // translators: %1s: Title of a media work from Openverse; %2s: Name of the work's creator; %3s: Work's licence e.g: "CC0 1.0".
-    (0,external_wp_i18n_namespaceObject._x)('"%1$s" by %2$s/ %3$s', 'caption'), getExternalLink(foreignLandingUrl, (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title)), creatorUrl ? getExternalLink(creatorUrl, _creator) : _creator, licenseUrl ? getExternalLink(`${licenseUrl}?ref=openverse`, fullLicense) : fullLicense) : (0,external_wp_i18n_namespaceObject.sprintf)(
+    (0,external_wp_i18n_namespaceObject._x)('"%1$s" by %2$s/ %3$s', 'caption'), getExternalLink(foreignLandingUrl, escapeEditableHTML((0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title))), creatorUrl ? getExternalLink(creatorUrl, _creator) : _creator, licenseUrl ? getExternalLink(`${licenseUrl}?ref=openverse`, fullLicense) : fullLicense) : (0,external_wp_i18n_namespaceObject.sprintf)(
     // translators: %1s: Link attributes for a given Openverse media work; %2s: Name of the work's creator; %3s: Works's licence e.g: "CC0 1.0".
     (0,external_wp_i18n_namespaceObject._x)('<a %1$s>Work</a> by %2$s/ %3$s', 'caption'), getExternalLinkAttributes(foreignLandingUrl), creatorUrl ? getExternalLink(creatorUrl, _creator) : _creator, licenseUrl ? getExternalLink(`${licenseUrl}?ref=openverse`, fullLicense) : fullLicense);
   } else {
     _caption = title ? (0,external_wp_i18n_namespaceObject.sprintf)(
     // translators: %1s: Title of a media work from Openverse; %2s: Work's licence e.g: "CC0 1.0".
-    (0,external_wp_i18n_namespaceObject._x)('"%1$s"/ %2$s', 'caption'), getExternalLink(foreignLandingUrl, (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title)), licenseUrl ? getExternalLink(`${licenseUrl}?ref=openverse`, fullLicense) : fullLicense) : (0,external_wp_i18n_namespaceObject.sprintf)(
+    (0,external_wp_i18n_namespaceObject._x)('"%1$s"/ %2$s', 'caption'), getExternalLink(foreignLandingUrl, escapeEditableHTML((0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title))), licenseUrl ? getExternalLink(`${licenseUrl}?ref=openverse`, fullLicense) : fullLicense) : (0,external_wp_i18n_namespaceObject.sprintf)(
     // translators: %1s: Link attributes for a given Openverse media work; %2s: Works's licence e.g: "CC0 1.0".
     (0,external_wp_i18n_namespaceObject._x)('<a %1$s>Work</a>/ %2$s', 'caption'), getExternalLinkAttributes(foreignLandingUrl), licenseUrl ? getExternalLink(`${licenseUrl}?ref=openverse`, fullLicense) : fullLicense);
   }
