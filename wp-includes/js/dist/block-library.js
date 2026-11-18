@@ -14594,16 +14594,6 @@ var embed_variations_variations = [{
     responsive: true
   }
 }, {
-  name: 'imgur',
-  title: 'Imgur',
-  icon: embedPhotoIcon,
-  description: Object(external_this_wp_i18n_["__"])('Embed Imgur content.'),
-  patterns: [/^https?:\/\/(.+\.)?imgur\.com\/.+/i],
-  attributes: {
-    providerNameSlug: 'imgur',
-    responsive: true
-  }
-}, {
   name: 'issuu',
   title: 'Issuu',
   icon: embedContentIcon,
