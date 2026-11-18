@@ -2942,9 +2942,12 @@ var others = [{
   settings: {
     title: 'Imgur',
     icon: embedPhotoIcon,
-    description: Object(external_this_wp_i18n_["__"])('Embed Imgur content.')
+    description: Object(external_this_wp_i18n_["__"])('Embed Imgur content.'),
+    supports: {
+      inserter: false
+    }
   },
-  patterns: [/^https?:\/\/(.+\.)?imgur\.com\/.+/i]
+  patterns: []
 }, {
   name: 'core-embed/issuu',
   settings: {

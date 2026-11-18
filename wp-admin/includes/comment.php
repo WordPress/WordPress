@@ -46,6 +46,8 @@ function comment_exists( $comment_author, $comment_date, $timezone = 'blog' ) {
  * Update a comment with values provided in $_POST.
  *
  * @since 2.0.0
+ * @since 7.1.5 Moving a comment to another post is checked against the user's capabilities,
+ *              and the comment type can no longer be changed.
  */
 function edit_comment() {
 	if ( ! current_user_can( 'edit_comment', (int) $_POST['comment_ID'] ) ) {
@@ -71,6 +73,39 @@ function edit_comment() {
 		$_POST['comment_ID'] = (int) $_POST['comment_ID'];
 	}
 
+	$comment_id = (int) $_POST['comment_ID'];
+	$comment    = get_comment( $comment_id );
+
+	// The comment type is not editable from the Edit Comment screen.
+	if ( $comment && isset( $_POST['comment_type'] ) && $_POST['comment_type'] !== $comment->comment_type ) {
+		wp_die( __( 'The comment type cannot be changed.' ) );
+	}
+
+	/*
+	 * The capability check above only establishes that the comment may be edited
+	 * where it currently sits, because 'edit_comment' maps to 'edit_post' on the
+	 * comment's current post. Moving the comment to another post has to be
+	 * authorized separately, otherwise a user who can edit a comment on their own
+	 * post could attach it to any post, including posts they can neither read nor
+	 * edit.
+	 */
+
+	$comment_post_id = $comment ? (int) $comment->comment_post_ID : 0;
+
+	if ( $comment && isset( $_POST['comment_post_ID'] ) ) {
+		$target_post_id = (int) $_POST['comment_post_ID'];
+
+		$_POST['comment_post_ID'] = $target_post_id;
+
+		if ( $target_post_id !== $comment_post_id ) {
+			$target_post_check = _wp_check_comment_target_post( $comment, $target_post_id );
+
+			if ( is_wp_error( $target_post_check ) ) {
+				wp_die( $target_post_check->get_error_message() );
+			}
+		}
+	}
+
 	foreach ( array( 'aa', 'mm', 'jj', 'hh', 'mn' ) as $timeunit ) {
 		if ( ! empty( $_POST[ 'hidden_' . $timeunit ] ) && $_POST[ 'hidden_' . $timeunit ] != $_POST[ $timeunit ] ) {
 			$_POST['edit_date'] = '1';
@@ -93,6 +128,30 @@ function edit_comment() {
 	}
 
 	wp_update_comment( $_POST );
+}
+
+/**
+ * Checks that the current user may move a comment to another post.
+ *
+ * @since 7.1.5
+ * @access private
+ *
+ * @param WP_Comment $comment The comment being moved.
+ * @param int        $post_id ID of the post the comment is being moved to.
+ * @return true|WP_Error True if the comment may be moved to the post, WP_Error otherwise.
+ */
+function _wp_check_comment_target_post( WP_Comment $comment, $post_id ) {
+	$post = $post_id ? get_post( $post_id ) : null;
+
+	if ( ! $post ) {
+		return new WP_Error( 'comment_post_invalid', __( 'Invalid post ID.' ) );
+	}
+
+	if ( ! current_user_can( 'moderate_comments' ) && ! current_user_can( 'edit_post', $post->ID ) ) {
+		return new WP_Error( 'comment_post_invalid', __( 'Sorry, you are not allowed to move this comment to that post.' ) );
+	}
+
+	return true;
 }
 
 /**
