@@ -9525,16 +9525,6 @@ const embed_variations_variations = [{
     responsive: true
   }
 }, {
-  name: 'imgur',
-  title: 'Imgur',
-  icon: embedPhotoIcon,
-  description: Object(external_wp_i18n_["__"])('Embed Imgur content.'),
-  patterns: [/^https?:\/\/(.+\.)?imgur\.com\/.+/i],
-  attributes: {
-    providerNameSlug: 'imgur',
-    responsive: true
-  }
-}, {
   name: 'issuu',
   title: 'Issuu',
   icon: embedContentIcon,
@@ -10491,6 +10481,9 @@ function file_save_save(_ref) {
   })));
 }
 
+// EXTERNAL MODULE: external ["wp","escapeHtml"]
+var external_wp_escapeHtml_ = __webpack_require__("Vx3V");
+
 // EXTERNAL MODULE: external ["wp","url"]
 var external_wp_url_ = __webpack_require__("Mmq9");
 
@@ -10502,6 +10495,7 @@ var external_wp_url_ = __webpack_require__("Mmq9");
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -10562,7 +10556,7 @@ const file_transforms_transforms = {
     transform: attributes => {
       return Object(external_wp_blocks_["createBlock"])('core/file', {
         href: attributes.url,
-        fileName: attributes.caption || Object(external_wp_url_["getFilename"])(attributes.url),
+        fileName: attributes.caption || Object(external_wp_escapeHtml_["escapeEditableHTML"])(Object(external_wp_url_["getFilename"])(attributes.url) || ''),
         textLinkHref: attributes.url,
         id: attributes.id,
         anchor: attributes.anchor
@@ -41809,6 +41803,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["autop"]; }());
+
+/***/ }),
+
+/***/ "Vx3V":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["escapeHtml"]; }());
 
 /***/ }),
 

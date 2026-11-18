@@ -788,6 +788,30 @@ var external_wp_url_ = __webpack_require__("Mmq9");
 var external_wp_deprecated_ = __webpack_require__("NMb1");
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/is-safe-entity-key.js
+const UNSAFE_CHARACTERS = /[?#&\\\x00-\x1f\x7f]/;
+function isSafeEntityKey(key) {
+  if (key === null || key === undefined || typeof key === 'number') {
+    return true;
+  }
+  if (typeof key !== 'string') {
+    return false;
+  }
+  if (/%2f/i.test(key)) {
+    return false;
+  }
+  const decoded = key.replace(
+    /%([0-7][0-9a-f])/gi,
+    (match, hex) => String.fromCharCode(parseInt(hex, 16))
+  );
+  if (UNSAFE_CHARACTERS.test(decoded)) {
+    return false;
+  }
+  return decoded
+    .split('/')
+    .every((segment) => segment !== '.' && segment !== '..');
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/queried-data/actions.js
 /**
  * External dependencies
@@ -1157,6 +1181,7 @@ const STORE_NAME = 'core';
 
 
 
+
 /**
  * Returns an action object used in signalling that authors have been received.
  *
@@ -1363,6 +1388,9 @@ const deleteEntityRecord = function (kind, name, recordId, query) {
       });
 
       try {
+        if (!isSafeEntityKey(recordId)) {
+          throw new Error('Invalid entity record key.');
+        }
         let path = `${entity.baseURL}/${recordId}`;
 
         if (query) {
@@ -1585,6 +1613,9 @@ const saveEntityRecord = function (kind, name, record) {
       let error;
 
       try {
+        if (!isSafeEntityKey(recordId)) {
+          throw new Error('Invalid entity record key.');
+        }
         const path = `${entity.baseURL}${recordId ? '/' + recordId : ''}`;
         const persistedRecord = select.getRawEntityRecord(kind, name, recordId);
 
@@ -4210,6 +4241,10 @@ const resolvers_getEntityRecord = function (kind, name) {
     if (!entity || entity !== null && entity !== void 0 && entity.__experimentalNoFetch) {
       return;
     }
+if (!isSafeEntityKey(key)) {
+  return;
+}
+
 
     const lock = await dispatch.__unstableAcquireStoreLock(STORE_NAME, ['entities', 'data', kind, name, key], {
       exclusive: false
@@ -4430,6 +4465,10 @@ const resolvers_canUser = (action, resource, id) => async _ref7 => {
   if (!method) {
     throw new Error(`'${action}' is not a valid action.`);
   }
+if (!isSafeEntityKey(resource) || !isSafeEntityKey(id)) {
+  return;
+}
+
 
   const path = id ? `/wp/v2/${resource}/${id}` : `/wp/v2/${resource}`;
   let response;
@@ -4504,6 +4543,10 @@ const resolvers_getAutosaves = (postType, postId) => async _ref9 => {
     dispatch,
     resolveSelect
   } = _ref9;
+  if (!isSafeEntityKey(postId)) {
+    return;
+  }
+
   const {
     rest_base: restBase
   } = await resolveSelect.getPostType(postType);

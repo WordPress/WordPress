@@ -5184,8 +5184,9 @@ final class WP_Customize_Manager {
 		$this->add_setting(
 			'custom_logo',
 			array(
-				'theme_supports' => array( 'custom-logo' ),
-				'transport'      => 'postMessage',
+				'theme_supports'    => array( 'custom-logo' ),
+				'transport'         => 'postMessage',
+				'sanitize_callback' => 'absint',
 			)
 		);
 
