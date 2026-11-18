@@ -159,6 +159,10 @@ final class WP_oEmbed_Controller {
 		$cache_key = 'oembed_' . md5( serialize( $args ) );
 		$data = get_transient( $cache_key );
 		if ( ! empty( $data ) ) {
+			// Provider responses must not add scripts.
+			if ( is_object( $data ) ) {
+				unset( $data->scripts );
+			}
 			return $data;
 		}
 
@@ -184,6 +188,11 @@ final class WP_oEmbed_Controller {
 
 		if ( false === $data ) {
 			return new WP_Error( 'oembed_invalid_url', get_status_header_desc( 404 ), array( 'status' => 404 ) );
+		}
+
+		// Provider responses must not add scripts.
+		if ( is_object( $data ) ) {
+			unset( $data->scripts );
 		}
 
 		/** This filter is documented in wp-includes/class-oembed.php */
