@@ -47,6 +47,8 @@ function comment_exists( $comment_author, $comment_date, $timezone = 'blog' ) {
  * @since 2.0.0
  * @since 5.5.0 A return value was added.
  * @since 7.1.0 The comment parent can be updated via `$_POST['comment_parent']`.
+ * @since 7.1.5 Moving a comment to another post is checked against the user's capabilities,
+ *              and the comment type can no longer be changed.
  *
  * @return int|WP_Error The value 1 if the comment was updated, 0 if not updated.
  *                      A WP_Error object on failure.
@@ -75,13 +77,49 @@ function edit_comment() {
 		$_POST['comment_ID'] = (int) $_POST['comment_ID'];
 	}
 
+	$comment_id = (int) $_POST['comment_ID'];
+	$comment    = get_comment( $comment_id );
+
+	/*
+	 * The comment type is not editable from the Edit Comment screen. Changing it
+	 * would turn a private note into a public comment or vice versa, and would
+	 * break the rule that replies share their parent's type.
+	 */
+	if ( $comment && isset( $_POST['comment_type'] ) && $_POST['comment_type'] !== $comment->comment_type ) {
+		return new WP_Error( 'comment_type_invalid', __( 'The comment type cannot be changed.' ) );
+	}
+
+	/*
+	 * The capability check above only establishes that the comment may be edited
+	 * where it currently sits, because 'edit_comment' maps to 'edit_post' on the
+	 * comment's current post. Moving the comment to another post has to be
+	 * authorized separately, otherwise a user who can edit a comment on their own
+	 * post could attach it to any post, including posts they can neither read nor
+	 * edit.
+	 */
+
+	$comment_post_id = $comment ? (int) $comment->comment_post_ID : 0;
+
+	if ( $comment && isset( $_POST['comment_post_ID'] ) ) {
+		$target_post_id = (int) $_POST['comment_post_ID'];
+
+		$_POST['comment_post_ID'] = $target_post_id;
+
+		if ( $target_post_id !== $comment_post_id ) {
+			$target_post_check = _wp_check_comment_target_post( $comment, $target_post_id );
+
+			if ( is_wp_error( $target_post_check ) ) {
+				return $target_post_check;
+			}
+
+			$comment_post_id = $target_post_id;
+		}
+	}
+
 	if ( isset( $_POST['comment_parent'] ) ) {
-		$comment_id     = (int) $_POST['comment_ID'];
 		$comment_parent = (int) $_POST['comment_parent'];
 
 		$_POST['comment_parent'] = $comment_parent;
-
-		$comment = get_comment( $comment_id );
 
 		if ( $comment && $comment_parent && $comment_parent !== (int) $comment->comment_parent ) {
 			if ( ! get_option( 'thread_comments' ) ) {
@@ -100,7 +138,7 @@ function edit_comment() {
 			// The parent must be a comment of the same type, on the same post, and publicly visible if the comment is approved.
 			if (
 				! $parent
-				|| (int) $parent->comment_post_ID !== (int) $comment->comment_post_ID
+				|| (int) $parent->comment_post_ID !== $comment_post_id
 				|| $parent->comment_type !== $comment->comment_type
 				|| in_array( $parent_status, array( 'spam', 'trash' ), true )
 				|| ( $comment_is_approved && 'approved' !== $parent_status )
@@ -181,6 +219,71 @@ function edit_comment() {
 	}
 
 	return wp_update_comment( $_POST, true );
+}
+
+/**
+ * Checks that the current user may move a comment to another post.
+ *
+ * Mirrors the checks applied by the REST API comments controller when the
+ * parent post of a comment or note is changed.
+ *
+ * @since 7.1.5
+ * @access private
+ *
+ * @param WP_Comment $comment The comment being moved.
+ * @param int        $post_id ID of the post the comment is being moved to.
+ * @return true|WP_Error True if the comment may be moved to the post, WP_Error otherwise.
+ */
+function _wp_check_comment_target_post( WP_Comment $comment, int $post_id ) {
+	$post = $post_id ? get_post( $post_id ) : null;
+
+	if ( ! $post ) {
+		return new WP_Error( 'comment_post_invalid', __( 'Invalid post ID.' ) );
+	}
+
+	/*
+	 * Notes are editorial content, so they may only be attached to a post the
+	 * user can edit. Any other comment needs either comment moderation rights
+	 * or edit access to the post, matching what 'edit_comment' requires on the
+	 * post the comment is moving away from.
+	 */
+	$is_note = 'note' === strtolower( $comment->comment_type );
+
+	if ( $is_note ) {
+		$can_target_post = current_user_can( 'edit_post', $post->ID );
+	} else {
+		$can_target_post = current_user_can( 'moderate_comments' ) || current_user_can( 'edit_post', $post->ID );
+	}
+
+	if ( ! $can_target_post ) {
+		return new WP_Error( 'comment_post_invalid', __( 'Sorry, you are not allowed to move this comment to that post.' ) );
+	}
+
+	if ( ! $is_note ) {
+		return true;
+	}
+
+	$supports_notes = false;
+	$supports       = get_all_post_type_supports( $post->post_type );
+
+	if ( isset( $supports['editor'] ) && is_array( $supports['editor'] ) ) {
+		$supports_notes = array_any(
+			$supports['editor'],
+			static function ( $item ) {
+				return is_array( $item ) && ! empty( $item['notes'] );
+			}
+		);
+	}
+
+	if ( ! $supports_notes ) {
+		return new WP_Error( 'comment_post_invalid', __( 'Sorry, this post type does not support notes.' ) );
+	}
+
+	if ( 'trash' === $post->post_status || ! current_user_can( 'read_post', $post->ID ) ) {
+		return new WP_Error( 'comment_post_invalid', __( 'Sorry, you are not allowed to move this comment to that post.' ) );
+	}
+
+	return true;
 }
 
 /**
