@@ -103,7 +103,7 @@ function wp_interactivity_config( string $store_namespace, array $config = array
  */
 function wp_interactivity_data_wp_context( array $context, string $store_namespace = '' ): string {
 	return 'data-wp-context=\'' .
-		( $store_namespace ? $store_namespace . '::' : '' ) .
+		( $store_namespace ? esc_attr( $store_namespace ) . '::' : '' ) .
 		( empty( $context ) ? '{}' : wp_json_encode( $context, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) ) .
 		'\'';
 }

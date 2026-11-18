@@ -604,6 +604,7 @@ function get_shortcode_atts_regex() {
  * @since 2.5.0
  * @since 6.5.0 The function now always returns an array,
  *              even if the original arguments string cannot be parsed or is empty.
+ * @since 7.1.5 A hex or octal escape that decodes to <, >, " or ' produces a character reference.
  *
  * @param string $text Shortcode arguments list.
  * @return array Array of attribute values keyed by attribute name.
@@ -611,23 +612,53 @@ function get_shortcode_atts_regex() {
  *               or if the original arguments string cannot be parsed.
  */
 function shortcode_parse_atts( $text ) {
+	// Decodes like stripcslashes(), except that a hex or octal escape that decodes
+	// to `<`, `>`, `"` or `'` produces `&lt;`, `&gt;`, `&quot;` or `&#039;`.
+	$decode = static function ( $value ) {
+		if ( ! str_contains( $value, '\\' ) ) {
+			return $value;
+		}
+
+		return preg_replace_callback(
+			'/\\\\(?:x[0-9A-Fa-f]{1,2}|[0-7]{1,3}|.)/s',
+			static function ( $matches ) {
+				$decoded = stripcslashes( $matches[0] );
+
+				// A two-byte escape cannot decode to a structural character that the raw value lacks.
+				if ( 2 === strlen( $matches[0] ) ) {
+					return $decoded;
+				}
+
+				$structural = array(
+					'<' => '&lt;',
+					'>' => '&gt;',
+					'"' => '&quot;',
+					"'" => '&#039;',
+				);
+
+				return $structural[ $decoded ] ?? $decoded;
+			},
+			$value
+		);
+	};
+
 	$atts    = array();
 	$pattern = get_shortcode_atts_regex();
 	$text    = preg_replace( "/[\x{00a0}\x{200b}]+/u", ' ', $text );
 	if ( preg_match_all( $pattern, $text, $match, PREG_SET_ORDER ) ) {
 		foreach ( $match as $m ) {
 			if ( ! empty( $m[1] ) ) {
-				$atts[ strtolower( $m[1] ) ] = stripcslashes( $m[2] );
+				$atts[ strtolower( $m[1] ) ] = $decode( $m[2] );
 			} elseif ( ! empty( $m[3] ) ) {
-				$atts[ strtolower( $m[3] ) ] = stripcslashes( $m[4] );
+				$atts[ strtolower( $m[3] ) ] = $decode( $m[4] );
 			} elseif ( ! empty( $m[5] ) ) {
-				$atts[ strtolower( $m[5] ) ] = stripcslashes( $m[6] );
+				$atts[ strtolower( $m[5] ) ] = $decode( $m[6] );
 			} elseif ( isset( $m[7] ) && strlen( $m[7] ) ) {
-				$atts[] = stripcslashes( $m[7] );
+				$atts[] = $decode( $m[7] );
 			} elseif ( isset( $m[8] ) && strlen( $m[8] ) ) {
-				$atts[] = stripcslashes( $m[8] );
+				$atts[] = $decode( $m[8] );
 			} elseif ( isset( $m[9] ) ) {
-				$atts[] = stripcslashes( $m[9] );
+				$atts[] = $decode( $m[9] );
 			}
 		}
 
