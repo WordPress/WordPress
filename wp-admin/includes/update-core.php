@@ -1171,6 +1171,18 @@ $_old_files = array(
 	 * 'wp-includes/images/icon-library/wordpress.svg',
 	 */
 	// 7.2
+	'wp-includes/css/dist/block-editor/default-editor-styles.css',
+	'wp-includes/css/dist/block-editor/default-editor-styles.min.css',
+	'wp-includes/css/dist/block-editor/default-editor-styles-rtl.css',
+	'wp-includes/css/dist/block-editor/default-editor-styles-rtl.min.css',
+	'wp-includes/js/dist/script-modules/block-library/form/view.js',
+	'wp-includes/js/dist/script-modules/block-library/form/view.min.js',
+	'wp-includes/js/dist/script-modules/block-library/form/view.min.asset.php',
+	'wp-includes/js/dist/script-modules/block-library/form/',
+	'wp-includes/js/dist/script-modules/content-types/index.js',
+	'wp-includes/js/dist/script-modules/content-types/index.min.js',
+	'wp-includes/js/dist/script-modules/content-types/index.min.asset.php',
+	'wp-includes/js/dist/script-modules/content-types/',
 	'wp-includes/js/dist/sync.js',
 	'wp-includes/js/dist/sync.min.js',
 );
