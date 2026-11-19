@@ -200,7 +200,7 @@ class WP_Customize_Setting {
 	 *     @type callable        $sanitize_js_callback Callback to convert a Customize PHP setting value to a value that is
 	 *                                                 JSON serializable.
 	 *     @type bool            $dirty                Whether or not the setting is initially dirty when created.
-	 *                                                 }
+	 * }
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_object_vars( $this ) );
