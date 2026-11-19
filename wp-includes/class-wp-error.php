@@ -34,7 +34,7 @@ class WP_Error {
 	public $error_data = array();
 
 	/**
-	 * Stores previously added data added for error codes, oldest-to-newest by code.
+	 * Stores previously added data for error codes, oldest-to-newest by code.
 	 *
 	 * @since 5.6.0
 	 * @var array<int|string, mixed[]>
