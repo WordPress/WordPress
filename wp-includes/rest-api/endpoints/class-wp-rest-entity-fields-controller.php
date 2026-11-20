@@ -51,11 +51,13 @@ class WP_REST_Entity_Fields_Controller extends WP_REST_Controller {
 						'kind' => array(
 							'description' => __( 'Entity kind.' ),
 							'type'        => 'string',
+							'minLength'   => 1,
 							'required'    => true,
 						),
 						'name' => array(
 							'description' => __( 'Entity name.' ),
 							'type'        => 'string',
+							'minLength'   => 1,
 							'required'    => true,
 						),
 					),

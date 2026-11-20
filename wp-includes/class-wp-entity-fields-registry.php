@@ -445,8 +445,12 @@ class WP_Entity_Fields_Registry {
 	 * @param string $kind The entity kind (e.g. `postType`).
 	 * @param string $name The entity name (e.g. `page`).
 	 * @return array[] The list of field definitions, in registration order.
+	 *                 Empty when the entity is invalid.
 	 */
 	public function get_registered( $kind, $name ) {
+		if ( ! $this->validate_entity( __METHOD__, $kind, $name ) ) {
+			return array();
+		}
 		$this->initialize();
 		return array_values( $this->fields[ $kind ][ $name ] ?? array() );
 	}
@@ -478,7 +482,8 @@ class WP_Entity_Fields_Registry {
 	 * @param string $kind The entity kind (e.g. `postType`).
 	 * @param string $name The entity name (e.g. `page`).
 	 * @return array[] {
-	 *     The script modules, in registration order.
+	 *     The script modules, in registration order. Empty when the entity
+	 *     is invalid.
 	 *
 	 *     @type array ...$0 {
 	 *         @type string   $id     The id of the script module.
@@ -488,6 +493,9 @@ class WP_Entity_Fields_Registry {
 	 * }
 	 */
 	public function get_registered_field_modules( $kind, $name ) {
+		if ( ! $this->validate_entity( __METHOD__, $kind, $name ) ) {
+			return array();
+		}
 		$this->initialize();
 		$modules = array();
 		foreach ( $this->field_modules[ $kind ][ $name ] ?? array() as $module => $field_ids ) {

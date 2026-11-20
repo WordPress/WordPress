@@ -39,10 +39,6 @@ class WP_REST_Entity_Actions_Controller extends WP_REST_Controller {
 	 * @since 7.2.0
 	 */
 	public function register_routes() {
-		if ( $this->is_route_of_entity_items() ) {
-			return;
-		}
-
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -69,44 +65,6 @@ class WP_REST_Entity_Actions_Controller extends WP_REST_Controller {
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
-	}
-
-	/**
-	 * Checks whether a post type or taxonomy has its items on the route of
-	 * the controller, reporting it with _doing_it_wrong().
-	 *
-	 * The route is then left to the post type or taxonomy: registering it
-	 * as well would not serve the actions, as the route of the items comes
-	 * first, and would replace the schema of that route.
-	 *
-	 * @since 7.2.0
-	 *
-	 * @return bool Whether a post type or taxonomy has its items on the route.
-	 */
-	protected function is_route_of_entity_items() {
-		$objects = array_merge(
-			array_values( get_post_types( array( 'show_in_rest' => true ), 'objects' ) ),
-			array_values( get_taxonomies( array( 'show_in_rest' => true ), 'objects' ) )
-		);
-		foreach ( $objects as $object ) {
-			$namespace = $object->rest_namespace ? $object->rest_namespace : 'wp/v2';
-			$base      = $object->rest_base ? $object->rest_base : $object->name;
-			if ( $this->namespace === $namespace && $this->rest_base === $base ) {
-				_doing_it_wrong(
-					__METHOD__,
-					sprintf(
-						/* translators: 1: REST route, e.g. /wp/v2/entity-actions. 2: Post type or taxonomy name. */
-						__( 'The %1$s route serves the items of the "%2$s" post type or taxonomy, so the actions of entities are not available.' ),
-						'/' . $this->namespace . '/' . $this->rest_base,
-						$object->name
-					),
-					'7.2.0'
-				);
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	/**
