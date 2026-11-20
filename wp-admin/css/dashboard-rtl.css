@@ -880,7 +880,7 @@ body #dashboard-widgets .postbox form .submit {
 
 /* Dashboard activity widget */
 
-#dashboard_recent_comments .comment-meta span.approve::before {
+#dashboard_activity .comment-meta span.approve::before {
 	content: "\f227";
 	content: "\f227" / "";
 	font: 20px/0.5 dashicons;
@@ -891,8 +891,7 @@ body #dashboard-widgets .postbox form .submit {
 	margin-left: 2px;
 }
 
-#dashboard_activity .inside,
-#dashboard_recent_comments .inside {
+#dashboard_activity .inside {
 	margin: 0;
 	padding: 0 12px;
 }
@@ -908,27 +907,25 @@ body #dashboard-widgets .postbox form .submit {
 	font-size: 16px;
 }
 
-#dashboard_recent_comments .subsubsub {
+#dashboard_activity .subsubsub {
 	float: none;
 	border-top: 1px solid #f0f0f1;
 	margin: 0 -12px;
 	padding: 8px 12px 4px;
 }
 
-#dashboard_recent_comments .subsubsub a .count,
-#dashboard_recent_comments .subsubsub a.current .count {
+#dashboard_activity .subsubsub a .count,
+#dashboard_activity .subsubsub a.current .count {
 	color: #646970; /* white background on the dashboard but #f0f0f1 on list tables */
 }
 
 #future-posts ul,
-#published-posts ul,
-#on-this-day-posts ul {
+#published-posts ul {
 	margin: 8px -12px 0 -12px;
 }
 
 #future-posts li,
-#published-posts li,
-#on-this-day-posts li {
+#published-posts li {
 	display: grid;
 	grid-template-columns: clamp(160px, calc(2vw + 140px), 200px) auto;
 	column-gap: 10px;
@@ -937,13 +934,8 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #future-posts li:nth-child(odd),
-#published-posts li:nth-child(odd),
-#on-this-day-posts li:nth-child(odd) {
+#published-posts li:nth-child(odd) {
 	background-color: #f6f7f7;
-}
-
-#on-this-day-posts .wp-on-this-day-post-author {
-	color: #646970;
 }
 
 .activity-block {
@@ -964,45 +956,45 @@ body #dashboard-widgets .postbox form .submit {
 /* Dashboard activity widget - Comments */
 /* @todo: needs serious de-duplication */
 
-#dashboard_recent_comments #the-comment-list tr.undo,
-#dashboard_recent_comments #the-comment-list div.undo {
+#activity-widget #the-comment-list tr.undo,
+#activity-widget #the-comment-list div.undo {
 	background: none;
 	padding: 6px 0;
 	margin-right: 12px;
 }
 
-#dashboard_recent_comments #the-comment-list .comment-item {
+#activity-widget #the-comment-list .comment-item {
 	background: #f6f7f7;
 	padding: 12px;
 	position: relative;
 }
 
-#dashboard_recent_comments #the-comment-list .avatar {
+#activity-widget #the-comment-list .avatar {
 	position: absolute;
 	top: 12px;
 }
 
-#dashboard_recent_comments #the-comment-list .dashboard-comment-wrap.has-avatar {
+#activity-widget #the-comment-list .dashboard-comment-wrap.has-avatar {
 	padding-right: 63px;
 }
 
-#dashboard_recent_comments #the-comment-list .dashboard-comment-wrap blockquote {
+#activity-widget #the-comment-list .dashboard-comment-wrap blockquote {
 	margin: 1em 0;
 }
 
-#dashboard_recent_comments #the-comment-list .comment-item p.row-actions {
+#activity-widget #the-comment-list .comment-item p.row-actions {
 	margin: 4px 0 0;
 }
 
-#dashboard_recent_comments #the-comment-list .comment-item:first-child {
+#activity-widget #the-comment-list .comment-item:first-child {
 	border-top: 1px solid #f0f0f1;
 }
 
-#dashboard_recent_comments #the-comment-list .unapproved {
+#activity-widget #the-comment-list .unapproved {
 	background-color: #fcf9e8;
 }
 
-#dashboard_recent_comments #the-comment-list .unapproved::before {
+#activity-widget #the-comment-list .unapproved::before {
 	content: "";
 	display: block;
 	position: absolute;
@@ -1013,8 +1005,8 @@ body #dashboard-widgets .postbox form .submit {
 	width: 4px;
 }
 
-#dashboard_recent_comments #the-comment-list .spam-undo-inside .avatar,
-#dashboard_recent_comments #the-comment-list .trash-undo-inside .avatar {
+#activity-widget #the-comment-list .spam-undo-inside .avatar,
+#activity-widget #the-comment-list .trash-undo-inside .avatar {
 	position: relative;
 	top: 0;
 }
