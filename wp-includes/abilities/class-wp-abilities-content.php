@@ -1024,6 +1024,7 @@ final class WP_Abilities_Content {
 			),
 			'link'     => array(
 				'type'        => 'string',
+				'format'      => 'uri',
 				'description' => __( 'The permalink URL.' ),
 			),
 			'title'    => array(
