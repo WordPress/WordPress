@@ -612,8 +612,10 @@ final class WP_Abilities_Users {
 	 * Accepts arrays and CSV strings, which it parses with wp_parse_list(), as schema
 	 * validation does. Schema validation accepts a CSV string for an array, and only the
 	 * REST run controller converts input to the schema types, so callers that bypass it,
-	 * such as a direct WP_Ability::execute() call, can pass one. Empty and duplicate
-	 * items need no handling here, because validation has already rejected them.
+	 * such as a direct WP_Ability::execute() call, can pass one. Empty and whitespace-only
+	 * strings name nothing, so they are dropped, and a list that holds only such strings
+	 * comes back empty. Duplicate items need no handling here, because validation has
+	 * already rejected them.
 	 *
 	 * @since 7.2.0
 	 *
@@ -625,7 +627,12 @@ final class WP_Abilities_Users {
 			return array();
 		}
 
-		return array_values( array_filter( wp_parse_list( $value ), 'is_string' ) );
+		return array_values(
+			array_filter(
+				wp_parse_list( $value ),
+				static fn( $item ) => is_string( $item ) && '' !== trim( $item )
+			)
+		);
 	}
 
 	/**
@@ -703,7 +710,8 @@ final class WP_Abilities_Users {
 							'minItems'    => 1,
 							'maxItems'    => self::MAX_PER_PAGE,
 							'items'       => array(
-								'type' => 'string',
+								'type'      => 'string',
+								'minLength' => 1,
 							),
 							'description' => __( 'Limit results to users with these slugs. If `pagination.per_page` is omitted, every matching user is returned on the first page.' ),
 						),
@@ -713,7 +721,8 @@ final class WP_Abilities_Users {
 							'minItems'    => 1,
 							'maxItems'    => self::MAX_PER_PAGE,
 							'items'       => array(
-								'type' => 'string',
+								'type'      => 'string',
+								'minLength' => 1,
 							),
 							'description' => __( 'Limit results to users with these usernames. Requires permission to list users. If `pagination.per_page` is omitted, every matching user is returned on the first page.' ),
 						),
