@@ -682,7 +682,11 @@ class WP_Ability {
 		 * override it. If default validation passed, the filter can add additional
 		 * validation checks and return a WP_Error if those checks fail.
 		 *
+		 * During input preparation, this filter runs again with sanitized input if
+		 * sanitization changes the value and completes without an error.
+		 *
 		 * @since 7.1.0
+		 * @since 7.2.0 Also runs with sanitized input when sanitization changes the value.
 		 *
 		 * @param true|WP_Error $is_valid     The validation result from default validation.
 		 * @param mixed         $input        The input data being validated.
@@ -704,7 +708,8 @@ class WP_Ability {
 	 * Normalizes the input, validates it against the input schema, and then sanitizes
 	 * it. `execute()` passes the result to the permission and execute callbacks.
 	 * Validation runs before sanitization, so sanitization cannot make invalid input
-	 * valid.
+	 * valid. Changed input is validated again after sanitization, including the
+	 * `wp_ability_validate_input` filter, before it reaches the callbacks.
 	 *
 	 * @since 7.2.0
 	 *
@@ -726,7 +731,25 @@ class WP_Ability {
 			return $is_valid;
 		}
 
-		return $this->sanitize_input( $input );
+		$sanitized = $this->sanitize_input( $input );
+		if ( is_wp_error( $sanitized ) ) {
+			return $sanitized;
+		}
+
+		/*
+		 * Sanitization can make valid input invalid, for example by trimming a string
+		 * below its `minLength` or casting an out-of-range number to a different integer.
+		 * Validate changed input again so validation filters also evaluate the value
+		 * callbacks will receive.
+		 */
+		if ( $sanitized !== $input ) {
+			$is_valid = $this->validate_input( $sanitized );
+			if ( is_wp_error( $is_valid ) ) {
+				return $is_valid;
+			}
+		}
+
+		return $sanitized;
 	}
 
 	/**
