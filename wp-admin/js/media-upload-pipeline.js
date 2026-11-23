@@ -46,7 +46,7 @@ window.wp = window.wp || {};
 	const IMAGE_SUBTYPES = [ 'jpeg', 'png', 'gif', 'webp', 'avif', 'heic', 'heif' ];
 
 	/**
-	 * Recursively appends data to a FormData object, supporting nested objects.
+	 * Recursively appends data to a FormData object, supporting nested objects and arrays.
 	 *
 	 * Mirrors flattenFormData() in the media-utils package.
 	 *
@@ -56,9 +56,10 @@ window.wp = window.wp || {};
 	 */
 	function flattenFormData( formData, key, data ) {
 		if (
-			data !== null &&
-			typeof data === 'object' &&
-			Object.getPrototypeOf( data ) === Object.prototype
+			Array.isArray( data ) ||
+			( data !== null &&
+				typeof data === 'object' &&
+				Object.getPrototypeOf( data ) === Object.prototype )
 		) {
 			Object.keys( data ).forEach( function ( name ) {
 				flattenFormData( formData, key + '[' + name + ']', data[ name ] );
