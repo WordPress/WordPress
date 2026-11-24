@@ -21,9 +21,14 @@
  */
 
 .about__container {
-	/* Section backgrounds */
-	--background: #3858e9;
-	--subtle-background: #f4f4f4;
+	/*
+	 * Section backgrounds
+	 *
+	 * Section header backgrounds are set to the dominant color of the
+	 * image to avoid display issues if the image fails to load.
+	 */
+	--background: #eeece5;
+	--subtle-background: #f3f2ee;
 
 	/* Main text color */
 	--text: #1e1e1e;
@@ -618,7 +623,7 @@
 	padding-left: 26rem; /* Space for the background image. */
 	min-height: clamp(10rem, 25vw, 18.75rem);
 	border-radius: var(--border-radius);
-	background-image: url(../images/about-header-default.svg?ver=7.1);
+	background-image: url(../images/about-header-default.svg?ver=7.2);
 	background-repeat: no-repeat;
 	background-position: left center;
 	background-size: cover;
@@ -628,39 +633,42 @@
 }
 
 .credits-php .about__header {
-	background-image: url(../images/about-header-credits.svg?ver=7.1);
+	background-image: url(../images/about-header-credits.svg?ver=7.2);
+	--background: #3858e9;
 }
 
 .freedoms-php .about__header {
-	background-image: url(../images/about-header-freedoms.svg?ver=7.1);
+	background-image: url(../images/about-header-freedoms.svg?ver=7.2);
+	--background: #757575;
 }
 
 .privacy-php .about__header {
-	background-image: url(../images/about-header-privacy.svg?ver=7.1);
+	background-image: url(../images/about-header-privacy.svg?ver=7.2);
+	--background: #323232;
 }
 
 .contribute-php .about__header {
-	background-image: url(../images/about-header-get-involved.svg?ver=7.1);
+	background-image: url(../images/about-header-get-involved.svg?ver=7.2);
 }
 
 [dir="rtl"] .about__header {
-	background-image: url(../images/about-header-default-rtl.svg?ver=7.1);
+	background-image: url(../images/about-header-default-rtl.svg?ver=7.2);
 }
 
 [dir="rtl"] .credits-php .about__header {
-	background-image: url(../images/about-header-credits-rtl.svg?ver=7.1);
+	background-image: url(../images/about-header-credits-rtl.svg?ver=7.2);
 }
 
 [dir="rtl"] .freedoms-php .about__header {
-	background-image: url(../images/about-header-freedoms-rtl.svg?ver=7.1);
+	background-image: url(../images/about-header-freedoms-rtl.svg?ver=7.2);
 }
 
 [dir="rtl"] .privacy-php .about__header {
-	background-image: url(../images/about-header-privacy-rtl.svg?ver=7.1);
+	background-image: url(../images/about-header-privacy-rtl.svg?ver=7.2);
 }
 
 [dir="rtl"] .contribute-php .about__header {
-	background-image: url(../images/about-header-get-involved-rtl.svg?ver=7.1);
+	background-image: url(../images/about-header-get-involved-rtl.svg?ver=7.2);
 }
 
 .about__header-image {
@@ -690,6 +698,12 @@
 .contribute-php .about__header-title h1 {
 	/* Fluid font size scales on browser size 960px - 1200px. */
 	font-size: clamp(2rem, 20vw - 9rem, 4rem);
+}
+
+.about-php .about__header-title h1,
+.contribute-php .about__header-title h1,
+.contribute-php .about__header-text {
+	color: var(--text);
 }
 
 .about__header-text {

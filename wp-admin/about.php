@@ -14,7 +14,7 @@ require_once __DIR__ . '/admin.php';
 $title = _x( 'About', 'page title' );
 
 list( $display_version ) = explode( '-', wp_get_wp_version() );
-$display_major_version   = '7.1';
+$display_major_version   = '7.2';
 
 $release_notes_url = sprintf(
 	/* translators: %s: WordPress version number. */
@@ -69,21 +69,21 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					);
 					?>
 				</h2>
-				<p class="is-subheading"><?php _e( 'WordPress 7.1 makes styling and collaborating easier. Style how all blocks look across screen sizes and how the Button block responds to hover, focus, and active states, all without writing custom CSS. A streamlined media editor brings cropping, rotation, and metadata editing together in one workflow. Notes now support rich text and @mentions, and the admin bar travels with you into every editor, so the tools you rely on stay with you wherever you&#8217;re working.' ); ?></p>
+				<p class="is-subheading"><?php _e( 'WordPress 7.2 gives your words a fresh place to start. Ipsum, the new default theme, is a minimal blank canvas for blogging that&#8217;s ready to make your own. Text shadows and form styling in Global Styles add new ways to shape how your site looks, all without writing custom CSS. A new /random/ address invites readers to rediscover your archive, Notes now support emoji reactions, and refreshed icons in the admin bring more visual consistency across WordPress.' ); ?></p>
 			</div>
 		</div>
 
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center is-left-padding-zero">
-				<h3><?php _e( 'Apply responsive styles' ); ?></h3>
+				<h3><?php _e( 'Introducing Ipsum, the next default theme' ); ?></h3>
 				<p>
-					<strong><?php _e( 'Style content your way, on every screen.' ); ?></strong><br />
-					<?php _e( 'WordPress 7.1 takes a major step toward built-in responsive design. Set how a block looks at different screen sizes directly in the editor, for both Global Styles and individual blocks, all without writing custom CSS.' ); ?>
+					<strong><?php _e( 'A blank canvas, until real words arrive.' ); ?></strong><br />
+					<?php _e( 'WordPress 7.2 introduces Ipsum, a minimal default theme built around blogging so your writing is the main focus. It starts simple on purpose, with various patterns to match how you want your content to shine and style variations that change the whole look in a click.' ); ?>
 				</p>
 			</div>
 			<div class="column is-vertically-aligned-center is-right-padding-zero">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/7.1/about-feature-01.webp?ver=20260814" alt="" height="900" width="900" />
+					<img src="https://s.w.org/images/core/7.2/about-feature-01.webp?ver=20261123" alt="" height="900" width="900" />
 				</div>
 			</div>
 		</div>
@@ -91,29 +91,29 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center is-left-padding-zero">
 				<div class="about__image">
-					<img loading="lazy" src="https://s.w.org/images/core/7.1/about-feature-02.webp?ver=20260814" alt="" height="900" width="900" />
+					<img loading="lazy" src="https://s.w.org/images/core/7.2/about-feature-02.webp?ver=20261123" alt="" height="900" width="900" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center is-right-padding-zero">
-				<h3><?php _e( 'Admin bar, now in every editor' ); ?></h3>
+				<h3><?php _e( 'Discover posts differently' ); ?></h3>
 				<p>
-					<strong><?php _e( 'Consistent navigation, from dashboard to editor.' ); ?></strong><br />
-					<?php _e( 'The admin bar now stays with you across all editors, so you always know where you are. The admin bar also gets a small visual refresh.' ); ?>
+					<strong><?php _e( 'One link, a different post every time.' ); ?></strong><br />
+					<?php _e( 'WordPress 7.2 adds a /random/ address to every site. Visit it and you land on a randomly chosen post, giving readers a playful way to explore your archive and rediscover writing that deserves a second look.' ); ?>
 				</p>
 			</div>
 		</div>
 
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center is-left-padding-zero">
-				<h3><?php _e( 'A new way to crop' ); ?></h3>
+				<h3><?php _e( 'React on notes' ); ?></h3>
 				<p>
-					<strong><?php _e( 'One dedicated workflow for editing your images.' ); ?></strong><br />
-					<?php _e( 'A new media editor modal replaces the old inline cropping tool, bringing freeform and aspect-ratio cropping, flip, precise rotation, and metadata editing together in a single streamlined workflow. The familiar Crop button still gets you there, now opening a dedicated space to crop, rotate, and adjust images before publishing.' ); ?>
+					<strong><?php _e( 'Say it with an emoji.' ); ?></strong><br />
+					<?php _e( 'Emoji reactions are now available in Notes. Acknowledge feedback, agree with a note, or celebrate a finished draft without writing a reply. Hover a reaction to see who left it, or click it to add your own.' ); ?>
 				</p>
 			</div>
 			<div class="column is-vertically-aligned-center is-right-padding-zero">
 				<div class="about__image">
-					<img loading="lazy" src="https://s.w.org/images/core/7.1/about-feature-03.webp?ver=20260814" alt="" height="900" width="900" />
+					<img loading="lazy" src="https://s.w.org/images/core/7.2/about-feature-03.webp?ver=20261123" alt="" height="900" width="900" />
 				</div>
 			</div>
 		</div>
@@ -121,14 +121,14 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center is-left-padding-zero">
 				<div class="about__image">
-					<img loading="lazy" src="https://s.w.org/images/core/7.1/about-feature-04.webp?ver=20260814" alt="" height="900" width="900" />
+					<img loading="lazy" src="https://s.w.org/images/core/7.2/about-feature-04.webp?ver=20261123" alt="" height="900" width="900" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center is-right-padding-zero">
-				<h3><?php _e( 'Inline notes with mentions and rich text' ); ?></h3>
+				<h3><?php _e( 'Modern icons in admin' ); ?></h3>
 				<p>
-					<strong><?php _e( 'More ways to leave feedback.' ); ?></strong><br />
-					<?php _e( 'Notes now support rich text and @mentions. Add bold, italic, code, and links so feedback reads clearly. Type &#8220;@&#8221; to pull up a list of collaborators to tag the right person directly, with built-in email notifications. Leave a note on a specific text selection instead of an entire block. Start more than one conversation on the same block. Collapse long notes to keep the margin tidy.' ); ?>
+					<strong><?php _e( 'One icon set, everywhere.' ); ?></strong><br />
+					<?php _e( 'WordPress 7.2 replaces the legacy Dashicons in the admin bar and sidebar with updated icons from the WordPress icon library. The dashboard now matches the icons you see in the editor, offering a more consistent, performant, and accessible experience.' ); ?>
 				</p>
 			</div>
 		</div>
@@ -143,8 +143,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						<path fill="#1e1e1e" fill-rule="evenodd" d="M4.91 27.75C4.91 17.395 13.455 9 24 9s19.091 8.395 19.091 18.75c0 3.909-1.22 7.542-3.305 10.548l-.488.702H8.702l-.488-.702A18.438 18.438 0 0 1 4.91 27.75ZM24 12.214c-8.736 0-15.818 6.956-15.818 15.536 0 2.943.832 5.692 2.277 8.036h27.082a15.25 15.25 0 0 0 2.277-8.036c0-8.58-7.082-15.536-15.818-15.536Z" clip-rule="evenodd"/>
 					</svg>
 				</div>
-				<h3><?php _e( 'Improved media handling' ); ?></h3>
-				<p><?php _e( 'Image compression, resizing, and thumbnail generation now happen in the browser, via a WebAssembly build of libvips, so large uploads won&#8217;t hit PHP memory limits or time out on shared hosts. This also frees up server CPU and memory, while producing smaller files for visitors. Media handling includes built-in support for AVIF, HEIC and HDR gain maps.' ); ?></p>
+				<h3><?php _e( 'Performance' ); ?></h3>
+				<p><?php _e( 'The admin feels faster in WordPress 7.2. Scripts and stylesheets now load individually instead of in large combined files, so browsers cache them better, and WordPress prefetches the screen you&#8217;re likely to open next. Image resizing, compression, and conversion in the browser now extend to the Media Library, easing the load on your server during uploads.' ); ?></p>
 			</div>
 			<div class="column is-right-padding-zero">
 				<div class="about__image">
@@ -153,7 +153,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					</svg>
 				</div>
 				<h3><?php _e( 'Accessibility' ); ?></h3>
-				<p><?php _e( 'WordPress 7.1 continues to polish accessibility across WordPress Core and Gutenberg, advancing the goals to meet accessibility standards. In this release, high impact changes include the new accessible tooltips API, improved predictability for screen readers, and improved labeling in many places in the admin. The editor adds extensive improvements to navigation and interaction.' ); ?></p>
+				<p><?php _e( 'In this release, high impact changes include clearer keyboard focus in Windows High Contrast mode, improved keyboard navigation in the admin toolbar, and an option to turn off metabox rearranging to prevent accidental changes on touch devices. Ipsum ships with clear focus indicators, descriptive screen reader links, and transitions that respect reduced-motion preferences.' ); ?></p>
 			</div>
 		</div>
 
@@ -183,7 +183,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__section has-3-columns">
 			<div class="column about__image is-vertically-aligned-top is-left-padding-zero">
-				<img src="<?php echo esc_url( admin_url( 'images/about-release-badge.svg?ver=7.1' ) ); ?>" alt="<?php echo esc_attr( $version_text ); ?>" height="280" width="280" />
+				<img src="<?php echo esc_url( admin_url( 'images/about-release-badge.svg?ver=7.2' ) ); ?>" alt="<?php echo esc_attr( $version_text ); ?>" height="280" width="280" />
 			</div>
 			<div class="column is-vertically-aligned-center is-right-padding-zero" style="grid-column-end:span 2">
 				<h3>
