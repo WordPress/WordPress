@@ -7,10 +7,41 @@ var { parseDirectiveName } = privateApis(
   "I acknowledge that using private APIs means my theme or plugin will inevitably break in the next version of WordPress."
 );
 var directivePrefix = "data-wp-";
+var unsupportedHtmlElements = /* @__PURE__ */ new Set([
+  "area",
+  "base",
+  "basefont",
+  "bgsound",
+  "br",
+  "col",
+  "embed",
+  "frame",
+  "hr",
+  "img",
+  "input",
+  "keygen",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr",
+  "textarea",
+  "title",
+  "script",
+  "style",
+  "iframe",
+  "xmp",
+  "noembed",
+  "noframes"
+]);
 function closestHtmlDirectiveElement(element) {
   for (let current = element; current; current = current.parentElement) {
     if (!current.closest("[data-wp-interactive]")) {
       return null;
+    }
+    if (unsupportedHtmlElements.has(current.localName)) {
+      continue;
     }
     let hasDefaultHtmlDirective = false;
     let hasConflict = false;
@@ -22,8 +53,8 @@ function closestHtmlDirectiveElement(element) {
       if (!parsed) {
         continue;
       }
-      const { prefix, suffix } = parsed;
-      if (prefix === "html" && suffix === null) {
+      const { prefix, suffix, uniqueId } = parsed;
+      if (prefix === "html" && suffix === null && uniqueId === null) {
         hasDefaultHtmlDirective = true;
       }
       if (["text", "each", "router-region"].includes(prefix)) {

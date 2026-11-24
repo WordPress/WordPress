@@ -51805,7 +51805,7 @@ var wp;
     if (selectedCount === 0) {
       return void 0;
     }
-    return (0, import_i18n21._n)("Selected item", "Selected items", selectedCount);
+    return (0, import_i18n21.__)("Selected items");
   }
   function getInputSelectionHint(selectedCount) {
     if (selectedCount === 0) {
@@ -95959,7 +95959,7 @@ ${content}
         postType: getPostType(getEditedPostAttribute2("type"))
       };
     }, []);
-    if (!isEnabled || !postType2) {
+    if (!isEnabled || !postType2?.hierarchical) {
       return null;
     }
     return /* @__PURE__ */ (0, import_jsx_runtime499.jsx)(ParentRow, {});

@@ -32,7 +32,7 @@
  * - `last_edited_date`, for every post type.
  * - `notesCount`, for the post types whose `editor` support has the `notes`
  *   argument.
- * - `parent`, for the post types supporting `page-attributes`.
+ * - `parent`, for hierarchical post types supporting `page-attributes`.
  * - `password`, for every post type but the design ones.
  * - `ping_status`, for the post types supporting `trackbacks`.
  * - `post-content-info`, for the post types supporting `editor`.
@@ -71,7 +71,7 @@ function wp_register_core_post_type_supports_fields() {
 			'format'            => post_type_supports( $post_type, 'post-formats' ) && current_theme_supports( 'post-formats' ),
 			'last_edited_date'  => true,
 			'notesCount'        => is_array( $editor ) && (bool) array_filter( array_column( $editor, 'notes' ) ),
-			'parent'            => post_type_supports( $post_type, 'page-attributes' ),
+			'parent'            => is_post_type_hierarchical( $post_type ) && post_type_supports( $post_type, 'page-attributes' ),
 			'password'          => true,
 			'ping_status'       => post_type_supports( $post_type, 'trackbacks' ),
 			'post-content-info' => post_type_supports( $post_type, 'editor' ),

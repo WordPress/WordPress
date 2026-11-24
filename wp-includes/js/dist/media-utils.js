@@ -57253,13 +57253,19 @@ If there's a particular need for this, please submit a feature request at https:
       )
     ] });
   }
+  function isImage(attachment) {
+    if (attachment.mime_type) {
+      return attachment.mime_type.startsWith("image");
+    }
+    return "media_type" in attachment && attachment.media_type === "image";
+  }
   function MediaPreview({
     attachment,
     getPreviewUrl
   }) {
     const url = getPreviewUrl && !(0, import_blob3.isBlobURL)(attachment.source_url) ? getPreviewUrl(attachment) : attachment.source_url;
     const mimeType = attachment.mime_type || "";
-    if (mimeType.startsWith("image")) {
+    if (isImage(attachment)) {
       return /* @__PURE__ */ (0, import_jsx_runtime250.jsx)(
         "img",
         {
@@ -57303,7 +57309,7 @@ If there's a particular need for this, please submit a feature request at https:
         }),
         children: [
           allItems?.map((attachment, index2) => {
-            const hasPreviewImage = attachment.mime_type?.startsWith("image");
+            const hasPreviewImage = isImage(attachment);
             const isBlob = (0, import_blob3.isBlobURL)(attachment.source_url);
             const attachmentNumericId = attachment.id;
             return /* @__PURE__ */ (0, import_jsx_runtime250.jsxs)(

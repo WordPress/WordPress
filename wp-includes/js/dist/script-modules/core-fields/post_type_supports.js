@@ -18557,7 +18557,7 @@ function PageAttributesParent({
     (select) => {
       const { getEntityRecord, getEntityRecords, getPostType } = select(import_core_data5.store);
       const postTypeInfo = getPostType(postTypeSlug);
-      const postIsHierarchical = postTypeInfo?.hierarchical && postTypeInfo.viewable;
+      const postIsHierarchical = postTypeInfo?.hierarchical ?? false;
       const parentPost = pageId ? getEntityRecord(
         "postType",
         postTypeSlug,

@@ -28868,7 +28868,7 @@ var wp;
     if (selectedCount === 0) {
       return void 0;
     }
-    return (0, import_i18n15._n)("Selected item", "Selected items", selectedCount);
+    return (0, import_i18n15.__)("Selected items");
   }
   function getInputSelectionHint(selectedCount) {
     if (selectedCount === 0) {

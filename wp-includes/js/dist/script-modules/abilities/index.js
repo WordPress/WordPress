@@ -7899,15 +7899,8 @@ var ajv = new import_ajv_draft_04.default({
   allowUnionTypes: true
   // Allow anyOf without explicit type
 });
-(0, import_ajv_formats.default)(ajv, [
-  "date-time",
-  "email",
-  "hostname",
-  "ipv4",
-  "ipv6",
-  "uri",
-  "uuid"
-]);
+(0, import_ajv_formats.default)(ajv, ["email", "hostname", "ipv4", "ipv6", "uri", "uuid"]);
+ajv.addFormat("date-time", import_ajv_formats.default.get("iso-date-time"));
 function formatAjvError(ajvError, param) {
   const instancePath = ajvError.instancePath ? ajvError.instancePath.replace(/\//g, "][").replace(/^\]\[/, "[") + "]" : "";
   const fullParam = param + instancePath;

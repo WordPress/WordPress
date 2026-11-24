@@ -2030,6 +2030,57 @@ var populateServerData = (data) => {
 
 // packages/interactivity/build-module/vdom.mjs
 init_preact_module();
+
+// packages/interactivity/build-module/html.mjs
+var emptyHTML = globalThis.trustedTypes?.emptyHTML ?? "";
+var unsupportedHtmlElements = /* @__PURE__ */ new Set([
+  "area",
+  "base",
+  "basefont",
+  "bgsound",
+  "br",
+  "col",
+  "embed",
+  "frame",
+  "hr",
+  "img",
+  "input",
+  "keygen",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr",
+  "textarea",
+  "title",
+  "script",
+  "style",
+  "iframe",
+  "xmp",
+  "noembed",
+  "noframes"
+]);
+var trustedHtmlByToken = /* @__PURE__ */ new WeakMap();
+function asDangerousHTML(html) {
+  const { trustedTypes } = globalThis;
+  if (typeof html !== "string" && !trustedTypes?.isHTML(html)) {
+    throw new TypeError(
+      "asDangerousHTML() expects a string or a native TrustedHTML value."
+    );
+  }
+  const token = Object.freeze(/* @__PURE__ */ Object.create(null));
+  trustedHtmlByToken.set(token, html);
+  return token;
+}
+function isDangerousHTML(value) {
+  return typeof value === "object" && value !== null && trustedHtmlByToken.has(value);
+}
+function getDangerousHTML(token) {
+  return trustedHtmlByToken.get(token);
+}
+
+// packages/interactivity/build-module/vdom.mjs
 var htmlFallbacks = /* @__PURE__ */ new WeakMap();
 var htmlServerContents = /* @__PURE__ */ new WeakSet();
 var templateContentDepth = 0;
@@ -2255,15 +2306,15 @@ function convertToVdom(root) {
         delete props.__directives.html;
       }
     }
-    const hasDefaultHtmlDirective = props.__directives?.html?.some(
-      ({ suffix }) => suffix === null
+    const hasSupportedHtmlDirective = !unsupportedHtmlElements.has(localName) && props.__directives?.html?.some(
+      ({ suffix, uniqueId }) => suffix === null && uniqueId === null
     );
-    if (props.__directives?.["each-child"] || hasDefaultHtmlDirective) {
+    if (props.__directives?.["each-child"] || hasSupportedHtmlDirective) {
       const htmlProps = {
         __html: elementNode.innerHTML
       };
       props.dangerouslySetInnerHTML = htmlProps;
-      if (hasDefaultHtmlDirective) {
+      if (hasSupportedHtmlDirective) {
         const snapshot = getTemplateContentsOwnerDocument().createDocumentFragment();
         copyFallbackChildren(elementNode, snapshot);
         htmlFallbacks.set(htmlProps, snapshot);
@@ -2943,27 +2994,6 @@ directive(
   { priority: 1 }
 );
 
-// packages/interactivity/build-module/html.mjs
-var emptyHTML = globalThis.trustedTypes?.emptyHTML ?? "";
-var trustedHtmlByToken = /* @__PURE__ */ new WeakMap();
-function asDangerousHTML(html) {
-  const { trustedTypes } = globalThis;
-  if (typeof html !== "string" && !trustedTypes?.isHTML(html)) {
-    throw new TypeError(
-      "asDangerousHTML() expects a string or a native TrustedHTML value."
-    );
-  }
-  const token = Object.freeze(/* @__PURE__ */ Object.create(null));
-  trustedHtmlByToken.set(token, html);
-  return token;
-}
-function isDangerousHTML(value) {
-  return typeof value === "object" && value !== null && trustedHtmlByToken.has(value);
-}
-function getDangerousHTML(token) {
-  return trustedHtmlByToken.get(token);
-}
-
 // packages/interactivity/build-module/directives/html.mjs
 var isServerHTMLRepresentation = (value) => isPlainObject(value) && value.wpServerHtml === true;
 var getTemplates = (content) => Array.from(content.querySelectorAll("template")).filter(
@@ -2982,6 +3012,9 @@ directive(
   "html",
   ({ directives: { html: htmlEntries }, element, evaluate }) => {
     const entry = htmlEntries.find(isDefaultDirectiveSuffix);
+    const supportedElement = !unsupportedHtmlElements.has(
+      element.type
+    );
     const writeRecord = A2(void 0);
     const previousHost = A2(null);
     const previousInputs = A2(null);
@@ -3006,6 +3039,12 @@ directive(
       if (true) {
         warnUniqueIdNotSupported("html", entry.uniqueId);
       }
+    } else if (!supportedElement) {
+      if (true) {
+        warn(
+          `The data-wp-html directive is not supported on <${element.type}> elements. Use an element that supports HTML content instead.`
+        );
+      }
     } else {
       try {
         result = evaluate(entry);
@@ -3016,7 +3055,7 @@ directive(
         result = void 0;
       }
     }
-    const active = !!entry && !entry.uniqueId;
+    const active = !!entry && !entry.uniqueId && supportedElement;
     const serverHTMLRepresentation = isServerHTMLRepresentation(result);
     const preserveContent = result === PENDING_GETTER || serverHTMLRepresentation;
     const trusted = isDangerousHTML(result);
