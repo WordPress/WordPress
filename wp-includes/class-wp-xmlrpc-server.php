@@ -3971,12 +3971,19 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		if ( ! get_comment( $comment_id ) ) {
+		$existing_comment = get_comment( $comment_id );
+
+		if ( ! $existing_comment ) {
 			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
 		}
 
 		if ( ! current_user_can( 'edit_comment', $comment_id ) ) {
 			return new IXR_Error( 403, __( 'Sorry, you are not allowed to moderate or edit this comment.' ) );
+		}
+
+		// Reactions are only validated on creation. Removing one is a delete.
+		if ( 'reaction' === $existing_comment->comment_type ) {
+			return new IXR_Error( 403, __( 'Reactions cannot be edited. Remove the reaction and add a new one instead.' ) );
 		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */

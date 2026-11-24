@@ -1310,10 +1310,31 @@ function wp_ajax_replyto_comment( $action ) {
 
 	$comment_type = isset( $_POST['comment_type'] ) ? trim( $_POST['comment_type'] ) : 'comment';
 
+	/*
+	 * Notes and reactions are only created through the REST API. The lowercase
+	 * ASCII limit also catches spellings the case- and accent-insensitive
+	 * collation would match.
+	 */
+	if (
+		! preg_match( '/^[a-z0-9_-]+\z/', $comment_type ) ||
+		in_array( $comment_type, array( 'note', 'reaction' ), true )
+	) {
+		wp_die( -1 );
+	}
+
 	$comment_parent = 0;
 
 	if ( isset( $_POST['comment_ID'] ) ) {
 		$comment_parent = absint( $_POST['comment_ID'] );
+	}
+
+	// A comment on another post cannot be the parent.
+	if ( $comment_parent ) {
+		$parent = get_comment( $comment_parent );
+
+		if ( $parent && (int) $parent->comment_post_ID !== $comment_post_id ) {
+			$comment_parent = 0;
+		}
 	}
 
 	$comment_auto_approved = false;

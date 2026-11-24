@@ -80,6 +80,11 @@ function edit_comment() {
 	$comment_id = (int) $_POST['comment_ID'];
 	$comment    = get_comment( $comment_id );
 
+	// Reactions are only validated on creation. Removing one is a delete.
+	if ( $comment && 'reaction' === $comment->comment_type ) {
+		wp_die( __( 'Reactions cannot be edited. Remove the reaction and add a new one instead.' ), 403 );
+	}
+
 	/*
 	 * The comment type is not editable from the Edit Comment screen. Changing it
 	 * would turn a private note into a public comment or vice versa, and would
@@ -135,7 +140,7 @@ function edit_comment() {
 			$comment_status      = $_POST['comment_approved'] ?? $comment->comment_approved;
 			$comment_is_approved = in_array( $comment_status, array( 1, '1', 'approve' ), true );
 
-			// The parent must be a comment of the same type, on the same post, and publicly visible if the comment is approved.
+			// The parent must be a comment of the same type, on the post the comment will be on, and publicly visible if the comment is approved.
 			if (
 				! $parent
 				|| (int) $parent->comment_post_ID !== $comment_post_id
@@ -192,6 +197,19 @@ function edit_comment() {
 				if ( $parent_depth + $subtree_height > $max_thread_depth ) {
 					return new WP_Error( 'comment_parent_invalid', __( 'The comment cannot be moved there because it or its replies would exceed the maximum threading depth.' ) );
 				}
+			}
+		}
+	}
+
+	// The checks above only run when the parent changes. A kept parent must be on the destination post too.
+	if ( $comment && $comment_post_id !== (int) $comment->comment_post_ID ) {
+		$kept_parent = (int) ( isset( $_POST['comment_parent'] ) && is_numeric( $_POST['comment_parent'] ) ? $_POST['comment_parent'] : $comment->comment_parent );
+
+		if ( $kept_parent ) {
+			$parent = get_comment( $kept_parent );
+
+			if ( ! $parent || (int) $parent->comment_post_ID !== $comment_post_id ) {
+				return new WP_Error( 'comment_parent_invalid', __( 'Invalid parent comment.' ) );
 			}
 		}
 	}
@@ -281,6 +299,20 @@ function _wp_check_comment_target_post( WP_Comment $comment, int $post_id ) {
 
 	if ( 'trash' === $post->post_status || ! current_user_can( 'read_post', $post->ID ) ) {
 		return new WP_Error( 'comment_post_invalid', __( 'Sorry, you are not allowed to move this comment to that post.' ) );
+	}
+
+	// Replies and reactions stay on the note's post, so a move would separate them.
+	$children = get_comments(
+		array(
+			'parent' => $comment->comment_ID,
+			'type'   => array( 'note', 'reaction' ),
+			'status' => 'any',
+			'count'  => true,
+		)
+	);
+
+	if ( $children ) {
+		return new WP_Error( 'comment_post_invalid', __( 'A note with replies or reactions cannot be moved to another post.' ) );
 	}
 
 	return true;
