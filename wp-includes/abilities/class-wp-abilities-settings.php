@@ -220,7 +220,8 @@ final class WP_Abilities_Settings {
 	 * Reads {@see get_registered_settings()} and keeps only settings flagged with a truthy
 	 * `show_in_abilities` argument, of a type the settings endpoint supports. Each entry is
 	 * keyed by its exposed name and carries the underlying option name, the settings group,
-	 * the registered default (null when there is none), and a JSON Schema describing the value.
+	 * the default (the exposure schema's default when it declares one, otherwise the registered
+	 * default, or null when there is none), and a JSON Schema describing the value.
 	 *
 	 * Two settings exposed under the same name trigger a notice, and the later one is exposed.
 	 *
@@ -260,10 +261,14 @@ final class WP_Abilities_Settings {
 				);
 			}
 
+			/*
+			 * As the settings endpoint does, a default declared in the exposure schema
+			 * overrides the registered default.
+			 */
 			$settings[ $exposed_name ] = array(
 				'option'  => $option_name,
 				'group'   => $args['group'] ?? '',
-				'default' => $args['default'] ?? null,
+				'default' => array_key_exists( 'default', $schema ) ? $schema['default'] : ( $args['default'] ?? null ),
 				'schema'  => $schema,
 			);
 		}
