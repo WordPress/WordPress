@@ -3047,6 +3047,8 @@ if ( ! function_exists( 'wp_rand' ) ) :
 	 * @param int $max Optional. Upper limit for the generated number.
 	 *                 Accepts positive integers. Defaults to 4294967295.
 	 * @return int A random non-negative number between min and max.
+	 *
+	 * @phpstan-return non-negative-int
 	 */
 	function wp_rand( $min = null, $max = null ) {
 		global $rnd_value;
@@ -3077,11 +3079,7 @@ if ( ! function_exists( 'wp_rand' ) ) :
 				$_max = max( $min, $max );
 				$_min = min( $min, $max );
 				$val  = random_int( $_min, $_max );
-				if ( false !== $val ) {
-					return absint( $val );
-				} else {
-					$use_random_int_functionality = false;
-				}
+				return absint( $val );
 			} catch ( Error $e ) {
 				$use_random_int_functionality = false;
 			} catch ( Exception $e ) {
@@ -3095,9 +3093,13 @@ if ( ! function_exists( 'wp_rand' ) ) :
 		 */
 		if ( strlen( $rnd_value ) < 8 ) {
 			if ( defined( 'WP_SETUP_CONFIG' ) ) {
+				/** @var string $seed */
 				static $seed = '';
 			} else {
 				$seed = get_transient( 'random_seed' );
+				if ( ! is_string( $seed ) ) {
+					$seed = '';
+				}
 			}
 			$rnd_value  = md5( uniqid( microtime() . mt_rand(), true ) . $seed );
 			$rnd_value .= sha1( $rnd_value );
