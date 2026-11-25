@@ -4708,13 +4708,37 @@ function wp_get_post_terms( $post_id = 0, $taxonomy = 'post_tag', $args = array(
  *
  * @see get_posts()
  *
- * @param array  $args   Optional. Arguments to retrieve posts. Default empty array.
- * @param string $output Optional. The required return type. One of OBJECT or ARRAY_A, which
- *                       correspond to a WP_Post object or an associative array, respectively.
- *                       Default ARRAY_A.
+ * @param array|int $args {
+ *     Optional. Arguments to retrieve posts. See {@see get_posts()} and
+ *     {@see WP_Query::parse_query()} for all available arguments. Those listed here
+ *     have defaults that differ. Passing an integer number of posts is deprecated
+ *     since 3.1.0. Default empty array.
+ *
+ *     @type int             $numberposts Total number of posts to retrieve. Accepts -1 for all.
+ *                                        Default 10.
+ *     @type int             $offset      The number of posts to offset before retrieval. Default 0.
+ *     @type string|array    $orderby     Sort retrieved posts by parameter. Default 'post_date'.
+ *     @type string|string[] $post_status A post status (string) or array of post statuses.
+ *                                        Default 'draft, publish, future, pending, private'.
+ * }
+ * @param string    $output Optional. The required return type. One of OBJECT or ARRAY_A, which
+ *                          correspond to a WP_Post object or an associative array, respectively.
+ *                          Default ARRAY_A.
  * @return array|false Array of recent posts, where the type of each element is determined
  *                     by the `$output` parameter. Empty array on failure.
  *
+ * @phpstan-param positive-int|array{
+ *     numberposts?: int,
+ *     offset?: int,
+ *     orderby?: string|array<mixed>,
+ *     post_status?: string|string[],
+ *     category?: int|string,
+ *     include?: int[],
+ *     exclude?: int[],
+ *     suppress_filters?: bool,
+ *     fields?: ''|'all',
+ *     ...
+ * } $args
  * @phpstan-param 'OBJECT'|'ARRAY_A' $output
  * @phpstan-return (
  *     $output is 'ARRAY_A' ? array<int, non-empty-array<string, mixed>> : WP_Post[]|false
@@ -4734,8 +4758,8 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 		'category'         => 0,
 		'orderby'          => 'post_date',
 		'order'            => 'DESC',
-		'include'          => '',
-		'exclude'          => '',
+		'include'          => array(),
+		'exclude'          => array(),
 		'meta_key'         => '',
 		'meta_value'       => '',
 		'post_type'        => 'post',
@@ -4743,7 +4767,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 		'suppress_filters' => true,
 	);
 
-	/** @var array{ fields: null, ... } $parsed_args */
+	/** @var array{ numberposts: int, category: int|string, include: int[], exclude: int[], suppress_filters: bool, fields?: ''|'all', ... } $parsed_args */
 	$parsed_args = wp_parse_args( $args, $defaults );
 
 	$results = get_posts( $parsed_args );
