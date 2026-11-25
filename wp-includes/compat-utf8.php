@@ -42,6 +42,7 @@
  * @param int|null  $max_bytes         Stop scanning after this many bytes have been seen.
  * @param int|null  $max_code_points   Stop scanning after this many code points have been seen.
  * @param bool|null $has_noncharacters Set to indicate if scanned string contained noncharacters.
+ * @param-out bool  $has_noncharacters
  * @return int How many code points were successfully scanned.
  */
 function _wp_scan_utf8( string $bytes, int &$at, int &$invalid_length, ?int $max_bytes = null, ?int $max_code_points = null, ?bool &$has_noncharacters = null ): int {
@@ -151,7 +152,7 @@ function _wp_scan_utf8( string $bytes, int &$at, int &$invalid_length, ?int $max
 
 			// Covers the range U+FDD0–U+FDEF, U+FFFE, U+FFFF.
 			if ( 0xEF === $b1 ) {
-				$has_noncharacters |= (
+				$has_noncharacters = $has_noncharacters || (
 					( 0xB7 === $b2 && $b3 >= 0x90 && $b3 <= 0xAF ) ||
 					( 0xBF === $b2 && ( 0xBE === $b3 || 0xBF === $b3 ) )
 				);
@@ -176,7 +177,7 @@ function _wp_scan_utf8( string $bytes, int &$at, int &$invalid_length, ?int $max
 			$i += 3;
 
 			// Covers U+1FFFE, U+1FFFF, U+2FFFE, U+2FFFF, …, U+10FFFE, U+10FFFF.
-			$has_noncharacters |= (
+			$has_noncharacters = $has_noncharacters || (
 				( 0x0F === ( $b2 & 0x0F ) ) &&
 				0xBF === $b3 &&
 				( 0xBE === $b4 || 0xBF === $b4 )
@@ -376,6 +377,7 @@ function _wp_utf8_codepoint_count( string $text, ?int $byte_offset = 0, ?int $ma
  * @param ?int   $found_code_points Optional. Will be set to number of found code points in
  *                                  span, as this might be smaller than the maximum count if
  *                                  the string is not long enough.
+ * @param-out int $found_code_points
  * @return int Number of bytes spanned by the code points.
  */
 function _wp_utf8_codepoint_span( string $text, int $byte_offset, int $max_code_points, ?int &$found_code_points = 0 ): int {
