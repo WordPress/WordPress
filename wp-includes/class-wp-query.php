@@ -1554,11 +1554,9 @@ class WP_Query {
 			$searchand = ' AND ';
 		}
 
-		if ( ! empty( $search ) ) {
-			$search = " AND ({$search}) ";
-			if ( ! is_user_logged_in() ) {
-				$search .= " AND ({$wpdb->posts}.post_password = '') ";
-			}
+		$search = " AND ({$search}) ";
+		if ( ! is_user_logged_in() ) {
+			$search .= " AND ({$wpdb->posts}.post_password = '') ";
 		}
 
 		return $search;
@@ -2784,9 +2782,7 @@ class WP_Query {
 					$status_type_clauses[] = $type_where;
 				}
 
-				if ( ! empty( $status_type_clauses ) ) {
-					$where .= ' AND (' . implode( ' OR ', $status_type_clauses ) . ')';
-				}
+				$where .= ' AND (' . implode( ' OR ', $status_type_clauses ) . ')';
 			} else {
 				$where .= ' AND 1=0 ';
 			}

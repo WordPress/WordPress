@@ -3271,6 +3271,8 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
  * @param string $slug The string that will be tried for a unique slug.
  * @param object $term The term object that the `$slug` will belong to.
  * @return string Will return a true unique slug.
+ *
+ * @phpstan-param object{ taxonomy: string, parent?: int, term_id?: int } $term
  */
 function wp_unique_term_slug( $slug, $term ) {
 	global $wpdb;
@@ -3290,7 +3292,7 @@ function wp_unique_term_slug( $slug, $term ) {
 	$parent_suffix = '';
 	if ( $needs_suffix && is_taxonomy_hierarchical( $term->taxonomy ) && ! empty( $term->parent ) ) {
 		$the_parent = $term->parent;
-		while ( ! empty( $the_parent ) ) {
+		do {
 			$parent_term = get_term( $the_parent, $term->taxonomy );
 			if ( is_wp_error( $parent_term ) || empty( $parent_term ) ) {
 				break;
@@ -3300,11 +3302,8 @@ function wp_unique_term_slug( $slug, $term ) {
 				break;
 			}
 
-			if ( empty( $parent_term->parent ) ) {
-				break;
-			}
 			$the_parent = $parent_term->parent;
-		}
+		} while ( ! empty( $the_parent ) );
 	}
 
 	// If we didn't get a unique slug, try appending a number to make it unique.
