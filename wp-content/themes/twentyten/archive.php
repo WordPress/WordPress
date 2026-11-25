@@ -36,11 +36,17 @@ if ( have_posts() ) {
 				/* translators: %s: Date. */
 				printf( __( 'Daily Archives: <span>%s</span>', 'twentyten' ), get_the_date() );
 			} elseif ( is_month() ) {
-				/* translators: %s: Date. */
-				printf( __( 'Monthly Archives: <span>%s</span>', 'twentyten' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'twentyten' ) ) );
+				printf(
+					/* translators: %s: Date. */
+					__( 'Monthly Archives: <span>%s</span>', 'twentyten' ),
+					get_the_date( _x( 'F Y', 'monthly archives date format', 'twentyten' ) )
+				);
 			} elseif ( is_year() ) {
-				/* translators: %s: Date. */
-				printf( __( 'Yearly Archives: <span>%s</span>', 'twentyten' ), get_the_date( _x( 'Y', 'yearly archives date format', 'twentyten' ) ) );
+				printf(
+					/* translators: %s: Date. */
+					__( 'Yearly Archives: <span>%s</span>', 'twentyten' ),
+					get_the_date( _x( 'Y', 'yearly archives date format', 'twentyten' ) )
+				);
 			} else {
 				_e( 'Blog Archives', 'twentyten' );
 			}
