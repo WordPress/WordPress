@@ -3411,6 +3411,8 @@ if ( ! function_exists( 'wp_text_diff' ) ) :
 	 * are equivalent, then an empty string will be returned.
 	 *
 	 * @since 2.6.0
+	 * @since 7.3.0 Added the `$max_word_diff_line_length`, `$max_changed_lines`,
+	 *              and `$max_changed_line_pairs` arguments.
 	 *
 	 * @see wp_parse_args() Used to change defaults to user defined settings.
 	 * @uses Text_Diff
@@ -3421,14 +3423,22 @@ if ( ! function_exists( 'wp_text_diff' ) ) :
 	 * @param string|array $args {
 	 *     Associative array of options to pass to WP_Text_Diff_Renderer_Table().
 	 *
-	 *     @type string $title           Titles the diff in a manner compatible
-	 *                                   with the output. Default empty.
-	 *     @type string $title_left      Change the HTML to the left of the title.
-	 *                                   Default empty.
-	 *     @type string $title_right     Change the HTML to the right of the title.
-	 *                                   Default empty.
-	 *     @type bool   $show_split_view True for split view (two columns), false for
-	 *                                   un-split view (single column). Default true.
+	 *     @type string $title                      Titles the diff in a manner compatible
+	 *                                              with the output. Default empty.
+	 *     @type string $title_left                 Change the HTML to the left of the title.
+	 *                                              Default empty.
+	 *     @type string $title_right                Change the HTML to the right of the title.
+	 *                                              Default empty.
+	 *     @type bool   $show_split_view            True for split view (two columns), false for
+	 *                                              un-split view (single column). Default true.
+	 *     @type int    $max_word_diff_line_length  Changed lines longer than this many bytes get
+	 *                                              no word-level highlighting. Default 10000.
+	 *     @type int    $max_changed_lines          A changed block with more old and new lines
+	 *                                              than this shows removed lines, then added
+	 *                                              lines. Default 5000.
+	 *     @type int    $max_changed_line_pairs     A changed block with more old-by-new line
+	 *                                              pairs than this shows removed lines, then
+	 *                                              added lines. Default 250000.
 	 * }
 	 * @return string Empty string if strings are equivalent or HTML with differences.
 	 */

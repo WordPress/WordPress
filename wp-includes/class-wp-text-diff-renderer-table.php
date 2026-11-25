@@ -68,6 +68,30 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	protected $_diff_threshold = 0.6;
 
 	/**
+	 * Maximum line length in bytes for word-level highlighting.
+	 *
+	 * @since 7.3.0
+	 * @var int
+	 */
+	protected $_max_word_diff_line_length = 10000;
+
+	/**
+	 * Maximum number of line pairs to compare when matching changed lines.
+	 *
+	 * @since 7.3.0
+	 * @var int
+	 */
+	protected $_max_changed_line_pairs = 250000;
+
+	/**
+	 * Maximum total number of old and new lines to match in a changed block.
+	 *
+	 * @since 7.3.0
+	 * @var int
+	 */
+	protected $_max_changed_lines = 5000;
+
+	/**
 	 * Inline display helper object name.
 	 *
 	 * @var string
@@ -285,6 +309,15 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @return string
 	 */
 	public function _changed( $orig, $final ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.finalFound
+		$old_count = count( $orig );
+		$new_count = count( $final );
+		// interleave_changed_lines() scores every old line against every new line.
+		if ( $old_count + $new_count > $this->_max_changed_lines
+			|| $old_count * $new_count > $this->_max_changed_line_pairs
+		) {
+			return $this->_deleted( $orig ) . $this->_added( $final );
+		}
+
 		$r = '';
 
 		/*
@@ -305,6 +338,12 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		// Compute word diffs for each matched pair using the inline diff.
 		foreach ( $orig_matches as $o => $f ) {
 			if ( is_numeric( $o ) && is_numeric( $f ) ) {
+				if ( strlen( $orig[ $o ] ) > $this->_max_word_diff_line_length
+					|| strlen( $final[ $f ] ) > $this->_max_word_diff_line_length
+				) {
+					continue;
+				}
+
 				$text_diff = new Text_Diff( 'auto', array( array( $orig[ $o ] ), array( $final[ $f ] ) ) );
 				$renderer  = new $this->inline_diff_renderer();
 				$diff      = $renderer->render( $text_diff );
