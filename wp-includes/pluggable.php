@@ -1930,8 +1930,11 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 					$notify_message .= sprintf( __( 'Author: %1$s (IP address: %2$s, %3$s)' ), $comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
 					/* translators: %s: Note author email. */
 					$notify_message .= sprintf( __( 'Email: %s' ), $comment_author_email ) . "\r\n";
-					/* translators: %s: Note text. */
-					$notify_message .= sprintf( __( 'Note: %s' ), "\r\n" . ( empty( $comment_content ) ? __( 'resolved/reopened' ) : $comment_content ) ) . "\r\n\r\n";
+					$notify_message .= sprintf(
+						/* translators: %s: Note text. */
+						__( 'Note: %s' ),
+						"\r\n" . ( empty( $comment_content ) ? __( 'resolved/reopened' ) : $comment_content )
+					) . "\r\n\r\n";
 					$notify_message .= __( 'You can see all notes on this post here:' ) . "\r\n";
 					/* translators: Note notification email subject. 1: Site title, 2: Post title. */
 					$subject = sprintf( __( '[%1$s] Note: "%2$s"' ), $blogname, $post->post_title );

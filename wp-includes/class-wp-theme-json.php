@@ -5860,9 +5860,18 @@ class WP_Theme_JSON {
 				break;
 			}
 
+			if ( $below_midpoint_count === $steps_mid_point - 1 ) {
+				$name = __( 'Small' );
+			} else {
+				$name = sprintf(
+					/* translators: %s: Digit to indicate multiple of sizing, eg. 2X-Small. */
+					__( '%sX-Small' ),
+					(string) $x_small_count
+				);
+			}
+
 			$below_sizes[] = array(
-				/* translators: %s: Digit to indicate multiple of sizing, eg. 2X-Small. */
-				'name' => $below_midpoint_count === $steps_mid_point - 1 ? __( 'Small' ) : sprintf( __( '%sX-Small' ), (string) $x_small_count ),
+				'name' => $name,
 				'slug' => (string) $slug,
 				'size' => round( $current_step, 2 ) . $unit,
 			);
@@ -5897,9 +5906,18 @@ class WP_Theme_JSON {
 				? $current_step + $spacing_scale['increment']
 				: ( $spacing_scale['increment'] >= 1 ? $current_step * $spacing_scale['increment'] : $current_step / $spacing_scale['increment'] );
 
+			if ( 0 === $above_midpoint_count ) {
+				$name = __( 'Large' );
+			} else {
+				$name = sprintf(
+					/* translators: %s: Digit to indicate multiple of sizing, eg. 2X-Large. */
+					__( '%sX-Large' ),
+					(string) $x_large_count
+				);
+			}
+
 			$above_sizes[] = array(
-				/* translators: %s: Digit to indicate multiple of sizing, eg. 2X-Large. */
-				'name' => 0 === $above_midpoint_count ? __( 'Large' ) : sprintf( __( '%sX-Large' ), (string) $x_large_count ),
+				'name' => $name,
 				'slug' => (string) $slug,
 				'size' => round( $current_step, 2 ) . $unit,
 			);

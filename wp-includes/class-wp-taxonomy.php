@@ -633,8 +633,12 @@ final class WP_Taxonomy {
 			'filter_by_item'             => array( null, __( 'Filter by category' ) ),
 			'items_list_navigation'      => array( __( 'Tags list navigation' ), __( 'Categories list navigation' ) ),
 			'items_list'                 => array( __( 'Tags list' ), __( 'Categories list' ) ),
-			/* translators: Tab heading when selecting from the most used terms. */
-			'most_used'                  => array( _x( 'Most Used', 'tags' ), _x( 'Most Used', 'categories' ) ),
+			'most_used'                  => array(
+				/* translators: Tab heading when selecting from the most used terms. */
+				_x( 'Most Used', 'tags' ),
+				/* translators: Tab heading when selecting from the most used terms. */
+				_x( 'Most Used', 'categories' ),
+			),
 			'back_to_items'              => array( __( '&larr; Go to Tags' ), __( '&larr; Go to Categories' ) ),
 			'item_link'                  => array(
 				_x( 'Tag Link', 'navigation link block title' ),

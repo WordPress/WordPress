@@ -385,8 +385,11 @@ function update_right_now_message() {
 			$msg .= sprintf(
 				'<a href="%s" class="button" aria-describedby="wp-version">%s</a>',
 				network_admin_url( 'update-core.php' ),
-				/* translators: %s: WordPress version number, or 'Latest' string. */
-				sprintf( __( 'Update to %s' ), $cur->current ? $cur->current : __( 'Latest' ) )
+				sprintf(
+					/* translators: %s: WordPress version number, or 'Latest' string. */
+					__( 'Update to %s' ),
+					$cur->current ? $cur->current : __( 'Latest' )
+				)
 			);
 		}
 	}
