@@ -10,7 +10,6 @@
  * This is a profile page.
  *
  * @since 2.5.0
- * @var bool
  */
 define( 'IS_PROFILE_PAGE', true );
 

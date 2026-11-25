@@ -31,12 +31,12 @@
  */
 
 /**
- * Specifies the default allowable HTML tags.
+ * Whether to use custom allowed HTML tags from the KSES globals.
  *
  * Using `CUSTOM_TAGS` is not recommended and should be considered deprecated. The
  * {@see 'wp_kses_allowed_html'} filter is more powerful and supplies context.
  *
- * When using this constant, make sure to set all of these globals to arrays:
+ * To use custom tags, define this constant as `true` and set all of these globals to arrays:
  *
  *  - `$allowedposttags`
  *  - `$allowedtags`
@@ -45,8 +45,6 @@
  *
  * @see wp_kses_allowed_html()
  * @since 1.2.0
- *
- * @var array[]|false Array of default allowable HTML tags, or false to use the defaults.
  */
 if ( ! defined( 'CUSTOM_TAGS' ) ) {
 	define( 'CUSTOM_TAGS', false );

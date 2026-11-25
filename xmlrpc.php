@@ -7,8 +7,6 @@
 
 /**
  * Whether this is an XML-RPC Request.
- *
- * @var bool
  */
 define( 'XMLRPC_REQUEST', true );
 

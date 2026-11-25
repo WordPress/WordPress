@@ -27,7 +27,6 @@ if ( false ) {
  * We are installing WordPress.
  *
  * @since 1.5.1
- * @var bool
  */
 define( 'WP_INSTALLING', true );
 
