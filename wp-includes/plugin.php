@@ -28,10 +28,10 @@ require __DIR__ . '/class-wp-filter-sentinel.php';
 /** @var WP_Hook[] $wp_filter */
 global $wp_filter;
 
-/** @var int[] $wp_actions */
+/** @var array<string, positive-int> $wp_actions */
 global $wp_actions;
 
-/** @var int[] $wp_filters */
+/** @var array<string, positive-int> $wp_filters */
 global $wp_filters;
 
 /** @var string[] $wp_current_filter */
@@ -156,9 +156,9 @@ function add_filter( $hook_name, $callback, $priority = 10, $accepted_args = 1 )
  * @since 6.0.0 Formalized the existing and already documented `...$args` parameter
  *              by adding it to the function signature.
  *
- * @global WP_Hook[] $wp_filter         Stores all of the filters and actions.
- * @global int[]     $wp_filters        Stores the number of times each filter was triggered.
- * @global string[]  $wp_current_filter Stores the list of current filters with the current one last.
+ * @global WP_Hook[]                   $wp_filter         Stores all of the filters and actions.
+ * @global array<string, positive-int> $wp_filters        Stores the number of times each filter was triggered.
+ * @global string[]                    $wp_current_filter Stores the list of current filters with the current one last.
  *
  * @param string $hook_name The name of the filter hook.
  * @param mixed  $value     The value to filter.
@@ -213,9 +213,9 @@ function apply_filters( $hook_name, $value, ...$args ) {
  * @see apply_filters() This function is identical, but the arguments passed to the
  *                      functions hooked to `$hook_name` are supplied using an array.
  *
- * @global WP_Hook[] $wp_filter         Stores all of the filters and actions.
- * @global int[]     $wp_filters        Stores the number of times each filter was triggered.
- * @global string[]  $wp_current_filter Stores the list of current filters with the current one last.
+ * @global WP_Hook[]                   $wp_filter         Stores all of the filters and actions.
+ * @global array<string, positive-int> $wp_filters        Stores the number of times each filter was triggered.
+ * @global string[]                    $wp_current_filter Stores the list of current filters with the current one last.
  *
  * @param string                $hook_name The name of the filter hook.
  * @param non-empty-list<mixed> $args      The arguments supplied to the functions hooked to `$hook_name`.
@@ -413,10 +413,12 @@ function doing_filter( $hook_name = null ) {
  *
  * @since 6.1.0
  *
- * @global int[] $wp_filters Stores the number of times each filter was triggered.
+ * @global array<string, positive-int> $wp_filters Stores the number of times each filter was triggered.
  *
  * @param string $hook_name The name of the filter hook.
  * @return int The number of times the filter hook has been applied.
+ *
+ * @phpstan-return non-negative-int
  */
 function did_filter( $hook_name ) {
 	global $wp_filters;
@@ -481,9 +483,9 @@ function add_action( $hook_name, $callback, $priority = 10, $accepted_args = 1 )
  * @since 5.3.0 Formalized the existing and already documented `...$arg` parameter
  *              by adding it to the function signature.
  *
- * @global WP_Hook[] $wp_filter         Stores all of the filters and actions.
- * @global int[]     $wp_actions        Stores the number of times each action was triggered.
- * @global string[]  $wp_current_filter Stores the list of current filters with the current one last.
+ * @global WP_Hook[]                   $wp_filter         Stores all of the filters and actions.
+ * @global array<string, positive-int> $wp_actions        Stores the number of times each action was triggered.
+ * @global string[]                    $wp_current_filter Stores the list of current filters with the current one last.
  *
  * @param string $hook_name The name of the action to be executed.
  * @param mixed  ...$arg    Optional. Additional arguments which are passed on to the
@@ -538,9 +540,9 @@ function do_action( $hook_name, ...$arg ) {
  * @see do_action() This function is identical, but the arguments passed to the
  *                  functions hooked to `$hook_name` are supplied using an array.
  *
- * @global WP_Hook[] $wp_filter         Stores all of the filters and actions.
- * @global int[]     $wp_actions        Stores the number of times each action was triggered.
- * @global string[]  $wp_current_filter Stores the list of current filters with the current one last.
+ * @global WP_Hook[]                   $wp_filter         Stores all of the filters and actions.
+ * @global array<string, positive-int> $wp_actions        Stores the number of times each action was triggered.
+ * @global string[]                    $wp_current_filter Stores the list of current filters with the current one last.
  *
  * @param string      $hook_name The name of the action to be executed.
  * @param list<mixed> $args      The arguments supplied to the functions hooked to `$hook_name`.
@@ -692,10 +694,12 @@ function doing_action( $hook_name = null ) {
  *
  * @since 2.1.0
  *
- * @global int[] $wp_actions Stores the number of times each action was triggered.
+ * @global array<string, positive-int> $wp_actions Stores the number of times each action was triggered.
  *
  * @param string $hook_name The name of the action hook.
  * @return int The number of times the action hook has been fired.
+ *
+ * @phpstan-return non-negative-int
  */
 function did_action( $hook_name ) {
 	global $wp_actions;

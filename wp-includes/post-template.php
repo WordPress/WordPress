@@ -2052,6 +2052,8 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
  *
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @param string      $type 'all' (default), 'revision' or 'autosave'
+ *
+ * @phpstan-param 'all'|'revision'|'autosave' $type
  */
 function wp_list_post_revisions( $post = 0, $type = 'all' ) {
 	$post = get_post( $post );

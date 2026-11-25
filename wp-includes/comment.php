@@ -1993,6 +1993,8 @@ function wp_unspam_comment( $comment_id ) {
  *
  * @param int|WP_Comment $comment_id Comment ID or WP_Comment object
  * @return string|false Status might be 'trash', 'approved', 'unapproved', 'spam'. False on failure.
+ *
+ * @phpstan-return 'approved'|'spam'|'trash'|'unapproved'|false
  */
 function wp_get_comment_status( $comment_id ) {
 	$comment = get_comment( $comment_id );

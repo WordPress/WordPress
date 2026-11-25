@@ -2835,6 +2835,7 @@ function format_to_edit( $content, $rich_text = false ) {
  * @param int $threshold  Digit places number needs to be to not have zeros added.
  * @return string Adds leading zeros to number if needed.
  *
+ * @phpstan-param non-negative-int $threshold
  * @phpstan-return (
  *     $threshold is 0
  *         ? lowercase-string&non-empty-string&numeric-string
@@ -3006,6 +3007,8 @@ function urldecode_deep( $value ) {
  * @param string $email_address Email address.
  * @param int    $hex_encoding  Optional. Set to 1 to enable hex encoding.
  * @return string Converted email address.
+ *
+ * @phpstan-param 0|1 $hex_encoding
  */
 function antispambot( $email_address, $hex_encoding = 0 ) {
 	$obfuscated     = '';

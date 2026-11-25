@@ -125,6 +125,7 @@ class wpdb {
 	 * @since 0.71
 	 *
 	 * @var int
+	 * @phpstan-var non-negative-int
 	 */
 	public $insert_id = 0;
 
@@ -3121,6 +3122,8 @@ class wpdb {
 	 *         )
 	 *         : null
 	 * )
+	 *
+	 * @phpstan-param non-negative-int $y
 	 */
 	public function get_row( $query = null, $output = OBJECT, $y = 0 ) {
 		$this->func_call = "\$db->get_row(\"$query\",$output,$y)";

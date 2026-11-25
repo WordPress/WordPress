@@ -280,8 +280,8 @@ class WP_Importer {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @global wpdb  $wpdb       WordPress database abstraction object.
-	 * @global int[] $wp_actions Stores the number of times each action was triggered.
+	 * @global wpdb                        $wpdb       WordPress database abstraction object.
+	 * @global array<string, positive-int> $wp_actions Stores the number of times each action was triggered.
 	 */
 	public function stop_the_insanity() {
 		global $wpdb, $wp_actions;

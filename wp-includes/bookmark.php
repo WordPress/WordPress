@@ -80,15 +80,14 @@ function get_bookmark( $bookmark, $output = OBJECT, $filter = 'raw' ) {
  * @param string $field    The name of the data field to return.
  * @param int    $bookmark The bookmark ID to get field.
  * @param string $context  Optional. The context of how the field will be used. Default 'display'.
- * @return string|WP_Error
+ * @return mixed The sanitized field value, or an empty string if the bookmark or field does not exist.
+ *
+ * @phpstan-param 'link_id'|'link_url'|'link_name'|'link_image'|'link_target'|'link_description'|'link_visible'|'link_owner'|'link_rating'|'link_updated'|'link_rel'|'link_notes'|'link_rss'|'link_category' $field
+ * @phpstan-return ( $field is 'link_category' ? array<int, non-negative-int>|'' : ( $field is 'link_id'|'link_rating' ? int|'' : mixed ) )
  */
 function get_bookmark_field( $field, $bookmark, $context = 'display' ) {
 	$bookmark = (int) $bookmark;
 	$bookmark = get_bookmark( $bookmark );
-
-	if ( is_wp_error( $bookmark ) ) {
-		return $bookmark;
-	}
 
 	if ( ! is_object( $bookmark ) ) {
 		return '';
@@ -403,6 +402,9 @@ function sanitize_bookmark( $bookmark, $context = 'display' ) {
  * @param string $context     How to filter the field value. Accepts 'raw', 'edit', 'db',
  *                            'display', 'attribute', or 'js'. Default 'display'.
  * @return mixed The filtered value.
+ *
+ * @phpstan-param 'link_id'|'link_url'|'link_name'|'link_image'|'link_target'|'link_description'|'link_visible'|'link_owner'|'link_rating'|'link_updated'|'link_rel'|'link_notes'|'link_rss'|'link_category' $field
+ * @phpstan-return ($field is 'link_category' ? array<int, non-negative-int> : ($field is 'link_id'|'link_rating' ? int : mixed))
  */
 function sanitize_bookmark_field( $field, $value, $bookmark_id, $context ) {
 	$int_fields = array( 'link_id', 'link_rating' );

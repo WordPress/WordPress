@@ -119,7 +119,7 @@ function wp_create_categories( $categories, $post_id = 0 ) {
  *                      depending on param `$wp_error`.
  *
  * @phpstan-return (
- *     $wp_error is false ? int : int|WP_Error
+ *     $wp_error is false ? non-negative-int : non-negative-int|WP_Error
  * )
  */
 function wp_insert_category( $catarr, $wp_error = false ) {
@@ -188,6 +188,8 @@ function wp_insert_category( $catarr, $wp_error = false ) {
  *
  * @param array $catarr The 'cat_ID' value is required. All other keys are optional.
  * @return int|false The ID number of the new or updated Category on success. Zero or FALSE on failure.
+ *
+ * @phpstan-return non-negative-int|false
  */
 function wp_update_category( $catarr ) {
 	$cat_id = (int) $catarr['cat_ID'];

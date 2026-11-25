@@ -318,6 +318,8 @@ class Custom_Image_Header {
 	 *
 	 * @param string $type The header type. One of 'default' (for the Uploaded Images control)
 	 *                     or 'uploaded' (for the Uploaded Images control).
+	 *
+	 * @phpstan-param 'default'|'uploaded' $type
 	 */
 	public function show_header_selector( $type = 'default' ) {
 		if ( 'default' === $type ) {

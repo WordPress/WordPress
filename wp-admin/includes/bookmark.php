@@ -12,6 +12,8 @@
  * @since 2.0.0
  *
  * @return int The link ID on success. The value 0 on failure.
+ *
+ * @phpstan-return non-negative-int
  */
 function add_link() {
 	return edit_link();
@@ -24,6 +26,8 @@ function add_link() {
  *
  * @param int $link_id Optional. ID of the link to edit. Default 0.
  * @return int The link ID on success. The value 0 on failure.
+ *
+ * @phpstan-return non-negative-int
  */
 function edit_link( $link_id = 0 ) {
 	if ( ! current_user_can( 'manage_links' ) ) {
@@ -174,7 +178,7 @@ function get_link_to_edit( $link ) {
  * @param bool  $wp_error Optional. Whether to return a WP_Error object on failure. Default false.
  * @return int|WP_Error The link ID on success. The value 0 or WP_Error on failure.
  *
- * @phpstan-return ( $wp_error is false ? int : int|WP_Error )
+ * @phpstan-return ( $wp_error is false ? non-negative-int : non-negative-int|WP_Error )
  */
 function wp_insert_link( $linkdata, $wp_error = false ) {
 	global $wpdb;
@@ -189,9 +193,13 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 	$parsed_args = wp_parse_args( $linkdata, $defaults );
 	$parsed_args = wp_unslash( sanitize_bookmark( $parsed_args, 'db' ) );
 
-	$link_id   = $parsed_args['link_id'];
+	$link_id   = (int) $parsed_args['link_id'];
 	$link_name = $parsed_args['link_name'];
 	$link_url  = $parsed_args['link_url'];
+
+	if ( $link_id < 0 ) {
+		return 0;
+	}
 
 	$update = false;
 	if ( ! empty( $link_id ) ) {
@@ -301,6 +309,8 @@ function wp_set_link_cats( $link_id = 0, $link_categories = array() ) {
  *
  * @param array $linkdata Link data to update. See wp_insert_link() for accepted arguments.
  * @return int The updated link ID on success. The value 0 on failure.
+ *
+ * @phpstan-return non-negative-int
  */
 function wp_update_link( $linkdata ) {
 	$link_id = (int) $linkdata['link_id'];

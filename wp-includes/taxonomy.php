@@ -2580,7 +2580,7 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
  *     ...
  * } $args
  * @phpstan-return array{
- *     term_id: int,
+ *     term_id: non-negative-int,
  *     term_taxonomy_id: int|decimal-int-string,
  * }|WP_Error
  */
@@ -2807,6 +2807,8 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * @param string $taxonomy       Taxonomy name.
 	 * @param array  $args           Arguments passed to wp_insert_term().
 	 * @param int    $tt_id          term_taxonomy_id for the newly created term.
+	 *
+	 * @phpstan-param object{ term_id: non-negative-int, term_taxonomy_id: int|numeric-string }|null $duplicate_term
 	 */
 	$duplicate_term = apply_filters( 'wp_insert_term_duplicate_term_check', $duplicate_term, $term, $taxonomy, $args, $tt_id );
 
@@ -2869,6 +2871,8 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * @param int   $term_id Term ID.
 	 * @param int   $tt_id   Term taxonomy ID.
 	 * @param array $args    Arguments passed to wp_insert_term().
+	 *
+	 * @phpstan-param non-negative-int $term_id
 	 */
 	$term_id = apply_filters( 'term_id_filter', $term_id, $tt_id, $args );
 
@@ -3392,7 +3396,7 @@ function wp_unique_term_slug( $slug, $term ) {
  *     ...
  * } $args
  * @phpstan-return array{
- *     term_id: int,
+ *     term_id: non-negative-int,
  *     term_taxonomy_id: int,
  * }|WP_Error
  */

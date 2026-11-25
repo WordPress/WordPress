@@ -1375,7 +1375,7 @@ if ( ! function_exists( 'check_admin_referer' ) ) :
 	 *                   2 if the nonce is valid and generated between 12-24 hours ago.
 	 *                   False if the nonce is invalid. Only possible when `$action` is -1,
 	 *                   as the function otherwise exits rather than returning false.
-	 * @phpstan-return ( $action is -1 ? int|false : int )
+	 * @phpstan-return ( $action is -1 ? 1|2|false : 1|2 )
 	 */
 	function check_admin_referer( $action = -1, $query_arg = '_wpnonce' ) {
 		if ( -1 === $action ) {
@@ -1422,7 +1422,7 @@ if ( ! function_exists( 'check_ajax_referer' ) ) :
 	 *                   2 if the nonce is valid and generated between 12-24 hours ago.
 	 *                   False if the nonce is invalid. Only possible when `$stop` is false,
 	 *                   as the function otherwise exits rather than returning false.
-	 * @phpstan-return ( $stop is true ? int : int|false )
+	 * @phpstan-return ( $stop is true ? 1|2 : 1|2|false )
 	 */
 	function check_ajax_referer( $action = -1, $query_arg = false, $stop = true ) {
 		if ( -1 === $action ) {
@@ -2506,6 +2506,8 @@ if ( ! function_exists( 'wp_verify_nonce' ) ) :
 	 * @return int|false 1 if the nonce is valid and generated between 0-12 hours ago,
 	 *                   2 if the nonce is valid and generated between 12-24 hours ago.
 	 *                   False if the nonce is invalid.
+	 *
+	 * @phpstan-return 1|2|false
 	 */
 	function wp_verify_nonce( $nonce, $action = -1 ) {
 		$nonce = (string) $nonce;
