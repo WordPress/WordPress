@@ -27,12 +27,30 @@
 final class WP_Theme implements ArrayAccess {
 
 	/**
-	 * Whether the theme has been marked as updateable.
+	 * Whether the theme has been marked as updateable, or the theme's update data.
+	 *
+	 * This is false by default. WP_MS_Themes_List_Table sets it to true when an
+	 * update is available for the theme, while get_theme_updates() sets it to the
+	 * theme's entry in the `response` of the `update_themes` site transient. That
+	 * entry always contains the `new_version`, and usually the `theme`, `url`,
+	 * `package`, `requires`, and `requires_php` as well, where `requires` and
+	 * `requires_php` are false when the theme does not declare them. Themes updated
+	 * via the {@see 'update_themes_$hostname'} filter may also include other keys.
 	 *
 	 * @since 4.4.0
-	 * @var bool
+	 * @var bool|array<string, mixed>
+	 * @phpstan-var bool|array{
+	 *     new_version: string,
+	 *     theme?: string,
+	 *     url?: string,
+	 *     package?: string,
+	 *     requires?: string|false,
+	 *     requires_php?: string|false,
+	 *     ...
+	 * }
 	 *
 	 * @see WP_MS_Themes_List_Table
+	 * @see get_theme_updates()
 	 */
 	public $update = false;
 
