@@ -1365,7 +1365,7 @@ return;
 
 // Dummy gettext calls to get strings in the catalog.
 /* translators: User role for administrators. */
-_x( 'Administrator', 'User role' );
+_x( 'Administrator', 'User role' ); // @phpstan-ignore deadCode.unreachable (Placed after the return so that the strings are added to the POT file without running.)
 /* translators: User role for editors. */
 _x( 'Editor', 'User role' );
 /* translators: User role for authors. */

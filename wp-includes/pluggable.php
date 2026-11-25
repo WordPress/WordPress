@@ -1399,7 +1399,7 @@ if ( ! function_exists( 'check_admin_referer' ) ) :
 
 		if ( ! $result && ! ( -1 === $action && str_starts_with( $referer, $adminurl ) ) ) {
 			wp_nonce_ays( $action );
-			die();
+			die(); // @phpstan-ignore deadCode.unreachable (Stops a request with an invalid nonce even if a custom wp_die() handler returns.)
 		}
 
 		return $result;

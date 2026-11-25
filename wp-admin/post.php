@@ -125,7 +125,7 @@ switch ( $action ) {
 		check_admin_referer( 'add-' . $post_type );
 		$post_id = 'postajaxpost' === $action ? edit_post() : write_post();
 		redirect_post( $post_id );
-		exit;
+		exit; // @phpstan-ignore deadCode.unreachable (Ends the case so that it does not read as falling through, which PHPCS reports.)
 
 	case 'edit':
 		$editing = true;
@@ -245,7 +245,7 @@ switch ( $action ) {
 
 		redirect_post( $post_id ); // Send user on their way while we keep working.
 
-		exit;
+		exit; // @phpstan-ignore deadCode.unreachable (Ends the case so that it does not read as falling through into the trash case.)
 
 	case 'trash':
 		check_admin_referer( 'trash-post_' . $post_id );

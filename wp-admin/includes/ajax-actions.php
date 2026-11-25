@@ -79,6 +79,8 @@ function wp_ajax_nopriv_heartbeat() {
  * Handles fetching a list table via AJAX.
  *
  * @since 3.1.0
+ *
+ * @return never
  */
 function wp_ajax_fetch_list() {
 	$list_class = $_GET['list_args']['class'];
@@ -95,7 +97,7 @@ function wp_ajax_fetch_list() {
 
 	$wp_list_table->ajax_response();
 
-	wp_die( 0 );
+	wp_die( 0 ); // @phpstan-ignore deadCode.unreachable (The wp_list_table_class_name filter can supply a class whose ajax_response() returns.)
 }
 
 /**
@@ -2684,6 +2686,8 @@ function wp_ajax_upload_attachment() {
  * Handles image editing via AJAX.
  *
  * @since 3.1.0
+ *
+ * @return never
  */
 function wp_ajax_image_editor() {
 	$attachment_id = (int) $_POST['postid'];
@@ -2705,7 +2709,7 @@ function wp_ajax_image_editor() {
 			}
 
 			wp_send_json_success( $message );
-			break;
+			break; // @phpstan-ignore deadCode.unreachable (Ends the case so that it does not read as falling through, which PHPCS reports.)
 		case 'scale':
 			$message = wp_save_image( $attachment_id );
 			break;
@@ -2804,6 +2808,8 @@ function wp_ajax_get_post_thumbnail_html() {
  * @since 4.0.0
  *
  * @see set_post_thumbnail()
+ *
+ * @return never
  */
 function wp_ajax_set_attachment_thumbnail() {
 	if ( empty( $_POST['urls'] ) || ! is_array( $_POST['urls'] ) ) {
@@ -2849,8 +2855,6 @@ function wp_ajax_set_attachment_thumbnail() {
 	} else {
 		wp_send_json_success();
 	}
-
-	wp_send_json_error();
 }
 
 /**
