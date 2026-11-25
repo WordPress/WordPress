@@ -73,7 +73,9 @@ class WP_Dependencies {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @var (int|false)[]
+	 * @var array<string, int|false>
+	 *
+	 * @phpstan-var array<non-empty-string, int|false>
 	 */
 	public $groups = array();
 

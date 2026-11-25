@@ -1237,6 +1237,8 @@ function image_align_input_fields( $post, $checked = '' ) {
  * @param WP_Post     $post
  * @param bool|string $check
  * @return array<string, string> An array of data for the image size input fields.
+ *
+ * @phpstan-return array{label: string, input: 'html', html: string}
  */
 function image_size_input_fields( $post, $check = '' ) {
 	/**
@@ -1937,6 +1939,8 @@ function get_media_item( $attachment_id, $args = null ) {
  * @param int   $attachment_id
  * @param array $args
  * @return array<string, string> An array containing the media item and its metadata.
+ *
+ * @phpstan-return array{item: string, meta: string}
  */
 function get_compat_media_markup( $attachment_id, $args = null ) {
 	$post = get_post( $attachment_id );

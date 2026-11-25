@@ -1717,6 +1717,25 @@ function wp_widget_rss_output( $rss, $args = array() ) {
  *
  * @param array|string $args   Values for input fields.
  * @param array        $inputs Override default display options.
+ *
+ * @phpstan-param array{
+ *     number: int|string,
+ *     error?: string|false,
+ *     title?: string,
+ *     url?: string,
+ *     items?: int,
+ *     show_summary?: int,
+ *     show_author?: int,
+ *     show_date?: int,
+ * } $args
+ * @phpstan-param array{
+ *     title?: bool|'hidden',
+ *     url?: bool|'hidden',
+ *     items?: bool|'hidden',
+ *     show_summary?: bool|'hidden',
+ *     show_author?: bool|'hidden',
+ *     show_date?: bool|'hidden',
+ * } $inputs
  */
 function wp_widget_rss_form( $args, $inputs = null ) {
 	$default_inputs = array(
@@ -1802,6 +1821,17 @@ foreach ( array_keys( $default_inputs ) as $input ) :
  * @param array $widget_rss RSS widget feed data. Expects unescaped data.
  * @param bool  $check_feed Optional. Whether to check feed for errors. Default true.
  * @return array
+ *
+ * @phpstan-return array{
+ *     title: string,
+ *     url: string,
+ *     link: string,
+ *     items: int<1, 20>,
+ *     error: string|false,
+ *     show_summary: int,
+ *     show_author: int,
+ *     show_date: int,
+ * }
  */
 function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 	$items = (int) $widget_rss['items'];

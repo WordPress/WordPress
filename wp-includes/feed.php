@@ -599,6 +599,8 @@ function atom_enclosure() {
  *
  * @param string $data Input string.
  * @return array array(type, value)
+ *
+ * @phpstan-return array{'html'|'text'|'xhtml', string}
  */
 function prep_atom_text_construct( $data ) {
 	if ( ! str_contains( $data, '<' ) && ! str_contains( $data, '&' ) ) {

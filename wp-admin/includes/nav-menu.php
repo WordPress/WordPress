@@ -1348,6 +1348,16 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
  * @since 3.0.0
  *
  * @return string[] Array of column titles keyed by their column name.
+ *
+ * @phpstan-return array{
+ *     _title: string,
+ *     cb: non-falsy-string,
+ *     link-target: string,
+ *     title-attribute: string,
+ *     css-classes: string,
+ *     xfn: string,
+ *     description: string,
+ * }
  */
 function wp_nav_menu_manage_columns() {
 	return array(

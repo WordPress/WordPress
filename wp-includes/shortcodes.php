@@ -188,6 +188,8 @@ function has_shortcode( $content, $tag ) {
  *
  * @param string $content The content to check.
  * @return string[] An array of registered shortcode names found in the content.
+ *
+ * @phpstan-return list<string>
  */
 function get_shortcode_tags_in_content( $content ) {
 	if ( ! str_contains( $content, '[' ) ) {

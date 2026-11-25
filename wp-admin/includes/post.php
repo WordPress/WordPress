@@ -1220,6 +1220,8 @@ function _fix_attachment_links( $post ) {
  *
  * @param string $type The post_type you want the statuses for. Default 'post'.
  * @return string[] An array of all the statuses for the supplied post type.
+ *
+ * @phpstan-return list<string>
  */
 function get_available_post_statuses( $type = 'post' ) {
 	$statuses = wp_count_posts( $type );

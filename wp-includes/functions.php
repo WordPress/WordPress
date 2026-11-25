@@ -8394,6 +8394,7 @@ function wp_unique_prefixed_id( $prefix = '' ) {
  * @param string $prefix Optional. A prefix to prepend to the generated ID. Default empty string.
  * @return string The generated unique ID for the array.
  *
+ * @phpstan-param non-empty-array $data
  * @phpstan-return ( $prefix is lowercase-string ? lowercase-string&non-falsy-string : non-falsy-string )
  */
 function wp_unique_id_from_values( array $data, string $prefix = '' ): string {

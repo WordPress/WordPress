@@ -611,6 +611,8 @@ function wpautop( $text, $br = true ) {
  *
  * @param string $input The text which has to be formatted.
  * @return string[] Array of the formatted text.
+ *
+ * @phpstan-return non-empty-list<string>
  */
 function wp_html_split( $input ) {
 	return preg_split( get_html_split_regex(), $input, -1, PREG_SPLIT_DELIM_CAPTURE );

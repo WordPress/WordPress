@@ -109,6 +109,22 @@ class WP_Widget {
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
 	 * @param array $instance The settings for the particular instance of the widget.
+	 *
+	 * @phpstan-param array{
+	 *     name?: string,
+	 *     id?: string,
+	 *     description?: string,
+	 *     class?: string,
+	 *     before_widget: string,
+	 *     after_widget: string,
+	 *     before_title: string,
+	 *     after_title: string,
+	 *     before_sidebar?: string,
+	 *     after_sidebar?: string,
+	 *     show_in_rest?: bool,
+	 *     widget_id?: string,
+	 *     widget_name?: string,
+	 * } $args
 	 */
 	public function widget( $args, $instance ) {
 		die( 'function WP_Widget::widget() must be overridden in a subclass.' );

@@ -29,6 +29,15 @@ if ( ! class_exists( 'WpOrg\Requests\Autoload' ) ) {
  * Debugging includes several actions, which pass different variables for debugging the HTTP API.
  *
  * @since 2.7.0
+ *
+ * @phpstan-type HTTP_Response array{
+ *     headers: \WpOrg\Requests\Utility\CaseInsensitiveDictionary|array<string, string>,
+ *     body: string,
+ *     response: array{code: int|false, message: string|false},
+ *     cookies: WP_Http_Cookie[],
+ *     filename?: string|null,
+ *     http_response?: WP_HTTP_Requests_Response|null,
+ * }
  */
 #[AllowDynamicProperties]
 class WP_Http {
@@ -166,6 +175,8 @@ class WP_Http {
 	 *     @type string|null                                            $filename      Optional. Filename of the response.
 	 *     @type WP_HTTP_Requests_Response|null                         $http_response Response object.
 	 * }
+	 *
+	 * @phpstan-return HTTP_Response|WP_Error
 	 */
 	public function request( $url, $args = array() ) {
 		$defaults = array(
@@ -647,6 +658,8 @@ class WP_Http {
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
 	 *                        A WP_Error instance upon error. See WP_Http::response() for details.
+	 *
+	 * @phpstan-return HTTP_Response|WP_Error
 	 */
 	public function post( $url, $args = array() ) {
 		$defaults    = array( 'method' => 'POST' );
@@ -665,6 +678,8 @@ class WP_Http {
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
 	 *                        A WP_Error instance upon error. See WP_Http::response() for details.
+	 *
+	 * @phpstan-return HTTP_Response|WP_Error
 	 */
 	public function get( $url, $args = array() ) {
 		$defaults    = array( 'method' => 'GET' );
@@ -683,6 +698,8 @@ class WP_Http {
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
 	 *                        A WP_Error instance upon error. See WP_Http::response() for details.
+	 *
+	 * @phpstan-return HTTP_Response|WP_Error
 	 */
 	public function head( $url, $args = array() ) {
 		$defaults    = array( 'method' => 'HEAD' );
