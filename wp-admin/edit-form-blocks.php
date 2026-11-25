@@ -121,14 +121,13 @@ $preload_paths = array(
 	'/wp/v2/templates/lookup?slug=front-page',
 	'/wp/v2/taxonomies?context=edit',
 	array( rest_get_route_for_post_type_items( $post_type ), 'OPTIONS' ),
+	/*
+	 * The post summary of the inspector requests the form config of the post type
+	 * through `useViewConfig` with `fields: [ 'form' ]`, so the path must match
+	 * the resulting `_fields=form` request.
+	 */
+	'/wp/v2/view-config?kind=postType&name=' . $post_type . '&_fields=form',
 );
-
-if ( post_type_supports( $post_type, 'author' ) && $post->post_author > 0 ) {
-	$preload_paths[] = sprintf(
-		'/wp/v2/users/%d?context=view&_fields=id,name',
-		(int) $post->post_author
-	);
-}
 
 block_editor_rest_api_preload( $preload_paths, $block_editor_context );
 
