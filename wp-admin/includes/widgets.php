@@ -326,3 +326,32 @@ function wp_widget_control( $sidebar_args ) {
 function wp_widgets_access_body_class( $classes ) {
 	return "$classes widgets_access ";
 }
+
+/**
+ * Removes all widgets from the inactive widgets sidebar and their corresponding settings.
+ *
+ * @since 7.3.0
+ */
+function wp_delete_inactive_widgets(): void {
+	$sidebars_widgets = wp_get_sidebars_widgets();
+
+	$inactive_widgets = $sidebars_widgets['wp_inactive_widgets'] ?? array();
+	if ( ! is_array( $inactive_widgets ) || 0 === count( $inactive_widgets ) ) {
+		return;
+	}
+
+	foreach ( $inactive_widgets as $widget_id ) {
+		$pieces       = explode( '-', $widget_id );
+		$multi_number = array_pop( $pieces );
+		$id_base      = implode( '-', $pieces );
+		$widget       = get_option( 'widget_' . $id_base );
+
+		if ( is_array( $widget ) ) {
+			unset( $widget[ $multi_number ] );
+			update_option( 'widget_' . $id_base, $widget );
+		}
+	}
+
+	$sidebars_widgets['wp_inactive_widgets'] = array();
+	wp_set_sidebars_widgets( $sidebars_widgets );
+}

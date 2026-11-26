@@ -206,17 +206,7 @@ if ( isset( $_POST['removeinactivewidgets'] ) ) {
 	check_admin_referer( 'remove-inactive-widgets', '_wpnonce_remove_inactive_widgets' );
 
 	if ( $_POST['removeinactivewidgets'] ) {
-		foreach ( $sidebars_widgets['wp_inactive_widgets'] as $key => $widget_id ) {
-			$pieces       = explode( '-', $widget_id );
-			$multi_number = array_pop( $pieces );
-			$id_base      = implode( '-', $pieces );
-			$widget       = get_option( 'widget_' . $id_base );
-			unset( $widget[ $multi_number ] );
-			update_option( 'widget_' . $id_base, $widget );
-			unset( $sidebars_widgets['wp_inactive_widgets'][ $key ] );
-		}
-
-		wp_set_sidebars_widgets( $sidebars_widgets );
+		wp_delete_inactive_widgets();
 	}
 
 	wp_redirect( admin_url( 'widgets.php?message=0' ) );
