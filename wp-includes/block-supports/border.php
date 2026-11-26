@@ -52,76 +52,114 @@ function wp_apply_border_support( $block_type, $block_attributes ) {
 		return array();
 	}
 
-	$border_block_styles      = array();
-	$has_border_color_support = wp_has_border_feature_support( $block_type, 'color' );
-	$has_border_width_support = wp_has_border_feature_support( $block_type, 'width' );
+	$has_border_color_support  = wp_has_border_feature_support( $block_type, 'color' );
+	$has_border_radius_support = wp_has_border_feature_support( $block_type, 'radius' );
+	$has_border_style_support  = wp_has_border_feature_support( $block_type, 'style' );
+	$has_border_width_support  = wp_has_border_feature_support( $block_type, 'width' );
+	$skip_color                = wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'color' );
+	$skip_radius               = wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'radius' );
+	$skip_style                = wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'style' );
+	$skip_width                = wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'width' );
 
-	// Border radius.
-	if (
-		wp_has_border_feature_support( $block_type, 'radius' ) &&
-		isset( $block_attributes['style']['border']['radius'] ) &&
-		! wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'radius' )
-	) {
-		$border_radius = $block_attributes['style']['border']['radius'];
+	// The unset() calls below fail on a non-array style or border.
+	if ( ! isset( $block_attributes['style']['border'] ) || ! is_array( $block_attributes['style']['border'] ) ) {
+		unset( $block_attributes['style'] );
+	}
 
-		if ( is_numeric( $border_radius ) ) {
-			$border_radius .= 'px';
+	if ( ! $has_border_radius_support || $skip_radius ) {
+		unset( $block_attributes['style']['border']['radius'] );
+	}
+
+	if ( ! $has_border_style_support || $skip_style ) {
+		unset( $block_attributes['style']['border']['style'] );
+	}
+
+	if ( ! $has_border_width_support || $skip_width ) {
+		unset( $block_attributes['style']['border']['width'] );
+	}
+
+	if ( ! $has_border_color_support || $skip_color ) {
+		unset( $block_attributes['style']['border']['color'], $block_attributes['borderColor'] );
+	}
+
+	// Side values follow skipped serialization only, as on trunk.
+	foreach ( array( 'top', 'right', 'bottom', 'left' ) as $side ) {
+		$has_side = isset( $block_attributes['style']['border'][ $side ] ) && is_array( $block_attributes['style']['border'][ $side ] );
+
+		if ( ! $has_side || ( ! $has_border_color_support && ! $has_border_width_support ) ) {
+			unset( $block_attributes['style']['border'][ $side ] );
+			continue;
 		}
 
-		$border_block_styles['radius'] = $border_radius;
-	}
-
-	// Border style.
-	if (
-		wp_has_border_feature_support( $block_type, 'style' ) &&
-		isset( $block_attributes['style']['border']['style'] ) &&
-		! wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'style' )
-	) {
-		$border_block_styles['style'] = $block_attributes['style']['border']['style'];
-	}
-
-	// Border width.
-	if (
-		$has_border_width_support &&
-		isset( $block_attributes['style']['border']['width'] ) &&
-		! wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'width' )
-	) {
-		$border_width = $block_attributes['style']['border']['width'];
-
-		// This check handles original unitless implementation.
-		if ( is_numeric( $border_width ) ) {
-			$border_width .= 'px';
+		if ( $skip_width ) {
+			unset( $block_attributes['style']['border'][ $side ]['width'] );
 		}
 
-		$border_block_styles['width'] = $border_width;
-	}
+		if ( $skip_color ) {
+			unset( $block_attributes['style']['border'][ $side ]['color'] );
+		}
 
-	// Border color.
-	if (
-		$has_border_color_support &&
-		! wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'color' )
-	) {
-		$preset_border_color          = array_key_exists( 'borderColor', $block_attributes ) ? "var:preset|color|{$block_attributes['borderColor']}" : null;
-		$custom_border_color          = $block_attributes['style']['border']['color'] ?? null;
-		$border_block_styles['color'] = $preset_border_color ? $preset_border_color : $custom_border_color;
-	}
-
-	// Generates styles for individual border sides.
-	if ( $has_border_color_support || $has_border_width_support ) {
-		foreach ( array( 'top', 'right', 'bottom', 'left' ) as $side ) {
-			$border                       = $block_attributes['style']['border'][ $side ] ?? null;
-			$border_side_values           = array(
-				'width' => isset( $border['width'] ) && ! wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'width' ) ? $border['width'] : null,
-				'color' => isset( $border['color'] ) && ! wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'color' ) ? $border['color'] : null,
-				'style' => isset( $border['style'] ) && ! wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'style' ) ? $border['style'] : null,
-			);
-			$border_block_styles[ $side ] = $border_side_values;
+		if ( $skip_style ) {
+			unset( $block_attributes['style']['border'][ $side ]['style'] );
 		}
 	}
 
-	// Collect classes and styles.
+	return wp_get_border_classes_and_styles( $block_attributes );
+}
+
+/**
+ * Returns border classes and inline styles for block attributes, like the JS
+ * `getBorderClassesAndStyles()`. Does not check block support or skipped
+ * serialization.
+ *
+ * @since 7.3.0
+ *
+ * @param array<string, mixed> $block_attributes Block attributes.
+ * @return array<string, string> Array with `class` and `style` keys, each present only when non-empty.
+ *
+ * @phpstan-param array{ style?: array<string, mixed>, ...<string, mixed> } $block_attributes
+ * @phpstan-return array{ class?: non-empty-string, style?: non-empty-string }
+ */
+function wp_get_border_classes_and_styles( $block_attributes ) {
+	if ( ! is_array( $block_attributes ) ) {
+		return array();
+	}
+
+	$border        = isset( $block_attributes['style']['border'] ) && is_array( $block_attributes['style']['border'] )
+		? $block_attributes['style']['border']
+		: array();
+	$border_styles = array();
+
+	// Unitless radius and width are from the original implementation.
+	if ( isset( $border['radius'] ) ) {
+		$border_styles['radius'] = is_numeric( $border['radius'] ) ? "{$border['radius']}px" : $border['radius'];
+	}
+
+	if ( isset( $border['style'] ) ) {
+		$border_styles['style'] = $border['style'];
+	}
+
+	if ( isset( $border['width'] ) ) {
+		$border_styles['width'] = is_numeric( $border['width'] ) ? "{$border['width']}px" : $border['width'];
+	}
+
+	// Preset slugs are strings in theme.json and the editor.
+	$preset_slug            = $block_attributes['borderColor'] ?? null;
+	$border_styles['color'] = is_string( $preset_slug ) && '' !== $preset_slug ? "var:preset|color|{$preset_slug}" : ( $border['color'] ?? null );
+
+	foreach ( array( 'top', 'right', 'bottom', 'left' ) as $side ) {
+		if ( ! isset( $border[ $side ] ) || ! is_array( $border[ $side ] ) ) {
+			continue;
+		}
+		$border_styles[ $side ] = array(
+			'width' => $border[ $side ]['width'] ?? null,
+			'color' => $border[ $side ]['color'] ?? null,
+			'style' => $border[ $side ]['style'] ?? null,
+		);
+	}
+
 	$attributes = array();
-	$styles     = wp_style_engine_get_styles( array( 'border' => $border_block_styles ) );
+	$styles     = wp_style_engine_get_styles( array( 'border' => $border_styles ) );
 
 	if ( ! empty( $styles['classnames'] ) ) {
 		$attributes['class'] = $styles['classnames'];

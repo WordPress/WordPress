@@ -98,53 +98,92 @@ function wp_apply_colors_support( WP_Block_Type $block_type, array $block_attrib
 		( isset( $color_support['background'] ) && $color_support['background'] ) ||
 		( is_array( $color_support ) && ! isset( $color_support['background'] ) );
 	$has_gradients_support         = $color_support['gradients'] ?? false;
-	$color_block_styles            = array();
+	$skip_text                     = wp_should_skip_block_supports_serialization( $block_type, 'color', 'text' );
+	$skip_background               = wp_should_skip_block_supports_serialization( $block_type, 'color', 'background' );
+	$skip_gradients                = wp_should_skip_block_supports_serialization( $block_type, 'color', 'gradients' );
 
-	// Text colors.
-	if ( $has_text_colors_support && ! wp_should_skip_block_supports_serialization( $block_type, 'color', 'text' ) ) {
-		$preset_text_color          = array_key_exists( 'textColor', $block_attributes ) ? "var:preset|color|{$block_attributes['textColor']}" : null;
-		$custom_text_color          = $block_attributes['style']['color']['text'] ?? null;
-		$color_block_styles['text'] = $preset_text_color ? $preset_text_color : $custom_text_color;
-	}
-
-	// Background colors.
-	if ( $has_background_colors_support && ! wp_should_skip_block_supports_serialization( $block_type, 'color', 'background' ) ) {
-		$preset_background_color          = array_key_exists( 'backgroundColor', $block_attributes ) ? "var:preset|color|{$block_attributes['backgroundColor']}" : null;
-		$custom_background_color          = $block_attributes['style']['color']['background'] ?? null;
-		$color_block_styles['background'] = $preset_background_color ? $preset_background_color : $custom_background_color;
-	}
-
-	// Gradients.
-	// Suppress color.gradient CSS when background.gradient is supported and
-	// explicitly set. background.php owns CSS generation in that case, and
-	// emitting the background shorthand here would conflict with it.
+	// background.php owns the CSS when a background gradient is set, so skip color.gradient.
 	$has_background_gradient_support = block_has_support( $block_type, array( 'background', 'gradient' ), false );
 	$has_background_gradient_value   = ! empty( $block_attributes['style']['background']['gradient'] );
-
-	if (
-		$has_gradients_support &&
-		! wp_should_skip_block_supports_serialization( $block_type, 'color', 'gradients' ) &&
-		! ( $has_background_gradient_support && $has_background_gradient_value )
-	) {
-		$preset_gradient_color          = array_key_exists( 'gradient', $block_attributes ) ? "var:preset|gradient|{$block_attributes['gradient']}" : null;
-		$custom_gradient_color          = $block_attributes['style']['color']['gradient'] ?? null;
-		$color_block_styles['gradient'] = $preset_gradient_color ? $preset_gradient_color : $custom_gradient_color;
-	}
-
-	$attributes = array();
-	$styles     = wp_style_engine_get_styles( array( 'color' => $color_block_styles ), array( 'convert_vars_to_classnames' => true ) );
+	$has_background_gradient         = $has_background_gradient_support && $has_background_gradient_value;
 
 	/*
 	 * Mirror of the background support: a color clipped to the text paints the
 	 * glyphs, not the box, so only a gradient still adds `has-background`.
+	 * Read before the attributes are filtered for the helper.
 	 */
 	$clips_to_text = 'text' === ( $block_attributes['style']['background']['backgroundClip'] ?? null ) &&
 		block_has_support( $block_type, array( 'background', 'backgroundClip' ), false ) &&
 		! wp_should_skip_block_supports_serialization( $block_type, 'background', 'backgroundClip' );
 
-	if ( $clips_to_text && ! empty( $styles['classnames'] ) && empty( $color_block_styles['gradient'] ) ) {
-		$styles['classnames'] = implode( ' ', array_diff( explode( ' ', $styles['classnames'] ), array( 'has-background' ) ) );
+	// The helper reads only `style.color`, so a non-array value counts as no color styles.
+	if ( ! isset( $block_attributes['style']['color'] ) || ! is_array( $block_attributes['style']['color'] ) ) {
+		unset( $block_attributes['style'] );
 	}
+
+	if ( ! $has_text_colors_support || $skip_text ) {
+		unset( $block_attributes['textColor'], $block_attributes['style']['color']['text'] );
+	}
+
+	if ( ! $has_background_colors_support || $skip_background ) {
+		unset( $block_attributes['backgroundColor'], $block_attributes['style']['color']['background'] );
+	}
+
+	if ( ! $has_gradients_support || $skip_gradients || $has_background_gradient ) {
+		unset( $block_attributes['gradient'], $block_attributes['style']['color']['gradient'] );
+	}
+
+	$classes_and_styles = wp_get_color_classes_and_styles( $block_attributes );
+	$has_gradient       = ! empty( $block_attributes['gradient'] ) || ! empty( $block_attributes['style']['color']['gradient'] );
+
+	if ( $clips_to_text && ! $has_gradient && ! empty( $classes_and_styles['class'] ) ) {
+		$classes = array_diff( explode( ' ', $classes_and_styles['class'] ), array( 'has-background' ) );
+		if ( empty( $classes ) ) {
+			unset( $classes_and_styles['class'] );
+		} else {
+			$classes_and_styles['class'] = implode( ' ', $classes );
+		}
+	}
+
+	return $classes_and_styles;
+}
+
+/**
+ * Returns color classes and inline styles for block attributes, like the JS
+ * `getColorClassesAndStyles()`. Does not check block support or skipped
+ * serialization.
+ *
+ * @since 7.3.0
+ *
+ * @param array<string, mixed> $block_attributes Block attributes.
+ * @return array<string, string> Array with `class` and `style` keys, each present only when non-empty.
+ *
+ * @phpstan-param array{ style?: array{ color?: array<string, mixed>, ...<string, mixed> }, ...<string, mixed> } $block_attributes
+ * @phpstan-return array{ class?: non-empty-string, style?: non-empty-string }
+ */
+function wp_get_color_classes_and_styles( $block_attributes ) {
+	if ( ! is_array( $block_attributes ) ) {
+		return array();
+	}
+
+	$color_block_styles = array();
+	$preset_attributes  = array(
+		'text'       => array( 'textColor', 'color' ),
+		'background' => array( 'backgroundColor', 'color' ),
+		'gradient'   => array( 'gradient', 'gradient' ),
+	);
+
+	foreach ( $preset_attributes as $feature => list( $preset_attribute, $preset_type ) ) {
+		$preset_slug = $block_attributes[ $preset_attribute ] ?? null;
+
+		// Preset slugs are strings in theme.json and the editor.
+		$preset_value                   = is_string( $preset_slug ) && '' !== $preset_slug ? "var:preset|{$preset_type}|{$preset_slug}" : null;
+		$custom_value                   = $block_attributes['style']['color'][ $feature ] ?? null;
+		$color_block_styles[ $feature ] = $preset_value ?? $custom_value;
+	}
+
+	$attributes = array();
+	$styles     = wp_style_engine_get_styles( array( 'color' => $color_block_styles ), array( 'convert_vars_to_classnames' => true ) );
 
 	if ( ! empty( $styles['classnames'] ) ) {
 		$attributes['class'] = $styles['classnames'];
