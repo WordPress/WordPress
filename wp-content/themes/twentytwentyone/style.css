@@ -1683,7 +1683,7 @@ input[type=reset]:not(:hover):not(:active):not(.has-text-color),
 .has-background .wp-block-search .wp-block-search__button:not(:hover):not(:active):not(.has-text-color),
 .has-background .wp-block-button .wp-block-button__link:not(:hover):not(:active):not(.has-text-color),
 .has-background .wp-block-file a.wp-block-file__button:not(:hover):not(:active):not(.has-text-color) {
-	color: var(--local--color-background, var(--global--color-primary));
+	color: var(--local--color-background, var(--global--color-background));
 }
 
 .has-background .site .button:not(:hover):not(:active):not(.has-text-color).has-background,

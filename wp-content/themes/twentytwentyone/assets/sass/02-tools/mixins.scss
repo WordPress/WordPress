@@ -39,7 +39,7 @@
 
 			// Nested
 			.has-background & {
-				color: var(--local--color-background, var(--global--color-primary));
+				color: var(--local--color-background, var(--global--color-background));
 
 				&.has-background {
 					color: var(--global--color-primary);
