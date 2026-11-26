@@ -82,7 +82,7 @@
 			'[',
 
 				// Basic Latin (extract).
-				'\u0021-\u0040\u005B-\u0060\u007B-\u007E',
+				'\u0021-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E',
 
 				// Latin-1 Supplement (extract).
 				'\u0080-\u00BF\u00D7\u00F7',
