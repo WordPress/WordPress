@@ -4810,13 +4810,13 @@ function wp_check_jsonp_callback( $callback ) {
  * }
  *
  * @return mixed Returns the value encoded in JSON in appropriate PHP type.
- *               `null` is returned if the file is not found, or its content can't be decoded.
+ *               `null` is returned if the file is not found, is not a readable file,
+ *               or its content can't be decoded.
  */
 function wp_json_file_decode( $filename, $options = array() ) {
-	$result   = null;
-	$filename = wp_normalize_path( realpath( $filename ) );
+	$normalized_filename = wp_normalize_path( realpath( $filename ) );
 
-	if ( ! $filename ) {
+	if ( ! $normalized_filename ) {
 		wp_trigger_error(
 			__FUNCTION__,
 			sprintf(
@@ -4825,11 +4825,22 @@ function wp_json_file_decode( $filename, $options = array() ) {
 				$filename
 			)
 		);
-		return $result;
+		return null;
+	}
+	if ( ! is_file( $normalized_filename ) || ! is_readable( $normalized_filename ) ) {
+		wp_trigger_error(
+			__FUNCTION__,
+			sprintf(
+				/* translators: %s: Path to the JSON file. */
+				__( '%s is not a readable file.' ),
+				$filename
+			)
+		);
+		return null;
 	}
 
 	$options      = wp_parse_args( $options, array( 'associative' => false ) );
-	$decoded_file = json_decode( file_get_contents( $filename ), $options['associative'] );
+	$decoded_file = json_decode( file_get_contents( $normalized_filename ), $options['associative'] );
 
 	if ( JSON_ERROR_NONE !== json_last_error() ) {
 		wp_trigger_error(
@@ -4841,7 +4852,7 @@ function wp_json_file_decode( $filename, $options = array() ) {
 				json_last_error_msg()
 			)
 		);
-		return $result;
+		return null;
 	}
 
 	return $decoded_file;
