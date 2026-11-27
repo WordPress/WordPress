@@ -329,7 +329,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 			if ( ! empty( $output ) ) {
 				echo $output;
-				submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'site-query-submit' ) );
+				submit_button( _x( 'Filter', 'verb' ), '', 'filter_action', false, array( 'id' => 'site-query-submit' ) );
 			}
 		}
 		?>

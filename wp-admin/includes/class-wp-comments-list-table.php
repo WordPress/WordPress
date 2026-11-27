@@ -444,7 +444,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 			if ( ! empty( $output ) && $this->has_items() ) {
 				echo $output;
-				submit_button( __( 'Filter' ), 'compact', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
+				submit_button( _x( 'Filter', 'verb' ), 'compact', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 			}
 		}
 
